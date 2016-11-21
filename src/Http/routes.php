@@ -1,5 +1,5 @@
 <?php 
 
-Route::get('/test', function () {
-    return view('base::welcome2');
+Route::get('/admin', function () {
+    return view('base::dashboard');
 });

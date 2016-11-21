@@ -3,6 +3,7 @@
 namespace bishopm\base;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 
 class BaseServiceProvider extends ServiceProvider
 {
@@ -26,10 +27,10 @@ class BaseServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //$this->app->register('Acacha\AdminLTETemplateLaravel\Providers\AdminLTETemplateServiceProvider');
-        //AliasLoader::getInstance()->alias("AdminLTE",'Acacha\AdminLTETemplateLaravel\Providers\AdminLTETemplateServiceProvider');
-        //$this->app->register('Collective\Html\HtmlServiceProvider');
-        //AliasLoader::getInstance()->alias("Form",'Collective\Html\HtmlServiceProvider');
-        //AliasLoader::getInstance()->alias("Html",'Collective\Html\HtmlServiceProvider');
+        $this->app->register('Acacha\AdminLTETemplateLaravel\Providers\AdminLTETemplateServiceProvider');
+        AliasLoader::getInstance()->alias("AdminLTE",'Acacha\AdminLTETemplateLaravel\Providers\AdminLTETemplateServiceProvider');
+        $this->app->register('Collective\Html\HtmlServiceProvider');
+        AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
+        AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
     }
 }
