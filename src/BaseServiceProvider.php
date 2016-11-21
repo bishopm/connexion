@@ -18,6 +18,7 @@ class BaseServiceProvider extends ServiceProvider
             require __DIR__.'/Http/routes.php';
         }
         $this->loadViewsFrom(__DIR__.'/resources/views', 'base');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
 
     /**

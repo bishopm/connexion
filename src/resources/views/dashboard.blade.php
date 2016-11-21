@@ -1,4 +1,4 @@
-@extends('base::layouts.app')
+@extends('adminlte::page')
 
 @section('htmlheader_title')
     Dashboard
