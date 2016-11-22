@@ -32,5 +32,6 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->register('Collective\Html\HtmlServiceProvider');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
+        $this->app['router']->middleware('authadmin', 'bishopm\base\Middleware\AdminMiddleware');
     }
 }

@@ -18,4 +18,16 @@ class HouseholdsController extends Controller {
    		return view('base::households.index',$data);
 	}
 
+	public function edit($household)
+	{
+		$data['household']=Household::find($household);
+   		return view('base::households.edit',$data);
+	}
+
+	public function show($household)
+	{
+		$data['household']=Household::find($household);
+   		return view('base::households.show',$data);
+	}	
+
 }
