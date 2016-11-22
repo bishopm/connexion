@@ -4,6 +4,8 @@ namespace bishopm\base;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Contracts\Events\Dispatcher;
+use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 
 class BaseServiceProvider extends ServiceProvider
 {
@@ -12,13 +14,40 @@ class BaseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Dispatcher $events)
     {
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/Http/routes.php';
         }
         $this->loadViewsFrom(__DIR__.'/resources/views', 'base');
         $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
+            $event->menu->menu=array();
+            $event->menu->add('CHURCH ADMIN');
+            $event->menu->add([
+                'text' => 'Members',
+                'icon' => 'user',
+                'submenu' => [
+                    [
+                        'text' => 'Households',
+                        'url'  => 'admin/households',
+                        'icon' => 'user'
+                    ],
+                    [
+                        'text' => 'Groups',
+                        'url'  => 'admin/groups',
+                        'icon' => 'users'
+                    ]
+                ]
+            ]);
+            $event->menu->add('WEBSITE');
+            $event->menu->add([
+                'text' => 'Blog',
+                'url' => 'admin/blog',
+                'icon' => 'file'
+            ]);
+            $event->menu->add('SETTINGS');
+        });
     }
 
     /**
