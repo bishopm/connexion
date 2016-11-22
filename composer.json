@@ -43,7 +43,7 @@
         "post-update-cmd": [
             "php artisan vendor:publish",
             "php artisan migrate"
-        ],
+        ]
     },
     "extra": {
         "branch-alias": {
