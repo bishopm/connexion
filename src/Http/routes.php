@@ -3,11 +3,6 @@ Route::get('/', function () {
     return view('base::dashboard');
 });
 
-// Auth
-
-Route::get('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@login','as'=>'login']);
-
-
 Route::group(array('middleware' => 'authadmin'), function () {
 	Route::get('admin', function () {
 	    return view('base::dashboard');

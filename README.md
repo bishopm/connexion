@@ -11,11 +11,23 @@ Install Laravel, fix permissions on storage and bootstrap
 In main composer.json:
 
 "repositories": [
+
     {
+
         "type": "git",
+
         "url": "https://github.com/bishopm/base"
+
     }
+
 ],
+
 "require": {
+
     "bishopm/base": "dev-master"
+
 },
+
+In config.php:
+
+Add service provider: bishopm\base\BaseServiceProvider::class,
