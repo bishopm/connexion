@@ -1,6 +1,6 @@
 <?php 
 Route::get('/', function () {
-    return view('base::dashboard');
+    return view('welcome');
 });
 
 Route::group(array('middleware' => 'authadmin'), function () {
