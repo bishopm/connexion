@@ -8,10 +8,9 @@ class AdminMiddleware {
 
 	public function handle($request, Closure $next)
     {
-    	dd($request);
     	$user=Auth::user();
     	if ($user){
-    		return $next($request)->with('user', $user);
+    		return $next($request);
 	    } 
     	return redirect('/login');
     }

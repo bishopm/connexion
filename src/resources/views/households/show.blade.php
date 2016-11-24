@@ -5,7 +5,7 @@
         {{ $household->addressee }}
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="{{ route('admin.members.household.index') }}">Households</a></li>
         <li class="active">{{ $household->addressee }}</li>
     </ol>

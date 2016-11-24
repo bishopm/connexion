@@ -2,24 +2,31 @@
 
 Route::group(['middleware' => ['web']], function () {
 	Route::get('/', function () {
-    	return view('welcome');
+    	return view('base::welcome');
 	});
 	Route::get('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
 	Route::post('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@login','as'=>'login']);
+});
+Route::group(['middleware' => ['web','authadmin']], function () {
 
-	Route::group(array(['middleware' => ['auth']]), function () {
-		Route::get('/admin', function () {
-		    return view('base::dashboard');
-		});
-		Route::post('logout',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@logout','as'=>'logout']);
-		Route::get('admin/households',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@index','as'=>'admin.households.index']);
-		Route::get('admin/households/{household}',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@show','as'=>'admin.households.show']);
-		Route::get('admin/households/{household}/edit',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@edit','as'=>'admin.households.edit']);
-	});
+	// Dashboard and authentication
+	Route::get('admin',['uses'=>'bishopm\base\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
+	Route::post('logout',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@logout','as'=>'logout']);
+
+	// Households
+	Route::get('admin/households',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@index','as'=>'admin.households.index']);
+	Route::get('admin/households/create',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@create','as'=>'admin.households.create']);
+	Route::get('admin/households/{household}',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@show','as'=>'admin.households.show']);
+	Route::get('admin/households/{household}/edit',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@edit','as'=>'admin.households.edit']);
 });
 
 
 
+	/*    
+	    Route::post('{society}/households',['uses'=>'HouseholdsController@store','as'=>'society.households.store']);
+	    Route::get('{society}/households/{household}/edit',['uses'=>'HouseholdsController@edit','as'=>'society.households.edit']);
+	    Route::put('{society}/households/{household}',['uses'=>'HouseholdsController@update','as'=>'society.households.update']);
+	    Route::delete('{society}/households/{household}',['uses'=>'HouseholdsController@destroy','as'=>'society.households.destroy']);*/
 
 
 
@@ -44,9 +51,5 @@ Route::group(['middleware' => ['web']], function () {
 */
 
 
-	/*    Route::get('{society}/households/create',['uses'=>'HouseholdsController@create','as'=>'society.households.create']);
-	    Route::post('{society}/households',['uses'=>'HouseholdsController@store','as'=>'society.households.store']);
-	    Route::get('{society}/households/{household}/edit',['uses'=>'HouseholdsController@edit','as'=>'society.households.edit']);
-	    Route::put('{society}/households/{household}',['uses'=>'HouseholdsController@update','as'=>'society.households.update']);
-	    Route::delete('{society}/households/{household}',['uses'=>'HouseholdsController@destroy','as'=>'society.households.destroy']);*/
+
 

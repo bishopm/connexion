@@ -31,4 +31,9 @@ class HouseholdsController extends Controller {
    		return view('base::households.show',$data);
 	}	
 
+	public function create()
+	{
+   		return "Create a new household";
+	}		
+
 }
