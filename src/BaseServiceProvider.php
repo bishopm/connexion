@@ -47,6 +47,11 @@ class BaseServiceProvider extends ServiceProvider
                 'icon' => 'file'
             ]);
             $event->menu->add('SETTINGS');
+            $event->menu->add([
+                'text' => 'User profile',
+                'url' => 'admin/users/current',
+                'icon' => 'user'
+            ]);
         });
     }
 
@@ -62,5 +67,17 @@ class BaseServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         $this->app['router']->middleware('authadmin', 'bishopm\base\Middleware\AdminMiddleware');
+        $this->registerBindings();
+    }
+
+    private function registerBindings()
+    {
+        $this->app->bind(
+            'bishopm\base\Repositories\HouseholdRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\EloquentHouseholdRepository(new \bishopm\base\Models\Household());
+                return $repository; 
+            }
+        );
     }
 }

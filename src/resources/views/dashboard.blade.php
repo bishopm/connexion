@@ -11,7 +11,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Home</div>
                     <div class="panel-body">
-                        User: {{Auth::user()}}
+                        Welcome to UMC
                     </div>
                 </div>
             </div>

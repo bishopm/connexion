@@ -2,8 +2,10 @@
 
 namespace bishopm\base\Http\Controllers;
 
-use bishopm\base\Models\Household;
+use bishopm\base\Repositories\HouseholdRepository;
 use App\Http\Controllers\Controller;
+use bishopm\base\Http\Requests\CreateHouseholdRequest;
+use bishopm\base\Http\Requests\UpdateHouseholdRequest;
 
 class HouseholdsController extends Controller {
 
@@ -13,27 +15,42 @@ class HouseholdsController extends Controller {
 	 * @return Response
 	 */
 
+	private $household;
+
+	public function __construct(HouseholdRepository $household)
+    {
+
+        $this->household = $household;
+    }
+
 	public function index()
 	{
-		$data['households']=Household::all();
-   		return view('base::households.index',$data);
+        $households = $this->household->all();
+   		return view('base::households.index',compact('households'));
 	}
 
-	public function edit($household)
-	{
-		$data['household']=Household::find($household);
-   		return view('base::households.edit',$data);
-	}
+	public function edit(Household $household)
+    {
+        return view('base::households.edit', compact('household'));
+    }
+
+    public function create()
+    {
+        return view('base::households.create');
+    }
 
 	public function show($household)
 	{
-		$data['household']=Household::find($household);
-   		return view('base::households.show',$data);
-	}	
+		return "Display household";
+	}
 
-	public function create()
-	{
-   		return "Create a new household";
-	}		
+    public function store(CreateHouseholdRequest $request)
+    {
+        $this->household->create($request->all());
+
+        return redirect()->route('admin.households.index')
+            ->withSuccess('New household added');
+    }
+	
 
 }
