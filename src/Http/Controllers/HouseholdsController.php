@@ -12,6 +12,7 @@ class HouseholdsController extends Controller {
 	 *
 	 * @return Response
 	 */
+
 	public function index()
 	{
 		$data['households']=Household::all();

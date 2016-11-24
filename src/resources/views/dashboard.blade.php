@@ -4,7 +4,7 @@
     Dashboard
 @endsection
 
-@section('main-content')
+@section('content')
     <div class="container-fluid spark-screen">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -12,7 +12,9 @@
                     <div class="panel-heading">Home</div>
 
                     <div class="panel-body">
-                        User: {{Auth::user()}}
+                        @if (isset($user))
+                            {{$user}}
+                        @endif
                     </div>
                 </div>
             </div>
