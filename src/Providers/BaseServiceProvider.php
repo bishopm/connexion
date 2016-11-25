@@ -7,7 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
-use bishopm\base\Repositories\SettingsRepository;
 
 class BaseServiceProvider extends ServiceProvider
 {
@@ -16,15 +15,8 @@ class BaseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Dispatcher $events, SettingsRepository $settings)
+    public function boot(Dispatcher $events)
     {
-        Blade::directive('setme', function ($expression) { 
-            return "<?php print $expression; ?>"; 
-        });
-        //$sarray=$settings->all();
-        //foreach ($sarray as $sa){
-        //    $settingsarray[$sa->setting_key]=$sa->setting_value;
-        //}
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/routes.php';
         }
@@ -78,8 +70,10 @@ class BaseServiceProvider extends ServiceProvider
     {
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
+        $this->app->register('anlutro\LaravelSettings\ServiceProvider');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
+        AliasLoader::getInstance()->alias("Setting",'anlutro\LaravelSettings\Facade');
         $this->app['router']->middleware('authadmin', 'bishopm\base\Middleware\AdminMiddleware');
         $this->registerBindings();
     }
