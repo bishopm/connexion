@@ -22,6 +22,13 @@ Route::group(['middleware' => ['web','authadmin']], function () {
 	Route::get('admin/households/{household}/edit',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@edit','as'=>'admin.households.edit']);
 	Route::post('admin/households',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@store','as'=>'admin.households.store']);
 
+	// Settings
+	Route::get('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@index','as'=>'admin.settings.index']);
+	Route::get('admin/settings/create',['uses'=>'bishopm\base\Http\Controllers\SettingsController@create','as'=>'admin.settings.create']);
+	Route::get('admin/settings/{setting}',['uses'=>'bishopm\base\Http\Controllers\SettingsController@show','as'=>'admin.settings.show']);
+	Route::get('admin/settings/{setting}/edit',['uses'=>'bishopm\base\Http\Controllers\SettingsController@edit','as'=>'admin.settings.edit']);
+	Route::post('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@store','as'=>'admin.settings.store']);
+
 	// Users
 	Route::get('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@show','as'=>'admin.users.show']);
 });

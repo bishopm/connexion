@@ -1,11 +1,13 @@
 <?php
 
-namespace bishopm\base;
+namespace bishopm\base\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
+use bishopm\base\Repositories\SettingsRepository;
 
 class BaseServiceProvider extends ServiceProvider
 {
@@ -14,13 +16,20 @@ class BaseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Dispatcher $events)
+    public function boot(Dispatcher $events, SettingsRepository $settings)
     {
+        Blade::directive('setme', function ($expression) { 
+            return "<?php print $expression; ?>"; 
+        });
+        //$sarray=$settings->all();
+        //foreach ($sarray as $sa){
+        //    $settingsarray[$sa->setting_key]=$sa->setting_value;
+        //}
         if (! $this->app->routesAreCached()) {
-            require __DIR__.'/Http/routes.php';
+            require __DIR__.'/../Http/routes.php';
         }
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'base');
-        $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'base');
+        $this->loadMigrationsFrom(__DIR__.'/../migrations');
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
             $event->menu->add('CHURCH ADMIN');
@@ -52,6 +61,11 @@ class BaseServiceProvider extends ServiceProvider
                 'url' => 'admin/users/current',
                 'icon' => 'user'
             ]);
+            $event->menu->add([
+                'text' => 'System settings',
+                'url' => 'admin/settings',
+                'icon' => 'cog'
+            ]);
         });
     }
 
@@ -73,9 +87,9 @@ class BaseServiceProvider extends ServiceProvider
     private function registerBindings()
     {
         $this->app->bind(
-            'bishopm\base\Repositories\HouseholdRepository',
+            'bishopm\base\Repositories\HouseholdsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\EloquentHouseholdRepository(new \bishopm\base\Models\Household());
+                $repository = new \bishopm\base\Repositories\HouseholdsRepository(new \bishopm\base\Models\Household());
                 return $repository; 
             }
         );

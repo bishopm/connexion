@@ -1,9 +1,8 @@
 <?php namespace bishopm\base\Repositories;
 
-use bishopm\base\Repositories\HouseholdRepository;
 use bishopm\base\Repositories\EloquentBaseRepository;
 
-class EloquentHouseholdRepository extends EloquentBaseRepository implements HouseholdRepository
+class HouseholdsRepository extends EloquentBaseRepository
 {
     public function all()
     {

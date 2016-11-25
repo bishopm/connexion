@@ -2,7 +2,7 @@
 
 namespace bishopm\base\Http\Controllers;
 
-use bishopm\base\Repositories\HouseholdRepository;
+use bishopm\base\Repositories\HouseholdsRepository;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateHouseholdRequest;
 use bishopm\base\Http\Requests\UpdateHouseholdRequest;
@@ -17,7 +17,7 @@ class HouseholdsController extends Controller {
 
 	private $household;
 
-	public function __construct(HouseholdRepository $household)
+	public function __construct(HouseholdsRepository $household)
     {
 
         $this->household = $household;

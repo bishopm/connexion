@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base;
+namespace bishopm\base\Providers;
 
 class BaseClass
 {
