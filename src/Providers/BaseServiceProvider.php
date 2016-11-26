@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
+use bishopm\base\Repositories\SettingsRepository;
 
 class BaseServiceProvider extends ServiceProvider
 {
@@ -15,7 +16,7 @@ class BaseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Dispatcher $events)
+    public function boot(Dispatcher $events, SettingsRepository $settings)
     {
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/routes.php';
@@ -59,6 +60,11 @@ class BaseServiceProvider extends ServiceProvider
                 'icon' => 'cog'
             ]);
         });
+        foreach ($settings->all() as $setting){
+            $finset[$setting->setting_key]=$setting->setting_value;
+        }
+        view()->share('setting', $finset);
+
     }
 
     /**

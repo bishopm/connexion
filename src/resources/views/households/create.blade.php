@@ -42,7 +42,7 @@
 @stop
 
 @section('js')
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQmfbfWGd1hxfR1sbnRXdCaQ5Mx5FjUhA"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
     <script src="{{url('/')}}/js/gmap.js" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
