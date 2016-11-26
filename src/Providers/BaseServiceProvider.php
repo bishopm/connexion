@@ -70,10 +70,8 @@ class BaseServiceProvider extends ServiceProvider
     {
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
-        $this->app->register('anlutro\LaravelSettings\ServiceProvider');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
-        AliasLoader::getInstance()->alias("Setting",'anlutro\LaravelSettings\Facade');
         $this->app['router']->middleware('authadmin', 'bishopm\base\Middleware\AdminMiddleware');
         $this->registerBindings();
     }
@@ -84,6 +82,13 @@ class BaseServiceProvider extends ServiceProvider
             'bishopm\base\Repositories\HouseholdsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\HouseholdsRepository(new \bishopm\base\Models\Household());
+                return $repository; 
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\SettingsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\SettingsRepository(new \bishopm\base\Models\Setting());
                 return $repository; 
             }
         );
