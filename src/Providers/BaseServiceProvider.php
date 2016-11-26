@@ -76,8 +76,10 @@ class BaseServiceProvider extends ServiceProvider
     {
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
+        //$this->app->register('Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
+        //AliasLoader::getInstance()->alias("Gravatar",'Thomaswelton\LaravelGravatar\Facades\Gravatar');
         $this->app['router']->middleware('authadmin', 'bishopm\base\Middleware\AdminMiddleware');
         $this->registerBindings();
     }
