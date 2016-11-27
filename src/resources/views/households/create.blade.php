@@ -28,9 +28,9 @@
             </div>
             <div class="form-group">
                 <label for="latitude">Latitude</label>
-                <input class="form-control" placeholder="Latitude" name="latitude" value="" id="latitude" type="text">
+                <input class="form-control" placeholder="Latitude" name="latitude" value="{{$setting['home_latitude']}}" id="latitude" type="text">
                 <label for="longtitude">Longitude</label>
-                <input class="form-control" placeholder="Longitude" name="longitude" value="" id="longitude" type="text">
+                <input class="form-control" placeholder="Longitude" name="longitude" value="{{$setting['home_longitude']}}" id="longitude" type="text">
             </div>
         </div>
     </div>

@@ -9,8 +9,8 @@ class HouseholdsRepository extends EloquentBaseRepository
         return $this->model->orderBy('sortsurname', 'ASC')->get();
     }
 
-    public function find($id)
+/*    public function find($id)
     {
         return $this->model->with('individual.groups','pastoral','specialday')->find($id);
-    }
+    }*/
 }

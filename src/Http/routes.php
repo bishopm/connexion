@@ -20,6 +20,7 @@ Route::group(['middleware' => ['web','authadmin']], function () {
 	Route::get('admin/households/create',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@create','as'=>'admin.households.create']);
 	Route::get('admin/households/{household}',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@show','as'=>'admin.households.show']);
 	Route::get('admin/households/{household}/edit',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@edit','as'=>'admin.households.edit']);
+	Route::put('admin/households/{household}',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@update','as'=>'admin.households.update']);
 	Route::post('admin/households',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@store','as'=>'admin.households.store']);
 
 	// Settings
@@ -35,7 +36,7 @@ Route::group(['middleware' => ['web','authadmin']], function () {
 
 
 
-	/*  Route::put('{society}/households/{household}',['uses'=>'HouseholdsController@update','as'=>'society.households.update']);
+	/*  
 	    Route::delete('{society}/households/{household}',['uses'=>'HouseholdsController@destroy','as'=>'society.households.destroy']);*/
 
 
