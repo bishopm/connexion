@@ -1,14 +1,7 @@
 @extends('adminlte::page')
 
 @section('content')
-    <h3>
-        Add a new household
-    </h3>
-    <ol class="breadcrumb">
-        <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{ route('admin.households.index') }}">Households</a></li>
-        <li class="active">Modify a household</li>
-    </ol>
+    {{ Form::pgHeader($household->addressee,'Households',route('admin.households.index')) }}
     {!! Form::open(['route' => ['admin.households.update', $household->id], 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-6">
@@ -17,28 +10,18 @@
                     @include('base::households.partials.edit-fields')
                 </div>
                 <div class="box-footer">
-                    <button type="submit" class="btn btn-primary btn-flat">Update</button>
-                    <button class="btn btn-default btn-flat" name="button" type="reset">Reset</button>
-                    <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.households.index')}}"><i class="fa fa-times"></i> Cancel</a>
+                    {{Form::pgButtons('Update',route('admin.households.index')) }}
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div id="map_canvas" style="height:350px;">
             </div>
-            <div class="form-group">
-                <label for="latitude">Latitude</label>
-                <input class="form-control" placeholder="Latitude" name="latitude" value="{{$household->latitude}}" id="latitude" type="text">
-                <label for="longtitude">Longitude</label>
-                <input class="form-control" placeholder="Longitude" name="longitude" value="{{$household->longitude}}" id="longitude" type="text">
-            </div>
+            {{ Form::bsText('latitude','Latitude','Latitude',$household->latitude) }}
+            {{ Form::bsText('longitude','Longitude','Longitude',$household->longitude) }}
         </div>
     </div>
     {!! Form::close() !!}
-@stop
-
-@section('footer')
-    <a data-toggle="modal" data-target="#keyboardShortcutsModal"><i class="fa fa-keyboard-o"></i></a> &nbsp;
 @stop
 
 @section('js')

@@ -66,6 +66,8 @@ class BaseServiceProvider extends ServiceProvider
         }
         view()->share('setting', $finset);
         Form::component('bsText', 'base::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+        Form::component('pgHeader', 'base::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
+        Form::component('pgButtons', 'base::components.pgButtons', ['actionLabel', 'cancelRoute']);
     }
 
     /**
