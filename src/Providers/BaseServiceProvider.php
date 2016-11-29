@@ -24,6 +24,7 @@ class BaseServiceProvider extends ServiceProvider
         }
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'base');
         $this->loadMigrationsFrom(__DIR__.'/../migrations');
+        $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
             $event->menu->add('CHURCH ADMIN');
@@ -66,6 +67,9 @@ class BaseServiceProvider extends ServiceProvider
         }
         view()->share('setting', $finset);
         Form::component('bsText', 'base::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+        Form::component('bsTextarea', 'base::components.textarea', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+        Form::component('bsHidden', 'base::components.hidden', ['name', 'value' => null]);
+        Form::component('bsSelect', 'base::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
         Form::component('pgHeader', 'base::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
         Form::component('pgButtons', 'base::components.pgButtons', ['actionLabel', 'cancelRoute']);
     }
@@ -79,6 +83,7 @@ class BaseServiceProvider extends ServiceProvider
     {
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
+        $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         $this->app['router']->middleware('authadmin', 'bishopm\base\Middleware\AdminMiddleware');
@@ -88,9 +93,23 @@ class BaseServiceProvider extends ServiceProvider
     private function registerBindings()
     {
         $this->app->bind(
+            'bishopm\base\Repositories\GroupsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\GroupsRepository(new \bishopm\base\Models\Group());
+                return $repository; 
+            }
+        );
+        $this->app->bind(
             'bishopm\base\Repositories\HouseholdsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\HouseholdsRepository(new \bishopm\base\Models\Household());
+                return $repository; 
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\IndividualsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\IndividualsRepository(new \bishopm\base\Models\Individual());
                 return $repository; 
             }
         );

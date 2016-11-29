@@ -11,7 +11,11 @@ class Household extends Model {
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');
-    /*
+
+    public function individuals(){
+        return $this->hasMany('bishopm\base\Models\Individual')->orderBy('firstname');
+    }
+
     public function getPhysicaladdressAttribute(){
         if (!$this->addr3){
             if (!$this->addr2){
@@ -36,16 +40,12 @@ class Household extends Model {
         }
     }
 
-    public function individual(){
-		  return $this->hasMany('App\Models\Individual')->orderBy('firstname');
+    public function specialdays(){
+        return $this->hasMany('bishopm\base\Models\Specialday');
     }
-
+/*
     public function pastoral(){
 		  return $this->hasMany('App\Models\Pastoral')->orderBy('diarydate','des');
-    }
-
-    public function specialday(){
-		  return $this->hasMany('App\Models\Specialday');
     }
 
     public function selectbox(){

@@ -17,6 +17,7 @@ class CreateGroupIndividualTable extends Migration
             $table->increments('id');
             $table->integer('group_id');
             $table->integer('individual_id');
+            $table->softDeletes();
             $table->timestamps();
 		});
 	}

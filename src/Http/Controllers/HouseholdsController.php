@@ -3,6 +3,7 @@
 namespace bishopm\base\Http\Controllers;
 
 use bishopm\base\Repositories\HouseholdsRepository;
+use bishopm\base\Repositories\GroupsRepository;
 use bishopm\base\Models\Household;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateHouseholdRequest;
@@ -16,12 +17,12 @@ class HouseholdsController extends Controller {
 	 * @return Response
 	 */
 
-	private $household;
+	private $household,$groups;
 
-	public function __construct(HouseholdsRepository $household)
+	public function __construct(HouseholdsRepository $household, GroupsRepository $groups)
     {
-
         $this->household = $household;
+        $this->groups = $groups;
     }
 
 	public function index()
@@ -42,7 +43,9 @@ class HouseholdsController extends Controller {
 
 	public function show(Household $household)
 	{
-		return $household;
+        $data['groups']=$this->groups->all();
+        $data['household']=$household;
+        return view('base::households.show',$data);
 	}
 
     public function store(CreateHouseholdRequest $request)
@@ -60,3 +63,4 @@ class HouseholdsController extends Controller {
     }
 
 }
+ 

@@ -4,20 +4,34 @@ namespace bishopm\base\Models;
 
 use Illuminate\Database\Eloquent\Model, Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Cviebrock\EloquentSluggable\SluggableInterface, Cviebrock\EloquentSluggable\SluggableTrait;
+use Cviebrock\EloquentSluggable\Sluggable;
 
-class Individual extends Model implements SluggableInterface
+class Individual extends Model
 {
-    use SluggableTrait;
+    use Sluggable;
     use SoftDeletes;
 
-    protected $sluggable = [
-        'build_from' => ['firstname','surname'],
-        'save_to'    => 'slug',
-    ];
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');
     protected $appends = ['age'];
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => ['firstname', 'surname']
+            ]
+        ];
+    }
+
+    public function groups(){
+        return $this->belongsToMany('bishopm\base\Models\Group')->whereNull('group_individual.deleted_at')->withTimestamps();
+    }
+
+    public function pastgroups(){
+        return $this->belongsToMany('bishopm\base\Models\Group')->whereNotNull('group_individual.deleted_at')->withTimestamps()->withPivot('deleted_at');
+    }
+
 
 /*    public function getAgeAttribute(){
         if ($this->birthdate>'1901-01-01'){
@@ -71,10 +85,6 @@ class Individual extends Model implements SluggableInterface
 
     public function blog(){
         return $this->hasMany('App\Models\Blog');
-    }
-
-    public function group(){
-		    return $this->belongsToMany('App\Models\Group')->whereNull('group_individual.deleted_at')->withTimestamps();
     }
 
     public function currentgroups(){

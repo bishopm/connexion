@@ -13,12 +13,12 @@ class CreateSpecialdaysTable extends Migration
 	public function up()
 	{
 		Schema::create('specialdays', function(Blueprint $table) {
-      $table->increments('id');
+	      	$table->increments('id');
 			$table->integer('household_id');
-      $table->string('anniversarytype');
+	      	$table->string('anniversarytype');
 			$table->date('anniversarydate');
-      $table->string('details');
-      $table->timestamps();
+	      	$table->string('details');
+	      	$table->timestamps();
 		});
 	}
 

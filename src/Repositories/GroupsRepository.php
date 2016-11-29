@@ -2,11 +2,11 @@
 
 use bishopm\base\Repositories\EloquentBaseRepository;
 
-class HouseholdsRepository extends EloquentBaseRepository
+class GroupsRepository extends EloquentBaseRepository
 {
     public function all()
     {
-        return $this->model->orderBy('sortsurname', 'ASC')->get();
+        return $this->model->orderBy('groupname', 'ASC')->get();
     }
 
 	public function find($id)

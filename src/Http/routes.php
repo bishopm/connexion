@@ -15,6 +15,17 @@ Route::group(['middleware' => ['web','authadmin']], function () {
 	// Logout
 	Route::post('logout',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@logout','as'=>'logout']);
 
+	// Groups
+	Route::get('admin/groups',['uses'=>'bishopm\base\Http\Controllers\GroupsController@index','as'=>'admin.groups.index']);
+	Route::get('admin/groups/create',['uses'=>'bishopm\base\Http\Controllers\GroupsController@create','as'=>'admin.groups.create']);
+	Route::get('admin/groups/{group}',['uses'=>'bishopm\base\Http\Controllers\GroupsController@show','as'=>'admin.groups.show']);
+	Route::get('admin/groups/{group}/edit',['uses'=>'bishopm\base\Http\Controllers\GroupsController@edit','as'=>'admin.groups.edit']);
+	Route::put('admin/groups/{group}',['uses'=>'bishopm\base\Http\Controllers\GroupsController@update','as'=>'admin.groups.update']);
+	Route::post('admin/groups',['uses'=>'bishopm\base\Http\Controllers\GroupsController@store','as'=>'admin.groups.store']);
+    Route::delete('admin/groups/{group}',['uses'=>'bishopm\base\Http\Controllers\GroupsController@destroy','as'=>'admin.groups.destroy']);
+    Route::get('admin/groups/{group}/addmember/{member}', ['uses' => 'bishopm\base\Http\Controllers\GroupsController@addmember','as' => 'admin.groups.addmember']);
+    Route::get('admin/groups/{group}/removemember/{member}', ['uses' => 'bishopm\base\Http\Controllers\GroupsController@removemember','as' => 'admin.groups.removemember']);
+
 	// Households
 	Route::get('admin/households',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@index','as'=>'admin.households.index']);
 	Route::get('admin/households/create',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@create','as'=>'admin.households.create']);
@@ -22,6 +33,17 @@ Route::group(['middleware' => ['web','authadmin']], function () {
 	Route::get('admin/households/{household}/edit',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@edit','as'=>'admin.households.edit']);
 	Route::put('admin/households/{household}',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@update','as'=>'admin.households.update']);
 	Route::post('admin/households',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@store','as'=>'admin.households.store']);
+    Route::delete('admin/households/{household}',['uses'=>'bishopm\base\Http\Controllers\HouseholdsController@destroy','as'=>'admin.households.destroy']);
+
+	// Individuals
+	Route::get('admin/households/{household}/individuals/create',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@create','as'=>'admin.individuals.create']);
+	Route::get('admin/households/{household}/individuals/{individual}',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@show','as'=>'admin.individuals.show']);
+	Route::get('admin/households/{household}/individuals/{individual}/edit',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@edit','as'=>'admin.individuals.edit']);
+	Route::put('admin/households/{household}/individuals/{individual}',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@update','as'=>'admin.individuals.update']);
+	Route::post('admin/households/{household}/individuals',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@store','as'=>'admin.individuals.store']);
+    Route::delete('admin/households/{household}/individuals/{individual}',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@destroy','as'=>'admin.individuals.destroy']);
+    Route::get('admin/individuals/addgroup/{member}/{group}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@addgroup','as' => 'admin.individuals.addgroup']);
+    Route::get('admin/individuals/removegroup/{member}/{group}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@removegroup','as' => 'admin.individuals.removegroup']);
 
 	// Settings
 	Route::get('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@index','as'=>'admin.settings.index']);
@@ -30,16 +52,15 @@ Route::group(['middleware' => ['web','authadmin']], function () {
 	Route::get('admin/settings/{setting}/edit',['uses'=>'bishopm\base\Http\Controllers\SettingsController@edit','as'=>'admin.settings.edit']);
 	Route::post('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@store','as'=>'admin.settings.store']);
 
+	// Specialdays
+    Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@index','as' => 'admin.specialdays.index']);
+    Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@store','as' => 'admin.specialdays.store']);
+    Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@update','as' => 'admin.specialdays.update']);
+    Route::get('admin/households/{household}/specialdays/{specialday}', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@destroy','as' => 'admin.specialdays.destroy']);
+
 	// Users
 	Route::get('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@show','as'=>'admin.users.show']);
 });
-
-
-
-	/*  
-	    Route::delete('{society}/households/{household}',['uses'=>'HouseholdsController@destroy','as'=>'society.households.destroy']);*/
-
-
 
 /*
 |        | POST     | password/email                    |                        | App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail  | web,guest    |

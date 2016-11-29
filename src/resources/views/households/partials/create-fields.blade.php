@@ -1,5 +1,4 @@
 {{ Form::bsText('addressee','Addressee','Addressee') }}
-{{ Form::bsText('first_name','First name','First name') }}
 {{ Form::bsText('addr1','Residential Address','Residential Address 1') }}
 {{ Form::bsText('addr2','','Residential Address 2') }}
 {{ Form::bsText('addr3','','Residential Address 3') }}

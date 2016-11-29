@@ -12,15 +12,17 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <table id="indexTable" class="display" width="100%" cellspacing="0">
+                        <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
+                                    <th>Surname</th>
                                     <th>Household</th>
                                     <th>Address</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
+                                    <th>Surname</th>
                                     <th>Household</th>
                                     <th>Address</th>
                                 </tr>
@@ -28,6 +30,7 @@
                             <tbody>
                                 @forelse ($households as $household)
                                     <tr>
+                                        <td><a href="{{route('admin.households.show',$household->id)}}">{{$household->sortsurname}}</a></td>
                                         <td><a href="{{route('admin.households.show',$household->id)}}">{{$household->addressee}}</a></td>
                                         <td><a href="{{route('admin.households.show',$household->id)}}">{{$household->addr1}}</a></td>
                                     </tr>
@@ -46,7 +49,17 @@
 @section('js')
 <script language="javascript">
 $(document).ready(function() {
-    $('#indexTable').DataTable();
+    $('#indexTable').DataTable(
+            {
+                "columnDefs": [
+                    {
+                        "targets": [ 0 ],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            }
+        );
 } );
 </script>
 @endsection

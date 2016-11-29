@@ -1,25 +1,24 @@
 @extends('adminlte::page')
 
 @section('content')
-    {{ Form::pgHeader('Add a household','Households',route('admin.households.index')) }}
-    {!! Form::open(['route' => ['admin.households.store'], 'method' => 'post']) !!}
+    {{ Form::pgHeader('Edit a group','Groups',route('admin.groups.index')) }}
+    {!! Form::open(['route' => ['admin.groups.update',$group->id], 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-6">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('base::households.partials.create-fields')
+                    @include('base::groups.partials.edit-fields')
                 </div>
                 <div class="box-footer">
-                    {{Form::pgButtons('Create',route('admin.households.index')) }}
+                    {{Form::pgButtons('Update',route('admin.groups.index')) }}
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div id="map_canvas" style="height:350px;">
             </div>
-            {{ Form::bsText('latitude','Latitude','Latitude',$setting['home_latitude']) }}
-            {{ Form::bsText('longitude','Longitude','Longitude',$setting['home_longitude']) }}
-            {{ Form::bsText('sortsurname','Sort by (Household Surname)','Sort by (Household Surname)') }}
+            {{ Form::bsText('latitude','Latitude','Latitude',$group->latitude) }}
+            {{ Form::bsText('longitude','Longitude','Longitude',$group->longitude) }}
         </div>
     </div>
     {!! Form::close() !!}
@@ -31,9 +30,6 @@
     <script type="text/javascript">
         $( document ).ready(function() {
             google.maps.event.addDomListener(window, 'load', initialize(12));
-        });
-        $("#addressee").change(function () {
-            $('#sortsurname').val($("#addressee").val().split(" ").splice(-1));
         });
     </script>
 @stop
