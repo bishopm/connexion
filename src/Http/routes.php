@@ -45,6 +45,15 @@ Route::group(['middleware' => ['web','authadmin']], function () {
     Route::get('admin/individuals/addgroup/{member}/{group}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@addgroup','as' => 'admin.individuals.addgroup']);
     Route::get('admin/individuals/removegroup/{member}/{group}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@removegroup','as' => 'admin.individuals.removegroup']);
 
+	// Pastorals
+    Route::get('admin/households/{household}/pastorals', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@index','as' => 'admin.pastorals.index']);
+    Route::post('admin/households/{household}/pastorals', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@store','as' => 'admin.pastorals.store']);
+    Route::put('admin/households/{household}/pastorals', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@update','as' => 'admin.pastorals.update']);
+    Route::delete('admin/households/{household}/pastorals/{pastoral}', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@destroy','as' => 'admin.pastorals.destroy']);
+
+	// Users
+	Route::get('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@show','as'=>'admin.users.show']);
+
 	// Settings
 	Route::get('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@index','as'=>'admin.settings.index']);
 	Route::get('admin/settings/create',['uses'=>'bishopm\base\Http\Controllers\SettingsController@create','as'=>'admin.settings.create']);
@@ -54,12 +63,20 @@ Route::group(['middleware' => ['web','authadmin']], function () {
 
 	// Specialdays
     Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@index','as' => 'admin.specialdays.index']);
-    Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@store','as' => 'admin.specialdays.store']);
-    Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@update','as' => 'admin.specialdays.update']);
-    Route::get('admin/households/{household}/specialdays/{specialday}', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@destroy','as' => 'admin.specialdays.destroy']);
+    Route::post('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@store','as' => 'admin.specialdays.store']);
+    Route::put('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@update','as' => 'admin.specialdays.update']);
+    Route::delete('admin/households/{household}/specialdays/{specialday}', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@destroy','as' => 'admin.specialdays.destroy']);
 
 	// Users
+	Route::get('admin/users',['uses'=>'bishopm\base\Http\Controllers\UsersController@index','as'=>'admin.users.index']);
+	Route::get('admin/users/create',['uses'=>'bishopm\base\Http\Controllers\UsersController@create','as'=>'admin.users.create']);
 	Route::get('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@show','as'=>'admin.users.show']);
+	Route::get('admin/users/{user}/edit',['uses'=>'bishopm\base\Http\Controllers\UsersController@edit','as'=>'admin.users.edit']);
+	Route::put('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@update','as'=>'admin.users.update']);
+	Route::post('admin/users',['uses'=>'bishopm\base\Http\Controllers\UsersController@store','as'=>'admin.users.store']);
+    Route::delete('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@destroy','as'=>'admin.users.destroy']);
+
+
 });
 
 /*

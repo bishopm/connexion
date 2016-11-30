@@ -43,6 +43,7 @@ class HouseholdsController extends Controller {
 
 	public function show(Household $household)
 	{
+        $data['pastors'][0]=['id'=>1,'firstname'=>'Michael','surname'=>'Bishop'];
         $data['groups']=$this->groups->all();
         $data['household']=$household;
         return view('base::households.show',$data);

@@ -43,6 +43,10 @@ class Household extends Model {
     public function specialdays(){
         return $this->hasMany('bishopm\base\Models\Specialday');
     }
+
+    public function pastorals(){
+        return $this->hasMany('bishopm\base\Models\Pastoral');
+    }
 /*
     public function pastoral(){
 		  return $this->hasMany('App\Models\Pastoral')->orderBy('diarydate','des');

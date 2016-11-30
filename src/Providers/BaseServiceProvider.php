@@ -72,6 +72,11 @@ class BaseServiceProvider extends ServiceProvider
         Form::component('bsSelect', 'base::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
         Form::component('pgHeader', 'base::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
         Form::component('pgButtons', 'base::components.pgButtons', ['actionLabel', 'cancelRoute']);
+        config(['adminlte.title' => 'Umhlali Methodist Church']);
+        config(['adminlte.logo' => '<b>Umhlali</b>Methodist']);
+        config(['adminlte.logo_mini' => '<b>U</b>MC']);
+        config(['adminlte.layout' => 'fixed']);
+        config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
     }
 
     /**
@@ -84,9 +89,14 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
+        $this->app->register('Laratrust\LaratrustServiceProvider');
+        AliasLoader::getInstance()->alias("Laratrust",'Laratrust\LaratrustFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         $this->app['router']->middleware('authadmin', 'bishopm\base\Middleware\AdminMiddleware');
+        $this->app['router']->middleware('role','Laratrust\Middleware\LaratrustRole');
+        $this->app['router']->middleware('permission','Laratrust\Middleware\LaratrustPermission');
+        $this->app['router']->middleware('ability','Laratrust\Middleware\LaratrustAbility');
         $this->registerBindings();
     }
 
@@ -114,9 +124,30 @@ class BaseServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'bishopm\base\Repositories\PastoralsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\PastoralsRepository(new \bishopm\base\Models\Pastoral());
+                return $repository; 
+            }
+        );
+        $this->app->bind(
             'bishopm\base\Repositories\SettingsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\SettingsRepository(new \bishopm\base\Models\Setting());
+                return $repository; 
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\SpecialdaysRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\SpecialdaysRepository(new \bishopm\base\Models\Specialday());
+                return $repository; 
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\UsersRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\UsersRepository(new \bishopm\base\Models\User());
                 return $repository; 
             }
         );

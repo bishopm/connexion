@@ -11,17 +11,15 @@ use bishopm\base\Http\Requests\CreateSpecialdayRequest;
 use bishopm\base\Http\Requests\UpdateSpecialdayRequest;
 use Illuminate\Http\Request;
 
-class SpecialdayController extends Controller
+class SpecialdaysController extends Controller
 {
     /**
      * @var SpecialdayRepository
      */
     private $specialday, $household;
 
-    public function __construct(SpecialdayRepository $specialday, HouseholdRepository $household)
+    public function __construct(SpecialdaysRepository $specialday, HouseholdsRepository $household)
     {
-        parent::__construct();
-
         $this->specialday = $specialday;
         $this->household = $household;
     }
@@ -31,9 +29,9 @@ class SpecialdayController extends Controller
      *
      * @return Response
      */
-     public function index(Specialday $special,Household $household)
+     public function index(Household $household)
      {
-       foreach ($household->specialday as $row){
+       foreach ($household->specialdays as $row){
          $row->anniversarydetails=$row->details;
          $row->anniversaryid=$row->id;
          $data['rows'][]=$row;

@@ -4,7 +4,7 @@ namespace bishopm\base\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Specialday extends Model
+class Pastoral extends Model
 {
     protected $guarded = array('id');
 
