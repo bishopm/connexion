@@ -6,8 +6,11 @@
   <link href="{{ asset('/vendor/bishopm/css/jquery.bootgrid.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
-@section('content')
+@section('content_header')
     {{ Form::pgHeader($household->addressee,'Households',route('admin.households.index')) }}
+@stop
+
+@section('content')
     <div class="row">
       <div class="col-md-6">
         <div class="box box-primary"> 

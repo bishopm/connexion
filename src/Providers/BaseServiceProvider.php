@@ -3,7 +3,7 @@
 namespace bishopm\base\Providers;
 
 use Illuminate\Support\Facades\Blade;
-use Form;
+use Form, Laratrust;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -25,22 +25,47 @@ class BaseServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'base');
         $this->loadMigrationsFrom(__DIR__.'/../migrations');
         $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
+        config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
+        config(['laratrust.role'=>'bishopm\base\Models\Role']);
+        config(['laratrust.permission'=>'bishopm\base\Models\Permission']);
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
             $event->menu->add('CHURCH ADMIN');
             $event->menu->add([
-                'text' => 'Members',
-                'icon' => 'user',
+                'text' => 'Congregation',
+                'icon' => 'book',
+                'permission' => 'read-content',
                 'submenu' => [
                     [
-                        'text' => 'Households',
+                        'text' => 'Members',
                         'url'  => 'admin/households',
-                        'icon' => 'user'
+                        'icon' => 'child',
+                        'permission' =>  'read-content'
                     ],
                     [
                         'text' => 'Groups',
                         'url'  => 'admin/groups',
-                        'icon' => 'users'
+                        'icon' => 'users',
+                        'permission' =>  'read-content'
+                    ]
+                ]
+            ]);
+            $event->menu->add([
+                'text' => 'Todo',
+                'icon' => 'list-ol',
+                'permission' => 'read-content',
+                'submenu' => [
+                    [
+                        'text' => 'Tasks',
+                        'url'  => 'admin/actions',
+                        'icon' => 'check-square-o',
+                        'permission' =>  'read-content'
+                    ],
+                    [
+                        'text' => 'Projects',
+                        'url'  => 'admin/projects',
+                        'icon' => 'tasks',
+                        'permission' =>  'read-content'
                     ]
                 ]
             ]);
@@ -48,18 +73,43 @@ class BaseServiceProvider extends ServiceProvider
             $event->menu->add([
                 'text' => 'Blog',
                 'url' => 'admin/blog',
-                'icon' => 'file'
+                'icon' => 'file',
+                'permission' =>  'read-content'
             ]);
-            $event->menu->add('SETTINGS');
             $event->menu->add([
-                'text' => 'User profile',
-                'url' => 'admin/users/current',
-                'icon' => 'user'
+                'header' => 'SETTINGS',
+                'permission' => 'administer-site'
+            ]);
+            $event->menu->add([
+                'text' => 'User access',
+                'icon' => 'user',
+                'permission' =>  'administer-site',
+                'submenu' => [
+                    [
+                        'text' => 'Permissions',
+                        'url'  => 'admin/permissions',
+                        'icon' => 'users',
+                        'permission' =>  'administer-site'
+                    ],
+                    [
+                        'text' => 'Roles',
+                        'url'  => 'admin/roles',
+                        'icon' => 'user',
+                        'permission' =>  'administer-site'
+                    ],
+                    [
+                        'text' => 'Users',
+                        'url' => 'admin/users',
+                        'icon' => 'user',
+                        'permission' =>  'administer-site'
+                    ]
+                ]
             ]);
             $event->menu->add([
                 'text' => 'System settings',
                 'url' => 'admin/settings',
-                'icon' => 'cog'
+                'icon' => 'cog',
+                'permission' =>  'administer-site'
             ]);
         });
         foreach ($settings->all() as $setting){
@@ -67,6 +117,7 @@ class BaseServiceProvider extends ServiceProvider
         }
         view()->share('setting', $finset);
         Form::component('bsText', 'base::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+        Form::component('bsPassword', 'base::components.password', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
         Form::component('bsTextarea', 'base::components.textarea', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
         Form::component('bsHidden', 'base::components.hidden', ['name', 'value' => null]);
         Form::component('bsSelect', 'base::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
@@ -76,7 +127,12 @@ class BaseServiceProvider extends ServiceProvider
         config(['adminlte.logo' => '<b>Umhlali</b>Methodist']);
         config(['adminlte.logo_mini' => '<b>U</b>MC']);
         config(['adminlte.layout' => 'fixed']);
-        config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
+        config(['adminlte.filters' => [
+            \JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
+            \JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
+            \JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
+            \JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
+            \bishopm\base\Middleware\MyMenuFilter::class]]);
     }
 
     /**
@@ -102,6 +158,13 @@ class BaseServiceProvider extends ServiceProvider
 
     private function registerBindings()
     {
+        $this->app->bind(
+            'bishopm\base\Repositories\FoldersRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\FoldersRepository(new \bishopm\base\Models\Folder());
+                return $repository; 
+            }
+        );
         $this->app->bind(
             'bishopm\base\Repositories\GroupsRepository',
             function () {
@@ -130,6 +193,27 @@ class BaseServiceProvider extends ServiceProvider
                 return $repository; 
             }
         );
+        $this->app->bind(
+            'bishopm\base\Repositories\PermissionsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\PermissionsRepository(new \bishopm\base\Models\Permission());
+                return $repository; 
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\ProjectsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\ProjectsRepository(new \bishopm\base\Models\Project());
+                return $repository; 
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\RolesRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\RolesRepository(new \bishopm\base\Models\Role());
+                return $repository; 
+            }
+        );        
         $this->app->bind(
             'bishopm\base\Repositories\SettingsRepository',
             function () {

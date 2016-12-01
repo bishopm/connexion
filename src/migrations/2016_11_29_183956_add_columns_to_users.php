@@ -15,6 +15,9 @@ class AddColumnsToUsers extends Migration
     {
         Schema::table('users', function($table) {
             $table->integer('individual_id')->nullable();
+            $table->string('toodledo_id')->nullable();
+            $table->string('toodledo_token')->nullable();
+            $table->string('toodledo_refresh')->nullable();
         });
     }
 
@@ -27,6 +30,9 @@ class AddColumnsToUsers extends Migration
     {
         Schema::table('users', function($table) {
             $table->dropColumn('individual_id');
+            $table->dropColumn('toodledo_id');
+            $table->dropColumn('toodledo_token');
+            $table->dropColumn('toodledo_refresh');
         });
     }
 }

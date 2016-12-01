@@ -4,8 +4,11 @@
   <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
-@section('content')
-    {{ Form::pgHeader($group->addressee,'Groups',route('admin.groups.index')) }}
+@section('content_header')
+  {{ Form::pgHeader($group->addressee,'Groups',route('admin.groups.index')) }}
+@stop
+
+@section('content')  
     <div class="row">
       <div class="col-md-12">
         <div class="box box-primary"> 

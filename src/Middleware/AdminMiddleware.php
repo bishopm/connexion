@@ -2,7 +2,7 @@
 
 namespace bishopm\base\Middleware;
 
-use Closure, Illuminate\Support\Facades\Auth;
+use Closure, Illuminate\Support\Facades\Auth, Laratrust;
 
 class AdminMiddleware {
 

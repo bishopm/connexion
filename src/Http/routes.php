@@ -7,13 +7,23 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
 	Route::post('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@login','as'=>'login']);
 });
-Route::group(['middleware' => ['web','authadmin']], function () {
+
+Route::group(['middleware' => ['web','authadmin','role:editor|admin']], function () {
 
 	// Dashboard
 	Route::get('admin',['uses'=>'bishopm\base\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
 
 	// Logout
 	Route::post('logout',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@logout','as'=>'logout']);
+
+	// Folders
+	Route::get('admin/folders',['uses'=>'bishopm\base\Http\Controllers\FoldersController@index','as'=>'admin.folders.index']);
+	Route::get('admin/folders/create',['uses'=>'bishopm\base\Http\Controllers\FoldersController@create','as'=>'admin.folders.create']);
+	Route::get('admin/folders/{folder}',['uses'=>'bishopm\base\Http\Controllers\FoldersController@show','as'=>'admin.folders.show']);
+	Route::get('admin/folders/{folder}/edit',['uses'=>'bishopm\base\Http\Controllers\FoldersController@edit','as'=>'admin.folders.edit']);
+	Route::put('admin/folders/{folder}',['uses'=>'bishopm\base\Http\Controllers\FoldersController@update','as'=>'admin.folders.update']);
+	Route::post('admin/folders',['uses'=>'bishopm\base\Http\Controllers\FoldersController@store','as'=>'admin.folders.store']);
+    Route::delete('admin/folders/{folder}',['uses'=>'bishopm\base\Http\Controllers\FoldersController@destroy','as'=>'admin.folders.destroy']);
 
 	// Groups
 	Route::get('admin/groups',['uses'=>'bishopm\base\Http\Controllers\GroupsController@index','as'=>'admin.groups.index']);
@@ -51,8 +61,35 @@ Route::group(['middleware' => ['web','authadmin']], function () {
     Route::put('admin/households/{household}/pastorals', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@update','as' => 'admin.pastorals.update']);
     Route::delete('admin/households/{household}/pastorals/{pastoral}', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@destroy','as' => 'admin.pastorals.destroy']);
 
-	// Users
-	Route::get('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@show','as'=>'admin.users.show']);
+	// Permissions
+	Route::get('admin/permissions',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@index','as'=>'admin.permissions.index']);
+	Route::get('admin/permissions/create',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@create','as'=>'admin.permissions.create']);
+	Route::get('admin/permissions/{permission}',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@show','as'=>'admin.permissions.show']);
+	Route::get('admin/permissions/{permission}/edit',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@edit','as'=>'admin.permissions.edit']);
+	Route::put('admin/permissions/{permission}',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@update','as'=>'admin.permissions.update']);
+	Route::post('admin/permissions',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@store','as'=>'admin.permissions.store']);
+    Route::delete('admin/permissions/{permission}',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@destroy','as'=>'admin.permissions.destroy']);
+
+	// Projects
+	Route::get('admin/projects',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@index','as'=>'admin.projects.index']);
+	Route::get('admin/projects/create',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@create','as'=>'admin.projects.create']);
+	Route::get('admin/projects/{project}',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@show','as'=>'admin.projects.show']);
+	Route::get('admin/projects/{project}/edit',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@edit','as'=>'admin.projects.edit']);
+	Route::put('admin/projects/{project}',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@update','as'=>'admin.projects.update']);
+	Route::post('admin/projects',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@store','as'=>'admin.projects.store']);
+    Route::delete('admin/projects/{project}',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@destroy','as'=>'admin.projects.destroy']);
+
+
+	// Roles
+	Route::get('admin/roles',['uses'=>'bishopm\base\Http\Controllers\RolesController@index','as'=>'admin.roles.index']);
+	Route::get('admin/roles/create',['uses'=>'bishopm\base\Http\Controllers\RolesController@create','as'=>'admin.roles.create']);
+	Route::get('admin/roles/{role}',['uses'=>'bishopm\base\Http\Controllers\RolesController@show','as'=>'admin.roles.show']);
+	Route::get('admin/roles/{role}/edit',['uses'=>'bishopm\base\Http\Controllers\RolesController@edit','as'=>'admin.roles.edit']);
+	Route::put('admin/roles/{role}',['uses'=>'bishopm\base\Http\Controllers\RolesController@update','as'=>'admin.roles.update']);
+	Route::post('admin/roles',['uses'=>'bishopm\base\Http\Controllers\RolesController@store','as'=>'admin.roles.store']);
+    Route::delete('admin/roles/{role}',['uses'=>'bishopm\base\Http\Controllers\RolesController@destroy','as'=>'admin.roles.destroy']);
+    Route::get('admin/roles/{role}/addpermission/{permission}', ['uses' => 'bishopm\base\Http\Controllers\RolesController@addpermission','as' => 'admin.roles.addpermission']);
+    Route::get('admin/roles/{role}/removepermission/{permission}', ['uses' => 'bishopm\base\Http\Controllers\RolesController@removepermission','as' => 'admin.roles.removepermission']);
 
 	// Settings
 	Route::get('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@index','as'=>'admin.settings.index']);
@@ -67,17 +104,18 @@ Route::group(['middleware' => ['web','authadmin']], function () {
     Route::put('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@update','as' => 'admin.specialdays.update']);
     Route::delete('admin/households/{household}/specialdays/{specialday}', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@destroy','as' => 'admin.specialdays.destroy']);
 
-	// Users
-	Route::get('admin/users',['uses'=>'bishopm\base\Http\Controllers\UsersController@index','as'=>'admin.users.index']);
-	Route::get('admin/users/create',['uses'=>'bishopm\base\Http\Controllers\UsersController@create','as'=>'admin.users.create']);
-	Route::get('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@show','as'=>'admin.users.show']);
-	Route::get('admin/users/{user}/edit',['uses'=>'bishopm\base\Http\Controllers\UsersController@edit','as'=>'admin.users.edit']);
-	Route::put('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@update','as'=>'admin.users.update']);
-	Route::post('admin/users',['uses'=>'bishopm\base\Http\Controllers\UsersController@store','as'=>'admin.users.store']);
-    Route::delete('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@destroy','as'=>'admin.users.destroy']);
-
-
+    Route::group(['middleware' => ['role:admin']], function () {
+		// Users
+		Route::get('admin/users',['uses'=>'bishopm\base\Http\Controllers\UsersController@index','as'=>'admin.users.index']);
+		Route::get('admin/users/create',['uses'=>'bishopm\base\Http\Controllers\UsersController@create','as'=>'admin.users.create']);
+		Route::get('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@show','as'=>'admin.users.show']);
+		Route::get('admin/users/{user}/edit',['uses'=>'bishopm\base\Http\Controllers\UsersController@edit','as'=>'admin.users.edit']);
+		Route::put('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@update','as'=>'admin.users.update']);
+		Route::post('admin/users',['uses'=>'bishopm\base\Http\Controllers\UsersController@store','as'=>'admin.users.store']);
+	    Route::delete('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@destroy','as'=>'admin.users.destroy']);
+	});
 });
+
 
 /*
 |        | POST     | password/email                    |                        | App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail  | web,guest    |

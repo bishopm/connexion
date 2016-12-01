@@ -1,7 +1,10 @@
 @extends('adminlte::page')
 
-@section('content')
+@section('content_header')
     {{ Form::pgHeader('Add a household','Households',route('admin.households.index')) }}
+@stop
+
+@section('content')
     {!! Form::open(['route' => ['admin.households.store'], 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-6">
