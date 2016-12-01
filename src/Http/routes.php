@@ -106,6 +106,7 @@ Route::group(['middleware' => ['web','authadmin','role:editor|admin']], function
 	Route::get('admin/settings/{setting}',['uses'=>'bishopm\base\Http\Controllers\SettingsController@show','as'=>'admin.settings.show']);
 	Route::get('admin/settings/{setting}/edit',['uses'=>'bishopm\base\Http\Controllers\SettingsController@edit','as'=>'admin.settings.edit']);
 	Route::post('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@store','as'=>'admin.settings.store']);
+	Route::put('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@update','as'=>'admin.settings.update']);
 
 	// Specialdays
     Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@index','as' => 'admin.specialdays.index']);

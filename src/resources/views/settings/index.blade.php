@@ -30,9 +30,9 @@
                             <tbody>
                                 @forelse ($settings as $setting)
                                     <tr>
-                                        <td><a href="{{route('admin.settings.show',$setting->id)}}">{{ucfirst(str_replace("_"," ",$setting->setting_key))}}</a></td>
-                                        <td><a href="{{route('admin.settings.show',$setting->id)}}">{{$setting->setting_value}}</a></td>
-                                        <td><a href="{{route('admin.settings.show',$setting->id)}}">{{$setting->category}}</a></td>
+                                        <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{ucfirst(str_replace("_"," ",$setting->setting_key))}}</a></td>
+                                        <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->setting_value}}</a></td>
+                                        <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->category}}</a></td>
                                     </tr>
                                 @empty
                                     <tr><td>No settings have been added yet</td></tr>

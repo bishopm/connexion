@@ -146,6 +146,7 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
         $this->app->register('Laratrust\LaratrustServiceProvider');
+        $this->app->register('Spatie\Tags\TagsServiceProvider');
         AliasLoader::getInstance()->alias("Laratrust",'Laratrust\LaratrustFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');

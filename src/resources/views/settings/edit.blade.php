@@ -1,25 +1,19 @@
 @extends('adminlte::page')
 
-@section('htmlheader_title')
-    Dashboard household
-@endsection
-
 @section('content')
-    <div class="container-fluid spark-screen">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-6"><h4>{{$household->addressee}}</h4></div>
-                            <div class="col-md-6"><a class="btn btn-danger pull-right">Delete</a></div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                    {{$household}}
-                    </div>
+    {{ Form::pgHeader('Edit setting','Settings',route('admin.settings.index')) }}
+    {!! Form::open(['route' => ['admin.settings.update',$setting->id], 'method' => 'put']) !!}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary"> 
+                <div class="box-body">
+                    @include('base::settings.partials.edit-fields')
+                </div>
+                <div class="box-footer">
+                    {{Form::pgButtons('Update',route('admin.settings.index')) }}
                 </div>
             </div>
         </div>
     </div>
-@endsection 
+    {!! Form::close() !!}
+@stop

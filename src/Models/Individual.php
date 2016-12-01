@@ -5,11 +5,13 @@ namespace bishopm\base\Models;
 use Illuminate\Database\Eloquent\Model, Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Spatie\Tags\HasTags;
 
 class Individual extends Model
 {
     use Sluggable;
     use SoftDeletes;
+    use HasTags;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');

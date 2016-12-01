@@ -1,7 +1,6 @@
 <?php
-namespace Modules\Todo\Http\Controllers\Admin;
+namespace bishopm\base\Http\Controllers;
 
-use Modules\Core\Contracts\Setting;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
@@ -9,7 +8,8 @@ use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use Modules\Todo\Http\Controllers\Admin\ToodledoResourceOwner;
+use bishopm\base\Http\Controllers\ToodledoResourceOwner;
+use bishopm\base\Models\Setting;
 
 class Toodledo extends AbstractProvider
 {
@@ -18,9 +18,13 @@ class Toodledo extends AbstractProvider
     public function __construct()
     {
         parent::__construct();
-        $this->clientId = Setting('todo::toodledo_client');
-        $this->clientSecret = Setting('todo::toodledo_secret');
-        $this->redirectUri = Setting('todo::toodledo_redirect');
+        $settings=Setting::all();
+        foreach ($settings as $setting){
+            $settingsarray[$setting->setting_key]=$setting->setting_value;
+        }
+        $this->clientId = $settingsarray['toodledo_clientid'];
+        $this->clientSecret = $settingsarray['toodledo_secret'];
+        $this->redirectUri = $settingsarray['toodledo_redirect_uri'];
     }
 
     /**

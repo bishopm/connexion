@@ -38,23 +38,24 @@ class ActionsController extends Controller
      */
     public function index()
     {
-        dd($currentUser);
-        $user_id=$this->user->id();
-        $userextension = $userextension->find($user_id);
-        if (is_null($userextension) or (isset($_GET['code']))) {
-            $authorizationUrl = $this->provider->getAuthorizationUrl();
+        $user=Auth::user();
+        if ((!$user->toodledo_id) or (isset($_GET['code']))) {
+            $data['authorizationUrl'] = $this->provider->getAuthorizationUrl();
             if (isset($_GET['code'])){
                 $token=$this->provider->getAccessToken('authorization_code', ['code' => $_GET['code']]);
                 $tokenStr=$token->getToken();
-                $data = $this->provider->getData($tokenStr,'account','initial');
-                $userextension=UserExtension::create(['user_id'=>$user_id, 'toodledo_id'=>$data->userid, 'toodledo_token'=>$tokenStr,'toodledo_refresh'=>$token->getRefreshToken()]);
+                $data2 = $this->provider->getData($tokenStr,'account','initial');
+                $user->toodledo_id=$data2->userid;
+                $user->toodledo_token=$tokenStr;
+                $user->toodledo_refresh=$token->getRefreshToken();
+                $user->save();
                 Artisan::call('toodledo:sync', ['category' => 'initial']);
             }
         } else {
-            $authorizationUrl = "NA";
+            $data['authorizationUrl'] = "NA";
         }
-        $actions = $this->action->all();
-        return view('todo::admin.actions.index', compact('actions','authorizationUrl'));
+        $data['actions'] = $this->action->all();
+        return view('base::actions.index', $data);
     }
 
     /**
