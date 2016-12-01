@@ -2,6 +2,6 @@
 
 use bishopm\base\Repositories\EloquentBaseRepository;
 
-class FoldersRepository extends EloquentBaseRepository
+class ActionsRepository extends EloquentBaseRepository
 {
 }

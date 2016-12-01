@@ -3,7 +3,7 @@
 namespace bishopm\base\Providers;
 
 use Illuminate\Support\Facades\Blade;
-use Form, Laratrust;
+use Form, Laratrust, Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -158,6 +158,13 @@ class BaseServiceProvider extends ServiceProvider
 
     private function registerBindings()
     {
+        $this->app->bind(
+            'bishopm\base\Repositories\ActionsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\ActionsRepository(new \bishopm\base\Models\Action());
+                return $repository; 
+            }
+        );
         $this->app->bind(
             'bishopm\base\Repositories\FoldersRepository',
             function () {

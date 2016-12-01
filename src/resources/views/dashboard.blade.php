@@ -11,7 +11,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Home</div>
                     <div class="panel-body">
-                        Welcome to {{$setting['site_name']}}
+                        Logged in to {{$setting['site_name']}} as <b>{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</b>
                     </div>
                 </div>
             </div>

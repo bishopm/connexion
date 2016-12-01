@@ -16,6 +16,15 @@ Route::group(['middleware' => ['web','authadmin','role:editor|admin']], function
 	// Logout
 	Route::post('logout',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@logout','as'=>'logout']);
 
+	// Actions
+	Route::get('admin/actions',['uses'=>'bishopm\base\Http\Controllers\ActionsController@index','as'=>'admin.actions.index']);
+	Route::get('admin/actions/create',['uses'=>'bishopm\base\Http\Controllers\ActionsController@create','as'=>'admin.actions.create']);
+	Route::get('admin/actions/{action}',['uses'=>'bishopm\base\Http\Controllers\ActionsController@show','as'=>'admin.actions.show']);
+	Route::get('admin/actions/{action}/edit',['uses'=>'bishopm\base\Http\Controllers\ActionsController@edit','as'=>'admin.actions.edit']);
+	Route::put('admin/actions/{action}',['uses'=>'bishopm\base\Http\Controllers\ActionsController@update','as'=>'admin.actions.update']);
+	Route::post('admin/actions',['uses'=>'bishopm\base\Http\Controllers\ActionsController@store','as'=>'admin.actions.store']);
+    Route::delete('admin/actions/{action}',['uses'=>'bishopm\base\Http\Controllers\ActionsController@destroy','as'=>'admin.actions.destroy']);	
+
 	// Folders
 	Route::get('admin/folders',['uses'=>'bishopm\base\Http\Controllers\FoldersController@index','as'=>'admin.folders.index']);
 	Route::get('admin/folders/create',['uses'=>'bishopm\base\Http\Controllers\FoldersController@create','as'=>'admin.folders.create']);

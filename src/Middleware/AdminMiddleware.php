@@ -10,6 +10,7 @@ class AdminMiddleware {
     {
     	$user=Auth::user();
     	if ($user){
+    		view()->share('currentUser', $user);
     		return $next($request);
 	    } 
     	return redirect('/login');

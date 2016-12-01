@@ -28,4 +28,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function individual(){
+        return $this->belongsTo('bishopm\base\Models\Individual');
+    }
 }
