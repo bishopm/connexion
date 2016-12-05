@@ -1,3 +1,2 @@
-{{ Form::bsText('name','Permission name','Permission name') }}
-{{ Form::bsText('display_name','Display name','Display name') }}
-{{ Form::bsText('description','Description','Description') }}
+{{ Form::bsText('folder','Folder','Folder') }}
+{{ Form::bsHidden('user_id',$currentUser->id) }}

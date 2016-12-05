@@ -11,6 +11,8 @@ use bishopm\base\Repositories\ActionsRepository;
 use bishopm\base\Repositories\IndividualsRepository;
 use bishopm\base\Repositories\ProjectsRepository;
 use bishopm\base\Repositories\FoldersRepository;
+use bishopm\base\Http\Requests\CreateActionRequest;
+use bishopm\base\Http\Requests\UpdateActionRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
 
@@ -68,7 +70,7 @@ class ActionsController extends Controller
         $individuals=$this->individuals->dropdown();
         $folders=$this->folders->dropdown();
         $projects=$this->projects->dropdown();
-        return view('todo::admin.actions.create',compact('individuals','projects','folders'));
+        return view('base::actions.create',compact('individuals','projects','folders'));
     }
 
     /**
@@ -77,12 +79,12 @@ class ActionsController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateActionRequest $request)
     {
         $this->action->create($request->all());
 
-        return redirect()->route('admin.todo.action.index')
-            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('todo::actions.title.actions')]));
+        return redirect()->route('admin.actions.index')
+            ->withSuccess('Task has been created', ['name' => 'Tasks']);
     }
 
     /**
@@ -96,7 +98,7 @@ class ActionsController extends Controller
         $individuals=$this->individuals->dropdown();
         $folders=$this->folders->dropdown();
         $projects=$this->projects->dropdown();
-        return view('todo::admin.actions.edit', compact('action','individuals','projects','folders'));
+        return view('base::actions.edit', compact('action','individuals','projects','folders'));
     }
 
     /**
@@ -110,8 +112,8 @@ class ActionsController extends Controller
     {
         $this->action->update($action, $request->all());
 
-        return redirect()->route('admin.todo.action.index')
-            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('todo::actions.title.actions')]));
+        return redirect()->route('admin.actions.index')
+            ->withSuccess('Task has been updated', ['name' => 'Task']);
     }
 
     /**
@@ -124,7 +126,7 @@ class ActionsController extends Controller
     {
         $this->action->destroy($action);
 
-        return redirect()->route('admin.todo.action.index')
+        return redirect()->route('admin.actions.index')
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('todo::actions.title.actions')]));
     }
 }

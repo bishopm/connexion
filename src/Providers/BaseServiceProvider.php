@@ -28,6 +28,7 @@ class BaseServiceProvider extends ServiceProvider
         config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
         config(['laratrust.role'=>'bishopm\base\Models\Role']);
         config(['laratrust.permission'=>'bishopm\base\Models\Permission']);
+        config(['laravel-medialibrary.defaultFilesystem'=>'public']);
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
             $event->menu->add('CHURCH ADMIN');
@@ -60,6 +61,12 @@ class BaseServiceProvider extends ServiceProvider
                         'url'  => 'admin/actions',
                         'icon' => 'check-square-o',
                         'permission' =>  'read-content'
+                    ],
+                    [
+                        'text' => 'Folders',
+                        'url'  => 'admin/folders',
+                        'icon' => 'folder-open-o',
+                        'permission' =>  'administer-site'
                     ],
                     [
                         'text' => 'Projects',
@@ -123,6 +130,7 @@ class BaseServiceProvider extends ServiceProvider
         Form::component('bsSelect', 'base::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
         Form::component('pgHeader', 'base::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
         Form::component('pgButtons', 'base::components.pgButtons', ['actionLabel', 'cancelRoute']);
+        Form::component('bsFile', 'base::components.file', ['name', 'attributes' => []]);
         config(['adminlte.title' => 'Umhlali Methodist Church']);
         config(['adminlte.logo' => '<b>Umhlali</b>Methodist']);
         config(['adminlte.logo_mini' => '<b>U</b>MC']);
@@ -147,6 +155,7 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
         $this->app->register('Laratrust\LaratrustServiceProvider');
         $this->app->register('Spatie\Tags\TagsServiceProvider');
+        $this->app->register('Spatie\MediaLibrary\MediaLibraryServiceProvider');
         AliasLoader::getInstance()->alias("Laratrust",'Laratrust\LaratrustFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');

@@ -35,7 +35,8 @@ class IndividualsController extends Controller {
 
 	public function edit($household,Individual $individual)
     {
-        return view('base::individuals.edit', compact('individual'));
+        $media=Individual::find($individual->id)->getMedia();
+        return view('base::individuals.edit', compact('individual','media'));
     }
 
     public function create($household)
@@ -50,15 +51,20 @@ class IndividualsController extends Controller {
 
     public function store(CreateIndividualRequest $request)
     {
-        $this->individual->create($request->all());
-
+        $individual=$this->individual->create($request->except('image'));
+        if ($request->file('image')){
+            $individual->addMedia($request->file('image'))->toCollection('individuals');
+        }
         return redirect()->route('admin.households.show',$request->household_id)
             ->withSuccess('New individual added');
     }
 	
     public function update($household, Individual $individual, UpdateIndividualRequest $request)
     {
-        $this->individual->update($individual, $request->all());
+        $this->individual->update($individual, $request->except('image'));
+        if ($request->file('image')){
+            $individual->addMedia($request->file('image'))->toCollection('individuals');
+        }
         return redirect()->route('admin.households.show',$individual->household_id)->withSuccess('Individual has been updated');
     }
 

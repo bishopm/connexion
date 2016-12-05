@@ -6,7 +6,7 @@
 
 @section('content')
     {{ Form::pgHeader('Edit household member','Individuals',route('admin.households.show',$individual->household_id)) }}
-    {!! Form::open(['route' => array('admin.individuals.update',$individual->household_id,$individual->id), 'method' => 'put']) !!}
+    {!! Form::open(['route' => array('admin.individuals.update',$individual->household_id,$individual->id), 'method' => 'put', 'files'=>'true']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 

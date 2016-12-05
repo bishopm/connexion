@@ -7,5 +7,10 @@
 {{ Form::bsSelect('sex','Sex',array('male','female'),$individual->sex) }}
 {{ Form::bsSelect('title','Title',array('Mr','Mrs','Ms','Dr','Rev'),$individual->title) }}
 {{ Form::bsSelect('memberstatus','Membership status',array('Member','Non-member','Child'),$individual->memberstatus) }}
+@if (!count($media))
+{{ Form::bsFile('image') }}
+@else
+<img src="{{$media[0]->getUrl()}}">
+@endif
 {{ Form::bsTextarea('notes','Notes','Notes',$individual->notes) }}
 {{ Form::bsHidden('household_id',$individual->household_id) }}
