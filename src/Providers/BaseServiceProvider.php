@@ -126,6 +126,7 @@ class BaseServiceProvider extends ServiceProvider
         Form::component('bsText', 'base::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
         Form::component('bsPassword', 'base::components.password', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
         Form::component('bsTextarea', 'base::components.textarea', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+        Form::component('bsThumbnail', 'base::components.thumbnail', ['source', 'width' => '100']);
         Form::component('bsHidden', 'base::components.hidden', ['name', 'value' => null]);
         Form::component('bsSelect', 'base::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
         Form::component('pgHeader', 'base::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
@@ -155,10 +156,11 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
         $this->app->register('Laratrust\LaratrustServiceProvider');
         $this->app->register('Spatie\Tags\TagsServiceProvider');
-        $this->app->register('Spatie\MediaLibrary\MediaLibraryServiceProvider');
+        $this->app->register('Plank\Mediable\MediableServiceProvider');
         AliasLoader::getInstance()->alias("Laratrust",'Laratrust\LaratrustFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
+        AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');
         $this->app['router']->middleware('authadmin', 'bishopm\base\Middleware\AdminMiddleware');
         $this->app['router']->middleware('role','Laratrust\Middleware\LaratrustRole');
         $this->app['router']->middleware('permission','Laratrust\Middleware\LaratrustPermission');

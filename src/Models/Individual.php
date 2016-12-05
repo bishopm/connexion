@@ -6,15 +6,14 @@ use Illuminate\Database\Eloquent\Model, Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\Tags\HasTags;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Plank\Mediable\Mediable;
 
-class Individual extends Model implements HasMedia
+class Individual extends Model
 {
     use Sluggable;
     use SoftDeletes;
     use HasTags;
-    use HasMediaTrait;
+    use Mediable;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');

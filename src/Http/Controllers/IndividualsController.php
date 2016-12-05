@@ -9,7 +9,7 @@ use bishopm\base\Models\Group;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateIndividualRequest;
 use bishopm\base\Http\Requests\UpdateIndividualRequest;
-use DB;
+use DB, MediaUploader;
 
 class IndividualsController extends Controller {
 
@@ -35,7 +35,7 @@ class IndividualsController extends Controller {
 
 	public function edit($household,Individual $individual)
     {
-        $media=Individual::find($individual->id)->getMedia();
+        $media=Individual::find($individual->id)->getMedia('image')->first();
         return view('base::individuals.edit', compact('individual','media'));
     }
 
@@ -53,7 +53,10 @@ class IndividualsController extends Controller {
     {
         $individual=$this->individual->create($request->except('image'));
         if ($request->file('image')){
-            $individual->addMedia($request->file('image'))->toCollection('individuals');
+            $fname=$individual->id;
+            $media = MediaUploader::fromSource($request->file('image'))
+            ->toDirectory('individuals')->useFilename($fname)->upload();
+            $individual->attachMedia($media, 'image');
         }
         return redirect()->route('admin.households.show',$request->household_id)
             ->withSuccess('New individual added');
@@ -63,7 +66,10 @@ class IndividualsController extends Controller {
     {
         $this->individual->update($individual, $request->except('image'));
         if ($request->file('image')){
-            $individual->addMedia($request->file('image'))->toCollection('individuals');
+            $fname=$individual->id;
+            $media = MediaUploader::fromSource($request->file('image'))
+            ->toDirectory('individuals')->useFilename($fname)->upload();
+            $individual->attachMedia($media, 'image');
         }
         return redirect()->route('admin.households.show',$individual->household_id)->withSuccess('Individual has been updated');
     }

@@ -10,7 +10,7 @@
 @if (!count($media))
 {{ Form::bsFile('image') }}
 @else
-<img src="{{$media[0]->getUrl()}}">
+{{ Form::bsThumbnail($media->getUrl(),100) }}
 @endif
 {{ Form::bsTextarea('notes','Notes','Notes',$individual->notes) }}
 {{ Form::bsHidden('household_id',$individual->household_id) }}
