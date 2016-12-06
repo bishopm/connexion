@@ -4,8 +4,11 @@
     <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
 @stop
 
+@section('content_header')
+    {{ Form::pgHeader($individual->firstname . ' ' . $individual->surname,$individual->household->addressee,route('admin.households.show',$individual->household_id)) }}
+@stop
+
 @section('content')
-    {{ Form::pgHeader('Edit household member','Individuals',route('admin.households.show',$individual->household_id)) }}
     {!! Form::open(['route' => array('admin.individuals.update',$individual->household_id,$individual->id), 'method' => 'put', 'files'=>'true']) !!}
     <div class="row">
         <div class="col-md-12">
@@ -28,6 +31,22 @@
     $(function () {
         $("#birthdate").datepicker({
             format: 'yyyy-mm-dd'
+        });
+    });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
+        }
+    });
+    $("#removeMedia").on('click',function(e){
+        e.preventDefault();
+        $.ajax({
+            type : 'GET',
+            url : '{{url('/')}}/admin/individuals/<?php echo $individual->id;?>/removemedia',
+            success: function(){
+              $('#thumbdiv').hide();
+              $('#filediv').show();
+            }
         });
     });
 </script>

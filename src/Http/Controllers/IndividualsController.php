@@ -86,6 +86,12 @@ class IndividualsController extends Controller {
         $group->individuals()->attach($individual->id);
     }
 
+    public function removemedia(Individual $individual)
+    {
+        $media = $individual->getMedia('image');
+        $individual->detachMedia($media);
+    }
+
     public function removegroup($member, $group)
     {
         DB::table('group_individual')->where('group_id', $group)->where('individual_id', $member)->update(array('deleted_at' => DB::raw('NOW()')));

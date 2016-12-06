@@ -22,4 +22,5 @@ class WebController extends Controller
     {
         return view('base::dashboard');
     }
+
 }

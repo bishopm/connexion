@@ -37,6 +37,10 @@ class Individual extends Model
     }
 
 
+    public function household(){
+        return $this->belongsTo('bishopm\base\Models\Household');
+    }
+
 /*    public function getAgeAttribute(){
         if ($this->birthdate>'1901-01-01'){
             return Carbon::now()
@@ -49,10 +53,6 @@ class Individual extends Model
 
     public function getFullnameAttribute(){
         return $this->surname . ", " . $this->firstname;
-    }
-
-    public function household(){
-		  return $this->belongsTo('App\Models\Household');
     }
 
     public function scopeMembers($query){

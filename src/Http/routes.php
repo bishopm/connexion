@@ -63,6 +63,7 @@ Route::group(['middleware' => ['web','authadmin','role:editor|admin']], function
     Route::delete('admin/households/{household}/individuals/{individual}',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@destroy','as'=>'admin.individuals.destroy']);
     Route::get('admin/individuals/addgroup/{member}/{group}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@addgroup','as' => 'admin.individuals.addgroup']);
     Route::get('admin/individuals/removegroup/{member}/{group}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@removegroup','as' => 'admin.individuals.removegroup']);
+	Route::get('admin/individuals/{individual}/removemedia',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@removemedia','as'=>'admin.individuals.removemedia']);	
 
 	// Pastorals
     Route::get('admin/households/{household}/pastorals', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@index','as' => 'admin.pastorals.index']);

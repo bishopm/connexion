@@ -71,7 +71,9 @@
                               {!! $individual->notes !!}
                             </div>
                             <div class="col-md-6">
-                              <figure>Image goes here</figure>
+                              @if ($individual->getMedia('image')->first())
+                                {{ Form::bsThumbnail($individual->getMedia('image')->first()->getUrl(),120) }}
+                              @endif
                             </div>
                           </div>
                           <div class="nav-tabs-custom">

@@ -126,7 +126,7 @@ class BaseServiceProvider extends ServiceProvider
         Form::component('bsText', 'base::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
         Form::component('bsPassword', 'base::components.password', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
         Form::component('bsTextarea', 'base::components.textarea', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
-        Form::component('bsThumbnail', 'base::components.thumbnail', ['source', 'width' => '100']);
+        Form::component('bsThumbnail', 'base::components.thumbnail', ['source', 'width' => '100', 'label' => '']);
         Form::component('bsHidden', 'base::components.hidden', ['name', 'value' => null]);
         Form::component('bsSelect', 'base::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
         Form::component('pgHeader', 'base::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
