@@ -56,7 +56,7 @@ class HouseholdsController extends Controller {
         return redirect()->route('admin.households.index')
             ->withSuccess('New household added');
     }
-	
+
     public function update(Household $household, UpdateHouseholdRequest $request)
     {
         $this->household->update($household, $request->all());
@@ -64,4 +64,3 @@ class HouseholdsController extends Controller {
     }
 
 }
- 

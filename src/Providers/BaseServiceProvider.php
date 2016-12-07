@@ -3,6 +3,7 @@
 namespace bishopm\base\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Schema;
 use Form, Laratrust, Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
@@ -23,7 +24,7 @@ class BaseServiceProvider extends ServiceProvider
             require __DIR__.'/../Http/routes.php';
         }
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'base');
-        $this->loadMigrationsFrom(__DIR__.'/../migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
         config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
         config(['laratrust.role'=>'bishopm\base\Models\Role']);
@@ -119,8 +120,11 @@ class BaseServiceProvider extends ServiceProvider
                 'permission' =>  'administer-site'
             ]);
         });
-        foreach ($settings->all() as $setting){
-            $finset[$setting->setting_key]=$setting->setting_value;
+        $finset=array();
+        if (Schema::hasTable('settings')){
+            foreach ($settings->all() as $setting){
+                $finset[$setting->setting_key]=$setting->setting_value;
+            }
         }
         view()->share('setting', $finset);
         Form::component('bsText', 'base::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
@@ -174,84 +178,84 @@ class BaseServiceProvider extends ServiceProvider
             'bishopm\base\Repositories\ActionsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\ActionsRepository(new \bishopm\base\Models\Action());
-                return $repository; 
+                return $repository;
             }
         );
         $this->app->bind(
             'bishopm\base\Repositories\FoldersRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\FoldersRepository(new \bishopm\base\Models\Folder());
-                return $repository; 
+                return $repository;
             }
         );
         $this->app->bind(
             'bishopm\base\Repositories\GroupsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\GroupsRepository(new \bishopm\base\Models\Group());
-                return $repository; 
+                return $repository;
             }
         );
         $this->app->bind(
             'bishopm\base\Repositories\HouseholdsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\HouseholdsRepository(new \bishopm\base\Models\Household());
-                return $repository; 
+                return $repository;
             }
         );
         $this->app->bind(
             'bishopm\base\Repositories\IndividualsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\IndividualsRepository(new \bishopm\base\Models\Individual());
-                return $repository; 
+                return $repository;
             }
         );
         $this->app->bind(
             'bishopm\base\Repositories\PastoralsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\PastoralsRepository(new \bishopm\base\Models\Pastoral());
-                return $repository; 
+                return $repository;
             }
         );
         $this->app->bind(
             'bishopm\base\Repositories\PermissionsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\PermissionsRepository(new \bishopm\base\Models\Permission());
-                return $repository; 
+                return $repository;
             }
         );
         $this->app->bind(
             'bishopm\base\Repositories\ProjectsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\ProjectsRepository(new \bishopm\base\Models\Project());
-                return $repository; 
+                return $repository;
             }
         );
         $this->app->bind(
             'bishopm\base\Repositories\RolesRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\RolesRepository(new \bishopm\base\Models\Role());
-                return $repository; 
+                return $repository;
             }
-        );        
+        );
         $this->app->bind(
             'bishopm\base\Repositories\SettingsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\SettingsRepository(new \bishopm\base\Models\Setting());
-                return $repository; 
+                return $repository;
             }
         );
         $this->app->bind(
             'bishopm\base\Repositories\SpecialdaysRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\SpecialdaysRepository(new \bishopm\base\Models\Specialday());
-                return $repository; 
+                return $repository;
             }
         );
         $this->app->bind(
             'bishopm\base\Repositories\UsersRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\UsersRepository(new \bishopm\base\Models\User());
-                return $repository; 
+                return $repository;
             }
         );
     }

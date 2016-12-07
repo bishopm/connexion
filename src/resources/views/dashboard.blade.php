@@ -11,7 +11,12 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Home</div>
                     <div class="panel-body">
-                        Logged in to {{$setting['site_name']}} as <b>{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</b>
+                        Welcome, 
+                        @if (isset($currentUser->individual))
+                            <b>{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</b>
+                        @else
+                            <b>{{$currentUser->name}}</b>
+                        @endif
                     </div>
                 </div>
             </div>

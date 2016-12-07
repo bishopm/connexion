@@ -8,7 +8,7 @@
     {!! Form::open(['route' => ['admin.households.store'], 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-6">
-            <div class="box box-primary"> 
+            <div class="box box-primary">
                 <div class="box-body">
                     @include('base::households.partials.create-fields')
                 </div>
@@ -18,8 +18,18 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div id="map_canvas" style="height:350px;">
-            </div>
+            @if (!isset($setting['google_api']))
+                Administrator, please set the <a href="{{url('/')}}/admin/settings">Google API setting</a><br><br>
+                <?php $setting['google_api']=0;?>
+            @else
+                <div id="map_canvas" style="height:350px;">
+                </div>
+            @endif
+            @if (!isset($setting['home_latitude']))
+                <?php $setting['home_latitude']=0;
+                $setting['home_longitude']=0;?>
+                Administrator, please set the <a href="{{url('/')}}/admin/settings">Home latitude and longitude settings</a><br><br>
+            @endif
             {{ Form::bsText('latitude','Latitude','Latitude',$setting['home_latitude']) }}
             {{ Form::bsText('longitude','Longitude','Longitude',$setting['home_longitude']) }}
             {{ Form::bsText('sortsurname','Sort by (Household Surname)','Sort by (Household Surname)') }}
