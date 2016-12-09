@@ -23,7 +23,7 @@ class BaseServiceProvider extends ServiceProvider
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/routes.php';
         }
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'base');
+        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'base');
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
         config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
@@ -137,6 +137,7 @@ class BaseServiceProvider extends ServiceProvider
         Form::component('pgButtons', 'base::components.pgButtons', ['actionLabel', 'cancelRoute']);
         Form::component('bsFile', 'base::components.file', ['name', 'attributes' => []]);
         config(['adminlte.title' => 'Umhlali Methodist Church']);
+        config(['adminlte.dashboard_url' => 'admin']);
         config(['adminlte.logo' => '<b>Umhlali</b>Methodist']);
         config(['adminlte.logo_mini' => '<b>U</b>MC']);
         config(['adminlte.layout' => 'fixed']);

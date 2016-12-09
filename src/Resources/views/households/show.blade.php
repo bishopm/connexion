@@ -13,7 +13,7 @@
 @section('content')
     <div class="row">
       <div class="col-md-6">
-        <div class="box box-primary"> 
+        <div class="box box-primary">
           <div class="box-header">
             <div class="row">
               <div class="col-md-6">
@@ -34,8 +34,12 @@
               <div class="col-md-6">
                 {{Form::bsHidden('latitude',$household->latitude)}}
                 {{Form::bsHidden('longitude',$household->longitude)}}
-                <div id="map_canvas" style="height:200px;">
-                </div>
+                @if (isset($setting['google_api']))
+                    <div id="map_canvas" style="height:200px;">
+                    </div>
+                @else
+                    Google maps has not been set up by your administrator
+                @endif
               </div>
             </div>
             <div class="row">
@@ -44,7 +48,7 @@
               </div>
             </div>
             @if (count($household->individuals))
-              <div class="nav-tabs">
+              <div class="nav-tabs-custom well">
                 <ul id="myTab" class="nav nav-tabs">
                   @foreach ($household->individuals as $key=>$individual)
                     <li<?php if ($key==0) print " class=\"active\"";?>>
@@ -58,73 +62,77 @@
                 <div id="myTabContent" class="tab-content">
                   @foreach ($household->individuals as $key=>$individual)
                     <div class="tab-pane<?php if ($key==0) print " active";?>" id="k{{ $individual->id }}">
-                      <div class="box-default">
-                        <div class="box-body">
-                          <div class="row">
-                            <div class="col-md-12">
-                              @if ($individual->sex=="male")
-                                <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-male"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b></span></i></a>
-                              @elseif ($individual->sex=="female")
-                                <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-female"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b></span></i></a>
-                              @endif
-                            </div>
-                            <div class="col-md-6">
-                              <div title="Cellphone"><i class="fa fa-fw fa-mobile"></i>{{$individual->cellphone}}</div>
-                              <div title="Office phone"><i class="fa fa-fw fa-phone-square"></i>{{$individual->officephone}}</div>
-                              <div title="Email"><i class="fa fa-fw fa-envelope-o"></i>{{$individual->email}}</div>
-                              <div title="Membership status"><i class="fa fa-fw fa-street-view"></i>{{$individual->memberstatus}}</div>
-                              <div title="Notes"><i class="fa fa-fw fa-pencil-square-o"></i>{!! $individual->notes !!}</div>
-                            </div>                      
-                            <div class="col-md-6">
-                              @if ($individual->getMedia('image')->first())
-                                {{ Form::bsThumbnail($individual->getMedia('image')->first()->getUrl(),120) }}
-                              @endif
-                            </div>
-                          </div>
-                          <hr>
-                          <div class="nav-tabs-custom">
-                            <ul id="myGroupTab" class="nav nav-tabs">
-                              <li class="active">
-                                <a href="#g0_{{$individual->id}}" data-toggle="tab">Groups</a>
-                              </li>
-                              <li>
-                                <a href="#g1_{{$individual->id}}" data-toggle="tab">Group History</a>
-                              </li>
-                              <li>
-                                <a href="#g2_{{$individual->id}}" data-toggle="tab">Tags</a>
-                              </li>
-                            </ul>
-                            <div id="myGroupTabContent" class="tab-content">
-                              <div class="tab-pane active" id="g0_{{$individual->id}}">  
-                                <select class="input-groups" multiple>
-                                  @foreach ($individual->groups as $group)
-                                    <option selected value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
-                                  @endforeach
-                                  @foreach ($groups as $group)
-                                    <option value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
-                                  @endforeach
-                                </select>
-                              </div>
-                              <div class="tab-pane" id="g1_{{$individual->id}}">
-                                <div class="box-default">
-                                  <div class="box-body">
-                                    @foreach ($individual->pastgroups as $group)
-                                      {{$group->groupname}}
-                                    @endforeach
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="tab-pane" id="g2_{{$individual->id}}">
-                                <div class="box-default">
-                                  <div class="box-body">
-                                    Tags go here
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>  <!-- Nav-tabs-custom -->
+                      <div class="row">
+                        <div class="col-md-12">
+                          @if ($individual->sex=="male")
+                            <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-male"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b></span></i></a>
+                          @elseif ($individual->sex=="female")
+                            <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-female"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b></span></i></a>
+                          @endif
+                        </div>
+                        <div class="col-md-6">
+                          <div title="Cellphone"><i class="fa fa-fw fa-mobile"></i>{{$individual->cellphone}}</div>
+                          <div title="Office phone"><i class="fa fa-fw fa-phone-square"></i>{{$individual->officephone}}</div>
+                          <div title="Email"><i class="fa fa-fw fa-envelope-o"></i>{{$individual->email}}</div>
+                          <div title="Membership status"><i class="fa fa-fw fa-street-view"></i>{{$individual->memberstatus}}</div>
+                          <div title="Notes"><i class="fa fa-fw fa-pencil-square-o"></i>{!! $individual->notes !!}</div>
+                        </div>
+                        <div class="col-md-6">
+                          @if ($individual->getMedia('image')->first())
+                            {{ Form::bsThumbnail($individual->getMedia('image')->first()->getUrl(),120) }}
+                          @endif
                         </div>
                       </div>
+                      <hr>
+                      <div class="nav-tabs">
+                        <ul id="myGroupTab" class="nav nav-pills">
+                          <li class="active">
+                            <a href="#g0_{{$individual->id}}" data-toggle="tab">Groups</a>
+                          </li>
+                          <li>
+                            <a href="#g1_{{$individual->id}}" data-toggle="tab">Group History</a>
+                          </li>
+                          <li>
+                            <a href="#g2_{{$individual->id}}" data-toggle="tab">Tags</a>
+                          </li>
+                        </ul>
+                        <div id="myGroupTabContent" class="tab-content">
+                          <div class="tab-pane active" id="g0_{{$individual->id}}">
+                            <div class="box-default">
+                                <div class="box-body">
+                                    <h5>{{$individual->firstname}} is currently a member of the following groups:</h5>
+                                    <select class="input-groups" multiple>
+                                      @foreach ($individual->groups as $group)
+                                        <option selected value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
+                                      @endforeach
+                                      @foreach ($groups as $group)
+                                        <option value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
+                                      @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="g1_{{$individual->id}}">
+                            <div class="box-default">
+                              <div class="box-body">
+                                @foreach ($individual->pastgroups as $group)
+                                  {{$group->groupname}}
+                                @endforeach
+                              </div>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="g2_{{$individual->id}}">
+                            <div class="box-default">
+                              <div class="box-body">
+                                  <h5>Tags usually refer to specific roles (eg: preacher, staff member)</h5>
+                                  <select class="input-tags" multiple>
+
+                                  </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>  <!-- Nav-tabs-custom -->
                     </div>
                   @endforeach
                 </div> <!-- Tab content -->
@@ -253,14 +261,16 @@
 @stop
 
 @section('js')
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
-  <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
-  <script src="{{url('/')}}/js/gmap.js" type="text/javascript"></script>
-  <script src="{{ asset('vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('vendor/bishopm/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('vendor/bishopm/js/jquery.bootgrid.min.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('vendor/bishopm/js/jquery.bootgrid.fa.min.js') }}" type="text/javascript"></script>
-  <script type="text/javascript">
+    @if (isset($setting['google_api']))
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
+    @endif
+    <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script src="{{url('/')}}/js/gmap.js" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/js/jquery.bootgrid.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/js/jquery.bootgrid.fa.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
@@ -272,6 +282,7 @@
           openOnFocus: 0,
           maxOptions: 30,
           onItemAdd: function(value,$item) {
+              alert(value);
             $.ajax({ url: "{{url('/')}}/admin/individuals/addgroup/" + value })
           },
           onItemRemove: function(value,$item) {
@@ -283,13 +294,24 @@
           openOnFocus: 0,
           maxOptions: 30,
           dropdownParent: "body",
+          create:function (input, callback){
+            $.ajax({
+              url: "{{url('/')}}/admin/individuals/addtag/" + input,
+              type: 'GET',
+              success: function (result) {
+                  if (result) {
+                      callback({ id: result.id, text: input });
+                  }
+              }
+            })
+          },
           onItemAdd: function(value,$item) {
-            $.ajax({ url: "{{url('/')}}/admin/individuals/addgroup/" + value })
+            $.ajax({ url: "{{url('/')}}/admin/individuals/addtag/" + value })
           },
           onItemRemove: function(value,$item) {
-            $.ajax({ url: "{{url('/')}}/admin/individuals/removegroup/" + value })
+            $.ajax({ url: "{{url('/')}}/admin/individuals/removetag/" + value })
           }
-        });        
+        });
         google.maps.event.addDomListener(window, 'load', initialize(16));
         $("#pastoraltable").bootgrid({
           ajaxSettings: {

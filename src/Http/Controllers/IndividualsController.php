@@ -61,7 +61,7 @@ class IndividualsController extends Controller {
         return redirect()->route('admin.households.show',$request->household_id)
             ->withSuccess('New individual added');
     }
-	
+
     public function update($household, Individual $individual, UpdateIndividualRequest $request)
     {
         $this->individual->update($individual, $request->except('image'));
@@ -95,6 +95,16 @@ class IndividualsController extends Controller {
     public function removegroup($member, $group)
     {
         DB::table('group_individual')->where('group_id', $group)->where('individual_id', $member)->update(array('deleted_at' => DB::raw('NOW()')));
+    }
+
+    public function addtag($member, $tag)
+    {
+        dd($member,$tag);
+    }
+
+    public function removetag($member, $tag)
+    {
+
     }
 
 }

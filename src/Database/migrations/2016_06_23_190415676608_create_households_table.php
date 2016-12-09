@@ -15,7 +15,7 @@ class CreateHouseholdsTable extends Migration
 		Schema::create('households', function(Blueprint $table) {
 			$table->engine = 'InnoDB';
             $table->increments('id');
-						$table->string('addressee');
+			$table->string('addressee');
             $table->string('sortsurname');
             $table->string('addr1');
             $table->string('addr2');
