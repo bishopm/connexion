@@ -38,6 +38,11 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-12">
+                &nbsp;
+              </div>
+            </div>
             @if (count($household->individuals))
               <div class="nav-tabs">
                 <ul id="myTab" class="nav nav-tabs">
@@ -56,26 +61,27 @@
                       <div class="box-default">
                         <div class="box-body">
                           <div class="row">
+                            <div class="col-md-12">
+                              @if ($individual->sex=="male")
+                                <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-male"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b></span></i></a>
+                              @elseif ($individual->sex=="female")
+                                <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-female"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b></span></i></a>
+                              @endif
+                            </div>
                             <div class="col-md-6">
-                              <div>
-                                @if ($individual->sex=="male")
-                                  <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-male"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b></span></i></a>
-                                @elseif ($individual->sex=="female")
-                                  <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-female"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b></span></i></a>
-                                @endif
-                              </div>
                               <div title="Cellphone"><i class="fa fa-fw fa-mobile"></i>{{$individual->cellphone}}</div>
                               <div title="Office phone"><i class="fa fa-fw fa-phone-square"></i>{{$individual->officephone}}</div>
                               <div title="Email"><i class="fa fa-fw fa-envelope-o"></i>{{$individual->email}}</div>
                               <div title="Membership status"><i class="fa fa-fw fa-street-view"></i>{{$individual->memberstatus}}</div>
-                              {!! $individual->notes !!}
-                            </div>
+                              <div title="Notes"><i class="fa fa-fw fa-pencil-square-o"></i>{!! $individual->notes !!}</div>
+                            </div>                      
                             <div class="col-md-6">
                               @if ($individual->getMedia('image')->first())
                                 {{ Form::bsThumbnail($individual->getMedia('image')->first()->getUrl(),120) }}
                               @endif
                             </div>
                           </div>
+                          <hr>
                           <div class="nav-tabs-custom">
                             <ul id="myGroupTab" class="nav nav-tabs">
                               <li class="active">
@@ -84,21 +90,20 @@
                               <li>
                                 <a href="#g1_{{$individual->id}}" data-toggle="tab">Group History</a>
                               </li>
+                              <li>
+                                <a href="#g2_{{$individual->id}}" data-toggle="tab">Tags</a>
+                              </li>
                             </ul>
                             <div id="myGroupTabContent" class="tab-content">
-                              <div class="tab-pane active" id="g0_{{$individual->id}}">
-                                <div class="box-default">
-                                  <div class="box-body">
-                                    <select class="input-groups" multiple>
-                                      @foreach ($individual->groups as $group)
-                                        <option selected value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
-                                      @endforeach
-                                      @foreach ($groups as $group)
-                                        <option value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
-                                      @endforeach
-                                    </select>
-                                  </div>
-                                </div>
+                              <div class="tab-pane active" id="g0_{{$individual->id}}">  
+                                <select class="input-groups" multiple>
+                                  @foreach ($individual->groups as $group)
+                                    <option selected value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
+                                  @endforeach
+                                  @foreach ($groups as $group)
+                                    <option value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
+                                  @endforeach
+                                </select>
                               </div>
                               <div class="tab-pane" id="g1_{{$individual->id}}">
                                 <div class="box-default">
@@ -109,8 +114,15 @@
                                   </div>
                                 </div>
                               </div>
+                              <div class="tab-pane" id="g2_{{$individual->id}}">
+                                <div class="box-default">
+                                  <div class="box-body">
+                                    Tags go here
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                          </div> <!-- Nav-tabs-custom -->
+                          </div>  <!-- Nav-tabs-custom -->
                         </div>
                       </div>
                     </div>
@@ -266,6 +278,18 @@
             $.ajax({ url: "{{url('/')}}/admin/individuals/removegroup/" + value })
           }
         });
+        $('.input-tags').selectize({
+          plugins: ['remove_button'],
+          openOnFocus: 0,
+          maxOptions: 30,
+          dropdownParent: "body",
+          onItemAdd: function(value,$item) {
+            $.ajax({ url: "{{url('/')}}/admin/individuals/addgroup/" + value })
+          },
+          onItemRemove: function(value,$item) {
+            $.ajax({ url: "{{url('/')}}/admin/individuals/removegroup/" + value })
+          }
+        });        
         google.maps.event.addDomListener(window, 'load', initialize(16));
         $("#pastoraltable").bootgrid({
           ajaxSettings: {
