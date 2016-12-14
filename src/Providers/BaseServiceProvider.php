@@ -81,8 +81,14 @@ class BaseServiceProvider extends ServiceProvider
             $event->menu->add([
                 'text' => 'Blog',
                 'url' => 'admin/blog',
-                'icon' => 'file',
+                'icon' => 'pencil-square-o',
                 'permission' =>  'read-content'
+            ],
+            [
+                'text' => 'Pages',
+                'url' => 'admin/pages',
+                'icon' => 'file',
+                'permission' =>  'administer-site'
             ]);
             $event->menu->add([
                 'header' => 'SETTINGS',
@@ -207,6 +213,13 @@ class BaseServiceProvider extends ServiceProvider
             'bishopm\base\Repositories\IndividualsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\IndividualsRepository(new \bishopm\base\Models\Individual());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\PagesRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\PagesRepository(new \bishopm\base\Models\Page());
                 return $repository;
             }
         );

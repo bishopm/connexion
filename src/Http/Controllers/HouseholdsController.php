@@ -6,6 +6,7 @@ use bishopm\base\Repositories\HouseholdsRepository;
 use bishopm\base\Repositories\GroupsRepository;
 use bishopm\base\Models\Household;
 use App\Http\Controllers\Controller;
+use Spatie\Tags\Tag;
 use bishopm\base\Http\Requests\CreateHouseholdRequest;
 use bishopm\base\Http\Requests\UpdateHouseholdRequest;
 
@@ -46,6 +47,14 @@ class HouseholdsController extends Controller {
         $data['pastors'][0]=['id'=>1,'firstname'=>'Michael','surname'=>'Bishop'];
         $data['groups']=$this->groups->all();
         $data['household']=$household;
+        $data['tags']=Tag::where('type','=','individual')->get();
+        foreach ($household->individuals as $indiv){
+            if ($indiv->tags){
+                foreach ($indiv->tags as $itag){
+                    $data['itags'][$indiv->id][]=$itag->id;
+                }
+            }
+        }
         return view('base::households.show',$data);
 	}
 

@@ -63,9 +63,18 @@ Route::group(['middleware' => ['web','authadmin','role:editor|admin']], function
     Route::delete('admin/households/{household}/individuals/{individual}',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@destroy','as'=>'admin.individuals.destroy']);
     Route::get('admin/individuals/addgroup/{member}/{group}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@addgroup','as' => 'admin.individuals.addgroup']);
     Route::get('admin/individuals/removegroup/{member}/{group}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@removegroup','as' => 'admin.individuals.removegroup']);
-    Route::get('admin/individuals/{member}/addtag/{tag}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@addtag','as' => 'admin.individuals.addtag']);
-    Route::get('admin/individuals/{member}/removetag/{tag}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@removetag','as' => 'admin.individuals.removetag']);
+    Route::get('admin/individuals/addtag/{member}/{tag}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@addtag','as' => 'admin.individuals.addtag']);
+    Route::get('admin/individuals/removetag/{member}/{tag}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@removetag','as' => 'admin.individuals.removetag']);
 	Route::get('admin/individuals/{individual}/removemedia',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@removemedia','as'=>'admin.individuals.removemedia']);
+
+	// Pages
+	Route::get('admin/pages',['uses'=>'bishopm\base\Http\Controllers\PagesController@index','as'=>'admin.pages.index']);
+	Route::get('admin/pages/create',['uses'=>'bishopm\base\Http\Controllers\PagesController@create','as'=>'admin.pages.create']);
+	Route::get('admin/pages/{page}',['uses'=>'bishopm\base\Http\Controllers\PagesController@show','as'=>'admin.pages.show']);
+	Route::get('admin/pages/{page}/edit',['uses'=>'bishopm\base\Http\Controllers\PagesController@edit','as'=>'admin.pages.edit']);
+	Route::put('admin/pages/{page}',['uses'=>'bishopm\base\Http\Controllers\PagesController@update','as'=>'admin.pages.update']);
+	Route::post('admin/pages',['uses'=>'bishopm\base\Http\Controllers\PagesController@store','as'=>'admin.pages.store']);
+    Route::delete('admin/pages/{page}',['uses'=>'bishopm\base\Http\Controllers\PagesController@destroy','as'=>'admin.pages.destroy']);
 
 	// Pastorals
     Route::get('admin/households/{household}/pastorals', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@index','as' => 'admin.pastorals.index']);
@@ -90,7 +99,6 @@ Route::group(['middleware' => ['web','authadmin','role:editor|admin']], function
 	Route::put('admin/projects/{project}',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@update','as'=>'admin.projects.update']);
 	Route::post('admin/projects',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@store','as'=>'admin.projects.store']);
     Route::delete('admin/projects/{project}',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@destroy','as'=>'admin.projects.destroy']);
-
 
 	// Roles
 	Route::get('admin/roles',['uses'=>'bishopm\base\Http\Controllers\RolesController@index','as'=>'admin.roles.index']);

@@ -126,7 +126,13 @@
                               <div class="box-body">
                                   <h5>Tags usually refer to specific roles (eg: preacher, staff member)</h5>
                                   <select class="input-tags" multiple>
-
+                                    @foreach ($tags as $tag)
+                                      @if ((count($individual->tags)) and (in_array($tag->id,$itags[$individual->id])))
+                                        <option selected value="{{$individual->id}}/{{$tag->id}}">{{$tag->name}}</option>
+                                      @else
+                                        <option value="{{$individual->id}}/{{$tag->id}}">{{$tag->name}}</option>
+                                      @endif
+                                    @endforeach
                                   </select>
                               </div>
                             </div>
@@ -296,12 +302,12 @@
           dropdownParent: "body",
           create:function (input, callback){
             $.ajax({
-              url: "{{url('/')}}/admin/individuals/addtag/" + input,
-              type: 'GET',
+              url: "{{url('/')}}/admin/individuals/addtag/individual/" + input,
+              type: "GET",
               success: function (result) {
-                  if (result) {
-                      callback({ id: result.id, text: input });
-                  }
+                if (result) {
+                  callback({ id: result.id, text: input });
+                }
               }
             })
           },
