@@ -28,6 +28,8 @@ class InstallConnexionCommand extends Command
             $this->info('Creating new administrative user...');
             $newuser->save();          
             $this->seeder();
+            $this->call('cache:clear');
+            // Must still add symlink for photos and publish frontend assets 
         }
     }
 

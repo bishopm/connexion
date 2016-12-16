@@ -15,11 +15,13 @@ class AddColumnsToUsers extends Migration
     {
         Schema::table('users', function($table) {
             $table->dropColumn('password');
-            $table->string('password')->nullable();
             $table->integer('individual_id')->nullable();
             $table->string('toodledo_id')->nullable();
             $table->string('toodledo_token')->nullable();
             $table->string('toodledo_refresh')->nullable();
+        });
+        Schema::table('users', function($table) {
+            $table->string('password')->nullable();
         });
     }
 
