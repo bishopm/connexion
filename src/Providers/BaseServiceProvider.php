@@ -13,6 +13,11 @@ use bishopm\base\Repositories\SettingsRepository;
 
 class BaseServiceProvider extends ServiceProvider
 {
+
+    protected $commands = [
+        'bishopm\base\Console\InstallConnexionCommand'
+    ];
+
     /**
      * Perform post-registration booting of services.
      *
@@ -162,6 +167,7 @@ class BaseServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->commands($this->commands);
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
