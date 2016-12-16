@@ -3,6 +3,7 @@
 namespace bishopm\base\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 use bishopm\base\Models\User;
 
 class InstallConnexionCommand extends Command
@@ -16,10 +17,13 @@ class InstallConnexionCommand extends Command
         if (count($users)){
             $this->info('This command may only be run on a blank installation. Exiting ...');
         } else {
-            $this->ask('Enter name of administrative user');
-            $this->ask('Enter user email address');
-            $this->secret('Enter user password');
+            $newuser=New User;
+            $newuser->name=$this->ask('Enter name of administrative user');
+            $newuser->email=$this->ask('Enter user email address');
+            $newuser->password=Hash::make($this->secret('Enter user password'));
+            $this->call('migrate');
             $this->info('Creating new administrative user...');
+            $newuser->save();          
         }
     }
 }
