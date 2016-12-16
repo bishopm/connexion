@@ -15,6 +15,7 @@ class InstallConnexionCommand extends Command
     public function handle()
     {
         $this->info('Setting up database tables');
+        $this->call('vendor:publish');
         $this->call('migrate');
         $users=User::all();
         if (count($users)){
@@ -27,70 +28,57 @@ class InstallConnexionCommand extends Command
             $this->info('Creating new administrative user...');
             $newuser->save();          
             $this->seeder();
-            $this->call('vendor:publish');
         }
     }
 
     protected function seeder()
     {
-        /*DB::table('roles')->insert([
-            'name' => 'admin',
-            'display_name' => 'Administrator',
-            'description' => 'Site administrator with full access to all functions'
+        DB::table('roles')->insert([
+            'name' => 'admin'
         ]);
         DB::table('roles')->insert([
-            'name' => 'editor',
-            'display_name' => 'Editor',
-            'description' => 'Site editor with ability to change data, but not access administrative functions'
+            'name' => 'editor'
         ]);
         DB::table('roles')->insert([
-            'name' => 'backend',
-            'display_name' => 'Backend',
-            'description' => 'Backend user with limited powers to change data and no administrative rights'
+            'name' => 'backend'
         ]);
         DB::table('permissions')->insert([
-            'name' => 'adminminister-site',
-            'display_name' => 'Administer site',
-            'description' => 'Use administration functions'
+            'name' => 'administer-site'
         ]);
         DB::table('permissions')->insert([
-            'name' => 'read-content',
-            'display_name' => 'Read content',
-            'description' => 'View non-administrative content'
+            'name' => 'read-content'
         ]);
         DB::table('permissions')->insert([
-            'name' => 'edit-content',
-            'display_name' => 'Edit content',
-            'description' => 'Edit non-administrative content'
+            'name' => 'edit-content'
         ]);
-        DB::table('permission_role')->insert([
+        DB::table('role_has_permissions')->insert([
             'role_id' => '1',
             'permission_id' => '1'
         ]);
-        DB::table('permission_role')->insert([
+        DB::table('role_has_permissions')->insert([
             'role_id' => '1',
             'permission_id' => '2'
         ]);
-        DB::table('permission_role')->insert([
+        DB::table('role_has_permissions')->insert([
             'role_id' => '1',
             'permission_id' => '3'
         ]);
-        DB::table('permission_role')->insert([
+        DB::table('role_has_permissions')->insert([
             'role_id' => '2',
             'permission_id' => '2'
         ]);
-        DB::table('permission_role')->insert([
+        DB::table('role_has_permissions')->insert([
             'role_id' => '2',
             'permission_id' => '3'
         ]);
-        DB::table('permission_role')->insert([
+        DB::table('role_has_permissions')->insert([
             'role_id' => '3',
             'permission_id' => '3'
         ]);
-        DB::table('role_user')->insert([
+        DB::table('user_has_roles')->insert([
             'role_id' => '1',
             'user_id' => '1'
-        ]);*/
+        ]);
         DB::table('settings')->insert([
             'setting_key' => 'google_api',
             'setting_value' => '',

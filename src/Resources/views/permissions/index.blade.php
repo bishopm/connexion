@@ -16,23 +16,17 @@
                             <thead>
                                 <tr>
                                     <th>Permission</th>
-                                    <th>Display name</th>
-                                    <th>Description</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Permission</th>
-                                    <th>Display name</th>
-                                    <th>Description</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @forelse ($permissions as $permission)
                                     <tr>
                                         <td><a href="{{route('admin.permissions.edit',$permission->id)}}">{{$permission->name}}</a></td>
-                                        <td><a href="{{route('admin.permissions.edit',$permission->id)}}">{{$permission->display_name}}</a></td>
-                                        <td><a href="{{route('admin.permissions.edit',$permission->id)}}">{{$permission->description}}</a></td>
                                     </tr>
                                 @empty
                                     <tr><td>No permissions have been added yet</td></tr>

@@ -4,14 +4,14 @@ namespace bishopm\base\Middleware;
 
 use JeroenNoten\LaravelAdminLte\Menu\Builder;
 use JeroenNoten\LaravelAdminLte\Menu\Filters\FilterInterface;
-use Laratrust;
+use Illuminate\Support\Facades\Auth;
 
 class MyMenuFilter implements FilterInterface
 {	
     public function transform($item, Builder $builder) {
-
-    	if (array_key_exists('permission', $item)) {
-	        if (!Laratrust::can($item['permission'])) {
+    	$user=Auth::user();
+    	if (array_key_exists('can', $item)) {
+	        if (!$user->can($item['can'])) {
 	            return false;
 	        } 
 	    } 

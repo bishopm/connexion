@@ -31,9 +31,9 @@
                         <select name="role_id" class="input-role">
                           @foreach ($roles as $role)
                             @if (in_array($role->id,$userroles))
-                                <option selected value="{{$role->id}}">{{$role->display_name}}</option>
+                                <option selected value="{{$role->id}}">{{$role->name}}</option>
                             @else
-                                <option value="{{$role->id}}">{{$role->display_name}}</option>
+                                <option value="{{$role->id}}">{{$role->name}}</option>
                             @endif
                           @endforeach
                         </select>

@@ -4,7 +4,7 @@ namespace bishopm\base\Http\Controllers;
 
 use bishopm\base\Repositories\RolesRepository;
 use bishopm\base\Repositories\PermissionsRepository;
-use bishopm\base\Models\Role;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateRoleRequest;
 use bishopm\base\Http\Requests\UpdateRoleRequest;

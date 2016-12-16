@@ -4,7 +4,7 @@ namespace bishopm\base\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
-use Form, Laratrust, Auth;
+use Form, Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -31,54 +31,52 @@ class BaseServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'base');
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
-        config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
-        config(['laratrust.role'=>'bishopm\base\Models\Role']);
-        config(['laratrust.permission'=>'bishopm\base\Models\Permission']);
         config(['laravel-medialibrary.defaultFilesystem'=>'public']);
+        config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
             $event->menu->add('CHURCH ADMIN');
             $event->menu->add([
                 'text' => 'Congregation',
                 'icon' => 'book',
-                'permission' => 'read-content',
+                'can' => 'read-content',
                 'submenu' => [
                     [
                         'text' => 'Members',
                         'url'  => 'admin/households',
                         'icon' => 'child',
-                        'permission' =>  'read-content'
+                        'can' =>  'read-content'
                     ],
                     [
                         'text' => 'Groups',
                         'url'  => 'admin/groups',
                         'icon' => 'users',
-                        'permission' =>  'read-content'
+                        'can' =>  'read-content'
                     ]
                 ]
             ]);
             $event->menu->add([
                 'text' => 'Todo',
                 'icon' => 'list-ol',
-                'permission' => 'read-content',
+                'can' => 'read-content',
                 'submenu' => [
                     [
                         'text' => 'Tasks',
                         'url'  => 'admin/actions',
                         'icon' => 'check-square-o',
-                        'permission' =>  'read-content'
+                        'can' =>  'read-content'
                     ],
                     [
                         'text' => 'Folders',
                         'url'  => 'admin/folders',
                         'icon' => 'folder-open-o',
-                        'permission' =>  'administer-site'
+                        'can' =>  'administer-site'
                     ],
                     [
                         'text' => 'Projects',
                         'url'  => 'admin/projects',
                         'icon' => 'tasks',
-                        'permission' =>  'read-content'
+                        'can' =>  'read-content'
                     ]
                 ]
             ]);
@@ -87,40 +85,40 @@ class BaseServiceProvider extends ServiceProvider
                 'text' => 'Blog',
                 'url' => 'admin/blog',
                 'icon' => 'pencil-square-o',
-                'permission' =>  'read-content'
+                'can' =>  'read-content'
             ],
             [
                 'text' => 'Pages',
                 'url' => 'admin/pages',
                 'icon' => 'file',
-                'permission' =>  'administer-site'
+                'can' =>  'administer-site'
             ]);
             $event->menu->add([
                 'header' => 'SETTINGS',
-                'permission' => 'administer-site'
+                'can' => 'administer-site'
             ]);
             $event->menu->add([
                 'text' => 'User access',
                 'icon' => 'user',
-                'permission' =>  'administer-site',
+                'can' =>  'administer-site',
                 'submenu' => [
                     [
                         'text' => 'Permissions',
                         'url'  => 'admin/permissions',
                         'icon' => 'users',
-                        'permission' =>  'administer-site'
+                        'can' =>  'administer-site'
                     ],
                     [
                         'text' => 'Roles',
                         'url'  => 'admin/roles',
                         'icon' => 'user',
-                        'permission' =>  'administer-site'
+                        'can' =>  'administer-site'
                     ],
                     [
                         'text' => 'Users',
                         'url' => 'admin/users',
                         'icon' => 'user',
-                        'permission' =>  'administer-site'
+                        'can' =>  'administer-site'
                     ]
                 ]
             ]);
@@ -128,7 +126,7 @@ class BaseServiceProvider extends ServiceProvider
                 'text' => 'System settings',
                 'url' => 'admin/settings',
                 'icon' => 'cog',
-                'permission' =>  'administer-site'
+                'can' =>  'administer-site'
             ]);
         });
         $finset=array();
@@ -171,17 +169,13 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
-        $this->app->register('Laratrust\LaratrustServiceProvider');
+        $this->app->register('Spatie\Permission\PermissionServiceProvider');
         $this->app->register('Spatie\Tags\TagsServiceProvider');
         $this->app->register('Plank\Mediable\MediableServiceProvider');
-        AliasLoader::getInstance()->alias("Laratrust",'Laratrust\LaratrustFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');
-        $this->app['router']->middleware('authadmin', 'bishopm\base\Middleware\AdminMiddleware');
-        $this->app['router']->middleware('role','Laratrust\Middleware\LaratrustRole');
-        $this->app['router']->middleware('permission','Laratrust\Middleware\LaratrustPermission');
-        $this->app['router']->middleware('ability','Laratrust\Middleware\LaratrustAbility');
+        $this->app['router']->middleware('role', 'bishopm\base\Middleware\RoleMiddleware');
         $this->registerBindings();
     }
 
@@ -239,7 +233,7 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->bind(
             'bishopm\base\Repositories\PermissionsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\PermissionsRepository(new \bishopm\base\Models\Permission());
+                $repository = new \bishopm\base\Repositories\PermissionsRepository(new \Spatie\Permission\Models\Permission());
                 return $repository;
             }
         );
@@ -253,7 +247,7 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->bind(
             'bishopm\base\Repositories\RolesRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\RolesRepository(new \bishopm\base\Models\Role());
+                $repository = new \bishopm\base\Repositories\RolesRepository(new \Spatie\Permission\Models\Role());
                 return $repository;
             }
         );

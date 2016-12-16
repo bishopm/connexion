@@ -16,23 +16,17 @@
                             <thead>
                                 <tr>
                                     <th>Role</th>
-                                    <th>Display name</th>
-                                    <th>Description</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Role</th>
-                                    <th>Display name</th>
-                                    <th>Description</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @forelse ($roles as $role)
                                     <tr>
                                         <td><a href="{{route('admin.roles.show',$role->id)}}">{{$role->name}}</a></td>
-                                        <td><a href="{{route('admin.roles.show',$role->id)}}">{{$role->display_name}}</a></td>
-                                        <td><a href="{{route('admin.roles.show',$role->id)}}">{{$role->description}}</a></td>
                                     </tr>
                                 @empty
                                     <tr><td>No roles have been added yet</td></tr>

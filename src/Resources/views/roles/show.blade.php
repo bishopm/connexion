@@ -4,13 +4,15 @@
   <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
+@section('content_header')
+    {{ Form::pgHeader('','Roles',route('admin.roles.index')) }}
+@stop
+
 @section('content')
-    {{ Form::pgHeader($role->addressee,'Roles',route('admin.roles.index')) }}
-    
     <div class="box box-primary"> 
       <div class="box-header">
         <div class="row">
-          <div class="col-md-6"><h4>{{$role->display_name}} <small>{{$role->description}}</small></h4></div>
+          <div class="col-md-6"><h4>Role: {{$role->name}}</h4></div>
           <div class="col-md-6">
             <a href="{{route('admin.roles.edit',$role->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit role</a>
           </div>
@@ -21,10 +23,10 @@
           <div class="col-md-12">
             <select class="input-roles" multiple>
               @foreach ($role->permissions as $pp)
-                <option selected value="{{$pp->id}}">{{$pp->display_name}}</option>
+                <option selected value="{{$pp->id}}">{{$pp->name}}</option>
               @endforeach
               @foreach ($permissions as $perm)
-                <option value="{{$perm->id}}">{{$perm->display_name}}</option>
+                <option value="{{$perm->id}}">{{$perm->name}}</option>
               @endforeach
             </select>
           </div>

@@ -14,6 +14,8 @@ class AddColumnsToUsers extends Migration
     public function up()
     {
         Schema::table('users', function($table) {
+            $table->dropColumn('password');
+            $table->string('password')->nullable();
             $table->integer('individual_id')->nullable();
             $table->string('toodledo_id')->nullable();
             $table->string('toodledo_token')->nullable();

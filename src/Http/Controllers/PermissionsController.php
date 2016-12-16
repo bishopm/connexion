@@ -3,7 +3,7 @@
 namespace bishopm\base\Http\Controllers;
 
 use bishopm\base\Repositories\PermissionsRepository;
-use bishopm\base\Models\Permission;
+use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreatePermissionRequest;
 use bishopm\base\Http\Requests\UpdatePermissionRequest;

@@ -8,7 +8,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@login','as'=>'login']);
 });
 
-Route::group(['middleware' => ['web','authadmin','role:editor|admin']], function () {
+Route::group(['middleware' => ['web','role:admin#editor#backend']], function () {
 
 	// Dashboard
 	Route::get('admin',['uses'=>'bishopm\base\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
@@ -82,15 +82,6 @@ Route::group(['middleware' => ['web','authadmin','role:editor|admin']], function
     Route::put('admin/households/{household}/pastorals', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@update','as' => 'admin.pastorals.update']);
     Route::delete('admin/households/{household}/pastorals/{pastoral}', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@destroy','as' => 'admin.pastorals.destroy']);
 
-	// Permissions
-	Route::get('admin/permissions',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@index','as'=>'admin.permissions.index']);
-	Route::get('admin/permissions/create',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@create','as'=>'admin.permissions.create']);
-	Route::get('admin/permissions/{permission}',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@show','as'=>'admin.permissions.show']);
-	Route::get('admin/permissions/{permission}/edit',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@edit','as'=>'admin.permissions.edit']);
-	Route::put('admin/permissions/{permission}',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@update','as'=>'admin.permissions.update']);
-	Route::post('admin/permissions',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@store','as'=>'admin.permissions.store']);
-    Route::delete('admin/permissions/{permission}',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@destroy','as'=>'admin.permissions.destroy']);
-
 	// Projects
 	Route::get('admin/projects',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@index','as'=>'admin.projects.index']);
 	Route::get('admin/projects/create',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@create','as'=>'admin.projects.create']);
@@ -100,16 +91,6 @@ Route::group(['middleware' => ['web','authadmin','role:editor|admin']], function
 	Route::post('admin/projects',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@store','as'=>'admin.projects.store']);
     Route::delete('admin/projects/{project}',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@destroy','as'=>'admin.projects.destroy']);
 
-	// Roles
-	Route::get('admin/roles',['uses'=>'bishopm\base\Http\Controllers\RolesController@index','as'=>'admin.roles.index']);
-	Route::get('admin/roles/create',['uses'=>'bishopm\base\Http\Controllers\RolesController@create','as'=>'admin.roles.create']);
-	Route::get('admin/roles/{role}',['uses'=>'bishopm\base\Http\Controllers\RolesController@show','as'=>'admin.roles.show']);
-	Route::get('admin/roles/{role}/edit',['uses'=>'bishopm\base\Http\Controllers\RolesController@edit','as'=>'admin.roles.edit']);
-	Route::put('admin/roles/{role}',['uses'=>'bishopm\base\Http\Controllers\RolesController@update','as'=>'admin.roles.update']);
-	Route::post('admin/roles',['uses'=>'bishopm\base\Http\Controllers\RolesController@store','as'=>'admin.roles.store']);
-    Route::delete('admin/roles/{role}',['uses'=>'bishopm\base\Http\Controllers\RolesController@destroy','as'=>'admin.roles.destroy']);
-    Route::get('admin/roles/{role}/addpermission/{permission}', ['uses' => 'bishopm\base\Http\Controllers\RolesController@addpermission','as' => 'admin.roles.addpermission']);
-    Route::get('admin/roles/{role}/removepermission/{permission}', ['uses' => 'bishopm\base\Http\Controllers\RolesController@removepermission','as' => 'admin.roles.removepermission']);
 
 	// Specialdays
     Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@index','as' => 'admin.specialdays.index']);
@@ -117,7 +98,28 @@ Route::group(['middleware' => ['web','authadmin','role:editor|admin']], function
     Route::put('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@update','as' => 'admin.specialdays.update']);
     Route::delete('admin/households/{household}/specialdays/{specialday}', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@destroy','as' => 'admin.specialdays.destroy']);
 
-    Route::group(['middleware' => ['role:admin']], function () {
+    Route::group(['middleware' => ['web','role:admin']], function () {
+
+		// Permissions
+		Route::get('admin/permissions',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@index','as'=>'admin.permissions.index']);
+		Route::get('admin/permissions/create',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@create','as'=>'admin.permissions.create']);
+		Route::get('admin/permissions/{permission}',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@show','as'=>'admin.permissions.show']);
+		Route::get('admin/permissions/{permission}/edit',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@edit','as'=>'admin.permissions.edit']);
+		Route::put('admin/permissions/{permission}',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@update','as'=>'admin.permissions.update']);
+		Route::post('admin/permissions',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@store','as'=>'admin.permissions.store']);
+	    Route::delete('admin/permissions/{permission}',['uses'=>'bishopm\base\Http\Controllers\PermissionsController@destroy','as'=>'admin.permissions.destroy']);
+
+		// Roles
+		Route::get('admin/roles',['uses'=>'bishopm\base\Http\Controllers\RolesController@index','as'=>'admin.roles.index']);
+		Route::get('admin/roles/create',['uses'=>'bishopm\base\Http\Controllers\RolesController@create','as'=>'admin.roles.create']);
+		Route::get('admin/roles/{role}',['uses'=>'bishopm\base\Http\Controllers\RolesController@show','as'=>'admin.roles.show']);
+		Route::get('admin/roles/{role}/edit',['uses'=>'bishopm\base\Http\Controllers\RolesController@edit','as'=>'admin.roles.edit']);
+		Route::put('admin/roles/{role}',['uses'=>'bishopm\base\Http\Controllers\RolesController@update','as'=>'admin.roles.update']);
+		Route::post('admin/roles',['uses'=>'bishopm\base\Http\Controllers\RolesController@store','as'=>'admin.roles.store']);
+	    Route::delete('admin/roles/{role}',['uses'=>'bishopm\base\Http\Controllers\RolesController@destroy','as'=>'admin.roles.destroy']);
+	    Route::get('admin/roles/{role}/addpermission/{permission}', ['uses' => 'bishopm\base\Http\Controllers\RolesController@addpermission','as' => 'admin.roles.addpermission']);
+	    Route::get('admin/roles/{role}/removepermission/{permission}', ['uses' => 'bishopm\base\Http\Controllers\RolesController@removepermission','as' => 'admin.roles.removepermission']);
+
 
 		// Settings
 		Route::get('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@index','as'=>'admin.settings.index']);
