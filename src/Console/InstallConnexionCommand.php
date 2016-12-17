@@ -28,8 +28,8 @@ class InstallConnexionCommand extends Command
             $this->info('Creating new administrative user...');
             $newuser->save();          
             $this->seeder();
+            $this->call('storage:link');
             $this->call('cache:clear');
-            // Must still add symlink for photos and publish frontend assets 
         }
     }
 
@@ -96,5 +96,20 @@ class InstallConnexionCommand extends Command
             'setting_value' => '',
             'category' => 'maps'
         ]);        
+        DB::table('settings')->insert([
+            'setting_key' => 'toodledo_clientid',
+            'setting_value' => '',
+            'category' => 'tasks'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'toodledo_secret',
+            'setting_value' => '',
+            'category' => 'tasks'
+        ]);                
+        DB::table('settings')->insert([
+            'setting_key' => 'toodledo_redirect_uri',
+            'setting_value' => '',
+            'category' => 'tasks'
+        ]);                
     }
 }
