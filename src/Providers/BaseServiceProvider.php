@@ -172,6 +172,8 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->register('Spatie\Permission\PermissionServiceProvider');
         $this->app->register('Spatie\Tags\TagsServiceProvider');
         $this->app->register('Plank\Mediable\MediableServiceProvider');
+        $this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
+        AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');

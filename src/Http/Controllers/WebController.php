@@ -5,6 +5,7 @@ namespace bishopm\base\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use bishopm\base\Repositories\PagesRepository;
+use Spatie\Menu\Laravel\Menu, Spatie\Menu\Laravel\Link;
 
 class WebController extends Controller
 {
@@ -28,6 +29,14 @@ class WebController extends Controller
 
     public function uri($slug)
     {
+        $menu=Menu::new()
+            ->add(Link::to('/', 'Home'))
+            ->submenu('More', Menu::new()
+                ->addClass('submenu')
+                ->link('/about', 'About')
+                ->link('/contact', 'Contact')
+            );
+        dd($menu);
         $page = $this->page->findBySlug($slug);
         $template = $page->template;
         return view('base::templates.' . $template, compact('page'));
