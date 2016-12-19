@@ -145,10 +145,10 @@ class BaseServiceProvider extends ServiceProvider
         Form::component('pgHeader', 'base::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
         Form::component('pgButtons', 'base::components.pgButtons', ['actionLabel', 'cancelRoute']);
         Form::component('bsFile', 'base::components.file', ['name', 'attributes' => []]);
-        config(['adminlte.title' => 'Umhlali Methodist Church']);
+        config(['adminlte.title' => $finset['site_name']]);
         config(['adminlte.dashboard_url' => 'admin']);
-        config(['adminlte.logo' => '<b>Umhlali</b>Methodist']);
-        config(['adminlte.logo_mini' => '<b>U</b>MC']);
+        config(['adminlte.logo' => $finset['site_logo']]);
+        config(['adminlte.logo_mini' => $finset['site_logo_mini']]);
         config(['adminlte.layout' => 'fixed']);
         config(['adminlte.filters' => [
             \JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,

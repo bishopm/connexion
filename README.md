@@ -6,20 +6,22 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 ## Installation
 
-1. Install laravel using Composer (eg: to create a project named connexion, run: *new laravel connexion*)
+1. Install laravel using Composer (eg: to create a project named connexion: `new laravel connexion`)
 2. Change to the project folder created and fix permissions on bootstrap and storage folders:
 `sudo chmod -R 777 storage / bootstrap`
 3. Add the connexion package to composer.json by adding a repositories section and requiring the package as follows:
-```"repositories": [
-      {
-         "type": "git",
-         "url": "https://github.com/bishopm/base"
-      }
-   ],
-   "require-dev": {
-      ...
-      "bishopm/base": "dev-master"
-    },```
+```
+"repositories": [
+   {
+     "type": "git",
+     "url": "https://github.com/bishopm/base"
+   }
+],
+"require-dev": {
+   ...
+   "bishopm/base": "dev-master"
+},
+```
 4. Run *composer update* in the project folder, which will pull in the package and its dependencies
 5. Add the package service provider to config/app.php (in the providers section): 
 `bishopm\base\Providers\BaseServiceProvider::class,`

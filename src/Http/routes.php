@@ -2,7 +2,7 @@
 
 Route::group(['middleware' => ['web']], function () {
 	Route::get('/', function () {
-    	return view('base::welcome');
+    	return view('base::site.home');
 	});
 	Route::get('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
 	Route::post('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@login','as'=>'login']);
@@ -141,6 +141,8 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	    Route::delete('admin/users/{user}',['uses'=>'bishopm\base\Http\Controllers\UsersController@destroy','as'=>'admin.users.destroy']);
 	});
 });
+
+Route::any('{uri}', ['uses' => 'bishopm\base\Http\Controllers\WebController@uri','as' => 'page',       'middleware' => 'web',])->where('uri', '.*');
 
 
 /*

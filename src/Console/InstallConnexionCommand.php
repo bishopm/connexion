@@ -82,18 +82,38 @@ class InstallConnexionCommand extends Command
             'user_id' => '1'
         ]);
         DB::table('settings')->insert([
+            'setting_key' => 'site_name',
+            'setting_value' => 'Connexion',
+            'category' => 'general'
+        ]); 
+        DB::table('settings')->insert([
+            'setting_key' => 'site_abbreviation',
+            'setting_value' => 'Cx',
+            'category' => 'general'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'site_logo',
+            'setting_value' => '<b>Connexion</b>Site',
+            'category' => 'general'
+        ]); 
+        DB::table('settings')->insert([
+            'setting_key' => 'site_logo_mini',
+            'setting_value' => '<b>C</b>x',
+            'category' => 'general'
+        ]);         
+        DB::table('settings')->insert([
             'setting_key' => 'google_api',
-            'setting_value' => '',
+            'setting_value' => 'AIzaSyBQmfbfWGd1hxfR1sbnRXdCaQ5Mx5FjUhA',
             'category' => 'maps'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'home_latitude',
-            'setting_value' => '',
+            'setting_value' => '-29.481602708198054',
             'category' => 'maps'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'home_longitude',
-            'setting_value' => '',
+            'setting_value' => '31.222890615408687',
             'category' => 'maps'
         ]);        
         DB::table('settings')->insert([
@@ -110,6 +130,11 @@ class InstallConnexionCommand extends Command
             'setting_key' => 'toodledo_redirect_uri',
             'setting_value' => '',
             'category' => 'tasks'
-        ]);                
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'website_theme',
+            'setting_value' => 'umhlali',
+            'category' => 'website'
+        ]);
     }
 }

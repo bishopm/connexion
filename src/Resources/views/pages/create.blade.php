@@ -20,3 +20,15 @@
     </div>
     {!! Form::close() !!}
 @stop
+
+@section('js')
+<script langugage="javascript">
+$(document).ready(function()
+{
+    $('#title').on('input', function() {
+        var title = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+        $("#slug").val(title);
+    });
+});
+</script>
+@stop
