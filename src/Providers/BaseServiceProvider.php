@@ -88,6 +88,12 @@ class BaseServiceProvider extends ServiceProvider
                 'can' =>  'read-content'
             ],
             [
+                'text' => 'Menus',
+                'url'  => 'admin/menus',
+                'icon' => 'bars',
+                'can' =>  'administer-site'
+            ],            
+            [
                 'text' => 'Pages',
                 'url' => 'admin/pages',
                 'icon' => 'file',
@@ -121,7 +127,7 @@ class BaseServiceProvider extends ServiceProvider
                         'can' =>  'administer-site'
                     ]
                 ]
-            ]);
+            ]);           
             $event->menu->add([
                 'text' => 'System settings',
                 'url' => 'admin/settings',
@@ -215,6 +221,20 @@ class BaseServiceProvider extends ServiceProvider
             'bishopm\base\Repositories\IndividualsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\IndividualsRepository(new \bishopm\base\Models\Individual());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\MenusRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\MenusRepository(new \bishopm\base\Models\Menu());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\MenuitemsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\MenuitemsRepository(new \bishopm\base\Models\Menuitem());
                 return $repository;
             }
         );

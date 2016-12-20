@@ -67,6 +67,24 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     Route::get('admin/individuals/removetag/{member}/{tag}', ['uses' => 'bishopm\base\Http\Controllers\IndividualsController@removetag','as' => 'admin.individuals.removetag']);
 	Route::get('admin/individuals/{individual}/removemedia',['uses'=>'bishopm\base\Http\Controllers\IndividualsController@removemedia','as'=>'admin.individuals.removemedia']);
 
+	// Menus
+	Route::get('admin/menus',['uses'=>'bishopm\base\Http\Controllers\MenusController@index','as'=>'admin.menus.index']);
+	Route::get('admin/menus/create',['uses'=>'bishopm\base\Http\Controllers\MenusController@create','as'=>'admin.menus.create']);
+	Route::get('admin/menus/{menu}',['uses'=>'bishopm\base\Http\Controllers\MenusController@show','as'=>'admin.menus.show']);
+	Route::get('admin/menus/{menu}/edit',['uses'=>'bishopm\base\Http\Controllers\MenusController@edit','as'=>'admin.menus.edit']);
+	Route::put('admin/menus/{menu}',['uses'=>'bishopm\base\Http\Controllers\MenusController@update','as'=>'admin.menus.update']);
+	Route::post('admin/menus',['uses'=>'bishopm\base\Http\Controllers\MenusController@store','as'=>'admin.menus.store']);
+    Route::delete('admin/menus/{menu}',['uses'=>'bishopm\base\Http\Controllers\MenusController@destroy','as'=>'admin.menus.destroy']);
+
+	// Menuitems
+	Route::get('admin/menus/{menu}/menuitems',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@index','as'=>'admin.menuitems.index']);
+	Route::get('admin/menus/{menu}/menuitems/create',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@create','as'=>'admin.menuitems.create']);
+	Route::get('admin/menus/{menu}/menuitems/{menuitem}',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@show','as'=>'admin.menuitems.show']);
+	Route::get('admin/menus/{menu}/menuitems/{menuitem}/edit',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@edit','as'=>'admin.menuitems.edit']);
+	Route::put('admin/menus/{menu}/menuitems/{menuitem}',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@update','as'=>'admin.menuitems.update']);
+	Route::post('admin/menus/{menu}/menuitems',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@store','as'=>'admin.menuitems.store']);
+    Route::delete('admin/menus/{menu}/menuitems/{menuitem}',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@destroy','as'=>'admin.menuitems.destroy']);    
+
 	// Pages
 	Route::get('admin/pages',['uses'=>'bishopm\base\Http\Controllers\PagesController@index','as'=>'admin.pages.index']);
 	Route::get('admin/pages/create',['uses'=>'bishopm\base\Http\Controllers\PagesController@create','as'=>'admin.pages.create']);

@@ -18,12 +18,12 @@ class CreateMenuitemsTable extends Migration
 			$table->integer('menu_id');
 			$table->integer('page_id');
 			$table->integer('parent_id');
-			$table->string('label');
-			$table->string('uri');
-			$table->integer('position');
+			$table->string('title');
+			$table->string('url')->nullable();
+			$table->integer('position')->default(0);
 			$table->string('target');
-			$table->string('icon');
-			$table->string('class');
+			$table->string('icon')->nullable();
+			$table->string('class')->nullable();
       		$table->timestamps();
 		});
 	}
