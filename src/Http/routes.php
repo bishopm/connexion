@@ -83,6 +83,7 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::get('admin/menus/{menu}/menuitems/{menuitem}/edit',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@edit','as'=>'admin.menuitems.edit']);
 	Route::put('admin/menus/{menu}/menuitems/{menuitem}',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@update','as'=>'admin.menuitems.update']);
 	Route::post('admin/menus/{menu}/menuitems',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@store','as'=>'admin.menuitems.store']);
+	Route::post('admin/menus/{menu}/menuitems/update',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@reorder','as'=>'admin.menuitems.reorder']);
     Route::delete('admin/menus/{menu}/menuitems/{menuitem}',['uses'=>'bishopm\base\Http\Controllers\MenuitemsController@destroy','as'=>'admin.menuitems.destroy']);    
 
 	// Pages

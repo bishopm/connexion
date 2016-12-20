@@ -5,6 +5,7 @@ namespace bishopm\base\Http\Controllers;
 use bishopm\base\Repositories\MenuitemsRepository;
 use bishopm\base\Repositories\PagesRepository;
 use bishopm\base\Models\Menuitem;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateMenuitemRequest;
 use bishopm\base\Http\Requests\UpdateMenuitemRequest;
@@ -33,10 +34,10 @@ class MenuitemsController extends Controller {
    		return view('base::menuitems.index',$data);
 	}
 
-	public function edit(Menuitem $menuitem)
+	public function edit($menu,Menuitem $menuitem)
     {
         $data['pages']=$this->pages->all();
-        $data['items']=$this->menuitem->all();        
+        $data['items']=$this->menuitem->all();
         $data['menuitem']=$menuitem;
         return view('base::menuitems.edit', $data);
     }
@@ -61,6 +62,34 @@ class MenuitemsController extends Controller {
     {
         $this->menuitem->update($menuitem, $request->all());
         return redirect()->route('admin.menuitems.index')->withSuccess('Menuitem has been updated');
+    }
+
+    public function reorder(Request $request)
+    {
+        $items=json_decode($request->menu);
+        foreach ($items as $key=>$item){
+            $item1=$this->menuitem->find($item->id);
+            $item1->parent_id=0;
+            $item1->position=$key;
+            $item1->save();
+            if (isset($item->children)){
+                foreach ($item->children as $key2=>$child){
+                    $item2=$this->menuitem->find($child->id);
+                    $item2->parent_id=$item->id;
+                    $item2->position=$key2;
+                    $item2->save();
+                    if (isset($child->children)){
+                        foreach ($child->children as $key3=>$grandchild){
+                            $item3=$this->menuitem->find($grandchild->id);
+                            $item3->parent_id=$child->id;
+                            $item3->position=$key3;
+                            $item3->save();
+                        }
+                    }
+                }
+            }
+        }
+        print "Done!";
     }
 
 }

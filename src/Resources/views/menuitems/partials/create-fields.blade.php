@@ -9,7 +9,7 @@
 <div class="form-group">
     <label for="target">Page</label>
     <select class="form-control" name="page_id" id="page_id">
-    	<option></option>
+    	<option value="0"></option>
     	@foreach ($pages as $page)
     		<option value="{{$page->id}}">{{$page->title}}</option>
     	@endforeach
