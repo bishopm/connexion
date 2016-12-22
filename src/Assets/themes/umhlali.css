@@ -7076,8 +7076,14 @@ input[type="checkbox"] {
 .top10 { margin-top:10px; }
 .top15 { margin-top:15px; }
 .top17 { margin-top:17px; }
+.top20 { margin-top:20px; }
 .top25 { margin-top:25px; }
 .top30 { margin-top:30px; }
+
+body {
+  background-color: #fff;
+  background-image: url("../images/bg.png");
+}
 
 @media (min-width: 768px) {
   .navbar {

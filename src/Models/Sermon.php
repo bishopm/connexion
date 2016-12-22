@@ -13,9 +13,8 @@ class Sermon extends Model
     public function series(){
         return $this->belongsTo('bishopm\base\Models\Series');
     }
-    /*
-    public function person(){
-        return $this->belongsTo('Modules\Website\Entities\Person');
-    }*/
-
+    
+    public function individual(){
+        return $this->belongsTo('bishopm\base\Models\Individual');
+    }
 }

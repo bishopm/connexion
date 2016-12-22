@@ -83,10 +83,16 @@ class BaseServiceProvider extends ServiceProvider
             $event->menu->add('WEBSITE');
             $event->menu->add([
                 'text' => 'Blog',
-                'url' => 'admin/blog',
+                'url' => 'admin/blogs',
                 'icon' => 'pencil-square-o',
                 'can' =>  'edit-content'
             ],
+            [
+                'text' => 'Resources',
+                'url' => 'admin/resources',
+                'icon' => 'book',
+                'can' =>  'edit-content'
+            ],            
             [
                 'text' => 'Sermons',
                 'url' => 'admin/series',
@@ -113,7 +119,7 @@ class BaseServiceProvider extends ServiceProvider
                     [
                         'text' => 'Slides',
                         'url' => 'admin/slides',
-                        'icon' => 'file',
+                        'icon' => 'picture-o',
                         'can' =>  'administer-site'
                     ]
                 ]
@@ -218,6 +224,13 @@ class BaseServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'bishopm\base\Repositories\BlogsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\BlogsRepository(new \bishopm\base\Models\Blog());
+                return $repository;
+            }
+        );
+        $this->app->bind(
             'bishopm\base\Repositories\FoldersRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\FoldersRepository(new \bishopm\base\Models\Folder());
@@ -281,9 +294,30 @@ class BaseServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'bishopm\base\Repositories\PersonsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\PersonsRepository(new \bishopm\base\Models\Person());
+                return $repository;
+            }
+        );        
+        $this->app->bind(
             'bishopm\base\Repositories\ProjectsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\ProjectsRepository(new \bishopm\base\Models\Project());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\RatingsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\RatingsRepository(new \bishopm\base\Models\Rating());
+                return $repository;
+            }
+        );        
+        $this->app->bind(
+            'bishopm\base\Repositories\ResourcesRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\ResourcesRepository(new \bishopm\base\Models\Resource());
                 return $repository;
             }
         );

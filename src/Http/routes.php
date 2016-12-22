@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['web','role:open']], function () {
 	Route::get('/', ['uses' => 'bishopm\base\Http\Controllers\WebController@home','as' => 'homepage']);
 	Route::get('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
 	Route::post('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@login','as'=>'login']);
@@ -22,6 +22,15 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::put('admin/actions/{action}',['uses'=>'bishopm\base\Http\Controllers\ActionsController@update','as'=>'admin.actions.update']);
 	Route::post('admin/actions',['uses'=>'bishopm\base\Http\Controllers\ActionsController@store','as'=>'admin.actions.store']);
     Route::delete('admin/actions/{action}',['uses'=>'bishopm\base\Http\Controllers\ActionsController@destroy','as'=>'admin.actions.destroy']);
+
+	// Blogs
+	Route::get('admin/blogs',['uses'=>'bishopm\base\Http\Controllers\BlogsController@index','as'=>'admin.blogs.index']);
+	Route::get('admin/blogs/create',['uses'=>'bishopm\base\Http\Controllers\BlogsController@create','as'=>'admin.blogs.create']);
+	Route::get('admin/blogs/{blog}',['uses'=>'bishopm\base\Http\Controllers\BlogsController@show','as'=>'admin.blogs.show']);
+	Route::get('admin/blogs/{blog}/edit',['uses'=>'bishopm\base\Http\Controllers\BlogsController@edit','as'=>'admin.blogs.edit']);
+	Route::put('admin/blogs/{blog}',['uses'=>'bishopm\base\Http\Controllers\BlogsController@update','as'=>'admin.blogs.update']);
+	Route::post('admin/blogs',['uses'=>'bishopm\base\Http\Controllers\BlogsController@store','as'=>'admin.blogs.store']);
+    Route::delete('admin/blogs/{blog}',['uses'=>'bishopm\base\Http\Controllers\BlogsController@destroy','as'=>'admin.blogs.destroy']);
 
 	// Folders
 	Route::get('admin/folders',['uses'=>'bishopm\base\Http\Controllers\FoldersController@index','as'=>'admin.folders.index']);
@@ -99,6 +108,15 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     Route::put('admin/households/{household}/pastorals', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@update','as' => 'admin.pastorals.update']);
     Route::delete('admin/households/{household}/pastorals/{pastoral}', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@destroy','as' => 'admin.pastorals.destroy']);
 
+	// Persons
+	Route::get('admin/persons',['uses'=>'bishopm\base\Http\Controllers\PersonsController@index','as'=>'admin.persons.index']);
+	Route::get('admin/persons/create',['uses'=>'bishopm\base\Http\Controllers\PersonsController@create','as'=>'admin.persons.create']);
+	Route::get('admin/persons/{person}',['uses'=>'bishopm\base\Http\Controllers\PersonsController@show','as'=>'admin.persons.show']);
+	Route::get('admin/persons/{person}/edit',['uses'=>'bishopm\base\Http\Controllers\PersonsController@edit','as'=>'admin.persons.edit']);
+	Route::put('admin/persons/{person}',['uses'=>'bishopm\base\Http\Controllers\PersonsController@update','as'=>'admin.persons.update']);
+	Route::post('admin/persons',['uses'=>'bishopm\base\Http\Controllers\PersonsController@store','as'=>'admin.persons.store']);
+    Route::delete('admin/persons/{person}',['uses'=>'bishopm\base\Http\Controllers\PersonsController@destroy','as'=>'admin.persons.destroy']);
+
 	// Projects
 	Route::get('admin/projects',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@index','as'=>'admin.projects.index']);
 	Route::get('admin/projects/create',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@create','as'=>'admin.projects.create']);
@@ -107,6 +125,24 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::put('admin/projects/{project}',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@update','as'=>'admin.projects.update']);
 	Route::post('admin/projects',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@store','as'=>'admin.projects.store']);
     Route::delete('admin/projects/{project}',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@destroy','as'=>'admin.projects.destroy']);
+
+	// Ratings
+	Route::get('admin/resources/{resource}/ratings',['uses'=>'bishopm\base\Http\Controllers\RatingsController@index','as'=>'admin.ratings.index']);
+	Route::get('admin/resources/{resource}/ratings/create',['uses'=>'bishopm\base\Http\Controllers\RatingsController@create','as'=>'admin.ratings.create']);
+	Route::get('admin/resources/{resource}/ratings/{rating}',['uses'=>'bishopm\base\Http\Controllers\RatingsController@show','as'=>'admin.ratings.show']);
+	Route::get('admin/resources/{resource}/ratings/{rating}/edit',['uses'=>'bishopm\base\Http\Controllers\RatingsController@edit','as'=>'admin.ratings.edit']);
+	Route::put('admin/resources/{resource}/ratings/{rating}',['uses'=>'bishopm\base\Http\Controllers\RatingsController@update','as'=>'admin.ratings.update']);
+	Route::post('admin/resources/{resource}/ratings',['uses'=>'bishopm\base\Http\Controllers\RatingsController@store','as'=>'admin.ratings.store']);
+    Route::delete('admin/resources/{resource}/ratings/{rating}',['uses'=>'bishopm\base\Http\Controllers\RatingsController@destroy','as'=>'admin.ratings.destroy']);
+
+	// Resources
+	Route::get('admin/resources',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@index','as'=>'admin.resources.index']);
+	Route::get('admin/resources/create',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@create','as'=>'admin.resources.create']);
+	Route::get('admin/resources/{resource}',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@show','as'=>'admin.resources.show']);
+	Route::get('admin/resources/{resource}/edit',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@edit','as'=>'admin.resources.edit']);
+	Route::put('admin/resources/{resource}',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@update','as'=>'admin.resources.update']);
+	Route::post('admin/resources',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@store','as'=>'admin.resources.store']);
+    Route::delete('admin/resources/{resource}',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@destroy','as'=>'admin.resources.destroy']);
 
 	// Series
 	Route::get('admin/series',['uses'=>'bishopm\base\Http\Controllers\SeriesController@index','as'=>'admin.series.index']);

@@ -8,16 +8,23 @@ class RoleMiddleware {
 
 	public function handle($request, Closure $next, $role)
 	{
-	    if (Auth::guest()) {
-	        return redirect('/login');
-	    } 
-	    $roles=explode("#",$role);
-	    foreach ($roles as $rr){
-	    	if ($request->user()->hasRole($rr)) {	
-	    		view()->share('currentUser', Auth::user());
-				return $next($request);	    		
-	    	}
-	    }
-	    return redirect('/admin');
+		if ($role<>"open"){
+		    if (Auth::guest()) {
+		        return redirect('/login');
+		    } 
+		    $roles=explode("#",$role);
+		    foreach ($roles as $rr){
+		    	if ($request->user()->hasRole($rr)) {	
+		    		view()->share('currentUser', Auth::user());
+					return $next($request);	    		
+		    	}
+		    }
+		    return redirect('/admin');
+		 } else {
+		 	if (Auth::user()){
+		 		view()->share('currentUser', Auth::user());
+		 	}
+			return $next($request);
+		 }
 	}
 }

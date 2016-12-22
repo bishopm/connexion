@@ -12,8 +12,8 @@ class Individual extends Model
 {
     use Sluggable;
     use SoftDeletes;
-    use HasTags;
     use Mediable;
+    use HasTags;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');

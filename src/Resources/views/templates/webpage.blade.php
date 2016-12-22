@@ -33,7 +33,22 @@
             <li><a href="http://www.facebook.com/umhlalimethodist" target="_blank"><i class="fa fa-facebook"></i></a></li>
             <li><a href="http://www.twitter.com/umhlalichurch" target="_blank"><i class="fa fa-twitter"></i></a></li>
             <li><a href="http://www.youtube.com/umhlalimethodist" target="_blank"><i class="fa fa-youtube"></i></a></li>
-            <li><a href="{{url('/')}}/admin" title="Login to backend"><i class="fa fa-lock"></i></a></li>
+            @if(isset($currentUser))
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$currentUser->name}} <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="admin">Admin section</a></li>
+                  <li><a href="#">Worship</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                    <form id="logout-form" action="http://localhost/mjb/public/logout" method="POST" style="display: none;"><input type="hidden" name="_token" value="{{csrf_token()}}"></form>
+                  </li>
+                </ul>
+              </li>
+            @else
+              <li><a href="{{url('/')}}/admin" title="Login to backend"><i class="fa fa-lock"></i></a></li>
+            @endif
           </ul>
         </div>
       </div>

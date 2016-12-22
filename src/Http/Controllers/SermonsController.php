@@ -4,6 +4,7 @@ namespace bishopm\base\Http\Controllers;
 
 use bishopm\base\Repositories\SermonsRepository;
 use bishopm\base\Models\Sermon;
+use bishopm\base\Models\Individual;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateSermonRequest;
 use bishopm\base\Http\Requests\UpdateSermonRequest;
@@ -25,12 +26,17 @@ class SermonsController extends Controller {
 
 	public function edit($series,Sermon $sermon)
     {
-        return view('base::sermons.edit', compact('sermon','series'));
+        $data['preachers'] = $this->preachers;
+        $data['series'] = $series;
+        $data['sermon'] = $sermon;
+        return view('base::sermons.edit', $data);
     }
 
     public function create($series_id)
     {
-        return view('base::sermons.create',compact('series_id'));
+        $data['preachers']=$this->preachers;
+        $data['series_id']=$series_id;
+        return view('base::sermons.create',$data);
     }
 
 	public function show(Sermon $sermon)
@@ -47,10 +53,10 @@ class SermonsController extends Controller {
             ->withSuccess('New sermon added');
     }
 	
-    public function update(Sermon $sermon, UpdateSermonRequest $request)
+    public function update($series, Sermon $sermon, UpdateSermonRequest $request)
     {
         $this->sermon->update($sermon, $request->all());
-        return redirect()->route('admin.sermons.index')->withSuccess('Sermon has been updated');
+        return redirect()->route('admin.series.show',$series)->withSuccess('Sermon has been updated');
     }
 
 }

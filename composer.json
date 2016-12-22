@@ -22,7 +22,7 @@
         "laravelcollective/html":"^5.3.0",
         "jeroennoten/laravel-adminlte":"1.*",
         "cviebrock/eloquent-sluggable":"^4.1",
-        "spatie/laravel-tags": "1.*",
+        "cartalyst/tags": "3.0.*",
         "spatie/laravel-backup": "4.*",
         "spatie/laravel-permission": "1.*",
         "spatie/laravel-menu": "2.*",

@@ -1,7 +1,11 @@
 @extends('adminlte::page')
 
+@section('css')
+  <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
 @section('content_header')
-{{ Form::pgHeader('Edit sermon',$sermon->series->series,route('admin.series.show',$series)) }}
+    {{ Form::pgHeader('Edit sermon',$sermon->series->series,route('admin.series.show',$series)) }}
 @endsection
 
 @section('content')
@@ -19,4 +23,16 @@
         </div>
     </div>
     {!! Form::close() !!}
+@stop
+
+@section('js')
+    <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $('.selectize').selectize({
+              plugins: ['remove_button'],
+              openOnFocus: 0
+            });
+        });
+    </script>
 @stop
