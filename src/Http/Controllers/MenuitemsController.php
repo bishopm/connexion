@@ -39,6 +39,7 @@ class MenuitemsController extends Controller {
         $data['pages']=$this->pages->all();
         $data['items']=$this->menuitem->all();
         $data['menuitem']=$menuitem;
+        $data['menu']=$menu;
         return view('base::menuitems.edit', $data);
     }
 
@@ -58,10 +59,10 @@ class MenuitemsController extends Controller {
             ->withSuccess('New menu item added');
     }
 
-    public function update(Menuitem $menuitem, UpdateMenuitemRequest $request)
+    public function update($menu, Menuitem $menuitem, UpdateMenuitemRequest $request)
     {
         $this->menuitem->update($menuitem, $request->all());
-        return redirect()->route('admin.menuitems.index')->withSuccess('Menuitem has been updated');
+        return redirect()->route('admin.menus.edit',$menu)->withSuccess('Menuitem has been updated');
     }
 
     public function reorder(Request $request)

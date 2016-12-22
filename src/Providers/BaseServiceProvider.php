@@ -85,19 +85,38 @@ class BaseServiceProvider extends ServiceProvider
                 'text' => 'Blog',
                 'url' => 'admin/blog',
                 'icon' => 'pencil-square-o',
-                'can' =>  'read-content'
+                'can' =>  'edit-content'
             ],
             [
-                'text' => 'Menus',
-                'url'  => 'admin/menus',
-                'icon' => 'bars',
-                'can' =>  'administer-site'
-            ],            
+                'text' => 'Sermons',
+                'url' => 'admin/series',
+                'icon' => 'microphone',
+                'can' =>  'edit-content'
+            ],
             [
-                'text' => 'Pages',
-                'url' => 'admin/pages',
-                'icon' => 'file',
-                'can' =>  'administer-site'
+                'text' => 'Site structure',
+                'icon' => 'sitemap',
+                'can' => 'edit-content',
+                'submenu' => [
+                    [
+                        'text' => 'Menus',
+                        'url'  => 'admin/menus',
+                        'icon' => 'bars',
+                        'can' =>  'administer-site'
+                    ],            
+                    [
+                        'text' => 'Pages',
+                        'url' => 'admin/pages',
+                        'icon' => 'file',
+                        'can' =>  'administer-site'
+                    ],
+                    [
+                        'text' => 'Slides',
+                        'url' => 'admin/slides',
+                        'icon' => 'file',
+                        'can' =>  'administer-site'
+                    ]
+                ]
             ]);
             $event->menu->add([
                 'header' => 'SETTINGS',
@@ -146,6 +165,7 @@ class BaseServiceProvider extends ServiceProvider
         Form::component('bsPassword', 'base::components.password', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
         Form::component('bsTextarea', 'base::components.textarea', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
         Form::component('bsThumbnail', 'base::components.thumbnail', ['source', 'width' => '100', 'label' => '']);
+        Form::component('bsImgpreview', 'base::components.imgpreview', ['source', 'width' => '200', 'label' => '']);
         Form::component('bsHidden', 'base::components.hidden', ['name', 'value' => null]);
         Form::component('bsSelect', 'base::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
         Form::component('pgHeader', 'base::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
@@ -162,6 +182,7 @@ class BaseServiceProvider extends ServiceProvider
             \JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
             \JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
             \bishopm\base\Middleware\MyMenuFilter::class]]);
+        view()->composer('base::templates.*', \bishopm\base\Composers\MenuComposer::class);
     }
 
     /**
@@ -274,9 +295,30 @@ class BaseServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'bishopm\base\Repositories\SeriesRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\SeriesRepository(new \bishopm\base\Models\Series());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\SermonsRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\SermonsRepository(new \bishopm\base\Models\Sermon());
+                return $repository;
+            }
+        );
+        $this->app->bind(
             'bishopm\base\Repositories\SettingsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\SettingsRepository(new \bishopm\base\Models\Setting());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'bishopm\base\Repositories\SlidesRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\SlidesRepository(new \bishopm\base\Models\Slide());
                 return $repository;
             }
         );

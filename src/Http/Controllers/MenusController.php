@@ -8,7 +8,6 @@ use bishopm\base\Models\Menu;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateMenuRequest;
 use bishopm\base\Http\Requests\UpdateMenuRequest;
-use Spatie\Menu\Laravel\Menu as Smenu, Spatie\Menu\Laravel\Link;
 
 class MenusController extends Controller {
 
@@ -34,12 +33,6 @@ class MenusController extends Controller {
 
 	public function edit(Menu $menu)
     {
-        $items=$this->menuitems->makeMenu($menu->id);
-        $newmenu =Smenu::build($items, function ($newmenu, $label, $link) 
-        {
-            $newmenu->link($link, $label);
-        });
-        dd($newmenu);
         $data['menuitems'] = $this->menuitems->arrayForMenu($menu->id);
         $data['menu'] = $menu;
         return view('base::menus.edit', $data);

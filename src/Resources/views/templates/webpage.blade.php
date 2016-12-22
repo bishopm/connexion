@@ -18,36 +18,22 @@
 </head>
 <body>
     <div class="navbar-wrapper">
-      <div class="navbar navbar-default navbar-static-top" style="padding-left:10px; padding-right:10px;">
+      <div class="navbar navbar-default navbar-static-top" style="padding-left:20px; padding-right:20px;">
         <div class="navbar-header">
         <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="navbar-brand" href="#">{!!$setting['site_logo']!!}</a>
+        <a class="navbar-brand" href="{{url('/')}}">{!!$setting['site_logo']!!}</a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="http://www.bootply.com" target="ext">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-          </ul>
+          {!!$webmenu!!}
           <ul class="nav navbar-nav navbar-right">
             <li><a href="http://www.facebook.com/umhlalimethodist" target="_blank"><i class="fa fa-facebook"></i></a></li>
             <li><a href="http://www.twitter.com/umhlalichurch" target="_blank"><i class="fa fa-twitter"></i></a></li>
             <li><a href="http://www.youtube.com/umhlalimethodist" target="_blank"><i class="fa fa-youtube"></i></a></li>
+            <li><a href="{{url('/')}}/admin" title="Login to backend"><i class="fa fa-lock"></i></a></li>
           </ul>
         </div>
       </div>

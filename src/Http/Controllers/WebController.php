@@ -5,16 +5,18 @@ namespace bishopm\base\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use bishopm\base\Repositories\PagesRepository;
-use Spatie\Menu\Laravel\Menu, Spatie\Menu\Laravel\Link;
+use bishopm\base\Repositories\SlidesRepository;
+use bishopm\base\Repositories\SermonsRepository;
 
 class WebController extends Controller
 {
     
-    private $page;
+    private $page,$slides;
 
-    public function __construct(PagesRepository $page)
+    public function __construct(PagesRepository $page, SlidesRepository $slides)
     {
         $this->page = $page;
+        $this->slides = $slides;
     }
 
     /**
@@ -27,19 +29,18 @@ class WebController extends Controller
         return view('base::dashboard');
     }
 
+    public function home(SermonsRepository $sermon)
+    {
+        $data['sermon']=$sermon->mostRecent();
+        $data['slides']=$this->slides->getSlideshow('front');
+        return view('base::site.home',$data);
+    }
+
     public function uri($slug)
     {
-        $menu=Menu::new()
-            ->add(Link::to('/', 'Home'))
-            ->submenu('More', Menu::new()
-                ->addClass('submenu')
-                ->link('/about', 'About')
-                ->link('/contact', 'Contact')
-            );
-        dd($menu);
-        $page = $this->page->findBySlug($slug);
-        $template = $page->template;
-        return view('base::templates.' . $template, compact('page'));
+        $data['page'] = $this->page->findBySlug($slug);
+        $template = $data['page']->template;
+        return view('base::templates.' . $template, $data);
     }
 
     /**

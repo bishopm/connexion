@@ -1,9 +1,7 @@
 <?php
 
 Route::group(['middleware' => ['web']], function () {
-	Route::get('/', function () {
-    	return view('base::site.home');
-	});
+	Route::get('/', ['uses' => 'bishopm\base\Http\Controllers\WebController@home','as' => 'homepage']);
 	Route::get('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
 	Route::post('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@login','as'=>'login']);
 });
@@ -110,6 +108,34 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::post('admin/projects',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@store','as'=>'admin.projects.store']);
     Route::delete('admin/projects/{project}',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@destroy','as'=>'admin.projects.destroy']);
 
+	// Series
+	Route::get('admin/series',['uses'=>'bishopm\base\Http\Controllers\SeriesController@index','as'=>'admin.series.index']);
+	Route::get('admin/series/create',['uses'=>'bishopm\base\Http\Controllers\SeriesController@create','as'=>'admin.series.create']);
+	Route::get('admin/series/{series}',['uses'=>'bishopm\base\Http\Controllers\SeriesController@show','as'=>'admin.series.show']);
+	Route::get('admin/series/{series}/edit',['uses'=>'bishopm\base\Http\Controllers\SeriesController@edit','as'=>'admin.series.edit']);
+	Route::put('admin/series/{series}',['uses'=>'bishopm\base\Http\Controllers\SeriesController@update','as'=>'admin.series.update']);
+	Route::post('admin/series',['uses'=>'bishopm\base\Http\Controllers\SeriesController@store','as'=>'admin.series.store']);
+    Route::delete('admin/series/{series}',['uses'=>'bishopm\base\Http\Controllers\SeriesController@destroy','as'=>'admin.series.destroy']);
+	Route::get('admin/series/{series}/removemedia',['uses'=>'bishopm\base\Http\Controllers\SeriesController@removemedia','as'=>'admin.series.removemedia']);    
+
+	// Sermons
+	Route::get('admin/series/{series}/sermons',['uses'=>'bishopm\base\Http\Controllers\SermonsController@index','as'=>'admin.sermons.index']);
+	Route::get('admin/series/{series}/sermons/create',['uses'=>'bishopm\base\Http\Controllers\SermonsController@create','as'=>'admin.sermons.create']);
+	Route::get('admin/series/{series}/sermons/{sermon}',['uses'=>'bishopm\base\Http\Controllers\SermonsController@show','as'=>'admin.sermons.show']);
+	Route::get('admin/series/{series}/sermons/{sermon}/edit',['uses'=>'bishopm\base\Http\Controllers\SermonsController@edit','as'=>'admin.sermons.edit']);
+	Route::put('admin/series/{series}/sermons/{sermon}',['uses'=>'bishopm\base\Http\Controllers\SermonsController@update','as'=>'admin.sermons.update']);
+	Route::post('admin/series/{series}/sermons',['uses'=>'bishopm\base\Http\Controllers\SermonsController@store','as'=>'admin.sermons.store']);
+    Route::delete('admin/series/{series}/sermons/{sermon}',['uses'=>'bishopm\base\Http\Controllers\SermonsController@destroy','as'=>'admin.sermons.destroy']);
+
+	// Slides
+	Route::get('admin/slides',['uses'=>'bishopm\base\Http\Controllers\SlidesController@index','as'=>'admin.slides.index']);
+	Route::get('admin/slides/create',['uses'=>'bishopm\base\Http\Controllers\SlidesController@create','as'=>'admin.slides.create']);
+	Route::get('admin/slides/{slide}',['uses'=>'bishopm\base\Http\Controllers\SlidesController@show','as'=>'admin.slides.show']);
+	Route::get('admin/slides/{slide}/edit',['uses'=>'bishopm\base\Http\Controllers\SlidesController@edit','as'=>'admin.slides.edit']);
+	Route::put('admin/slides/{slide}',['uses'=>'bishopm\base\Http\Controllers\SlidesController@update','as'=>'admin.slides.update']);
+	Route::post('admin/slides',['uses'=>'bishopm\base\Http\Controllers\SlidesController@store','as'=>'admin.slides.store']);
+    Route::delete('admin/slides/{slide}',['uses'=>'bishopm\base\Http\Controllers\SlidesController@destroy','as'=>'admin.slides.destroy']);
+	Route::get('admin/slides/{slide}/removemedia',['uses'=>'bishopm\base\Http\Controllers\SlidesController@removemedia','as'=>'admin.slides.removemedia']);    
 
 	// Specialdays
     Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@index','as' => 'admin.specialdays.index']);

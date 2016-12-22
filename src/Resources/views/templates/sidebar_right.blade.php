@@ -1,15 +1,12 @@
 @extends('base::templates.webpage')
 
-@section('htmlheader_title')
-    Dashboard
-@endsection
-
 @section('content')
+<img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-md-9">
     {{$page->body}}
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
     Sidebar content
   </div>
 </div>
