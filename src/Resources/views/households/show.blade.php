@@ -125,12 +125,12 @@
                             <div class="box-default">
                               <div class="box-body">
                                   <h5>Tags usually refer to specific roles (eg: preacher, staff member)</h5>
-                                  <select class="input-tags" multiple>
+                                  <select id="{{$individual->id}}" class="input-tags" multiple>
                                     @foreach ($tags as $tag)
-                                      @if ((count($individual->tags)) and (in_array($tag->id,$itags[$individual->id])))
-                                        <option selected value="{{$individual->id}}/{{$tag->id}}">{{$tag->name}}</option>
+                                      @if ((count($individual->tags)) and (in_array($tag->name,$itags[$individual->id])))
+                                        <option selected value="{{$individual->id}}/{{$tag->name}}">{{$tag->name}}</option>
                                       @else
-                                        <option value="{{$individual->id}}/{{$tag->id}}">{{$tag->name}}</option>
+                                        <option value="{{$individual->id}}/{{$tag->name}}">{{$tag->name}}</option>
                                       @endif
                                     @endforeach
                                   </select>
@@ -300,16 +300,12 @@
           openOnFocus: 0,
           maxOptions: 30,
           dropdownParent: "body",
-          create:function (input, callback){
-            $.ajax({
-              url: "{{url('/')}}/admin/individuals/addtag/individual/" + input,
-              type: "GET",
-              success: function (result) {
-                if (result) {
-                  callback({ id: result.id, text: input });
-                }
+          create: function(value) {
+              var indiv = this.$input[0].id;
+              return {
+                  value: indiv + '/' + value,
+                  text: value
               }
-            })
           },
           onItemAdd: function(value,$item) {
             $.ajax({ url: "{{url('/')}}/admin/individuals/addtag/" + value })

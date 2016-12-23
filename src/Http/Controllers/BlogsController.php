@@ -8,7 +8,6 @@ use bishopm\base\Models\Individual;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateBlogRequest;
 use bishopm\base\Http\Requests\UpdateBlogRequest;
-use Spatie\Tags\Tag;
 
 class BlogsController extends Controller {
 

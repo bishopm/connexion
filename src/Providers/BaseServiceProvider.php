@@ -203,7 +203,7 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
         $this->app->register('Spatie\Permission\PermissionServiceProvider');
-        $this->app->register('Spatie\Tags\TagsServiceProvider');
+        $this->app->register('Cartalyst\Tags\TagsServiceProvider');
         $this->app->register('Plank\Mediable\MediableServiceProvider');
         $this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');

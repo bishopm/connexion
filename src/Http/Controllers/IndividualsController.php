@@ -6,11 +6,11 @@ use bishopm\base\Repositories\IndividualsRepository;
 use bishopm\base\Repositories\GroupsRepository;
 use bishopm\base\Models\Individual;
 use bishopm\base\Models\Group;
-use Spatie\Tags\Tag;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateIndividualRequest;
 use bishopm\base\Http\Requests\UpdateIndividualRequest;
 use DB, MediaUploader;
+use Cartalyst\Tags\IlluminateTag as Tag;
 
 class IndividualsController extends Controller {
 
@@ -100,23 +100,14 @@ class IndividualsController extends Controller {
 
     public function addtag($member, $tag)
     {
-        if ($member=="individual"){ // Create new tag
-            $tag = Tag::findOrCreate($tag);
-            $tag->type="individual";
-            $tag->save();
-            return $tag;
-        } else { // Add existing tag to indiv
-            $tagobj = Tag::find($tag);
-            $indiv=Individual::find($member);
-            $indiv->attachTag($tagobj);
-        }
+        $indiv=Individual::find($member);
+        $indiv->tag($tag);
     }
 
     public function removetag($member, $tag)
     {
-        $tagobj = Tag::find($tag);
         $indiv=Individual::find($member);
-        $indiv->detachTag($tagobj);
+        $indiv->untag($tag);
     }
 
 }

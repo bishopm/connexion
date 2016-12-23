@@ -5,19 +5,19 @@ namespace bishopm\base\Models;
 use Illuminate\Database\Eloquent\Model, Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Spatie\Tags\HasTags;
+use Cartalyst\Tags\TaggableTrait;
+use Cartalyst\Tags\TaggableInterface;
 use Plank\Mediable\Mediable;
 
-class Individual extends Model
+class Individual extends Model implements TaggableInterface
 {
     use Sluggable;
     use SoftDeletes;
     use Mediable;
-    use HasTags;
+    use TaggableTrait;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');
-    protected $appends = ['age'];
 
     public function sluggable()
     {
