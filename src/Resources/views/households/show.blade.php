@@ -102,11 +102,12 @@
                                 <div class="box-body">
                                     <h5>{{$individual->firstname}} is currently a member of the following groups:</h5>
                                     <select class="input-groups" multiple>
-                                      @foreach ($individual->groups as $group)
-                                        <option selected value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
-                                      @endforeach
                                       @foreach ($groups as $group)
-                                        <option value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
+                                        @if ((count($individual->groups)) and (in_array($group->id,$igroups[$individual->id])))
+                                          <option selected value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
+                                        @else
+                                          <option value="{{$individual->id}}/{{$group->id}}">{{$group->groupname}}</option>
+                                        @endif
                                       @endforeach
                                     </select>
                                 </div>
@@ -288,7 +289,6 @@
           openOnFocus: 0,
           maxOptions: 30,
           onItemAdd: function(value,$item) {
-              alert(value);
             $.ajax({ url: "{{url('/')}}/admin/individuals/addgroup/" + value })
           },
           onItemRemove: function(value,$item) {

@@ -5,10 +5,11 @@
 <div class="container">
 	<div class="row">
 	  <div class="col-md-9">
-	    {{$page->body}}
+	    <h3>{{$person->firstname}} {{$person->surname}}</h3>
+	    <img src="{{$person->getMedia('image')->first()->getUrl()}}">
 	  </div>
 	  <div class="col-md-3">
-	    Sidebar content
+	    {{dd($person)}}
 	  </div>
 	</div>
 </div>

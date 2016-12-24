@@ -5,7 +5,6 @@ namespace bishopm\base\Http\Controllers;
 use bishopm\base\Repositories\PagesRepository;
 use bishopm\base\Models\Page;
 use App\Http\Controllers\Controller;
-use Spatie\Tags\Tag;
 use bishopm\base\Http\Requests\CreatePageRequest;
 use bishopm\base\Http\Requests\UpdatePageRequest;
 

@@ -4,14 +4,15 @@ namespace bishopm\base\Models;
 
 use Illuminate\Database\Eloquent\Model, Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Spatie\Tags\HasTags;
+use Cartalyst\Tags\TaggableTrait;
+use Cartalyst\Tags\TaggableInterface;
 use Plank\Mediable\Mediable;
 
-class Blog extends Model
+class Blog extends Model implements TaggableInterface
 {
     use Sluggable;
     use Mediable;
-    use HasTags;
+    use TaggableTrait;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');

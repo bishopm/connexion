@@ -4,6 +4,9 @@ Route::group(['middleware' => ['web','role:open']], function () {
 	Route::get('/', ['uses' => 'bishopm\base\Http\Controllers\WebController@home','as' => 'homepage']);
 	Route::get('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
 	Route::post('login',['uses'=>'bishopm\base\Http\Controllers\Auth\LoginController@login','as'=>'login']);
+	Route::get('/blog/{slug}', ['uses' => 'bishopm\base\Http\Controllers\WebController@webblog','as' => 'webblog']);
+	Route::get('/people/{slug}', ['uses' => 'bishopm\base\Http\Controllers\WebController@webperson','as' => 'webperson']);
+	Route::get('/subject/{tag}', ['uses' => 'bishopm\base\Http\Controllers\WebController@websubject','as' => 'websubject']);
 });
 
 Route::group(['middleware' => ['web','role:admin#editor#backend']], function () {
@@ -31,6 +34,8 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::put('admin/blogs/{blog}',['uses'=>'bishopm\base\Http\Controllers\BlogsController@update','as'=>'admin.blogs.update']);
 	Route::post('admin/blogs',['uses'=>'bishopm\base\Http\Controllers\BlogsController@store','as'=>'admin.blogs.store']);
     Route::delete('admin/blogs/{blog}',['uses'=>'bishopm\base\Http\Controllers\BlogsController@destroy','as'=>'admin.blogs.destroy']);
+	Route::get('admin/blogs/addtag/{blog}/{tag}', ['uses' => 'bishopm\base\Http\Controllers\BlogsController@addtag','as' => 'admin.blogs.addtag']);
+    Route::get('admin/blogs/removetag/{blog}/{tag}', ['uses' => 'bishopm\base\Http\Controllers\BlogsController@removetag','as' => 'admin.blogs.removetag']);    
 
 	// Folders
 	Route::get('admin/folders',['uses'=>'bishopm\base\Http\Controllers\FoldersController@index','as'=>'admin.folders.index']);

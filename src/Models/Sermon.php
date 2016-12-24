@@ -3,9 +3,13 @@
 namespace bishopm\base\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Cartalyst\Tags\TaggableTrait;
+use Cartalyst\Tags\TaggableInterface;
 
-class Sermon extends Model
+class Sermon extends Model implements TaggableInterface
 {
+
+    use TaggableTrait;
 
     protected $guarded = array('id');
 

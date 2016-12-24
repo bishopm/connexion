@@ -36,9 +36,16 @@ class Individual extends Model implements TaggableInterface
         return $this->belongsToMany('bishopm\base\Models\Group')->whereNotNull('group_individual.deleted_at')->withTimestamps()->withPivot('deleted_at');
     }
 
-
     public function household(){
         return $this->belongsTo('bishopm\base\Models\Household');
+    }
+
+    public function blogs(){
+        return $this->hasMany('bishopm\base\Models\Blog');
+    }
+
+    public function sermons(){
+        return $this->hasMany('bishopm\base\Models\Sermon');
     }
 
 /*    public function getAgeAttribute(){
@@ -85,10 +92,6 @@ class Individual extends Model implements TaggableInterface
 
     public function scopeAged($query){
       return $query->where('birthdate','>','1901-01-01');
-    }
-
-    public function blog(){
-        return $this->hasMany('App\Models\Blog');
     }
 
     public function currentgroups(){

@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateIndividualRequest;
 use bishopm\base\Http\Requests\UpdateIndividualRequest;
 use DB, MediaUploader;
-use Cartalyst\Tags\IlluminateTag as Tag;
 
 class IndividualsController extends Controller {
 

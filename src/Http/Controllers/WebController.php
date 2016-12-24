@@ -7,11 +7,15 @@ use App\Http\Controllers\Controller;
 use bishopm\base\Repositories\PagesRepository;
 use bishopm\base\Repositories\SlidesRepository;
 use bishopm\base\Repositories\SermonsRepository;
+use bishopm\base\Repositories\BlogsRepository;
+use bishopm\base\Repositories\IndividualsRepository;
+use bishopm\base\Models\Blog;
+use bishopm\base\Models\Sermon;
 
 class WebController extends Controller
 {
     
-    private $page,$slides;
+    private $page, $slides;
 
     public function __construct(PagesRepository $page, SlidesRepository $slides)
     {
@@ -29,11 +33,31 @@ class WebController extends Controller
         return view('base::dashboard');
     }
 
-    public function home(SermonsRepository $sermon)
+    public function home(SermonsRepository $sermon, BlogsRepository $blogs)
     {
+        $data['blogs']=$blogs->mostRecent(5);
         $data['sermon']=$sermon->mostRecent();
         $data['slides']=$this->slides->getSlideshow('front');
         return view('base::site.home',$data);
+    }
+
+    public function webblog($slug, BlogsRepository $blogs)
+    {
+        $blog = $blogs->findBySlug($slug);
+        return view('base::site.blog',compact('blog'));
+    }
+
+    public function webperson($slug, IndividualsRepository $individual)
+    {
+        $person = $individual->findBySlug($slug);
+        return view('base::site.person',compact('person'));
+    }    
+
+    public function websubject($tag)
+    {
+        $blogs = Blog::withTag($tag)->get();
+        $sermons = Sermon::withTag($tag)->get();
+        return view('base::site.subject',compact('blogs','sermons','tag'));
     }
 
     public function uri($slug)

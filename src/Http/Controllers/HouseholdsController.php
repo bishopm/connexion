@@ -5,10 +5,10 @@ namespace bishopm\base\Http\Controllers;
 use bishopm\base\Repositories\HouseholdsRepository;
 use bishopm\base\Repositories\GroupsRepository;
 use bishopm\base\Models\Household;
+use bishopm\base\Models\Individual;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateHouseholdRequest;
 use bishopm\base\Http\Requests\UpdateHouseholdRequest;
-use Cartalyst\Tags\IlluminateTag as Tag;
 
 class HouseholdsController extends Controller {
 
@@ -47,11 +47,16 @@ class HouseholdsController extends Controller {
         $data['pastors'][0]=['id'=>1,'firstname'=>'Michael','surname'=>'Bishop'];
         $data['groups']=$this->groups->all();
         $data['household']=$household;
-        $data['tags']=Tag::all();
+        $data['tags']=Individual::allTags()->get();
         foreach ($household->individuals as $indiv){
             if ($indiv->tags){
                 foreach ($indiv->tags as $itag){
                     $data['itags'][$indiv->id][]=$itag->name;
+                }
+            }
+            if ($indiv->groups){
+                foreach ($indiv->groups as $group){
+                    $data['igroups'][$indiv->id][]=$group->id;
                 }
             }
         }

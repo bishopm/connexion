@@ -22,9 +22,7 @@ class BlogsController extends Controller {
 	public function __construct(BlogsRepository $blog)
     {
         $this->blog = $blog;
-        $tag=Tag::find('blogger');
-        $this->bloggers = Individual::withAnyTags($tag)->get();
-        dd($this->bloggers);
+        $this->bloggers = Individual::withTag('blogger')->get();
     }
 
 	public function index()
@@ -35,13 +33,20 @@ class BlogsController extends Controller {
 
 	public function edit(Blog $blog)
     {
-        return view('base::blogs.edit', compact('blog'));
+        $tags=Blog::allTags()->get();
+        $btags=array();
+        foreach ($blog->tags as $tag){
+            $btags[]=$tag->name;
+        }
+        $bloggers=$this->bloggers;
+        return view('base::blogs.edit', compact('blog','bloggers','tags','btags'));
     }
 
     public function create()
     {
+        $tags=Blog::allTags()->get();
         $bloggers=$this->bloggers;
-        return view('base::blogs.create',compact('bloggers'));
+        return view('base::blogs.create',compact('bloggers','tags'));
     }
 
 	public function show(Blog $blog)
@@ -52,16 +57,28 @@ class BlogsController extends Controller {
 
     public function store(CreateBlogRequest $request)
     {
-        $this->blog->create($request->all());
-
+        $blog=$this->blog->create($request->except('tags'));
+        $blog->tag($request->tags);
         return redirect()->route('admin.blogs.index')
-            ->withSuccess('New blog added');
+            ->withSuccess('New blog post added');
     }
 	
     public function update(Blog $blog, UpdateBlogRequest $request)
     {
         $this->blog->update($blog, $request->all());
         return redirect()->route('admin.blogs.index')->withSuccess('Blog has been updated');
+    }
+
+    public function addtag($blog, $tag)
+    {
+        $bb=Blog::find($blog);
+        $bb->tag($tag);
+    }
+
+    public function removetag($blog, $tag)
+    {
+        $bb=Blog::find($blog);
+        $bb->untag($tag);
     }
 
 }

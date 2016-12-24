@@ -26,7 +26,7 @@ class SermonsController extends Controller {
 
 	public function edit($series,Sermon $sermon)
     {
-        $data['preachers'] = $this->preachers;
+        $data['preachers'] = Individual::withTag('preacher')->get();
         $data['series'] = $series;
         $data['sermon'] = $sermon;
         return view('base::sermons.edit', $data);

@@ -12,12 +12,16 @@
     <div class="col-md-4 text-center">
       <img src="{{asset('vendor/bishopm/images/blog.png')}}">
       <h4>From our Blog</h4>
-      <ul class="top30 list-unstyled">
-          <li>Blog post 1</li>
-          <li>Blog post 2</li>
-          <li>Blog post 3</li>
-          <li>Blog post 4</li>
-          <li>Blog post 5</li>
+      <ul class="top30 list-unstyled text-left">
+        @forelse ($blogs as $blog)
+          <li>{{date("j M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></li>
+        @empty
+          <li>No blog posts have been published yet</li>
+        @endforelse
+      </ul>
+      <img class="top17" src="{{asset('vendor/bishopm/images/diary.png')}}">
+      <h4>The week ahead</h4>
+      <ul class="top30 list-unstyled text-left">
       </ul>
     </div>
     <div class="col-md-4 text-center">
@@ -26,17 +30,18 @@
       <img class="top17" src="{{$sermon->series->getMedia('image')->first()->getUrl()}}">
       <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
       <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: {{$sermon->sermon}}</div>
-      <div class="col-md-12">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</div>
+      <div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
     </div>
     <div class="col-md-4 text-center">
       <img src="{{asset('vendor/bishopm/images/contact.png')}}">
-      <h4>Contact us</h4>
-      <div id="map_canvas" class="top30" style="height:200px;"></div>
-      <ul class="list-unstyled top10">
-          <li><a target="_blank" href="https://www.google.co.za/maps/place/Umhlali+Methodist+Church/@-29.48198,31.2204723,17z">5 Burnedale Place, Umhlali</a></li>      
-          <li><i class="fa fa-phone"></i> 032 947 0173 | <i class="fa fa-envelope"></i> {{ HTML::mailto('info@umc.org.za') }}</li> 
+      <h4>Find us</h4>
+      <ul class="list-unstyled top17">
           <li><b>Sunday services:</b> 07h00 | 08h30 | 1000</li>
           <li><b>Children and youth:</b> Sundays 08h30</li>
+      </ul>      
+      <div id="map_canvas" class="top10" style="height:250px;"></div>
+      <ul class="list-unstyled top10">
+        <li><a href="{{url('/')}}/contact">Directions and full contact details</a></li>
       </ul>
     </div>
   </div><!-- /.row -->
@@ -58,10 +63,8 @@
     $('audio').mediaelementplayer({
       features: ['playpause','tracks','progress','volume'],
     });
+    google.maps.event.addDomListener(window, 'load', initialize(11,{{$setting['home_latitude']}},{{$setting['home_longitude']}}));
   });
 })(jQuery);
-$( document ).ready(function() {
-    google.maps.event.addDomListener(window, 'load', initialize(11,{{$setting['home_latitude']}},{{$setting['home_longitude']}}));
-});
 </script>
 @endsection

@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="navbar-wrapper">
-      <div class="navbar navbar-default navbar-static-top" style="padding-left:20px; padding-right:20px;">
+      <div class="navbar navbar-inverse navbar-static-top" style="padding-left:20px; padding-right:20px;">
         <div class="navbar-header">
         <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-bar"></span>
@@ -57,8 +57,7 @@
 </body>
 <!-- FOOTER -->
 <footer>
-  <p class="pull-right"><a href="#">Back to top</a></p>
-  <p>This Bootstrap layout is compliments of Bootply. · <a href="http://www.bootply.com/62603">Edit on Bootply.com</a></p>
+  <div class="text-center top30">5 Burnedale Place, Umhlali| <i class="fa fa-phone"></i> 032 947 0173 | <i class="fa fa-envelope-o"></i> {{ HTML::mailto('info@umc.org.za') }}</li></div>
 </footer>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="{{asset('vendor/bishopm/js/bootstrap.min.js')}}"></script>
