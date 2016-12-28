@@ -1,5 +1,6 @@
 {{ Form::bsText('title','Title','Title',$resource->title) }}
-{{ Form::bsText('description','Description','Description',$resource->description) }}
+{{ Form::bsText('author','Author / Source','Author / Source', $resource->author) }}
+{{ Form::bsTextarea('description','Description','Description',$resource->description) }}
 @if (!count($media))
 {{ Form::bsFile('image') }}
 @else

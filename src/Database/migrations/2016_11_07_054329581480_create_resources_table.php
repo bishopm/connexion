@@ -16,7 +16,8 @@ class CreateResourcesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('title');
-            $table->string('description');
+            $table->string('author');
+            $table->text('description');
             $table->timestamps();
         });
     }
