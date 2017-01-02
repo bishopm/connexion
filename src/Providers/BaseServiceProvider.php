@@ -202,10 +202,16 @@ class BaseServiceProvider extends ServiceProvider
         Form::component('pgHeader', 'base::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
         Form::component('pgButtons', 'base::components.pgButtons', ['actionLabel', 'cancelRoute']);
         Form::component('bsFile', 'base::components.file', ['name', 'attributes' => []]);
-        config(['adminlte.title' => $finset['site_name']]);
+        if (count($finset)){
+            config(['adminlte.title' => $finset['site_name']]);
+            config(['adminlte.logo' => $finset['site_logo']]);
+            config(['adminlte.logo_mini' => $finset['site_logo_mini']]);
+        } else {
+            config(['adminlte.title' => 'Connexion']);
+            config(['adminlte.logo' => '<b>Connexion</b>']);
+            config(['adminlte.logo_mini' => '<b>C</b>x']);
+        }
         config(['adminlte.dashboard_url' => 'admin']);
-        config(['adminlte.logo' => $finset['site_logo']]);
-        config(['adminlte.logo_mini' => $finset['site_logo_mini']]);
         config(['adminlte.layout' => 'fixed']);
         config(['adminlte.filters' => [
             \JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
