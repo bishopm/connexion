@@ -56,6 +56,31 @@ class BaseServiceProvider extends ServiceProvider
                 ]
             ]);
             $event->menu->add([
+                'text' => 'Communication',
+                'icon' => 'comments',
+                'can' => 'read-content',
+                'submenu' => [
+                    [
+                        'text' => 'SMS',
+                        'url'  => 'admin/households',
+                        'icon' => 'mobile',
+                        'can' =>  'edit-content'
+                    ],
+                    [
+                        'text' => 'Email',
+                        'url'  => 'admin/groups',
+                        'icon' => 'envelope-o',
+                        'can' =>  'edit-content'
+                    ],
+                    [
+                        'text' => 'Rosters',
+                        'url'  => 'admin/groups',
+                        'icon' => 'calendar',
+                        'can' =>  'edit-content'
+                    ]
+                ]
+            ]);            
+            $event->menu->add([
                 'text' => 'Todo',
                 'icon' => 'list-ol',
                 'can' => 'read-content',

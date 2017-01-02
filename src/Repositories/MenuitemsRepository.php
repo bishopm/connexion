@@ -11,6 +11,11 @@ class MenuitemsRepository extends EloquentBaseRepository
         return $this->model->where('menu_id',$id)->orderBy('parent_id', 'ASC')->orderBy('position', 'ASC')->get();
     }
 
+	public function allMain($id)
+    {
+        return $this->model->where('menu_id',$id)->where('parent_id',0)->orderBy('title', 'ASC')->get();
+    }
+
     public function arrayForMenu($id)
     {
         $items=$this->model->where('menu_id',$id)->where('parent_id',0)->get();
@@ -54,7 +59,7 @@ class MenuitemsRepository extends EloquentBaseRepository
     		$children = $this->model->where('parent_id',$item->id)->get();
     		if (!count($children)){
 	    		if ($item->url){
-	    			$mainmenu->link($item->url,$item->title);
+	    			$mainmenu->link(url(strtolower($item->url)),$item->title);
 	        	} else {
 	        		$mainmenu->link('#',$item->title);
 	        	}
@@ -63,7 +68,7 @@ class MenuitemsRepository extends EloquentBaseRepository
 	        	$childmenu=Menu::new()->addClass('dropdown-menu');
 				foreach ($children as $child){
 					if ($child->url){
-		        		$childmenu->link($child->url,$child->title);
+		        		$childmenu->link(url(strtolower($child->url)),$child->title);
 			        } else {
 		        		$childmenu->link('#',$child->title);
 			        }

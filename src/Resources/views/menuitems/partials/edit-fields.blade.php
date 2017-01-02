@@ -12,16 +12,16 @@
     </select>
 </div>
 <div class="form-group">
-    <label for="target">Page</label>
-    <select class="form-control" name="page_id" id="page_id">
-    	<option value="0"></option>
+    <label for="target">Url</label>
+    <select class="selectize" name="url" id="url">
+        <optgroup label="--- Custom URL ---">
+            <option value="{{strtolower($menuitem->url)}}">{{strtolower($menuitem->url)}}</option>
+        </optgroup>
+        <optgroup label="--- Pages ---">
     	@foreach ($pages as $page)
-    		@if ($menuitem->page_id==$page->id)
-	    		<option selected value="{{$page->id}}">{{$page->title}}</option>
-	    	@else
-	    		<option value="{{$page->id}}">{{$page->title}}</option>
-	    	@endif
+    		<option value="{{$page->slug}}">{{$page->title}}</option>
     	@endforeach
+        </optgroup>
     </select>
 </div>
 <div class="form-group">

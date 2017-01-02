@@ -1,5 +1,9 @@
 @extends('adminlte::page')
 
+@section('css')
+    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
 @section('content_header')
     {{ Form::pgHeader('Edit menuitem','Menuitems',route('admin.menuitems.index',$menu)) }}
 @stop
@@ -22,4 +26,24 @@
         </div>
     </div>
     {!! Form::close() !!}
+@stop
+
+@section('js')
+<script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('.selectize').selectize({
+          plugins: ['remove_button'],
+          openOnFocus: 1,
+          maxOptions: 30,
+          dropdownParent: "body",
+          create: function(value) {
+              return {
+                  value: value,
+                  text: value
+              }
+          }
+        });
+    });
+</script>
 @stop

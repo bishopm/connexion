@@ -46,7 +46,7 @@ class MenuitemsController extends Controller {
     public function create($menu)
     {
         $data['pages']=$this->pages->all();
-        $data['items']=$this->menuitem->all();
+        $data['items']=$this->menuitem->allMain($menu);
         $data['menu']=$menu;
         return view('base::menuitems.create',$data);
     }
