@@ -34,7 +34,7 @@ class SermonsController extends Controller {
 
     public function create($series_id)
     {
-        $data['preachers']=$this->preachers;
+        $data['preachers']= Individual::withTag('preacher')->get();
         $data['series_id']=$series_id;
         return view('base::sermons.create',$data);
     }
