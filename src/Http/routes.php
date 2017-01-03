@@ -25,6 +25,8 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::put('admin/actions/{action}',['uses'=>'bishopm\base\Http\Controllers\ActionsController@update','as'=>'admin.actions.update']);
 	Route::post('admin/actions',['uses'=>'bishopm\base\Http\Controllers\ActionsController@store','as'=>'admin.actions.store']);
     Route::delete('admin/actions/{action}',['uses'=>'bishopm\base\Http\Controllers\ActionsController@destroy','as'=>'admin.actions.destroy']);
+	Route::get('admin/actions/addtag/{action}/{tag}', ['uses' => 'bishopm\base\Http\Controllers\ActionsController@addtag','as' => 'admin.actions.addtag']);
+    Route::get('admin/actions/removetag/{action}/{tag}', ['uses' => 'bishopm\base\Http\Controllers\ActionsController@removetag','as' => 'admin.actions.removetag']);
 
 	// Blogs
 	Route::get('admin/blogs',['uses'=>'bishopm\base\Http\Controllers\BlogsController@index','as'=>'admin.blogs.index']);

@@ -44,6 +44,18 @@
           openOnFocus: 1,
           maxOptions: 30,
         });
+        $('.selectize').selectize({
+          plugins: ['remove_button'],
+          openOnFocus: 0,
+          maxOptions: 30,
+          dropdownParent: "body",
+          create: function(value) {
+              return {
+                  value: value,
+                  text: value
+              }
+          }
+        });                    
     });
 </script>
 @stop

@@ -70,7 +70,8 @@ class ActionsController extends Controller
         $individuals=$this->individuals->dropdown();
         $folders=$this->folders->dropdown();
         $projects=$this->projects->dropdown();
-        return view('base::actions.create',compact('individuals','projects','folders'));
+        $tags=Action::allTags()->get();
+        return view('base::actions.create',compact('individuals','projects','folders','tags'));
     }
 
     /**
@@ -81,8 +82,8 @@ class ActionsController extends Controller
      */
     public function store(CreateActionRequest $request)
     {
-        $this->action->create($request->all());
-
+        $action=$this->action->create($request->except('context'));
+        $action->tag($request->context);
         return redirect()->route('admin.actions.index')
             ->withSuccess('Task has been created', ['name' => 'Tasks']);
     }
@@ -98,7 +99,12 @@ class ActionsController extends Controller
         $individuals=$this->individuals->dropdown();
         $folders=$this->folders->dropdown();
         $projects=$this->projects->dropdown();
-        return view('base::actions.edit', compact('action','individuals','projects','folders'));
+        $tags=Action::allTags()->get();
+        $atags=array();
+        foreach ($action->tags as $tag){
+            $atags[]=$tag->name;
+        }
+        return view('base::actions.edit', compact('action','individuals','projects','folders','tags','atags'));
     }
 
     /**
@@ -108,9 +114,9 @@ class ActionsController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Action $action, Request $request)
+    public function update(Action $action, UpdateActionRequest $request)
     {
-        $this->action->update($action, $request->all());
+        $this->action->update($action, $request->except('context'));
 
         return redirect()->route('admin.actions.index')
             ->withSuccess('Task has been updated', ['name' => 'Task']);
@@ -128,5 +134,17 @@ class ActionsController extends Controller
 
         return redirect()->route('admin.actions.index')
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('todo::actions.title.actions')]));
+    }
+
+    public function addtag($action, $tag)
+    {
+        $task=Action::find($action);
+        $task->tag($tag);
+    }
+
+    public function removetag($action, $tag)
+    {
+        $task=Action::find($action);
+        $task->untag($tag);
     }
 }

@@ -39,4 +39,16 @@
       @endif
     @endforeach
   </select>
-</div> 
+</div>
+<div class='form-group '>
+  <label for="context">Context</label>
+  <select name="context" class="selectize">
+  @foreach ($tags as $tag)
+    @if ((count($atags)) and (in_array($tag->name,$atags)))
+        <option selected value="{{$tag->name}}">{{$tag->name}}</option>
+    @else
+        <option value="{{$tag->name}}">{{$tag->name}}</option>
+    @endif
+  @endforeach
+  </select>
+</div>

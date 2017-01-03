@@ -15,7 +15,8 @@ class BaseServiceProvider extends ServiceProvider
 {
 
     protected $commands = [
-        'bishopm\base\Console\InstallConnexionCommand'
+        'bishopm\base\Console\InstallConnexionCommand',
+        'bishopm\base\Console\SyncToodledoCommand'
     ];
 
     /**

@@ -27,4 +27,12 @@
       <option value="{{$project->id}}">{{$project->description}}</option>
     @endforeach
   </select>
+</div>
+<div class='form-group '>
+  <label for="context">Context</label>
+  <select name="context" class="selectize">
+  @foreach ($tags as $tag)
+    <option value="{{$tag->name}}">{{$tag->name}}</option>
+  @endforeach
+  </select>
 </div> 

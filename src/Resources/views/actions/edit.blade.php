@@ -44,6 +44,24 @@
           openOnFocus: 1,
           maxOptions: 30,
         });
+        $('.selectize').selectize({
+          plugins: ['remove_button'],
+          openOnFocus: 0,
+          maxOptions: 30,
+          dropdownParent: "body",
+          create: function(value) {
+              return {
+                  value: value,
+                  text: value
+              }
+          },
+          onItemAdd: function(value,$item) {
+            $.ajax({ url: "{{url('/')}}/admin/actions/addtag/{{$action->id}}/" + value })
+          },
+          onItemRemove: function(value,$item) {
+            $.ajax({ url: "{{url('/')}}/admin/actions/removetag/{{$action->id}}/" + value })
+          }
+        });
     });
 </script>
 @stop
