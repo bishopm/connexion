@@ -7117,3 +7117,7 @@ body {
 .carousel-fade .carousel-control {
   z-index: 2;
 }
+
+.carousel-inner img {
+  margin: auto;
+}

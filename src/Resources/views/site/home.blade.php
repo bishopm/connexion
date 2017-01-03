@@ -27,10 +27,14 @@
     <div class="col-md-4 text-center">
       <img src="{{asset('vendor/bishopm/images/preaching.png')}}">
       <h4>Last Sunday</h4>
-      <img class="top17" src="{{$sermon->series->getMedia('image')->first()->getUrl()}}">
-      <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
-      <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: {{$sermon->sermon}}</div>
-      <div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
+      @if ($sermon)
+        <img class="top17" src="{{$sermon->series->getMedia('image')->first()->getUrl()}}">
+        <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
+        <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: {{$sermon->sermon}}</div>
+        <div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
+      @else
+        No sermons have been added yet
+      @endif
     </div>
     <div class="col-md-4 text-center">
       <img src="{{asset('vendor/bishopm/images/contact.png')}}">
