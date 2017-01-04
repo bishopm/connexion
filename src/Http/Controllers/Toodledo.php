@@ -81,26 +81,22 @@ class Toodledo extends AbstractProvider
         }
     }
 
-    public function getData($user,$type,$initial="hourly")
-    {
+    public function getData($user,$type,$commandtype="hourly"){
+        $url='https://api.toodledo.com/3/' . $type . '/get.php?';
+        if ($type=="tasks"){
+            $url.="fields=tag,context,status,duedate&";
+            if ($commandtype=="hourly"){
+                $url.="after=" . strval(time()-3600) . '&';
+            }
+        }
+        return $this->attemptAccess('GET',$url,$user);
+    }
+
+    protected function attemptAccess($method,$url,$user,$data=array()){
         $client = New Client;
         try {
-            if ($type<>'tasks'){
-                if (($initial=="initial") and ($type=="account")){
-                    $response=$client->request('GET','https://api.toodledo.com/3/account/get.php?access_token=' . $user);    
-                } else {
-                    $response=$client->request('GET','https://api.toodledo.com/3/' . $type . '/get.php?access_token=' . $user->toodledo_token);
-                }
-            } else {
-                if ($initial=="initial"){
-                    $taskquery="&fields=tag,context,status,duedate";
-                } else {
-                    $taskquery="&fields=tag,context,status,duedate&after=" . strval(time()-3600);
-                }
-                $response=$client->request('GET','https://api.toodledo.com/3/' . $type . '/get.php?access_token=' . $user->toodledo_token . $taskquery);
-            }
-            $data=json_decode($response->getBody()->getContents());
-            return $data;
+            $response=$client->request($method,$url . 'access_token=' . $user->toodledo_token);
+            return json_decode($response->getBody()->getContents());
         } catch (RequestException $e) {
             if ($e->getCode()==401){
                 print "Refreshing token ...\n";
@@ -110,13 +106,8 @@ class Toodledo extends AbstractProvider
                 $user->toodledo_refresh=$token->getRefreshToken();
                 $user->save();
                 try {
-                    if ($type<>'tasks'){
-                        $response=$client->request('GET','https://api.toodledo.com/3/' . $type . '/get.php?access_token=' . $user->toodledo_token);
-                    } else {
-                        $response=$client->request('GET','https://api.toodledo.com/3/' . $type . '/get.php?access_token=' . $user->toodledo_token . $taskquery);
-                    }
-                    $data=json_decode($response->getBody()->getContents());
-                    return $data;
+                    $response=$client->request($method,$url . 'access_token=' . $user->toodledo_token);
+                    return json_decode($response->getBody()->getContents());
                 } catch (RequestException $er){
                     return $er->getCode();
                 }
@@ -124,14 +115,9 @@ class Toodledo extends AbstractProvider
         }
     }
 
-    public function addData($token,$type)
+    public function updateData($user,$type,$data)
     {
-        $client = New Client;
-        try {
-            $response=$client->request('POST','https://api.toodledo.com/3/' . $type . '/add.php?access_token=' . $token);
-            $data=json_decode($response->getBody()->getContents());
-        } catch (RequestException $e) {
-            $data=json_decode($e->getCode());
-        }
+        $url='https://api.toodledo.com/3/' . $type . '/edit.php?';
+        return $this->attemptAccess('POST',$url,$user,$data);
     }
 }

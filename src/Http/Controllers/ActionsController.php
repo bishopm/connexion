@@ -5,8 +5,6 @@ namespace bishopm\base\Http\Controllers;
 use Auth;
 use bishopm\base\Http\Controllers\Toodledo;
 use bishopm\base\Models\Action;
-use bishopm\base\Models\User;
-use bishopm\base\Repositories\UsersRepository;
 use bishopm\base\Repositories\ActionsRepository;
 use bishopm\base\Repositories\IndividualsRepository;
 use bishopm\base\Repositories\ProjectsRepository;
@@ -21,15 +19,14 @@ class ActionsController extends Controller
     /**
      * @var ActionRepository
      */
-    private $action, $individuals, $projects, $folders, $user;
+    private $action, $individuals, $projects, $folders;
 
-    public function __construct(ActionsRepository $action, IndividualsRepository $individuals, ProjectsRepository $projects, FoldersRepository $folders, UsersRepository $user)
+    public function __construct(ActionsRepository $action, IndividualsRepository $individuals, ProjectsRepository $projects, FoldersRepository $folders)
     {
         $this->action = $action;
         $this->individuals = $individuals;
         $this->projects = $projects;
         $this->folders = $folders;
-        $this->user = $user;
         $this->provider = new Toodledo();
     }
 

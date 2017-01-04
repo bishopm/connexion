@@ -4,10 +4,12 @@ namespace bishopm\base\Http\Controllers;
 
 use bishopm\base\Repositories\ProjectsRepository;
 use bishopm\base\Repositories\IndividualsRepository;
+use Auth;
 use bishopm\base\Models\Project;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateProjectRequest;
 use bishopm\base\Http\Requests\UpdateProjectRequest;
+use bishopm\base\Http\Controllers\Toodledo;
 
 class ProjectsController extends Controller {
 
@@ -17,12 +19,13 @@ class ProjectsController extends Controller {
 	 * @return Response
 	 */
 
-	private $project, $individuals;
+	private $project, $individuals, $toodledo, $user;
 
-	public function __construct(ProjectsRepository $project, IndividualsRepository $individuals)
+	public function __construct(ProjectsRepository $project, IndividualsRepository $individuals, Toodledo $toodledo)
     {
         $this->project = $project;
         $this->individuals = $individuals;
+        $this->toodledo = new Toodledo();
     }
 
 	public function index()
@@ -52,6 +55,7 @@ class ProjectsController extends Controller {
 
     public function store(CreateProjectRequest $request)
     {
+        $user=Auth::user();
         $this->project->create($request->all());
 
         return redirect()->route('admin.projects.index')
@@ -60,6 +64,20 @@ class ProjectsController extends Controller {
 	
     public function update(Project $project, UpdateProjectRequest $request)
     {
+        $user=Auth::user();
+        if ($project->description <> $request->description){
+            $tasks=$this->toodledo->getData($user,'tasks','initial');
+            foreach ($tasks as $task){
+                if ((property_exists($task, 'tag')) and ($task->tag==$project->description)){
+                    $dum['id']=$task->id;
+                    $dum['tag']=$request->description;
+                    $etasks[]=$dum;
+                }
+            }
+        }
+        $editedtasks=str_replace(':', '%3A', json_encode($etasks));
+        $editedtasks=str_replace(',', '%2C', $editedtasks) . '&fields=tag';
+        $resp=$this->toodledo->updateData($user,'tasks',$editedtasks);
         $this->project->update($project, $request->all());
         return redirect()->route('admin.projects.index')->withSuccess('Project has been updated');
     }
