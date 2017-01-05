@@ -95,19 +95,23 @@ class Toodledo extends AbstractProvider
     protected function attemptAccess($method,$url,$user,$data=array()){
         $client = New Client;
         try {
-            $response=$client->request($method,$url . 'access_token=' . $user->toodledo_token);
+            if ($method=="GET"){
+                $response=$client->request('GET',$url . 'access_token=' . $user->toodledo_token);
+            } elseif ($method=="POST"){
+                dd($url,$data);
+                $response=$client->request('POST',$url,$data);
+            }
             return json_decode($response->getBody()->getContents());
         } catch (RequestException $e) {
             if ($e->getCode()==401){
-                print "Refreshing token ...\n";
-                $grant = new \League\OAuth2\Client\Grant\RefreshToken();
-                $token = self::getAccessToken($grant,['refresh_token' => $user->toodledo_refresh]);
-                $user->toodledo_token=$token->getToken();
-                $user->toodledo_refresh=$token->getRefreshToken();
-                $user->save();
+                $user=$this->renewToken($user);
                 try {
-                    $response=$client->request($method,$url . 'access_token=' . $user->toodledo_token);
-                    return json_decode($response->getBody()->getContents());
+                    if ($method=="GET"){
+                        $response=$client->request('GET',$url . 'access_token=' . $user->toodledo_token);
+                    } elseif ($method=="POST"){
+                        $data['access_token']=$user->toodledo_token;
+                        $response=$client->request('POST',$url,$data);
+                    }
                 } catch (RequestException $er){
                     return $er->getCode();
                 }
@@ -115,9 +119,19 @@ class Toodledo extends AbstractProvider
         }
     }
 
+    protected function renewToken($user){
+        print "Refreshing token ...\n";
+        $grant = new \League\OAuth2\Client\Grant\RefreshToken();
+        $token = self::getAccessToken($grant,['refresh_token' => $user->toodledo_refresh]);
+        $user->toodledo_token=$token->getToken();
+        $user->toodledo_refresh=$token->getRefreshToken();
+        $user->save();
+        return $user;
+    }
+
     public function updateData($user,$type,$data)
     {
-        $url='https://api.toodledo.com/3/' . $type . '/edit.php?';
+        $url='https://api.toodledo.com/3/' . $type . '/edit.php';
         return $this->attemptAccess('POST',$url,$user,$data);
     }
 }

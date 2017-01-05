@@ -76,8 +76,12 @@ class ProjectsController extends Controller {
             }
         }
         $editedtasks=str_replace(':', '%3A', json_encode($etasks));
-        $editedtasks=str_replace(',', '%2C', $editedtasks) . '&fields=tag';
-        $resp=$this->toodledo->updateData($user,'tasks',$editedtasks);
+        $editedtasks=str_replace(',', '%2C', $editedtasks);
+        $data['access_token']=$user->toodledo_token;
+        $data['tasks']=$editedtasks;
+        $data['fields']="tag";
+        $resp=$this->toodledo->updateData($user,'tasks',$data);
+        dd($resp);
         $this->project->update($project, $request->all());
         return redirect()->route('admin.projects.index')->withSuccess('Project has been updated');
     }
