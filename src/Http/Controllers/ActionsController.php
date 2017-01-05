@@ -43,7 +43,7 @@ class ActionsController extends Controller
             if (isset($_GET['code'])){
                 $token=$this->provider->getAccessToken('authorization_code', ['code' => $_GET['code']]);
                 $tokenStr=$token->getToken();
-                $data2 = $this->provider->getData($tokenStr,'account','initial');
+                $data2 = $this->provider->getInitial($tokenStr);
                 $user->toodledo_id=$data2->userid;
                 $user->toodledo_token=$tokenStr;
                 $user->toodledo_refresh=$token->getRefreshToken();
@@ -79,6 +79,21 @@ class ActionsController extends Controller
      */
     public function store(CreateActionRequest $request)
     {
+        if ($user->toodledo_token){
+            $task['title']=$request->description;
+            $task['tag']=$this->projects->find($request->project_id)->description;
+            $task['status']=$request->folder_id;
+            $task['context']=$request->context;
+            $data="tasks=" . str_replace(':', '%3A', json_encode($task));
+            $data=str_replace(',', '%2C', $data);
+            $data.="&access_token=" . $user->toodledo_token;
+            $data.="&fields=tag";
+            $data="tasks=" . str_replace(':', '%3A', json_encode($etasks));
+            $data=str_replace(',', '%2C', $data);
+            $data.="&access_token=" . $user->toodledo_token;
+            $data.="&fields=tag";
+            $resp=$this->toodledo->updateData($user,'tasks',$data);
+        }
         $action=$this->action->create($request->except('context'));
         $action->tag($request->context);
         return redirect()->route('admin.actions.index')

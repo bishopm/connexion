@@ -92,14 +92,25 @@ class Toodledo extends AbstractProvider
         return $this->attemptAccess('GET',$url,$user);
     }
 
+    public function updateData($user,$type,$data)
+    {
+        $url='https://api.toodledo.com/3/' . $type . '/edit.php?' . $data;
+        return $this->attemptAccess('POST',$url,$user);
+    }
+
+    public function getInitial($token){
+        $client = New Client;
+        $response=$client->request('GET','https://api.toodledo.com/3/account/get.php?access_token=' . $token);
+        return json_decode($response->getBody()->getContents());
+    }
+
     protected function attemptAccess($method,$url,$user,$data=array()){
         $client = New Client;
         try {
             if ($method=="GET"){
                 $response=$client->request('GET',$url . 'access_token=' . $user->toodledo_token);
             } elseif ($method=="POST"){
-                dd($url,$data);
-                $response=$client->request('POST',$url,$data);
+                $response=$client->request('POST',$url,['form_params' => $data]);
             }
             return json_decode($response->getBody()->getContents());
         } catch (RequestException $e) {
@@ -110,7 +121,7 @@ class Toodledo extends AbstractProvider
                         $response=$client->request('GET',$url . 'access_token=' . $user->toodledo_token);
                     } elseif ($method=="POST"){
                         $data['access_token']=$user->toodledo_token;
-                        $response=$client->request('POST',$url,$data);
+                        $response=$client->request('POST',$url,['form_params' => $data]);
                     }
                 } catch (RequestException $er){
                     return $er->getCode();
@@ -129,9 +140,4 @@ class Toodledo extends AbstractProvider
         return $user;
     }
 
-    public function updateData($user,$type,$data)
-    {
-        $url='https://api.toodledo.com/3/' . $type . '/edit.php';
-        return $this->attemptAccess('POST',$url,$user,$data);
-    }
 }
