@@ -98,6 +98,12 @@ class Toodledo extends AbstractProvider
         return $this->attemptAccess('POST',$url,$user);
     }
 
+    public function addData($user,$type,$data)
+    {
+        $url='https://api.toodledo.com/3/' . $type . '/add.php?' . $data;
+        return $this->attemptAccess('POST',$url,$user);
+    }
+
     public function getInitial($token){
         $client = New Client;
         $response=$client->request('GET','https://api.toodledo.com/3/account/get.php?access_token=' . $token);
