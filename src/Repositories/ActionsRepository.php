@@ -4,6 +4,11 @@ use bishopm\base\Repositories\EloquentBaseRepository;
 
 class ActionsRepository extends EloquentBaseRepository
 {
+  public function all()
+  {
+      return $this->model->with('project')->orderBy('completed')->orderBy('description')->get();
+  }
+
   public function findbytid($tid,$uid){
       return $this->model->where('toodledo_id','=',$tid)->where('user_id','=',$uid)->first();
   }

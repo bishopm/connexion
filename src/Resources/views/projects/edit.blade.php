@@ -18,6 +18,7 @@
                     <div class="form-group">
                         <label for="individual_id" class="control-label">Leader</label>
                         <select name="individual_id" class="input-leader">
+                          <option></option>
                           @foreach ($individuals as $indiv)
                             @if ($indiv->id==$project->individual_id)
                                 <option selected value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>

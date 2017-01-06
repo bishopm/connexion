@@ -21,12 +21,14 @@
                             <thead>
                                 <tr>
                                     <th>Description</th>
+                                    <th>Project</th>
                                     <th>Completed</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Description</th>
+                                    <th>Project</th>
                                     <th>Completed</th>
                                 </tr>
                             </tfoot>
@@ -34,6 +36,7 @@
                                 @forelse ($actions as $action)
                                     <tr>
                                         <td><a href="{{route('admin.actions.edit',$action->id)}}">{{$action->description}}</a></td>
+                                        <td><a href="{{route('admin.actions.edit',$action->id)}}">{{$action->project->description}}</a></td>
                                         <td><a href="{{route('admin.actions.edit',$action->id)}}">
                                             @if ($action->completed)
                                                 {{ date("d M Y",$action->completed) }}

@@ -129,6 +129,23 @@ class ActionsController extends Controller
      */
     public function update(Action $action, UpdateActionRequest $request)
     {
+        $user=Auth::user();
+        if ($user->toodledo_token){
+            $contexts=$this->provider->getData($user,'contexts','initial');
+            foreach ($contexts as $c){
+                $tco[$c->name]=$c->id;
+            }
+            $task['id']=$action->toodledo_id;
+            $task['title']=$request->description;
+            $task['tag']=$this->projects->find($request->project_id)->description;
+            $task['status']=$request->folder_id;
+            $task['context']=$tco[$request->context];
+            $data="tasks=" . str_replace(':', '%3A', json_encode($task));
+            $data=str_replace(',', '%2C', $data);
+            $data.="&access_token=" . $user->toodledo_token;
+            $data.="&fields=tag,status,context";            
+            $resp=$this->provider->updateData($user,'tasks',$data);
+        }
         $this->action->update($action, $request->except('context'));
 
         return redirect()->route('admin.actions.index')

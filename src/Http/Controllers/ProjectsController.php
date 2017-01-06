@@ -67,6 +67,7 @@ class ProjectsController extends Controller {
         $user=Auth::user();
         if (($user->toodledo_token) and ($project->description <> $request->description)){
             $tasks=$this->toodledo->getData($user,'tasks','initial');
+            $etasks=array();
             foreach ($tasks as $task){
                 if ((property_exists($task, 'tag')) and ($task->tag==$project->description)){
                     $dum['id']=$task->id;
@@ -74,11 +75,13 @@ class ProjectsController extends Controller {
                     $etasks[]=$dum;
                 } 
             }
-            $data="tasks=" . str_replace(':', '%3A', json_encode($etasks));
-            $data=str_replace(',', '%2C', $data);
-            $data.="&access_token=" . $user->toodledo_token;
-            $data.="&fields=tag";
-            $resp=$this->toodledo->updateData($user,'tasks',$data);
+            if (count($etasks)){
+                $data="tasks=" . str_replace(':', '%3A', json_encode($etasks));
+                $data=str_replace(',', '%2C', $data);
+                $data.="&access_token=" . $user->toodledo_token;
+                $data.="&fields=tag";
+                $resp=$this->toodledo->updateData($user,'tasks',$data);
+            }
         }
         $this->project->update($project, $request->all());
         return redirect()->route('admin.projects.index')->withSuccess('Project has been updated');
