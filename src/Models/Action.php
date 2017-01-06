@@ -22,6 +22,11 @@ class Action extends Model implements TaggableInterface
         return $this->belongsTo('bishopm\base\Models\Individual');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('bishopm\base\Models\User');
+    }
+
     public function folder()
     {
         return $this->belongsTo('bishopm\base\Models\Folder');

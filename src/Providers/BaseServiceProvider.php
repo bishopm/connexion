@@ -38,12 +38,12 @@ class BaseServiceProvider extends ServiceProvider
             $event->menu->menu=array();
             $event->menu->add('CHURCH ADMIN');
             $event->menu->add([
-                'text' => 'Congregation',
+                'text' => 'Members',
                 'icon' => 'book',
                 'can' => 'read-content',
                 'submenu' => [
                     [
-                        'text' => 'Members',
+                        'text' => 'Households',
                         'url'  => 'admin/households',
                         'icon' => 'child',
                         'can' =>  'read-content'

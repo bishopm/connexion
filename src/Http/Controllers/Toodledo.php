@@ -84,7 +84,7 @@ class Toodledo extends AbstractProvider
     public function getData($user,$type,$commandtype="hourly"){
         $url='https://api.toodledo.com/3/' . $type . '/get.php?';
         if ($type=="tasks"){
-            $url.="fields=tag,context,status,duedate&";
+            $url.="fields=tag,context,status,complete,duedate&";
             if ($commandtype=="hourly"){
                 $url.="after=" . strval(time()-3600) . '&';
             }

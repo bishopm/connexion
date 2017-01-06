@@ -44,7 +44,7 @@ class SyncToodledoCommand extends Command
         foreach ($this->users as $user){
 
             $account=$this->toodledo->getData($user,'account');
-
+            $
             //Contexts
             $contexts=$this->toodledo->getData($user,'contexts');
             foreach ($contexts as $c){
@@ -53,8 +53,8 @@ class SyncToodledoCommand extends Command
 
             //Tasks
             if (($ts - $account->lastedit_task < $ttt) or ($category=="initial")){
+
                 $tasks=$this->toodledo->getData($user,'tasks',$category);
-                print  json_encode($tasks);
                 $allt=array();
                 foreach ($tasks as $t){
                     if (array_key_exists("id", $t)){
