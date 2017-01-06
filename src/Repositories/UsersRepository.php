@@ -5,6 +5,6 @@ use bishopm\base\Repositories\EloquentBaseRepository;
 class UsersRepository extends EloquentBaseRepository
 {
 	public function getidbytoodledo($toodledo_id){
-        return $this->model->where('toodledo_id'=>$toodledo_id)->get();
+        return $this->model->where('toodledo_id','=',$toodledo_id)->get();
     }
 }
