@@ -27,6 +27,8 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     Route::delete('admin/actions/{action}',['uses'=>'bishopm\base\Http\Controllers\ActionsController@destroy','as'=>'admin.actions.destroy']);
 	Route::get('admin/actions/addtag/{action}/{tag}', ['uses' => 'bishopm\base\Http\Controllers\ActionsController@addtag','as' => 'admin.actions.addtag']);
     Route::get('admin/actions/removetag/{action}/{tag}', ['uses' => 'bishopm\base\Http\Controllers\ActionsController@removetag','as' => 'admin.actions.removetag']);
+    Route::get('admin/actions/togglecompleted/{action}', ['uses' => 'bishopm\base\Http\Controllers\ActionsController@togglecompleted','as' => 'admin.actions.togglecompleted']);
+   
 
 	// Blogs
 	Route::get('admin/blogs',['uses'=>'bishopm\base\Http\Controllers\BlogsController@index','as'=>'admin.blogs.index']);

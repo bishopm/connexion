@@ -1,5 +1,9 @@
 @extends('adminlte::page')
 
+@section('css')
+  <meta id="token" name="token" value="{{ csrf_token() }}" />
+@stop
+
 @section('content')
     <div class="container-fluid spark-screen">
         <div class="row">
@@ -40,9 +44,11 @@
                                         <td><a href="{{route('admin.actions.edit',$action->id)}}">{{$action->description}}</a></td>
                                         <td><a href="{{route('admin.projects.show',$action->project_id)}}">{{$action->project->description}}</a></td>
                                         <td>
+                                            @if ($action->user->individual)
                                             <a href="{{route('admin.actions.edit',$action->id)}}">{{$action->user->individual->firstname}} {{$action->user->individual->surname}}</a>
+                                            @endif
                                         </td>
-                                        <td><a title="Click to mark task as complete" href="#" class="btn btn-xs btn-default"><i class="fa fa-square-o"></i></a></td>
+                                        <td><a id="{{$action->id}}" title="Click to mark task as complete" class="toggletask btn btn-xs btn-default"><i class="fa-square-o fa"></i></a></td>
                                     </tr>
                                 @empty
                                     <tr><td>No actions have been added yet</td></tr>
@@ -58,8 +64,20 @@
 
 @section('js')
 <script language="javascript">
-$(document).ready(function() {
+  $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
+      }
+  });
+  $(document).ready(function() {
     $('#indexTable').DataTable();
-});
+    $('.toggletask').on('click',function(){
+      $.ajax({
+        type : 'GET',
+        url : '{{url('/')}}/admin/actions/togglecompleted/' + this.id,
+      });
+      $(this).find('i').toggleClass('fa-square-o fa-check');
+    });
+  });
 </script>
-@endsection
+@stop

@@ -177,4 +177,25 @@ class ActionsController extends Controller
         $task=Action::find($action);
         $task->untag($tag);
     }
+
+    public function togglecompleted($action){
+        $user=Auth::user();
+        $task=Action::find($action);
+        if ($task->completed<1){
+            $task->completed=time();
+        } else {
+            $task->completed=0;
+        }
+        $task->save();
+        if ($user->toodledo_token){
+            $t['id']=$task->toodledo_id;
+            $t['completed']=$task->completed;
+            $data="tasks=" . str_replace(':', '%3A', json_encode($task));
+            $data=str_replace(',', '%2C', $data);
+            $data.="&access_token=" . $user->toodledo_token;
+            $data.="&fields=completed";
+            $resp=$this->provider->updateData($user,'tasks',$data);
+        }
+        return "success!";
+    }
 }
