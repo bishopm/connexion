@@ -117,14 +117,14 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     Route::put('admin/households/{household}/pastorals', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@update','as' => 'admin.pastorals.update']);
     Route::delete('admin/households/{household}/pastorals/{pastoral}', ['uses' => 'bishopm\base\Http\Controllers\PastoralsController@destroy','as' => 'admin.pastorals.destroy']);
 
-	// Persons
-	Route::get('admin/persons',['uses'=>'bishopm\base\Http\Controllers\PersonsController@index','as'=>'admin.persons.index']);
-	Route::get('admin/persons/create',['uses'=>'bishopm\base\Http\Controllers\PersonsController@create','as'=>'admin.persons.create']);
-	Route::get('admin/persons/{person}',['uses'=>'bishopm\base\Http\Controllers\PersonsController@show','as'=>'admin.persons.show']);
-	Route::get('admin/persons/{person}/edit',['uses'=>'bishopm\base\Http\Controllers\PersonsController@edit','as'=>'admin.persons.edit']);
-	Route::put('admin/persons/{person}',['uses'=>'bishopm\base\Http\Controllers\PersonsController@update','as'=>'admin.persons.update']);
-	Route::post('admin/persons',['uses'=>'bishopm\base\Http\Controllers\PersonsController@store','as'=>'admin.persons.store']);
-    Route::delete('admin/persons/{person}',['uses'=>'bishopm\base\Http\Controllers\PersonsController@destroy','as'=>'admin.persons.destroy']);
+	// Preachers
+	Route::get('admin/preachers',['uses'=>'bishopm\base\Http\Controllers\PreachersController@index','as'=>'admin.preachers.index']);
+	Route::get('admin/preachers/create',['uses'=>'bishopm\base\Http\Controllers\PreachersController@create','as'=>'admin.preachers.create']);
+	Route::get('admin/preachers/{preacher}',['uses'=>'bishopm\base\Http\Controllers\PreachersController@show','as'=>'admin.preachers.show']);
+	Route::get('admin/preachers/{preacher}/edit',['uses'=>'bishopm\base\Http\Controllers\PreachersController@edit','as'=>'admin.preachers.edit']);
+	Route::put('admin/preachers/{preacher}',['uses'=>'bishopm\base\Http\Controllers\PreachersController@update','as'=>'admin.preachers.update']);
+	Route::post('admin/preachers',['uses'=>'bishopm\base\Http\Controllers\PreachersController@store','as'=>'admin.preachers.store']);
+    Route::delete('admin/preachers/{preacher}',['uses'=>'bishopm\base\Http\Controllers\PreachersController@destroy','as'=>'admin.preachers.destroy']);
 
 	// Projects
 	Route::get('admin/projects',['uses'=>'bishopm\base\Http\Controllers\ProjectsController@index','as'=>'admin.projects.index']);
@@ -181,6 +181,15 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::post('admin/slides',['uses'=>'bishopm\base\Http\Controllers\SlidesController@store','as'=>'admin.slides.store']);
     Route::delete('admin/slides/{slide}',['uses'=>'bishopm\base\Http\Controllers\SlidesController@destroy','as'=>'admin.slides.destroy']);
 	Route::get('admin/slides/{slide}/removemedia',['uses'=>'bishopm\base\Http\Controllers\SlidesController@removemedia','as'=>'admin.slides.removemedia']);    
+
+	// Societies
+	Route::get('admin/societies',['uses'=>'bishopm\base\Http\Controllers\SocietiesController@index','as'=>'admin.societies.index']);
+	Route::get('admin/societies/create',['uses'=>'bishopm\base\Http\Controllers\SocietiesController@create','as'=>'admin.societies.create']);
+	Route::get('admin/societies/{society}',['uses'=>'bishopm\base\Http\Controllers\SocietiesController@show','as'=>'admin.societies.show']);
+	Route::get('admin/societies/{society}/edit',['uses'=>'bishopm\base\Http\Controllers\SocietiesController@edit','as'=>'admin.societies.edit']);
+	Route::put('admin/societies/{society}',['uses'=>'bishopm\base\Http\Controllers\SocietiesController@update','as'=>'admin.societies.update']);
+	Route::post('admin/societies',['uses'=>'bishopm\base\Http\Controllers\SocietiesController@store','as'=>'admin.societies.store']);
+    Route::delete('admin/societies/{society}',['uses'=>'bishopm\base\Http\Controllers\SocietiesController@destroy','as'=>'admin.societies.destroy']);
 
 	// Specialdays
     Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@index','as' => 'admin.specialdays.index']);

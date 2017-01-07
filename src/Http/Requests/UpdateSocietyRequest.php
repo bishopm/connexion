@@ -4,12 +4,12 @@ namespace bishopm\base\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateResourceRequest extends FormRequest
+class UpdateSocietyRequest extends FormRequest
 {
     public function rules()
     {
         return [
-            'title' => 'required'
+            'society' => 'required'
         ];
     }
 

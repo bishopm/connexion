@@ -2,6 +2,6 @@
 
 use bishopm\base\Repositories\EloquentBaseRepository;
 
-class PersonsRepository extends EloquentBaseRepository
+class PreachersRepository extends EloquentBaseRepository
 {
 }

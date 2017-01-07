@@ -28,6 +28,10 @@ class Individual extends Model implements TaggableInterface
         ];
     }
 
+    public function getFullnameAttribute(){
+        return $this->firstname . " " . $this->surname;
+    }
+
     public function groups(){
         return $this->belongsToMany('bishopm\base\Models\Group')->whereNull('group_individual.deleted_at')->withTimestamps();
     }
@@ -58,9 +62,7 @@ class Individual extends Model implements TaggableInterface
         }
     }
 
-    public function getFullnameAttribute(){
-        return $this->surname . ", " . $this->firstname;
-    }
+    
 
     public function scopeMembers($query){
       return $query->where('memberstatus','=','member');

@@ -9,6 +9,7 @@ use bishopm\base\Repositories\SlidesRepository;
 use bishopm\base\Repositories\SermonsRepository;
 use bishopm\base\Repositories\BlogsRepository;
 use bishopm\base\Repositories\IndividualsRepository;
+use bishopm\base\Repositories\ActionsRepository;
 use bishopm\base\Models\Blog;
 use bishopm\base\Models\Sermon;
 
@@ -28,9 +29,10 @@ class WebController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function dashboard()
+    public function dashboard(ActionsRepository $actions)
     {
-        return view('base::dashboard');
+        $data['actions']=$actions->all();
+        return view('base::dashboard',$data);
     }
 
     public function home(SermonsRepository $sermon, BlogsRepository $blogs)

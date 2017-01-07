@@ -16,12 +16,14 @@
                             <thead>
                                 <tr>
                                     <th>Series name</th>
+                                    <th>Starting date</th>
                                     <th data-sortable="false">Actions</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Series name</th>
+                                    <th>Starting date</th>
                                     <th data-sortable="false">Actions</th>
                                 </tr>
                             </tfoot>
@@ -29,6 +31,8 @@
                                 @forelse ($series as $serie)
                                     <tr>
                                         <td><a href="{{route('admin.series.show',$serie->id)}}">{{$serie->series}}</a>
+                                        </td>
+                                        <td><a href="{{route('admin.series.show',$serie->id)}}">{{date("d M Y",strtotime($serie->created_at))}}</a>
                                         </td>
                                         <td>
                                             <div class="btn-group">

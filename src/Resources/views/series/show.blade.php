@@ -34,7 +34,7 @@
                       {{$sermon->readings}}
                     </div>  
                     <div class="col-md-3">
-                      {{$sermon->person_id}}
+                      {{$sermon->individual->firstname}} {{$sermon->individual->surname}}
                     </div>
                   </div>
                 @empty
@@ -44,7 +44,7 @@
             </div>
             <hr>
             <div class="row">     
-              <div class="col-md-6">
+              <div class="col-md-12">
                   {{$series->description}}
               </div>
             </div>

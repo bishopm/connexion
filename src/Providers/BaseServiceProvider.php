@@ -80,7 +80,32 @@ class BaseServiceProvider extends ServiceProvider
                         'can' =>  'edit-content'
                     ]
                 ]
-            ]);            
+            ]);
+            $event->menu->add([
+                'text' => 'Preaching',
+                'icon' => 'comments',
+                'can' => 'read-content',
+                'submenu' => [
+                    [
+                        'text' => 'Preachers',
+                        'url'  => 'admin/preachers',
+                        'icon' => 'child',
+                        'can' =>  'edit-content'
+                    ],
+                    [
+                        'text' => 'Societies',
+                        'url'  => 'admin/societies',
+                        'icon' => 'envelope-o',
+                        'can' =>  'edit-content'
+                    ],
+                    [
+                        'text' => 'Plan',
+                        'url'  => 'admin/groups',
+                        'icon' => 'calendar',
+                        'can' =>  'edit-content'
+                    ]
+                ]
+            ]);
             $event->menu->add([
                 'text' => 'Todo',
                 'icon' => 'list-ol',
@@ -326,9 +351,9 @@ class BaseServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\PersonsRepository',
+            'bishopm\base\Repositories\PreachersRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\PersonsRepository(new \bishopm\base\Models\Person());
+                $repository = new \bishopm\base\Repositories\PreachersRepository(new \bishopm\base\Models\Preacher());
                 return $repository;
             }
         );        
@@ -388,6 +413,13 @@ class BaseServiceProvider extends ServiceProvider
                 return $repository;
             }
         );
+        $this->app->bind(
+            'bishopm\base\Repositories\SocietiesRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\SocietiesRepository(new \bishopm\base\Models\Society());
+                return $repository;
+            }
+        );        
         $this->app->bind(
             'bishopm\base\Repositories\SpecialdaysRepository',
             function () {
