@@ -16,17 +16,26 @@
                             <thead>
                                 <tr>
                                     <th>Description</th>
+                                    <th>Project leader</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Description</th>
+                                    <th>Project leader</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @forelse ($projects as $project)
                                     <tr>
                                         <td><a href="{{route('admin.projects.show',$project->id)}}">{{$project->description}}</a></td>
+                                        <td><a href="{{route('admin.projects.show',$project->id)}}">
+                                            @if ($project->individual)
+                                                {{$project->individual->firstname}} {{$project->individual->surname}}
+                                            @else
+                                                No leader assigned
+                                            @endif
+                                        </a></td>
                                     </tr>
                                 @empty
                                     <tr><td>No projects have been added yet</td></tr>
