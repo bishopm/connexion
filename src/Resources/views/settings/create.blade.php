@@ -1,7 +1,11 @@
 @extends('adminlte::page')
 
-@section('content')
+@section('content_header')
     {{ Form::pgHeader('Add setting','Settings',route('admin.settings.index')) }}
+@stop
+
+@section('content')
+    @include('base::shared.errors')
     {!! Form::open(['route' => array('admin.settings.store'), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">

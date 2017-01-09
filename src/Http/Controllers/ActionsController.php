@@ -88,7 +88,16 @@ class ActionsController extends Controller
             $task['title']=$request->description;
             $task['tag']=$this->projects->find($request->project_id)->description;
             $task['status']=$request->folder_id;
-            $task['context']=$tco[$request->context];
+            if (!in_array($request->context,array_keys($tco))){
+                $data="name=" . str_replace(' ','+',$request->context);
+                $data=str_replace(',', '%2C', $data);
+                $data=str_replace(' ', '+', $data);
+                $data.="&access_token=" . $user->toodledo_token;
+                $resp=$this->provider->addData($user,'contexts',$data);
+                $task['context']=$request->context;
+            } else {
+                $task['context']=$tco[$request->context];
+            }
             $data="tasks=" . str_replace(':', '%3A', json_encode($task));
             $data=str_replace(',', '%2C', $data);
             $data.="&access_token=" . $user->toodledo_token;
@@ -142,6 +151,7 @@ class ActionsController extends Controller
             $task['context']=$tco[$request->context];
             $data="tasks=" . str_replace(':', '%3A', json_encode($task));
             $data=str_replace(',', '%2C', $data);
+            $data=str_replace(' ', '+', $data);
             $data.="&access_token=" . $user->toodledo_token;
             $data.="&fields=tag,status,context";            
             $resp=$this->provider->updateData($user,'tasks',$data);
@@ -192,6 +202,7 @@ class ActionsController extends Controller
             $t['completed']=$task->completed;
             $data="tasks=" . str_replace(':', '%3A', json_encode($task));
             $data=str_replace(',', '%2C', $data);
+            $data=str_replace(' ', '+', $data);
             $data.="&access_token=" . $user->toodledo_token;
             $data.="&fields=completed";
             $resp=$this->provider->updateData($user,'tasks',$data);

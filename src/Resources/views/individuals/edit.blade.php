@@ -9,6 +9,7 @@
 @stop
 
 @section('content')
+    @include('base::shared.errors')
     {!! Form::open(['route' => array('admin.individuals.update',$individual->household_id,$individual->id), 'method' => 'put', 'files'=>'true']) !!}
     <div class="row">
         <div class="col-md-12">

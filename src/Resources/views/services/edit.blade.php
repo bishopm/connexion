@@ -1,0 +1,23 @@
+@extends('adminlte::page')
+
+@section('content_header')
+    {{ Form::pgHeader('Edit service','Services',route('admin.services.index',$society)) }}
+@stop
+
+@section('content')
+    @include('base::shared.errors')    
+    {!! Form::open(['route' => array('admin.services.update',$society,$service->id), 'method' => 'put']) !!}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary"> 
+                <div class="box-body">
+                    @include('base::services.partials.edit-fields')
+                </div>
+                <div class="box-footer">
+                    {{Form::pgButtons('Update',route('admin.services.index',$society)) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {!! Form::close() !!}
+@stop

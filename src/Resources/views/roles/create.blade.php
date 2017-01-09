@@ -2,6 +2,7 @@
 
 @section('content')
     {{ Form::pgHeader('Add role','Roles',route('admin.roles.index')) }}
+    @include('base::shared.errors')    
     {!! Form::open(['route' => array('admin.roles.store'), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">

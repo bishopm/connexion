@@ -5,6 +5,7 @@
 @stop
 
 @section('content')
+    @include('base::shared.errors')
     {!! Form::open(['route' => array('admin.resources.store'), 'method' => 'post', 'files'=>'true']) !!}
     <div class="row">
         <div class="col-md-12">

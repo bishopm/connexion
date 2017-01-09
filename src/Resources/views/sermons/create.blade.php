@@ -9,6 +9,7 @@
 @stop
 
 @section('content')
+    @include('base::shared.errors')
     {!! Form::open(['route' => array('admin.sermons.store',$series_id), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">

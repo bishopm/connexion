@@ -9,6 +9,7 @@
 @stop
 
 @section('content')
+    @include('base::shared.errors')
     {!! Form::open(['route' => array('admin.menuitems.update',$menu,$menuitem->id), 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-6">

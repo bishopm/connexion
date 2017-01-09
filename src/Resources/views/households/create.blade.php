@@ -5,6 +5,7 @@
 @stop
 
 @section('content')
+    @include('base::shared.errors')
     {!! Form::open(['route' => ['admin.households.store'], 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-6">

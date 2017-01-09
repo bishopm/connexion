@@ -10,4 +10,5 @@ class Slide extends Model
     use Mediable;
 	
     protected $guarded = array('id');
+
 }

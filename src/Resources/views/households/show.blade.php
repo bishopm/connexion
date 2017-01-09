@@ -11,6 +11,7 @@
 @stop
 
 @section('content')
+@include('base::shared.errors') 
     <div class="row">
       <div class="col-md-6">
         <div class="box box-primary">

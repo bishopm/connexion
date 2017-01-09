@@ -2,6 +2,7 @@
 
 @section('content')
     {{ Form::pgHeader('Edit setting','Settings',route('admin.settings.index')) }}
+    @include('base::shared.errors')    
     {!! Form::open(['route' => ['admin.settings.update',$setting->id], 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">

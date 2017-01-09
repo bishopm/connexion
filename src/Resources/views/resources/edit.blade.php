@@ -5,6 +5,7 @@
 @stop
 
 @section('content')
+    @include('base::shared.errors')
     {!! Form::open(['route' => array('admin.resources.update',$resource->id), 'method' => 'put', 'files'=>'true']) !!}
     <div class="row">
         <div class="col-md-12">

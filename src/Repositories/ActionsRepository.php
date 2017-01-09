@@ -6,7 +6,7 @@ class ActionsRepository extends EloquentBaseRepository
 {
   public function all()
   {
-      return $this->model->with('project')->where('completed',0)->orderBy('description')->get();
+      return $this->model->with('project')->whereNull('completed')->orWhere('completed',0)->orderBy('description')->get();
   }
 
   public function findbytid($tid,$uid){

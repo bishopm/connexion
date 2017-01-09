@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('content')
+@include('base::shared.errors') 
     <div class="container-fluid spark-screen">
         <div class="row">
             <div class="col-md-12">
@@ -16,17 +17,28 @@
                             <thead>
                                 <tr>
                                     <th>Society</th>
+                                    <th>Services</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Society</th>
+                                    <th>Services</th>
+                                    <th></th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @forelse ($societies as $society)
                                     <tr>
-                                        <td><a href="{{route('admin.societies.edit',$society->id)}}">{{$society->society}}</a></td>
+                                        <td><a href="{{route('admin.societies.show',$society->id)}}">{{$society->society}}</a></td>
+                                        <td>{{count($society->services)}}
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="{{ route('admin.societies.edit', [$society->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.societies.destroy', [$society->id]) }}"><i class="fa fa-trash"></i></button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr><td>No societies have been added yet</td></tr>

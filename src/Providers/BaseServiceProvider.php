@@ -400,6 +400,13 @@ class BaseServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'bishopm\base\Repositories\ServicesRepository',
+            function () {
+                $repository = new \bishopm\base\Repositories\ServicesRepository(new \bishopm\base\Models\Service());
+                return $repository;
+            }
+        );
+        $this->app->bind(
             'bishopm\base\Repositories\SettingsRepository',
             function () {
                 $repository = new \bishopm\base\Repositories\SettingsRepository(new \bishopm\base\Models\Setting());

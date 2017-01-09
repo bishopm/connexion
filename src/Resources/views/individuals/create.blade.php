@@ -5,6 +5,7 @@
 @stop
 
 @section('content')
+    @include('base::shared.errors')
     {{ Form::pgHeader('Add household member','Individuals',route('admin.households.show',$household)) }}
     {!! Form::open(['route' => array('admin.individuals.store',$household), 'method' => 'post', 'files'=>'true']) !!}
     <div class="row">

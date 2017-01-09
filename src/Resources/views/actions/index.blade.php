@@ -5,13 +5,14 @@
 @stop
 
 @section('content')
+@include('base::shared.errors') 
     <div class="container-fluid spark-screen">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-6"><h4>Incomplete Tasks</h4></div>
+                            <div class="col-md-6"><h4>Incomplete Tasks <small>Assigned to {{$currentUser->individual->fullname}}</small></h4></div>
                             <div class="col-md-6">
                                 <a href="{{route('admin.actions.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new task</a>
                                 @if ($authorizationUrl<>"NA")
@@ -26,7 +27,7 @@
                                 <tr>
                                     <th>Description</th>
                                     <th>Project</th>
-                                    <th>Assigned to</th>
+                                    <th>Status details</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -34,7 +35,7 @@
                                 <tr>
                                     <th>Description</th>
                                     <th>Project</th>
-                                    <th>Assigned to</th>
+                                    <th>Status details</th>
                                     <th></th>
                                 </tr>
                             </tfoot>
@@ -44,9 +45,7 @@
                                         <td><a href="{{route('admin.actions.edit',$action->id)}}">{{$action->description}}</a></td>
                                         <td><a href="{{route('admin.projects.show',$action->project_id)}}">{{$action->project->description}}</a></td>
                                         <td>
-                                            @if ($action->user->individual)
-                                            <a href="{{route('admin.actions.edit',$action->id)}}">{{$action->user->individual->firstname}} {{$action->user->individual->surname}}</a>
-                                            @endif
+                                            <a href="{{route('admin.actions.edit',$action->id)}}">{{$action->status_details}}</a>
                                         </td>
                                         <td><a id="{{$action->id}}" title="Click to mark task as complete" class="toggletask btn btn-xs btn-default"><i class="fa-square-o fa"></i></a></td>
                                     </tr>

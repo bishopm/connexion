@@ -21,4 +21,8 @@ class Society extends Model
         ];
     }
 
+    public function services(){
+        return $this->hasMany('bishopm\base\Models\Service');
+    }
+
 }

@@ -7,6 +7,7 @@
 
 @section('content')
     {{ Form::pgHeader('Edit user','Users',route('admin.users.index')) }}
+    @include('base::shared.errors')    
     {!! Form::open(['route' => array('admin.users.update',$user->id), 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">

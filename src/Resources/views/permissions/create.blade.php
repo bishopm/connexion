@@ -2,6 +2,7 @@
 
 @section('content')
     {{ Form::pgHeader('Add permission','Permissions',route('admin.permissions.index')) }}
+    @include('base::shared.errors')    
     {!! Form::open(['route' => array('admin.permissions.store'), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">

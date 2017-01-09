@@ -5,6 +5,7 @@
 @stop
 
 @section('content')
+    @include('base::shared.errors')
     {!! Form::open(['route' => ['admin.households.update', $household->id], 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-6">

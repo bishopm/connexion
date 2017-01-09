@@ -172,6 +172,15 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::post('admin/series/{series}/sermons',['uses'=>'bishopm\base\Http\Controllers\SermonsController@store','as'=>'admin.sermons.store']);
     Route::delete('admin/series/{series}/sermons/{sermon}',['uses'=>'bishopm\base\Http\Controllers\SermonsController@destroy','as'=>'admin.sermons.destroy']);
 
+	// Services
+	Route::get('admin/societies/{society}/services',['uses'=>'bishopm\base\Http\Controllers\ServicesController@index','as'=>'admin.services.index']);
+	Route::get('admin/societies/{society}/services/create',['uses'=>'bishopm\base\Http\Controllers\ServicesController@create','as'=>'admin.services.create']);
+	Route::get('admin/societies/{society}/services/{service}',['uses'=>'bishopm\base\Http\Controllers\ServicesController@show','as'=>'admin.services.show']);
+	Route::get('admin/societies/{society}/services/{service}/edit',['uses'=>'bishopm\base\Http\Controllers\ServicesController@edit','as'=>'admin.services.edit']);
+	Route::put('admin/societies/{society}/services/{service}',['uses'=>'bishopm\base\Http\Controllers\ServicesController@update','as'=>'admin.services.update']);
+	Route::post('admin/societies/{society}/services',['uses'=>'bishopm\base\Http\Controllers\ServicesController@store','as'=>'admin.services.store']);
+    Route::delete('admin/societies/{society}/services/{service}',['uses'=>'bishopm\base\Http\Controllers\ServicesController@destroy','as'=>'admin.services.destroy']);
+
 	// Slides
 	Route::get('admin/slides',['uses'=>'bishopm\base\Http\Controllers\SlidesController@index','as'=>'admin.slides.index']);
 	Route::get('admin/slides/create',['uses'=>'bishopm\base\Http\Controllers\SlidesController@create','as'=>'admin.slides.create']);

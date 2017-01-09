@@ -4,8 +4,12 @@
     <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
-@section('content')
+@section('content_header')
     {{ Form::pgHeader('Add society','Societies',route('admin.societies.index')) }}
+@stop
+
+@section('content')
+    @include('base::shared.errors')
     {!! Form::open(['route' => array('admin.societies.store'), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">

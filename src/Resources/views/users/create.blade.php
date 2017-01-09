@@ -7,6 +7,7 @@
 
 @section('content')
     {{ Form::pgHeader('Add user','Users',route('admin.users.index')) }}
+    @include('base::shared.errors')    
     {!! Form::open(['route' => array('admin.users.store'), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">

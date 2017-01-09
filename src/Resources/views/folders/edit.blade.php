@@ -2,6 +2,7 @@
 
 @section('content')
     {{ Form::pgHeader('Edit folder','Folders',route('admin.folders.index')) }}
+    @include('base::shared.errors')    
     {!! Form::open(['route' => array('admin.folders.update',$folder->id), 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">
