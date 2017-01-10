@@ -41,7 +41,6 @@ class UsersController extends Controller {
         return view('base::users.edit', $data);
     }
 
-
 	public function show($user)
 	{
 		if ($user=="current"){
@@ -72,16 +71,16 @@ class UsersController extends Controller {
             ->withSuccess('New user added');
     }
 	
-    public function update(User $user, UpdateUserRequest $request)
+    public function update($user, UpdateUserRequest $request)
     {
-        $user->roles()->detach();
-        $user->roles()->attach($request->role_id);
-
+        $user=User::find($user);
         $user->fill($request->except('password','role_id'));
         if ($request->input('password')<>""){
             $user->password = Hash::make($request->input('password'));
-            $user->save();
         }
+        $user->save();
+        $user->roles()->detach();
+        $user->roles()->attach($request->role_id);        
         return redirect()->route('admin.users.index')->withSuccess('User has been updated');
     }
 

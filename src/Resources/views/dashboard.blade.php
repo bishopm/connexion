@@ -1,8 +1,8 @@
 @extends('adminlte::page')
 
 @section('css')
+    <link href="{{ asset('/vendor/bishopm/fullcalendar/fullcalendar.print.css') }}" rel="stylesheet" type="text/css" media="print"/>
     <link href="{{ asset('/vendor/bishopm/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/vendor/bishopm/fullcalendar/fullcalendar.print.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('htmlheader_title')
@@ -14,21 +14,22 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Home</div>
+                    <div class="panel-heading">
+                      Logged in as: 
+                      @if (isset($currentUser->individual))
+                          <b>{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</b>
+                      @else
+                          <b>{{$currentUser->name}}</b>
+                      @endif
+                    </div>
                     <div class="panel-body">
-                        <div class="well col-md-3">
-                            Welcome, 
-                            @if (isset($currentUser->individual))
-                                <b>{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</b>
-                            @else
-                                <b>{{$currentUser->name}}</b>
-                            @endif
-                            <hr>
-                            @foreach ($actions as $action)
-                                <li>{{$action->description}}</li>
-                            @endforeach
-                        </div>
                         <div id="calendar" class="col-md-9">
+                        </div>
+                        <div class="col-md-3">
+                        <h2>To do</h2>
+                        @foreach ($actions as $action)
+                            <li>{{$action->description}}</li>
+                        @endforeach
                         </div>
                     </div>
                 </div>
@@ -52,8 +53,9 @@
               day: { columnFormat: 'ddd' },
               month: { columnFormat: 'ddd' }
           },
+          events: {!! json_encode($pcals) !!},
           eventSources:  {!! json_encode($cals) !!},
-          defaultView: 'month'
+          defaultView: 'agendaWeek'
       });
   });
   </script>

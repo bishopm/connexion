@@ -13,6 +13,8 @@ use bishopm\base\Repositories\ActionsRepository;
 use bishopm\base\Models\Blog;
 use bishopm\base\Models\Sermon;
 use bishopm\base\Models\Setting;
+use bishopm\base\Services\GoogleCalendar;
+use Auth;
 
 class WebController extends Controller
 {
@@ -32,6 +34,7 @@ class WebController extends Controller
      */
     public function dashboard(ActionsRepository $actions)
     {
+        $user=Auth::user();
         $settings=Setting::all();
         foreach ($settings as $setting){
             $settingsarray[$setting->setting_key]=$setting->setting_value;
@@ -39,6 +42,12 @@ class WebController extends Controller
         $data['actions']=$actions->all();
         $dum['googleCalendarId']=$settingsarray['google_calendar'];
         $dum['color']='red';
+        $privatecal = new GoogleCalendar;
+        $pcals=$privatecal->getTen($user->google_calendar);
+        foreach ($pcals as $pcal){
+            $pcal['color']=$user->calendar_colour;
+            $data['pcals'][]=$pcal;
+        }
         $data['cals'][]=$dum;
         return view('base::dashboard',$data);
     }
