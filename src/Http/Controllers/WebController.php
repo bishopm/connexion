@@ -13,7 +13,7 @@ use bishopm\base\Repositories\ActionsRepository;
 use bishopm\base\Models\Blog;
 use bishopm\base\Models\Sermon;
 use bishopm\base\Models\Setting;
-use bishopm\base\Services\GoogleCalendar;
+use Spatie\GoogleCalendar\Event;
 use Auth;
 
 class WebController extends Controller
@@ -42,11 +42,22 @@ class WebController extends Controller
         $data['actions']=$actions->all();
         $dum['googleCalendarId']=$settingsarray['google_calendar'];
         $dum['color']='red';
-        $privatecal = new GoogleCalendar;
-        $pcals=$privatecal->getTen($user->google_calendar);
+        $pcals=Event::get(null,null,[],$user->google_calendar); 
         foreach ($pcals as $pcal){
-            $pcal['color']=$user->calendar_colour;
-            $data['pcals'][]=$pcal;
+            $pdum['title']=$pcal->summary;
+            $pdum['start']=$pcal->start->dateTime;
+            $pdum['description']=$pcal->location . ": " . $pcal->description;
+            if (strlen($pdum['description'])<3){
+                $pdum['description']="";
+            }
+            if (!$pdum['start']){
+                $pdum['start']=$pcal->start->date;
+                $pdum['stime']="";
+            } else {
+                $pdum['stime']=date("G:i",strtotime($pdum['start']));
+            }            
+            $pdum['color']=$user->calendar_colour;
+            $data['pcals'][]=$pdum;
         }
         $data['cals'][]=$dum;
         return view('base::dashboard',$data);

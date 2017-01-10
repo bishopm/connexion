@@ -4,7 +4,7 @@ namespace bishopm\base\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
-use Form, Auth;
+use Form;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -245,6 +245,8 @@ class BaseServiceProvider extends ServiceProvider
             \JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
             \JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
             \bishopm\base\Middleware\MyMenuFilter::class]]);
+        config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
+        config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
         view()->composer('base::templates.*', \bishopm\base\Composers\MenuComposer::class);
     }
 
@@ -263,6 +265,8 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->register('Cartalyst\Tags\TagsServiceProvider');
         $this->app->register('Plank\Mediable\MediableServiceProvider');
         $this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
+        $this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
+        AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
