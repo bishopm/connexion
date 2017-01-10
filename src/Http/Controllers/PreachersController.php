@@ -45,7 +45,11 @@ class PreachersController extends Controller {
     {
         $data['individuals'] = $this->individuals->all();
         $data['societies'] = $this->societies->all();
-        return view('base::preachers.create',$data);
+        if (count($data['societies'])){
+            return view('base::preachers.create',$data);
+        } else {
+            return redirect()->route('admin.societies.create')->with('notice','At least one society must be added before adding a preacher');
+        }
     }
 
 	public function show(Preacher $preacher)

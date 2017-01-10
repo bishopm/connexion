@@ -36,7 +36,7 @@
                                         <td>
                                             <div class="btn-group">
                                                 <a href="{{ route('admin.societies.edit', [$society->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.societies.destroy', [$society->id]) }}"><i class="fa fa-trash"></i></button>
+                                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.societies.destroy', [$society->id]) }}" data-action-entity="Society: {{$society->society}}"><i class="fa fa-trash"></i></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -50,10 +50,11 @@
             </div>
         </div>
     </div>
+    @include('base::shared.delete-modal') 
 @endsection
-
 @section('js')
 <script language="javascript">
+@include('base::shared.delete-modal-script') 
 $(document).ready(function() {
         $('#indexTable').DataTable();
     } );
