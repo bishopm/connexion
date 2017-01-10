@@ -12,6 +12,7 @@ use bishopm\base\Repositories\IndividualsRepository;
 use bishopm\base\Repositories\ActionsRepository;
 use bishopm\base\Models\Blog;
 use bishopm\base\Models\Sermon;
+use bishopm\base\Models\Setting;
 
 class WebController extends Controller
 {
@@ -31,7 +32,14 @@ class WebController extends Controller
      */
     public function dashboard(ActionsRepository $actions)
     {
+        $settings=Setting::all();
+        foreach ($settings as $setting){
+            $settingsarray[$setting->setting_key]=$setting->setting_value;
+        }
         $data['actions']=$actions->all();
+        $dum['googleCalendarId']=$settingsarray['google_calendar'];
+        $dum['color']='red';
+        $data['cals'][]=$dum;
         return view('base::dashboard',$data);
     }
 

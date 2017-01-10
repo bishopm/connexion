@@ -238,7 +238,7 @@ class BaseServiceProvider extends ServiceProvider
             config(['adminlte.logo_mini' => '<b>C</b>x']);
         }
         config(['adminlte.dashboard_url' => 'admin']);
-        config(['adminlte.layout' => 'fixed']);
+        //config(['adminlte.layout' => 'fixed']);
         config(['adminlte.filters' => [
             \JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
             \JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
