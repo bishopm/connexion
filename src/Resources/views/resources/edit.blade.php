@@ -14,7 +14,9 @@
                     @include('base::resources.partials.edit-fields')
                 </div>
                 <div class="box-footer">
-                    {{Form::pgButtons('Update',route('admin.resources.index')) }}
+                    <button type="submit" class="btn btn-primary btn-flat">Update</button>
+                    <a class="btn btn-primary btn-flat" href="{{route('admin.ratings.create',$resource->id)}}">Add a review</a>
+                    <a class="btn btn-danger pull-right btn-flat" href="{{route('admin.resources.index')}}"><i class="fa fa-times"></i> Cancel</a>
                 </div>
             </div>
         </div>

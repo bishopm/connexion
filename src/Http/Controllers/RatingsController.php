@@ -3,10 +3,13 @@
 namespace bishopm\base\Http\Controllers;
 
 use bishopm\base\Repositories\RatingsRepository;
+use bishopm\base\Repositories\GroupsRepository;
 use bishopm\base\Models\Rating;
+use bishopm\base\Models\Resource;
 use App\Http\Controllers\Controller;
 use bishopm\base\Http\Requests\CreateRatingRequest;
 use bishopm\base\Http\Requests\UpdateRatingRequest;
+use Auth;
 
 class RatingsController extends Controller {
 
@@ -16,11 +19,12 @@ class RatingsController extends Controller {
 	 * @return Response
 	 */
 
-	private $rating;
+	private $rating,$groups;
 
-	public function __construct(RatingsRepository $rating)
+	public function __construct(RatingsRepository $rating, GroupsRepository $groups)
     {
         $this->rating = $rating;
+        $this->groups = $groups;
     }
 
 	public function index()
@@ -34,9 +38,10 @@ class RatingsController extends Controller {
         return view('base::ratings.edit', compact('rating'));
     }
 
-    public function create()
+    public function create(Resource $resource)
     {
-        return view('base::ratings.create');
+        $groups=$this->groups->all();
+        return view('base::ratings.create',compact('resource','groups'));
     }
 
 	public function show(Rating $rating)
@@ -45,11 +50,13 @@ class RatingsController extends Controller {
         return view('base::ratings.show',$data);
 	}
 
-    public function store(CreateRatingRequest $request)
+    public function store($resource, CreateRatingRequest $request)
     {
+        $request->request->add(['user_id' => Auth::user()->id]);
+        $request->request->add(['resource_id' => $resource]);
         $this->rating->create($request->all());
 
-        return redirect()->route('admin.ratings.index')
+        return redirect()->route('admin.resources.show',$resource)
             ->withSuccess('New rating added');
     }
 	

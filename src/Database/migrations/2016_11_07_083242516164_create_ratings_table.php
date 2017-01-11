@@ -18,7 +18,7 @@ class CreateRatingsTable extends Migration
             $table->integer('rating');
             $table->string('comment');
             $table->integer('group_id');
-            $table->integer('user_id');
+            $table->integer('user_id'); 
             $table->integer('resource_id');
             $table->timestamps();
         });

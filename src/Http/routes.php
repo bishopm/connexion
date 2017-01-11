@@ -152,6 +152,7 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::put('admin/resources/{resource}',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@update','as'=>'admin.resources.update']);
 	Route::post('admin/resources',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@store','as'=>'admin.resources.store']);
     Route::delete('admin/resources/{resource}',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@destroy','as'=>'admin.resources.destroy']);
+	Route::get('admin/resources/{resource}/removemedia',['uses'=>'bishopm\base\Http\Controllers\ResourcesController@removemedia','as'=>'admin.resources.removemedia']);    
 
 	// Series
 	Route::get('admin/series',['uses'=>'bishopm\base\Http\Controllers\SeriesController@index','as'=>'admin.series.index']);
