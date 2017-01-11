@@ -87,6 +87,11 @@ class InstallConnexionCommand extends Command
             'category' => 'general'
         ]); 
         DB::table('settings')->insert([
+            'setting_key' => 'google_calendar',
+            'setting_value' => '',
+            'category' => 'calendar'
+        ]);         
+        DB::table('settings')->insert([
             'setting_key' => 'site_abbreviation',
             'setting_value' => 'Cx',
             'category' => 'general'
