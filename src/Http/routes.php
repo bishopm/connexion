@@ -235,6 +235,7 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     Route::get('admin/worship/songapi/{song}','bishopm\base\Http\Controllers\SongsController@showapi');
     Route::put('admin/worship/songs/{song}',['uses'=>'bishopm\base\Http\Controllers\SongsController@update','as'=>'admin.songs.update']);
     Route::delete('admin/worship/songs/{song}',['uses'=>'bishopm\base\Http\Controllers\SongsController@destroy','as'=>'admin.songs.destroy']);
+    Route::get('admin/worship/search/{q?}', 'bishopm\base\Http\Controllers\SongsController@search');
 
     Route::post('admin/worship/convert', 'bishopm\base\Http\Controllers\SongsController@convert');
     Route::get('admin/worship', 'bishopm\base\Http\Controllers\SongsController@index');

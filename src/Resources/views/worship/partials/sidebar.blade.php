@@ -16,7 +16,7 @@
             </div>
             {!! Form::close() !!}
             <li class="songtitles" v-for="song in songs">
-                <a class="@{{song.musictype}}" href="/admin/worship/songs/@{{song.id}}">@{{ song.title }}</a>
+                <a class="@{{song.musictype}}" href="{{url('/')}}/admin/worship/songs/@{{song.id}}">@{{ song.title }}</a>
             </li>
         </ul><!-- /.sidebar-menu -->
     </section>
@@ -36,7 +36,7 @@ new Vue({
   methods: {
       searchMe: function() {
           if (this.q.length>1){
-              this.$http.get('{{env('WORSHIP_FOLDER')}}/search/' + this.q,function(dat) {
+              this.$http.get('{{url('/')}}/admin/worship/search/' + this.q,function(dat) {
                   this.songs = dat;
               }.bind(this));
           }
