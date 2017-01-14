@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace bishopm\base\Http\Controllers;
 
 use Illuminate\Http\Request, Log, DB;
-use App\Http\Requests, View, App\Http\Requests\SetsRequest;
-use App\Http\Controllers\Controller, Helpers, App\Models\Song, App\Models\Setitem, App\Models\Set, App\Models\Service;
+use App\Http\Requests, View, bishopm\base\Http\Requests\SetsRequest;
+use App\Http\Controllers\Controller, Helpers, bishopm\base\Models\Song, bishopm\base\Models\Setitem, bishopm\base\Models\Set, bishopm\base\Models\Service;
 
 class SetitemsController extends Controller
 {

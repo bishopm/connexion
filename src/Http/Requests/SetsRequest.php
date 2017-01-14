@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace bishopm\base\Http\Requests;
 
 use App\Http\Requests\Request;
 

@@ -1,0 +1,168 @@
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background-color: #81be41;
+    border-color: #81be41;
+    color: #fff;
+    cursor: default;
+    z-index: 3;
+}
+
+.sidebar-menu > li.songtitles > a.hymn {
+    color:lightyellow;
+}
+
+a.hymn {
+    color:darkorange;
+}
+
+
+.sidebar-menu > li.songtitles > a.contemporary {
+    color:lightgreen;
+}
+
+.divider-vertical {
+    height: 50px;
+    margin: 0 9px;
+    border-left: 1px solid #81be41;
+}
+
+.buttonbox {
+    padding:10px;
+}
+
+.sidebar-menu > li.songtitles > a {
+    padding-left:10px;
+    padding-top:0;
+    padding-bottom:0;
+}
+
+chordline {
+    position: relative;
+    line-height:1.9;
+}
+
+ol {
+    padding-left:15px;
+}
+
+chord {
+    top: -1.2em;
+    position: absolute;
+    font-weight:bold;
+}
+
+.user-image {
+    border-radius: 50%;
+    margin-left:10px;
+    margin-right: 10px;
+    margin-top: -2px;
+    width: 100px;
+}
+
+.select2-container {
+    z-index: 5000;
+}
+
+li {
+    word-wrap: break-word;
+}
+
+.smalllogo {
+    display: inline-block!important;
+    font-size:20px;
+    color:white;
+    font-weight:300px;
+    line-height: 50px;
+    padding-right:25px;
+}
+
+h1.error-content > a {
+    color:black;
+}
+
+select.form-control.pplan {
+    padding:0px;
+    font-size:12px;
+    height:auto;
+}
+
+.mssndx {
+    margin-bottom:10px;
+    margin-right:10px;
+}
+
+.main-footer {
+background: #fff;
+padding: 5px;
+color: #444;
+border-top: 1px solid #d2d6de;
+bottom: 0;
+left: 0;
+position: fixed;
+right: 0;
+z-index: 999;
+}
+
+.box {
+  margin-bottom: 10px;
+}
+
+.list-unstyled {
+  padding-bottom: 10px;
+}
+
+.societyCal {
+  background-color: red;
+}
+
+.circuitCal {
+  background-color: green;
+}
+
+.society2Cal {
+  background-color: lightblue;
+}
+
+.pull-right.btn {
+  margin-left:5px;
+}
+
+.nav > li > a {
+  padding-left:7px;
+  padding-right:7px;
+}
+
+.content-wrapper,
+.right-side {
+  min-height: 100%;
+  background-color: #efefef;
+  z-index: 800;
+}
+
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color:#81be41;
+}
+
+a, a:active, a:focus {
+  color:green;
+}
+
+a:hover {
+  color:#9aca3c;
+}
+
+h3 {
+  margin-top:10px;
+}
+
+.select2-container--default .select2-selection--multiple {
+  height:auto;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: #d73925;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove,
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+  color:white;
+}

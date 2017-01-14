@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace bishopm\base\Http\Controllers;
 
-use Illuminate\Http\Request, App\Models\Gchord, Helpers;
-use App\Http\Requests, App\Models\User, App\Models\Song, Auth, App\Models\Set, App\Models\Setitem, View, Redirect, Fpdf;
-use App\Http\Controllers\Controller, App\Http\Requests\SongsRequest;
+use Illuminate\Http\Request, bishopm\base\Models\Gchord;
+use App\Http\Requests, bishopm\base\Models\User, bishopm\base\Models\Song, Auth, bishopm\base\Models\Set, bishopm\base\Models\Setitem, View, Redirect, Fpdf;
+use App\Http\Controllers\Controller, bishopm\base\Http\Requests\SongsRequest;
 
 class SongsController extends Controller
 {
@@ -46,17 +46,23 @@ class SongsController extends Controller
         }
         krsort($newest);
         $newestsets=reset($newest);
-        ksort($newestsets);
+        if ($newestsets){
+            ksort($newestsets);
+        } else {
+            $newestsets=array();
+        }
         $data['newestsets']=$newestsets;
-        ksort($arecents);
+        if ($arecents){
+            ksort($arecents);
+        }
         foreach ($arecents as $key=>$arecent){
             arsort($arecent);
             $data['recents'][$key][]=array_splice($arecent,0,20);
         }
         $data['mostrecentset']=date("d F Y",$mostrecentset);
         $data['newest']=Song::orderBy('created_at', 'DESC')->get()->take(9);
-        $data['users']=User::orderBy('lastlogin','DESC')->get()->toArray();
-        return View::make('songs.index', $data);
+        $data['users']=User::orderBy('name','DESC')->get();
+        return View::make('base::songs.index', $data);
     }
 
     public function search($q='')
@@ -199,13 +205,9 @@ class SongsController extends Controller
      */
     public function create()
     {
-        if (Helpers::perm('edit')){
-            $data['keys']=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#');
-            $data['tempos']=array('4/4','3/4','6/8');
-            return View::make('songs.create',$data);
-        } else {
-            return View::make('shared.unauthorised');
-        }
+        $data['keys']=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#');
+        $data['tempos']=array('4/4','3/4','6/8');
+        return View::make('base::songs.create',$data);
     }
 
     /**
@@ -235,7 +237,7 @@ class SongsController extends Controller
         $song->video=str_replace("www.youtube.com/watch?v=","www.youtube.com/embed/",$song->video);
         $song->user_id=auth()->user()->id;
         $song->save();
-        return Redirect::route('songs.index')->with('okmessage','New song has been added');
+        return Redirect::route('base::songs.index')->with('okmessage','New song has been added');
     }
 
     private function _getChords($lyrics){
@@ -298,7 +300,7 @@ class SongsController extends Controller
         $data['keys']=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#');
         $data['tempos']=array('4/4','3/4','6/8');
         if ($mode=="view"){
-            return View::make('songs.show',$data);
+            return View::make('base::songs.show',$data);
         } elseif ($mode=="slim") {
             return $data['song'];
         } else {
@@ -393,15 +395,11 @@ class SongsController extends Controller
      */
     public function edit($id)
     {
-        if (Helpers::perm('edit')){
-            $data['song']=song::find($id);
-            $data['keys']=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#');
-            $data['tempos']=array('4/4','3/4','6/8');
-            $data['chords']=$this->_getChords($data['song']->lyrics);
-            return View::make('songs.edit',$data);
-        } else {
-            return View::make('shared.unauthorised');
-        }
+        $data['song']=song::find($id);
+        $data['keys']=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#');
+        $data['tempos']=array('4/4','3/4','6/8');
+        $data['chords']=$this->_getChords($data['song']->lyrics);
+        return View::make('base::songs.edit',$data);
     }
 
     /**

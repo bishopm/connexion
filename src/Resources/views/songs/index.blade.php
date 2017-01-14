@@ -1,9 +1,9 @@
-@extends('app')
+@extends('base::worship.app')
 
 @section('content')
     <div class="box box-default">
       <div class="box-header">
-        @include('shared.messageform')
+        @include('base::shared.errors')
         <h3 class="box-title">Find by title below or use the search box</h3>
         <small>or go to <a target="_blank" href="http://oldworship.umc.org.za">old site</a></small>
       </div>
@@ -11,14 +11,14 @@
         @foreach($songs as $song)
         	<?php
                 $initlet=substr($song->title,0,1);
-        		$pagedhouse[$initlet][]="<a title=\"View song\" href=\"" . url('/') . "/songs/" . $song->id . "\">" . $song->title . "</a>";
+        		$pagedhouse[$initlet][]="<a title=\"View song\" href=\"" . url('/') . "/admin/worship/songs/" . $song->id . "\">" . $song->title . "</a>";
             ?>
         @endforeach
         <div id="tabs">
           <ul id="myTab" class="nav nav-tabs">
             <li class="active"><a href="#kk" data-toggle="tab"><b class="fa fa-home"></b></a></li>
             @foreach ($lets as $kk=>$vv)
-                <li><a href="#k{{$kk}}" data-toggle="tab">
+                <li><a style="padding-left:7px; padding-right:7px;" href="#k{{$kk}}" data-toggle="tab">
                 @if (isset($pagedhouse[$vv]))
                   <b>{{$vv}}</b>
                 @else
@@ -35,15 +35,17 @@
                         <h3 class="panel-title">Most recent sets ({{$mostrecentset}})</small></h3>
                     </div>
                     <div class="panel-body">
-                        @foreach ($newestsets as $kset=>$newset)
+                        @forelse ($newestsets as $kset=>$newset)
                             <div class="col-sm-4"><h3>{{$kset}}</h3>
                                 <ul class="list-unstyled">
                                     @foreach($newset as $newsong)
-                                        <li><a class="{{$newsong['musictype']}}" href="{{url('/')}}/songs/{{$newsong['id']}}">{{$newsong['title']}}</a></li>
+                                        <li><a class="{{$newsong['musictype']}}" href="{{url('/')}}/admin/worship/songs/{{$newsong['id']}}">{{$newsong['title']}}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
-                        @endforeach
+                        @empty
+                          No sets have been added yet
+                        @endforelse
                     </div>
                 </div>
                 <div class="panel panel-default">
@@ -62,7 +64,7 @@
                                     $ago="<1 day ago";
                                 }
                                 ?>
-                                <a class="{{$new->musictype}}" href="{{url('/')}}/songs/{{$new['id']}}">{{$new->title}}</a> <small>{{$ago}} ({{explode(' ',$new->user->name)[0]}})</small>
+                                <a class="{{$new->musictype}}" href="{{url('/')}}/admin/worship/songs/{{$new['id']}}">{{$new->title}}</a> <small>{{$ago}} ({{explode(' ',$new->user->name)[0]}})</small>
                             </div>
                         @endforeach
                     </div>
@@ -77,7 +79,7 @@
                                 <div class="col-sm-4"><h3>{{$key}}</h3>
                                     @foreach ($services as $ss)
                                         @foreach ($ss as $ssf)
-                                            {{$ssf['count']}} <a class="{{$ssf['musictype']}}" href="{{url('/')}}/songs/{{$ssf['id']}}">{{$ssf['title']}}</a><br>
+                                            {{$ssf['count']}} <a class="{{$ssf['musictype']}}" href="{{url('/')}}/admin/worship/songs/{{$ssf['id']}}">{{$ssf['title']}}</a><br>
                                         @endforeach
                                     @endforeach
                                 </div>
@@ -92,29 +94,8 @@
                     <div class="panel-body">
                         <div class="row">
                           @foreach ($users as $user)
-                              <?php
-                              if ($user['lastlogin']){
-                                  $ago=round((strtotime("now") - strtotime($user['lastlogin']))/86400);
-                                  if ($ago>1) {
-                                      $ago=$ago . " days ago";
-                                  } elseif ($ago==1) {
-                                      $ago=$ago . " day ago";
-                                  } else {
-                                      $ago=strtotime("now") - strtotime($user['lastlogin']);
-                                      if ($ago<3600){
-                                          $ago=round($ago/60) . " minutes ago";
-                                      } elseif (($ago>3600) and ($ago<7201)) {
-                                          $ago="1 hour ago";
-                                      } else {
-                                          $ago=round($ago/3600) . " hours ago";
-                                      }
-                                  }
-                              } else {
-                                  $ago="Never";
-                              }
-                              ?>
                               <div class="col-sm-3">
-                                {{$user['name']}} ({{$ago}})
+                                {{$user->name}}
                               </div>
                           @endforeach
                         </div>

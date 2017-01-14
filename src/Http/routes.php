@@ -42,13 +42,13 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     Route::get('admin/blogs/removetag/{blog}/{tag}', ['uses' => 'bishopm\base\Http\Controllers\BlogsController@removetag','as' => 'admin.blogs.removetag']);    
 
 	// Chords
-    Route::get('chords',['uses'=>'GchordsController@index','as'=>'chords.index']);
-    Route::get('chords/create/{name?}',['uses'=>'GchordsController@create','as'=>'chords.create']);
-    Route::post('chords',['uses'=>'GchordsController@store','as'=>'chords.store']);
-    Route::get('chords/{chord}/edit',['uses'=>'GchordsController@edit','as'=>'chords.edit']);
-    Route::get('chords/{chord}',['uses'=>'GchordsController@show','as'=>'chords.show']);
-    Route::put('chords/{chord}',['uses'=>'GchordsController@update','as'=>'chords.update']);
-    Route::delete('chords/{chord}',['uses'=>'GchordsController@destroy','as'=>'chords.destroy']);
+    Route::get('admin/worship/chords',['uses'=>'bishopm\base\Http\Controllers\GchordsController@index','as'=>'admin.chords.index']);
+    Route::get('admin/worship/chords/create/{name?}',['uses'=>'bishopm\base\Http\Controllers\GchordsController@create','as'=>'admin.chords.create']);
+    Route::post('admin/worship/chords',['uses'=>'bishopm\base\Http\Controllers\GchordsController@store','as'=>'admin.chords.store']);
+    Route::get('admin/worship/chords/{chord}/edit',['uses'=>'bishopm\base\Http\Controllers\GchordsController@edit','as'=>'admin.chords.edit']);
+    Route::get('admin/worship/chords/{chord}',['uses'=>'bishopm\base\Http\Controllers\GchordsController@show','as'=>'admin.chords.show']);
+    Route::put('admin/worship/chords/{chord}',['uses'=>'bishopm\base\Http\Controllers\GchordsController@update','as'=>'admin.chords.update']);
+    Route::delete('admin/worship/chords/{chord}',['uses'=>'bishopm\base\Http\Controllers\GchordsController@destroy','as'=>'admin.chords.destroy']);
 
 	// Folders
 	Route::get('admin/folders',['uses'=>'bishopm\base\Http\Controllers\FoldersController@index','as'=>'admin.folders.index']);
@@ -191,6 +191,22 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::post('admin/societies/{society}/services',['uses'=>'bishopm\base\Http\Controllers\ServicesController@store','as'=>'admin.services.store']);
     Route::delete('admin/societies/{society}/services/{service}',['uses'=>'bishopm\base\Http\Controllers\ServicesController@destroy','as'=>'admin.services.destroy']);
 
+	// Setitems
+    Route::post('admin/worship/setitems','bishopm\base\Http\Controllers\SetitemsController@store');
+    Route::delete('admin/worship/setitems/{setitem}','bishopm\base\Http\Controllers\SetitemsController@destroy');
+
+    // Sets
+    Route::get('admin/worship/sets',['uses'=>'bishopm\base\Http\Controllers\SetsController@index','as'=>'admin.sets.index']);
+    Route::get('admin/worship/sets/create',['uses'=>'bishopm\base\Http\Controllers\SetsController@create','as'=>'admin.sets.create']);
+    Route::post('admin/worship/sets',['uses'=>'bishopm\base\Http\Controllers\SetsController@store','as'=>'admin.sets.store']);
+    Route::get('admin/worship/sets/{set}/edit',['uses'=>'bishopm\base\Http\Controllers\SetsController@edit','as'=>'admin.sets.edit']);
+    Route::get('admin/worship/sets/{set}/{mode?}',['uses'=>'bishopm\base\Http\Controllers\SetsController@show','as'=>'admin.sets.show']);
+    Route::get('admin/worship/setsapi/{set}','bishopm\base\Http\Controllers\SetsController@showapi');
+    Route::put('admin/worship/sets/{set}',['uses'=>'bishopm\base\Http\Controllers\SetsController@update','as'=>'admin.sets.update']);
+    Route::put('admin/worship/setsapi/{set}','bishopm\base\Http\Controllers\SetsController@updateapi');
+    Route::delete('admin/worship/sets/{set}',['uses'=>'bishopm\base\Http\Controllers\SetsController@destroy','as'=>'admin.sets.destroy']);
+    Route::post('admin/worship/sets/sendemail','bishopm\base\Http\Controllers\SetsController@sendEmail');
+
 	// Slides
 	Route::get('admin/slides',['uses'=>'bishopm\base\Http\Controllers\SlidesController@index','as'=>'admin.slides.index']);
 	Route::get('admin/slides/create',['uses'=>'bishopm\base\Http\Controllers\SlidesController@create','as'=>'admin.slides.create']);
@@ -209,6 +225,19 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::put('admin/societies/{society}',['uses'=>'bishopm\base\Http\Controllers\SocietiesController@update','as'=>'admin.societies.update']);
 	Route::post('admin/societies',['uses'=>'bishopm\base\Http\Controllers\SocietiesController@store','as'=>'admin.societies.store']);
     Route::delete('admin/societies/{society}',['uses'=>'bishopm\base\Http\Controllers\SocietiesController@destroy','as'=>'admin.societies.destroy']);
+
+    // Songs
+    Route::get('admin/worship/songs',['uses'=>'bishopm\base\Http\Controllers\SongsController@index','as'=>'admin.songs.index']);
+    Route::get('admin/worship/songs/create',['uses'=>'bishopm\base\Http\Controllers\SongsController@create','as'=>'admin.songs.create']);
+    Route::post('admin/worship/songs',['uses'=>'bishopm\base\Http\Controllers\SongsController@store','as'=>'admin.songs.store']);
+    Route::get('admin/worship/songs/{song}/edit',['uses'=>'bishopm\base\Http\Controllers\SongsController@edit','as'=>'admin.songs.edit']);
+    Route::get('admin/worship/songs/{song}/{mode?}',['uses'=>'bishopm\base\Http\Controllers\SongsController@show','as'=>'admin.songs.show']);
+    Route::get('admin/worship/songapi/{song}','bishopm\base\Http\Controllers\SongsController@showapi');
+    Route::put('admin/worship/songs/{song}',['uses'=>'bishopm\base\Http\Controllers\SongsController@update','as'=>'admin.songs.update']);
+    Route::delete('admin/worship/songs/{song}',['uses'=>'bishopm\base\Http\Controllers\SongsController@destroy','as'=>'admin.songs.destroy']);
+
+    Route::post('admin/worship/convert', 'bishopm\base\Http\Controllers\SongsController@convert');
+    Route::get('admin/worship', 'bishopm\base\Http\Controllers\SongsController@index');
 
 	// Specialdays
     Route::get('admin/households/{household}/specialdays', ['uses' => 'bishopm\base\Http\Controllers\SpecialdaysController@index','as' => 'admin.specialdays.index']);
@@ -238,25 +267,6 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	    Route::get('admin/roles/{role}/addpermission/{permission}', ['uses' => 'bishopm\base\Http\Controllers\RolesController@addpermission','as' => 'admin.roles.addpermission']);
 	    Route::get('admin/roles/{role}/removepermission/{permission}', ['uses' => 'bishopm\base\Http\Controllers\RolesController@removepermission','as' => 'admin.roles.removepermission']);
 
-	    // Setitems
-	    Route::post('setitems','SetitemsController@store');
-	    Route::delete('setitems/{setitem}','SetitemsController@destroy');
-
-	    Route::post('convert', 'SongsController@convert');
-	    Route::get('/', 'SongsController@index');
-
-	    // Sets
-	    Route::get('sets',['uses'=>'SetsController@index','as'=>'sets.index']);
-	    Route::get('sets/create',['uses'=>'SetsController@create','as'=>'sets.create']);
-	    Route::post('sets',['uses'=>'SetsController@store','as'=>'sets.store']);
-	    Route::get('sets/{set}/edit',['uses'=>'SetsController@edit','as'=>'sets.edit']);
-	    Route::get('sets/{set}/{mode?}',['uses'=>'SetsController@show','as'=>'sets.show']);
-	    Route::get('setsapi/{set}','SetsController@showapi');
-	    Route::put('sets/{set}',['uses'=>'SetsController@update','as'=>'sets.update']);
-	    Route::put('setsapi/{set}','SetsController@updateapi');
-	    Route::delete('sets/{set}',['uses'=>'SetsController@destroy','as'=>'sets.destroy']);
-	    Route::post('sets/sendemail','SetsController@sendEmail');
-
 		// Settings
 		Route::get('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@index','as'=>'admin.settings.index']);
 		Route::get('admin/settings/create',['uses'=>'bishopm\base\Http\Controllers\SettingsController@create','as'=>'admin.settings.create']);
@@ -265,16 +275,6 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 		Route::put('admin/settings/{setting}',['uses'=>'bishopm\base\Http\Controllers\SettingsController@update','as'=>'admin.settings.update']);
 		Route::post('admin/settings',['uses'=>'bishopm\base\Http\Controllers\SettingsController@store','as'=>'admin.settings.store']);
 	    Route::delete('admin/settings/{setting}',['uses'=>'bishopm\base\Http\Controllers\SettingsController@destroy','as'=>'admin.settings.destroy']);
-
-	    // Songs
-	    Route::get('songs',['uses'=>'SongsController@index','as'=>'songs.index']);
-	    Route::get('songs/create',['uses'=>'SongsController@create','as'=>'songs.create']);
-	    Route::post('songs',['uses'=>'SongsController@store','as'=>'songs.store']);
-	    Route::get('songs/{song}/edit',['uses'=>'SongsController@edit','as'=>'songs.edit']);
-	    Route::get('songs/{song}/{mode?}',['uses'=>'SongsController@show','as'=>'songs.show']);
-	    Route::get('songapi/{song}','SongsController@showapi');
-	    Route::put('songs/{song}',['uses'=>'SongsController@update','as'=>'songs.update']);
-	    Route::delete('songs/{song}',['uses'=>'SongsController@destroy','as'=>'songs.destroy']);
 
 		// Users
 		Route::get('admin/users',['uses'=>'bishopm\base\Http\Controllers\UsersController@index','as'=>'admin.users.index']);

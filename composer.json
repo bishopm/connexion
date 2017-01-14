@@ -32,7 +32,8 @@
     },
     "require-dev": {
         "phpunit/phpunit" : "~4.0||~5.0",
-        "squizlabs/php_codesniffer": "^2.3"
+        "squizlabs/php_codesniffer": "^2.3",
+        "anouar/fpdf": "dev-master"
     },
     "autoload": {
         "psr-4": {

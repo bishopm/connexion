@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace bishopm\base\Http\Requests;
 
-use App\Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest;
 
-class SongsRequest extends Request
+class SongsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

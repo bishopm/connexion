@@ -1,4 +1,4 @@
-@extends('app')
+@extends('base::worship.app')
 
 @section('content')
 
@@ -11,11 +11,9 @@
             <li>
                 <a href="#k1" data-toggle="tab" v-on:click="loadPdf">Chords (PDF)</a>
             </li>
-            @if (Helpers::perm('edit'))
-                <li>
-                    <a href="#k2" data-toggle="tab">Edit</a>
-                </li>
-            @endif
+            <li>
+                <a href="#k2" data-toggle="tab">Edit</a>
+            </li>
             <li v-if="history">
                 <a href="#k3" data-toggle="tab">History</a>
             </li>
@@ -25,7 +23,7 @@
             <li>
                 <a href="#k5" data-toggle="tab">OpenLP</a>
             </li>
-            @if (($song->music) and (Helpers::perm('edit')))
+            @if ($song->music)
                 <li><a target="_blank" href="http://{{$song->music}}">Sheet music</a></li>
             @endif
         </ul>
@@ -62,30 +60,26 @@
                   frameborder="0"/>
                 </iframe>
             </div>
-            @if (Helpers::perm('edit'))
-                <div class="tab-pane" id="k2">
-                    <div class="box box-default">
-                        <div class="box-header with-border">
-                            @include('shared.messageform')
-                            <form method="POST" v-on:submit.prevent>
-                                <input type="hidden" name="_token" class="form-horizontal" value="{{ csrf_token() }}">
-                                <h1>{{$song->title}}</h1>
-                                <button v-on:click="updateMe" type="submit" class="btn btn-default">Update song</button>
-                                <button v-on:click="transposeUp" type="submit" class="btn btn-default" name="transpose">Up</button>
-                                <button v-on:click="transposeDown" type="submit" class="btn btn-default" name="transpose">Down</button>
-                                @include('songs.form', array('is_new'=>false))
-                            </form>
-                        </div>
-                        @if (Helpers::perm('admin'))
-                        <div class="box-footer">
-                            {!! Form::open(['method'=>'delete','style'=>'display:inline;','route'=>['songs.destroy', $song->id]]) !!}
-                            {!! Form::submit('Delete',array('class'=>'btn btn-default','onclick'=>'return confirm("Are you sure you want to delete this song?")')) !!}
-                            {!! Form::close() !!}
-                        </div>
-                        @endif
+            <div class="tab-pane" id="k2">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        @include('base::shared.errors')
+                        <form method="POST" v-on:submit.prevent>
+                            <input type="hidden" name="_token" class="form-horizontal" value="{{ csrf_token() }}">
+                            <h1>{{$song->title}}</h1>
+                            <button v-on:click="updateMe" type="submit" class="btn btn-default">Update song</button>
+                            <button v-on:click="transposeUp" type="submit" class="btn btn-default" name="transpose">Up</button>
+                            <button v-on:click="transposeDown" type="submit" class="btn btn-default" name="transpose">Down</button>
+                            @include('base::songs.form', array('is_new'=>false))
+                        </form>
+                    </div>
+                    <div class="box-footer">
+                        {!! Form::open(['method'=>'delete','style'=>'display:inline;','route'=>['admin.songs.destroy', $song->id]]) !!}
+                        {!! Form::submit('Delete',array('class'=>'btn btn-default','onclick'=>'return confirm("Are you sure you want to delete this song?")')) !!}
+                        {!! Form::close() !!}
                     </div>
                 </div>
-            @endif
+            </div>
             <div class="tab-pane" id="k3">
                 <div class="box box-default">
                     <div class="box-header">
@@ -149,8 +143,8 @@
         </div>
     </div>
 </div>
-<script src="{{env('WORSHIP_FOLDER')}}/public/js/vue.js"></script>
-<script src="{{env('WORSHIP_FOLDER')}}/public/js/vue-resource.js"></script>
+<script src="{{ asset('vendor/bishopm/vuejs/vue.js') }}"></script>
+<script src="{{ asset('vendor/bishopm/vuejs/vue-resource.js') }}"></script>
 <script>
 Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('value');
 new Vue({
@@ -172,7 +166,7 @@ new Vue({
   },
   methods: {
       getMe: function() {
-          this.$http.get('{{env('WORSHIP_FOLDER')}}/songapi/' + {{$song->id}}).then(function(dat) {
+          this.$http.get('{{url('/')}}/admin/worship/songapi/' + {{$song->id}}).then(function(dat) {
               this.formdata = dat.data.song;
               this.brlyrics = dat.data.brlyrics.replace(/(\r\n|\n\r|\r|\n)/g, '<br>');
           });
@@ -184,14 +178,14 @@ new Vue({
           this.formdata.video=this.formdata.video.replace("http://", "");
           this.formdata.music=this.formdata.music.replace("https://", "");
           this.formdata.music=this.formdata.music.replace("http://", "");
-          this.$http.put('{{env('WORSHIP_FOLDER')}}/songs/' + {{$song->id}},this.formdata);
+          this.$http.put('{{url('/')}}/admin/worship/songs/' + {{$song->id}},this.formdata);
           alert('Data has been updated');
           this.videosource=this.formdata.video;
           this.pdfsource='';
       },
       transposeUp: function() {
           this.formdata.transpose='up';
-          this.$http.put('{{env('WORSHIP_FOLDER')}}/songs/' + {{$song->id}},this.formdata).then(function (response){
+          this.$http.put('{{url('/')}}/admin/worship/songs/' + {{$song->id}},this.formdata).then(function (response){
               this.formdata.lyrics=response.data.lyrics;
               this.formdata.key=response.data.key;
           });
@@ -199,14 +193,14 @@ new Vue({
       },
       transposeDown: function() {
           this.formdata.transpose='down';
-          this.$http.put('{{env('WORSHIP_FOLDER')}}/songs/' + {{$song->id}},this.formdata).then(function (response){
+          this.$http.put('{{url('/')}}/admin/worship/songs/' + {{$song->id}},this.formdata).then(function (response){
               this.formdata.lyrics=response.data.lyrics;
               this.formdata.key=response.data.key;
           });
           this.pdfsource='';
       },
       loadPdf: function() {
-          this.pdfsource='{{env('WORSHIP_FOLDER')}}/songs/' + {{$song->id}} + '/pdf';
+          this.pdfsource='{{url('/')}}/admin/worship/songs/' + {{$song->id}} + '/pdf';
       },
       loadVideo:function() {
           this.videosource=this.formdata.video;

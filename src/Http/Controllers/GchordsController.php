@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace bishopm\base\Http\Controllers;
 
-use Illuminate\Http\Request, Log, DB, App\Libraries\Chord;
-use App\Http\Requests, View, App\Http\Requests\GchordsRequest;
-use App\Http\Controllers\Controller, Helpers, App\Models\Gchord;
+use Illuminate\Http\Request, Log, DB, bishopm\base\Libraries\Chord;
+use App\Http\Requests, View, bishopm\base\Http\Requests\GchordsRequest;
+use App\Http\Controllers\Controller, Helpers, bishopm\base\Models\Gchord;
 
 class GchordsController extends Controller
 {

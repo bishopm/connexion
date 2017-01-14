@@ -131,6 +131,12 @@ class BaseServiceProvider extends ServiceProvider
                     ]
                 ]
             ]);
+            $event->menu->add([
+                'text' => 'Worship',
+                'icon' => 'music',
+                'can' => 'read-content',
+                'url' => 'admin/worship'
+            ]);
             $event->menu->add('WEBSITE');
             $event->menu->add([
                 'text' => 'Blog',
