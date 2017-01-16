@@ -9,10 +9,10 @@ class Set extends Model
     protected $guarded = array('id');
 
     public function service(){
-      return $this->belongsTo('App\Models\Service');
+      return $this->belongsTo('bishopm\base\Models\Service');
     }
 
     public function setitems(){
-      return $this->hasMany('App\Models\Setitem');
+      return $this->hasMany('bishopm\base\Models\Setitem');
     }
 }

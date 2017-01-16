@@ -68,7 +68,12 @@ class SongsController extends Controller
     public function search($q='')
 	{
 		$filtered=Song::where('title','like','%' . $q . '%')->orwhere('words','like','%' . $q . '%')->orwhere('author','like','%' . $q . '%')->whereNull('deleted_at')->select('title','id','musictype')->orderBy('title')->get();
-		return $filtered;
+        $fin=array();
+        foreach ($filtered as $ff){
+            $ff['url']=url('/') . "/admin/worship/songs/" . $ff->id;
+            $fin[]=$ff;
+        }
+		return $fin;
 	}
 
     public function convert($lyrics=""){

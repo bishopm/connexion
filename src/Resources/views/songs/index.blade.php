@@ -1,4 +1,4 @@
-@extends('base::worship.app')
+@extends('base::worship.page')
 
 @section('content')
     <div class="box box-default">
@@ -123,4 +123,8 @@
       </div>
     </div>
   </div>
+@stop
+
+@section('js')    
+    @include('base::worship.partials.scripts')
 @stop

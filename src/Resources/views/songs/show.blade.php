@@ -1,4 +1,4 @@
-@extends('base::worship.app')
+@extends('base::worship.page')
 
 @section('content')
 
@@ -143,10 +143,10 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('vendor/bishopm/vuejs/vue.js') }}"></script>
-<script src="{{ asset('vendor/bishopm/vuejs/vue-resource.js') }}"></script>
+@stop
+@section('js')
+@include('base::worship.partials.scripts')
 <script>
-Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('value');
 new Vue({
   el: '#tabs',
   data: {
@@ -207,6 +207,6 @@ new Vue({
       }
   }
 });
-</script>
+    </script>
 
 @stop

@@ -2,9 +2,9 @@
 
 namespace bishopm\base\Http\Controllers;
 
-use Illuminate\Http\Request, Log, DB, Mail;
-use App\Http\Requests, View, bishopm\base\Http\Requests\SetsRequest;
-use App\Http\Controllers\Controller, Helpers, bishopm\base\Models\Song, bishopm\base\Models\Setitem, bishopm\base\Models\Set, bishopm\base\Models\Service;
+use Illuminate\Http\Request, Log, DB, Mail, App\Http\Requests, View;
+use bishopm\base\Http\Requests\CreateSetRequest, bishopm\base\Http\Requests\UpdateSetRequest;
+use App\Http\Controllers\Controller, bishopm\base\Models\Song, bishopm\base\Models\Setitem, bishopm\base\Models\Set, bishopm\base\Models\Service, bishopm\base\Models\Society;
 
 class SetsController extends Controller
 {
@@ -15,17 +15,26 @@ class SetsController extends Controller
      */
     public function index()
     {
+        $soc=1;
         $sets=Set::with('service')->orderBy('servicedate')->get();
-        foreach ($sets as $ts){
-            $data['sets'][$ts->service->service][strtotime($ts->servicedate)]="<a href=\"sets/" . $ts->id . "\">" . date("d M Y",strtotime($ts->servicedate)) . "</a>";
-            krsort($data['sets'][$ts->service->service]);
+        foreach ($sets as $set){
+            $finsets[strtotime($set->servicedate)][$set->service->servicetime]=$set->id;
+            $services[]=$set->service->servicetime;
+            $servicedates[]=strtotime($set->servicedate);
         }
-        if (isset($data['sets'])){
-            ksort($data['sets']);
-        } else {
-            $data['sets']="";
+        foreach (array_unique($servicedates) as $sd){
+            foreach(array_unique($services) as $ss){
+                if (!array_key_exists($ss, $finsets[$sd])){
+                    $finsets[$sd][$ss]="";
+                }
+            }
+            ksort($finsets[$sd]);
         }
-        return view('sets.index',$data);
+        $data['sets']=$finsets;
+        $data['services']=array_unique($services);
+        $data['society']=Society::find($soc)->society;
+        asort($data['services']);
+        return view('base::sets.index',$data);
     }
 
     /**
@@ -35,13 +44,11 @@ class SetsController extends Controller
      */
     public function create()
     {
-        if (Helpers::perm('edit')){
-            $data['sunday']=date("Y-m-d",strtotime("next Sunday"));
-            $data['services']=Service::orderBy('service')->get();
-            return view('sets.create',$data);
-        } else {
-            return view('shared.unauthorised');
-        }
+        $soc=1;
+        $data['sunday']=date("Y-m-d",strtotime("next Sunday"));
+        $data['services']=Service::where('society_id','=',$soc)->orderBy('servicetime')->get();
+        $data['society']=Society::find($soc)->society;
+        return view('base::sets.create',$data);
     }
 
     /**
@@ -50,7 +57,7 @@ class SetsController extends Controller
      * @return Response
      */
 
-    public function store(SetsRequest $request)
+    public function store(CreateSetRequest $request)
     {
         $checkset=Set::where('servicedate','=',$request->servicedate)->where('service_id','=',$request->service_id)->first();
         if (count($checkset)){
@@ -58,7 +65,7 @@ class SetsController extends Controller
         } else {
             $set=Set::create($request->all());
         }
-        return redirect('sets/' . $set->id);
+        return redirect()->route('admin.sets.index')->withSuccess('New set added');
     }
 
     /**
@@ -69,13 +76,9 @@ class SetsController extends Controller
      */
     public function show($id)
     {
-        if (Helpers::perm('edit')){
-            $data['items']=Setitem::with('song','set')->where('set_id','=',$id)->get();
-            $data['set']=Set::find($id);
-            return view('sets.show',$data);
-        } else {
-            return view('shared.unauthorised');
-        }
+        $data['items']=Setitem::with('song','set')->where('set_id','=',$id)->get();
+        $data['set']=Set::find($id);
+        return view('base::sets.show',$data);
     }
 
     public function showapi($id)
@@ -88,13 +91,14 @@ class SetsController extends Controller
         foreach ($items as $item){
             $dum['title']=$item->song->title;
             $dum['id']=$item->id;
+            //$dum['url']=url('/') . "/admin/worship/songs/" . $item->id;
             $data['songs'][]=$dum;
             $allids[]=$item->song->id;
         }
         if (count($allids)){
-            $data['newsongs']=Song::whereNotIn('id',$allids)->orderBy('title')->get();
+            $data['newsongs']=Song::whereNotIn('id',$allids)->orderBy('title')->select('title','id')->get();
         } else {
-            $data['newsongs']=Song::orderBy('title')->get();
+            $data['newsongs']=Song::orderBy('title')->select('title','id')->get();
         }
         return $data;
     }
@@ -107,9 +111,7 @@ class SetsController extends Controller
      */
     public function edit($id)
     {
-        if (!Helpers::perm('edit')){
-            return view('shared.unauthorised');
-        }
+
     }
 
 
@@ -120,7 +122,7 @@ class SetsController extends Controller
      * @return Response
      */
 
-    public function update($id, SetsRequest $request)
+    public function update($id, UpdateSetRequest $request)
     {
     }
 

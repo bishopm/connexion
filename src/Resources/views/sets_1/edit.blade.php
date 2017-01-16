@@ -19,7 +19,3 @@
     </div>
 </div>
 @stop
-
-@section('js')
-    @include('base::worship.partials.scripts')
-@stop

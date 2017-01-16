@@ -1,4 +1,4 @@
-@extends('app')
+@extends('base::worship.page')
 
 @section('content')
 <h3 class="box-title">Guitar chords

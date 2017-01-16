@@ -1,9 +1,9 @@
-@extends('app')
+@extends('base::worship.page')
 
 @section('content')
 <div class="box box-default">
     <div class="box-header with-border">
-        @include('shared.messageform')
+        @include('base::shared.errors')
         <h1>{{$chord->chordname}}</h1>
     </div>
     <div class="box-body">

@@ -1,4 +1,4 @@
-@extends('base::worship.app')
+@extends('base::worship.page')
 
 @section('content')
 @include('base::shared.errors')
@@ -13,4 +13,8 @@
     </div>
 {!! Form::close() !!}
 </div>
+@stop
+
+@section('js')
+	@include('base::worship.partials.scripts')
 @stop

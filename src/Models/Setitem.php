@@ -9,10 +9,10 @@ class Setitem extends Model
     protected $guarded = array('id');
 
     public function set(){
-      return $this->belongsTo('App\Models\Set');
+      return $this->belongsTo('bishopm\base\Models\Set');
     }
 
     public function song(){
-      return $this->belongsTo('App\Models\Song');
+      return $this->belongsTo('bishopm\base\Models\Song');
     }
 }

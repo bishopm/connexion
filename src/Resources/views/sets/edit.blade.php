@@ -1,21 +1,32 @@
-@extends('app')
+@extends('adminlte::page')
 
 @section('content')
-<div class="box box-default">
-    <div class="box-header with-border">
-        @include('shared.messageform')
-        <h1>{{$song->title}}</h1>
+    {{ Form::pgHeader('Edit set','Sets',route('admin.sets.index')) }}
+    @include('base::shared.errors')    
+    {!! Form::open(['route' => array('admin.sets.update',$set->id), 'method' => 'put']) !!}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary"> 
+                <div class="box-body">
+                    @include('base::sets.partials.edit-fields')
+                    <div class="form-group">
+                        <label for="service_id" class="control-label">Service</label>
+                        <select name="service_id" class="selectize">
+                          @foreach ($services as $service)
+                            @if ($service->id==$set->service_id)
+                                <option selected value="{{$service->id}}">{{$service->servicetime}} ({{$society}})</option>
+                            @else
+                                <option value="{{$service->id}}">{{$service->servicetime}} ({{$society}})</option>
+                            @endif
+                          @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    {{Form::pgButtons('Update',route('admin.sets.index')) }}
+                </div>
+            </div>
+        </div>
     </div>
-    {!! Form::model($song,array('route' => array('songs.update', $song->id), 'method' => 'put', 'class' => 'form-horizontal', 'role' => 'form')) !!}
-    @include('songs.form', array('is_new'=>false))
-    <div class="box-footer">
-        {!! Form::submit('Update song', array('class'=>'btn btn-default')) !!} <a href="{{url('/')}}/songs" class="pull-right btn btn-default">Back to index</a>
-        {!! Form::close() !!}
-        @if (Helpers::perm('admin'))
-            {!! Form::open(['method'=>'delete','style'=>'display:inline;','route'=>['songs.destroy', $song->id]]) !!}
-            {!! Form::submit('Delete',array('class'=>'btn btn-default','onclick'=>'return confirm("Are you sure you want to delete this song?")')) !!}
-            {!! Form::close() !!}
-        @endif
-    </div>
-</div>
+    {!! Form::close() !!}
 @stop

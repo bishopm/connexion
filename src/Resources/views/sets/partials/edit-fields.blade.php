@@ -1,0 +1,1 @@
+{{ Form::bsText('servicedate','Service date','Service date',$set->servicedate) }}

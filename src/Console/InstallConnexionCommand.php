@@ -105,6 +105,11 @@ class InstallConnexionCommand extends Command
             'setting_key' => 'site_logo_mini',
             'setting_value' => '<b>C</b>x',
             'category' => 'general'
+        ]); 
+        DB::table('settings')->insert([
+            'setting_key' => 'society',
+            'setting_value' => '',
+            'category' => 'general'
         ]);         
         DB::table('settings')->insert([
             'setting_key' => 'google_api',

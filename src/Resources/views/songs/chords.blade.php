@@ -1,4 +1,4 @@
-@extends('app')
+@extends('base::worship.page')
 
 @section('content')
 <h1>Guitar chords</h1>
@@ -203,4 +203,8 @@
         </div>
     </div>
 </div>
+@stop
+
+@section('js')
+    @include('base::worship.partials.scripts')
 @stop

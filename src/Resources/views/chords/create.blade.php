@@ -1,7 +1,7 @@
-@extends('app')
+@extends('base::worship.page')
 
 @section('content')
-@include('shared.messageform')
+@include('base::shared.errors')
 <div class="box box-default">
     <div class="box-header with-border">
         <h3>New chord</h3>
