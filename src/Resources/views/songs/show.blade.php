@@ -51,12 +51,12 @@
                 </div>
                 <br>
                 <song>
-                    @{{{brlyrics}}}
+                    <div v-html="brlyrics"></div>
                 </song>
                 <br>
             </div>
             <div class="tab-pane" id="k1">
-                <iframe v-if="pdfsource" id="pdfdoc" type="text/html" width="100%" height="600" src="@{{pdfsource}}"
+                <iframe v-if="pdfsource" id="pdfdoc" type="text/html" width="100%" height="600" :src="pdfsource"
                   frameborder="0"/>
                 </iframe>
             </div>
@@ -125,7 +125,7 @@
                 </div>
              </div>
             <div v-if="videosource" class="tab-pane" id="k4">
-                <iframe id="ytplayer" type="text/html" width="640" height="390" src="http://@{{formdata.video}}"
+                <iframe id="ytplayer" type="text/html" width="640" height="390" :src="formdata.video"
                   frameborder="0"/>
                 </iframe>
             </div>
@@ -144,10 +144,12 @@
     </div>
 </div>
 @stop
+
 @section('js')
 @include('base::worship.partials.scripts')
-<script>
-new Vue({
+
+<script type="text/javascript">
+var vm1 = new Vue({
   el: '#tabs',
   data: {
       formdata: {
@@ -166,10 +168,13 @@ new Vue({
   },
   methods: {
       getMe: function() {
-          this.$http.get('{{url('/')}}/admin/worship/songapi/' + {{$song->id}}).then(function(dat) {
-              this.formdata = dat.data.song;
-              this.brlyrics = dat.data.brlyrics.replace(/(\r\n|\n\r|\r|\n)/g, '<br>');
-          });
+          $.ajax( { url: "{{url('/')}}/admin/worship/songapi/" + {{$song->id}},
+                success: 
+                  function(dat) {
+                    this.formdata = dat.song;
+                    this.brlyrics = dat.brlyrics.replace(/(\r\n|\n\r|\r|\n)/g, '<br>');
+                  }.bind(this)
+              });  
       },
       updateMe: function() {
           this.formdata.audio=this.formdata.audio.replace("https://", "");
@@ -207,6 +212,5 @@ new Vue({
       }
   }
 });
-    </script>
-
+</script>
 @stop

@@ -24,8 +24,8 @@ class CreateSongsTable extends Migration
             $table->string('music');
             $table->string('musictype');
             $table->text('lyrics');
-            $table->text('words');
-            $table->integer('user_id');
+            $table->text('words')->nullable();
+            $table->integer('user_id')->default(0);
             $table->softDeletes();
             $table->nullableTimestamps();
         });

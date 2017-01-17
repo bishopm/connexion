@@ -36,6 +36,7 @@
 @stop
 
 @section('js')
+    @include('base::worship.partials.scripts')
     <script src="{{ asset('vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
     <script src="{{ asset('vendor/bishopm/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>    

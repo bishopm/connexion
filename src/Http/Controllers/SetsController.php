@@ -16,24 +16,34 @@ class SetsController extends Controller
     public function index()
     {
         $soc=1;
+        $society=Society::find($soc);
+        if ($society){
+            $data['society']=$society->society;
+        } else {
+            return redirect()->route('admin.societies.create')->with('notice','At least one society must be added before adding a set');
+        }
         $sets=Set::with('service')->orderBy('servicedate')->get();
-        foreach ($sets as $set){
-            $finsets[strtotime($set->servicedate)][$set->service->servicetime]=$set->id;
-            $services[]=$set->service->servicetime;
-            $servicedates[]=strtotime($set->servicedate);
-        }
-        foreach (array_unique($servicedates) as $sd){
-            foreach(array_unique($services) as $ss){
-                if (!array_key_exists($ss, $finsets[$sd])){
-                    $finsets[$sd][$ss]="";
-                }
+        if (count($sets)){
+            foreach ($sets as $set){
+                $finsets[strtotime($set->servicedate)][$set->service->servicetime]=$set->id;
+                $services[]=$set->service->servicetime;
+                $servicedates[]=strtotime($set->servicedate);
             }
-            ksort($finsets[$sd]);
+            foreach (array_unique($servicedates) as $sd){
+                foreach(array_unique($services) as $ss){
+                    if (!array_key_exists($ss, $finsets[$sd])){
+                        $finsets[$sd][$ss]="";
+                    }
+                }
+                ksort($finsets[$sd]);
+            }
+            $data['sets']=$finsets;
+            $data['services']=array_unique($services);
+            asort($data['services']);
+        } else {
+            $data['sets']=array();
+            $data['services']=array();
         }
-        $data['sets']=$finsets;
-        $data['services']=array_unique($services);
-        $data['society']=Society::find($soc)->society;
-        asort($data['services']);
         return view('base::sets.index',$data);
     }
 
@@ -47,6 +57,9 @@ class SetsController extends Controller
         $soc=1;
         $data['sunday']=date("Y-m-d",strtotime("next Sunday"));
         $data['services']=Service::where('society_id','=',$soc)->orderBy('servicetime')->get();
+        if (!count($data['services'])){
+            return redirect()->route('admin.societies.index')->with('notice','At least one service must be added before adding a set. Click a society below to add a new service');
+        }
         $data['society']=Society::find($soc)->society;
         return view('base::sets.create',$data);
     }

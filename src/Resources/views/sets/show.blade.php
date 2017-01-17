@@ -14,11 +14,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="col-sm-12">
-                    <select>
-                        <option v-for="newsong in newsongs" v-bind:value="newsong.id">
-                            @{{ newsong.title }}
-                        </option>
-                    </select>
+                    <select v-selectize="newitem" :options="newsongs"></select>
                 </div>
                 <div class="col-sm-12">&nbsp;</div>
                 <div class="col-sm-12">
@@ -49,25 +45,23 @@
 @section('js')
     @include('base::worship.partials.scripts')
     <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/vuejs/vue-selectize.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('vendor/bishopm/js/jquery.nestable.js') }}"></script>  
     <script>
+    Vue.use(window['vue-selectize']);
     var vm1 = new Vue({
         el: '#setpage',
         created: function() {
             this.getMe();
         },
-        ready: $( document ).ready(function() {
-                $('.selectize').selectize({ 
-                  maxOptions: 30
-                });
-            }),
         data: {
             items: [],
             newsongs: [],
             set: [],
             service: [],
             addsong: 0,
-            message:''
+            message:'',
+            newitem:''
         },
         watch: {
             addsong: function(e){
@@ -93,6 +87,7 @@
                     { url: "{{url('/')}}/admin/worship/setsapi/{{$set->id}}",
                     success: 
                         function(dat) {
+                            alert(dat);
                             this.items = dat.songs;
                             this.newsongs = dat.newsongs;
                             this.set=dat.set;
