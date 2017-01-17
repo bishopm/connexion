@@ -91,6 +91,7 @@ class SetsController extends Controller
     {
         $data['items']=Setitem::with('song','set')->where('set_id','=',$id)->get();
         $data['set']=Set::find($id);
+        $data['songs']=Song::orderBy('title')->select('title','id')->get();
         return view('base::sets.show',$data);
     }
 

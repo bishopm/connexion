@@ -109,3 +109,7 @@ z-index: 999;
 h3 {
   margin-top:10px;
 }
+
+.selectize-input input { height: 20px; }
+
+.selectize-input div.item + input { display: inline-block; }

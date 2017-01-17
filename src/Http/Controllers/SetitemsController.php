@@ -15,10 +15,17 @@ class SetitemsController extends Controller
      * @return Response
      */
 
-    public function store(Request $request)
+    public function additem($set,$song)
     {
-        $setitem=Setitem::create($request->all());
-        return $setitem;
+        $setitem=new Setitem;
+        $setitem->set_id=$set;
+        $setitem->song_id=$song;
+        $setitem->itemorder=count(Set::find($set)->setitems)+1;
+        $setitem->save();
+        $fin['id']=$setitem->id;
+        $fin['title']=Song::find($song)->title;
+        $fin['songid']=$song;
+        return $fin;
     }
 
     /**
@@ -27,7 +34,7 @@ class SetitemsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function deleteitem($id)
     {
         Setitem::find($id)->delete();
     }

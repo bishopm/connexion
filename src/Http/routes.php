@@ -192,8 +192,8 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     Route::delete('admin/societies/{society}/services/{service}',['uses'=>'bishopm\base\Http\Controllers\ServicesController@destroy','as'=>'admin.services.destroy']);
 
 	// Setitems
-    Route::post('admin/worship/setitems','bishopm\base\Http\Controllers\SetitemsController@store');
-    Route::delete('admin/worship/setitems/{setitem}','bishopm\base\Http\Controllers\SetitemsController@destroy');
+    Route::get('admin/worship/addsetitem/{set}/{song}','bishopm\base\Http\Controllers\SetitemsController@additem');
+    Route::get('admin/worship/deletesetitem/{setitem}','bishopm\base\Http\Controllers\SetitemsController@deleteitem');
 
     // Sets
     Route::get('admin/worship/sets',['uses'=>'bishopm\base\Http\Controllers\SetsController@index','as'=>'admin.sets.index']);
