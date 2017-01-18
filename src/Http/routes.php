@@ -193,6 +193,9 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 
 	// Setitems
     Route::get('admin/worship/addsetitem/{set}/{song}','bishopm\base\Http\Controllers\SetitemsController@additem');
+    Route::get('admin/worship/getitems/{set}','bishopm\base\Http\Controllers\SetitemsController@getitems');    
+    Route::get('admin/worship/getmessage/{set}','bishopm\base\Http\Controllers\SetitemsController@getmessage');
+    Route::post('admin/worship/reorderset/{set}','bishopm\base\Http\Controllers\SetitemsController@reorderset');
     Route::get('admin/worship/deletesetitem/{setitem}','bishopm\base\Http\Controllers\SetitemsController@deleteitem');
 
     // Sets

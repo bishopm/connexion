@@ -28,6 +28,34 @@ class SetitemsController extends Controller
         return $fin;
     }
 
+    public function getitems($set)
+    {
+        $setitems=Setitem::with('song')->where('set_id','=',$set)->orderBy('itemorder')->get();
+        foreach ($setitems as $setitem){
+            $dum['title']=$setitem->song->title;
+            $dum['id']=$setitem->id;
+            $fin[]=$dum;
+        }
+        return $fin;
+    }
+
+    public function getmessage($set)
+    {
+        $fullset=Set::find($set);
+        $msg="Hi Janet\n\nHere are the songs for the " . $fullset->service->servicetime . " service on " . $fullset->servicedate . ":\n\n";
+        $setitems=Setitem::with('song')->where('set_id','=',$set)->orderBy('itemorder')->get();
+        foreach ($setitems as $setitem){
+            $msg.=$setitem->song->title . "\n";
+        }
+        return $msg;
+    }
+
+    public function reorderset(Request $request)
+    {
+        $items=json_decode($request->items);
+        dd($items);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

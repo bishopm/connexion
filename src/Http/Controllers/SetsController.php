@@ -90,8 +90,16 @@ class SetsController extends Controller
     public function show($id)
     {
         $data['items']=Setitem::with('song','set')->where('set_id','=',$id)->get();
+        $allids=array();
+        foreach ($data['items'] as $item){
+            $allids[]=$item->song->id;
+        }
         $data['set']=Set::find($id);
-        $data['songs']=Song::orderBy('title')->select('title','id')->get();
+        if (count($allids)){
+            $data['songs']=Song::whereNotIn('id',$allids)->orderBy('title')->select('title','id')->get();
+        } else {
+            $data['songs']=Song::orderBy('title')->select('title','id')->get();
+        }
         return view('base::sets.show',$data);
     }
 

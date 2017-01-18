@@ -2,6 +2,7 @@
 
 @section('css')
   <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="{{url('/')}}/vendor/bishopm/css/nestable.css">
 @stop
 
 @section('content')
@@ -19,15 +20,18 @@
                         <option value="{{$song->id}}">{{$song->title}}</option>
                     @endforeach
                 </select>
-                <ul id="songlist" class="list-unstyled">
-                </ul>
+                <div class="dd">
+                    <ol id="songlist" class="dd-list">
+
+                    </ol>
+                </div>
             </div>
             <div class="col-sm-6">
                 <div class="row">
                     <form method="POST" action="{{url('/')}}/sets/sendemail">
                         {{ csrf_field() }}
                         <div class="col-sm-12">
-                            <textarea name="message" class="form-control" rows="20">Email message</textarea>
+                            <textarea id="message" class="form-control" rows="20"></textarea>
                         </div>
                         <div class="col-sm-12">&nbsp;</div>
                         <div class="col-sm-12">
@@ -43,7 +47,7 @@
 @section('js')
     @include('base::worship.partials.scripts')
     <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('vendor/bishopm/js/jquery.nestable.js') }}"></script>
+    <script src="{{ asset('vendor/bishopm/js/jquery.nestable.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $.ajaxSetup({
           headers: {
@@ -56,22 +60,63 @@
               openOnFocus: 0,
               maxOptions: 30
             });
+            $.ajax(
+              { url: "{{url('/')}}/admin/worship/getitems/{{$set->id}}",
+                success: 
+                  function(data) {
+                    data.forEach(function(seti, index) {
+                        $('#songlist').append('<li id="li' + seti.id + '" class="dd-item" data-id="' + seti.id + '"><div class="btn-group" role="group" aria-label="Action buttons" style="display: inline"><a class="dellink btn btn-sm btn-danger" href="#" id="' + seti.id + '" style="float:right; height:30px; valign:vertical;"><i class="fa fa-times"></i></a></div><div class="dd-handle">' + seti.title + '</div></li>');
+                    });
+                    $('.dd').nestable().on('change', function() { 
+                        var data = $('.dd').nestable('serialize');
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{url('/')}}/admin/worship/reorderset/{{$set->id}}",
+                            data: {'items': JSON.stringify(data), '_token': '{{ csrf_token() }}'},
+                            dataType: 'json',
+                            success: function(data) {
+
+                            },
+                            error:function (xhr, ajaxOptions, thrownError){
+                            }
+                        });
+                    });
+                    updatemessage();
+                  }.bind(this)
+              });
             $('#newitem').on('change', function() {
                 if (this.value!=''){
                   var newsong=this.value;
                   var $select = $('#newitem').selectize(); 
                   var selectSizeControl = $select[0].selectize; 
                   selectSizeControl.removeOption( selectSizeControl.getValue());
+                  $('.selectize-input').css({'height':'35px'});
                   $.ajax(
                   { url: "{{url('/')}}/admin/worship/addsetitem/{{$set->id}}/" + newsong,
                     success: 
                       function(dat,ni) {
-                        $('#songlist').append('<li class="list-group-item"> ' + dat.title + '<a href="#"><span class="pull-right fa fa-times"></span></a></li>');
+                        $('#songlist').append('<li id="li' + dat.id + '" class="dd-item" data-id="' + dat.id + '"><div class="btn-group" role="group" aria-label="Action buttons" style="display: inline"><a class="dellink btn btn-sm btn-danger" href="#" id="' + dat.id + '" style="float:right; height:30px; valign:vertical;"><i class="fa fa-times"></i></a></div><div class="dd-handle">' + dat.title + '</div></li>');
                       }.bind(this)
                   });
                 }
+                updatemessage();
                 $('#newitem').focus();
             });
         });
+        $(document).on('click', '.dellink', function () {
+            $.ajax({ url: "{{url('/')}}/admin/worship/deletesetitem/" + this.id });
+            $('#li'+this.id).remove();
+            setTimeout(updatemessage, 1000);
+        });
+        function updatemessage () {
+            $.ajax({ url: "{{url('/')}}/admin/worship/getmessage/{{$set->id}}",
+                success: 
+                  function(dat) {
+                    $("textarea#message").text(dat);
+                  }.bind(this)
+            });
+        };
     </script>
 @stop
+
+<div class=\"btn-group\" role=\"group\" aria-label=\"Action buttons\" style=\"display: inline\"></div>

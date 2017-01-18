@@ -53,20 +53,22 @@
                         <h3 class="panel-title">Recently added <small>Total songs: {{$songcount}}</small></h3>
                     </div>
                     <div class="panel-body">
-                        @foreach ($newest as $new)
+                        @forelse ($newest as $new)
                             <div class="col-sm-4">
-                                <?php $ago=round((strtotime("now") - strtotime($new->created_at))/86400);
+                                <?php /*$ago=round((strtotime("now") - strtotime($new->created_at))/86400);
                                 if ($ago>1) {
                                     $ago=$ago . " days ago";
                                 } elseif ($ago==1) {
                                     $ago=$ago . " day ago";
                                 } else {
                                     $ago="<1 day ago";
-                                }
+                                }*/
                                 ?>
-                                <a class="{{$new->musictype}}" href="{{url('/')}}/admin/worship/songs/{{$new['id']}}">{{$new->title}}</a> <small>{{$ago}} ({{explode(' ',$new->user->name)[0]}})</small>
+                                <a class="{{$new->musictype}}" href="{{url('/')}}/admin/worship/songs/{{$new['id']}}">{{$new->title}}</a>
                             </div>
-                        @endforeach
+                        @empty
+                            No songs have been added yet
+                        @endforelse
                     </div>
                 </div>
                 <div class="panel panel-default">
