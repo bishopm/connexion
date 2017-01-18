@@ -47,13 +47,20 @@ class SetitemsController extends Controller
         foreach ($setitems as $setitem){
             $msg.=$setitem->song->title . "\n";
         }
+        $msg.="\nThanks!";
         return $msg;
     }
 
     public function reorderset(Request $request)
     {
         $items=json_decode($request->items);
-        dd($items);
+        $loop=0;
+        foreach ($items as $item){
+            $setitem=Setitem::find($item->id);
+            $setitem->itemorder=$loop;
+            $loop++;
+            $setitem->save();
+        }
     }
 
     /**
@@ -64,7 +71,16 @@ class SetitemsController extends Controller
      */
     public function deleteitem($id)
     {
-        Setitem::find($id)->delete();
+        $setitem=Setitem::find($id);
+        $set=$setitem->set_id;
+        $setitem->delete();
+        $setitems=Setitem::where('set_id','=',$set)->orderBy('itemorder')->get();
+        $loop=0;
+        foreach ($setitems as $item){
+            $item->itemorder=$loop;
+            $loop++;
+            $item->save();   
+        }
     }
 
 }

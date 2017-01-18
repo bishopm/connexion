@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libraries;
+namespace bishopm\base\Libraries;
 
 require_once('gdext.inc.php');
 
@@ -265,7 +265,7 @@ class Chord
 			}
 		}
         $fname=str_replace('/','_',$fname);
-        $fullfname=base_path() . '/public/images/chords/' . $fname . '.png';
+        $fullfname=base_path() . '/public/vendor/bishopm/images/chords/' . $fname . '.png';
 		imagepng($img,$fullfname);
 		imagedestroy($img);
 

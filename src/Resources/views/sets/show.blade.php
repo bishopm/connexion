@@ -74,14 +74,12 @@
                             url: "{{url('/')}}/admin/worship/reorderset/{{$set->id}}",
                             data: {'items': JSON.stringify(data), '_token': '{{ csrf_token() }}'},
                             dataType: 'json',
-                            success: function(data) {
-
-                            },
+                            success: setTimeout(updatemessage, 1000),
                             error:function (xhr, ajaxOptions, thrownError){
                             }
                         });
                     });
-                    updatemessage();
+                    setTimeout(updatemessage, 1000);
                   }.bind(this)
               });
             $('#newitem').on('change', function() {
@@ -99,7 +97,7 @@
                       }.bind(this)
                   });
                 }
-                updatemessage();
+                setTimeout(updatemessage, 1000);
                 $('#newitem').focus();
             });
         });

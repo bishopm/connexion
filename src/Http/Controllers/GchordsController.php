@@ -4,7 +4,7 @@ namespace bishopm\base\Http\Controllers;
 
 use Illuminate\Http\Request, Log, DB, bishopm\base\Libraries\Chord;
 use App\Http\Requests, View, bishopm\base\Http\Requests\GchordsRequest;
-use App\Http\Controllers\Controller, Helpers, bishopm\base\Models\Gchord;
+use App\Http\Controllers\Controller, bishopm\base\Models\Gchord;
 
 class GchordsController extends Controller
 {
@@ -27,9 +27,9 @@ class GchordsController extends Controller
                 }
                 $data['chords'][$key][]=$chord->id;
             }
-            return view('chords.index',$data);
+            return view('base::chords.index',$data);
         } else {
-            return view('chords.index');
+            return view('base::chords.index');
         }
     }
 
@@ -40,12 +40,8 @@ class GchordsController extends Controller
      */
     public function create($name='')
     {
-        if (Helpers::perm('edit')){
-            $data['chordname']=$name;
-            return view('chords.create',$data);
-        } else {
-            return view('shared.unauthorised');
-        }
+        $data['chordname']=$name;
+        return view('base::chords.create',$data);
     }
 
     /**
@@ -75,7 +71,7 @@ class GchordsController extends Controller
             $c->setBarreChord($request->barre[0],$request->barre[1],$request->barre[2]);
         }
         $c->draw($chord->id);
-        return redirect('chords/' . $chord->id . '/edit');
+        return redirect('admin/worship/chords/' . $chord->id . '/edit');
     }
 
     /**
@@ -87,7 +83,7 @@ class GchordsController extends Controller
     public function show($id)
     {
         $data['chord']=Gchord::find($id);
-        return view('chords.edit',$data);
+        return view('base::chords.edit',$data);
     }
 
     /**
@@ -98,12 +94,8 @@ class GchordsController extends Controller
      */
     public function edit($id)
     {
-        if (Helpers::perm('edit')){
-            $data['chord']=Gchord::find($id);
-            return view('chords.edit',$data);
-        } else {
-            return view('shared.unauthorised');
-        }
+        $data['chord']=Gchord::find($id);
+        return view('base::chords.edit',$data);
     }
 
 
@@ -128,7 +120,7 @@ class GchordsController extends Controller
         $c->draw($chord->id);
         $chord->save();
         $data['chord']=$chord;
-        return view('chords.edit',$data);
+        return view('base::chords.edit',$data);
     }
 
     /**

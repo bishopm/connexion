@@ -61,6 +61,9 @@
 
                     <ul class="nav navbar-nav">
                         <li class="hidden-xs">
+                            <a href="{{url('/')}}/admin/worship"><span class="fa fa-home"></span>&nbsp;Worship home</a>
+                        </li>
+                        <li class="hidden-xs">
                             <a href="{{url('/')}}/admin/worship/songs/create"><span class="fa fa-plus-square"></span>&nbsp;New song</a>
                         </li>
                         <li class="hidden-xs">
@@ -103,7 +106,7 @@
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar" id="sidebar">
                 <ul class="sidebar-menu">
-                    <li class="visible-xs"><a href="{{url('/')}}"><i class='fa fa-home'></i> Home </a></li>
+                    <li class="visible-xs"><a href="{{url('/')}}/admin/worship"><i class='fa fa-home'></i> Home </a></li>
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/chords"><i class='fa fa-music'></i> Guitar Chords </a></li>
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/songs/create"><i class='fa fa-plus-square'></i> Add a new song </a></li>
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/sets"><i class='fa fa-list-ol'></i> Worship sets </a></li>

@@ -7,8 +7,8 @@
         <h3>New chord</h3>
     </div>
     <div class="box-body">
-        {!! Form::open(array('route' => array('chords.store'), 'class' => 'form-horizontal', 'role' => 'form', 'files'=>'true')) !!}
-        @include('chords.form', array('is_new'=>true))
+        {!! Form::open(array('route' => array('admin.chords.store'), 'class' => 'form-horizontal', 'role' => 'form', 'files'=>'true')) !!}
+        @include('base::chords.form', array('is_new'=>true))
     </div>
     <div class="box-footer">
         {!! Form::submit('Add chord', array('class'=>'btn btn-default')) !!} <a href="{{url('/')}}/chords" class="btn btn-default">Cancel</a>
@@ -16,3 +16,7 @@
 {!! Form::close() !!}
 </div>
 @stop
+
+@section('js')
+@include('base::worship.partials.scripts')
+@endsection

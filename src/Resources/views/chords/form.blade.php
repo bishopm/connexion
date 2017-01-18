@@ -13,7 +13,7 @@
     </div>
     <div class="col-sm-6">
         @if (!$is_new)
-            <img src="{{url('/')}}/public/images/chords/{{$chord->id}}.png">
+            <img src="{{url('/')}}/vendor/bishopm/images/chords/{{$chord->id}}.png">
         @endif
     </div>
 </div>

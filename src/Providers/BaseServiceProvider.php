@@ -38,7 +38,7 @@ class BaseServiceProvider extends ServiceProvider
             $event->menu->menu=array();
             $event->menu->add('CHURCH ADMIN');
             $event->menu->add([
-                'text' => 'Members',
+                'text' => 'Society',
                 'icon' => 'book',
                 'can' => 'read-content',
                 'submenu' => [
@@ -53,22 +53,9 @@ class BaseServiceProvider extends ServiceProvider
                         'url'  => 'admin/groups',
                         'icon' => 'users',
                         'can' =>  'read-content'
-                    ]
-                ]
-            ]);
-            $event->menu->add([
-                'text' => 'Communication',
-                'icon' => 'comments',
-                'can' => 'read-content',
-                'submenu' => [
-                    [
-                        'text' => 'SMS',
-                        'url'  => 'admin/households',
-                        'icon' => 'mobile',
-                        'can' =>  'edit-content'
                     ],
                     [
-                        'text' => 'Email',
+                        'text' => 'Messages',
                         'url'  => 'admin/groups',
                         'icon' => 'envelope-o',
                         'can' =>  'edit-content'
@@ -82,7 +69,7 @@ class BaseServiceProvider extends ServiceProvider
                 ]
             ]);
             $event->menu->add([
-                'text' => 'Preaching',
+                'text' => 'Circuit',
                 'icon' => 'comments',
                 'can' => 'read-content',
                 'submenu' => [
