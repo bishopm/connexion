@@ -200,7 +200,7 @@ class ActionsController extends Controller
         if ($user->toodledo_token){
             $t['id']=$task->toodledo_id;
             $t['completed']=$task->completed;
-            $data="tasks=" . str_replace(':', '%3A', json_encode($task));
+            $data="tasks=" . str_replace(':', '%3A', json_encode($t));
             $data=str_replace(',', '%2C', $data);
             $data=str_replace(' ', '+', $data);
             $data.="&access_token=" . $user->toodledo_token;

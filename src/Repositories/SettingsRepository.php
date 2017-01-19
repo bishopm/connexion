@@ -8,4 +8,11 @@ class SettingsRepository extends EloquentBaseRepository
     {
         return $this->model->all()->toArray();
     }
+
+    public function makearray(){
+    	foreach ($this->model->all()->toArray() as $setting){
+    		$fin[$setting['setting_key']]=$setting['setting_value'];
+    	}
+    	return $fin;
+    }
 }

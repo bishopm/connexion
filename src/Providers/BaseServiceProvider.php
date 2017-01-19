@@ -10,6 +10,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 use bishopm\base\Repositories\SettingsRepository;
+use bishopm\base\Models\Setting;
 
 class BaseServiceProvider extends ServiceProvider
 {
@@ -36,9 +37,13 @@ class BaseServiceProvider extends ServiceProvider
         config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
+            $society=Setting::where('setting_key','=','society_name')->first()->setting_value;
+            if (!$society){
+                $society="Society";
+            }
             $event->menu->add('CHURCH ADMIN');
             $event->menu->add([
-                'text' => 'Society',
+                'text' => $society . ' society',
                 'icon' => 'book',
                 'can' => 'read-content',
                 'submenu' => [
@@ -206,9 +211,7 @@ class BaseServiceProvider extends ServiceProvider
         });
         $finset=array();
         if (Schema::hasTable('settings')){
-            foreach ($settings->all() as $setting){
-                $finset[$setting->setting_key]=$setting->setting_value;
-            }
+            $finset=$settings->makearray();
         }
         view()->share('setting', $finset);
         Form::component('bsText', 'base::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);

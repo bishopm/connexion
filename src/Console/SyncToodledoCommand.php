@@ -44,7 +44,6 @@ class SyncToodledoCommand extends Command
         foreach ($this->users as $user){
 
             $account=$this->toodledo->getData($user,'account');
-            $
             //Contexts
             $contexts=$this->toodledo->getData($user,'contexts');
             foreach ($contexts as $c){
