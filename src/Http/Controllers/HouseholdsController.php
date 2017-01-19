@@ -34,7 +34,13 @@ class HouseholdsController extends Controller {
 
 	public function edit(Household $household)
     {
-        return view('base::households.edit', compact('household'));
+        $data['household']=$household;
+        foreach ($household->individuals as $indiv){
+            if (strlen($indiv->cellphone)==10){
+                $data['cellphones'][$indiv->id]['name']=$indiv->firstname;
+            }
+        }
+        return view('base::households.edit', $data);
     }
 
     public function create()

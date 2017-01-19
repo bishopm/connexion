@@ -204,8 +204,8 @@ class ActionsController extends Controller
             $data=str_replace(',', '%2C', $data);
             $data=str_replace(' ', '+', $data);
             $data.="&access_token=" . $user->toodledo_token;
-            $data.="&fields=completed";
             $resp=$this->provider->updateData($user,'tasks',$data);
+            dd($resp);
         }
         return "success!";
     }
