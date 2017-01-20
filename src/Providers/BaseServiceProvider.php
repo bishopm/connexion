@@ -43,6 +43,9 @@ class BaseServiceProvider extends ServiceProvider
             } else {
                 $society="Society";
             }
+
+            // TO DO add a modules section in setting which determines which items appear in the menu
+
             $event->menu->add('CHURCH ADMIN');
             $event->menu->add([
                 'text' => $society,
