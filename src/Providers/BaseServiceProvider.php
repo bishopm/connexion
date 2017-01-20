@@ -37,13 +37,15 @@ class BaseServiceProvider extends ServiceProvider
         config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
-            $society=Setting::where('setting_key','=','society_name')->first()->setting_value;
-            if (!$society){
+            $society=Setting::where('setting_key','=','society_name')->first();
+            if ($society){
+                $society=$society->setting_value . " society";
+            } else {
                 $society="Society";
             }
             $event->menu->add('CHURCH ADMIN');
             $event->menu->add([
-                'text' => $society . ' society',
+                'text' => $society,
                 'icon' => 'book',
                 'can' => 'read-content',
                 'submenu' => [
