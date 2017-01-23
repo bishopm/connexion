@@ -82,13 +82,25 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             {!! Form::label('music','Sheet music', array('class'=>'control-label')) !!}
             @if (!$is_new)
                 <input type="text" v-model="formdata.music" name="music" class="form-control">
             @else
                 <input type="text" onchange="neaten(event);" name="music" class="form-control">
             @endif
+        </div>
+        <div class="col-sm-6">
+            <label for="tags">Tags</label>
+            <select name="tags[]" class="input-tags" multiple>
+                @foreach ($tags as $tag)
+                    @if ((isset($stags)) and (in_array($tag->name,$stags)))
+                        <option selected value="{{$tag->name}}">{{$tag->name}}</option>
+                    @else
+                        <option value="{{$tag->name}}">{{$tag->name}}</option>
+                    @endif
+                @endforeach
+            </select>
         </div>
     </div>
     @if ($is_new)

@@ -232,13 +232,14 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     // Songs
     Route::get('admin/worship/songs',['uses'=>'bishopm\base\Http\Controllers\SongsController@index','as'=>'admin.songs.index']);
     Route::get('admin/worship/songs/create',['uses'=>'bishopm\base\Http\Controllers\SongsController@create','as'=>'admin.songs.create']);
+    Route::get('admin/worship/liturgy/create',['uses'=>'bishopm\base\Http\Controllers\SongsController@createliturgy','as'=>'admin.liturgy.create']);    
     Route::post('admin/worship/songs',['uses'=>'bishopm\base\Http\Controllers\SongsController@store','as'=>'admin.songs.store']);
     Route::get('admin/worship/songs/{song}/edit',['uses'=>'bishopm\base\Http\Controllers\SongsController@edit','as'=>'admin.songs.edit']);
     Route::get('admin/worship/songs/{song}/{mode?}',['uses'=>'bishopm\base\Http\Controllers\SongsController@show','as'=>'admin.songs.show']);
     Route::get('admin/worship/songapi/{song}','bishopm\base\Http\Controllers\SongsController@showapi');
     Route::put('admin/worship/songs/{song}',['uses'=>'bishopm\base\Http\Controllers\SongsController@update','as'=>'admin.songs.update']);
     Route::delete('admin/worship/songs/{song}',['uses'=>'bishopm\base\Http\Controllers\SongsController@destroy','as'=>'admin.songs.destroy']);
-    Route::get('admin/worship/search/{q?}', 'bishopm\base\Http\Controllers\SongsController@search');
+    Route::post('admin/worship/search', 'bishopm\base\Http\Controllers\SongsController@search');
 
     Route::post('admin/worship/convert', 'bishopm\base\Http\Controllers\SongsController@convert');
     Route::get('admin/worship', 'bishopm\base\Http\Controllers\SongsController@index');

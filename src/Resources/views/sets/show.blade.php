@@ -1,7 +1,6 @@
 @extends('base::worship.page')
 
 @section('css')
-  <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="{{url('/')}}/vendor/bishopm/css/nestable.css">
 @stop
 
@@ -46,14 +45,8 @@
 @stop
 @section('js')
     @include('base::worship.partials.scripts')
-    <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('vendor/bishopm/js/jquery.nestable.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
-        $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
-          }
-        });
         $( document ).ready(function() {
             $('#newitem').selectize({
               plugins: ['remove_button'],
@@ -116,5 +109,3 @@
         };
     </script>
 @stop
-
-<div class=\"btn-group\" role=\"group\" aria-label=\"Action buttons\" style=\"display: inline\"></div>

@@ -177,6 +177,7 @@ var vm1 = new Vue({
               });  
       },
       updateMe: function() {
+          console.log(this.formdata);
           this.formdata.audio=this.formdata.audio.replace("https://", "");
           this.formdata.audio=this.formdata.audio.replace("http://", "");
           this.formdata.video=this.formdata.video.replace("https://", "");
@@ -212,5 +213,21 @@ var vm1 = new Vue({
       }
   }
 });
+</script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('.input-tags').selectize({
+          plugins: ['remove_button'],
+          openOnFocus: 0,
+          maxOptions: 30,
+          dropdownParent: "body",
+          create: function(value) {
+              return {
+                  value: value,
+                  text: value
+              }
+          }
+        });
+    });
 </script>
 @stop

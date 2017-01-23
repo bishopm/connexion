@@ -8,6 +8,7 @@
     <meta id="token" name="token" value="{{csrf_token()}}">
     @stack('css')
     @yield('css')
+    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />          
 @stop
 
 @section('body_class', 'skin-' . config('adminlte.skin', 'blue') . ' sidebar-mini ' . (config('adminlte.layout') ? [
@@ -67,6 +68,9 @@
                             <a href="{{url('/')}}/admin/worship/songs/create"><span class="fa fa-plus-square"></span>&nbsp;New song</a>
                         </li>
                         <li class="hidden-xs">
+                            <a href="{{url('/')}}/admin/worship/liturgy/create"><span class="fa fa-plus-square"></span>&nbsp;New liturgy</a>
+                        </li>
+                        <li class="hidden-xs">
                             <a href="{{url('/')}}/admin/worship/sets"><span class="fa fa-list-ol"></span>&nbsp;Sets</a>
                         </li>
                         <li class="hidden-xs">
@@ -109,13 +113,27 @@
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship"><i class='fa fa-home'></i> Home </a></li>
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/chords"><i class='fa fa-music'></i> Guitar Chords </a></li>
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/songs/create"><i class='fa fa-plus-square'></i> Add a new song </a></li>
+                    <li class="visible-xs"><a href="{{url('/')}}/admin/worship/liturgy/create"><i class='fa fa-plus-square'></i> Add new liturgy </a></li>
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/sets"><i class='fa fa-list-ol'></i> Worship sets </a></li>
                     <form action="{{url('/')}}/admin/worship/search" id="searchform" method="get" v-on:submit.prevent="onSubmit" class="sidebar-form" role="form">
                     <div class="input-group">
-                        <input v-model="q" v-on:keyup="searchMe" autocomplete=off autofocus="autofocus" type="text" name="q" class="form-control" placeholder="Search..."/>
+                        <input v-model="q" v-on:keyup="searchMe" autocomplete=off autofocus="autofocus" type="text" name="q" id="searchbox" class="form-control" placeholder="Search..."/>
                         <span class="input-group-btn">
                             <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
                         </span>
+                    </div>
+                    <input type="checkbox" v-on:change="searchMe" name="hymns" value="hymns" id="hymns">
+                    <label style="color:white;" v-on:change="searchMe" for="hymns">Hymns</label>&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" v-on:change="searchMe" name="songs" value="songs" id="songs">
+                    <label style="color:white;" for="songs">Songs</label>&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" name="liturgy" value="liturgy" id="liturgy">
+                    <label style="color:white;" for="liturgy">Liturgy</label>
+                    <div>
+                        <select multiple name="searchtags[]" id="songsearch">
+                            @foreach ($tags as $tag)
+                                <option value="{{$tag->name}}">{{$tag->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     </form>
                     <li class="songtitles" v-for="song in songs">
@@ -158,6 +176,16 @@
 
 @section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/app.min.js') }}"></script>
-    @stack('js')
+    <script type="text/javascript">
+    $( document ).ready(function() {
+        $('#songsearch').selectize({
+              plugins: ['remove_button'],
+              openOnFocus: 0,
+              maxOptions: 5,
+              dropdownParent: null
+        });
+        $('#songs').prop('checked', true);
+    });
+    </script>
     @yield('js')
 @stop

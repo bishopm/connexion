@@ -249,6 +249,7 @@ class BaseServiceProvider extends ServiceProvider
         config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
         config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
         view()->composer('base::templates.*', \bishopm\base\Composers\MenuComposer::class);
+        view()->composer('base::worship.page', \bishopm\base\Composers\SongComposer::class);
     }
 
     /**

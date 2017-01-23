@@ -1,5 +1,9 @@
 @extends('base::worship.page')
 
+@section('css')
+    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
 @section('content')
 @include('base::shared.errors')
 <div class="box box-default">
@@ -17,4 +21,21 @@
 
 @section('js')
 	@include('base::worship.partials.scripts')
+	<script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $('.input-tags').selectize({
+              plugins: ['remove_button'],
+              openOnFocus: 0,
+              maxOptions: 30,
+              dropdownParent: "body",
+              create: function(value) {
+                  return {
+                      value: value,
+                      text: value
+                  }
+              }
+            });
+        });
+    </script>
 @stop

@@ -113,3 +113,19 @@ h3 {
 .selectize-input input { height: 20px; }
 
 .selectize-input div.item + input { display: inline-block; }
+
+#searchform {
+  border: none;
+}
+
+.skin-blue .sidebar-form input[type="text"] {
+  height:20px;
+}
+
+#searchbox {
+  height:35px;
+}
+
+.sidebar-form {
+  overflow: visible; 
+}

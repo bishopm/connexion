@@ -1,4 +1,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.8/vue.js"></script>
+<script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
 <script>
   $.ajaxSetup({
     headers: {
@@ -14,8 +15,10 @@
     methods: {
         searchMe: function() {
           if (this.q.length>1){
-            $.ajax(
-              { url: "{{url('/')}}/admin/worship/search/" + this.q,
+            $.ajax({ 
+                type: 'POST',
+                url: "{{url('/')}}/admin/worship/search",
+                data: $('#searchform').serialize(),
                 success: 
                   function(dat) {
                     this.songs = dat;
@@ -24,5 +27,8 @@
           }
         }
     }
+  });
+  $('#songsearch').on('change', function() {
+      vm2.searchMe();
   });
 </script>

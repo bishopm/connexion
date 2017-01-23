@@ -10,21 +10,22 @@ use bishopm\base\Repositories\SermonsRepository;
 use bishopm\base\Repositories\BlogsRepository;
 use bishopm\base\Repositories\IndividualsRepository;
 use bishopm\base\Repositories\ActionsRepository;
+use bishopm\base\Repositories\SettingsRepository;
 use bishopm\base\Models\Blog;
 use bishopm\base\Models\Sermon;
-use bishopm\base\Models\Setting;
 use Spatie\GoogleCalendar\Event;
 use Auth;
 
 class WebController extends Controller
 {
     
-    private $page, $slides;
+    private $page, $slides, $settings;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings)
     {
         $this->page = $page;
         $this->slides = $slides;
+        $this->settings = $settings;
     }
 
     /**
@@ -35,10 +36,7 @@ class WebController extends Controller
     public function dashboard(ActionsRepository $actions)
     {
         $user=Auth::user();
-        $settings=Setting::all();
-        foreach ($settings as $setting){
-            $settingsarray[$setting->setting_key]=$setting->setting_value;
-        }
+        $settingsarray=$this->settings->makearray();
         $data['actions']=$actions->all();
         $dum['googleCalendarId']=$settingsarray['google_calendar'];
         $dum['color']='red';
@@ -65,6 +63,23 @@ class WebController extends Controller
 
     public function home(SermonsRepository $sermon, BlogsRepository $blogs)
     {
+        $settingsarray=$this->settings->makearray();
+        $cals=Event::get(null,null,[],$settingsarray['google_calendar'])->take(3); 
+        foreach ($cals as $cal){
+            $cdum['title']=$cal->summary;
+            $cdum['start']=$cal->start->dateTime;
+            $cdum['description']=$cal->location . ": " . $cal->description;
+            if (strlen($cdum['description'])<3){
+                $cdum['description']="";
+            }
+            if (!$cdum['start']){
+                $cdum['start']=$cal->start->date;
+                $cdum['stime']="";
+            } else {
+                $cdum['stime']=date("G:i",strtotime($cdum['start']));
+            }            
+            $data['cals'][]=$cdum;
+        }
         $data['blogs']=$blogs->mostRecent(5);
         $data['sermon']=$sermon->mostRecent();
         $data['slides']=$this->slides->getSlideshow('front');

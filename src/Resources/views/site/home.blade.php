@@ -20,8 +20,13 @@
         @endforelse
       </ul>
       <img class="top17" src="{{asset('vendor/bishopm/images/diary.png')}}">
-      <h4>The week ahead</h4>
+      <h4>Coming up</h4>
       <ul class="top30 list-unstyled text-left">
+        @forelse ($cals as $cal)
+          <li>{{date("j M", strtotime($cal['start']))}}&nbsp;<a href="" title="{{$cal['description']}}">{{$cal['title']}}</a></li>
+        @empty
+          <li>No diary entries</li>
+        @endforelse
       </ul>
     </div>
     <div class="col-md-4 text-center">

@@ -3,7 +3,7 @@
 namespace bishopm\base\Http\Controllers;
 
 use Illuminate\Http\Request, bishopm\base\Models\Gchord;
-use App\Http\Requests, bishopm\base\Models\User, bishopm\base\Models\Song, Auth, bishopm\base\Models\Set, bishopm\base\Models\Setitem, View, Redirect, Fpdf;
+use App\Http\Requests, bishopm\base\Models\User, bishopm\base\Models\Song, Auth, bishopm\base\Models\Set, bishopm\base\Models\Setitem, View, Redirect, Fpdf, DB;
 use App\Http\Controllers\Controller, bishopm\base\Http\Requests\SongsRequest;
 
 class SongsController extends Controller
@@ -65,13 +65,42 @@ class SongsController extends Controller
         return View::make('base::songs.index', $data);
     }
 
-    public function search($q='')
+    public function search(Request $request)
 	{
-		$filtered=Song::where('title','like','%' . $q . '%')->orwhere('words','like','%' . $q . '%')->orwhere('author','like','%' . $q . '%')->whereNull('deleted_at')->select('title','id','musictype')->orderBy('title')->get();
+        //DB::enableQueryLog();
+        $q=$request->q;
+        $musictype=array();
+        if (isset($request->hymns)){
+            $musictype[]="hymn";
+        }
+        if (isset($request->songs)){
+            $musictype[]="contemporary";
+        }
+        if (isset($request->liturgy)){
+            $musictype[]="liturgy";
+        }
+        $fq=Song::where('title','like','%' . $q . '%')->orWhere('author','like','%' . $q . '%')->orWhere('words','like','%' . $q . '%')->whereNull('deleted_at')->select('title','id','musictype')->orderBy('title')->get();
         $fin=array();
-        foreach ($filtered as $ff){
-            $ff['url']=url('/') . "/admin/worship/songs/" . $ff->id;
-            $fin[]=$ff;
+        foreach ($fq as $ff){
+            if (in_array($ff['musictype'],$musictype)){
+                if ($request->searchtags) {
+                    if ($ff->tags->count()>0) {
+                        $tcount=0;
+                        foreach($ff->tags as $stag){
+                            if (in_array($stag->name,$request->searchtags)){
+                                $tcount++;
+                            }
+                        }
+                        if ($tcount==count($request->searchtags)){
+                            $ff['url']=url('/') . "/admin/worship/songs/" . $ff->id;
+                            $fin[]=$ff;
+                        }
+                    } 
+                } else {
+                    $ff['url']=url('/') . "/admin/worship/songs/" . $ff->id;
+                    $fin[]=$ff;
+                }
+            }
         }
 		return $fin;
 	}
@@ -212,7 +241,13 @@ class SongsController extends Controller
     {
         $data['keys']=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#');
         $data['tempos']=array('4/4','3/4','6/8');
+        $data['tags']=Song::allTags()->get();
         return View::make('base::songs.create',$data);
+    }
+
+    public function createliturgy()
+    {
+        return View::make('base::songs.createliturgy');
     }
 
     /**
@@ -223,26 +258,32 @@ class SongsController extends Controller
      */
     public function store(SongsRequest $request)
     {
-        $song=Song::create($request->all());
-        if (strpos($request->lyrics,']---')) {
-            $song->lyrics=str_replace('---[','{',$request->lyrics);
-            $song->lyrics=str_replace(']---','}',$song->lyrics);
-            $song->lyrics=str_replace('{Verse:','{V',$song->lyrics);
-            $song->lyrics=str_replace('{Chorus:','{C',$song->lyrics);
-            $song->lyrics=str_replace('{Pre-Chorus:','{P',$song->lyrics);
-            $song->lyrics=str_replace('{Bridge:','{B',$song->lyrics);
-            $song->lyrics=str_replace('{Ending:1}','',$song->lyrics);
-        } elseif (!strpos($request->lyrics,'}')){
-            $song->lyrics=$this->convert($request->lyrics);
+
+        $song=Song::create($request->except('tags'));
+        $song->tag($request->tags);
+        if ($song->musictype==""){
+            $song->musictype="liturgy";
+        } else {
+            if (strpos($request->lyrics,']---')) {
+                $song->lyrics=str_replace('---[','{',$request->lyrics);
+                $song->lyrics=str_replace(']---','}',$song->lyrics);
+                $song->lyrics=str_replace('{Verse:','{V',$song->lyrics);
+                $song->lyrics=str_replace('{Chorus:','{C',$song->lyrics);
+                $song->lyrics=str_replace('{Pre-Chorus:','{P',$song->lyrics);
+                $song->lyrics=str_replace('{Bridge:','{B',$song->lyrics);
+                $song->lyrics=str_replace('{Ending:1}','',$song->lyrics);
+            } elseif (!strpos($request->lyrics,'}')){
+                $song->lyrics=$this->convert($request->lyrics);
+            }
+            $song->lyrics=preg_replace("/[\r\n]+/", "\n", $song->lyrics);
+            $song->audio=str_replace("dropbox.com","dl.dropboxusercontent.com",$song->audio);
+            $song->music=str_replace("www.","",$song->music);
+            $song->music=str_replace("dropbox.com","dl.dropboxusercontent.com",$song->music);
+            $song->video=str_replace("www.youtube.com/watch?v=","www.youtube.com/embed/",$song->video);
+            $song->user_id=auth()->user()->id;
         }
-        $song->lyrics=preg_replace("/[\r\n]+/", "\n", $song->lyrics);
-        $song->audio=str_replace("dropbox.com","dl.dropboxusercontent.com",$song->audio);
-        $song->music=str_replace("www.","",$song->music);
-        $song->music=str_replace("dropbox.com","dl.dropboxusercontent.com",$song->music);
-        $song->video=str_replace("www.youtube.com/watch?v=","www.youtube.com/embed/",$song->video);
-        $song->user_id=auth()->user()->id;
         $song->save();
-        return Redirect::route('base::songs.index')->with('okmessage','New song has been added');
+        return Redirect::route('admin.songs.index')->with('okmessage','New song has been added');
     }
 
     private function _getChords($lyrics){
@@ -276,6 +317,11 @@ class SongsController extends Controller
             }
         }
         $data['song']=Song::find($id);
+        $data['tags']=Song::allTags()->get();
+        $data['stags']=array();
+        foreach ($data['song']->tags as $tag){
+            $data['stags'][]=$tag->name;
+        }
         $data['lyrics']=$data['song']->lyrics;
         $op=preg_replace('/\[[^\[\]]*\]/', '', $data['song']->lyrics);
         $op=str_replace('{','---[',$op);
@@ -404,6 +450,7 @@ class SongsController extends Controller
         $data['keys']=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#');
         $data['tempos']=array('4/4','3/4','6/8');
         $data['chords']=$this->_getChords($data['song']->lyrics);
+        $data['tags']=Song::allTags()->get();
         return View::make('base::songs.edit',$data);
     }
 
@@ -418,6 +465,7 @@ class SongsController extends Controller
     {
         $keys=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#','A');
         $song=Song::find($id);
+        $song->setTags($request->tags);
         $song->fill($request->except('transpose'));
         $song->key=$this->_moveOne($keys,$request->key,strtolower($request->transpose));
         if (!strpos($request->lyrics,'}')){
