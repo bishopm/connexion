@@ -17,12 +17,12 @@
         }
     ],
     "require": {
-        "illuminate/support": "~5.1",
+        "illuminate/support": "~5.*",
         "php" : "~5.6|~7.0",
-        "laravelcollective/html":"^5.3.0",
+        "laravelcollective/html":"~5.*",
         "jeroennoten/laravel-adminlte":"1.*",
         "cviebrock/eloquent-sluggable":"^4.1",
-        "cartalyst/tags": "3.0.*",
+        "cartalyst/tags": "~4.0@dev",
         "spatie/laravel-backup": "4.*",
         "spatie/laravel-permission": "1.*",
         "spatie/laravel-menu": "2.*",
