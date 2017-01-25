@@ -19,7 +19,7 @@
     "require": {
         "illuminate/support": "~5.*",
         "php" : "~5.6|~7.0",
-        "laravelcollective/html":"~5.*",
+        "laravelcollective/html": "5.4.x-dev",
         "jeroennoten/laravel-adminlte":"1.*",
         "cviebrock/eloquent-sluggable":"^4.1",
         "cartalyst/tags": "~4.0@dev",
