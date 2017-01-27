@@ -157,7 +157,8 @@ class SongsController extends Controller
 
     public function pdf($dat)
     {
-        $pdf = New \Codedge\Fpdf\Fpdf\FPDF;
+        $pdf = New \Crabbly\FPDF\FPDF;
+        dd($pdf);
         $pdf->AddPage('P');
         $logopath=base_path() . '/public/images/chords/';
         $pdf->SetAutoPageBreak(true,0);
