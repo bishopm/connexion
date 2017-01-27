@@ -16,12 +16,6 @@
             "role": "Developer"
         }
     ],
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/bishopm/base"
-        }
-    ],
     "require": {
         "illuminate/support": "5.4.*",
         "php" : "~5.6|~7.0",
@@ -33,8 +27,7 @@
         "spatie/laravel-menu": "2.*",
         "league/oauth2-client": "^1.4",
         "plank/laravel-mediable": "^2.3",
-        "spatie/laravel-google-calendar": "1.*",
-        "bishopm/laravel-fpdf": "dev-master"
+        "spatie/laravel-google-calendar": "1.*"
     },
     "require-dev": {
         "phpunit/phpunit" : "~4.0||~5.0",        
