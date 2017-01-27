@@ -92,7 +92,7 @@
         </div>
         <div class="col-sm-6">
             <label for="tags">Tags</label>
-            <select name="tags[]" class="input-tags" multiple>
+            <select name="tags[]" id="tagselect" class="input-tags" multiple>
                 @foreach ($tags as $tag)
                     @if ((isset($stags)) and (in_array($tag->name,$stags)))
                         <option selected value="{{$tag->name}}">{{$tag->name}}</option>

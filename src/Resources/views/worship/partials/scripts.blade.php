@@ -14,7 +14,8 @@
     },
     methods: {
         searchMe: function() {
-          if (this.q.length>1){
+          tagselect=$("#songsearch")[0];
+          if (this.q.length>1 || tagselect.selectize.caretPos>0){
             $.ajax({ 
                 type: 'POST',
                 url: "{{url('/')}}/admin/worship/search",
@@ -24,7 +25,10 @@
                     this.songs = dat;
                   }.bind(this)
               });
+          } else {
+            this.songs=[];
           }
+
         }
     }
   });

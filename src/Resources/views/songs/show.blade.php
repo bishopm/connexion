@@ -177,15 +177,18 @@ var vm1 = new Vue({
               });  
       },
       updateMe: function() {
-          console.log(this.formdata);
+          this.formdata.tags=$("#tagselect").val();
           this.formdata.audio=this.formdata.audio.replace("https://", "");
           this.formdata.audio=this.formdata.audio.replace("http://", "");
           this.formdata.video=this.formdata.video.replace("https://", "");
           this.formdata.video=this.formdata.video.replace("http://", "");
           this.formdata.music=this.formdata.music.replace("https://", "");
           this.formdata.music=this.formdata.music.replace("http://", "");
-          this.$http.put('{{url('/')}}/admin/worship/songs/' + {{$song->id}},this.formdata);
-          alert('Data has been updated');
+          $.ajax( { url: "{{url('/')}}/admin/worship/songs/" + {{$song->id}},
+                    type: 'PUT',
+                    data: this.formdata,
+                  }
+          ); 
           this.videosource=this.formdata.video;
           this.pdfsource='';
       },
@@ -226,6 +229,9 @@ var vm1 = new Vue({
                   value: value,
                   text: value
               }
+          },
+          onChange(value) {
+            $("#tagselect").val(value);
           }
         });
     });
