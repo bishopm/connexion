@@ -28,7 +28,7 @@
         "league/oauth2-client": "^1.4",
         "plank/laravel-mediable": "^2.3",
         "spatie/laravel-google-calendar": "1.*",
-        "cartalyst/tags": "~4.0@dev",
+        "cartalyst/tags": "4.0.x-dev",
         "anouar/fpdf": "1.*"
     },
     "require-dev": {
