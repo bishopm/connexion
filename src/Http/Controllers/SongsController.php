@@ -3,7 +3,7 @@
 namespace bishopm\base\Http\Controllers;
 
 use Illuminate\Http\Request, bishopm\base\Models\Gchord;
-use App\Http\Requests, bishopm\base\Models\User, bishopm\base\Models\Song, Auth, bishopm\base\Models\Set, bishopm\base\Models\Setitem, View, Redirect, Fpdf, DB;
+use App\Http\Requests, bishopm\base\Models\User, bishopm\base\Models\Song, Auth, bishopm\base\Models\Set, bishopm\base\Models\Setitem, View, Redirect, DB;
 use App\Http\Controllers\Controller, bishopm\base\Http\Requests\SongsRequest;
 
 class SongsController extends Controller
@@ -157,7 +157,7 @@ class SongsController extends Controller
 
     public function pdf($dat)
     {
-        $pdf = new Fpdf();
+        $pdf = New \Codedge\Fpdf\Fpdf\FPDF;
         $pdf->AddPage('P');
         $logopath=base_path() . '/public/images/chords/';
         $pdf->SetAutoPageBreak(true,0);

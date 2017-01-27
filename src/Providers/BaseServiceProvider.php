@@ -268,14 +268,14 @@ class BaseServiceProvider extends ServiceProvider
         $this->app->register('Plank\Mediable\MediableServiceProvider');
         $this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
         $this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
-        $this->app->register('Anouar\Fpdf\FpdfServiceProvider');
-        AliasLoader::getInstance()->alias("Fpdf", 'Anouar\Fpdf\Fpdf');
+        $this->app->register('Codedge\Fpdf\FpdfServiceProvider');
+        AliasLoader::getInstance()->alias("Fpdf", 'Codedge\Fpdf\Facades\Fpdf');
         AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');
-        $this->app['router']->middleware('role', 'bishopm\base\Middleware\RoleMiddleware');
+        $this->app['router']->aliasMiddleware('role', 'bishopm\base\Middleware\RoleMiddleware');
         $this->registerBindings();
     }
 
