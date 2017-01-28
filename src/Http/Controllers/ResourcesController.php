@@ -74,7 +74,6 @@ class ResourcesController extends Controller {
 
     public function removemedia(Resource $resource)
     {
-        dd($resource);
         $media = $resource->getMedia('image');
         $resource->detachMedia($media);
     }
