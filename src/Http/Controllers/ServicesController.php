@@ -1,12 +1,12 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\ServicesRepository;
-use bishopm\base\Models\Service;
+use Bishopm\Connexion\Repositories\ServicesRepository;
+use Bishopm\Connexion\Models\Service;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateServiceRequest;
-use bishopm\base\Http\Requests\UpdateServiceRequest;
+use Bishopm\Connexion\Http\Requests\CreateServiceRequest;
+use Bishopm\Connexion\Http\Requests\UpdateServiceRequest;
 
 class ServicesController extends Controller {
 
@@ -26,23 +26,23 @@ class ServicesController extends Controller {
 	public function index()
 	{
         $services = $this->service->all();
-   		return view('base::services.index',compact('services'));
+   		return view('connexion::services.index',compact('services'));
 	}
 
 	public function edit($society,Service $service)
     {
-        return view('base::services.edit', compact('service','society'));
+        return view('connexion::services.edit', compact('service','society'));
     }
 
     public function create($society)
     {
-        return view('base::services.create',compact('society'));
+        return view('connexion::services.create',compact('society'));
     }
 
 	public function show(Service $service)
 	{
         $data['service']=$service;
-        return view('base::services.show',$data);
+        return view('connexion::services.show',$data);
 	}
 
     public function store($society,CreateServiceRequest $request)

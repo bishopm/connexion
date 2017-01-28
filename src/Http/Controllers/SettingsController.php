@@ -1,12 +1,12 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\SettingsRepository;
-use bishopm\base\Models\Setting;
+use Bishopm\Connexion\Repositories\SettingsRepository;
+use Bishopm\Connexion\Models\Setting;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateSettingRequest;
-use bishopm\base\Http\Requests\UpdateSettingRequest;
+use Bishopm\Connexion\Http\Requests\CreateSettingRequest;
+use Bishopm\Connexion\Http\Requests\UpdateSettingRequest;
 
 class SettingsController extends Controller {
 
@@ -26,17 +26,17 @@ class SettingsController extends Controller {
     public function index()
     {
         $settings = $this->setting->all();
-        return view('base::settings.index',compact('settings'));
+        return view('connexion::settings.index',compact('settings'));
     }
 
     public function edit(Setting $setting)
     {
-        return view('base::settings.edit', compact('setting'));
+        return view('connexion::settings.edit', compact('setting'));
     }
 
     public function create()
     {
-        return view('base::settings.create');
+        return view('connexion::settings.create');
     }
 
     public function store(CreateSettingRequest $request)

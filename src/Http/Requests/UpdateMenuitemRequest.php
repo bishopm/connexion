@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Http\Requests;
+namespace Bishopm\Connexion\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

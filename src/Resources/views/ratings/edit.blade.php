@@ -2,13 +2,13 @@
 
 @section('content')
     {{ Form::pgHeader('Update rating','$resource->title',route('admin.resources.show',$resource->id)) }}
-    @include('base::shared.errors')    
+    @include('connexion::shared.errors')    
     {!! Form::open(['route' => array('admin.ratings.update'), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('base::ratings.partials.edit-fields')
+                    @include('connexion::ratings.partials.edit-fields')
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Create',route('admin.resource.show',$resource->id)) }}

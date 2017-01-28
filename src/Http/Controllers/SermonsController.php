@@ -1,13 +1,13 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\SermonsRepository;
-use bishopm\base\Models\Sermon;
-use bishopm\base\Models\Individual;
+use Bishopm\Connexion\Repositories\SermonsRepository;
+use Bishopm\Connexion\Models\Sermon;
+use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateSermonRequest;
-use bishopm\base\Http\Requests\UpdateSermonRequest;
+use Bishopm\Connexion\Http\Requests\CreateSermonRequest;
+use Bishopm\Connexion\Http\Requests\UpdateSermonRequest;
 
 class SermonsController extends Controller {
 
@@ -29,20 +29,20 @@ class SermonsController extends Controller {
         $data['preachers'] = Individual::withTag('preacher')->get();
         $data['series'] = $series;
         $data['sermon'] = $sermon;
-        return view('base::sermons.edit', $data);
+        return view('connexion::sermons.edit', $data);
     }
 
     public function create($series_id)
     {
         $data['preachers']= Individual::withTag('preacher')->get();
         $data['series_id']=$series_id;
-        return view('base::sermons.create',$data);
+        return view('connexion::sermons.create',$data);
     }
 
 	public function show(Sermon $sermon)
 	{
         $data['sermon']=$sermon;
-        return view('base::sermons.show',$data);
+        return view('connexion::sermons.show',$data);
 	}
 
     public function store(CreateSermonRequest $request)

@@ -5,14 +5,14 @@
 @stop
 
 @section('content')
-    @include('base::shared.errors')
+    @include('connexion::shared.errors')
     {{ Form::pgHeader('Add household member','Individuals',route('admin.households.show',$household)) }}
     {!! Form::open(['route' => array('admin.individuals.store',$household), 'method' => 'post', 'files'=>'true']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('base::individuals.partials.create-fields')
+                    @include('connexion::individuals.partials.create-fields')
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Create',route('admin.households.show',$household)) }}

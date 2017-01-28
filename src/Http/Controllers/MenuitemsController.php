@@ -1,14 +1,14 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\MenuitemsRepository;
-use bishopm\base\Repositories\PagesRepository;
-use bishopm\base\Models\Menuitem;
+use Bishopm\Connexion\Repositories\MenuitemsRepository;
+use Bishopm\Connexion\Repositories\PagesRepository;
+use Bishopm\Connexion\Models\Menuitem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateMenuitemRequest;
-use bishopm\base\Http\Requests\UpdateMenuitemRequest;
+use Bishopm\Connexion\Http\Requests\CreateMenuitemRequest;
+use Bishopm\Connexion\Http\Requests\UpdateMenuitemRequest;
 use Illuminate\Support\Facades\DB;
 
 class MenuitemsController extends Controller {
@@ -31,7 +31,7 @@ class MenuitemsController extends Controller {
 	{
         $data['menuitems'] = $this->menuitem->all();
         $data['menu'];
-   		return view('base::menuitems.index',$data);
+   		return view('connexion::menuitems.index',$data);
 	}
 
 	public function edit($menu,Menuitem $menuitem)
@@ -40,7 +40,7 @@ class MenuitemsController extends Controller {
         $data['items']=$this->menuitem->all();
         $data['menuitem']=$menuitem;
         $data['menu']=$menu;
-        return view('base::menuitems.edit', $data);
+        return view('connexion::menuitems.edit', $data);
     }
 
     public function create($menu)
@@ -48,7 +48,7 @@ class MenuitemsController extends Controller {
         $data['pages']=$this->pages->all();
         $data['items']=$this->menuitem->allMain($menu);
         $data['menu']=$menu;
-        return view('base::menuitems.create',$data);
+        return view('connexion::menuitems.create',$data);
     }
 
     public function store(CreateMenuitemRequest $request)

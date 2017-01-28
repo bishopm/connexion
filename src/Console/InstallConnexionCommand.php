@@ -1,10 +1,10 @@
 <?php
 
-namespace bishopm\base\Console;
+namespace Bishopm\Connexion\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
-use bishopm\base\Models\User;
+use Bishopm\Connexion\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class InstallConnexionCommand extends Command

@@ -1,9 +1,9 @@
-@extends('base::worship.page')
+@extends('connexion::worship.page')
 
 @section('content')
     <div class="box box-default">
       <div class="box-header">
-        @include('base::shared.errors')
+        @include('connexion::shared.errors')
         <h3 class="box-title">Find by title below or use the search box</h3>
         <small>or go to <a target="_blank" href="http://oldworship.umc.org.za">old site</a></small>
       </div>
@@ -128,5 +128,5 @@
 @stop
 
 @section('js')    
-    @include('base::worship.partials.scripts')
+    @include('connexion::worship.partials.scripts')
 @stop

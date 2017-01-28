@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model, Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -27,7 +27,7 @@ class Blog extends Model implements TaggableInterface
     }
 
     public function individual(){
-        return $this->belongsTo('bishopm\base\Models\Individual');
+        return $this->belongsTo('Bishopm\Connexion\Models\Individual');
     }
 
 }

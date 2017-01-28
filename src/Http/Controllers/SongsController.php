@@ -1,10 +1,10 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use Illuminate\Http\Request, bishopm\base\Models\Gchord;
-use App\Http\Requests, bishopm\base\Models\User, bishopm\base\Models\Song, Auth, bishopm\base\Models\Set, bishopm\base\Models\Setitem, View, Redirect, DB;
-use App\Http\Controllers\Controller, bishopm\base\Http\Requests\SongsRequest, bishopm\base\Libraries\Fpdf\Fpdf;
+use Illuminate\Http\Request, Bishopm\Connexion\Models\Gchord;
+use App\Http\Requests, Bishopm\Connexion\Models\User, Bishopm\Connexion\Models\Song, Auth, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Setitem, View, Redirect, DB;
+use App\Http\Controllers\Controller, Bishopm\Connexion\Http\Requests\SongsRequest, Bishopm\Connexion\Libraries\Fpdf\Fpdf;
 
 class SongsController extends Controller
 {
@@ -62,7 +62,7 @@ class SongsController extends Controller
         $data['mostrecentset']=date("d F Y",$mostrecentset);
         $data['newest']=Song::orderBy('created_at', 'DESC')->get()->take(9);
         $data['users']=User::orderBy('name','DESC')->get();
-        return View::make('base::songs.index', $data);
+        return View::make('connexion::songs.index', $data);
     }
 
     public function search(Request $request)
@@ -242,12 +242,12 @@ class SongsController extends Controller
         $data['keys']=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#');
         $data['tempos']=array('4/4','3/4','6/8');
         $data['tags']=Song::allTags()->get();
-        return View::make('base::songs.create',$data);
+        return View::make('connexion::songs.create',$data);
     }
 
     public function createliturgy()
     {
-        return View::make('base::songs.createliturgy');
+        return View::make('connexion::songs.createliturgy');
     }
 
     /**
@@ -351,7 +351,7 @@ class SongsController extends Controller
         $data['keys']=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#');
         $data['tempos']=array('4/4','3/4','6/8');
         if ($mode=="view"){
-            return View::make('base::songs.show',$data);
+            return View::make('connexion::songs.show',$data);
         } elseif ($mode=="slim") {
             return $data['song'];
         } else {
@@ -451,7 +451,7 @@ class SongsController extends Controller
         $data['tempos']=array('4/4','3/4','6/8');
         $data['chords']=$this->_getChords($data['song']->lyrics);
         $data['tags']=Song::allTags()->get();
-        return View::make('base::songs.edit',$data);
+        return View::make('connexion::songs.edit',$data);
     }
 
     /**

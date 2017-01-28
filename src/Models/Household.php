@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +13,7 @@ class Household extends Model {
     protected $guarded = array('id');
 
     public function individuals(){
-        return $this->hasMany('bishopm\base\Models\Individual')->orderBy('firstname');
+        return $this->hasMany('Bishopm\Connexion\Models\Individual')->orderBy('firstname');
     }
 
     public function getPhysicaladdressAttribute(){
@@ -41,11 +41,11 @@ class Household extends Model {
     }
 
     public function specialdays(){
-        return $this->hasMany('bishopm\base\Models\Specialday');
+        return $this->hasMany('Bishopm\Connexion\Models\Specialday');
     }
 
     public function pastorals(){
-        return $this->hasMany('bishopm\base\Models\Pastoral');
+        return $this->hasMany('Bishopm\Connexion\Models\Pastoral');
     }
 /*
     public function pastoral(){

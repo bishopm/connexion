@@ -1,9 +1,9 @@
-@extends('base::worship.page')
+@extends('connexion::worship.page')
 
 @section('content')
 <div class="box box-default">
     <div class="box-header with-border">
-        @include('base::shared.errors')
+        @include('connexion::shared.errors')
         <h1>{{$song->title}}</h1>
     </div>
     {!! Form::model($song,array('route' => array('songs.update', $song->id), 'method' => 'put', 'class' => 'form-horizontal', 'role' => 'form')) !!}
@@ -21,5 +21,5 @@
 @stop
 
 @section('js')
-    @include('base::worship.partials.scripts')
+    @include('connexion::worship.partials.scripts')
 @stop

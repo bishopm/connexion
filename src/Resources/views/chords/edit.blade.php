@@ -1,14 +1,14 @@
-@extends('base::worship.page')
+@extends('connexion::worship.page')
 
 @section('content')
 <div class="box box-default">
     <div class="box-header with-border">
-        @include('base::shared.errors')
+        @include('connexion::shared.errors')
         <h1>{{$chord->chordname}}</h1>
     </div>
     <div class="box-body">
         {!! Form::model($chord,array('route' => array('admin.chords.update', $chord->id), 'method' => 'put', 'class' => 'form-horizontal', 'role' => 'form')) !!}
-        @include('base::chords.form', array('is_new'=>false))
+        @include('connexion::chords.form', array('is_new'=>false))
     </div>
     <div class="box-footer">
         {!! Form::submit('Update chord', array('class'=>'btn btn-default')) !!} <a href="{{url('/')}}/admin/worship/chords" class="pull-right btn btn-default">Back to index</a>
@@ -21,5 +21,5 @@
 @stop
 
 @section('js')
-@include('base::worship.partials.scripts')
+@include('connexion::worship.partials.scripts')
 @endsection

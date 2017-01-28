@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Cartalyst\Tags\TaggableTrait;
@@ -13,11 +13,11 @@ class Song extends Model implements TaggableInterface
     protected $guarded = array('id');
 
     public function setitem(){
-      return $this->belongsTo('bishopm\base\Models\Setitem');
+      return $this->belongsTo('Bishopm\Connexion\Models\Setitem');
     }
 
     public function user(){
-      return $this->belongsTo('bishopm\base\Models\User');
+      return $this->belongsTo('Bishopm\Connexion\Models\User');
     }
 
     public function scopeTitle($query,$filter)

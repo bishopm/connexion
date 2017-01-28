@@ -1,7 +1,7 @@
-<?php namespace bishopm\base\Composers;
+<?php namespace Bishopm\Connexion\Composers;
 
 use Illuminate\Contracts\View\View;
-use bishopm\base\Models\Song;
+use Bishopm\Connexion\Models\Song;
 
 class SongComposer
 {

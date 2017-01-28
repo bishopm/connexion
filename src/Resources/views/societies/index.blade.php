@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('content')
-@include('base::shared.errors') 
+@include('connexion::shared.errors') 
     <div class="container-fluid spark-screen">
         <div class="row">
             <div class="col-md-12">
@@ -50,11 +50,11 @@
             </div>
         </div>
     </div>
-    @include('base::shared.delete-modal') 
+    @include('connexion::shared.delete-modal') 
 @endsection
 @section('js')
 <script language="javascript">
-@include('base::shared.delete-modal-script') 
+@include('connexion::shared.delete-modal-script') 
 $(document).ready(function() {
         $('#indexTable').DataTable();
     } );

@@ -1,10 +1,10 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
 use Illuminate\Http\Request, Log, DB, Mail, App\Http\Requests, View;
-use bishopm\base\Http\Requests\CreateSetRequest, bishopm\base\Http\Requests\UpdateSetRequest;
-use App\Http\Controllers\Controller, bishopm\base\Models\Song, bishopm\base\Models\Setitem, bishopm\base\Models\Set, bishopm\base\Models\Service, bishopm\base\Models\Society;
+use Bishopm\Connexion\Http\Requests\CreateSetRequest, Bishopm\Connexion\Http\Requests\UpdateSetRequest;
+use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Models\Society;
 
 class SetsController extends Controller
 {
@@ -44,7 +44,7 @@ class SetsController extends Controller
             $data['sets']=array();
             $data['services']=array();
         }
-        return view('base::sets.index',$data);
+        return view('connexion::sets.index',$data);
     }
 
     /**
@@ -61,7 +61,7 @@ class SetsController extends Controller
             return redirect()->route('admin.societies.index')->with('notice','At least one service must be added before adding a set. Click a society below to add a new service');
         }
         $data['society']=Society::find($soc)->society;
-        return view('base::sets.create',$data);
+        return view('connexion::sets.create',$data);
     }
 
     /**
@@ -100,7 +100,7 @@ class SetsController extends Controller
         } else {
             $data['songs']=Song::orderBy('title')->select('title','id')->get();
         }
-        return view('base::sets.show',$data);
+        return view('connexion::sets.show',$data);
     }
 
     public function showapi($id)

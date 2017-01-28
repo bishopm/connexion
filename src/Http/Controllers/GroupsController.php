@@ -1,13 +1,13 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\GroupsRepository;
-use bishopm\base\Repositories\IndividualsRepository;
-use bishopm\base\Models\Group;
+use Bishopm\Connexion\Repositories\GroupsRepository;
+use Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Models\Group;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateGroupRequest;
-use bishopm\base\Http\Requests\UpdateGroupRequest;
+use Bishopm\Connexion\Http\Requests\CreateGroupRequest;
+use Bishopm\Connexion\Http\Requests\UpdateGroupRequest;
 use DB;
 
 class GroupsController extends Controller {
@@ -29,24 +29,24 @@ class GroupsController extends Controller {
 	public function index()
 	{
         $groups = $this->group->all();
-   		return view('base::groups.index',compact('groups'));
+   		return view('connexion::groups.index',compact('groups'));
 	}
 
 	public function edit(Group $group)
     {
-        return view('base::groups.edit', compact('group'));
+        return view('connexion::groups.edit', compact('group'));
     }
 
     public function create()
     {
-        return view('base::groups.create');
+        return view('connexion::groups.create');
     }
 
 	public function show(Group $group)
 	{
         $data['individuals']=$this->individuals->all();
         $data['group']=$group;
-        return view('base::groups.show',$data);
+        return view('connexion::groups.show',$data);
 	}
 
     public function store(CreateGroupRequest $request)

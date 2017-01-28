@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Plank\Mediable\Mediable;
@@ -12,6 +12,6 @@ class Resource extends Model
     protected $guarded = array('id');
 
     public function ratings(){
-        return $this->hasMany('bishopm\base\Models\Rating');
+        return $this->hasMany('Bishopm\Connexion\Models\Rating');
     }
 }

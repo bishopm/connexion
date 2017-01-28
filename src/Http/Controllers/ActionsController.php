@@ -1,16 +1,16 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
 use Auth;
-use bishopm\base\Http\Controllers\Toodledo;
-use bishopm\base\Models\Action;
-use bishopm\base\Repositories\ActionsRepository;
-use bishopm\base\Repositories\IndividualsRepository;
-use bishopm\base\Repositories\ProjectsRepository;
-use bishopm\base\Repositories\FoldersRepository;
-use bishopm\base\Http\Requests\CreateActionRequest;
-use bishopm\base\Http\Requests\UpdateActionRequest;
+use Bishopm\Connexion\Http\Controllers\Toodledo;
+use Bishopm\Connexion\Models\Action;
+use Bishopm\Connexion\Repositories\ActionsRepository;
+use Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Repositories\ProjectsRepository;
+use Bishopm\Connexion\Repositories\FoldersRepository;
+use Bishopm\Connexion\Http\Requests\CreateActionRequest;
+use Bishopm\Connexion\Http\Requests\UpdateActionRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
 
@@ -54,7 +54,7 @@ class ActionsController extends Controller
             $data['authorizationUrl'] = "NA";
         }
         $data['actions'] = $this->action->all();
-        return view('base::actions.index', $data);
+        return view('connexion::actions.index', $data);
     }
 
     /**
@@ -68,7 +68,7 @@ class ActionsController extends Controller
         $folders=$this->folders->dropdown();
         $projects=$this->projects->dropdown();
         $tags=Action::allTags()->get();
-        return view('base::actions.create',compact('individuals','projects','folders','tags'));
+        return view('connexion::actions.create',compact('individuals','projects','folders','tags'));
     }
 
     /**
@@ -126,7 +126,7 @@ class ActionsController extends Controller
         foreach ($action->tags as $tag){
             $atags[]=$tag->name;
         }
-        return view('base::actions.edit', compact('action','individuals','projects','folders','tags','atags'));
+        return view('connexion::actions.edit', compact('action','individuals','projects','folders','tags','atags'));
     }
 
     /**

@@ -1,18 +1,18 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use bishopm\base\Repositories\PagesRepository;
-use bishopm\base\Repositories\SlidesRepository;
-use bishopm\base\Repositories\SermonsRepository;
-use bishopm\base\Repositories\BlogsRepository;
-use bishopm\base\Repositories\IndividualsRepository;
-use bishopm\base\Repositories\ActionsRepository;
-use bishopm\base\Repositories\SettingsRepository;
-use bishopm\base\Models\Blog;
-use bishopm\base\Models\Sermon;
+use Bishopm\Connexion\Repositories\PagesRepository;
+use Bishopm\Connexion\Repositories\SlidesRepository;
+use Bishopm\Connexion\Repositories\SermonsRepository;
+use Bishopm\Connexion\Repositories\BlogsRepository;
+use Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Repositories\ActionsRepository;
+use Bishopm\Connexion\Repositories\SettingsRepository;
+use Bishopm\Connexion\Models\Blog;
+use Bishopm\Connexion\Models\Sermon;
 use Spatie\GoogleCalendar\Event;
 use Auth;
 
@@ -58,7 +58,7 @@ class WebController extends Controller
             $data['pcals'][]=$pdum;
         }
         $data['cals'][]=$dum;
-        return view('base::dashboard',$data);
+        return view('connexion::dashboard',$data);
     }
 
     public function home(SermonsRepository $sermon, BlogsRepository $blogs)
@@ -83,33 +83,33 @@ class WebController extends Controller
         $data['blogs']=$blogs->mostRecent(5);
         $data['sermon']=$sermon->mostRecent();
         $data['slides']=$this->slides->getSlideshow('front');
-        return view('base::site.home',$data);
+        return view('connexion::site.home',$data);
     }
 
     public function webblog($slug, BlogsRepository $blogs)
     {
         $blog = $blogs->findBySlug($slug);
-        return view('base::site.blog',compact('blog'));
+        return view('connexion::site.blog',compact('blog'));
     }
 
     public function webperson($slug, IndividualsRepository $individual)
     {
         $person = $individual->findBySlug($slug);
-        return view('base::site.person',compact('person'));
+        return view('connexion::site.person',compact('person'));
     }    
 
     public function websubject($tag)
     {
         $blogs = Blog::withTag($tag)->get();
         $sermons = Sermon::withTag($tag)->get();
-        return view('base::site.subject',compact('blogs','sermons','tag'));
+        return view('connexion::site.subject',compact('blogs','sermons','tag'));
     }
 
     public function uri($slug)
     {
         $data['page'] = $this->page->findBySlug($slug);
         $template = $data['page']->template;
-        return view('base::templates.' . $template, $data);
+        return view('connexion::templates.' . $template, $data);
     }
 
     /**

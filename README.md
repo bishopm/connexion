@@ -14,17 +14,17 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 "repositories": [
    {
      "type": "git",
-     "url": "https://github.com/bishopm/base"
+     "url": "https://github.com/bishopm/connexion"
    }
 ],
 "require-dev": {
    ...
-   "bishopm/base": "dev-master"
+   "bishopm/connexion": "dev-master"
 },
 ```
 4. Run *composer update* in the project folder, which will pull in the package and its dependencies
 5. Add the package service provider to config/app.php (in the providers section): 
-`bishopm\base\Providers\BaseServiceProvider::class,`
+`Bishopm\Connexion\Providers\BaseServiceProvider::class,`
 6. Add your database credentials to .env
 7. In the project folder, run
 `php artisan connexion:install`

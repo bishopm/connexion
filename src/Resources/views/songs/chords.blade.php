@@ -1,4 +1,4 @@
-@extends('base::worship.page')
+@extends('connexion::worship.page')
 
 @section('content')
 <h1>Guitar chords</h1>
@@ -206,5 +206,5 @@
 @stop
 
 @section('js')
-    @include('base::worship.partials.scripts')
+    @include('connexion::worship.partials.scripts')
 @stop

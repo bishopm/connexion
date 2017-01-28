@@ -1,14 +1,14 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\PreachersRepository;
-use bishopm\base\Repositories\IndividualsRepository;
-use bishopm\base\Repositories\SocietiesRepository;
-use bishopm\base\Models\Preacher;
+use Bishopm\Connexion\Repositories\PreachersRepository;
+use Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Repositories\SocietiesRepository;
+use Bishopm\Connexion\Models\Preacher;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreatePreacherRequest;
-use bishopm\base\Http\Requests\UpdatePreacherRequest;
+use Bishopm\Connexion\Http\Requests\CreatePreacherRequest;
+use Bishopm\Connexion\Http\Requests\UpdatePreacherRequest;
 
 class PreachersController extends Controller {
 
@@ -30,7 +30,7 @@ class PreachersController extends Controller {
 	public function index()
 	{
         $preachers = $this->preacher->all();
-   		return view('base::preachers.index',compact('preachers'));
+   		return view('connexion::preachers.index',compact('preachers'));
 	}
 
 	public function edit(Preacher $preacher)
@@ -38,7 +38,7 @@ class PreachersController extends Controller {
         $data['individuals'] = $this->individuals->all();
         $data['societies'] = $this->societies->all();
         $data['preacher'] = $preacher;
-        return view('base::preachers.edit', $data);
+        return view('connexion::preachers.edit', $data);
     }
 
     public function create()
@@ -46,7 +46,7 @@ class PreachersController extends Controller {
         $data['individuals'] = $this->individuals->all();
         $data['societies'] = $this->societies->all();
         if (count($data['societies'])){
-            return view('base::preachers.create',$data);
+            return view('connexion::preachers.create',$data);
         } else {
             return redirect()->route('admin.societies.create')->with('notice','At least one society must be added before adding a preacher');
         }
@@ -55,7 +55,7 @@ class PreachersController extends Controller {
 	public function show(Preacher $preacher)
 	{
         $data['preacher']=$preacher;
-        return view('base::preachers.show',$data);
+        return view('connexion::preachers.show',$data);
 	}
 
     public function store(CreatePreacherRequest $request)

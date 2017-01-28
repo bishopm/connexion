@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Notifications;
+namespace Bishopm\Connexion\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;

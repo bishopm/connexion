@@ -1,12 +1,12 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\SlidesRepository;
-use bishopm\base\Models\Slide;
+use Bishopm\Connexion\Repositories\SlidesRepository;
+use Bishopm\Connexion\Models\Slide;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateSlideRequest;
-use bishopm\base\Http\Requests\UpdateSlideRequest;
+use Bishopm\Connexion\Http\Requests\CreateSlideRequest;
+use Bishopm\Connexion\Http\Requests\UpdateSlideRequest;
 use MediaUploader;
 
 class SlidesController extends Controller {
@@ -27,24 +27,24 @@ class SlidesController extends Controller {
 	public function index()
 	{
         $slides = $this->slide->all();
-   		return view('base::slides.index',compact('slides'));
+   		return view('connexion::slides.index',compact('slides'));
 	}
 
 	public function edit(Slide $slide)
     {
         $media=$slide->getMedia('image')->first();
-        return view('base::slides.edit', compact('slide','media'));
+        return view('connexion::slides.edit', compact('slide','media'));
     }
 
     public function create()
     {
-        return view('base::slides.create');
+        return view('connexion::slides.create');
     }
 
 	public function show(Slide $slide)
 	{
         $data['slide']=$slide;
-        return view('base::slides.show',$data);
+        return view('connexion::slides.show',$data);
 	}
 
     public function store(CreateSlideRequest $request)

@@ -1,12 +1,12 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\ResourcesRepository;
-use bishopm\base\Models\Resource;
+use Bishopm\Connexion\Repositories\ResourcesRepository;
+use Bishopm\Connexion\Models\Resource;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateResourceRequest;
-use bishopm\base\Http\Requests\UpdateResourceRequest;
+use Bishopm\Connexion\Http\Requests\CreateResourceRequest;
+use Bishopm\Connexion\Http\Requests\UpdateResourceRequest;
 use MediaUploader;
 
 class ResourcesController extends Controller {
@@ -27,24 +27,24 @@ class ResourcesController extends Controller {
 	public function index()
 	{
         $resources = $this->resource->all();
-   		return view('base::resources.index',compact('resources'));
+   		return view('connexion::resources.index',compact('resources'));
 	}
 
 	public function edit(Resource $resource)
     {
         $media=$resource->getMedia('image')->first();
-        return view('base::resources.edit', compact('resource','media'));
+        return view('connexion::resources.edit', compact('resource','media'));
     }
 
     public function create()
     {
-        return view('base::resources.create');
+        return view('connexion::resources.create');
     }
 
 	public function show(Resource $resource)
 	{
         $data['resource']=$resource;
-        return view('base::resources.show',$data);
+        return view('connexion::resources.show',$data);
 	}
 
     public function store(CreateResourceRequest $request)

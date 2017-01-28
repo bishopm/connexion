@@ -1,10 +1,10 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use Illuminate\Http\Request, Log, DB, bishopm\base\Libraries\Chord;
-use App\Http\Requests, View, bishopm\base\Http\Requests\GchordsRequest;
-use App\Http\Controllers\Controller, bishopm\base\Models\Gchord;
+use Illuminate\Http\Request, Log, DB, Bishopm\Connexion\Libraries\Chord;
+use App\Http\Requests, View, Bishopm\Connexion\Http\Requests\GchordsRequest;
+use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Gchord;
 
 class GchordsController extends Controller
 {
@@ -27,9 +27,9 @@ class GchordsController extends Controller
                 }
                 $data['chords'][$key][]=$chord->id;
             }
-            return view('base::chords.index',$data);
+            return view('connexion::chords.index',$data);
         } else {
-            return view('base::chords.index');
+            return view('connexion::chords.index');
         }
     }
 
@@ -41,7 +41,7 @@ class GchordsController extends Controller
     public function create($name='')
     {
         $data['chordname']=$name;
-        return view('base::chords.create',$data);
+        return view('connexion::chords.create',$data);
     }
 
     /**
@@ -83,7 +83,7 @@ class GchordsController extends Controller
     public function show($id)
     {
         $data['chord']=Gchord::find($id);
-        return view('base::chords.edit',$data);
+        return view('connexion::chords.edit',$data);
     }
 
     /**
@@ -95,7 +95,7 @@ class GchordsController extends Controller
     public function edit($id)
     {
         $data['chord']=Gchord::find($id);
-        return view('base::chords.edit',$data);
+        return view('connexion::chords.edit',$data);
     }
 
 
@@ -120,7 +120,7 @@ class GchordsController extends Controller
         $c->draw($chord->id);
         $chord->save();
         $data['chord']=$chord;
-        return view('base::chords.edit',$data);
+        return view('connexion::chords.edit',$data);
     }
 
     /**

@@ -1,14 +1,14 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\SpecialdaysRepository;
-use bishopm\base\Repositories\HouseholdsRepository;
-use bishopm\base\Models\Specialday;
-use bishopm\base\Models\Household;
+use Bishopm\Connexion\Repositories\SpecialdaysRepository;
+use Bishopm\Connexion\Repositories\HouseholdsRepository;
+use Bishopm\Connexion\Models\Specialday;
+use Bishopm\Connexion\Models\Household;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateSpecialdayRequest;
-use bishopm\base\Http\Requests\UpdateSpecialdayRequest;
+use Bishopm\Connexion\Http\Requests\CreateSpecialdayRequest;
+use Bishopm\Connexion\Http\Requests\UpdateSpecialdayRequest;
 use Illuminate\Http\Request;
 
 class SpecialdaysController extends Controller

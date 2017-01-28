@@ -1,6 +1,6 @@
-<?php namespace bishopm\base\Repositories;
+<?php namespace Bishopm\Connexion\Repositories;
 
-use bishopm\base\Repositories\EloquentBaseRepository;
+use Bishopm\Connexion\Repositories\EloquentBaseRepository;
 
 class MenusRepository extends EloquentBaseRepository
 {

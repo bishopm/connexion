@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Cartalyst\Tags\TaggableTrait;
@@ -15,10 +15,10 @@ class Sermon extends Model implements TaggableInterface
 
 
     public function series(){
-        return $this->belongsTo('bishopm\base\Models\Series');
+        return $this->belongsTo('Bishopm\Connexion\Models\Series');
     }
     
     public function individual(){
-        return $this->belongsTo('bishopm\base\Models\Individual');
+        return $this->belongsTo('Bishopm\Connexion\Models\Individual');
     }
 }

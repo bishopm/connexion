@@ -1,16 +1,16 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use bishopm\base\Models\User;
-use bishopm\base\Models\Role;
-use bishopm\base\Repositories\UsersRepository;
-use bishopm\base\Repositories\IndividualsRepository;
-use bishopm\base\Repositories\RolesRepository;
-use bishopm\base\Http\Requests\CreateUserRequest;
-use bishopm\base\Http\Requests\UpdateUserRequest;
+use Bishopm\Connexion\Models\User;
+use Bishopm\Connexion\Models\Role;
+use Bishopm\Connexion\Repositories\UsersRepository;
+use Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Repositories\RolesRepository;
+use Bishopm\Connexion\Http\Requests\CreateUserRequest;
+use Bishopm\Connexion\Http\Requests\UpdateUserRequest;
 
 class UsersController extends Controller {
 
@@ -26,7 +26,7 @@ class UsersController extends Controller {
 	public function index()
 	{
         $users = $this->user->all();
-   		return view('base::users.index',compact('users'));
+   		return view('connexion::users.index',compact('users'));
 	}
 
 	public function edit(User $user)
@@ -38,7 +38,7 @@ class UsersController extends Controller {
         $data['roles']=$this->roles->all();
         $data['individuals'] = $this->individuals->all();
         $data['user'] = $user;
-        return view('base::users.edit', $data);
+        return view('connexion::users.edit', $data);
     }
 
 	public function show($user)
@@ -48,7 +48,7 @@ class UsersController extends Controller {
 		} else {
 			$data['user']=User::find($user);
 		}
-		return view('base::users.show',$data);
+		return view('connexion::users.show',$data);
 	}	
 
     public function create()
@@ -56,7 +56,7 @@ class UsersController extends Controller {
         $data['roles']=$this->roles->all();
         $data['individuals'] = $this->individuals->all();
 
-        return view('base::users.create',$data);
+        return view('connexion::users.create',$data);
     }
 
     public function store(CreateUserRequest $request)

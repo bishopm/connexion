@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Middleware;
+namespace Bishopm\Connexion\Middleware;
 
 use Closure, Illuminate\Support\Facades\Auth;
 

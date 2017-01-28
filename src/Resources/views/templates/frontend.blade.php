@@ -1,4 +1,4 @@
-@extends('base::templates.webpage')
+@extends('connexion::templates.webpage')
 
 @section('htmlheader_title')
     Dashboard

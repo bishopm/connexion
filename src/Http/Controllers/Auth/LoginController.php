@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Http\Controllers\Auth;
+namespace Bishopm\Connexion\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -39,6 +39,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return view('base::auth.login');
+        return view('connexion::auth.login');
     }
 }

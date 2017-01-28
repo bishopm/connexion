@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Http\Controllers\Auth;
+namespace Bishopm\Connexion\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;

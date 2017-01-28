@@ -1,4 +1,4 @@
-@extends('base::templates.webpage')
+@extends('connexion::templates.webpage')
 
 @section('content')
 <img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">

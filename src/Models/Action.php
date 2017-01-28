@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Cartalyst\Tags\TaggableTrait;
@@ -14,21 +14,21 @@ class Action extends Model implements TaggableInterface
 
     public function project()
     {
-        return $this->belongsTo('bishopm\base\Models\Project');
+        return $this->belongsTo('Bishopm\Connexion\Models\Project');
     }
 
     public function individual()
     {
-        return $this->belongsTo('bishopm\base\Models\Individual');
+        return $this->belongsTo('Bishopm\Connexion\Models\Individual');
     }
 
     public function user()
     {
-        return $this->belongsTo('bishopm\base\Models\User');
+        return $this->belongsTo('Bishopm\Connexion\Models\User');
     }
 
     public function folder()
     {
-        return $this->belongsTo('bishopm\base\Models\Folder');
+        return $this->belongsTo('Bishopm\Connexion\Models\Folder');
     }
 }

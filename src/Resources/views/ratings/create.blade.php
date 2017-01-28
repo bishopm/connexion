@@ -5,13 +5,13 @@
 @stop
 
 @section('content')
-    @include('base::shared.errors')    
+    @include('connexion::shared.errors')    
     {!! Form::open(['route' => array('admin.ratings.store',$resource->id), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('base::ratings.partials.create-fields')
+                    @include('connexion::ratings.partials.create-fields')
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Create',route('admin.resources.show',$resource->id)) }}

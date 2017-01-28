@@ -1,4 +1,4 @@
-@extends('base::worship.page')
+@extends('connexion::worship.page')
 
 @section('content')
 <h3 class="box-title">Guitar chords
@@ -190,5 +190,5 @@
 @stop
 
 @section('js')
-@include('base::worship.partials.scripts')
+@include('connexion::worship.partials.scripts')
 @endsection

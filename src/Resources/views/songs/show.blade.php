@@ -1,4 +1,4 @@
-@extends('base::worship.page')
+@extends('connexion::worship.page')
 
 @section('content')
 
@@ -63,14 +63,14 @@
             <div class="tab-pane" id="k2">
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        @include('base::shared.errors')
+                        @include('connexion::shared.errors')
                         <form method="POST" v-on:submit.prevent>
                             <input type="hidden" name="_token" class="form-horizontal" value="{{ csrf_token() }}">
                             <h1>{{$song->title}}</h1>
                             <button v-on:click="updateMe" type="submit" class="btn btn-default">Update song</button>
                             <button v-on:click="transposeUp" type="submit" class="btn btn-default" name="transpose">Up</button>
                             <button v-on:click="transposeDown" type="submit" class="btn btn-default" name="transpose">Down</button>
-                            @include('base::songs.form', array('is_new'=>false))
+                            @include('connexion::songs.form', array('is_new'=>false))
                         </form>
                     </div>
                     <div class="box-footer">
@@ -146,7 +146,7 @@
 @stop
 
 @section('js')
-@include('base::worship.partials.scripts')
+@include('connexion::worship.partials.scripts')
 
 <script type="text/javascript">
 var vm1 = new Vue({

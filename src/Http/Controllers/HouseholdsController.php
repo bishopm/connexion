@@ -1,14 +1,14 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\HouseholdsRepository;
-use bishopm\base\Repositories\GroupsRepository;
-use bishopm\base\Models\Household;
-use bishopm\base\Models\Individual;
+use Bishopm\Connexion\Repositories\HouseholdsRepository;
+use Bishopm\Connexion\Repositories\GroupsRepository;
+use Bishopm\Connexion\Models\Household;
+use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateHouseholdRequest;
-use bishopm\base\Http\Requests\UpdateHouseholdRequest;
+use Bishopm\Connexion\Http\Requests\CreateHouseholdRequest;
+use Bishopm\Connexion\Http\Requests\UpdateHouseholdRequest;
 
 class HouseholdsController extends Controller {
 
@@ -29,7 +29,7 @@ class HouseholdsController extends Controller {
 	public function index()
 	{
         $households = $this->household->all();
-   		return view('base::households.index',compact('households'));
+   		return view('connexion::households.index',compact('households'));
 	}
 
 	public function edit(Household $household)
@@ -40,12 +40,12 @@ class HouseholdsController extends Controller {
                 $data['cellphones'][$indiv->id]['name']=$indiv->firstname;
             }
         }
-        return view('base::households.edit', $data);
+        return view('connexion::households.edit', $data);
     }
 
     public function create()
     {
-        return view('base::households.create');
+        return view('connexion::households.create');
     }
 
 	public function show(Household $household)
@@ -66,7 +66,7 @@ class HouseholdsController extends Controller {
                 }
             }
         }
-        return view('base::households.show',$data);
+        return view('connexion::households.show',$data);
 	}
 
     public function store(CreateHouseholdRequest $request)

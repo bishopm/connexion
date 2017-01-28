@@ -1,12 +1,12 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\SeriesRepository;
-use bishopm\base\Models\Series;
+use Bishopm\Connexion\Repositories\SeriesRepository;
+use Bishopm\Connexion\Models\Series;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateSeriesRequest;
-use bishopm\base\Http\Requests\UpdateSeriesRequest;
+use Bishopm\Connexion\Http\Requests\CreateSeriesRequest;
+use Bishopm\Connexion\Http\Requests\UpdateSeriesRequest;
 use MediaUploader;
 
 class SeriesController extends Controller {
@@ -27,24 +27,24 @@ class SeriesController extends Controller {
 	public function index()
 	{
         $series = $this->series->all();
-   		return view('base::series.index',compact('series'));
+   		return view('connexion::series.index',compact('series'));
 	}
 
 	public function edit(Series $series)
     {
         $media=$series->getMedia('image')->first();
-        return view('base::series.edit', compact('series','media'));
+        return view('connexion::series.edit', compact('series','media'));
     }
 
     public function create()
     {
-        return view('base::series.create');
+        return view('connexion::series.create');
     }
 
 	public function show(Series $series)
 	{
         $data['series']=$series;
-        return view('base::series.show',$data);
+        return view('connexion::series.show',$data);
 	}
 
     public function store(CreateSeriesRequest $request)

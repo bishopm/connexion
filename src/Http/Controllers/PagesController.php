@@ -1,12 +1,12 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\PagesRepository;
-use bishopm\base\Models\Page;
+use Bishopm\Connexion\Repositories\PagesRepository;
+use Bishopm\Connexion\Models\Page;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreatePageRequest;
-use bishopm\base\Http\Requests\UpdatePageRequest;
+use Bishopm\Connexion\Http\Requests\CreatePageRequest;
+use Bishopm\Connexion\Http\Requests\UpdatePageRequest;
 
 class PagesController extends Controller {
 
@@ -26,19 +26,19 @@ class PagesController extends Controller {
 	public function index()
 	{
         $data['pages'] = $this->page->all();
-   		return view('base::pages.index',$data);
+   		return view('connexion::pages.index',$data);
 	}
 
 	public function edit(Page $page)
     {
         $templates = $this->get_templates();
-        return view('base::pages.edit', compact('page','templates'));
+        return view('connexion::pages.edit', compact('page','templates'));
     }
 
     public function create()
     {
         $templates = $this->get_templates();
-        return view('base::pages.create',compact('templates'));
+        return view('connexion::pages.create',compact('templates'));
     }
 
     public function store(CreatePageRequest $request)
@@ -57,7 +57,7 @@ class PagesController extends Controller {
 
     private function get_templates()
     {
-        $temps=scandir(base_path() . "/vendor/bishopm/base/src/Resources/views/templates");
+        $temps=scandir(base_path() . "/vendor/bishopm/connexion/src/Resources/views/templates");
         foreach ($temps as $template) {
             if (strlen($template)>2){
                 $templates[]=str_replace('.blade.php','',$template);

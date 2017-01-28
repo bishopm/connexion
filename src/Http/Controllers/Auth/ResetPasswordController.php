@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Http\Controllers\Auth;
+namespace Bishopm\Connexion\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;

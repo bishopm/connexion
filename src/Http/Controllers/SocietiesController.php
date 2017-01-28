@@ -1,12 +1,12 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\SocietiesRepository;
-use bishopm\base\Models\Society;
+use Bishopm\Connexion\Repositories\SocietiesRepository;
+use Bishopm\Connexion\Models\Society;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateSocietyRequest;
-use bishopm\base\Http\Requests\UpdateSocietyRequest;
+use Bishopm\Connexion\Http\Requests\CreateSocietyRequest;
+use Bishopm\Connexion\Http\Requests\UpdateSocietyRequest;
 
 class SocietiesController extends Controller {
 
@@ -26,23 +26,23 @@ class SocietiesController extends Controller {
 	public function index()
 	{
         $societies = $this->society->all();
-   		return view('base::societies.index',compact('societies'));
+   		return view('connexion::societies.index',compact('societies'));
 	}
 
 	public function edit(Society $society)
     {
-        return view('base::societies.edit', compact('society'));
+        return view('connexion::societies.edit', compact('society'));
     }
 
     public function create()
     {
-        return view('base::societies.create');
+        return view('connexion::societies.create');
     }
 
 	public function show(Society $society)
 	{
         $data['society']=$society;
-        return view('base::societies.show',$data);
+        return view('connexion::societies.show',$data);
 	}
 
     public function store(CreateSocietyRequest $request)
@@ -62,7 +62,7 @@ class SocietiesController extends Controller {
     public function destroy(Society $society)
     {
         $this->society->destroy($society);
-        return view('base::societies.index')->withSuccess('The ' . $society->society . ' society has been deleted');
+        return view('connexion::societies.index')->withSuccess('The ' . $society->society . ' society has been deleted');
     }
 
 }

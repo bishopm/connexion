@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Libraries;
+namespace Bishopm\Connexion\Libraries;
 
 use App;
 use Auth, Schema, DB, Illuminate\Support\Facades\Request, Illuminate\Support\Facades\Redirect;

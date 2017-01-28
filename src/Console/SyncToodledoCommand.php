@@ -1,16 +1,16 @@
 <?php
 
-namespace bishopm\base\Console;
+namespace Bishopm\Connexion\Console;
 
 use Illuminate\Console\Command;
-use bishopm\base\Http\Controllers\Toodledo;
-use bishopm\base\Repositories\UsersRepository;
-use bishopm\base\Repositories\ActionsRepository;
-use bishopm\base\Repositories\ProjectsRepository;
-use bishopm\base\Repositories\FoldersRepository;
-use bishopm\base\Models\Folder;
-use bishopm\base\Models\Project;
-use bishopm\base\Models\Action;
+use Bishopm\Connexion\Http\Controllers\Toodledo;
+use Bishopm\Connexion\Repositories\UsersRepository;
+use Bishopm\Connexion\Repositories\ActionsRepository;
+use Bishopm\Connexion\Repositories\ProjectsRepository;
+use Bishopm\Connexion\Repositories\FoldersRepository;
+use Bishopm\Connexion\Models\Folder;
+use Bishopm\Connexion\Models\Project;
+use Bishopm\Connexion\Models\Action;
 
 class SyncToodledoCommand extends Command
 {

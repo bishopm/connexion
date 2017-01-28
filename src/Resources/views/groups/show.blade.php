@@ -9,7 +9,7 @@
 @stop
 
 @section('content')
-@include('base::shared.errors') 
+@include('connexion::shared.errors') 
     <div class="row">
       <div class="col-md-12">
         <div class="box box-primary"> 

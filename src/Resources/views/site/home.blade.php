@@ -1,11 +1,11 @@
-@extends('base::templates.webpage')
+@extends('connexion::templates.webpage')
 
 @section('css')
 <link href="{{ asset('/vendor/bishopm/mediaelement/build/mediaelementplayer.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
-@include('base::shared.carousel')
+@include('connexion::shared.carousel')
 <div class="container top30">
   <!-- Three columns of text below the carousel -->
   <div class="row">

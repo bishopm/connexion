@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Providers;
+namespace Bishopm\Connexion\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
@@ -9,15 +9,15 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
-use bishopm\base\Repositories\SettingsRepository;
-use bishopm\base\Models\Setting;
+use Bishopm\Connexion\Repositories\SettingsRepository;
+use Bishopm\Connexion\Models\Setting;
 
-class BaseServiceProvider extends ServiceProvider
+class ConnexionServiceProvider extends ServiceProvider
 {
 
     protected $commands = [
-        'bishopm\base\Console\InstallConnexionCommand',
-        'bishopm\base\Console\SyncToodledoCommand'
+        'Bishopm\Connexion\Console\InstallConnexionCommand',
+        'Bishopm\Connexion\Console\SyncToodledoCommand'
     ];
 
     /**
@@ -30,11 +30,11 @@ class BaseServiceProvider extends ServiceProvider
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/routes.php';
         }
-        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'base');
+        $this->loadViewsFrom(__DIR__.'/../Resources/views', 'connexion');
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
         config(['laravel-medialibrary.defaultFilesystem'=>'public']);
-        config(['auth.providers.users.model'=>'bishopm\base\Models\User']);
+        config(['auth.providers.users.model'=>'Bishopm\Connexion\Models\User']);
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
             $society=Setting::where('setting_key','=','society_name')->first();
@@ -219,16 +219,16 @@ class BaseServiceProvider extends ServiceProvider
             $finset=$settings->makearray();
         }
         view()->share('setting', $finset);
-        Form::component('bsText', 'base::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
-        Form::component('bsPassword', 'base::components.password', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
-        Form::component('bsTextarea', 'base::components.textarea', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
-        Form::component('bsThumbnail', 'base::components.thumbnail', ['source', 'width' => '100', 'label' => '']);
-        Form::component('bsImgpreview', 'base::components.imgpreview', ['source', 'width' => '200', 'label' => '']);
-        Form::component('bsHidden', 'base::components.hidden', ['name', 'value' => null]);
-        Form::component('bsSelect', 'base::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
-        Form::component('pgHeader', 'base::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
-        Form::component('pgButtons', 'base::components.pgButtons', ['actionLabel', 'cancelRoute']);
-        Form::component('bsFile', 'base::components.file', ['name', 'attributes' => []]);
+        Form::component('bsText', 'connexion::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+        Form::component('bsPassword', 'connexion::components.password', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+        Form::component('bsTextarea', 'connexion::components.textarea', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+        Form::component('bsThumbnail', 'connexion::components.thumbnail', ['source', 'width' => '100', 'label' => '']);
+        Form::component('bsImgpreview', 'connexion::components.imgpreview', ['source', 'width' => '200', 'label' => '']);
+        Form::component('bsHidden', 'connexion::components.hidden', ['name', 'value' => null]);
+        Form::component('bsSelect', 'connexion::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
+        Form::component('pgHeader', 'connexion::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
+        Form::component('pgButtons', 'connexion::components.pgButtons', ['actionLabel', 'cancelRoute']);
+        Form::component('bsFile', 'connexion::components.file', ['name', 'attributes' => []]);
         if (count($finset)){
             config(['adminlte.title' => $finset['site_name']]);
             config(['adminlte.logo' => $finset['site_logo']]);
@@ -245,11 +245,11 @@ class BaseServiceProvider extends ServiceProvider
             \JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
             \JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
             \JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
-            \bishopm\base\Middleware\MyMenuFilter::class]]);
+            \Bishopm\Connexion\Middleware\MyMenuFilter::class]]);
         config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
         config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
-        view()->composer('base::templates.*', \bishopm\base\Composers\MenuComposer::class);
-        view()->composer('base::worship.page', \bishopm\base\Composers\SongComposer::class);
+        view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
+        view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
     }
 
     /**
@@ -273,177 +273,177 @@ class BaseServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');
-        $this->app['router']->aliasMiddleware('role', 'bishopm\base\Middleware\RoleMiddleware');
+        $this->app['router']->aliasMiddleware('role', 'Bishopm\Connexion\Middleware\RoleMiddleware');
         $this->registerBindings();
     }
 
     private function registerBindings()
     {
         $this->app->bind(
-            'bishopm\base\Repositories\ActionsRepository',
+            'Bishopm\Connexion\Repositories\ActionsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\ActionsRepository(new \bishopm\base\Models\Action());
+                $repository = new \Bishopm\Connexion\Repositories\ActionsRepository(new \Bishopm\Connexion\Models\Action());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\BlogsRepository',
+            'Bishopm\Connexion\Repositories\BlogsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\BlogsRepository(new \bishopm\base\Models\Blog());
+                $repository = new \Bishopm\Connexion\Repositories\BlogsRepository(new \Bishopm\Connexion\Models\Blog());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\FoldersRepository',
+            'Bishopm\Connexion\Repositories\FoldersRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\FoldersRepository(new \bishopm\base\Models\Folder());
+                $repository = new \Bishopm\Connexion\Repositories\FoldersRepository(new \Bishopm\Connexion\Models\Folder());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\GroupsRepository',
+            'Bishopm\Connexion\Repositories\GroupsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\GroupsRepository(new \bishopm\base\Models\Group());
+                $repository = new \Bishopm\Connexion\Repositories\GroupsRepository(new \Bishopm\Connexion\Models\Group());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\HouseholdsRepository',
+            'Bishopm\Connexion\Repositories\HouseholdsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\HouseholdsRepository(new \bishopm\base\Models\Household());
+                $repository = new \Bishopm\Connexion\Repositories\HouseholdsRepository(new \Bishopm\Connexion\Models\Household());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\IndividualsRepository',
+            'Bishopm\Connexion\Repositories\IndividualsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\IndividualsRepository(new \bishopm\base\Models\Individual());
+                $repository = new \Bishopm\Connexion\Repositories\IndividualsRepository(new \Bishopm\Connexion\Models\Individual());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\MenusRepository',
+            'Bishopm\Connexion\Repositories\MenusRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\MenusRepository(new \bishopm\base\Models\Menu());
+                $repository = new \Bishopm\Connexion\Repositories\MenusRepository(new \Bishopm\Connexion\Models\Menu());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\MenuitemsRepository',
+            'Bishopm\Connexion\Repositories\MenuitemsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\MenuitemsRepository(new \bishopm\base\Models\Menuitem());
+                $repository = new \Bishopm\Connexion\Repositories\MenuitemsRepository(new \Bishopm\Connexion\Models\Menuitem());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\PagesRepository',
+            'Bishopm\Connexion\Repositories\PagesRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\PagesRepository(new \bishopm\base\Models\Page());
+                $repository = new \Bishopm\Connexion\Repositories\PagesRepository(new \Bishopm\Connexion\Models\Page());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\PastoralsRepository',
+            'Bishopm\Connexion\Repositories\PastoralsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\PastoralsRepository(new \bishopm\base\Models\Pastoral());
+                $repository = new \Bishopm\Connexion\Repositories\PastoralsRepository(new \Bishopm\Connexion\Models\Pastoral());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\PermissionsRepository',
+            'Bishopm\Connexion\Repositories\PermissionsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\PermissionsRepository(new \Spatie\Permission\Models\Permission());
+                $repository = new \Bishopm\Connexion\Repositories\PermissionsRepository(new \Spatie\Permission\Models\Permission());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\PreachersRepository',
+            'Bishopm\Connexion\Repositories\PreachersRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\PreachersRepository(new \bishopm\base\Models\Preacher());
+                $repository = new \Bishopm\Connexion\Repositories\PreachersRepository(new \Bishopm\Connexion\Models\Preacher());
                 return $repository;
             }
         );        
         $this->app->bind(
-            'bishopm\base\Repositories\ProjectsRepository',
+            'Bishopm\Connexion\Repositories\ProjectsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\ProjectsRepository(new \bishopm\base\Models\Project());
+                $repository = new \Bishopm\Connexion\Repositories\ProjectsRepository(new \Bishopm\Connexion\Models\Project());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\RatingsRepository',
+            'Bishopm\Connexion\Repositories\RatingsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\RatingsRepository(new \bishopm\base\Models\Rating());
+                $repository = new \Bishopm\Connexion\Repositories\RatingsRepository(new \Bishopm\Connexion\Models\Rating());
                 return $repository;
             }
         );        
         $this->app->bind(
-            'bishopm\base\Repositories\ResourcesRepository',
+            'Bishopm\Connexion\Repositories\ResourcesRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\ResourcesRepository(new \bishopm\base\Models\Resource());
+                $repository = new \Bishopm\Connexion\Repositories\ResourcesRepository(new \Bishopm\Connexion\Models\Resource());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\RolesRepository',
+            'Bishopm\Connexion\Repositories\RolesRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\RolesRepository(new \Spatie\Permission\Models\Role());
+                $repository = new \Bishopm\Connexion\Repositories\RolesRepository(new \Spatie\Permission\Models\Role());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\SeriesRepository',
+            'Bishopm\Connexion\Repositories\SeriesRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\SeriesRepository(new \bishopm\base\Models\Series());
+                $repository = new \Bishopm\Connexion\Repositories\SeriesRepository(new \Bishopm\Connexion\Models\Series());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\SermonsRepository',
+            'Bishopm\Connexion\Repositories\SermonsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\SermonsRepository(new \bishopm\base\Models\Sermon());
+                $repository = new \Bishopm\Connexion\Repositories\SermonsRepository(new \Bishopm\Connexion\Models\Sermon());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\ServicesRepository',
+            'Bishopm\Connexion\Repositories\ServicesRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\ServicesRepository(new \bishopm\base\Models\Service());
+                $repository = new \Bishopm\Connexion\Repositories\ServicesRepository(new \Bishopm\Connexion\Models\Service());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\SettingsRepository',
+            'Bishopm\Connexion\Repositories\SettingsRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\SettingsRepository(new \bishopm\base\Models\Setting());
+                $repository = new \Bishopm\Connexion\Repositories\SettingsRepository(new \Bishopm\Connexion\Models\Setting());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\SlidesRepository',
+            'Bishopm\Connexion\Repositories\SlidesRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\SlidesRepository(new \bishopm\base\Models\Slide());
+                $repository = new \Bishopm\Connexion\Repositories\SlidesRepository(new \Bishopm\Connexion\Models\Slide());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\SocietiesRepository',
+            'Bishopm\Connexion\Repositories\SocietiesRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\SocietiesRepository(new \bishopm\base\Models\Society());
+                $repository = new \Bishopm\Connexion\Repositories\SocietiesRepository(new \Bishopm\Connexion\Models\Society());
                 return $repository;
             }
         );        
         $this->app->bind(
-            'bishopm\base\Repositories\SpecialdaysRepository',
+            'Bishopm\Connexion\Repositories\SpecialdaysRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\SpecialdaysRepository(new \bishopm\base\Models\Specialday());
+                $repository = new \Bishopm\Connexion\Repositories\SpecialdaysRepository(new \Bishopm\Connexion\Models\Specialday());
                 return $repository;
             }
         );
         $this->app->bind(
-            'bishopm\base\Repositories\UsersRepository',
+            'Bishopm\Connexion\Repositories\UsersRepository',
             function () {
-                $repository = new \bishopm\base\Repositories\UsersRepository(new \bishopm\base\Models\User());
+                $repository = new \Bishopm\Connexion\Repositories\UsersRepository(new \Bishopm\Connexion\Models\User());
                 return $repository;
             }
         );

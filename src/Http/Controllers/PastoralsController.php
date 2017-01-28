@@ -1,13 +1,13 @@
 <?php 
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
 use Illuminate\Http\Request;
-use bishopm\base\Models\Pastoral;
-use bishopm\base\Models\Household;
-use bishopm\base\Repositories\IndividualsRepository;
-use bishopm\base\Repositories\PastoralsRepository;
-use bishopm\base\Repositories\HouseholdsRepository;
+use Bishopm\Connexion\Models\Pastoral;
+use Bishopm\Connexion\Models\Household;
+use Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Repositories\PastoralsRepository;
+use Bishopm\Connexion\Repositories\HouseholdsRepository;
 use App\Http\Controllers\Controller;
 
 class PastoralsController extends Controller

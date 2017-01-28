@@ -1,12 +1,12 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\PermissionsRepository;
+use Bishopm\Connexion\Repositories\PermissionsRepository;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreatePermissionRequest;
-use bishopm\base\Http\Requests\UpdatePermissionRequest;
+use Bishopm\Connexion\Http\Requests\CreatePermissionRequest;
+use Bishopm\Connexion\Http\Requests\UpdatePermissionRequest;
 
 class PermissionsController extends Controller {
 
@@ -26,17 +26,17 @@ class PermissionsController extends Controller {
 	public function index()
 	{
         $permissions = $this->permission->all();
-   		return view('base::permissions.index',compact('permissions'));
+   		return view('connexion::permissions.index',compact('permissions'));
 	}
 
 	public function edit(Permission $permission)
     {
-        return view('base::permissions.edit', compact('permission'));
+        return view('connexion::permissions.edit', compact('permission'));
     }
 
     public function create()
     {
-        return view('base::permissions.create');
+        return view('connexion::permissions.create');
     }
 
     public function store(CreatePermissionRequest $request)

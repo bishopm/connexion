@@ -5,13 +5,13 @@
 @stop
 
 @section('content')
-    @include('base::shared.errors')
+    @include('connexion::shared.errors')
     {!! Form::open(['route' => ['admin.households.update', $household->id], 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-6">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('base::households.partials.edit-fields')
+                    @include('connexion::households.partials.edit-fields')
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.households.index')) }}

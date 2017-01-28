@@ -1,12 +1,12 @@
 {
-    "name": "bishopm/base",
+    "name": "bishopm/connexion",
     "type": "library",
     "description": "Laravel-based church membership and website administration",
     "keywords": [
         "church",
         "database"
     ],
-    "homepage": "https://github.com/bishopm/base",
+    "homepage": "https://github.com/bishopm/connexion",
     "license": "MIT",
     "authors": [
         {
@@ -35,12 +35,12 @@
     },
     "autoload": {
         "psr-4": {
-            "bishopm\\base\\": "src"
+            "bishopm\\connexion\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "bishopm\\base\\": "tests"
+            "bishopm\\connexion\\": "tests"
         }
     },
     "scripts": {

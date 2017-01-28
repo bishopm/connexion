@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -22,7 +22,7 @@ class Preacher extends Model
     }
 
     public function society(){
-        return $this->belongsTo('bishopm\base\Models\Society');
+        return $this->belongsTo('Bishopm\Connexion\Models\Society');
     }
     
 

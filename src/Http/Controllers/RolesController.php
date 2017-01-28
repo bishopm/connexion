@@ -1,13 +1,13 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\RolesRepository;
-use bishopm\base\Repositories\PermissionsRepository;
+use Bishopm\Connexion\Repositories\RolesRepository;
+use Bishopm\Connexion\Repositories\PermissionsRepository;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateRoleRequest;
-use bishopm\base\Http\Requests\UpdateRoleRequest;
+use Bishopm\Connexion\Http\Requests\CreateRoleRequest;
+use Bishopm\Connexion\Http\Requests\UpdateRoleRequest;
 
 class RolesController extends Controller {
 
@@ -28,24 +28,24 @@ class RolesController extends Controller {
 	public function index()
 	{
         $roles = $this->role->all();
-   		return view('base::roles.index',compact('roles'));
+   		return view('connexion::roles.index',compact('roles'));
 	}
 
 	public function edit(Role $role)
     {
-        return view('base::roles.edit', compact('role'));
+        return view('connexion::roles.edit', compact('role'));
     }
 
     public function show(Role $role)
     {
         $data['permissions']=$this->permissions->all();
         $data['role']=$role;
-        return view('base::roles.show', $data);
+        return view('connexion::roles.show', $data);
     }
 
     public function create()
     {
-        return view('base::roles.create');
+        return view('connexion::roles.create');
     }
 
     public function store(CreateRoleRequest $request)

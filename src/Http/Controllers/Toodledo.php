@@ -1,5 +1,5 @@
 <?php
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -8,8 +8,8 @@ use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use bishopm\base\Http\Controllers\ToodledoResourceOwner;
-use bishopm\base\Models\Setting;
+use Bishopm\Connexion\Http\Controllers\ToodledoResourceOwner;
+use Bishopm\Connexion\Models\Setting;
 
 class Toodledo extends AbstractProvider
 {

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-  @include('base::worship.partials.htmlheader')
+  @include('connexion::worship.partials.htmlheader')
   <body class="skin-blue sidebar-mini">
-  @include('base::worship.partials.scripts')
+  @include('connexion::worship.partials.scripts')
   <div class="wrapper">
-      @include('base::worship.partials.mainheader')
-      @include('base::worship.partials.sidebar')
+      @include('connexion::worship.partials.mainheader')
+      @include('connexion::worship.partials.sidebar')
       <div class="content-wrapper">
           <section class="content">
               @yield('content')

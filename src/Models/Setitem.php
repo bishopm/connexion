@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,10 +9,10 @@ class Setitem extends Model
     protected $guarded = array('id');
 
     public function set(){
-      return $this->belongsTo('bishopm\base\Models\Set');
+      return $this->belongsTo('Bishopm\Connexion\Models\Set');
     }
 
     public function song(){
-      return $this->belongsTo('bishopm\base\Models\Song');
+      return $this->belongsTo('Bishopm\Connexion\Models\Song');
     }
 }

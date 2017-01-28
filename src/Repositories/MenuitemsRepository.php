@@ -1,6 +1,6 @@
-<?php namespace bishopm\base\Repositories;
+<?php namespace Bishopm\Connexion\Repositories;
 
-use bishopm\base\Repositories\EloquentBaseRepository;
+use Bishopm\Connexion\Repositories\EloquentBaseRepository;
 use Spatie\Menu\Laravel\Menu, Spatie\Menu\Laravel\Link;
 
 class MenuitemsRepository extends EloquentBaseRepository

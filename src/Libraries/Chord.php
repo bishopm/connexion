@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Libraries;
+namespace Bishopm\Connexion\Libraries;
 
 require_once('gdext.inc.php');
 

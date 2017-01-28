@@ -9,13 +9,13 @@
 @stop
 
 @section('content')
-    @include('base::shared.errors')
+    @include('connexion::shared.errors')
     {!! Form::open(['route' => array('admin.actions.update',$action->id), 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('base::actions.partials.edit-fields')
+                    @include('connexion::actions.partials.edit-fields')
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.actions.index')) }}

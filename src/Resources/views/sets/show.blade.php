@@ -1,4 +1,4 @@
-@extends('base::worship.page')
+@extends('connexion::worship.page')
 
 @section('css')
   <link rel="stylesheet" href="{{url('/')}}/vendor/bishopm/css/nestable.css">
@@ -7,7 +7,7 @@
 @section('content')
 <div id="setpage" class="box box-default">
     <div class="box-header">
-        @include('base::shared.errors')
+        @include('connexion::shared.errors')
         <h3 class="box-title">{{$set->servicedate}} <span class="small">{{$set->service->society->society}} {{$set->service->servicetime}}</span></h3>
     </div>
     <div class="box-body">
@@ -44,7 +44,7 @@
 </div>
 @stop
 @section('js')
-    @include('base::worship.partials.scripts')
+    @include('connexion::worship.partials.scripts')
     <script src="{{ asset('vendor/bishopm/js/jquery.nestable.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {

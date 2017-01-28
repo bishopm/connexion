@@ -9,13 +9,13 @@
 @stop
 
 @section('content')
-    @include('base::shared.errors')
+    @include('connexion::shared.errors')
     {!! Form::open(['route' => array('admin.individuals.update',$individual->household_id,$individual->id), 'method' => 'put', 'files'=>'true']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('base::individuals.partials.edit-fields')
+                    @include('connexion::individuals.partials.edit-fields')
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.households.show',$individual->household_id)) }}

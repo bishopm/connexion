@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Mail;
+namespace Bishopm\Connexion\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -30,6 +30,6 @@ class Welcome extends Mailable
     {
         return $this->from('hello@app.com', 'Your Application')
         ->subject('Your Reminder!')
-        ->view('base::emails.welcome');
+        ->view('connexion::emails.welcome');
     }
 }

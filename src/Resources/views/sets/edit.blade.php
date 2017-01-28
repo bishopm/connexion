@@ -2,13 +2,13 @@
 
 @section('content')
     {{ Form::pgHeader('Edit set','Sets',route('admin.sets.index')) }}
-    @include('base::shared.errors')    
+    @include('connexion::shared.errors')    
     {!! Form::open(['route' => array('admin.sets.update',$set->id), 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('base::sets.partials.edit-fields')
+                    @include('connexion::sets.partials.edit-fields')
                     <div class="form-group">
                         <label for="service_id" class="control-label">Service</label>
                         <select name="service_id" class="selectize">

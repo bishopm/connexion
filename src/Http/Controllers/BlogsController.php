@@ -1,13 +1,13 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\BlogsRepository;
-use bishopm\base\Models\Blog;
-use bishopm\base\Models\Individual;
+use Bishopm\Connexion\Repositories\BlogsRepository;
+use Bishopm\Connexion\Models\Blog;
+use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateBlogRequest;
-use bishopm\base\Http\Requests\UpdateBlogRequest;
+use Bishopm\Connexion\Http\Requests\CreateBlogRequest;
+use Bishopm\Connexion\Http\Requests\UpdateBlogRequest;
 
 class BlogsController extends Controller {
 
@@ -28,7 +28,7 @@ class BlogsController extends Controller {
 	public function index()
 	{
         $blogs = $this->blog->all();
-   		return view('base::blogs.index',compact('blogs'));
+   		return view('connexion::blogs.index',compact('blogs'));
 	}
 
 	public function edit(Blog $blog)
@@ -39,20 +39,20 @@ class BlogsController extends Controller {
             $btags[]=$tag->name;
         }
         $bloggers=$this->bloggers;
-        return view('base::blogs.edit', compact('blog','bloggers','tags','btags'));
+        return view('connexion::blogs.edit', compact('blog','bloggers','tags','btags'));
     }
 
     public function create()
     {
         $tags=Blog::allTags()->get();
         $bloggers=$this->bloggers;
-        return view('base::blogs.create',compact('bloggers','tags'));
+        return view('connexion::blogs.create',compact('bloggers','tags'));
     }
 
 	public function show(Blog $blog)
 	{
         $data['blog']=$blog;
-        return view('base::blogs.show',$data);
+        return view('connexion::blogs.show',$data);
 	}
 
     public function store(CreateBlogRequest $request)

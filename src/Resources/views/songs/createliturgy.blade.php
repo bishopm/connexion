@@ -1,11 +1,11 @@
-@extends('base::worship.page')
+@extends('connexion::worship.page')
 
 @section('css')
   <link href="{{ asset('/vendor/bishopm/trumbowyg/trumbowyg.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')
-@include('base::shared.errors')
+@include('connexion::shared.errors')
 <div class="box box-default">
     <div class="box-header with-border">
         <h3>Create new liturgy</h3>
@@ -33,7 +33,7 @@
 @stop
 
 @section('js')
-	@include('base::worship.partials.scripts')
+	@include('connexion::worship.partials.scripts')
 	<script src="{{ asset('vendor/bishopm/trumbowyg/trumbowyg.min.js') }}" type="text/javascript"></script>
 	<script type="text/javascript">
 		$('#lyrics').trumbowyg({

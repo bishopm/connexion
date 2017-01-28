@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -30,6 +30,6 @@ class User extends Authenticatable
     ];
 
     public function individual(){
-        return $this->belongsTo('bishopm\base\Models\Individual');
+        return $this->belongsTo('Bishopm\Connexion\Models\Individual');
     }
 }

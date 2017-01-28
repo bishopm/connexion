@@ -8,13 +8,13 @@
 
 @section('content')
     {{ Form::pgHeader('Add user','Users',route('admin.users.index')) }}
-    @include('base::shared.errors')    
+    @include('connexion::shared.errors')    
     {!! Form::open(['route' => array('admin.users.store'), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('base::users.partials.create-fields')
+                    @include('connexion::users.partials.create-fields')
                     <div class="form-group">
                         <label for="individual_id" class="control-label">Linked to which individual (if any)</label>
                         <select name="individual_id" class="input-individual">

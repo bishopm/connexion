@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Repositories;
+namespace Bishopm\Connexion\Repositories;
 
 interface BaseRepository
 {

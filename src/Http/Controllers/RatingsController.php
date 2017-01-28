@@ -1,14 +1,14 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\RatingsRepository;
-use bishopm\base\Repositories\GroupsRepository;
-use bishopm\base\Models\Rating;
-use bishopm\base\Models\Resource;
+use Bishopm\Connexion\Repositories\RatingsRepository;
+use Bishopm\Connexion\Repositories\GroupsRepository;
+use Bishopm\Connexion\Models\Rating;
+use Bishopm\Connexion\Models\Resource;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateRatingRequest;
-use bishopm\base\Http\Requests\UpdateRatingRequest;
+use Bishopm\Connexion\Http\Requests\CreateRatingRequest;
+use Bishopm\Connexion\Http\Requests\UpdateRatingRequest;
 use Auth;
 
 class RatingsController extends Controller {
@@ -30,24 +30,24 @@ class RatingsController extends Controller {
 	public function index()
 	{
         $ratings = $this->rating->all();
-   		return view('base::ratings.index',compact('ratings'));
+   		return view('connexion::ratings.index',compact('ratings'));
 	}
 
 	public function edit(Rating $rating)
     {
-        return view('base::ratings.edit', compact('rating'));
+        return view('connexion::ratings.edit', compact('rating'));
     }
 
     public function create(Resource $resource)
     {
         $groups=$this->groups->all();
-        return view('base::ratings.create',compact('resource','groups'));
+        return view('connexion::ratings.create',compact('resource','groups'));
     }
 
 	public function show(Rating $rating)
 	{
         $data['rating']=$rating;
-        return view('base::ratings.show',$data);
+        return view('connexion::ratings.show',$data);
 	}
 
     public function store($resource, CreateRatingRequest $request)

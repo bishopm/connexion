@@ -1,13 +1,13 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\MenusRepository;
-use bishopm\base\Repositories\MenuitemsRepository;
-use bishopm\base\Models\Menu;
+use Bishopm\Connexion\Repositories\MenusRepository;
+use Bishopm\Connexion\Repositories\MenuitemsRepository;
+use Bishopm\Connexion\Models\Menu;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateMenuRequest;
-use bishopm\base\Http\Requests\UpdateMenuRequest;
+use Bishopm\Connexion\Http\Requests\CreateMenuRequest;
+use Bishopm\Connexion\Http\Requests\UpdateMenuRequest;
 
 class MenusController extends Controller {
 
@@ -28,19 +28,19 @@ class MenusController extends Controller {
 	public function index()
 	{
         $data['menus'] = $this->menu->all();
-   		return view('base::menus.index',$data);
+   		return view('connexion::menus.index',$data);
 	}
 
 	public function edit(Menu $menu)
     {
         $data['menuitems'] = $this->menuitems->arrayForMenu($menu->id);
         $data['menu'] = $menu;
-        return view('base::menus.edit', $data);
+        return view('connexion::menus.edit', $data);
     }
 
     public function create()
     {
-        return view('base::menus.create');
+        return view('connexion::menus.create');
     }
 
     public function store(CreateMenuRequest $request)

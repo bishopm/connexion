@@ -1,12 +1,12 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\FoldersRepository;
-use bishopm\base\Models\Folder;
+use Bishopm\Connexion\Repositories\FoldersRepository;
+use Bishopm\Connexion\Models\Folder;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateFolderRequest;
-use bishopm\base\Http\Requests\UpdateFolderRequest;
+use Bishopm\Connexion\Http\Requests\CreateFolderRequest;
+use Bishopm\Connexion\Http\Requests\UpdateFolderRequest;
 
 class FoldersController extends Controller {
 
@@ -26,23 +26,23 @@ class FoldersController extends Controller {
 	public function index()
 	{
         $folders = $this->folder->all();
-   		return view('base::folders.index',compact('folders'));
+   		return view('connexion::folders.index',compact('folders'));
 	}
 
 	public function edit(Folder $folder)
     {
-        return view('base::folders.edit', compact('folder'));
+        return view('connexion::folders.edit', compact('folder'));
     }
 
     public function create()
     {
-        return view('base::folders.create');
+        return view('connexion::folders.create');
     }
 
 	public function show(Folder $folder)
 	{
         $data['folder']=$folder;
-        return view('base::folders.show',$data);
+        return view('connexion::folders.show',$data);
 	}
 
     public function store(CreateFolderRequest $request)

@@ -1,4 +1,4 @@
-<?php namespace bishopm\base\Libraries\Fpdf;
+<?php namespace Bishopm\Connexion\Libraries\Fpdf;
 /*******************************************************************************
 * FPDF                                                                         *
 *                                                                              *

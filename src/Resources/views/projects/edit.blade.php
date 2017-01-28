@@ -9,13 +9,13 @@
 @stop
 
 @section('content')
-    @include('base::shared.errors')
+    @include('connexion::shared.errors')
     {!! Form::open(['route' => array('admin.projects.update',$project->id), 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('base::projects.partials.edit-fields')
+                    @include('connexion::projects.partials.edit-fields')
                     <div class="form-group">
                         <label for="individual_id" class="control-label">Leader</label>
                         <select name="individual_id" class="input-leader">

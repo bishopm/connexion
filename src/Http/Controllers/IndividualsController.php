@@ -1,14 +1,14 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\IndividualsRepository;
-use bishopm\base\Repositories\GroupsRepository;
-use bishopm\base\Models\Individual;
-use bishopm\base\Models\Group;
+use Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Repositories\GroupsRepository;
+use Bishopm\Connexion\Models\Individual;
+use Bishopm\Connexion\Models\Group;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateIndividualRequest;
-use bishopm\base\Http\Requests\UpdateIndividualRequest;
+use Bishopm\Connexion\Http\Requests\CreateIndividualRequest;
+use Bishopm\Connexion\Http\Requests\UpdateIndividualRequest;
 use DB, MediaUploader;
 
 class IndividualsController extends Controller {
@@ -30,18 +30,18 @@ class IndividualsController extends Controller {
 	public function index()
 	{
         $individuals = $this->individual->all();
-   		return view('base::individuals.index',compact('individuals'));
+   		return view('connexion::individuals.index',compact('individuals'));
 	}
 
 	public function edit($household,Individual $individual)
     {
         $media=Individual::find($individual->id)->getMedia('image')->first();
-        return view('base::individuals.edit', compact('individual','media'));
+        return view('connexion::individuals.edit', compact('individual','media'));
     }
 
     public function create($household)
     {
-        return view('base::individuals.create', compact('household'));
+        return view('connexion::individuals.create', compact('household'));
     }
 
 	public function show(Individual $individual)

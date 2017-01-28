@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,11 +9,11 @@ class Rating extends Model
     protected $guarded = array('id');
 
 	public function group(){
-        return $this->belongsTo('bishopm\base\Models\Group');
+        return $this->belongsTo('Bishopm\Connexion\Models\Group');
     }
 
     public function resource(){
-        return $this->belongsTo('bishopm\base\Models\Resource');
+        return $this->belongsTo('Bishopm\Connexion\Models\Resource');
     }
 
 }

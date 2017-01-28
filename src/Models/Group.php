@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,11 +24,11 @@ class Group extends Model
     }
 
     public function individuals(){
-		  return $this->belongsToMany('bishopm\base\Models\Individual')->whereNull('group_individual.deleted_at')->withTimestamps()->orderBy('surname')->orderBy('firstname');
+		  return $this->belongsToMany('Bishopm\Connexion\Models\Individual')->whereNull('group_individual.deleted_at')->withTimestamps()->orderBy('surname')->orderBy('firstname');
     }
 
     public function pastmembers(){
-        return $this->belongsToMany('bishopm\base\Models\Individual')->whereNotNull('group_individual.deleted_at')->withTimestamps()->withPivot('deleted_at');
+        return $this->belongsToMany('Bishopm\Connexion\Models\Individual')->whereNotNull('group_individual.deleted_at')->withTimestamps()->withPivot('deleted_at');
     }
 
 /*

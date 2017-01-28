@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +9,7 @@ class Specialday extends Model
     protected $guarded = array('id');
 
     public function household(){
-        return $this->belongsTo('bishopm\base\Models\Household');
+        return $this->belongsTo('Bishopm\Connexion\Models\Household');
     }
 
 }

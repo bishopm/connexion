@@ -1,10 +1,10 @@
 <?php
 
-namespace bishopm\base\Repositories;
+namespace Bishopm\Connexion\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use bishopm\base\Repositories\BaseRepository;
+use Bishopm\Connexion\Repositories\BaseRepository;
 
 /**
  * Class EloquentCoreRepository

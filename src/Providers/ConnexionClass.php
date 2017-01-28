@@ -1,8 +1,8 @@
 <?php
 
-namespace bishopm\base\Providers;
+namespace Bishopm\Connexion\Providers;
 
-class BaseClass
+class ConnexionClass
 {
     /**
      * Create a new Base Instance

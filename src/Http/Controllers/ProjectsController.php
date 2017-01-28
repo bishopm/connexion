@@ -1,15 +1,15 @@
 <?php
 
-namespace bishopm\base\Http\Controllers;
+namespace Bishopm\Connexion\Http\Controllers;
 
-use bishopm\base\Repositories\ProjectsRepository;
-use bishopm\base\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Repositories\ProjectsRepository;
+use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Auth;
-use bishopm\base\Models\Project;
+use Bishopm\Connexion\Models\Project;
 use App\Http\Controllers\Controller;
-use bishopm\base\Http\Requests\CreateProjectRequest;
-use bishopm\base\Http\Requests\UpdateProjectRequest;
-use bishopm\base\Http\Controllers\Toodledo;
+use Bishopm\Connexion\Http\Requests\CreateProjectRequest;
+use Bishopm\Connexion\Http\Requests\UpdateProjectRequest;
+use Bishopm\Connexion\Http\Controllers\Toodledo;
 
 class ProjectsController extends Controller {
 
@@ -31,26 +31,26 @@ class ProjectsController extends Controller {
 	public function index()
 	{
         $projects = $this->project->all();
-   		return view('base::projects.index',compact('projects'));
+   		return view('connexion::projects.index',compact('projects'));
 	}
 
 	public function edit(Project $project)
     {
         $data['project'] = $project;
         $data['individuals'] = $this->individuals->all();
-        return view('base::projects.edit', $data);
+        return view('connexion::projects.edit', $data);
     }
 
     public function create()
     {
         $data['individuals'] = $this->individuals->all();
-        return view('base::projects.create',$data);
+        return view('connexion::projects.create',$data);
     }
 
 	public function show(Project $project)
 	{
         $data['project']=$project;
-        return view('base::projects.show',$data);
+        return view('connexion::projects.show',$data);
 	}
 
     public function store(CreateProjectRequest $request)

@@ -1,6 +1,6 @@
 <?php
 
-namespace bishopm\base\Models;
+namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model, Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,23 +33,23 @@ class Individual extends Model implements TaggableInterface
     }
 
     public function groups(){
-        return $this->belongsToMany('bishopm\base\Models\Group')->whereNull('group_individual.deleted_at')->withTimestamps();
+        return $this->belongsToMany('Bishopm\Connexion\Models\Group')->whereNull('group_individual.deleted_at')->withTimestamps();
     }
 
     public function pastgroups(){
-        return $this->belongsToMany('bishopm\base\Models\Group')->whereNotNull('group_individual.deleted_at')->withTimestamps()->withPivot('deleted_at');
+        return $this->belongsToMany('Bishopm\Connexion\Models\Group')->whereNotNull('group_individual.deleted_at')->withTimestamps()->withPivot('deleted_at');
     }
 
     public function household(){
-        return $this->belongsTo('bishopm\base\Models\Household');
+        return $this->belongsTo('Bishopm\Connexion\Models\Household');
     }
 
     public function blogs(){
-        return $this->hasMany('bishopm\base\Models\Blog');
+        return $this->hasMany('Bishopm\Connexion\Models\Blog');
     }
 
     public function sermons(){
-        return $this->hasMany('bishopm\base\Models\Sermon');
+        return $this->hasMany('Bishopm\Connexion\Models\Sermon');
     }
 
 /*    public function getAgeAttribute(){

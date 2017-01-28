@@ -182,6 +182,7 @@
               plugins: ['remove_button'],
               openOnFocus: 0,
               maxOptions: 5,
+              placeholder: 'Search by tag ...',
               dropdownParent: null
         });
         $('#songs').prop('checked', true);
