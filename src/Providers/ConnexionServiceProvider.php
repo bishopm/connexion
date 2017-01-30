@@ -201,10 +201,11 @@ class ConnexionServiceProvider extends ServiceProvider
                 ],
                 [
                     'text' => 'View site',
-                    'url' => '',
+                    'url' => route('homepage'),
                     'icon' => 'globe',
                     'can' =>  'read-content',
-                    'target' => '_blank'
+                    'target' => '_blank',
+                    'active' => []
                 ]
             );
             }
