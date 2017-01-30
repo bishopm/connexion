@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Welcome extends Mailable
+class GenericMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,9 +16,11 @@ class Welcome extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $emaildata;
+
+    public function __construct($emaildata)
     {
-        //
+        $this->emaildata=$emaildata;
     }
 
     /**
@@ -28,8 +30,6 @@ class Welcome extends Mailable
      */
     public function build()
     {
-        return $this->from('hello@app.com', 'Your Application')
-        ->subject('Your Reminder!')
-        ->view('connexion::emails.welcome');
+        return $this->markdown('connexion::emails.generic');
     }
 }

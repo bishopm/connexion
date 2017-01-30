@@ -1,5 +1,5 @@
 <?php
-
+ 
 Route::group(['middleware' => ['web','role:open']], function () {
 	Route::get('/', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@home','as' => 'homepage']);
 	Route::get('login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
@@ -111,6 +111,14 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::post('admin/menus/{menu}/menuitems/update',['uses'=>'Bishopm\Connexion\Http\Controllers\MenuitemsController@reorder','as'=>'admin.menuitems.reorder']);
     Route::delete('admin/menus/{menu}/menuitems/{menuitem}',['uses'=>'Bishopm\Connexion\Http\Controllers\MenuitemsController@destroy','as'=>'admin.menuitems.destroy']);    
 
+    // Messages
+	Route::get('admin/messages/create',['uses'=>'Bishopm\Connexion\Http\Controllers\MessagesController@create','as'=>'admin.messages.create']);
+	Route::post('admin/messages',['uses'=>'Bishopm\Connexion\Http\Controllers\MessagesController@store','as'=>'admin.messages.store']);
+
+	// Modules
+	Route::get('admin/modules/{module}/toggle',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@modulestoggle','as'=>'admin.modules.index']);
+	Route::get('admin/modules',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@modulesindex','as'=>'admin.modules.index']);	
+
 	// Pages
 	Route::get('admin/pages',['uses'=>'Bishopm\Connexion\Http\Controllers\PagesController@index','as'=>'admin.pages.index']);
 	Route::get('admin/pages/create',['uses'=>'Bishopm\Connexion\Http\Controllers\PagesController@create','as'=>'admin.pages.create']);
@@ -161,7 +169,22 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::put('admin/resources/{resource}',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@update','as'=>'admin.resources.update']);
 	Route::post('admin/resources',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@store','as'=>'admin.resources.store']);
     Route::delete('admin/resources/{resource}',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@destroy','as'=>'admin.resources.destroy']);
-	Route::get('admin/resources/{resource}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@removemedia','as'=>'admin.resources.removemedia']);    
+	Route::get('admin/resources/{resource}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@removemedia','as'=>'admin.resources.removemedia']);   
+
+	// Rosters
+    Route::get('admin/rosters',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@index','as'=>'admin.rosters.index']);
+    Route::get('admin/rosters/create',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@create','as'=>'admin.rosters.create']);
+    Route::post('admin/rosters',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@store','as'=>'admin.rosters.store']);
+    Route::get('admin/rosters/{group}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@show','as'=>'admin.rosters.show']);
+    Route::get('admin/rosters/{group}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@edit','as'=>'admin.rosters.edit']);
+    Route::put('admin/rosters/{group}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@update','as'=>'admin.rosters.update']);
+    Route::delete('admin/rosters/{group}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@destroy','as'=>'admin.rosters.destroy']);
+
+    Route::get('/rosters/{roster}/report/{year}/{month}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@report','as'=>'admin.rosters.report']);
+    Route::post('admin/rosters/{rosters}/sms/{send}','Bishopm\Connexion\Http\Controllers\RostersController@sms');
+    Route::get('admin/rosters/{rosters}/{year}/{month}','Bishopm\Connexion\Http\Controllers\RostersController@details');
+    Route::post('admin/rosters/{rosters}/revise','Bishopm\Connexion\Http\Controllers\RostersController@revise');
+
 
 	// Series
 	Route::get('admin/series',['uses'=>'Bishopm\Connexion\Http\Controllers\SeriesController@index','as'=>'admin.series.index']);
@@ -272,7 +295,7 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	    Route::get('admin/roles/{role}/addpermission/{permission}', ['uses' => 'Bishopm\Connexion\Http\Controllers\RolesController@addpermission','as' => 'admin.roles.addpermission']);
 	    Route::get('admin/roles/{role}/removepermission/{permission}', ['uses' => 'Bishopm\Connexion\Http\Controllers\RolesController@removepermission','as' => 'admin.roles.removepermission']);
 
-		// Settings
+	    // Settings
 		Route::get('admin/settings',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@index','as'=>'admin.settings.index']);
 		Route::get('admin/settings/create',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@create','as'=>'admin.settings.create']);
 		Route::get('admin/settings/{setting}',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@show','as'=>'admin.settings.show']);

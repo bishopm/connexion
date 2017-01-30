@@ -151,5 +151,36 @@ class InstallConnexionCommand extends Command
             'setting_value' => 'umhlali',
             'category' => 'website'
         ]);
+        // Modules
+        DB::table('settings')->insert([
+            'setting_key' => 'core_module',
+            'setting_value' => 'yes',
+            'description' => 'Church membership data - individuals, households and groups, together with email and sms facilities and reporting',
+            'category' => 'modules'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'worship_module',
+            'setting_value' => 'yes',
+            'description' => 'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage',
+            'category' => 'modules'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'todo_module',
+            'setting_value' => 'yes',
+            'description' => 'Task and project management module with an optional connection to the Toodledo web interface and mobile apps',
+            'category' => 'modules'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'website_module',
+            'setting_value' => 'yes',
+            'description' => 'Backend module to create a website, including blog, slides, group resources, sermon audio',
+            'category' => 'modules'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'circuit_preachers',
+            'setting_value' => 'yes',
+            'description' => 'Collects names of preachers and circuit ministers and includes the quarterly preaching plan',
+            'category' => 'modules'
+        ]);
     }
 }

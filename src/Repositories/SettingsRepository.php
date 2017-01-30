@@ -9,6 +9,16 @@ class SettingsRepository extends EloquentBaseRepository
         return $this->model->all()->toArray();
     }
 
+    public function allsettings()
+    {
+        return $this->model->where('category','<>','modules')->get();
+    }
+
+    public function allmodules()
+    {
+        return $this->model->where('category','=','modules')->get();
+    }
+
     public function makearray(){
     	foreach ($this->model->all()->toArray() as $setting){
     		$fin[$setting['setting_key']]=$setting['setting_value'];

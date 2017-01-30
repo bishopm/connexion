@@ -25,9 +25,28 @@ class SettingsController extends Controller {
 
     public function index()
     {
-        $settings = $this->setting->all();
+        $settings = $this->setting->allsettings();
         return view('connexion::settings.index',compact('settings'));
     }
+
+    public function modulesindex()
+    {
+        $modules = $this->setting->allmodules();
+        return view('connexion::settings.modules',compact('modules'));
+    }
+
+    public function modulestoggle($module)
+    {
+        $modules = $this->setting->allmodules();
+        $module = $this->setting->find($module);
+        if ($module->setting_value=="yes"){
+            $module->setting_value="no";
+        } else {
+            $module->setting_value="yes";
+        }
+        $module->save();
+        return redirect()->route('admin.modules.index');
+    }    
 
     public function edit(Setting $setting)
     {

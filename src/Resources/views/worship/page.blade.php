@@ -11,11 +11,7 @@
     <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />          
 @stop
 
-@section('body_class', 'skin-' . config('adminlte.skin', 'blue') . ' sidebar-mini ' . (config('adminlte.layout') ? [
-    'boxed' => 'layout-boxed',
-    'fixed' => 'fixed',
-    'top-nav' => 'layout-top-nav'
-][config('adminlte.layout')] : '') . (config('adminlte.collapse_sidebar') ? ' sidebar-collapse ' : ''))
+@section('body_class', 'skin-' . config('adminlte.skin', 'blue') . ' sidebar-mini fixed')
 
 @section('body')
     <div class="wrapper">
@@ -175,6 +171,7 @@
 @stop
 
 @section('adminlte_js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js"></script>
     <script src="{{ asset('vendor/adminlte/dist/js/app.min.js') }}"></script>
     <script type="text/javascript">
     $( document ).ready(function() {
@@ -186,6 +183,7 @@
               dropdownParent: null
         });
         $('#songs').prop('checked', true);
+        $('#hymns').prop('checked', true);
     });
     </script>
     @yield('js')

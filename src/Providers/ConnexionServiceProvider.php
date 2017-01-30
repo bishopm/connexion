@@ -35,6 +35,18 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
         config(['laravel-medialibrary.defaultFilesystem'=>'public']);
         config(['auth.providers.users.model'=>'Bishopm\Connexion\Models\User']);
+        $finset=array();
+        if (Schema::hasTable('settings')){
+            $finset=$settings->makearray();
+        }
+        view()->share('setting', $finset);
+        if (isset($finset['mail_host'])){
+            config(['mail.host'=>$finset['mail_host']]);
+            config(['mail.port'=>$finset['mail_port']]);
+            config(['mail.username'=>$finset['mail_username']]);
+            config(['mail.password'=>$finset['mail_password']]);
+            //config(['mail.encryption'=>$finset['mail_encryption']]);
+        }
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
             $society=Setting::where('setting_key','=','society_name')->first();
@@ -43,8 +55,10 @@ class ConnexionServiceProvider extends ServiceProvider
             } else {
                 $society="Society";
             }
-
-            // TO DO add a modules section in setting which determines which items appear in the menu
+            $modules=Setting::where('category','=','modules')->get()->toArray();
+            foreach ($modules as $module){
+                $mods[$module['setting_key']]=$module['setting_value'];
+            }
 
             $event->menu->add('CHURCH ADMIN');
             $event->menu->add([
@@ -66,118 +80,134 @@ class ConnexionServiceProvider extends ServiceProvider
                     ],
                     [
                         'text' => 'Messages',
-                        'url'  => 'admin/groups',
+                        'url'  => 'admin/messages/create',
                         'icon' => 'envelope-o',
                         'can' =>  'edit-content'
                     ],
                     [
                         'text' => 'Rosters',
-                        'url'  => 'admin/groups',
+                        'url'  => 'admin/rosters',
                         'icon' => 'calendar',
                         'can' =>  'edit-content'
                     ]
                 ]
             ]);
-            $event->menu->add([
-                'text' => 'Circuit',
-                'icon' => 'comments',
-                'can' => 'read-content',
-                'submenu' => [
-                    [
-                        'text' => 'Preachers',
-                        'url'  => 'admin/preachers',
-                        'icon' => 'child',
-                        'can' =>  'edit-content'
-                    ],
-                    [
-                        'text' => 'Societies',
-                        'url'  => 'admin/societies',
-                        'icon' => 'envelope-o',
-                        'can' =>  'edit-content'
-                    ],
-                    [
-                        'text' => 'Plan',
-                        'url'  => 'admin/groups',
-                        'icon' => 'calendar',
-                        'can' =>  'edit-content'
+            if ($mods['circuit_preachers']=="yes"){
+                $event->menu->add([
+                    'text' => 'Circuit',
+                    'icon' => 'comments',
+                    'can' => 'read-content',
+                    'submenu' => [
+                        [
+                            'text' => 'Preachers',
+                            'url'  => 'admin/preachers',
+                            'icon' => 'child',
+                            'can' =>  'edit-content'
+                        ],
+                        [
+                            'text' => 'Societies',
+                            'url'  => 'admin/societies',
+                            'icon' => 'envelope-o',
+                            'can' =>  'edit-content'
+                        ],
+                        [
+                            'text' => 'Plan',
+                            'url'  => 'admin/groups',
+                            'icon' => 'calendar',
+                            'can' =>  'edit-content'
+                        ]
                     ]
-                ]
-            ]);
-            $event->menu->add([
-                'text' => 'Todo',
-                'icon' => 'list-ol',
-                'can' => 'read-content',
-                'submenu' => [
-                    [
-                        'text' => 'Tasks',
-                        'url'  => 'admin/actions',
-                        'icon' => 'check-square-o',
-                        'can' =>  'read-content'
-                    ],
-                    [
-                        'text' => 'Folders',
-                        'url'  => 'admin/folders',
-                        'icon' => 'folder-open-o',
-                        'can' =>  'administer-site'
-                    ],
-                    [
-                        'text' => 'Projects',
-                        'url'  => 'admin/projects',
-                        'icon' => 'tasks',
-                        'can' =>  'read-content'
+                ]);
+            }
+            if ($mods['todo_module']=="yes"){
+                $event->menu->add([
+                    'text' => 'Todo',
+                    'icon' => 'list-ol',
+                    'can' => 'read-content',
+                    'submenu' => [
+                        [
+                            'text' => 'Tasks',
+                            'url'  => 'admin/actions',
+                            'icon' => 'check-square-o',
+                            'can' =>  'read-content'
+                        ],
+                        [
+                            'text' => 'Folders',
+                            'url'  => 'admin/folders',
+                            'icon' => 'folder-open-o',
+                            'can' =>  'administer-site'
+                        ],
+                        [
+                            'text' => 'Projects',
+                            'url'  => 'admin/projects',
+                            'icon' => 'tasks',
+                            'can' =>  'read-content'
+                        ]
                     ]
-                ]
-            ]);
-            $event->menu->add([
-                'text' => 'Worship',
-                'icon' => 'music',
-                'can' => 'read-content',
-                'url' => 'admin/worship'
-            ]);
-            $event->menu->add('WEBSITE');
-            $event->menu->add([
-                'text' => 'Blog',
-                'url' => 'admin/blogs',
-                'icon' => 'pencil-square-o',
-                'can' =>  'edit-content'
-            ],
-            [
-                'text' => 'Resources',
-                'url' => 'admin/resources',
-                'icon' => 'book',
-                'can' =>  'edit-content'
-            ],            
-            [
-                'text' => 'Sermons',
-                'url' => 'admin/series',
-                'icon' => 'microphone',
-                'can' =>  'edit-content'
-            ],
-            [
-                'text' => 'Site structure',
-                'icon' => 'sitemap',
-                'can' => 'edit-content',
-                'submenu' => [
-                    [
-                        'text' => 'Menus',
-                        'url'  => 'admin/menus',
-                        'icon' => 'bars',
-                        'can' =>  'administer-site'
-                    ],            
-                    [
-                        'text' => 'Pages',
-                        'url' => 'admin/pages',
-                        'icon' => 'file',
-                        'can' =>  'administer-site'
-                    ],
-                    [
-                        'text' => 'Slides',
-                        'url' => 'admin/slides',
-                        'icon' => 'picture-o',
-                        'can' =>  'administer-site'
+                ]);
+            }
+            if ($mods['worship_module']=="yes"){
+                $event->menu->add([
+                    'text' => 'Worship',
+                    'icon' => 'music',
+                    'can' => 'read-content',
+                    'url' => 'admin/worship'
+                ]);
+            }
+            if ($mods['website_module']=="yes"){
+                $event->menu->add('WEBSITE');
+                $event->menu->add([
+                    'text' => 'Blog',
+                    'url' => 'admin/blogs',
+                    'icon' => 'pencil-square-o',
+                    'can' =>  'edit-content'
+                ],
+                [
+                    'text' => 'Resources',
+                    'url' => 'admin/resources',
+                    'icon' => 'book',
+                    'can' =>  'edit-content'
+                ],            
+                [
+                    'text' => 'Sermons',
+                    'url' => 'admin/series',
+                    'icon' => 'microphone',
+                    'can' =>  'edit-content'
+                ],
+                [
+                    'text' => 'Site structure',
+                    'icon' => 'sitemap',
+                    'can' => 'edit-content',
+                    'submenu' => [
+                        [
+                            'text' => 'Menus',
+                            'url'  => 'admin/menus',
+                            'icon' => 'bars',
+                            'can' =>  'administer-site'
+                        ],            
+                        [
+                            'text' => 'Pages',
+                            'url' => 'admin/pages',
+                            'icon' => 'file',
+                            'can' =>  'administer-site'
+                        ],
+                        [
+                            'text' => 'Slides',
+                            'url' => 'admin/slides',
+                            'icon' => 'picture-o',
+                            'can' =>  'administer-site'
+                        ]
                     ]
+                ],
+                [
+                    'text' => 'View site',
+                    'url' => '',
+                    'icon' => 'globe',
+                    'can' =>  'read-content',
+                    'target' => '_blank'
                 ]
-            ]);
+            );
+            }
             $event->menu->add([
                 'header' => 'SETTINGS',
                 'can' => 'administer-site'
@@ -214,11 +244,6 @@ class ConnexionServiceProvider extends ServiceProvider
                 'can' =>  'administer-site'
             ]);
         });
-        $finset=array();
-        if (Schema::hasTable('settings')){
-            $finset=$settings->makearray();
-        }
-        view()->share('setting', $finset);
         Form::component('bsText', 'connexion::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
         Form::component('bsPassword', 'connexion::components.password', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
         Form::component('bsTextarea', 'connexion::components.textarea', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
@@ -388,6 +413,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\RolesRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\RolesRepository(new \Spatie\Permission\Models\Role());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\RostersRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\RostersRepository(new \Spatie\Permission\Models\Roster());
                 return $repository;
             }
         );

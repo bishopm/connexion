@@ -33,7 +33,9 @@
       <img src="{{asset('vendor/bishopm/images/preaching.png')}}">
       <h4>Last Sunday</h4>
       @if ($sermon)
-        <img class="top17" src="{{$sermon->series->getMedia('image')->first()->getUrl()}}">
+        @if (null!==$sermon->series->getMedia('image')->first())
+          <img class="top17" src="{{$sermon->series->getMedia('image')->first()->getUrl()}}">
+        @endif
         <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
         <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: {{$sermon->sermon}}</div>
         <div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>

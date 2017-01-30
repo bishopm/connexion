@@ -9,7 +9,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Settings</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.settings.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new setting</a></div>
+                            <div class="col-md-6"><a href="{{route('admin.settings.create')}}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add a new setting</a><a style="margin-right:7px;" href="{{route('admin.modules.index')}}" class="btn btn-primary pull-right"><i class="fa fa-cogs"></i> System modules</a></div>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -18,6 +18,7 @@
                                 <tr>
                                     <th>Setting</th>
                                     <th>Value</th>
+                                    <th>Description</th>
                                     <th>Category</th>
                                 </tr>
                             </thead>
@@ -25,6 +26,7 @@
                                 <tr>
                                     <th>Setting</th>
                                     <th>Value</th>
+                                    <th>Description</th>
                                     <th>Category</th>
                                 </tr>
                             </tfoot>
@@ -32,7 +34,15 @@
                                 @forelse ($settings as $setting)
                                     <tr>
                                         <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{ucfirst(str_replace("_"," ",$setting->setting_key))}}</a></td>
-                                        <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->setting_value}}</a></td>
+                                        <td>
+                                            <a href="{{route('admin.settings.edit',$setting->id)}}">
+                                            @if (!strpos($setting->setting_key,'password'))
+                                                {{$setting->setting_value}}</a>
+                                            @else
+                                                Password hidden
+                                            @endif
+                                        </td>
+                                        <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->description}}</a></td>
                                         <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->category}}</a></td>
                                     </tr>
                                 @empty

@@ -17,6 +17,7 @@ class CreateSettingsTable extends Migration
       		$table->increments('id');
 			$table->string('setting_key');
       		$table->string('setting_value');
+      		$table->string('description');
       		$table->string('category');
       		$table->timestamps();
 		});
