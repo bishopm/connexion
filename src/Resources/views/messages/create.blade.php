@@ -3,7 +3,7 @@
 @section('css')
     <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/vendor/bishopm/icheck/blue.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/vendor/bishopm/trumbowyg/trumbowyg.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
@@ -93,7 +93,7 @@
 @section('js')
     <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('vendor/bishopm/icheck/icheck.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('vendor/bishopm/trumbowyg/trumbowyg.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('#groups').selectize({
@@ -104,7 +104,7 @@
               plugins: ['remove_button'],
               openOnFocus: 0
             });            
-            $('#emailmessage').trumbowyg();
+            $('#emailmessage').summernote();
             $('.msgtype').on('ifChecked', function(event){
                 if (event.target.value=='sms'){
                     $('#emailrow1').addClass('hidden');

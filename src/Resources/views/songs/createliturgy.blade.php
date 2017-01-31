@@ -1,7 +1,7 @@
 @extends('connexion::worship.page')
 
 @section('css')
-  <link href="{{ asset('/vendor/bishopm/trumbowyg/trumbowyg.min.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')
@@ -34,9 +34,9 @@
 
 @section('js')
 	@include('connexion::worship.partials.scripts')
-	<script src="{{ asset('vendor/bishopm/trumbowyg/trumbowyg.min.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
 	<script type="text/javascript">
-		$('#lyrics').trumbowyg({
+		$('#lyrics').summernote({
     		btns: [['bold']]
 		});
 	</script>

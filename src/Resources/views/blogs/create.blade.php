@@ -2,7 +2,7 @@
 
 @section('css')
     <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/vendor/bishopm/trumbowyg/trumbowyg.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
@@ -29,7 +29,7 @@
 
 @section('js')
     <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('vendor/bishopm/trumbowyg/trumbowyg.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('.input-tags').selectize({
@@ -48,7 +48,7 @@
               plugins: ['remove_button'],
               openOnFocus: 0
             });            
-            $('#body').trumbowyg();
+            $('#body').summernote();
         });
     </script>
 @stop
