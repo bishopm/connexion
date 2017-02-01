@@ -258,6 +258,7 @@ class SongsController extends Controller
      */
     public function store(SongsRequest $request)
     {
+        dd($request);
 
         $song=Song::create($request->except('tags'));
         $song->tag($request->tags);

@@ -24,7 +24,7 @@
     </div>
     <br>
     {!! Form::label('lyrics','Text', array('class'=>'control-label')) !!}
-    <div name="lyrics" id="lyrics"></div>
+    <textarea name="lyrics" id="lyrics"></textarea>
     <div class="box-footer">
         {!! Form::submit('Add liturgy', array('class'=>'btn btn-default')) !!} <a href="{{url('/')}}/songs" class="btn btn-default">Cancel</a>
     </div>
