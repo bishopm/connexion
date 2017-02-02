@@ -1,7 +1,10 @@
 @extends('connexion::worship.page')
 
-@section('content')
+@section('css')
+    <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />    
+@stop
 
+@section('content')
 <div id="tabs">
     <div class="nav-tabs-custom">
         <ul id="myTab" class="nav nav-tabs">
@@ -43,7 +46,7 @@
                 <div>
                 @foreach ($chords as $chord)
                     @if (isset($chord['id']))
-                        <a href="{{url('/')}}/chords/{{$chord['id']}}/edit"><img width="45" src="{{url('/')}}/public/images/chords/{{$chord['id']}}.png"></a>
+                        <a href="{{url('/')}}/chords/{{$chord['id']}}/edit"><img width="45" src="{{url('/')}}/vendor/bishopm/images/chords/{{$chord['id']}}.png"></a>
                     @else
                         <a href="{{url('/')}}/chords/create/{{str_replace('/','_',str_replace('#','^',$chord))}}">{{$chord}}</a>
                     @endif
@@ -217,7 +220,9 @@ var vm1 = new Vue({
   }
 });
 </script>
+<script src="{{ asset('vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
+
     $( document ).ready(function() {
         $('.input-tags').selectize({
           plugins: ['remove_button'],
@@ -234,6 +239,22 @@ var vm1 = new Vue({
             $("#tagselect").val(value);
           }
         });
+        $('#musictype').on('change', function(event){
+            if (event.target.value=='liturgy'){
+                $('#lyrics').summernote();
+                $('#musicrow1').addClass('hidden');
+                $('#musicrow2').addClass('hidden');
+                $('#musicrow3').addClass('hidden');
+                $('button[name=transpose]').addClass('hidden');
+            } else {
+                $('#lyrics').summernote('destroy');
+                $('#musicrow1').removeClass('hidden');
+                $('#musicrow2').removeClass('hidden');
+                $('#musicrow3').removeClass('hidden');
+                $('button[name=transpose]').removeClass('hidden');
+            }
+        });
+        $('#musictype').val(vm1.formdata.musictype).trigger('change');
     });
 </script>
 @stop

@@ -24,8 +24,8 @@ class SongsRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'	=> 'required'
-            'lyrics'     => 'required'
+            'title'	=> 'required',
+            'lyrics'=> 'required'
         ];
     }
 }

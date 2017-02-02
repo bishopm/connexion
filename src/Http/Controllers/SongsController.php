@@ -4,7 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Illuminate\Http\Request, Bishopm\Connexion\Models\Gchord;
 use App\Http\Requests, Bishopm\Connexion\Models\User, Bishopm\Connexion\Models\Song, Auth, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Setitem, View, Redirect, DB;
-use App\Http\Controllers\Controller, Bishopm\Connexion\Http\Requests\SongsRequest, Bishopm\Connexion\Libraries\Fpdf\Fpdf;
+use App\Http\Controllers\Controller, Bishopm\Connexion\Http\Requests\SongsRequest, Bishopm\Connexion\Libraries\Fpdf\Fpdf; 
 
 class SongsController extends Controller
 {
@@ -159,7 +159,7 @@ class SongsController extends Controller
     {
         $pdf = New Fpdf;
         $pdf->AddPage('P');
-        $logopath=base_path() . '/public/images/chords/';
+        $logopath=base_path() . '/public/vendor/bishopm/images/chords/';
         $pdf->SetAutoPageBreak(true,0);
         $pdf->SetFont('Courier','B',14);
         $pdf->text(20,16,$dat['song']->title);
@@ -258,8 +258,6 @@ class SongsController extends Controller
      */
     public function store(SongsRequest $request)
     {
-        dd($request);
-
         $song=Song::create($request->except('tags'));
         $song->tag($request->tags);
         if ($song->musictype==""){

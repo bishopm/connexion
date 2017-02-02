@@ -1,7 +1,7 @@
 @extends('connexion::worship.page')
 
 @section('css')
-    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />    
 @stop
 
 @section('content')
@@ -21,7 +21,7 @@
 
 @section('js')
 	@include('connexion::worship.partials.scripts')
-	<script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('.input-tags').selectize({
@@ -35,6 +35,19 @@
                       text: value
                   }
               }
+            });
+            $('#musictype').on('change', function(event){
+                if (event.target.value=='liturgy'){
+                    $('#lyrics').summernote();
+                    $('#musicrow1').addClass('hidden');
+                    $('#musicrow2').addClass('hidden');
+                    $('#musicrow3').addClass('hidden');
+                } else {
+                    $('#lyrics').summernote('destroy');
+                    $('#musicrow1').removeClass('hidden');
+                    $('#musicrow2').removeClass('hidden');
+                    $('#musicrow3').removeClass('hidden');
+                }
             });
         });
     </script>

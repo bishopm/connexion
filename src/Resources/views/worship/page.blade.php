@@ -64,9 +64,6 @@
                             <a href="{{url('/')}}/admin/worship/songs/create"><span class="fa fa-plus-square"></span>&nbsp;New song</a>
                         </li>
                         <li class="hidden-xs">
-                            <a href="{{url('/')}}/admin/worship/liturgy/create"><span class="fa fa-plus-square"></span>&nbsp;New liturgy</a>
-                        </li>
-                        <li class="hidden-xs">
                             <a href="{{url('/')}}/admin/worship/sets"><span class="fa fa-list-ol"></span>&nbsp;Sets</a>
                         </li>
                         <li class="hidden-xs">
@@ -109,7 +106,6 @@
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship"><i class='fa fa-home'></i> Home </a></li>
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/chords"><i class='fa fa-music'></i> Guitar Chords </a></li>
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/songs/create"><i class='fa fa-plus-square'></i> Add a new song </a></li>
-                    <li class="visible-xs"><a href="{{url('/')}}/admin/worship/liturgy/create"><i class='fa fa-plus-square'></i> Add new liturgy </a></li>
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/sets"><i class='fa fa-list-ol'></i> Worship sets </a></li>
                     <form action="{{url('/')}}/admin/worship/search" id="searchform" method="get" v-on:submit.prevent="onSubmit" class="sidebar-form" role="form">
                     <div class="input-group">
@@ -122,7 +118,7 @@
                     <label style="color:white;" v-on:change="searchMe" for="hymns">Hymns</label>&nbsp;&nbsp;&nbsp;
                     <input type="checkbox" v-on:change="searchMe" name="songs" value="songs" id="songs">
                     <label style="color:white;" for="songs">Songs</label>&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" name="liturgy" value="liturgy" id="liturgy">
+                    <input type="checkbox" v-on:change="searchMe" name="liturgy" value="liturgy" id="liturgy">
                     <label style="color:white;" for="liturgy">Liturgy</label>
                     <div>
                         <select multiple name="searchtags[]" id="songsearch">

@@ -9,16 +9,6 @@
             @endif
         </div>
         <div class="col-sm-6">
-            {!! Form::label('author','Author', array('class'=>'control-label')) !!}
-            @if (!$is_new)
-                <input type="text" v-model="formdata.author" name="author" class="form-control">
-            @else
-                <input type="text" name="author" class="form-control">
-            @endif
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
             {!! Form::label('copyright','Copyright', array('class'=>'control-label')) !!}
             @if (!$is_new)
                 <input type="text" v-model="formdata.copyright" name="copyright" class="form-control">
@@ -26,7 +16,49 @@
                 <input type="text" name="copyright" class="form-control">
             @endif
         </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-10">
+            <label for="tags">Tags</label>
+            <select name="tags[]" id="tagselect" class="input-tags" multiple>
+                @foreach ($tags as $tag)
+                    @if ((isset($stags)) and (in_array($tag->name,$stags)))
+                        <option selected value="{{$tag->name}}">{{$tag->name}}</option>
+                    @else
+                        <option value="{{$tag->name}}">{{$tag->name}}</option>
+                    @endif
+                @endforeach
+            </select>
+        </div>
         <div class="col-sm-2">
+            {!! Form::label('tempo','Music type', array('class'=>'control-label')) !!}
+            <select name="musictype" id="musictype" v-model="formdata.musictype" class="form-control">
+                @if ((!$is_new) and ($song->musictype=="hymn"))
+                    <option selected>hymn</option>
+                    <option>contemporary</option>
+                    <option>liturgy</option>
+                @elseif ((!$is_new) and ($song->musictype=="liturgy"))
+                    <option>hymn</option>
+                    <option>contemporary</option>
+                    <option selected>liturgy</option>
+                @else
+                    <option>hymn</option>
+                    <option selected>contemporary</option>
+                    <option>liturgy</option>
+                @endif
+            </select>
+        </div>        
+    </div>
+    <div class="row" id="musicrow1">
+        <div class="col-sm-6">
+            {!! Form::label('author','Author', array('class'=>'control-label')) !!}
+            @if (!$is_new)
+                <input type="text" v-model="formdata.author" name="author" class="form-control">
+            @else
+                <input type="text" name="author" class="form-control">
+            @endif
+        </div>        
+        <div class="col-sm-3">
             {!! Form::label('key','Key', array('class'=>'control-label')) !!}
             <select name="key" v-model="formdata.key" class="form-control">
                 @foreach ($keys as $key)
@@ -38,7 +70,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-3">
             {!! Form::label('tempo','Time signature', array('class'=>'control-label')) !!}
             <select name="tempo" v-model="formdata.tempo" class="form-control">
                 @foreach ($tempos as $tempo)
@@ -50,20 +82,8 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-sm-2">
-            {!! Form::label('tempo','Music type', array('class'=>'control-label')) !!}
-            <select name="musictype" v-model="formdata.musictype" class="form-control">
-                @if ((!$is_new) and ($song->musictype=="hymn"))
-                    <option selected>hymn</option>
-                    <option>contemporary</option>
-                @else
-                    <option>hymn</option>
-                    <option selected>contemporary</option>
-                @endif
-            </select>
-        </div>
     </div>
-    <div class="row">
+    <div class="row"  id="musicrow2">
         <div class="col-sm-6">
             {!! Form::label('audio','Audio', array('class'=>'control-label')) !!}
             @if (!$is_new)
@@ -81,26 +101,14 @@
             @endif
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-6">
+    <div class="row"  id="musicrow3">
+        <div class="col-sm-12">
             {!! Form::label('music','Sheet music', array('class'=>'control-label')) !!}
             @if (!$is_new)
                 <input type="text" v-model="formdata.music" name="music" class="form-control">
             @else
                 <input type="text" onchange="neaten(event);" name="music" class="form-control">
             @endif
-        </div>
-        <div class="col-sm-6">
-            <label for="tags">Tags</label>
-            <select name="tags[]" id="tagselect" class="input-tags" multiple>
-                @foreach ($tags as $tag)
-                    @if ((isset($stags)) and (in_array($tag->name,$stags)))
-                        <option selected value="{{$tag->name}}">{{$tag->name}}</option>
-                    @else
-                        <option value="{{$tag->name}}">{{$tag->name}}</option>
-                    @endif
-                @endforeach
-            </select>
         </div>
     </div>
     @if ($is_new)
