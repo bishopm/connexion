@@ -28,7 +28,7 @@
                         <tbody>
                             @forelse ($rosters as $roster)
                                 <tr>
-                                    <td><a href="{{route('admin.rosters.edit',$roster->id)}}">{{$roster->rostername}}</a></td>
+                                    <td><a href="{{url('/')}}/admin/rosters/{{$roster->id}}/{{date('Y')}}/{{date('n')}}">{{$roster->rostername}}</a></td>
                                 </tr>
                             @empty
                                 <tr><td>No rosters have been added yet</td></tr>

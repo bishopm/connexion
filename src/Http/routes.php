@@ -180,10 +180,10 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     Route::put('admin/rosters/{group}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@update','as'=>'admin.rosters.update']);
     Route::delete('admin/rosters/{group}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@destroy','as'=>'admin.rosters.destroy']);
 
-    Route::get('/rosters/{roster}/report/{year}/{month}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@report','as'=>'admin.rosters.report']);
+    Route::get('/admin/rosters/{roster}/report/{year}/{month}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@report','as'=>'admin.rosters.report']);
     Route::post('admin/rosters/{rosters}/sms/{send}','Bishopm\Connexion\Http\Controllers\RostersController@sms');
     Route::get('admin/rosters/{rosters}/{year}/{month}','Bishopm\Connexion\Http\Controllers\RostersController@details');
-    Route::post('admin/rosters/{rosters}/revise','Bishopm\Connexion\Http\Controllers\RostersController@revise');
+    Route::post('admin/rosters/{rosters}/revise',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@revise','as'=>'admin.rosters.revise']);
 
 
 	// Series

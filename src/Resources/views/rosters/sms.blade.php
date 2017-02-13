@@ -1,17 +1,17 @@
-@extends('app')
+@extends('adminlte::page')
 
 @section('content')
 <div class="box box-default">
   <div class="box-header with-border">
     <h3 class="box-title">{{$roster->rostername}} ({{date("d F Y",strtotime($rosterdate))}})</h3>
     <span class="pull-right">
-      {!! Form::open(['method'=>'post','url'=>'/' . $society . '/rosters/' . $roster->id . '/sms/send'])!!}
+      {!! Form::open(['method'=>'post','url'=>'/admin/rosters/' . $roster->id . '/sms/send'])!!}
       @if (isset($extrainfo))
           @foreach ($extrainfo as $key=>$extra)
           	<input type="hidden" name="extrainfo[{{$key}}]" value="{{$extra}}">
           @endforeach
       @endif
-      {!! Form::submit('Send SMS messages',array('class'=>'btn btn-danger btn-md'))!!}
+      {!! Form::submit('Send SMS messages',array('class'=>'btn btn-primary btn-md'))!!}
       {!! Form::close() !!}
     </span>
   </div>

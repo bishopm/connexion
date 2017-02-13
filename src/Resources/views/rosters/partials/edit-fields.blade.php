@@ -1,7 +1,46 @@
-{{ Form::bsText('rostername','Roster name','eg: Sunday roster') }}
-{{ Form::bsText('subcategories','Sub-categories','Comma separated values - eg: Service times in a Sunday roster') }}
-{{ Form::bsText('message','Message','SMS message eg: Your duties this Sunday are:') }}
-{{ Form::bsSelect('dayofweek','Day of week', [1=>'Monday',2=>'Tuesday',3=>'Wednesday',4=>'Thursday',5=>'Friday',6=>'Saturday',7=>'Sunday'])}}
+{{ Form::bsText('rostername','Roster name','eg: Sunday roster',$roster->rostername) }}
+{{ Form::bsText('subcategories','Sub-categories','Comma separated values - eg: Service times in a Sunday roster',$roster->subcategories) }}
+{{ Form::bsText('message','Message','SMS message eg: Your duties this Sunday are:',$roster->message) }}
+<div class="form-group">
+    <label for="Day of week" class="control-label">Day Of Week</label>
+	<select class="form-control" id="dayofweek" name="dayofweek">
+		@if ($roster->dayofweek==1)
+			<option selected value="1">Monday</option>
+		@else
+			<option value="1">Monday</option>
+		@endif
+		@if ($roster->dayofweek==2)
+			<option selected value="2">Tuesday</option>
+		@else
+			<option value="2">Tuesday</option>
+		@endif
+		@if ($roster->dayofweek==3)
+			<option selected value="3">Wednesday</option>
+		@else
+			<option value="3">Wednesday</option>
+		@endif
+		@if ($roster->dayofweek==4)
+			<option selected value="4">Thursday</option>
+		@else
+			<option value="4">Thursday</option>
+		@endif
+		@if ($roster->dayofweek==5)
+			<option selected value="5">Friday</option>
+		@else
+			<option value="5">Friday</option>
+		@endif
+		@if ($roster->dayofweek==6)
+			<option selected value="6">Saturday</option>
+		@else
+			<option value="6">Saturday</option>
+		@endif
+		@if ($roster->dayofweek==7)
+			<option selected value="7">Sunday</option>
+		@else
+			<option value="7">Sunday</option>
+		@endif
+	</select>
+</div>
 {!! Form::label('groups','Group or groups', array('class'=>'control-label','title'=>'If you have sub-categories, choose multiple groups - eg: Different service teams for different Sunday services')) !!}
 <select name="groups[]" data-placeholder="Choose groups..." class="selectize" multiple>
 <option value=""></option>

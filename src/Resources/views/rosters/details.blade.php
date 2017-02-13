@@ -1,14 +1,14 @@
-@extends('app')
+@extends('adminlte::page')
 
 @section('content')
 <div class="box box-default">
   <div class="box-header">
-    @include('shared.messageform')
-  	{!! Form::open(['method'=>'post','url'=>'/' . $society . '/rosters/' . $roster->id . '/sms/preview'])!!}
+    @include('connexion::shared.errors')
+  	{!! Form::open(['method'=>'post','url'=>'/admin/rosters/' . $roster->id . '/sms/preview'])!!}
     <h3 class="box-title">{{$roster->rostername}}</h3>
-    <a title="Edit roster" class="pull-right btn btn-danger" href="{{ URL::route('society.rosters.edit', array($society,$roster->id)) }}">Edit</a>
+    <a title="Edit roster" style="margin-left:7px;" class="pull-right btn btn-primary" href="{{ URL::route('admin.rosters.edit', $roster->id) }}">Edit</a>
     @if (count($extragroups))
-      <button type="button" class="pull-right btn btn-danger" data-toggle="modal" data-target="#myModal">Preview SMS messages</button>
+      <button type="button" class="pull-right btn btn-primary" data-toggle="modal" data-target="#myModal">Preview SMS messages</button>
       <div class="modal" id="myModal" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -27,30 +27,30 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              {!! Form::submit('Preview messages',array('class'=>'btn btn-danger'))!!}
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+              {!! Form::submit('Preview messages',array('class'=>'btn btn-primary'))!!}
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </div>
     @else
-      {!! Form::submit('Preview messages',array('class'=>'pull-right btn btn-danger'))!!}
+      {!! Form::submit('Preview messages',array('class'=>'pull-right btn btn-primary'))!!}
     @endif
 	</div>
   {!! Form::close()!!}
 </div>
 <div class="box-body">
-	{!! Form::open(['method'=>'post','action'=>['RostersController@revise',$society,$roster->id]])!!}
+	{!! Form::open(['method'=>'post','route'=>['admin.rosters.revise',$roster->id]])!!}
 	@foreach ($months as $num=>$month)
 		@if ($num+1==$rostermonth)
-			<a class="btn btn-danger" href="{{ url('/') }}/{{$society}}/rosters/{{$roster->id}}/{{$rosteryear}}/{{$num+1}}" role="button">{{$month}}</a>&nbsp;
+			<a class="btn btn-default" href="{{ url('/') }}/admin/rosters/{{$roster->id}}/{{$rosteryear}}/{{$num+1}}" role="button">{{$month}}</a>&nbsp;
 		@else
-			<a class="btn btn-danger" href="{{ url('/') }}/{{$society}}/rosters/{{$roster->id}}/{{$rosteryear}}/{{$num+1}}" role="button">{{$month}}</a>&nbsp;
+			<a class="btn btn-primary" href="{{ url('/') }}/admin/rosters/{{$roster->id}}/{{$rosteryear}}/{{$num+1}}" role="button">{{$month}}</a>&nbsp;
 		@endif
 	@endforeach
 	<span class="pull-right">
-    <a href="{{Helpers::makeUrl(strtolower($socname),"rosters/" . $roster->id . "/report/" . $rosteryear . "/" . $rostermonth)}}" class="btn btn-danger">Report</a>
-    <input type="submit" class="btn btn-danger" name="updateme" value="Update roster">
+    <a style="margin-right:7px;" href="{{url('/')}}/admin/rosters/{{$roster->id}}/report/{{$rosteryear}}/{{$rostermonth}}" class="btn btn-primary">Report</a>
+    <input type="submit" class="btn btn-primary" name="updateme" value="Update roster">
   </span>
 	{!! Form::hidden('roster_id',$roster->id)!!}
 	<br><br>
@@ -65,7 +65,7 @@
         @endif
       @endforeach
     </tr>
-		<tr><td><h4><span class="label label-danger">{{date("j M",strtotime($key))}}</span></h4></td>
+		<tr><td><h4><span class="label label-primary">{{date("j M",strtotime($key))}}</span></h4></td>
 		@foreach ($groupheadings as $gh)
 			<td>
 			@if (array_key_exists($gh,$week['#!@']))

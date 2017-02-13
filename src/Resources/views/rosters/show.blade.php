@@ -1,10 +1,10 @@
-@extends('app')
+@extends('adminlte::page')
 
 @section('content')
 <div class="container-fluid">
   <div class="panel panel-primary">
     <div class="panel-heading clearfix">
-      <big>{{$roster->rostername}}</</big><span class="pull-right"><a title="Edit roster" class="fa fa-edit" href="{{ URL::route('society.rosters.edit', array($society,$roster->id)) }}"></a> <a title="Delete roster" class="fa fa-trash" href="{{ URL::route('society.rosters.destroy', array($society,$roster->id)) }}"></a></span>
+      <big>{{$roster->rostername}}</</big><span class="pull-right"><a title="Edit roster" class="fa fa-edit" href="{{ URL::route('admin.rosters.edit', $roster->id) }}"></a> <a title="Delete roster" class="fa fa-trash" href="{{ URL::route('admin.rosters.destroy', $roster->id) }}"></a></span>
     </div>
     <div class="panel-body">
       <a class="btn btn-default" href="/rosters/{{$roster->id}}/sms_preview" role="button">Prepare SMS messages</a>&nbsp;

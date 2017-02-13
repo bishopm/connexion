@@ -108,24 +108,44 @@
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/songs/create"><i class='fa fa-plus-square'></i> Add a new song </a></li>
                     <li class="visible-xs"><a href="{{url('/')}}/admin/worship/sets"><i class='fa fa-list-ol'></i> Worship sets </a></li>
                     <form action="{{url('/')}}/admin/worship/search" id="searchform" method="get" v-on:submit.prevent="onSubmit" class="sidebar-form" role="form">
-                    <div class="input-group">
-                        <input v-model="q" v-on:keyup="searchMe" autocomplete=off autofocus="autofocus" type="text" name="q" id="searchbox" class="form-control" placeholder="Search..."/>
-                        <span class="input-group-btn">
-                            <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-                        </span>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <input v-model="q" v-on:keyup="searchMe" autocomplete=off autofocus="autofocus" type="text" name="q" id="searchbox" class="form-control" placeholder="Search by lyrics..."/>
+                                <span class="input-group-btn">
+                                    <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <input type="checkbox" v-on:change="searchMe" name="hymns" value="hymns" id="hymns">
-                    <label style="color:white;" v-on:change="searchMe" for="hymns">Hymns</label>&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" v-on:change="searchMe" name="songs" value="songs" id="songs">
-                    <label style="color:white;" for="songs">Songs</label>&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" v-on:change="searchMe" name="liturgy" value="liturgy" id="liturgy">
-                    <label style="color:white;" for="liturgy">Liturgy</label>
-                    <div>
-                        <select multiple name="searchtags[]" id="songsearch">
-                            @foreach ($tags as $tag)
-                                <option value="{{$tag->name}}">{{$tag->name}}</option>
-                            @endforeach
-                        </select>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="checkbox" v-on:change="searchMe" name="hymns" value="hymns" id="hymns">
+                            <label style="color:white;" v-on:change="searchMe" for="hymns">Hymns</label>
+                        </div>
+                        <div class="col-xs-6">                        
+                            <input type="checkbox" v-on:change="searchMe" name="songs" value="songs" id="songs">
+                            <label style="color:white;" for="songs">Songs</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="checkbox" v-on:change="searchMe" name="liturgy" value="liturgy" id="liturgy">
+                            <label style="color:white;" for="liturgy">Liturgy</label>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="checkbox" v-on:change="searchMe" name="archive" value="archive" id="archive">
+                            <label style="color:white;" for="archive">Archive</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <select multiple name="searchtags[]" id="songsearch">
+                                @foreach ($tags as $tag)
+                                    <option value="{{$tag->name}}">{{$tag->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     </form>
                     <li class="songtitles" v-for="song in songs">
@@ -175,7 +195,7 @@
               plugins: ['remove_button'],
               openOnFocus: 0,
               maxOptions: 5,
-              placeholder: 'Search by tag ...',
+              placeholder: 'Search by tag...',
               dropdownParent: null
         });
         $('#songs').prop('checked', true);

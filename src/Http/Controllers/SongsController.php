@@ -79,6 +79,9 @@ class SongsController extends Controller
         if (isset($request->liturgy)){
             $musictype[]="liturgy";
         }
+        if (isset($request->archive)){
+            $musictype[]="archive";
+        }
         $fq=Song::where('title','like','%' . $q . '%')->orWhere('author','like','%' . $q . '%')->orWhere('words','like','%' . $q . '%')->whereNull('deleted_at')->select('title','id','musictype')->orderBy('title')->get();
         $fin=array();
         foreach ($fq as $ff){

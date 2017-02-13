@@ -65,7 +65,8 @@ class BlogsController extends Controller {
 	
     public function update(Blog $blog, UpdateBlogRequest $request)
     {
-        $this->blog->update($blog, $request->all());
+        $this->blog->update($blog, $request->except('tags'));
+        $blog->tag($request->tags);
         return redirect()->route('admin.blogs.index')->withSuccess('Blog has been updated');
     }
 

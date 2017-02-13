@@ -2,12 +2,19 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use Bishopm\Connexion\Models\Roster, Bishopm\Connexion\Models\Group, Bishopm\Connexion\Models\Society, View, DB, Input;
-use Bishopm\Connexion\Http\Requests\CreateRosterRequest, Bishopm\Connexion\Http\Requests\UpdateRosterRequest;
-use Bishopm\Connexion\Services\SMSfunctions, Fpdf;
+use Bishopm\Connexion\Models\Roster, Bishopm\Connexion\Models\Group, Bishopm\Connexion\Models\Society, View, DB, Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Http\Requests\CreateRosterRequest, Bishopm\Connexion\Http\Requests\UpdateRosterRequest, Illuminate\Http\Request;
+use Bishopm\Connexion\Services\SMSfunctions, Bishopm\Connexion\Libraries\Fpdf\Fpdf; 
 use Illuminate\Support\Facades\Redirect, App\Http\Controllers\Controller;
 
 class RostersController extends Controller {
+
+	private $individual;
+
+	public function __construct(IndividualsRepository $individual)
+    {
+        $this->individual = $individual;
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -64,16 +71,11 @@ class RostersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($society,$id)
+	public function show($id)
 	{
-        if ((Helpers::perm('admin',$society)) or (Helpers::perm('edit',$society))){
-    		$data['roster'] = Roster::with(array('group' => function ($query) { $query->orderBy('groupname', 'asc'); }))->find($id);
-    		$data['groups'] = Group::orderBy('groupname')->get();
-    		$data['society'] = $society;
-    		return View::make('rosters.show', $data);
-        } else {
-            return view('shared.unauthorised');
-        }
+		$data['roster'] = Roster::with(array('group' => function ($query) { $query->orderBy('groupname', 'asc'); }))->find($id);
+		$data['groups'] = Group::orderBy('groupname')->get();
+		return View::make('connexion::rosters.show', $data);
 	}
 
     private function _get_week_dates($yy,$mm,$dd){
@@ -98,7 +100,7 @@ class RostersController extends Controller {
 		return $weeks;
 	}
 
-    public function report($society,$rosterid,$yy,$mm)
+    public function report($rosterid,$yy,$mm)
     {
         $pdf = new Fpdf();
         $pdf->AddPage('L');
@@ -106,9 +108,7 @@ class RostersController extends Controller {
 	    $roster = Roster::with('group')->find($rosterid);
 		$subcats=explode(",",$roster->subcategories);
 		$weeks=self::_get_week_dates($yy,$mm,$roster->dayofweek);
-        $socy=Society::where('society','=',$society)->first();
-        $churchname=ucfirst($society) . " Methodist Church";
-        $society=$socy->id;
+        $churchname="Umhlali Methodist Church";
 		$x=25;
 		$pdf->SetAutoPageBreak(0,0);
         $pdf->SetFont('Arial','B',12);
@@ -179,7 +179,7 @@ class RostersController extends Controller {
 				foreach ($grp as $kk=>$sc){
 					foreach ($sc as $kkk=>$vv){
 						$pdf->setxy($x,$y2);
-						$pdf->cell(25,0,Helpers::get_indiv($vv->individual_id),0,0,'C');
+						$pdf->cell(25,0,$this->individual->getName($vv->individual_id),0,0,'C');
 						$y2=$y2+3.5;
 					}
 					if (count($sc)<count($subcats)){
@@ -201,40 +201,35 @@ class RostersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($society,$id)
+	public function edit($id)
 	{
-        if ((Helpers::perm('admin',$society)) or (Helpers::perm('edit',$society))){
-    		$data['society']=$society;
-    		$data['roster'] = Roster::with(array('group' => function ($query) { $query->orderBy('groupname', 'asc'); }))->find($id);
-    		if (count($data['roster']->group)<>0){
-    			foreach ($data['roster']->group as $group){
-    				$rostergroup[]=$group->id;
-    			}
-    			$data['rostergroup']= $rostergroup;
-    		}
-    		$data['groups'] = Group::orderBy('groupname')->get();
-    		if ($data['roster']->extrainfo){
-    			$extra=explode(',',$data['roster']->extrainfo);
-    			foreach ($extra as $exx){
-    				$rosterextra[]=intval($exx);
-    			}
-    			$data['rosterextra']=$rosterextra;
-    		} else {
-    			$data['rosterextra']=array();
-    		}
-    		if ($data['roster']->multichoice){
-    			$multi=explode(',',$data['roster']->multichoice);
-    			foreach ($multi as $mul){
-    				$rostermulti[]=intval($mul);
-    			}
-    			$data['rostermulti']=$rostermulti;
-    		} else {
-    			$data['rostermulti']=array();
-    		}
-    		return View::make('rosters.edit', $data);
-        } else {
-            return view('shared.unauthorised');
-        }
+		$data['roster'] = Roster::with(array('group' => function ($query) { $query->orderBy('groupname', 'asc'); }))->find($id);
+		if (count($data['roster']->group)<>0){
+			foreach ($data['roster']->group as $group){
+				$rostergroup[]=$group->id;
+			}
+			$data['rostergroup']= $rostergroup;
+		}
+		$data['groups'] = Group::orderBy('groupname')->get();
+		if ($data['roster']->extrainfo){
+			$extra=explode(',',$data['roster']->extrainfo);
+			foreach ($extra as $exx){
+				$rosterextra[]=intval($exx);
+			}
+			$data['rosterextra']=$rosterextra;
+		} else {
+			$data['rosterextra']=array();
+		}
+		if ($data['roster']->multichoice){
+			$multi=explode(',',$data['roster']->multichoice);
+			foreach ($multi as $mul){
+				$rostermulti[]=intval($mul);
+			}
+			$data['rostermulti']=$rostermulti;
+		} else {
+			$data['rostermulti']=array();
+		}
+		return View::make('connexion::rosters.edit', $data);
 	}
 
 
@@ -244,7 +239,7 @@ class RostersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($society,$id, UpdateRosterRequest $request)
+	public function update($id, UpdateRosterRequest $request)
 	{
 		$roster = Roster::find($id);
 		$roster->fill($request->except('groups','extrainfo','multichoice'));
@@ -258,7 +253,6 @@ class RostersController extends Controller {
 		} else {
 			$roster->multichoice="";
 		}
-        $roster->society_id=$society;
 		$roster->save();
 		if ($request->groups==""){
 			$roster->group()->detach();
@@ -276,7 +270,7 @@ class RostersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($society,$id)
+	public function destroy($id)
 	{
 		print "Delete $id";
 	}
@@ -286,85 +280,79 @@ class RostersController extends Controller {
 		print "Delete $id";
 	}
 
-	public function sms($society,$id,$send)
+	public function sms($id,$send, Request $request)
 	{
-        if ((Helpers::perm('admin',$society)) or (Helpers::perm('edit',$society))){
-            $soc=Society::find($society);
-    		$extra=array();
-            $data['society']=$society;
-    		$extra=Input::get('extrainfo');
-    		$data['extrainfo']=$extra;
-    		$daysofweek=array('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday');
-    		$data['roster'] = Roster::with(array('group'))->find($id);
-    		$data['rosterday']=$daysofweek[$data['roster']->dayofweek-1];
-    		$dday=date("Y-m-d",strtotime('next ' . $data['rosterday']));
-    		$rosterdetails=DB::table('group_individual_roster')->join('groups', 'group_id', '=', 'groups.id')->join('individuals', 'individual_id', '=', 'individuals.id')->join('rosters', 'roster_id', '=', 'rosters.id')->select('surname' ,'firstname', 'cellphone', 'groupname','message','dayofweek','group_id','household_id')->where('rosterdate', '=', $dday)->where('roster_id' , '=', $id)->orderby('groupname')->get();
-    		foreach ($rosterdetails as $detail) {
-    			$dum['cellphone']=$detail->cellphone;
-    			$dum['message']=$detail->message . " (" . $detail->groupname . ")";
-    			$dum['household']=$detail->household_id;
-    			if (($extra) and (array_key_exists($detail->group_id,$extra))){
-    				$dum['message']=$dum['message'] . " (" . $extra[$detail->group_id] . ")";
-    			}
-    			if (strpos($dum['message'],"[dayofweek]")){
-    				$dum['message']=str_replace("[dayofweek]",$data['rosterday'],$dum['message']);
-    			}
-    			if (strpos($dum['message'],"[groupname]")){
-    				$dum['message']=str_replace("[groupname]",$detail->groupname,$dum['message']);
-    			}
-    			if (strpos($dum['message'],"[firstname]")){
-    				$dum['message']=str_replace("[firstname]",$detail->firstname,$dum['message']);
-    			}
-    			$dum['recipient']=$detail->firstname . " " . $detail->surname;
-    			$data['rosterdetails'][]=$dum;
-    		}
-    		$data['rosterdate']=$dday;
-    		if ($send=="preview"){
-    			return View::make('rosters.sms', $data);
-    		} else {
-    			if ($soc->sms_provider=="bulksms"){
-    				if (count($data['rosterdetails'])>SMSfunctions::BS_get_credits($soc->sms_username,$soc->sms_password)){
-    					return Redirect::back()->withInput()->withErrors("Insufficient Bulk SMS credits to send SMS");
-    				}
-    				$url = 'http://community.bulksms.com/eapi/submission/send_sms/2/2.0';
-    				$port = 80;
-    			} elseif ($soc->sms_provider=="smsfactory"){
-    				if (count($data['rosterdetails'])>SMSfunctions::SF_checkCredits($soc->sms_username,$soc->sms_password)){
-    					return Redirect::back()->withInput()->withErrors("Insufficient SMS Factory credits to send SMS");
-    				}
-    			}
-    			foreach ($data['rosterdetails'] as $sms){
-    				$seven_bit_msg=$sms['message'] . " (From " . substr($soc->society,0,1) . "MC)";
-    				if ($soc->sms_provider=="bulksms"){
-    					$transient_errors = array(40 => 1);
-    					$msisdn = "+27" . substr($sms['cellphone'],1);
-    					$post_body = SMSfunctions::BS_seven_bit_sms($soc->sms_username,$soc->sms_password, $seven_bit_msg, $msisdn );
-    				}
-    				$dum2['name']=$sms['recipient'];
-    				$dum2['household']=$sms['household'];
-    				if (SMSfunctions::checkcell($sms['cellphone'])){
-    					if ($soc->sms_provider=="bulksms"){
-    						$smsresult = SMSfunctions::BS_send_message( $post_body, $url, $port );
-    					} elseif ($soc->sms_provider=="smsfactory"){
-    						$smsresult = SMSfunctions::SF_sendSms($soc->sms_username,$soc->sms_password,$sms['cellphone'],$seven_bit_msg);
-    				 	}
-    					$dum2['address']=$sms['cellphone'];
-    				} else {
-    					if ($sms['cellphone']==""){
-    						$dum2['address']="No cell number provided.";
-    					} else {
-    						$dum2['address']="Invalid cell number: " . $sms['cellphone'] . ".";
-    					}
-    				}
-    				$results[]=$dum2;
-    			}
-    			$data['results']=$results;
-    			$data['type']="SMS";
-    		}
-    		return View::make('messages.results',$data);
-        } else {
-            return view('shared.unauthorised');
-        }
+		$extra=array();
+		$extra=$request->extrainfo;
+		$data['extrainfo']=$extra;
+		$daysofweek=array('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday');
+		$data['roster'] = Roster::with(array('group'))->find($id);
+		$data['rosterday']=$daysofweek[$data['roster']->dayofweek-1];
+		$dday=date("Y-m-d",strtotime('next ' . $data['rosterday']));
+		$rosterdetails=DB::table('group_individual_roster')->join('groups', 'group_id', '=', 'groups.id')->join('individuals', 'individual_id', '=', 'individuals.id')->join('rosters', 'roster_id', '=', 'rosters.id')->select('surname' ,'firstname', 'cellphone', 'groupname','message','dayofweek','group_id','household_id')->where('rosterdate', '=', $dday)->where('roster_id' , '=', $id)->orderby('groupname')->get();
+		foreach ($rosterdetails as $detail) {
+			$dum['cellphone']=$detail->cellphone;
+			$dum['message']=$detail->message . " (" . $detail->groupname . ")";
+			$dum['household']=$detail->household_id;
+			if (($extra) and (array_key_exists($detail->group_id,$extra))){
+				$dum['message']=$dum['message'] . " (" . $extra[$detail->group_id] . ")";
+			}
+			if (strpos($dum['message'],"[dayofweek]")){
+				$dum['message']=str_replace("[dayofweek]",$data['rosterday'],$dum['message']);
+			}
+			if (strpos($dum['message'],"[groupname]")){
+				$dum['message']=str_replace("[groupname]",$detail->groupname,$dum['message']);
+			}
+			if (strpos($dum['message'],"[firstname]")){
+				$dum['message']=str_replace("[firstname]",$detail->firstname,$dum['message']);
+			}
+			$dum['recipient']=$detail->firstname . " " . $detail->surname;
+			$data['rosterdetails'][]=$dum;
+		}
+		$data['rosterdate']=$dday;
+		if ($send=="preview"){
+			return View::make('connexion::rosters.sms', $data);
+		} else {
+			if ($soc->sms_provider=="bulksms"){
+				if (count($data['rosterdetails'])>SMSfunctions::BS_get_credits($soc->sms_username,$soc->sms_password)){
+					return Redirect::back()->withInput()->withErrors("Insufficient Bulk SMS credits to send SMS");
+				}
+				$url = 'http://community.bulksms.com/eapi/submission/send_sms/2/2.0';
+				$port = 80;
+			} elseif ($soc->sms_provider=="smsfactory"){
+				if (count($data['rosterdetails'])>SMSfunctions::SF_checkCredits($soc->sms_username,$soc->sms_password)){
+					return Redirect::back()->withInput()->withErrors("Insufficient SMS Factory credits to send SMS");
+				}
+			}
+			foreach ($data['rosterdetails'] as $sms){
+				$seven_bit_msg=$sms['message'] . " (From " . substr($soc->society,0,1) . "MC)";
+				if ($soc->sms_provider=="bulksms"){
+					$transient_errors = array(40 => 1);
+					$msisdn = "+27" . substr($sms['cellphone'],1);
+					$post_body = SMSfunctions::BS_seven_bit_sms($soc->sms_username,$soc->sms_password, $seven_bit_msg, $msisdn );
+				}
+				$dum2['name']=$sms['recipient'];
+				$dum2['household']=$sms['household'];
+				if (SMSfunctions::checkcell($sms['cellphone'])){
+					if ($soc->sms_provider=="bulksms"){
+						$smsresult = SMSfunctions::BS_send_message( $post_body, $url, $port );
+					} elseif ($soc->sms_provider=="smsfactory"){
+						$smsresult = SMSfunctions::SF_sendSms($soc->sms_username,$soc->sms_password,$sms['cellphone'],$seven_bit_msg);
+				 	}
+					$dum2['address']=$sms['cellphone'];
+				} else {
+					if ($sms['cellphone']==""){
+						$dum2['address']="No cell number provided.";
+					} else {
+						$dum2['address']="Invalid cell number: " . $sms['cellphone'] . ".";
+					}
+				}
+				$results[]=$dum2;
+			}
+			$data['results']=$results;
+			$data['type']="SMS";
+		}
+		return View::make('connexion::messages.results',$data);
 	}
 
 	public function revise()
@@ -382,85 +370,79 @@ class RostersController extends Controller {
 		return Redirect::back()->with('okmessage','Data updated');
 	}
 
-	public function details($society,$id,$year,$month)
+	public function details($id,$year,$month)
 	{
-        if ((Helpers::perm('admin',$society)) or (Helpers::perm('edit',$society))){
-    		$data['society']=$society;
-    		$data['roster'] = Roster::with('group')->find($id);
-    		$extrainfo = explode(",",$data['roster']->extrainfo);
-    		$data['extragroups']=Group::whereIn('id', $extrainfo)->get();
-    		$data['multigroups'] = explode(",",$data['roster']->multichoice);
-    		$subcat=explode(",",$data['roster']->subcategories);
-    		if ($subcat[0]<>""){
-    			$subcat[]="#!@";
-    			foreach($data['roster']->group as $thisgroup){
-    				$shortened=false;
-    				foreach ($subcat as $thisubcat){
-    					if (strpos($thisgroup->groupname,$thisubcat)){
-    						$key=trim(str_replace($thisubcat,"",$thisgroup->groupname));
-    						$shortgroups[$key][$thisubcat]=$thisgroup->id;
-    						$shortened=true;
-    					}
-    				}
-    				if (!$shortened){
-    					$key=trim($thisgroup->groupname);
-    					$shortgroups["_" . $key]['#!@']=$thisgroup->id;
-    				}
-    			}
-    		} else {
-    			foreach($data['roster']->group as $thisgroup){
-    				$shortgroups[$thisgroup->groupname]['#!@']=$thisgroup->id;
-    			}
-    			$subcat[0]="#!@";
-    		}
-    		ksort($shortgroups);
-    		$firstinmonth=$data['roster']->dayofweek-date_format(date_create($year . "-" . $month . '-01'),'N')+1;
-    		if ($firstinmonth>7){
-    			$firstinmonth=$firstinmonth-7;
-    		} elseif ($firstinmonth<1){
-    			$firstinmonth=$firstinmonth+7;
-    		}
-    		$dates[]=date_format(date_create($year . "-" . $month . '-' . $firstinmonth),'Y-m-d');
-    		for ($i=1;$i<5;$i++){
-    			$testdate=strtotime('+1 week',strtotime($dates[$i-1]));
-    			if (date("m",$testdate)==$month){
-    				$dates[]=date("Y-m-d",$testdate);
-    			} else {
-    				break;
-    			}
-    		}
-    		$selnum=array('1','2');
-    		foreach ($dates as $tdate){
-    			foreach ($shortgroups as $skey=>$sgrp){
-    				foreach ($subcat as $thiscat){
-    					foreach ($selnum as $seln){
-    						if (array_key_exists($thiscat,$sgrp)){
-    							$individ = DB::table('group_individual_roster')->where('rosterdate','=',$tdate)->where('roster_id', '=', $id)->where('group_id', '=', $sgrp[$thiscat])->where('selection', '=', $seln)->get();
-    							$data['weeks'][$tdate][$thiscat][$skey][$seln]['group_id']=$sgrp[$thiscat];
-    							if (isset($individ[0]->individual_id)){
-    								$data['weeks'][$tdate][$thiscat][$skey][$seln]['individual_id']=$individ[0]->individual_id;
-    							}
-    						}
-    					}
-    				}
-    			}
-    		}
-    		$data['groupheadings']=array_keys($shortgroups);
-    		$data['rosterdetails'] = Roster::with('rosterdetails_group','rosterdetails_individual')->find($id);
-    		foreach ($data['roster']->group as $grp){
-    			$data['groupmembers'][$grp->id][0]="";
-    			foreach ($grp->individual as $ind){
-    				$data['groupmembers'][$grp->id][$ind->id]=$ind->firstname . " " . $ind->surname;
-    			}
-    		}
-    		$data['rosteryear']=$year;
-            $data['socname']=Society::find($society)->society;
-    		$data['rostermonth']=$month;
-    		$data['months']=array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
-    		return View::make('rosters.details', $data);
-        } else {
-            return view('shared.unauthorised');
-        }
+		$data['roster'] = Roster::with('group')->find($id);
+		$extrainfo = explode(",",$data['roster']->extrainfo);
+		$data['extragroups']=Group::whereIn('id', $extrainfo)->get();
+		$data['multigroups'] = explode(",",$data['roster']->multichoice);
+		$subcat=explode(",",$data['roster']->subcategories);
+		if ($subcat[0]<>""){
+			$subcat[]="#!@";
+			foreach($data['roster']->group as $thisgroup){
+				$shortened=false;
+				foreach ($subcat as $thisubcat){
+					if (strpos($thisgroup->groupname,$thisubcat)){
+						$key=trim(str_replace($thisubcat,"",$thisgroup->groupname));
+						$shortgroups[$key][$thisubcat]=$thisgroup->id;
+						$shortened=true;
+					}
+				}
+				if (!$shortened){
+					$key=trim($thisgroup->groupname);
+					$shortgroups["_" . $key]['#!@']=$thisgroup->id;
+				}
+			}
+		} else {
+			foreach($data['roster']->group as $thisgroup){
+				$shortgroups[$thisgroup->groupname]['#!@']=$thisgroup->id;
+			}
+			$subcat[0]="#!@";
+		}
+		ksort($shortgroups);
+		$firstinmonth=$data['roster']->dayofweek-date_format(date_create($year . "-" . $month . '-01'),'N')+1;
+		if ($firstinmonth>7){
+			$firstinmonth=$firstinmonth-7;
+		} elseif ($firstinmonth<1){
+			$firstinmonth=$firstinmonth+7;
+		}
+		$dates[]=date_format(date_create($year . "-" . $month . '-' . $firstinmonth),'Y-m-d');
+		for ($i=1;$i<5;$i++){
+			$testdate=strtotime('+1 week',strtotime($dates[$i-1]));
+			if (date("m",$testdate)==$month){
+				$dates[]=date("Y-m-d",$testdate);
+			} else {
+				break;
+			}
+		}
+		$selnum=array('1','2');
+		foreach ($dates as $tdate){
+			foreach ($shortgroups as $skey=>$sgrp){
+				foreach ($subcat as $thiscat){
+					foreach ($selnum as $seln){
+						if (array_key_exists($thiscat,$sgrp)){
+							$individ = DB::table('group_individual_roster')->where('rosterdate','=',$tdate)->where('roster_id', '=', $id)->where('group_id', '=', $sgrp[$thiscat])->where('selection', '=', $seln)->get();
+							$data['weeks'][$tdate][$thiscat][$skey][$seln]['group_id']=$sgrp[$thiscat];
+							if (isset($individ[0]->individual_id)){
+								$data['weeks'][$tdate][$thiscat][$skey][$seln]['individual_id']=$individ[0]->individual_id;
+							}
+						}
+					}
+				}
+			}
+		}
+		$data['groupheadings']=array_keys($shortgroups);
+		$data['rosterdetails'] = Roster::with('rosterdetails_group','rosterdetails_individual')->find($id);
+		foreach ($data['roster']->group as $grp){
+			$data['groupmembers'][$grp->id][0]="";
+			foreach ($grp->individuals as $ind){
+				$data['groupmembers'][$grp->id][$ind->id]=$ind->firstname . " " . $ind->surname;
+			}
+		}
+		$data['rosteryear']=$year;
+		$data['rostermonth']=$month;
+		$data['months']=array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
+		return View::make('connexion::rosters.details', $data);
 	}
 
 

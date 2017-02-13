@@ -1,17 +1,39 @@
-@extends('app')
+@extends('adminlte::page')
+
+@section('css')
+    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
+@section('content_header')
+    {{ Form::pgHeader('Edit roster','Rosters',route('admin.rosters.index')) }}
+@stop
 
 @section('content')
-	@include('shared.messageform')
-	{!! Form::model($roster, array('route' => array('society.rosters.update', $society,$roster->id), 'method' => 'put', 'class' => 'form-horizontal', 'role' => 'form')) !!}
-	<div class="box box-default">
-		<div class="box-header">
-			<h3 class="box-title">Edit roster: {{$roster->rostername}}</h3>
-		</div>
-		@include('rosters.form', array('is_new'=>false))
-		<div class="box-footer">
-			{!! Form::submit('Update changes', array('class'=>'btn btn-danger')) !!}
-			<a href="{{url('/')}}/{{$society}}/rosters" class="btn btn-danger">Cancel</a>
-		</div>
-	</div>
-	{!! Form::close() !!}
+    @include('connexion::shared.errors')
+    {!! Form::open(['route' => array('admin.rosters.update',$roster->id), 'method' => 'put']) !!}
+    <div class="row"> 
+        <div class="col-md-12">
+            <div class="box box-primary"> 
+                <div class="box-body">
+                    @include('connexion::rosters.partials.edit-fields')
+                </div>
+                <div class="box-footer">
+                    {{Form::pgButtons('Update',route('admin.rosters.index')) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {!! Form::close() !!}
+@stop
+
+@section('js')
+    <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $('.selectize').selectize({
+              plugins: ['remove_button'],
+              openOnFocus: 0
+            });
+        });
+    </script>
 @stop

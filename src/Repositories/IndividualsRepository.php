@@ -12,4 +12,10 @@ class IndividualsRepository extends EloquentBaseRepository
     {
         return $this->model->with('sermons','blogs')->where('slug', $slug)->first();
     }
+
+    public function getName($id)
+    {
+    	$indiv=$this->model->find($id);
+    	return $indiv->firstname . " " . $indiv->surname;
+    }
 }
