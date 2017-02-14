@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException, Bishopm\Connexion\Model
 use Illuminate\Http\Request, Bishopm\Connexion\Models\Plan, Bishopm\Connexion\Models\Society, Bishopm\Connexion\Models\Meeting, Auth;
 use Bishopm\Connexion\Models\Preacher, Bishopm\Connexion\Models\Service;
 use Bishopm\Connexion\Http\Requests\PlansRequest, Helpers, Redirect, View, Fpdf, Bishopm\Connexion\Models\Weekday;
-use Bishopm\Connexion\Http\Controllers\Controller, Bishopm\Connexion\Models\Tag;
+use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Tag;
 
 class PlansController extends Controller
 {
@@ -16,16 +16,7 @@ class PlansController extends Controller
      */
     public function index()
     {
-        $perms=Permission::where(function($query){
-            $query->where('admin','=',1);
-            $query->orWhere('preaching','=',1);
-        })->where('user_id','=',Auth::user()->id)->get();
-        if (count($perms)){
-            $purl=Helpers::planquarter("edit");
-            return Redirect($purl);
-        } else {
-            return view('shared.unauthorised');
-        }
+        return view('connexion::plans.edit');
     }
 
     /**
@@ -58,7 +49,7 @@ class PlansController extends Controller
     public function show($yy,$qq,$aa)
     {
         $fin=array();
-        $fm=Helpers::getSetting('first_month');
+        $fm=2;
         $m1=$qq*3-3+$fm;
         $y1=$yy;
         $m2=$qq*3-2+$fm;
@@ -73,17 +64,7 @@ class PlansController extends Controller
             $m3=$m3-12;
             $y3=$y3+1;
         }
-        if ($aa=="edit"){
-            $perms=Permission::where('user_id','=',Auth::user()->id)->get();
-            foreach ($perms as $perm){
-                if (($perm->preaching) or ($perm->admin)){
-                    $data['authsoc'][]=$perm['society_id'];
-                }
-            }
-            if (!isset($data['authsoc'])){
-                $aa="view";
-            }
-        }
+        $aa="view";
         $firstDateTime=mktime(0, 0, 0, $m1, 1, $y1);
         $firstDay=date("N", $firstDateTime);
         $firstSunday=date("d M Y",mktime(0, 0, 0, $m1, 8-$firstDay, $y1));
@@ -96,7 +77,7 @@ class PlansController extends Controller
         $dum['mm']=intval(date("n",$lastSunday));
         $dum['dd']=intval(date("j",$lastSunday));
         $sundays[]=$dum;
-        $data['societies']=Society::orderBy('society')->with('service')->get();
+        $data['societies']=Society::orderBy('society')->with('services')->get();
         $data['ministers']=Minister::has('individual')->get();
         $data['preachers']=Preacher::has('individual')->get();
         $data['guests']=Guest::where('active','=',1)->get();
@@ -233,7 +214,7 @@ class PlansController extends Controller
       $pdf->SetFont('Arial','',9);
       $num_ser=0;
       foreach ($dat['societies'] as $s1){
-        foreach ($s1->service as $se1){
+        foreach ($s1->services as $se1){
           $num_ser++;
         }
       }
@@ -257,16 +238,16 @@ class PlansController extends Controller
       $pdf->text($left_side+$soc_width,17,"PREACHING PLAN: " . strtoupper(date("F Y",$dat['sundays'][0]['dt'])) . " - " . strtoupper(date("F Y",$dat['sundays'][count($dat['sundays'])-1]['dt'])));
 	  foreach ($dat['societies'] as $soc){
         $firstserv=true;
-        foreach ($soc->service as $ser){
+        foreach ($soc->services as $ser){
           if ($firstserv){
             $y=$y+$y_add;
             $pdf->SetFont('Arial','B',8);
-            $pdf->rect($left_side,$y-2,($pg_width-2*$left_side),$y_add+($y_add)*(count($soc->service)-1)-(3*(count($soc->service)-1)),'D');
+            $pdf->rect($left_side,$y-2,($pg_width-2*$left_side),$y_add+($y_add)*(count($soc->services)-1)-(3*(count($soc->services)-1)),'D');
             $pdf->setxy($left_side,$y);
-            if (count($soc->service)==1){
+            if (count($soc->services)==1){
               $pdf->setxy($left_side,$y);
             } else {
-              $pdf->setxy($left_side,$y+(($y_add-3)*(count($soc->service)-1)/2));
+              $pdf->setxy($left_side,$y+(($y_add-3)*(count($soc->services)-1)/2));
             }
             $font_size = 8;
             $decrement_step = 0.1;

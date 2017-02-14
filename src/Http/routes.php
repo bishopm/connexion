@@ -28,7 +28,6 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	Route::get('admin/actions/addtag/{action}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@addtag','as' => 'admin.actions.addtag']);
     Route::get('admin/actions/removetag/{action}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@removetag','as' => 'admin.actions.removetag']);
     Route::get('admin/actions/togglecompleted/{action}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@togglecompleted','as' => 'admin.actions.togglecompleted']);
-   
 
 	// Blogs
 	Route::get('admin/blogs',['uses'=>'Bishopm\Connexion\Http\Controllers\BlogsController@index','as'=>'admin.blogs.index']);
@@ -118,7 +117,6 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	// Modules
 	Route::get('admin/modules/{module}/toggle',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@modulestoggle','as'=>'admin.modules.index']);
 	Route::get('admin/modules',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@modulesindex','as'=>'admin.modules.index']);	
-
 	// Pages
 	Route::get('admin/pages',['uses'=>'Bishopm\Connexion\Http\Controllers\PagesController@index','as'=>'admin.pages.index']);
 	Route::get('admin/pages/create',['uses'=>'Bishopm\Connexion\Http\Controllers\PagesController@create','as'=>'admin.pages.create']);
@@ -133,6 +131,11 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     Route::post('admin/households/{household}/pastorals', ['uses' => 'Bishopm\Connexion\Http\Controllers\PastoralsController@store','as' => 'admin.pastorals.store']);
     Route::put('admin/households/{household}/pastorals', ['uses' => 'Bishopm\Connexion\Http\Controllers\PastoralsController@update','as' => 'admin.pastorals.update']);
     Route::delete('admin/households/{household}/pastorals/{pastoral}', ['uses' => 'Bishopm\Connexion\Http\Controllers\PastoralsController@destroy','as' => 'admin.pastorals.destroy']);
+
+    // Plan
+    Route::get('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@show');
+    Route::post('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@update');
+    Route::get('admin/plan','Bishopm\Connexion\Http\Controllers\PlansController@index');
 
 	// Preachers
 	Route::get('admin/preachers',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@index','as'=>'admin.preachers.index']);

@@ -1,7 +1,7 @@
-@extends('app')
+@extends('adminlte::page')
 
 @section('content')
-@include('shared.messageform')
+@include('connexion::shared.errors')
 
 {!! Form::open() !!}
 <div class="container-fluid">
@@ -11,8 +11,8 @@
       <th colspan="2" class="text-right">
           <span class="btn-toolbar">
               <span class="btn-group-xs">
-                  <a href="{{url('/')}}/{{$prev}}/edit" title="Previous quarter" class="btn btn-danger btn-sm"><span class="fa fa-angle-double-left"></span></a>&nbsp;
-                  <a href="{{url('/')}}/{{$next}}/edit" title="Next quarter" class="btn btn-danger btn-sm"><span class="fa fa-angle-double-right"></span></a>&nbsp;
+                  <a href="{{url('/')}}/edit" title="Previous quarter" class="btn btn-danger btn-sm"><span class="fa fa-angle-double-left"></span></a>&nbsp;
+                  <a href="{{url('/')}}/edit" title="Next quarter" class="btn btn-danger btn-sm"><span class="fa fa-angle-double-right"></span></a>&nbsp;
               </span>
               <span class="btn-group-xs">
                   <button title="Save plan data" class="btn btn-sm btn-danger" type="submit"><span class="fa fa-save"></span></button>
@@ -47,7 +47,7 @@
           @endforeach
         </tr>
     @endif
-    @foreach ($soc->service as $ser)
+    @foreach ($soc->services as $ser)
       <tr><th class="text-right">{{$soc->society}}</th><td>{{$ser->servicetime}}</td>
       @foreach ($sundays as $sun)
         <td>

@@ -112,7 +112,7 @@ class ConnexionServiceProvider extends ServiceProvider
                         ],
                         [
                             'text' => 'Plan',
-                            'url'  => 'admin/groups',
+                            'url'  => 'admin/plan/' . date('Y') . '/1/edit',
                             'icon' => 'calendar',
                             'can' =>  'edit-content'
                         ]
@@ -491,6 +491,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\UsersRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\UsersRepository(new \Bishopm\Connexion\Models\User());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\WeekdaysRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\WeekdaysRepository(new \Bishopm\Connexion\Models\Weekday());
                 return $repository;
             }
         );
