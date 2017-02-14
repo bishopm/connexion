@@ -348,6 +348,13 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'Bishopm\Connexion\Repositories\MeetingsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\MeetingsRepository(new \Bishopm\Connexion\Models\Meeting());
+                return $repository;
+            }
+        );
+        $this->app->bind(
             'Bishopm\Connexion\Repositories\MenusRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\MenusRepository(new \Bishopm\Connexion\Models\Menu());
@@ -379,6 +386,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\PermissionsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\PermissionsRepository(new \Spatie\Permission\Models\Permission());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\PlansRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\PlansRepository(new \Spatie\Permission\Models\Plan());
                 return $repository;
             }
         );
