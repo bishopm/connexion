@@ -115,6 +115,18 @@ class ConnexionServiceProvider extends ServiceProvider
                             'url'  => 'admin/plan/' . date('Y') . '/1/edit',
                             'icon' => 'calendar',
                             'can' =>  'edit-content'
+                        ],
+                        [
+                            'text' => 'Meetings',
+                            'url'  => 'admin/meetings',
+                            'icon' => 'group',
+                            'can' =>  'edit-content'
+                        ],
+                        [
+                            'text' => 'Special services',
+                            'url'  => 'admin/weekdays',
+                            'icon' => 'tree',
+                            'can' =>  'edit-content'
                         ]
                     ]
                 ]);

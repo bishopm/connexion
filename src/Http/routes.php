@@ -91,6 +91,15 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
     Route::get('admin/individuals/removetag/{member}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\IndividualsController@removetag','as' => 'admin.individuals.removetag']);
 	Route::get('admin/individuals/{individual}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@removemedia','as'=>'admin.individuals.removemedia']);
 
+	// Meetings
+	Route::get('admin/meetings',['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@index','as'=>'admin.meetings.index']);
+	Route::get('admin/meetings/create',['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@create','as'=>'admin.meetings.create']);
+	Route::get('admin/meetings/{meeting}',['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@show','as'=>'admin.meetings.show']);
+	Route::get('admin/meetings/{meeting}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@edit','as'=>'admin.meetings.edit']);
+	Route::put('admin/meetings/{meeting}',['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@update','as'=>'admin.meetings.update']);
+	Route::post('admin/meetings',['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@store','as'=>'admin.meetings.store']);
+    Route::delete('admin/meetings/{meeting}',['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@destroy','as'=>'admin.meetings.destroy']);	
+
 	// Menus
 	Route::get('admin/menus',['uses'=>'Bishopm\Connexion\Http\Controllers\MenusController@index','as'=>'admin.menus.index']);
 	Route::get('admin/menus/create',['uses'=>'Bishopm\Connexion\Http\Controllers\MenusController@create','as'=>'admin.menus.create']);
