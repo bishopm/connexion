@@ -1,17 +1,45 @@
-@extends('app')
+@extends('adminlte::page')
+
+@section('css')
+    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/vendor/bishopm/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
+@section('content_header')
+	{{ Form::pgHeader('Add meeting','Meetings',route('admin.meetings.index')) }}
+@stop
 
 @section('content')
-<div class="box box-default">
-    @include('shared.messageform')
-    <div class="box-header">
-        <h1 class="box-title">Add a new meeting <small>{{Helpers::getSetting('circuit_name')}} Circuit</small></h1>
+    @include('connexion::shared.errors')    
+    {!! Form::open(['route' => array('admin.meetings.store'), 'method' => 'post']) !!}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary"> 
+                <div class="box-body">
+                    @include('connexion::meetings.partials.create-fields')
+                </div>
+                <div class="box-footer">
+                    {{Form::pgButtons('Create',route('admin.meetings.index')) }}
+                </div>
+            </div>
+        </div>
     </div>
-    {!! Form::open(array('route' => array('meetings.store'), 'class' => 'form-horizontal', 'role' => 'form')) !!}
-    @include('meetings.form', array('is_new'=>true))
-    <div class="box-footer">
-        {!! Form::submit('Add meeting', array('class'=>'btn btn-danger')) !!} <a href="{{url('/meetings')}}" class="btn btn-danger">Cancel</a>
-    </div>
-</div>
-{!! Form::close() !!}
+    {!! Form::close() !!}
+@stop
 
+@section('js')
+    <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $('.selectize').selectize({
+              plugins: ['remove_button'],
+              openOnFocus: 0
+            });
+            $('#meetingdatetime').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });
+        });
+    </script>
 @stop

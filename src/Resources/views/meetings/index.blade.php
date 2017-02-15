@@ -1,20 +1,50 @@
-@extends('app')
+@extends('adminlte::page')
 
 @section('content')
-<div class="box box-default">
-    <div class="box-header">
-        <h1>{{$year}} Circuit Meetings <small>{{Helpers::getSetting('circuit_name')}} Circuit</small> <a href="{{url('/')}}/meetings/create" class="btn btn-danger">Add new meeting</a></h1>
-        <a href="{{url('/')}}/meetings/{{$year-1}}" class="btn btn-danger">{{$year-1}}</a> <a href="{{url('/')}}/meetings/{{$year+1}}" class="btn btn-danger">{{$year+1}}</a>
+@include('connexion::shared.errors') 
+    <div class="container-fluid spark-screen">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-6"><h4>Meetings</h4></div>
+                            <div class="col-md-6"><a href="{{route('admin.meetings.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new meeting</a></div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Meeting</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Meeting</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                @forelse ($meetings as $meeting)
+                                    <tr>
+                                        <td></td>{{date("d M Y G:i",$meeting->meetingdatetime)}}</tr><td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{$meeting->description}}</a></td>
+                                    </tr>
+                                @empty
+                                    <tr><td>No meetings have been added yet</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="box-body">
-        <table class="table-condensed table-striped">
-            @if (isset($meetings))
-                @foreach ($meetings as $meeting)
-                    <tr><td>{{date("d M Y G:i",$meeting->meetingdatetime)}}</td><td><a href="{{url('/')}}/meetings/{{$meeting->id}}/edit">{{$meeting->description}}</a></td></tr>
-                @endforeach
-            @else
-                <tr><td>No meetings have been set up for {{$year}}</td></tr>
-            @endif
-        </table>
-    </div>
-@stop
+@endsection
+
+@section('js')
+<script language="javascript">
+$(document).ready(function() {
+        $('#indexTable').DataTable();
+    } );
+</script>
+@endsection

@@ -2,123 +2,64 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use Illuminate\Http\Request, Bishopm\Connexion\Models\Society, Helpers;
-use Bishopm\Connexion\Http\Requests\MeetingsRequest, Bishopm\Connexion\Models\Meeting;
-use Bishopm\Connexion\Http\Controllers\Controller, Redirect, Auth;
+use Bishopm\Connexion\Repositories\MeetingsRepository;
+use Bishopm\Connexion\Repositories\SocietiesRepository;
+use Bishopm\Connexion\Models\Meeting;
+use App\Http\Controllers\Controller;
+use Bishopm\Connexion\Http\Requests\CreateMeetingRequest;
+use Bishopm\Connexion\Http\Requests\UpdateMeetingRequest;
 
-class MeetingsController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index($year="")
+class MeetingsController extends Controller {
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+
+	private $meeting,$societies;
+
+	public function __construct(MeetingsRepository $meeting, SocietiesRepository $societies)
     {
-        if (in_array(Auth::user()->individual_id,explode(',',Helpers::getSetting('site_editors')))){
-            if ($year==""){
-                $year=date("Y");
-            }
-            $meetings=Meeting::orderBy('meetingdatetime','DESC')->get();
-            $data['year']=$year;
-            if ($year){
-                foreach ($meetings as $meeting){
-                    if (date("Y",$meeting->meetingdatetime)==$year){
-                        $data['meetings'][]=$meeting;
-                    }
-                }
-            } else {
-                $data['meetings']=$meetings;
-            }
-            return view('meetings.index',$data);
-        } else {
-            return view("shared.unauthorised");
-        }
+        $this->meeting = $meeting;
+        $this->societies = $societies;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+	public function index()
+	{
+        $meetings = $this->meeting->all();
+   		return view('connexion::meetings.index',compact('meetings'));
+	}
+
+	public function edit(Meeting $meeting)
+    {
+        return view('connexion::meetings.edit', compact('meeting'));
+    }
+
     public function create()
     {
-        if (in_array(Auth::user()->individual_id,explode(',',Helpers::getSetting('site_editors')))){
-            $data['societies']=Society::orderBy('society')->get();
-            return view('meetings.create',$data);
-        } else {
-            return view("shared.unauthorised");
-        }
+        $societies = $this->societies->all();
+        return view('connexion::meetings.create',compact('societies'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(MeetingsRequest $request)
+	public function show(Meeting $meeting)
+	{
+        $data['meeting']=$meeting;
+        return view('connexion::meetings.show',$data);
+	}
+
+    public function store(CreateMeetingRequest $request)
     {
-       $meeting=Meeting::create($request->except('circuitname','meetingdatetime'));
-       $meeting->meetingdatetime=strtotime($request->input('meetingdatetime'));
-       $meeting->save();
-       return Redirect::route('meetings.index')->with('okmessage','New meeting has been added');
+        $this->meeting->create($request->all());
 
+        return redirect()->route('admin.meetings.index')
+            ->withSuccess('New meeting added');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+	
+    public function update(Meeting $meeting, UpdateMeetingRequest $request)
     {
-        //
+        $this->meeting->update($meeting, $request->all());
+        return redirect()->route('admin.meetings.index')->withSuccess('Meeting has been updated');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        if (in_array(Auth::user()->individual_id,explode(',',Helpers::getSetting('site_editors')))){
-            $data['meeting']=Meeting::find($id);
-            $data['meetingdatetime']=date("Y-m-d H:i",$data['meeting']->meetingdatetime);
-            $data['societies']=Society::all();
-            return view('meetings.edit',$data);
-        } else {
-            return view("shared.unauthorised");
-        }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(MeetingsRequest $request, $id)
-    {
-       $meeting=Meeting::find($id);
-       $meeting=$meeting->fill($request->except('meetingdatetime'));
-       $meeting->meetingdatetime=strtotime($request->input('meetingdatetime'));
-       $meeting->save();
-       return Redirect::route('meetings.index')->with('okmessage','Data updated');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
