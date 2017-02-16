@@ -47,7 +47,9 @@ class WeekdaysController extends Controller {
 
     public function store(CreateWeekdayRequest $request)
     {
-        $this->weekday->create($request->all());
+        $data=$request->all();
+        $data['servicedate']=strtotime($data['servicedate']);
+        $this->weekday->create($data);
 
         return redirect()->route('admin.weekdays.index')
             ->withSuccess('New weekday added');

@@ -8,31 +8,32 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-6"><h4>Meetings</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.meetings.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new meeting</a></div>
+                            <div class="col-md-6"><h4>Midweek services</h4></div>
+                            <div class="col-md-6"><a href="{{route('admin.weekdays.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new service</a></div>
                         </div>
                     </div>
                     <div class="panel-body">
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Date and Time</th><th>Meeting</th><th>Venue</th>
+                                    <th>Date</th>
+                                    <th>Midweek service</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Date and Time</th><th>Meeting</th><th>Venue</th>
+                                    <th>Date</th>
+                                    <th>Midweek service</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                @forelse ($meetings as $meeting)
+                                @forelse ($weekdays as $weekday)
                                     <tr>
-                                        <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{date("d M Y G:i",strtotime($meeting->meetingdatetime))}}</a></td>
-                                        <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{$meeting->description}}</a></td>
-                                        <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{$meeting->society->society}}</a></td>
+                                        <td><a href="{{route('admin.weekdays.edit',$weekday->id)}}">{{date("d F Y",$weekday->servicedate)}}</a></td>
+                                        <td><a href="{{route('admin.weekdays.edit',$weekday->id)}}">{{$weekday->description}}</a></td>
                                     </tr>
                                 @empty
-                                    <tr><td>No meetings have been added yet</td></tr>
+                                    <tr><td>No midweek services have been added yet</td></tr>
                                 @endforelse
                             </tbody>
                         </table>
