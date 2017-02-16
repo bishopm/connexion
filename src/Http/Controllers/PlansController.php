@@ -3,12 +3,20 @@
 namespace Bishopm\Connexion\Http\Controllers;
 use Illuminate\Database\Eloquent\ModelNotFoundException, Bishopm\Connexion\Models\Individual;
 use Illuminate\Http\Request, Bishopm\Connexion\Models\Plan, Bishopm\Connexion\Models\Society, Bishopm\Connexion\Models\Meeting, Auth;
-use Bishopm\Connexion\Models\Preacher, Bishopm\Connexion\Models\Service;
-use Bishopm\Connexion\Http\Requests\PlansRequest, Helpers, Redirect, View, Fpdf, Bishopm\Connexion\Models\Weekday;
-use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Tag;
+use Bishopm\Connexion\Models\Preacher, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Libraries\Fpdf\Fpdf;
+use Bishopm\Connexion\Http\Requests\PlansRequest, Helpers, Redirect, View, Bishopm\Connexion\Models\Weekday;
+use App\Http\Controllers\Controller, Bishopm\Connexion\Repositories\SettingsRepository;
 
 class PlansController extends Controller
 {
+
+    private $settings;
+
+    public function __construct(SettingsRepository $settings)
+    {
+        $this->settings=$settings->makearray();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -78,9 +86,7 @@ class PlansController extends Controller
         $dum['dd']=intval(date("j",$lastSunday));
         $sundays[]=$dum;
         $data['societies']=Society::orderBy('society')->with('services')->get();
-        $data['ministers']=Minister::has('individual')->get();
-        $data['preachers']=Preacher::has('individual')->get();
-        $data['guests']=Guest::where('active','=',1)->get();
+        $data['preachers']=Preacher::all();
         while (date($lastSunday+604800<=$lastDay)) {
           $lastSunday=$lastSunday+604800;
           $dum['dt']=$lastSunday;
@@ -116,7 +122,7 @@ class PlansController extends Controller
               if ($p1->preachable_type=="Bishopm\Connexion\Models\Guest"){
                   @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['pname']=substr($p1->preachable->firstname,0,1) . " " . $p1->preachable->surname;
               } else {
-                  @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['pname']=substr($p1->preachable->individual->firstname,0,1) . " " . $p1->preachable->individual->surname;
+                  @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['pname']=substr($p1->preachable->firstname,0,1) . " " . $p1->preachable->surname;
               }
             } else {
               @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['preacher']="";
@@ -138,7 +144,7 @@ class PlansController extends Controller
               if ($p2->preachable_type=="Bishopm\Connexion\Models\Guest"){
                   @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['pname']=substr($p2->preachable->firstname,0,1) . " " . $p2->preachable->surname;
               } else {
-                  @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['pname']=substr($p2->preachable->individual->firstname,0,1) . " " . $p2->preachable->individual->surname;
+                  @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['pname']=substr($p2->preachable->firstname,0,1) . " " . $p2->preachable->surname;
               }
             } else {
               @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['preacher']="";
@@ -160,7 +166,7 @@ class PlansController extends Controller
               if ($p3->preachable_type=="Bishopm\Connexion\Models\Guest"){
                   @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['pname']=substr($p3->preachable->firstname,0,1) . " " . $p3->preachable->surname;
               } else {
-                  @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['pname']=substr($p3->preachable->individual->firstname,0,1) . " " . $p3->preachable->individual->surname;
+                  @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['pname']=substr($p3->preachable->firstname,0,1) . " " . $p3->preachable->surname;
               }
             } else {
               @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['preacher']="";
@@ -172,7 +178,7 @@ class PlansController extends Controller
               @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['tag']="";
             }
         }
-        $data['tags']=Tag::orderBy('abbr')->get();
+        $data['tags']=[''];//Tag::orderBy('abbr')->get();
         if ($qq==1){
           $data['prev']="plan/" . strval($yy-1) . "/4";
         } else {
@@ -186,19 +192,19 @@ class PlansController extends Controller
         if ($aa=="edit"){
           return View::make('plans.edit',$data);
         } else {
-          $data['pb']=Helpers::getSetting('presiding_bishop');
+          $data['pb']=$this->settings['presiding_bishop'];
           if (!$data['pb']){
             return view('errors.errors')->with('errormessage','Before you can view the plan, please enter the name of the Presiding Bishop');
           }
-          $data['gs']=Helpers::getSetting('general_secretary');
+          $data['gs']=$this->settings['general_secretary'];
           if (!$data['gs']){
             return view('errors.errors')->with('errormessage','Before you can view the plan, please enter the name of the General Secretary');
           }
-          $data['db']=Helpers::getSetting('district_bishop');
+          $data['db']=$this->settings['district_bishop'];
           if (!$data['db']){
             return view('errors.errors')->with('errormessage','Before you can view the plan, please enter the name of the District Bishop');
           }
-          $data['super']=Individual::find(Helpers::getSetting('superintendent'));
+          $data['super']=$this->settings['superintendent'];
           if (!$data['super']){
             return view('errors.errors')->with('errormessage','Before you can view the plan, please specify who the Circuit Superintendent is');
           }
@@ -209,7 +215,7 @@ class PlansController extends Controller
     public function report($dat){
       $pdf = new Fpdf();
       $pdf->AddPage('L');
-      $logopath=base_path() . '/public/images/logo.jpg';
+      $logopath=base_path() . '/public/vendor/bishopm/images/mcsa.jpg';
       $pdf->SetAutoPageBreak(true,0);
       $pdf->SetFont('Arial','',9);
       $num_ser=0;
@@ -234,7 +240,7 @@ class PlansController extends Controller
       $pdf->Image($logopath,5,5,0,21);
       $pdf->SetFillColor(0,0,0);
       $pdf->SetFont('Arial','B',14);
-      $pdf->text($left_side+$soc_width,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper(Helpers::getSetting('circuit_name')) . " CIRCUIT " . Helpers::getSetting('circuit_number'));
+      $pdf->text($left_side+$soc_width,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($this->settings['circuit_name']) . " CIRCUIT " . $this->settings['circuit_number']);
       $pdf->text($left_side+$soc_width,17,"PREACHING PLAN: " . strtoupper(date("F Y",$dat['sundays'][0]['dt'])) . " - " . strtoupper(date("F Y",$dat['sundays'][count($dat['sundays'])-1]['dt'])));
 	  foreach ($dat['societies'] as $soc){
         $firstserv=true;
@@ -322,31 +328,24 @@ class PlansController extends Controller
       $pdf->Image($logopath,10,5,0,21);
       $pdf->SetFillColor(0,0,0);
       $pdf->SetFont('Arial','B',14);
-      $pdf->text($left_side+$soc_width+8,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper(Helpers::getSetting('circuit_name')) . " CIRCUIT " . Helpers::getSetting('circuit_number'));
+      $pdf->text($left_side+$soc_width+8,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . $this->settings['circuit_name'] . " CIRCUIT " . $this->settings['circuit_number']);
       $pdf->text($left_side+$soc_width+8,17,"PREACHING PLAN: " . strtoupper(date("F Y",$dat['sundays'][0]['dt'])) . " - " . strtoupper(date("F Y",$dat['sundays'][count($dat['sundays'])-1]['dt'])));
       $pfin=array();
       foreach($dat['preachers'] as $preacher1){
         $dum=array();
         $thissoc=Society::find($preacher1->society_id)->society;
-        $dum['name']=$preacher1->individual->title . " " . $preacher1->individual->firstname . " " . $preacher1->individual->surname;
+        $dum['name']=$preacher1->title . " " . $preacher1->firstname . " " . $preacher1->surname;
         if ($preacher1->emeritus){
           $dum['name'] = $dum['name'] . "*";
         }
         $dum['soc']=$preacher1->society_id;
-        if ($preacher1->individual->cellphone==""){
-            $dum['cellphone']=$preacher1->individual->officephone;
-        } else {
-            $dum['cellphone']=$preacher1->individual->cellphone;
-        }
+        $dum['cellphone']=$preacher1->phone;
         $dum['fullplan']=$preacher1->fullplan;
         if ($dum['fullplan']=="Trial"){
-            $vdum['9999' . $preacher1->individual->surname . $preacher1->individual->firstname]=$dum;
+            $vdum['9999' . $preacher1->surname . $preacher1->firstname]=$dum;
         } else {
-            $vdum[$preacher1->fullplan . $preacher1->individual->surname . $preacher1->individual->firstname]=$dum;
+            $vdum[$preacher1->fullplan . $preacher1->surname . $preacher1->firstname]=$dum;
         }
-      }
-      foreach($dat['guests'] as $guest1){
-        $dum['name']=$guest1->title . " " . $guest1->firstname . " " . $guest1->surname;
       }
       ksort($vdum);
       foreach ($vdum as $vd){
@@ -365,14 +364,14 @@ class PlansController extends Controller
       $y=$y+4;
       $pdf->text($left_side+$spacer,$y,"District Bishop: " . $dat['db']);
       $y=$y+4;
-      $pdf->text($left_side+$spacer,$y,"Superintendent: " . $dat['super']->title . " " . $dat['super']->firstname . " " . $dat['super']->surname);
+      $pdf->text($left_side+$spacer,$y,"Superintendent: " . $dat['super']);
       $y=$y+6;
       $pdf->SetFont('Arial','B',11);
       $pdf->text($left_side+$spacer,$y,"Circuit Ministers");
       $y=$y+4;
       $pdf->SetFont('Arial','',8);
-      foreach ($dat['ministers'] as $minister){
-          $mins[$minister->individual->surname . $minister->individual->firstname]['name']=$minister->individual->title . " " . $minister->individual->firstname . " " . $minister->individual->surname . " (" . $minister->individual->cellphone . ")";
+      /*foreach ($dat['ministers'] as $minister){
+          $mins[$minister->surname . $minister->firstname]['name']=$minister->title . " " . $minister->firstname . " " . $minister->surname . " (" . $minister->cellphone . ")";
       }
       ksort($mins);
       foreach ($mins as $min){
@@ -421,7 +420,7 @@ class PlansController extends Controller
           $pdf->SetFont('Arial','',8);
           $fn=Individual::find($csecretary);
           $pdf->text($left_side+$spacer,$y,"Secretary: " . $fn->title . " " . $fn->firstname . " " . $fn->surname);
-      }
+      }*/
       $y=$y+6;
       if (count($dat['meetings'])){
         $pdf->SetFont('Arial','B',11);
@@ -445,7 +444,7 @@ class PlansController extends Controller
       $y=30;
       $pdf->SetFont('Arial','B',11);
       $pdf->text($x,$y,"Local Preachers");
-      $supervisor=Helpers::getSetting('supervisor_of_studies');
+/*      $supervisor=Helpers::getSetting('supervisor_of_studies');
       if ($supervisor){
           $y=$y+4;
           $pdf->SetFont('Arial','',8);
@@ -458,7 +457,7 @@ class PlansController extends Controller
           $pdf->SetFont('Arial','',8);
           $fn=Individual::find($lpsec);
           $pdf->text($x,$y,"Local Preachers Secretary: " . $fn->title . " " . $fn->firstname . " " . $fn->surname);
-      }
+      }*/
       $y=$y+4;
       $ythresh=200;
       ksort($pfin);
