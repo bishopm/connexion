@@ -235,6 +235,9 @@ class PlansController extends Controller
       $y=$header;
       $x=$left_edge;
       $y_add=($pg_height-$header-3*($num_ser-$num_soc))/$num_ser;
+      if ($y_add>16){
+        $y_add=16;
+      }
       $x_add=($pg_width-5-$left_edge)/$num_sun;
       $toprow=true;
       $pdf->Image($logopath,5,5,0,21);
@@ -341,10 +344,14 @@ class PlansController extends Controller
         $dum['soc']=$preacher1->society_id;
         $dum['cellphone']=$preacher1->phone;
         $dum['fullplan']=$preacher1->fullplan;
+        $dum['status']=$preacher1->status;
         if ($dum['fullplan']=="Trial"){
             $vdum['9999' . $preacher1->surname . $preacher1->firstname]=$dum;
         } else {
             $vdum[$preacher1->fullplan . $preacher1->surname . $preacher1->firstname]=$dum;
+        }
+        if ($dum['status']=="Minister"){
+          $mins[]=$dum;
         }
       }
       ksort($vdum);
@@ -370,15 +377,13 @@ class PlansController extends Controller
       $pdf->text($left_side+$spacer,$y,"Circuit Ministers");
       $y=$y+4;
       $pdf->SetFont('Arial','',8);
-      /*foreach ($dat['ministers'] as $minister){
-          $mins[$minister->surname . $minister->firstname]['name']=$minister->title . " " . $minister->firstname . " " . $minister->surname . " (" . $minister->cellphone . ")";
-      }
       ksort($mins);
       foreach ($mins as $min){
-          $pdf->text($left_side+$spacer,$y,$min['name']);
+          $pdf->text($left_side+$spacer,$y,$min['name'] . " (" . $min['cellphone'] . ")");
           $y=$y+4;
       }
       $y=$y+2;
+      /*
       $pdf->SetFont('Arial','',8);
       $officers=explode(',',Helpers::getSetting('circuit_stewards'));
       $subhead="";
@@ -480,9 +485,11 @@ class PlansController extends Controller
             $y=30;
           }
           $pre['name']=utf8_decode($pre['name']);
-          $pdf->text($x+2,$y,$pre['fullplan']);
-          $pdf->text($x+10,$y,$pre['name'] . " (" . $pre['cellphone'] . ")");
-          $y=$y+4;
+          if (($pre['status']=="Local preacher") or ($pre['status']=="On trial preacher")){
+            $pdf->text($x+2,$y,$pre['fullplan']);
+            $pdf->text($x+10,$y,$pre['name'] . " (" . $pre['cellphone'] . ")");
+            $y=$y+4;
+          }
         }
       }
       $pdf->SetFont('Arial','',8);
