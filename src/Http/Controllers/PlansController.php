@@ -72,7 +72,6 @@ class PlansController extends Controller
             $m3=$m3-12;
             $y3=$y3+1;
         }
-        $aa="view";
         $firstDateTime=mktime(0, 0, 0, $m1, 1, $y1);
         $firstDay=date("N", $firstDateTime);
         $firstSunday=date("d M Y",mktime(0, 0, 0, $m1, 8-$firstDay, $y1));
@@ -190,7 +189,7 @@ class PlansController extends Controller
           $data['next']="plan/$yy/" . strval($qq+1);
         }
         if ($aa=="edit"){
-          return View::make('plans.edit',$data);
+          return View::make('connexion::plans.edit',$data);
         } else {
           $data['pb']=$this->settings['presiding_bishop'];
           if (!$data['pb']){
