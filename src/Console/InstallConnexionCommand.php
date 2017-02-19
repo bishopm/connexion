@@ -182,5 +182,41 @@ class InstallConnexionCommand extends Command
             'description' => 'Collects names of preachers and circuit ministers and includes the quarterly preaching plan',
             'category' => 'modules'
         ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'presiding_bishop',
+            'setting_value' => '',
+            'description' => 'Presiding Bishop name',
+            'category' => 'circuit'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'general_secretary',
+            'setting_value' => '',
+            'description' => 'General Secretary name',
+            'category' => 'circuit'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'district_bishop',
+            'setting_value' => '',
+            'description' => 'District Bishop name',
+            'category' => 'circuit'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'superintendent',
+            'setting_value' => '',
+            'description' => 'Superintendent name',
+            'category' => 'circuit'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'circuit_name',
+            'setting_value' => '',
+            'description' => 'Circuit name',
+            'category' => 'circuit'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'circuit_number',
+            'setting_value' => '',
+            'description' => 'Circuit number',
+            'category' => 'circuit'
+        ]);
     }
 }
