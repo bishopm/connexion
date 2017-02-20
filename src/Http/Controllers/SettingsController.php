@@ -25,7 +25,11 @@ class SettingsController extends Controller {
 
     public function index()
     {
-        $settings = $this->setting->allsettings();
+        $allset = $this->setting->allsettings();
+        foreach ($allset as $setting){
+            $settings[$setting['category']][]=$setting;
+        }
+        ksort($settings);
         return view('connexion::settings.index',compact('settings'));
     }
 

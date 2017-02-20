@@ -1,7 +1,9 @@
 @extends('adminlte::page')
 
 @section('content')
+<div class="container-fluid">
 @include('connexion::shared.errors') 
+</div>
     <div class="container-fluid spark-screen">
         <div class="row">
             <div class="col-md-12">
@@ -13,54 +15,60 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <table id="indexTable" class="display" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Setting</th>
-                                    <th>Value</th>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Setting</th>
-                                    <th>Value</th>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                @forelse ($settings as $setting)
+                        <ul class="nav nav-tabs" role="tablist">
+                            @foreach ($settings as $tab=>$tabset)
+                                @if ($loop->first)
+                                    <li role="presentation" class="active">
+                                @else
+                                    <li role="presentation">
+                                @endif
+                                <a href="#tab_{{$loop->index}}" aria-controls="home" role="tab" data-toggle="tab">{{ucfirst($tab)}}</a></li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content">
+                            @foreach ($settings as $category=>$setting)
+                                @if ($loop->first)
+                                    <div role="tabpanel" class="tab-pane active" id="tab_{{$loop->index}}">
+                                @else
+                                    <div role="tabpanel" class="tab-pane" id="tab_{{$loop->index}}">
+                                @endif
+                                <table class="table table-responsive table-striped">
+                                    <colgroup>
+                                        <col class="col-md-3">
+                                        <col class="col-md-3">
+                                        <col class="col-md-6">
+                                    </colgroup>
                                     <tr>
-                                        <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{ucfirst(str_replace("_"," ",$setting->setting_key))}}</a></td>
-                                        <td>
-                                            <a href="{{route('admin.settings.edit',$setting->id)}}">
-                                            @if (!strpos($setting->setting_key,'password'))
-                                                {{$setting->setting_value}}</a>
-                                            @else
-                                                Password hidden
-                                            @endif
-                                        </td>
-                                        <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->description}}</a></td>
-                                        <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->category}}</a></td>
+                                        <th>
+                                            Setting
+                                        </th>
+                                        <th>
+                                            Value
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
                                     </tr>
-                                @empty
-                                    <tr><td>No settings have been added yet</td></tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                    @foreach ($setting as $sett)
+                                        <tr>
+                                            <td>
+                                                <a href="{{route('admin.settings.edit',$sett->id)}}">{{ucwords(str_replace("_"," ",$sett->setting_key))}}</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{route('admin.settings.edit',$sett->id)}}">{{$sett->setting_value}}</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{route('admin.settings.edit',$sett->id)}}">{{$sett->description}}</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
-@section('js')
-<script language="javascript">
-$(document).ready(function() {
-    $('#indexTable').DataTable();
-} );
-</script>
-@endsection 

@@ -27,7 +27,7 @@
                             <tbody>
                                 @forelse ($meetings as $meeting)
                                     <tr>
-                                        <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{date("d M Y G:i",strtotime($meeting->meetingdatetime))}}</a></td>
+                                        <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{date("d-M-Y h:i",$meeting->meetingdatetime)}}</a></td>
                                         <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{$meeting->description}}</a></td>
                                         <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{$meeting->society->society}}</a></td>
                                     </tr>

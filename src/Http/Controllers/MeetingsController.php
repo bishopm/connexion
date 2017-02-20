@@ -50,7 +50,9 @@ class MeetingsController extends Controller {
 
     public function store(CreateMeetingRequest $request)
     {
-        $this->meeting->create($request->all());
+        $data=$request->all();
+        $data['meetingdatetime']=strtotime($data['meetingdatetime']);
+        $this->meeting->create($data);
 
         return redirect()->route('admin.meetings.index')
             ->withSuccess('New meeting added');
@@ -58,7 +60,9 @@ class MeetingsController extends Controller {
 	
     public function update(Meeting $meeting, UpdateMeetingRequest $request)
     {
-        $this->meeting->update($meeting, $request->all());
+        $data=$request->all();
+        $data['meetingdatetime']=strtotime($data['meetingdatetime']);
+        $this->meeting->update($meeting,$data);
         return redirect()->route('admin.meetings.index')->withSuccess('Meeting has been updated');
     }
 

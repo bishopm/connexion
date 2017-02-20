@@ -57,7 +57,9 @@ class WeekdaysController extends Controller {
 	
     public function update(Weekday $weekday, UpdateWeekdayRequest $request)
     {
-        $this->weekday->update($weekday, $request->all());
+        $data=$request->all();
+        $data['servicedate']=strtotime($data['servicedate']);
+        $this->weekday->update($weekday,$data);
         return redirect()->route('admin.weekdays.index')->withSuccess('Weekday has been updated');
     }
 

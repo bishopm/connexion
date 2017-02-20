@@ -20,6 +20,7 @@ class CreatePlanTable extends Migration
           $table->integer('planmonth')->nullable();
           $table->integer('planday')->nullable();
           $table->integer('preacher_id')->nullable();
+          $table->string('servicetype')->nullable();
           $table->nullableTimestamps();
       });
     }

@@ -11,7 +11,7 @@ class SettingsRepository extends EloquentBaseRepository
 
     public function allsettings()
     {
-        return $this->model->where('category','<>','modules')->get();
+        return $this->model->where('category','<>','modules')->orderBy('setting_key')->get();
     }
 
     public function allmodules()

@@ -1,7 +1,11 @@
 @extends('adminlte::page')
 
+@section('content_header')
+{{ Form::pgHeader('Edit setting','Settings',route('admin.settings.index')) }}
+@endsection
+
 @section('content')
-    {{ Form::pgHeader('Edit setting','Settings',route('admin.settings.index')) }}
+    
     @include('connexion::shared.errors')    
     {!! Form::open(['route' => ['admin.settings.update',$setting->id], 'method' => 'put']) !!}
     <div class="row">

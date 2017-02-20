@@ -85,7 +85,9 @@ class PlansController extends Controller
         $dum['dd']=intval(date("j",$lastSunday));
         $sundays[]=$dum;
         $data['societies']=Society::orderBy('society')->with('services')->get();
-        $data['preachers']=Preacher::all();
+        $data['preachers']=Preacher::where('status','=','Local preacher')->orWhere('status','=','On trial preacher')->get();
+        $data['ministers']=Preacher::where('status','=','Minister')->get();
+        $data['guests']=Preacher::where('status','=','Guest')->get();
         while (date($lastSunday+604800<=$lastDay)) {
           $lastSunday=$lastSunday+604800;
           $dum['dt']=$lastSunday;
@@ -116,19 +118,21 @@ class PlansController extends Controller
         foreach ($pm1 as $p1){
             $soc=Society::find($p1->society_id)->society;
             $ser=Service::find($p1->service_id)->servicetime;
-            if ($p1->preachable){
-              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['preacher']=substr($p1->preachable_type,11,1) . "_" . $p1->preachable->id;
-              if ($p1->preachable_type=="Bishopm\Connexion\Models\Guest"){
-                  @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['pname']=substr($p1->preachable->firstname,0,1) . " " . $p1->preachable->surname;
-              } else {
-                  @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['pname']=substr($p1->preachable->firstname,0,1) . " " . $p1->preachable->surname;
-              }
+            if ($p1->preacher->status=="Minister"){
+              $p1typ="M_";
+            } elseif ($p1->preacher->status=="Guest"){
+              $p1typ="G_";
+            } else {
+              $p1typ="P_";
+            }
+            if ($p1->preacher_id){
+              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['preacher']=$p1typ . $p1->preacher->id;
+              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['pname']=substr($p1->preacher->firstname,0,1) . " " . $p1->preacher->surname;
             } else {
               @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['preacher']="";
             }
-            if ($p1->tag_id){
-              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['tag']=$p1->tag_id;
-              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['tname']=Tag::find($p1->tag_id)->abbr;
+            if ($p1->servicetype){
+              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['tname']=$p1->servicetype;
             } else {
               @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['tag']="";
             }
@@ -138,19 +142,21 @@ class PlansController extends Controller
         foreach ($pm2 as $p2){
             $soc=Society::find($p2->society_id)->society;
             $ser=Service::find($p2->service_id)->servicetime;
-            if ($p2->preachable){
-              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['preacher']=substr($p2->preachable_type,11,1) . "_" . $p2->preachable->id;
-              if ($p2->preachable_type=="Bishopm\Connexion\Models\Guest"){
-                  @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['pname']=substr($p2->preachable->firstname,0,1) . " " . $p2->preachable->surname;
-              } else {
-                  @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['pname']=substr($p2->preachable->firstname,0,1) . " " . $p2->preachable->surname;
-              }
+            if ($p2->preacher->status=="Minister"){
+              $p2typ="M_";
+            } elseif ($p2->preacher->status=="Guest"){
+              $p2typ="G_";
+            } else {
+              $p2typ="P_";
+            }
+            if ($p2->preacher_id){
+              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['preacher']=$p2typ . $p2->preacher->id;
+              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['pname']=substr($p2->preacher->firstname,0,1) . " " . $p2->preacher->surname;
             } else {
               @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['preacher']="";
             }
-            if ($p2->tag_id){
-              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['tag']=$p2->tag_id;
-              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['tname']=Tag::find($p2->tag_id)->abbr;
+            if ($p2->servicetype){
+              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['tname']=$p2->servicetype;
             } else {
               @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['tag']="";
             }
@@ -160,24 +166,27 @@ class PlansController extends Controller
         foreach ($pm3 as $p3){
             $soc=Society::find($p3->society_id)->society;
             $ser=Service::find($p3->service_id)->servicetime;
-            if ($p3->preachable){
-              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['preacher']=substr($p3->preachable_type,11,1) . "_" . $p3->preachable->id;
-              if ($p3->preachable_type=="Bishopm\Connexion\Models\Guest"){
-                  @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['pname']=substr($p3->preachable->firstname,0,1) . " " . $p3->preachable->surname;
-              } else {
-                  @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['pname']=substr($p3->preachable->firstname,0,1) . " " . $p3->preachable->surname;
-              }
+            if ($p3->preacher->status=="Minister"){
+              $p3typ="M_";
+            } elseif ($p3->preacher->status=="Guest"){
+              $p3typ="G_";
+            } else {
+              $p3typ="P_";
+            }
+            if ($p3->preacher_id){
+              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['preacher']=$p3typ . $p3->preacher->id;
+              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['pname']=substr($p3->preacher->firstname,0,1) . " " . $p3->preacher->surname;
             } else {
               @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['preacher']="";
             }
-            if ($p3->tag_id){
-              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['tag']=$p3->tag_id;
-              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['tname']=Tag::find($p3->tag_id)->abbr;
+            if ($p3->servicetype){
+              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['tname']=$p3->servicetype;
             } else {
               @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['tag']="";
             }
         }
-        $data['tags']=[''];//Tag::orderBy('abbr')->get();
+        
+        $data['tags']=array('COM','COV');
         if ($qq==1){
           $data['prev']="plan/" . strval($yy-1) . "/4";
         } else {
@@ -244,7 +253,7 @@ class PlansController extends Controller
       $pdf->SetFont('Arial','B',14);
       $pdf->text($left_side+$soc_width,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($this->settings['circuit_name']) . " CIRCUIT " . $this->settings['circuit_number']);
       $pdf->text($left_side+$soc_width,17,"PREACHING PLAN: " . strtoupper(date("F Y",$dat['sundays'][0]['dt'])) . " - " . strtoupper(date("F Y",$dat['sundays'][count($dat['sundays'])-1]['dt'])));
-	  foreach ($dat['societies'] as $soc){
+	    foreach ($dat['societies'] as $soc){
         $firstserv=true;
         foreach ($soc->services as $ser){
           if ($firstserv){
@@ -323,7 +332,7 @@ class PlansController extends Controller
       }
       $x2=$x;
       foreach ($dat['sundays'] as $sun2){
-          $pdf->line($x2,$header+8,$x2,$y+$y_add-2);
+          $pdf->line($x2,$header+$y_add-2,$x2,$y+$y_add-2);
           $x2=$x2+$x_add;
       }
       $pdf->AddPage('L');
@@ -349,9 +358,6 @@ class PlansController extends Controller
         } else {
             $vdum[$preacher1->fullplan . $preacher1->surname . $preacher1->firstname]=$dum;
         }
-        if ($dum['status']=="Minister"){
-          $mins[]=$dum;
-        }
       }
       ksort($vdum);
       foreach ($vdum as $vd){
@@ -376,9 +382,8 @@ class PlansController extends Controller
       $pdf->text($left_side+$spacer,$y,"Circuit Ministers");
       $y=$y+4;
       $pdf->SetFont('Arial','',8);
-      ksort($mins);
-      foreach ($mins as $min){
-          $pdf->text($left_side+$spacer,$y,$min['name'] . " (" . $min['cellphone'] . ")");
+      foreach ($dat['ministers'] as $min){
+          $pdf->text($left_side+$spacer,$y,$min->title . " " . substr($min->firstname,0,1) . " " . $min->surname . " (" . $min->phone . ")");
           $y=$y+4;
       }
       $y=$y+2;
@@ -424,8 +429,9 @@ class PlansController extends Controller
           $pdf->SetFont('Arial','',8);
           $fn=Individual::find($csecretary);
           $pdf->text($left_side+$spacer,$y,"Secretary: " . $fn->title . " " . $fn->firstname . " " . $fn->surname);
-      }*/
+      }
       $y=$y+6;
+      */
       if (count($dat['meetings'])){
         $pdf->SetFont('Arial','B',11);
         $pdf->text($left_side+$spacer,$y,"Circuit Meetings");
@@ -494,19 +500,7 @@ class PlansController extends Controller
       $pdf->SetFont('Arial','',8);
       $y=$y+4;
       $pdf->text($x+2,$y,"* Emeritus");
-      /*
-      $y=$y+8;
-      if (count($guest1)){
-          $pdf->SetFont('Arial','B',11);
-          $pdf->text($x,$y,"Guest Preachers");
-          $y=$y+2;
-          foreach ($guest1 as $guest){
-              $y=$y+4;
-              $pdf->text($x+10,$y,$guest['name'] . " (" . $guest['cellphone'] . ")");
-          }
-      }
-      */
-	  $pdf->Output();
+  	  $pdf->Output();
       exit;
     }
 
@@ -541,23 +535,14 @@ class PlansController extends Controller
           }
           if ($val){
             $pid=substr($val,2);
-            if (substr($val,0,1)=="M"){
-              $ptyp="Bishopm\Connexion\Models\Minister";
-            } elseif (substr($val,0,1)=="P") {
-              $ptyp="Bishopm\Connexion\Models\Preacher";
-            } else{
-              $ptyp="Bishopm\Connexion\Models\Guest";
-            }
           } else {
             $pid=null;
-            $ptyp=null;
           }
           $kk=array(explode('_',$key));
           $plan=Plan::where('society_id','=',$kk[0][1])->where('service_id','=',$kk[0][2])->where('planyear','=',$kk[0][3])->where('planmonth','=',$kk[0][4])->where('planday','=',$kk[0][5])->first();
           if (count($plan)){
-            $plan->tag_id=$tag;
-            $plan->preachable_id=$pid;
-            $plan->preachable_type=$ptyp;
+            $plan->servicetype=$tag;
+            $plan->preacher_id=$pid;
             if (($tag==null) and ($pid==null)){
               $plan->delete();
             } else {
@@ -565,12 +550,12 @@ class PlansController extends Controller
             }
           } else {
             if (($tag) or ($pid)){
-              $newplan=Plan::create(array('society_id'=>$kk[0][1], 'service_id'=>$kk[0][2], 'planyear'=>$kk[0][3], 'planmonth'=>$kk[0][4], 'planday'=>$kk[0][5], 'preachable_id'=>$pid, 'preachable_type'=>$ptyp, 'tag_id'=>$tag));
+              $newplan=Plan::create(array('society_id'=>$kk[0][1], 'service_id'=>$kk[0][2], 'planyear'=>$kk[0][3], 'planmonth'=>$kk[0][4], 'planday'=>$kk[0][5], 'preacher_id'=>$pid, 'servicetype'=>$tag));
             }
           }
         }
       }
-      return Redirect::back()->with('okmessage','Plan details have been updated');
+      return Redirect::back()->withSuccess('Plan details have been updated');
     }
 
     /**
