@@ -56,7 +56,7 @@
     @yield('content')
 </body>
 <!-- FOOTER -->
-<footer>
+<footer class="footer">
   <div class="text-center top30">5 Burnedale Place, Umhlali| <i class="fa fa-phone"></i> 032 947 0173 | <i class="fa fa-envelope-o"></i> {{ HTML::mailto('info@umc.org.za') }}</li></div>
 </footer>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

@@ -7085,6 +7085,11 @@ body {
   background-image: url("../images/bg.png");
 }
 
+.footer {
+  background-color:black;
+  color:white;
+}
+
 @media (min-width: 768px) {
   .navbar {
     margin-bottom:0px;
