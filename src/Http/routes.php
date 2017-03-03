@@ -10,7 +10,7 @@ Route::group(['middleware' => ['web','role:open']], function () {
 });
 
 Route::group(['middleware' => ['web','role:admin#editor#backend']], function () {
-
+	Route::get('/mychurch', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
 	// Dashboard
 	Route::get('admin',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
 

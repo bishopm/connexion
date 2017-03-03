@@ -11,6 +11,7 @@ use Bishopm\Connexion\Repositories\BlogsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\ActionsRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
+use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Models\Blog;
 use Bishopm\Connexion\Models\Sermon;
 use Spatie\GoogleCalendar\Event;
@@ -19,13 +20,14 @@ use Auth;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings;
+    private $page, $slides, $settings, $users;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users)
     {
         $this->page = $page;
         $this->slides = $slides;
         $this->settings = $settings;
+        $this->users = $users;
     }
 
     /**
@@ -104,6 +106,12 @@ class WebController extends Controller
         $sermons = Sermon::withTag($tag)->get();
         return view('connexion::site.subject',compact('blogs','sermons','tag'));
     }
+
+    public function mychurch()
+    {
+        $users=$this->users->all();
+        return view('connexion::site.mychurch',compact('users'));
+    }    
 
     public function uri($slug)
     {
