@@ -9,7 +9,7 @@ use Bishopm\Connexion\Models\Group;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateIndividualRequest;
 use Bishopm\Connexion\Http\Requests\UpdateIndividualRequest;
-use DB, MediaUploader;
+use DB, MediaUploader, Illuminate\Http\Request;
 
 class IndividualsController extends Controller {
 
@@ -109,4 +109,10 @@ class IndividualsController extends Controller {
         $indiv->untag($tag);
     }
 
+    public function checkEmail(Request $request)
+    {
+        $email = $request->email;
+        $individuals=$this->individual->forEmail($email);
+        return $individuals;
+    }    
 }

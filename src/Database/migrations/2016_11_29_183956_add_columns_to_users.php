@@ -21,6 +21,7 @@ class AddColumnsToUsers extends Migration
             $table->string('toodledo_refresh')->nullable();
             $table->string('google_calendar')->nullable();
             $table->string('calendar_colour')->nullable();
+            $table->string('bio')->nullable();
         });
         Schema::table('users', function($table) {
             $table->string('password')->nullable();
