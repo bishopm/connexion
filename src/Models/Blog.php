@@ -7,12 +7,14 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Cartalyst\Tags\TaggableTrait;
 use Cartalyst\Tags\TaggableInterface;
 use Plank\Mediable\Mediable;
+use Actuallymab\LaravelComment\Commentable;
 
 class Blog extends Model implements TaggableInterface
 {
     use Sluggable;
     use Mediable;
     use TaggableTrait;
+    use Commentable;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');

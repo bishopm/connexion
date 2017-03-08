@@ -306,6 +306,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Plank\Mediable\MediableServiceProvider');
         $this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
         $this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
+        $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
         AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
