@@ -32,6 +32,7 @@ class UsersController extends Controller {
 	public function edit(User $user)
     {
         $uroles= $user->roles()->get();
+        $data['userroles']=array();
         foreach ($uroles as $ur){
             $data['userroles'][]=$ur->id;
         }

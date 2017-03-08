@@ -2,7 +2,7 @@
 
 namespace Bishopm\Connexion\Http\Controllers\Auth;
 
-use App\User;
+use Bishopm\Connexion\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -63,7 +63,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'name' => $data['email'],
             'email' => $data['email'],
             'individual_id' => $data['individual_id'],
             'password' => bcrypt($data['password']),
