@@ -3,11 +3,13 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\BlogsRepository;
+use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Models\Blog;
 use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateBlogRequest;
 use Bishopm\Connexion\Http\Requests\UpdateBlogRequest;
+use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 
 class BlogsController extends Controller {
 
@@ -17,11 +19,12 @@ class BlogsController extends Controller {
 	 * @return Response
 	 */
 
-	private $blog;
+	private $blog,$user;
 
-	public function __construct(BlogsRepository $blog)
+	public function __construct(BlogsRepository $blog, UsersRepository $user)
     {
         $this->blog = $blog;
+        $this->user = $user;
         $this->bloggers = Individual::withTag('blogger')->get();
     }
 
@@ -80,6 +83,12 @@ class BlogsController extends Controller {
     {
         $bb=Blog::find($blog);
         $bb->untag($tag);
+    }
+
+    public function addcomment(Blog $blog, CreateCommentRequest $request)
+    {
+        $user=$this->user->find($request->user);
+        $user->comment($blog, $request->newcomment);
     }
 
 }

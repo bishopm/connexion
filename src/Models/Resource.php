@@ -12,6 +12,8 @@ class Resource extends Model
     use Commentable;
     
     protected $guarded = array('id');
+    protected $canBeRated = true;
+    protected $mustBeApproved = false;
 
     public function ratings(){
         return $this->hasMany('Bishopm\Connexion\Models\Rating');

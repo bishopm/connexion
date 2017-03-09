@@ -3,9 +3,11 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\SermonsRepository;
+use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Models\Sermon;
 use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
+use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use Bishopm\Connexion\Http\Requests\CreateSermonRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSermonRequest;
 
@@ -17,11 +19,12 @@ class SermonsController extends Controller {
 	 * @return Response
 	 */
 
-	private $sermon;
+	private $sermon,$user;
 
-	public function __construct(SermonsRepository $sermon)
+	public function __construct(SermonsRepository $sermon, UsersRepository $user)
     {
         $this->sermon = $sermon;
+        $this->user = $user;
     }
 
 	public function edit($series,Sermon $sermon)
@@ -57,6 +60,12 @@ class SermonsController extends Controller {
     {
         $this->sermon->update($sermon, $request->all());
         return redirect()->route('admin.series.show',$series)->withSuccess('Sermon has been updated');
+    }
+
+    public function addcomment($series, Sermon $sermon, CreateCommentRequest $request)
+    {
+        $user=$this->user->find($request->user);
+        $user->comment($sermon, $request->newcomment);
     }
 
 }

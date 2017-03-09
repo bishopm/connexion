@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Repositories\PagesRepository;
+use Bishopm\Connexion\Repositories\SeriesRepository;
 use Bishopm\Connexion\Repositories\SlidesRepository;
 use Bishopm\Connexion\Repositories\SermonsRepository;
 use Bishopm\Connexion\Repositories\BlogsRepository;
@@ -20,14 +21,16 @@ use Auth;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings, $users;
+    private $page, $slides, $settings, $users, $series, $sermon;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon)
     {
         $this->page = $page;
         $this->slides = $slides;
         $this->settings = $settings;
         $this->users = $users;
+        $this->series = $series;
+        $this->sermon = $sermon;
     }
 
     /**
@@ -105,6 +108,19 @@ class WebController extends Controller
         $blogs = Blog::withTag($tag)->get();
         $sermons = Sermon::withTag($tag)->get();
         return view('connexion::site.subject',compact('blogs','sermons','tag'));
+    }
+
+    public function webseries($series)
+    {
+        $series = $this->series->findBySlug($series);
+        return view('connexion::site.series',compact('series'));
+    }
+
+    public function websermon($series,$sermon)
+    {
+        $series = $this->series->findBySlug($series);
+        $sermon = $this->sermon->findBySlug($sermon);
+        return view('connexion::site.sermon',compact('series','sermon'));
     }
 
     public function mychurch()

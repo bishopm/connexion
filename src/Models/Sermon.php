@@ -14,7 +14,7 @@ class Sermon extends Model implements TaggableInterface
     use Commentable;
 
     protected $guarded = array('id');
-
+	protected $mustBeApproved = false;
 
     public function series(){
         return $this->belongsTo('Bishopm\Connexion\Models\Series');

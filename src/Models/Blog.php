@@ -18,6 +18,7 @@ class Blog extends Model implements TaggableInterface
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');
+    protected $mustBeApproved = false;
 
     public function sluggable()
     {
