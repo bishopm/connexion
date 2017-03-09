@@ -34,10 +34,10 @@
       <h4>Last Sunday</h4>
       @if ($sermon)
         @if (null!==$sermon->series->getMedia('image')->first())
-          <a href="{{route('webseries',$sermon->series->id)}}"><img class="top17" src="{{$sermon->series->getMedia('image')->first()->getUrl()}}"></a>
+          <a href="{{route('webseries',$sermon->series->slug)}}"><img class="top17" src="{{$sermon->series->getMedia('image')->first()->getUrl()}}"></a>
         @endif
         <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
-        <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: <a href="{{route('websermon',array($sermon->series->id,$sermon->id))}}">{{$sermon->sermon}}</a></div>
+        <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: <a href="{{route('websermon',array($sermon->series->slug,$sermon->slug))}}">{{$sermon->sermon}}</a></div>
         <div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
       @else
         No sermons have been added yet
