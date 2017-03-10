@@ -21,9 +21,9 @@ use Auth;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings, $users, $series, $sermon;
+    private $page, $slides, $settings, $users, $series, $sermon, $individual;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual)
     {
         $this->page = $page;
         $this->slides = $slides;
@@ -31,6 +31,7 @@ class WebController extends Controller
         $this->users = $users;
         $this->series = $series;
         $this->sermon = $sermon;
+        $this->individual = $individual;
     }
 
     /**
@@ -122,6 +123,13 @@ class WebController extends Controller
         $sermon = $this->sermon->findBySlug($sermon);
         return view('connexion::site.sermon',compact('series','sermon'));
     }
+
+    public function webuser($slug)
+    {
+        $individual = $this->individual->findBySlug($slug);
+        $user = $this->users->getuserbyindiv($individual->id);
+        return view('connexion::site.user',compact('user'));
+    }    
 
     public function mychurch()
     {

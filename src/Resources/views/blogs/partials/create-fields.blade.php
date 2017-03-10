@@ -1,5 +1,11 @@
-{{ Form::bsText('title','Title','Title') }}
-{{ Form::bsText('slug','Slug','Slug') }}
+<div class="form-group">
+  <label for="name">Title</label>
+  <input class="form-control" data-slug="source" placeholder="Title" name="title" id="title" type="text">
+</div>
+<div class="form-group">
+  <label for="slug">Slug</label>
+  <input class="form-control" data-slug="target" placeholder="Slug" name="slug" id="slug" type="text">
+</div>
 <div class='form-group '>
   <label for="tags">Tags</label>
   <select name="tags[]" class="input-tags" multiple>

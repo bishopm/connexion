@@ -58,6 +58,10 @@
               plugins: ['remove_button'],
               openOnFocus: 0
             });
+            $('#title').on('input', function() {
+                var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+                $("#slug").val(slug);
+            });
         });
     </script>
 @stop

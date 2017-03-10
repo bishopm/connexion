@@ -5,11 +5,11 @@
 <div class="container">
 	<div class="row">
 	  <div class="col-md-9">
-	    <h3>{{$person->firstname}} {{$person->surname}}</h3>
-	    <img src="{{$person->getMedia('image')->first()->getUrl()}}">
+	    <h3>{{$user->individual->firstname}} {{$user->individual->surname}}</h3>
+	    <img src="{{$user->individual->getMedia('image')->first()->getUrl()}}">
 	  </div>
 	  <div class="col-md-3">
-	    {{$person}}
+	    
 	  </div>
 	</div>
 </div>

@@ -40,6 +40,9 @@ class AddColumnsToUsers extends Migration
             $table->dropColumn('toodledo_id');
             $table->dropColumn('toodledo_token');
             $table->dropColumn('toodledo_refresh');
+            $table->dropColumn('google_calendar');
+            $table->dropColumn('calendar_colour');
+            $table->dropColumn('bio');
         });
     }
 }

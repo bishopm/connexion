@@ -60,7 +60,7 @@ class BlogsController extends Controller {
 
     public function store(CreateBlogRequest $request)
     {
-        $blog=$this->blog->create($request->except('tags'));
+        $blog=$this->blog->create($request->except('tags','files'));
         $blog->tag($request->tags);
         return redirect()->route('admin.blogs.index')
             ->withSuccess('New blog post added');
@@ -68,7 +68,7 @@ class BlogsController extends Controller {
 	
     public function update(Blog $blog, UpdateBlogRequest $request)
     {
-        $this->blog->update($blog, $request->except('tags'));
+        $this->blog->update($blog, $request->except('tags','files'));
         $blog->tag($request->tags);
         return redirect()->route('admin.blogs.index')->withSuccess('Blog has been updated');
     }

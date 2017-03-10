@@ -9,12 +9,12 @@
 <div class="container">
 	<div class="row">
 	  <div class="col-md-9">
-		  <h3>{{$blog->title}} <small>{{$blog->individual->firstname}} {{$blog->individual->surname}}</small></h3>
+		  <h3>{{$blog->title}} <small><a href="{{url('/')}}/people/{{$blog->individual->slug}}">{{$blog->individual->firstname}} {{$blog->individual->surname}}</a>&nbsp;
 		  @foreach ($blog->tags as $tag)
-		  	<a class="btn btn-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
+		  	<a class="label label-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
 		  @endforeach
-		  <br>
-		  {{$blog->body}}
+		  </small></h3>
+		  {!!$blog->body!!}
 	  </div>
 	  <div class="col-md-3">
 	  	<h3>Other tags</h3>
@@ -42,7 +42,7 @@
       $('#publishButton').on('click',function(){
       	user={{$currentUser->id or 0}};
       	if (user){
-      		newcom='<div class="row"><div class="col-md-1"><img width="100%" src="{{$currentUser->individual->getMedia("image")->first()->getUrl()}}"><br><i>{{date("j M")}}</i></div><div class="col-md-11"><a href="{{route("admin.users.show",$currentUser->id)}}">{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</a>: ' + $('textarea#newcomment').val() + '</div></div>';
+      		newcom='<div class="row"><div class="col-md-1"><img width="50px" src="{{$currentUser->individual->getMedia("image")->first()->getUrl()}}"><br><i>{{date("j M")}}</i></div><div class="col-md-11"><a href="{{route("admin.users.show",$currentUser->id)}}">{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</a>: ' + $('textarea#newcomment').val() + '</div></div>';
       	}
         $.ajax({
             type : 'POST',
