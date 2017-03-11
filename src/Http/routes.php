@@ -10,6 +10,8 @@ Route::group(['middleware' => ['web','role:open']], function () {
 	Route::get('/sermons/{series}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webseries','as' => 'webseries']);
 	Route::get('/sermons/{series}/{sermon}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermon','as' => 'websermon']);
 	Route::get('/users/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuser','as' => 'webuser']);
+	Route::get('course/{resource}',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@show','as'=>'webresource']);
+	Route::get('courses',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webcourses','as'=>'webcourses']);
 	Route::get('register',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@showRegistrationForm','as'=>'registrationform']);
 	Route::post('register',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@register','as'=>'admin.register']);
 	Route::post('checkmail',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);
@@ -174,7 +176,7 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	// Ratings
 	Route::get('admin/resources/{resource}/ratings',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@index','as'=>'admin.ratings.index']);
 	Route::get('admin/resources/{resource}/ratings/create',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@create','as'=>'admin.ratings.create']);
-	Route::get('admin/resources/{resource}/ratings/{rating}',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@show','as'=>'admin.ratings.show']);
+	
 	Route::get('admin/resources/{resource}/ratings/{rating}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@edit','as'=>'admin.ratings.edit']);
 	Route::put('admin/resources/{resource}/ratings/{rating}',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@update','as'=>'admin.ratings.update']);
 	Route::post('admin/resources/{resource}/ratings',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@store','as'=>'admin.ratings.store']);
@@ -183,12 +185,12 @@ Route::group(['middleware' => ['web','role:admin#editor#backend']], function () 
 	// Resources
 	Route::get('admin/resources',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@index','as'=>'admin.resources.index']);
 	Route::get('admin/resources/create',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@create','as'=>'admin.resources.create']);
-	Route::get('admin/resources/{resource}',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@show','as'=>'admin.resources.show']);
 	Route::get('admin/resources/{resource}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@edit','as'=>'admin.resources.edit']);
 	Route::put('admin/resources/{resource}',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@update','as'=>'admin.resources.update']);
 	Route::post('admin/resources',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@store','as'=>'admin.resources.store']);
     Route::delete('admin/resources/{resource}',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@destroy','as'=>'admin.resources.destroy']);
 	Route::get('admin/resources/{resource}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@removemedia','as'=>'admin.resources.removemedia']);   
+    Route::post('admin/resources/{resource}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\ResourcesController@addcomment','as' => 'admin.resources.addcomment']);
 
 	// Rosters
     Route::get('admin/rosters',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@index','as'=>'admin.rosters.index']);

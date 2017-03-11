@@ -21,3 +21,14 @@
     </div>
     {!! Form::close() !!}
 @stop
+
+@section('js')
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $('#title').on('input', function() {
+                var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+                $("#slug").val(slug);
+            });
+        });
+    </script>
+@stop

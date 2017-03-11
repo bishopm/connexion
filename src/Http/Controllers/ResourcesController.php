@@ -3,10 +3,12 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\ResourcesRepository;
+use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Models\Resource;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateResourceRequest;
 use Bishopm\Connexion\Http\Requests\UpdateResourceRequest;
+use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use MediaUploader;
 
 class ResourcesController extends Controller {
@@ -17,11 +19,12 @@ class ResourcesController extends Controller {
 	 * @return Response
 	 */
 
-	private $resource;
+	private $resource, $user;
 
-	public function __construct(ResourcesRepository $resource)
+	public function __construct(ResourcesRepository $resource, UsersRepository $user)
     {
         $this->resource = $resource;
+        $this->user = $user;
     }
 
 	public function index()
@@ -41,10 +44,10 @@ class ResourcesController extends Controller {
         return view('connexion::resources.create');
     }
 
-	public function show(Resource $resource)
+	public function show($slug)
 	{
-        $data['resource']=$resource;
-        return view('connexion::resources.show',$data);
+        $data['resource']=$this->resource->findBySlug($slug);
+        return view('connexion::site.resource',$data);
 	}
 
     public function store(CreateResourceRequest $request)
@@ -76,6 +79,12 @@ class ResourcesController extends Controller {
     {
         $media = $resource->getMedia('image');
         $resource->detachMedia($media);
+    }
+
+    public function addcomment(Resource $resource, CreateCommentRequest $request)
+    {
+        $user=$this->user->find($request->user);
+        $user->comment($resource, $request->newcomment, $request->rating);
     }
 
 }

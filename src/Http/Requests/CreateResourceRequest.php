@@ -10,7 +10,7 @@ class CreateResourceRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'author' => 'required',
+            'category' => 'required',
             'description' => 'required|min:2'
         ];
     }

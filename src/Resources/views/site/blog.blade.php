@@ -21,11 +21,7 @@
 	  </div>
 	  <div class="row">
 	    <div class="col-md-12">
-		  @if ((isset($currentUser)) and ($currentUser->hasPermissionTo('edit-comment')))
-		  	@include('connexion::shared.comments', ['entity' => $blog])
-		  @else
-		  	<h4><a href="{{url('/')}}/register">Register</a> and <a href="{{url('/')}}/login">login</a> to comment</h4>
-		  @endif
+		   	@include('connexion::shared.comments', ['entity' => $blog])
 	    </div>
 	  </div>
 	</div>
@@ -42,7 +38,7 @@
       $('#publishButton').on('click',function(){
       	user={{$currentUser->id or 0}};
       	if (user){
-      		newcom='<div class="row"><div class="col-md-1"><img width="50px" src="{{$currentUser->individual->getMedia("image")->first()->getUrl()}}"><br><i>{{date("j M")}}</i></div><div class="col-md-11"><a href="{{route("admin.users.show",$currentUser->id)}}">{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</a>: ' + $('textarea#newcomment').val() + '</div></div>';
+          newcom='<div class="row"><div class="col-xs-2 col-sm-1"><img width="50px" src="{{$currentUser->individual->getMedia("image")->first()->getUrl()}}"></div><div class="col-xs-10 col-sm-11" style="font-size: 80%"><a href="{{route("admin.users.show",$currentUser->id)}}">{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</a>: ' + $('textarea#newcomment').val() + '<div><i>{{date("j M")}}</i></div></div></div>';
       	}
         $.ajax({
             type : 'POST',

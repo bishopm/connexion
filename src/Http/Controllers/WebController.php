@@ -13,6 +13,7 @@ use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\ActionsRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
+use Bishopm\Connexion\Repositories\ResourcesRepository;
 use Bishopm\Connexion\Models\Blog;
 use Bishopm\Connexion\Models\Sermon;
 use Spatie\GoogleCalendar\Event;
@@ -21,9 +22,9 @@ use Auth;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings, $users, $series, $sermon, $individual;
+    private $page, $slides, $settings, $users, $series, $sermon, $individual, $resources;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, ResourcesRepository $resources)
     {
         $this->page = $page;
         $this->slides = $slides;
@@ -32,6 +33,7 @@ class WebController extends Controller
         $this->series = $series;
         $this->sermon = $sermon;
         $this->individual = $individual;
+        $this->resources = $resources;
     }
 
     /**
@@ -130,6 +132,14 @@ class WebController extends Controller
         $user = $this->users->getuserbyindiv($individual->id);
         return view('connexion::site.user',compact('user'));
     }    
+
+    public function webcourses()
+    {
+        $data['courses'] = $this->resources->getcourses('course');
+        $data['homegroup'] = $this->resources->getcourses('home group');
+        $data['selfstudy'] = $this->resources->getcourses('self-study');
+        return view('connexion::site.courses',$data);
+    }        
 
     public function mychurch()
     {
