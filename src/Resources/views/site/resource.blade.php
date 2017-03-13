@@ -22,6 +22,7 @@
 @stop
 
 @section('js')
+@if (isset($currentUser))
   <script src="{{url('/')}}/vendor/bishopm/rater/rater.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     $( document ).ready(function() {
@@ -64,4 +65,5 @@
       });
     });
   </script>
+@endif
 @stop

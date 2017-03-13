@@ -29,6 +29,7 @@
 @endsection
 
 @section('js')
+@if (isset($currentUser))
 <script type="text/javascript">
       $.ajaxSetup({
           headers: {
@@ -50,4 +51,5 @@
         });
       });
 </script>
+@endif
 @endsection

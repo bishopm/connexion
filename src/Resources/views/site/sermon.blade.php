@@ -34,6 +34,9 @@
     });
   });
 })(jQuery);
+</script>
+@if (isset($currentUser))
+<script type="text/javascript">
 	$.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
@@ -54,4 +57,5 @@
         });
       });
 </script>
+@endif
 @endsection

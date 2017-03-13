@@ -56,6 +56,7 @@
       </div>
     </div><!-- /navbar wrapper -->
     @yield('content')
+    @include('connexion::shared.login-modal') 
 </body>
 <!-- FOOTER -->
 <footer class="footer">
@@ -63,5 +64,8 @@
 </footer>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="{{asset('vendor/bishopm/js/bootstrap.min.js')}}"></script>
+<script>
+@include('connexion::shared.login-modal-script')
+</script>
 @yield('js')
 </html>

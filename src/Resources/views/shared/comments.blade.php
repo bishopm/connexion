@@ -38,5 +38,5 @@
 		</div>
 	</div>
 @else
-	<h4><a href="{{url('/')}}/register">Register</a> or <a href="{{url('/')}}/login">login</a> to comment</h4>
+	<p><a href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to comment</p>
 @endif
