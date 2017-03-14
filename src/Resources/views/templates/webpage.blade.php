@@ -38,7 +38,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$currentUser->individual->firstname}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="{{url('/')}}/admin"><i class="fa fa-fw fa-cogs"></i> Backend</a></li>
-                  <li><a href="mychurch"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation']}}</a></li>
+                  <li><a href="{{url('/')}}/mychurch"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation']}}</a></li>
                   <li><a href="{{route('admin.users.show',$currentUser->id)}}"><i class="fa fa-fw fa-user"></i> My details</a></li>
                   <li><a href="{{url('/')}}/admin/worship"><i class="fa fa-fw fa-music"></i> Worship</a></li>
                   <li role="separator" class="divider"></li>

@@ -16,9 +16,9 @@
     <div class="row">
         <div class="filtr-container">
             @foreach ($users as $user)
-                <div class="col-xs-4 col-sm-6 col-md-12 filtr-item" data-category="1" data-sort="Busy streets">
-                    <img class="img-responsive" src="{{$user->individual->getMedia('image')->first()->getUrl()}}" alt="sample image">
-                    <span class="item-desc">{{$user->individual->firstname}} {{$user->individual->surname}}</span>
+                <div class="col-xs-4 col-sm-3 col-md-2 filtr-item" data-category="1" data-sort="Staff">
+                    <a href="{{url('/')}}/users/{{$user->individual->slug}}"><img class="img-responsive img-circle img-thumbnail" src="{{$user->individual->getMedia('image')->first()->getUrl()}}">
+                    <p class="text-center item-desc">{{$user->individual->firstname}} {{$user->individual->surname}}</p></a>
                 </div>
             @endforeach
         </div>
