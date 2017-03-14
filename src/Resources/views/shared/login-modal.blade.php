@@ -1,9 +1,9 @@
-<div class="modal fade modal-primary" id="modal-delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="delete-confirmation-title" aria-hidden="true">
+<div class="modal fade modal-primary" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="delete-confirmation-title" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="delete-confirmation-title">Login</h4>
+                <h3 class="modal-title" id="delete-confirmation-title">Login to {{$setting['site_abbreviation']}}</h3>
             </div>
             <div class="modal-body">
                 <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post">
