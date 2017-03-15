@@ -52,6 +52,10 @@ class Individual extends Model implements TaggableInterface
         return $this->hasMany('Bishopm\Connexion\Models\Sermon');
     }
 
+    public function user(){
+        return $this->hasOne('Bishopm\Connexion\Models\User');
+    }
+
 /*    public function getAgeAttribute(){
         if ($this->birthdate>'1901-01-01'){
             return Carbon::now()

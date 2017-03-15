@@ -11,6 +11,7 @@ use Bishopm\Connexion\Repositories\SermonsRepository;
 use Bishopm\Connexion\Repositories\BlogsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\ActionsRepository;
+use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\ResourcesRepository;
@@ -22,11 +23,12 @@ use Auth;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings, $users, $series, $sermon, $individual, $resources;
+    private $page, $slides, $settings, $users, $series, $sermon, $individual, $resources, $group;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, ResourcesRepository $resources)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, ResourcesRepository $resources, GroupsRepository $group)
     {
         $this->page = $page;
+        $this->group = $group;
         $this->slides = $slides;
         $this->settings = $settings;
         $this->users = $users;
@@ -125,6 +127,12 @@ class WebController extends Controller
         $sermon = $this->sermon->findBySlug($sermon);
         return view('connexion::site.sermon',compact('series','sermon'));
     }
+
+    public function webgroup($slug)
+    {
+        $group = $this->group->findBySlug($slug);
+        return view('connexion::site.group',compact('group'));
+    }    
 
     public function webuser($slug)
     {
