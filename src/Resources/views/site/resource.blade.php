@@ -14,7 +14,7 @@
           </div>
           <div class="col-md-9">
               @include('connexion::shared.comments', ['entity' => $resource, 'rating' => true])
-          </div>
+          </div> 
           <hr>
         </div>
       </div>

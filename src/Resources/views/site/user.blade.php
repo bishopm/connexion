@@ -20,10 +20,16 @@
 	    @endforeach
 	  </div>
 	  <div class="col-md-3">
-	  	<h4>Recent activity</h4>
+	  	<h4>Recent comments</h4>
 	  	<ul class="list-unstyled">
 	  	@foreach ($user->comments as $comment)
-	  		<li>{{date("d M",strtotime($comment->commentable->created_at))}} - commented on <a href="{{url('/')}}">{{$comment->commentable->title}}</a></li>
+	  		@if (strpos($comment->commentable_type,'Sermon'))
+	  			<li>{{date("d M",strtotime($comment->commentable->created_at))}} (sermon) - <a href="{{url('/')}}/sermons/{{$comment->commentable->series->slug}}/{{$comment->commentable->slug}}">{{$comment->commentable->sermon}}</a></li>
+	  		@elseif (strpos($comment->commentable_type,'Blog'))
+				<li>{{date("d M",strtotime($comment->commentable->created_at))}} (blog) - <a href="{{url('/')}}/blog/{{$comment->commentable->slug}}">{{$comment->commentable->title}}</a></li>
+	  		@elseif (strpos($comment->commentable_type,'Resource'))
+				<li>{{date("d M",strtotime($comment->commentable->created_at))}} (course) - <a href="{{url('/')}}/course/{{$comment->commentable->slug}}">{{$comment->commentable->title}}</a></li>
+	  		@endif
 	  	@endforeach
 	  	</ul>
 	  </div>
