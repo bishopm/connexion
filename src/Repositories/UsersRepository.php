@@ -10,5 +10,5 @@ class UsersRepository extends EloquentBaseRepository
 
 	public function getuserbyindiv($individual_id){
         return $this->model->where('individual_id','=',$individual_id)->first();
-    }    
+    }
 }

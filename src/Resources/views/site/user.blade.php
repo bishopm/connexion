@@ -16,13 +16,21 @@
 	    @foreach ($user->individual->groups as $group)
 	    	@if ($group->publish)
 		    	<a href="{{url('/')}}/groups/{{$group->slug}}">{{$group->groupname}}</a>
+		    	@if ($loop->last)
+		    		.
+		    	@else
+		    		, 
+		    	@endif
 		    @endif
 	    @endforeach
+	    @if ((count($user->individual->sermons)) or (count($user->individual->blogs)))
+	       	<a class="btn btn-primary top10" href="{{url('/')}}/people/{{$user->individual->slug}}">View {{$user->individual->firstname}}'s blogs/sermons</a>
+	    @endif
 	  </div>
 	  <div class="col-md-3">
 	  	<h4>Recent comments</h4>
 	  	<ul class="list-unstyled">
-	  	@foreach ($user->comments as $comment)
+	  	@foreach ($recentcomments as $comment)
 	  		@if (strpos($comment->commentable_type,'Sermon'))
 	  			<li>{{date("d M",strtotime($comment->commentable->created_at))}} (sermon) - <a href="{{url('/')}}/sermons/{{$comment->commentable->series->slug}}/{{$comment->commentable->slug}}">{{$comment->commentable->sermon}}</a></li>
 	  		@elseif (strpos($comment->commentable_type,'Blog'))

@@ -128,6 +128,12 @@ class WebController extends Controller
         return view('connexion::site.sermon',compact('series','sermon'));
     }
 
+    public function websermons()
+    {
+        $series = $this->series->all();
+        return view('connexion::site.sermons',compact('series'));
+    }
+
     public function webgroup($slug)
     {
         $group = $this->group->findBySlug($slug);
@@ -138,7 +144,11 @@ class WebController extends Controller
     {
         $individual = $this->individual->findBySlug($slug);
         $user = $this->users->getuserbyindiv($individual->id);
-        return view('connexion::site.user',compact('user'));
+        $recentcomments=array();
+        foreach ($user->comments as $comment){
+            $recentcomments[]=$comment;
+        }
+        return view('connexion::site.user',compact('user','recentcomments'));
     }    
 
     public function webcourses()

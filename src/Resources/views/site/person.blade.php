@@ -8,12 +8,18 @@
 <img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
 	<div class="row top30">
-	  <div class="col-md-3">
+	  <div class="col-md-4">
 	    <img src="{{$person->getMedia('image')->first()->getUrl()}}" class="img-circle img-thumbnail">
 	  </div>
-	  <div class="col-md-9">
+	  <div class="col-md-4">
 	    <h3>{{$person->firstname}} {{$person->surname}}</h3>
 	    Bio: {{$person->user->bio}}
+	  </div>
+	  <div class="col-md-4">
+	  	<h3>Get in touch</h3>
+	  	@if ($person->user)
+	  		<a href="{{url('/')}}/users/{{$person->slug}}" class="btn btn-primary">View {{$person->firstname}}'s user page</a>
+	  	@endif
 	  </div>
 	</div>
   	<div class="row">

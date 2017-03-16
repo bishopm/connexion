@@ -23,7 +23,7 @@
 		</div>
 		<div class="col-xs-6 col-sm-9">
 			@if (isset($rating))
-				<textarea rows="5" name="newcomment" id="newcomment" class="form-control" placeholder="If you've done the course, leave a comment and star rating to help other groups considering doing it."></textarea>
+				<textarea rows="5" name="newcomment" id="newcomment" class="form-control" placeholder="If you've done the course, leave a comment and star rating to help others considering doing it."></textarea>
 			@elseif (count($entity->comments))
 				<textarea rows="5" name="newcomment" id="newcomment" class="form-control" placeholder="Join the conversation :)"></textarea>
 			@else
@@ -38,5 +38,5 @@
 		</div>
 	</div>
 @else
-	<p><a href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to comment</p>
+	<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to comment</p>
 @endif
