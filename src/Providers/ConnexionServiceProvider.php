@@ -307,6 +307,8 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
         $this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
         $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
+        $this->app->register('Jrean\UserVerification\UserVerificationServiceProvider');
+        AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
         AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
@@ -329,6 +331,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\BlogsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\BlogsRepository(new \Bishopm\Connexion\Models\Blog());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\CommentsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\CommentsRepository(new \Actuallymab\LaravelComment\Models\Comment());
                 return $repository;
             }
         );

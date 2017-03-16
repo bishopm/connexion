@@ -3,12 +3,14 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Repositories\PagesRepository;
 use Bishopm\Connexion\Repositories\SeriesRepository;
 use Bishopm\Connexion\Repositories\SlidesRepository;
 use Bishopm\Connexion\Repositories\SermonsRepository;
 use Bishopm\Connexion\Repositories\BlogsRepository;
+use Bishopm\Connexion\Repositories\CommentsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\ActionsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
@@ -23,9 +25,9 @@ use Auth;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings, $users, $series, $sermon, $individual, $resources, $group;
+    private $page, $slides, $settings, $users, $series, $sermon, $individual, $resources, $group, $comments;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, ResourcesRepository $resources, GroupsRepository $group)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, ResourcesRepository $resources, GroupsRepository $group, CommentsRepository $comments)
     {
         $this->page = $page;
         $this->group = $group;
@@ -36,6 +38,7 @@ class WebController extends Controller
         $this->sermon = $sermon;
         $this->individual = $individual;
         $this->resources = $resources;
+        $this->comments = $comments;
     }
 
     /**
@@ -144,10 +147,7 @@ class WebController extends Controller
     {
         $individual = $this->individual->findBySlug($slug);
         $user = $this->users->getuserbyindiv($individual->id);
-        $recentcomments=array();
-        foreach ($user->comments as $comment){
-            $recentcomments[]=$comment;
-        }
+        $recentcomments = $this->comments->mostrecent(10);
         return view('connexion::site.user',compact('user','recentcomments'));
     }    
 
