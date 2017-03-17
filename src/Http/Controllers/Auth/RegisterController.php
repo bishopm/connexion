@@ -6,6 +6,10 @@ use Bishopm\Connexion\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Jrean\UserVerification\Traits\VerifiesUsers;
+use Jrean\UserVerification\Facades\UserVerification;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -20,7 +24,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers, VerifiesUsers;
 
     /**
      * Where to redirect users after registration.
@@ -62,7 +66,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        dd($data);
         return User::create([
             'name' => $data['email'],
             'email' => $data['email'],
@@ -75,5 +78,23 @@ class RegisterController extends Controller
     {
         $individuals=array();
         return view('connexion::auth.register',compact('individuals'));
+    }
+
+    /**
+    * Handle a registration request for the application.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $user = $this->create($request->all());
+        event(new Registered($user));
+        $this->guard()->login($user);
+        UserVerification::generate($user);
+        UserVerification::send($user, 'My Custom E-mail Subject');
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
     }
 }

@@ -19,6 +19,9 @@ Route::group(['middleware' => ['web','role:open']], function () {
 	Route::post('checkmail',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);
 });
 
+Route::get('email-verification/error', 'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@getVerificationError')->name('email-verification.error');
+Route::get('email-verification/check/{token}', 'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@getVerification')->name('email-verification.check');
+
 Route::group(['middleware' => ['web','role:admin#editor#backend']], function () {
 	Route::get('/mychurch', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
 	// Dashboard
