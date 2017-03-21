@@ -31,7 +31,8 @@
         "cartalyst/tags": "4.*",
         "laravel-notification-channels/telegram": "0.*",
         "actuallymab/laravel-comment": "0.3.*",
-        "jrean/laravel-user-verification": "^4.0"
+        "jrean/laravel-user-verification": "^4.0",
+        "felixkiss/uniquewith-validator": "3.*"
     },
     "require-dev": {
         "phpunit/phpunit" : "~4.0||~5.0",        
