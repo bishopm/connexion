@@ -12,6 +12,7 @@ use Bishopm\Connexion\Repositories\SermonsRepository;
 use Bishopm\Connexion\Repositories\BlogsRepository;
 use Bishopm\Connexion\Repositories\CommentsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Repositories\HouseholdsRepository;
 use Bishopm\Connexion\Repositories\ActionsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
@@ -27,7 +28,7 @@ class WebController extends Controller
     
     private $page, $slides, $settings, $users, $series, $sermon, $individual, $resources, $group, $comments;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, ResourcesRepository $resources, GroupsRepository $group, CommentsRepository $comments)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, ResourcesRepository $resources, GroupsRepository $group, CommentsRepository $comments, HouseholdsRepository $household)
     {
         $this->page = $page;
         $this->group = $group;
@@ -39,6 +40,7 @@ class WebController extends Controller
         $this->individual = $individual;
         $this->resources = $resources;
         $this->comments = $comments;
+        $this->household = $household;
     }
 
     /**
@@ -164,6 +166,14 @@ class WebController extends Controller
         $users=$this->users->all();
         return view('connexion::site.mychurch',compact('users'));
     }    
+
+    public function mydetails()
+    {
+        $user=Auth::user();
+        $indiv=$this->individual->find($user->individual_id);
+        $household=$this->household->find($indiv->household_id);
+        return view('connexion::site.mydetails',compact('household'));
+    }        
 
     public function uri($slug)
     {

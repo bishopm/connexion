@@ -288,6 +288,9 @@ class ConnexionServiceProvider extends ServiceProvider
         config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
         view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
+        Validator::extend('in_phone', function($attribute, $value, $parameters) {
+            return substr($value, 0, 3) == '+91';
+        });
     }
 
     /**
