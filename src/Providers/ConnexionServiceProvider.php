@@ -288,9 +288,6 @@ class ConnexionServiceProvider extends ServiceProvider
         config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
         view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
-        Validator::extend('in_phone', function($attribute, $value, $parameters) {
-            return substr($value, 0, 3) == '+91';
-        });
     }
 
     /**
@@ -310,7 +307,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
         $this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
         $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
-        $this->app->register('Felixkiss\UniqueWithValidator\ServiceProvider');
+        //$this->app->register('Felixkiss\UniqueWithValidator\ServiceProvider');
         $this->app->register('Jrean\UserVerification\UserVerificationServiceProvider');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
         AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
@@ -319,6 +316,7 @@ class ConnexionServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');
         $this->app['router']->aliasMiddleware('role', 'Bishopm\Connexion\Middleware\RoleMiddleware');
+        $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
         $this->registerBindings();
     }
 

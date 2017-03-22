@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers\Auth;
 use Bishopm\Connexion\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Jrean\UserVerification\Traits\VerifiesUsers;
 use Jrean\UserVerification\Facades\UserVerification;
@@ -32,6 +33,8 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
+    protected $redirectAfterVerification = '/';
+    protected $redirectIfVerificationFails = '/login';
 
     /**
      * Create a new controller instance.
@@ -53,7 +56,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'email' => 'required|unique_with:users,password',
+            'email' => 'required|email',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -66,6 +69,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $users=User::where('email','=',$data['email'])->get();
+        foreach ($users as $user){
+            if (Hash::check($data['password'],$user->password)){
+                return "Duplicate";
+            }
+        }
         return User::create([
             'name' => $data['email'],
             'email' => $data['email'],
@@ -90,11 +99,17 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
-        event(new Registered($user));
-        $this->guard()->login($user);
-        UserVerification::generate($user);
-        UserVerification::send($user, 'My Custom E-mail Subject');
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
+        if ($user == "Duplicate"){
+            $errmsg="This combination of email and password is taken. Choose another email address or password";
+            return view('connexion::auth.register',compact('errmsg'));
+        } else {
+            event(new Registered($user));
+            $this->guard()->login($user);
+            UserVerification::generate($user);
+            UserVerification::emailView('connexion::emails.newuser');
+            UserVerification::send($user, 'Welcome!');
+            return $this->registered($request, $user)
+                            ?: redirect($this->redirectPath());
+        }
     }
 }

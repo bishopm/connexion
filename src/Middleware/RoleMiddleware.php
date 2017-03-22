@@ -19,7 +19,7 @@ class RoleMiddleware {
 					return $next($request);	    		
 		    	}
 		    }
-		    return redirect('/admin');
+		    return redirect('/');
 		 } else {
 		 	if (Auth::user()){
 		 		view()->share('currentUser', Auth::user());

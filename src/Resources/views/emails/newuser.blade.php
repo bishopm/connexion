@@ -1,14 +1,9 @@
-@component('mail::message')
-# Thanks for signing up!
+Thanks for signing up as a user on our site, {{$user->individual->firstname}}
 
-Congratulations {{$emaildata->firstname}}!
+Click on the button below to confirm your email address and you'll be ready to go :)
 
-You have successfully signed up as a user of our site. Click on the button below to confirm your email address and you'll be ready to go :)
+<a class="btn btn-primary" href="{{route('email-verification.check', $user->verification_token) . '?email=' . urlencode($user->email) }}">Confirm my email address</a>
 
-@component('mail::button', ['url' => '{{url('/')}}/users/{{$emaildata->slug}}/confirmemail'])
-Confirm my email address
-@endcomponent
+Thanks!
 
-Thanks,<br>
-{{$emaildata->sender}}
-@endcomponent
+{{$setting['site_name']}}

@@ -26,6 +26,12 @@
             </ul>
         </div>
     @endif
+    @if (isset($errmsg))
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <ul><li>{{ $errmsg }}</li></ul>
+        </div>
+    @endif    
 
     <div class="register-box-body">
         <p class="login-box-msg"><b>Register as a new user</b></p>

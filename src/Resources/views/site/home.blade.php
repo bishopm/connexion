@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+@include('connexion::shared.errors')
 @include('connexion::shared.carousel')
 <div class="container top30">
   <!-- Three columns of text below the carousel -->

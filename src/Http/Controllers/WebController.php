@@ -164,6 +164,14 @@ class WebController extends Controller
     public function mychurch()
     {
         $users=$this->users->all();
+        foreach ($users as $user){
+            $user->status="Member";
+            foreach ($user->individual->tags as $tag){
+                if (strtolower($tag->slug)=="staff"){
+                    $user->status="Staff";
+                }
+            }
+        }
         return view('connexion::site.mychurch',compact('users'));
     }    
 
