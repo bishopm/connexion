@@ -10,7 +10,6 @@ use Bishopm\Connexion\Repositories\SeriesRepository;
 use Bishopm\Connexion\Repositories\SlidesRepository;
 use Bishopm\Connexion\Repositories\SermonsRepository;
 use Bishopm\Connexion\Repositories\BlogsRepository;
-use Bishopm\Connexion\Repositories\CommentsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\HouseholdsRepository;
 use Bishopm\Connexion\Repositories\ActionsRepository;
@@ -28,7 +27,7 @@ class WebController extends Controller
     
     private $page, $slides, $settings, $users, $series, $sermon, $individual, $resources, $group, $comments;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, ResourcesRepository $resources, GroupsRepository $group, CommentsRepository $comments, HouseholdsRepository $household)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, ResourcesRepository $resources, GroupsRepository $group, HouseholdsRepository $household)
     {
         $this->page = $page;
         $this->group = $group;
@@ -39,7 +38,6 @@ class WebController extends Controller
         $this->sermon = $sermon;
         $this->individual = $individual;
         $this->resources = $resources;
-        $this->comments = $comments;
         $this->household = $household;
     }
 
@@ -149,8 +147,7 @@ class WebController extends Controller
     {
         $individual = $this->individual->findBySlug($slug);
         $user = $this->users->getuserbyindiv($individual->id);
-        $recentcomments = $this->comments->mostrecent(10);
-        return view('connexion::site.user',compact('user','recentcomments'));
+        return view('connexion::site.user',compact('user'));
     }    
 
     public function webcourses()
@@ -165,10 +162,10 @@ class WebController extends Controller
     {
         $users=$this->users->all();
         foreach ($users as $user){
-            $user->status="Member";
+            $user->status="1";
             foreach ($user->individual->tags as $tag){
                 if (strtolower($tag->slug)=="staff"){
-                    $user->status="Staff";
+                    $user->status="2";
                 }
             }
         }

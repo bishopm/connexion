@@ -6,7 +6,11 @@
 	<div class="row top30">
 	  @if (isset($currentUser))
 		  <div class="col-md-3">
-		    <img src="{{$user->individual->getMedia('image')->first()->getUrl()}}" class="img-circle img-thumbnail">
+		  	@if (count($user->individual->getMedia('image')))
+                <img class="img-responsive img-circle img-thumbnail" src="{{$user->individual->getMedia('image')->first()->getUrl()}}">
+            @else
+                <img class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
+            @endif
 		  </div>
 		  <div class="col-md-3">
 		    <h3>{{$user->individual->firstname}} {{$user->individual->surname}}</h3>
@@ -29,7 +33,7 @@
 		  <div class="col-md-3">
 		  	<h4>Recent comments</h4>
 		  	<ul class="list-unstyled">
-		  	@foreach ($recentcomments as $comment)
+		  	@foreach ($user->comments as $comment)
 		  		@if (strpos($comment->commentable_type,'Sermon'))
 		  			<li>{{date("d M",strtotime($comment->created_at))}} (sermon) - <a href="{{url('/')}}/sermons/{{$comment->commentable->series->slug}}/{{$comment->commentable->slug}}">{{$comment->commentable->sermon}}</a></li>
 		  		@elseif (strpos($comment->commentable_type,'Blog'))

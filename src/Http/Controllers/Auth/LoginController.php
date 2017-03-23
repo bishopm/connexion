@@ -54,4 +54,9 @@ class LoginController extends Controller
 
         return back();
     }
+
+    public function username()
+    {
+        return 'name';
+    }
 }

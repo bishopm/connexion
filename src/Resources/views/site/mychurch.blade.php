@@ -11,12 +11,12 @@
     <ul>
        <input type="text" class="filtr-search" name="filtr-search" data-search>    
        <li class="btn btn-primary" data-filter="all"> All </li>
-       <li class="btn btn-primary" data-filter="1"> Staff </li>
+       <li class="btn btn-primary" data-filter="2"> Staff </li>
     </ul>
     <div class="row">
         <div class="filtr-container">
             @foreach ($users as $user)
-                <div class="col-xs-4 col-sm-3 col-md-2 filtr-item" data-category="{{$user->status}}">
+                <div class="col-xs-4 col-sm-3 col-md-2 filtr-item" data-category="{{$user->status}}" data-sort="{{$user->individual->slug}}">
                     <a href="{{url('/')}}/users/{{$user->individual->slug}}">
                         @if (count($user->individual->getMedia('image')))
                             <img class="img-responsive img-circle img-thumbnail" src="{{$user->individual->getMedia('image')->first()->getUrl()}}">

@@ -56,8 +56,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'name' => 'required|unique',
             'email' => 'required|email',
-            'password' => 'required|min:6|confirmed',
+            'individual_id' => 'required|integer',
+            'password' => 'required|min:6|confirmed'
         ]);
     }
 
@@ -69,14 +71,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $users=User::where('email','=',$data['email'])->get();
-        foreach ($users as $user){
-            if (Hash::check($data['password'],$user->password)){
-                return "Duplicate";
-            }
-        }
         return User::create([
-            'name' => $data['email'],
+            'name' => $data['name'],
             'email' => $data['email'],
             'individual_id' => $data['individual_id'],
             'password' => bcrypt($data['password']),
@@ -99,17 +95,13 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
-        if ($user == "Duplicate"){
-            $errmsg="This combination of email and password is taken. Choose another email address or password";
-            return view('connexion::auth.register',compact('errmsg'));
-        } else {
-            event(new Registered($user));
-            $this->guard()->login($user);
-            UserVerification::generate($user);
-            UserVerification::emailView('connexion::emails.newuser');
-            UserVerification::send($user, 'Welcome!');
-            return $this->registered($request, $user)
-                            ?: redirect($this->redirectPath());
-        }
+        event(new Registered($user));
+        $this->guard()->login($user);
+        UserVerification::generate($user);
+        UserVerification::emailView('connexion::emails.newuser');
+        UserVerification::send($user, 'Welcome!');
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
     }
+
 }

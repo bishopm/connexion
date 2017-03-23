@@ -35,11 +35,11 @@
 
     <div class="register-box-body">
         <p class="login-box-msg"><b>Register as a new user</b></p>
-        <p class="login-box-msg">Enter your email address below. If your details and email address are in our existing database, you'll be able to link your account to that record and we'll send you a mail to make sure you are you who say you are :) If your name or email address are not on our system, we'll follow up with you via the email address you supply here.</p>
+        <p class="login-box-msg">Choose a unique username and enter your email address below. If your details and email address are in our existing database, you'll be able to link your account to that record and we'll send you a mail to make sure you are you who say you are :) If your name or email address are not on our system, we'll follow up with you via the email address you supply here.</p>
         <form action="{{ url('/register') }}" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group has-feedback">
-                <input type="hidden" class="form-control" placeholder="Full name" name="name" value="{{ old('name') }}"/>
+                <input class="form-control" placeholder="Username" name="name" value="{{ old('name') }}"/>
                 <span class="fa fa-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

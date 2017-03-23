@@ -34,4 +34,5 @@ class User extends Authenticatable
     public function individual(){
         return $this->belongsTo('Bishopm\Connexion\Models\Individual');
     }
+
 }

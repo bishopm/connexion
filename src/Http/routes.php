@@ -22,19 +22,21 @@ Route::group(['middleware' => ['web','role:open']], function () {
 Route::get('email-verification/error', 'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@getVerificationError')->name('email-verification.error');
 Route::get('email-verification/check/{token}', 'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@getVerification')->name('email-verification.check');
 
-Route::group(['middleware' => ['web','role:admin#editor#backend']], function () {
+Route::group(['middleware' => ['web','isverified','auth']], function () {
 // Logout
 	Route::post('logout',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@logout','as'=>'logout']);
+
+//Webuser routes
+	Route::get('/my-church', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
+	Route::get('/my-details', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mydetails','as' => 'mydetails']);
+
 });
 
 Route::group(['middleware' => ['web','isverified','role:admin#editor#backend']], function () {
-	Route::get('/my-church', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
-	Route::get('/my-details', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mydetails','as' => 'mydetails']);
+	
 	// Dashboard
 	Route::get('admin',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
 	Route::get('home',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
-
-	
 
 	// Actions
 	Route::get('admin/actions',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@index','as'=>'admin.actions.index']);
