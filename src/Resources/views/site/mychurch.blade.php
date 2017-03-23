@@ -8,6 +8,7 @@
 <img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
   	<h1>Meet the {{$setting['site_abbreviation']}} community</h1>
+    @if (isset($currentUser))
     <ul>
        <input type="text" class="filtr-search" name="filtr-search" data-search>    
        <li class="btn btn-primary" data-filter="all"> All </li>
@@ -28,7 +29,10 @@
                 </div>
             @endforeach
         </div>
-    </div>	  	
+    </div>
+    @else 
+        <p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to see other {{$setting['site_abbreviation']}} user profiles</p>
+    @endif	  	
 </div>
 @endsection
 

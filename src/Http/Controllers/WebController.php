@@ -175,9 +175,13 @@ class WebController extends Controller
     public function mydetails()
     {
         $user=Auth::user();
-        $indiv=$this->individual->find($user->individual_id);
-        $household=$this->household->find($indiv->household_id);
-        return view('connexion::site.mydetails',compact('household'));
+        if ($user){
+            $indiv=$this->individual->find($user->individual_id);
+            $household=$this->household->find($indiv->household_id);
+            return view('connexion::site.mydetails',compact('household'));
+        } else {
+            return view('connexion::site.mydetails');
+        }
     }        
 
     public function uri($slug)
