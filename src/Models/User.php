@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Actuallymab\LaravelComment\CanComment;
+use Bishopm\Connexion\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -33,6 +34,11 @@ class User extends Authenticatable
 
     public function individual(){
         return $this->belongsTo('Bishopm\Connexion\Models\Individual');
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 
 }

@@ -1,15 +1,19 @@
-@extends('auth.auth')
+@extends('adminlte::master')
 
-@section('htmlheader_title')
-    Password reset
-@endsection
+@section('adminlte_css')
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/css/auth.css') }}">
+    @yield('css')
+@stop
 
-@section('content')
+@section('body_class', 'login-page')
+
+@section('body')
 
     <body class="login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
+            <a href="{{ url('/') }}">{!!$setting['site_logo']!!}</a>
         </div><!-- /.login-logo -->
 
         @if (session('status'))
@@ -67,7 +71,7 @@
 
     </div><!-- /.login-box -->
 
-    @include('auth.scripts')
+    
 
     <script>
         $(function () {

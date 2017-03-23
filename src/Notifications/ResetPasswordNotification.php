@@ -6,19 +6,23 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Bishopm\Connexion\Models\Setting;
 
-class WelcomeNewUser extends Notification
+class ResetPasswordNotification extends Notification
 {
     use Queueable;
+
+    private $settings;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        $this->tokenurl=url('/') . '/password/reset/' . $token;
+        $this->salutation=Setting::where('setting_key','=','site_name')->first()->setting_value;
     }
 
     /**
@@ -41,9 +45,11 @@ class WelcomeNewUser extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', 'https://laravel.com')
-                    ->line('Thank you for using our application!');
+                    ->subject('Reset your password')
+                    ->line('If you recently requested a password reset, please click the button below:')
+                    ->action('Reset my password', $this->tokenurl)
+                    ->line('Please ignore this mail if you did not request a password reset')
+                    ->line('Thank you!');
     }
 
     /**

@@ -1,15 +1,17 @@
-@extends('auth.auth')
+@extends('adminlte::master')
 
-@section('htmlheader_title')
-    Password recovery
-@endsection
+@section('adminlte_css')
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/css/auth.css') }}">
+    @yield('css')
+@stop
 
-@section('content')
+@section('body_class', 'login-page')
 
-<body class="login-page">
+@section('body')
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Admin</b>LTE</a>
+            <a href="{{ url('/') }}">{!!$setting['site_logo']!!}</a>
         </div><!-- /.login-logo -->
 
         @if (session('status'))
@@ -30,12 +32,12 @@
         @endif
 
         <div class="login-box-body">
-            <p class="login-box-msg">Reset Password</p>
+            <p class="login-box-msg">Reset your password</p>
             <form action="{{ url('/password/email') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group has-feedback">
-                    <input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}"/>
-                    <span class="fa fa-envelope form-control-feedback"></span>
+                    <input class="form-control" placeholder="Username" name="name" value="{{ old('name') }}"/>
+                    <span class="fa fa-user form-control-feedback"></span>
                 </div>
 
                 <div class="row">
@@ -50,14 +52,15 @@
             </form>
 
             <a href="{{ url('/auth/login') }}">Log in</a><br>
-            <a href="{{ url('/auth/register') }}" class="text-center">Register a new membership</a>
+            <a href="{{ url('/auth/register') }}" class="text-center">Register a new user</a>
 
         </div><!-- /.login-box-body -->
 
     </div><!-- /.login-box -->
+@stop
 
-    @include('auth.scripts')
-
+@section('adminlte_js')
+    <script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
     <script>
         $(function () {
             $('input').iCheck({
@@ -67,6 +70,5 @@
             });
         });
     </script>
-</body>
-
-@endsection
+    @yield('js')
+@stop

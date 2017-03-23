@@ -1,9 +1,15 @@
 <?php
  
 Route::group(['middleware' => ['web','role:open']], function () {
-	Route::get('/', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@home','as' => 'homepage']);
+	// Authentication for guests
 	Route::get('login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
 	Route::post('login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@login','as'=>'login']);
+	Route::post('password/email',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail','as'=>'sendResetLinkEmail']);
+	Route::get('password/reset',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm','as'=>'showLinkRequestForm']);
+	Route::post('password/reset',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ResetPasswordController@reset','as'=>'password.reset']);
+	Route::get('password/reset/{token}',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ResetPasswordController@showResetForm','as'=>'showResetForm']);
+
+	Route::get('/', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@home','as' => 'homepage']);
 	Route::get('/blog/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webblog','as' => 'webblog']);
 	Route::get('/people/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webperson','as' => 'webperson']);
 	Route::get('/subject/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websubject','as' => 'websubject']);
@@ -361,11 +367,4 @@ Route::group(['middleware' => ['web','isverified','role:admin#editor#backend']],
 Route::any('{uri}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@uri','as' => 'page',       'middleware' => 'web',])->where('uri', '.*');
 
 
-/*
-|        | POST     | password/email                    |                        | App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail  | web,guest    |
-|        | GET|HEAD | password/reset                    |                        | App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm | web,guest    |
-|        | POST     | password/reset                    |                        | App\Http\Controllers\Auth\ResetPasswordController@reset                | web,guest    |
-|        | GET|HEAD | password/reset/{token}            |                        | App\Http\Controllers\Auth\ResetPasswordController@showResetForm        | web,guest    |
-|        | GET|HEAD | register                          | register               | App\Http\Controllers\Auth\RegisterController@showRegistrationForm      | web,guest    |
-|        | POST     | register                          |                        | App\Http\Controllers\Auth\RegisterController@register                  | web,guest    |
-*/
+
