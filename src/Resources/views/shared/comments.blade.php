@@ -4,7 +4,12 @@
 		@foreach ($entity->comments as $comment)
 			<div class="row">
 				<div class="col-xs-2 col-sm-1">
-					<img width="50px" src="{{$comment->commented->individual->getMedia('image')->first()->getUrl()}}">
+					@if (count($user->individual->getMedia('image')))
+		                <img width="50px" src="{{$comment->commented->individual->getMedia('image')->first()->getUrl()}}">
+		            @else
+		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
+		            @endif
+					
 				</div>
 				<div class="col-xs-10 col-sm-11" style="font-size: 80%">
 					<a href="{{route('webuser',$comment->commented->individual->slug)}}">{{$comment->commented->individual->firstname}} {{$comment->commented->individual->surname}}</a>: {{$comment->comment}}
