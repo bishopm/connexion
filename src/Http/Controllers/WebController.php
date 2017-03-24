@@ -143,6 +143,20 @@ class WebController extends Controller
         return view('connexion::site.group',compact('group'));
     }    
 
+    public function weballgroups()
+    {
+        $data = $this->group->getByAttributes(array('publish'=>'1'));
+        foreach($data as $group){
+            if ($group->subcategory){
+                $groups[$group->subcategory][]=$group;
+            } else {
+                $groups['ZZZZ'][]=$group;
+            }
+        }
+        ksort($groups);
+        return view('connexion::site.allgroups',compact('groups'));
+    } 
+
     public function webuser($slug)
     {
         $individual = $this->individual->findBySlug($slug);

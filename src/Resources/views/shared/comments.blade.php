@@ -1,10 +1,11 @@
 <h4>Comments</h4>
-@if ((isset($currentUser)) and ($currentUser->hasPermissionTo('edit-comment')))
+{{dd($currentUser->getAllRoles())}}
+@if ((isset($currentUser)) and ($currentUser->role->hasPermissionTo('edit-comment')))
 	<div id="allcomments">
 		@foreach ($entity->comments as $comment)
 			<div class="row">
 				<div class="col-xs-2 col-sm-1">
-					@if (count($user->individual->getMedia('image')))
+					@if (count($currentUser->individual->getMedia('image')))
 		                <img width="50px" src="{{$comment->commented->individual->getMedia('image')->first()->getUrl()}}">
 		            @else
 		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">

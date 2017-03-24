@@ -14,13 +14,13 @@
 		  </div>
 		  <div class="col-md-3">
 		    <h3>{{$user->individual->firstname}} {{$user->individual->surname}}</h3>
-		    Bio: {{$user->bio}}
+		    {{$user->bio}}
 		  </div>
 		  <div class="col-md-3">
 		  	<h4>Groups</h4>
 		    @foreach ($user->individual->groups as $group)
 		    	@if ($group->publish)
-			    	<a href="{{url('/')}}/groups/{{$group->slug}}">{{$group->groupname}}</a>
+			    	<a href="{{url('/')}}/group/{{$group->slug}}">{{$group->groupname}}</a>
 			    	@if (!$loop->last)
 			    		, 
 			    	@endif

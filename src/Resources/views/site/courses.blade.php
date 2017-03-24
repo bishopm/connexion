@@ -7,7 +7,7 @@
 @section('content')
 <img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
-<h1>Courses@UMC</h1>
+<h1>{{$setting['site_abbreviation']}} Courses</h1>
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#courses" aria-controls="courses" role="tab" data-toggle="tab">Courses</a></li>
     <li role="presentation"><a href="#homegroups" aria-controls="homegroups" role="tab" data-toggle="tab">Home group materials</a></li>

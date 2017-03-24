@@ -24,7 +24,7 @@
                       @endif
                     </div>
                     <div class="panel-body">
-                        <div id="calendar" class="col-md-9">
+                        <div id="calendar1" class="col-md-9">
                         </div>
                         <div class="well col-md-3">
                         <h2 style="margin-top: -7px">To do <small>{{$currentUser->individual->firstname}}</small></h2>

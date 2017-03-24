@@ -51,9 +51,10 @@
           <li><b>Sunday services:</b> 07h00 | 08h30 | 1000</li>
           <li><b>Children and youth:</b> Sundays 08h30</li>
       </ul>      
-      <div id="map_canvas" class="top10" style="height:250px;"></div>
+      <img class="img-responsive" src="{{ asset('vendor/bishopm/images/map.jpg') }}">
       <ul class="list-unstyled top10">
-        <li><a href="{{url('/')}}/contact">Directions and full contact details</a></li>
+        <li><i class="fa fa-phone"></i>  <b>032 947 0173</b></li>
+        <li><a href="{{url('/')}}/contact">Interactive map and full contact details</a></li>
       </ul>
     </div>
   </div><!-- /.row -->
@@ -61,8 +62,6 @@
 @endsection
 
 @section('js')
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
-<script src="{{url('/')}}/vendor/bishopm/js/mapsinglepoint.js" type="text/javascript"></script>
 <script src="{{ asset('vendor/bishopm/mediaelement/build/mediaelement.js') }}" type="text/javascript"></script>
 <script src="{{ asset('vendor/bishopm/mediaelement/build/mediaelementplayer.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
@@ -75,7 +74,6 @@
     $('audio').mediaelementplayer({
       features: ['playpause','tracks','progress','volume'],
     });
-    google.maps.event.addDomListener(window, 'load', initialize(11,{{$setting['home_latitude']}},{{$setting['home_longitude']}}));
   });
 })(jQuery);
 </script>

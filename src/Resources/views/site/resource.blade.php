@@ -44,26 +44,8 @@
       }
       $(".rating").rate(options);    
       $(".ratingro").rate(optionsro);    
-      $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
-          }
-      });
-      $('#publishButton').on('click',function(){
-        user={{$currentUser->id or 0}};
-        if (user){
-          newcom='<div class="row"><div class="col-md-1"><img width="50px" src="{{$currentUser->individual->getMedia("image")->first()->getUrl()}}"><br><i>{{date("j M")}}</i></div><div class="col-md-11"><a href="{{route("admin.users.show",$currentUser->id)}}">{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</a>: ' + $('textarea#newcomment').val() + '</div></div>';
-        }
-        $.ajax({
-            type : 'POST',
-            url : '{{route('admin.resources.addcomment',$resource->id)}}',
-            data : {'newcomment':$('textarea#newcomment').val(),'user':user,'rating':$(".rating").rate("getValue")},
-            success: function(){
-              $(newcom).appendTo('#allcomments');
-            }
-        });
-      });
     });
   </script>
 @endif
+@include('connexion::shared.commentsjs', ['url' => route('admin.blogs.addcomment',$resource->id)])
 @stop

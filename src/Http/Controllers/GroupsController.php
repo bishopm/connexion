@@ -59,6 +59,9 @@ class GroupsController extends Controller {
 	
     public function update(Group $group, UpdateGroupRequest $request)
     {
+        if (!isset($request->publish)){
+            $request->request->add(['publish'=>0]);
+        }
         $this->group->update($group, $request->all());
         return redirect()->route('admin.groups.index')->withSuccess('Group has been updated');
     }
