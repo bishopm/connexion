@@ -15,14 +15,10 @@
 		  @endforeach
 		  </small></h3>
 		  {!!$blog->body!!}
+		  @include('connexion::shared.comments')
 	  </div>
 	  <div class="col-md-3">
 	  	<h3>Other tags</h3>
-	  </div>
-	  <div class="row">
-	    <div class="col-md-12">
-		   	@include('connexion::shared.comments', ['entity' => $blog])
-	    </div>
 	  </div>
 	</div>
 </div>

@@ -13,7 +13,7 @@
           {!!$resource->description!!}
           </div>
           <div class="col-md-9">
-              @include('connexion::shared.comments', ['entity' => $resource, 'rating' => true])
+              @include('connexion::shared.comments', ['rating' => true])
           </div> 
           <hr>
         </div>
@@ -47,5 +47,5 @@
     });
   </script>
 @endif
-@include('connexion::shared.commentsjs', ['url' => route('admin.blogs.addcomment',$resource->id)])
+@include('connexion::shared.ratercommentsjs', ['url' => route('admin.resources.addcomment',$resource->id)])
 @stop

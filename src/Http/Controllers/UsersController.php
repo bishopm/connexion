@@ -2,7 +2,7 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller, MediaUploader;
 use Illuminate\Support\Facades\Hash;
 use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Role;
@@ -75,14 +75,27 @@ class UsersController extends Controller {
     public function update($user, UpdateUserRequest $request)
     {
         $user=User::find($user);
-        $user->fill($request->except('password','role_id'));
-        if ($request->input('password')<>""){
-            $user->password = Hash::make($request->input('password'));
+        if ($request->file('image')){
+            $individual=$user->individual;
+            $fname=$individual->id;
+            $media = MediaUploader::fromSource($request->file('image'))
+            ->toDirectory('individuals')->useFilename($fname)->upload();
+            $individual->attachMedia($media, 'image');
+            $individual->service_id=$request->input('service_id');
+            $individual->save();
+            $user->bio=$request->input('bio');
+            $user->save();
+            return redirect()->route('webuser.edit')->withSuccess('User profile has been updated');
+        } else {
+            $user->fill($request->except('password','role_id'));
+            if ($request->input('password')<>""){
+                $user->password = Hash::make($request->input('password'));
+            }
+            $user->save();
+            $user->roles()->detach();
+            $user->roles()->attach($request->role_id);        
+            return redirect()->route('admin.users.index')->withSuccess('User has been updated');
         }
-        $user->save();
-        $user->roles()->detach();
-        $user->roles()->attach($request->role_id);        
-        return redirect()->route('admin.users.index')->withSuccess('User has been updated');
     }
 
 

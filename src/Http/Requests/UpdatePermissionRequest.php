@@ -4,13 +4,12 @@ namespace Bishopm\Connexion\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRatingRequest extends FormRequest
+class UpdatePermissionRequest extends FormRequest
 {
     public function rules()
     {
         return [
-            'rating' => 'required',
-            'group_id' => 'required'
+            'name' => 'required'
         ];
     }
 

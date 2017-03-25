@@ -18,7 +18,9 @@ use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\ResourcesRepository;
 use Bishopm\Connexion\Models\Blog;
+use Bishopm\Connexion\Models\Society;
 use Bishopm\Connexion\Models\Sermon;
+use Actuallymab\LaravelComment\Models\Comment;
 use Spatie\GoogleCalendar\Event;
 use Auth;
 
@@ -39,6 +41,7 @@ class WebController extends Controller
         $this->individual = $individual;
         $this->resources = $resources;
         $this->household = $household;
+        $this->settingsarray=$this->settings->makearray();
     }
 
     /**
@@ -49,12 +52,12 @@ class WebController extends Controller
     public function dashboard(ActionsRepository $actions)
     {
         $user=Auth::user();
-        $settingsarray=$this->settings->makearray();
+        //$settingsarray=$this->settings->makearray();
         $data['actions']=$actions->all();
-        $dum['googleCalendarId']=$settingsarray['google_calendar'];
+        $dum['googleCalendarId']=$this->settingsarray['google_calendar'];
         $dum['color']='red';
-        $pcals=Event::get(null,null,[],$user->google_calendar); 
-        foreach ($pcals as $pcal){
+        //$pcals=Event::get(null,null,[],$user->google_calendar); 
+        /*foreach ($pcals as $pcal){
             $pdum['title']=$pcal->summary;
             $pdum['start']=$pcal->start->dateTime;
             $pdum['description']=$pcal->location . ": " . $pcal->description;
@@ -70,14 +73,15 @@ class WebController extends Controller
             $pdum['color']=$user->calendar_colour;
             $data['pcals'][]=$pdum;
         }
-        $data['cals'][]=$dum;
+        $data['cals'][]=$dum;*/
+        $data['pcals']=array();
+        $data['cals']=array();
         return view('connexion::dashboard',$data);
     }
 
     public function home(SermonsRepository $sermon, BlogsRepository $blogs)
     {
-        $settingsarray=$this->settings->makearray();
-        $cals=Event::get(null,null,[],$settingsarray['google_calendar'])->take(3); 
+        /*$cals=Event::get(null,null,[],$this->settingsarray['google_calendar'])->take(3); 
         foreach ($cals as $cal){
             $cdum['title']=$cal->summary;
             $cdum['start']=$cal->start->dateTime;
@@ -92,17 +96,23 @@ class WebController extends Controller
                 $cdum['stime']=date("G:i",strtotime($cdum['start']));
             }            
             $data['cals'][]=$cdum;
-        }
+        }*/
+        $data['cals']=array();
         $data['blogs']=$blogs->mostRecent(5);
         $data['sermon']=$sermon->mostRecent();
         $data['slides']=$this->slides->getSlideshow('front');
+        if (Auth::user()){
+            $data['comments']=Comment::orderBy('created_at','DESC')->get()->take(10);
+            $data['users']=$this->users->mostRecent(5);
+        } 
         return view('connexion::site.home',$data);
     }
 
     public function webblog($slug, BlogsRepository $blogs)
     {
         $blog = $blogs->findBySlug($slug);
-        return view('connexion::site.blog',compact('blog'));
+        $comments = $blog->comments()->paginate(5);
+        return view('connexion::site.blog',compact('blog','comments'));
     }
 
     public function webperson($slug, IndividualsRepository $individual)
@@ -128,7 +138,8 @@ class WebController extends Controller
     {
         $series = $this->series->findBySlug($series);
         $sermon = $this->sermon->findBySlug($sermon);
-        return view('connexion::site.sermon',compact('series','sermon'));
+        $comments = $sermon->comments()->paginate(5);
+        return view('connexion::site.sermon',compact('series','sermon','comments'));
     }
 
     public function websermons()
@@ -161,8 +172,26 @@ class WebController extends Controller
     {
         $individual = $this->individual->findBySlug($slug);
         $user = $this->users->getuserbyindiv($individual->id);
-        return view('connexion::site.user',compact('user'));
-    }    
+        $comments = $user->comments()->paginate(10);
+        $staff=0;
+        foreach ($individual->tags as $tag){
+            if ($tag->slug=="staff"){
+                $staff=1;
+            }
+        }
+        return view('connexion::site.user',compact('user','staff','comments'));
+    }
+
+    public function webuseredit($slug)
+    {
+        $individual = $this->individual->findBySlug($slug);
+        if ($this->settingsarray['society_name']){
+            $society=Society::with('services')->where('society','=',$this->settingsarray['society_name'])->get();
+        } else {
+            $society=Society::with('services')->get();
+        }
+        return view('connexion::site.editprofile',compact('individual','society'));
+    }        
 
     public function webcourses()
     {
@@ -176,10 +205,10 @@ class WebController extends Controller
     {
         $users=$this->users->all();
         foreach ($users as $user){
-            $user->status="1";
+            $user->status=$user->individual->service_id;
             foreach ($user->individual->tags as $tag){
                 if (strtolower($tag->slug)=="staff"){
-                    $user->status="2";
+                    $user->status="999999, " . $user->status;
                 }
             }
         }
@@ -192,6 +221,8 @@ class WebController extends Controller
         if ($user){
             $indiv=$this->individual->find($user->individual_id);
             $household=$this->household->find($indiv->household_id);
+            $cellmember=$this->individual->find($household->householdcell);
+            $household->cellmember = $cellmember->firstname;
             return view('connexion::site.mydetails',compact('household'));
         } else {
             return view('connexion::site.mydetails');

@@ -17,6 +17,7 @@ Route::group(['middleware' => ['web','role:open']], function () {
 	Route::get('/sermons/{series}/{sermon}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermon','as' => 'websermon']);
 	Route::get('/sermons', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermons','as' => 'websermons']);
 	Route::get('/users/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuser','as' => 'webuser']);
+	Route::get('/users/{slug}/edit', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuseredit','as' => 'webuser.edit']);
 	Route::get('/group/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroup','as' => 'webgroup']);
 	Route::get('/groups', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@weballgroups','as' => 'weballgroups']);
 	Route::get('course/{resource}',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@show','as'=>'webresource']);
@@ -27,6 +28,10 @@ Route::group(['middleware' => ['web','role:open']], function () {
 	//Webuser routes
 	Route::get('/my-church', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
 	Route::get('/my-details', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mydetails','as' => 'mydetails']);
+	Route::post('admin/blogs/{blog}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@addcomment','as' => 'admin.blogs.addcomment']);
+	Route::post('admin/resources/{resource}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\ResourcesController@addcomment','as' => 'admin.resources.addcomment']);
+	Route::post('admin/series/{series}/sermons/{sermon}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@addcomment','as' => 'admin.sermons.addcomment']);
+	Route::put('admin/users/{user}',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@update','as'=>'admin.users.update']);
 });
 
 Route::get('email-verification/error', 'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@getVerificationError')->name('email-verification.error');
@@ -64,8 +69,7 @@ Route::group(['middleware' => ['web','isverified','role:admin#editor#backend']],
 	Route::post('admin/blogs',['uses'=>'Bishopm\Connexion\Http\Controllers\BlogsController@store','as'=>'admin.blogs.store']);
     Route::delete('admin/blogs/{blog}',['uses'=>'Bishopm\Connexion\Http\Controllers\BlogsController@destroy','as'=>'admin.blogs.destroy']);
 	Route::get('admin/blogs/addtag/{blog}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@addtag','as' => 'admin.blogs.addtag']);
-    Route::get('admin/blogs/removetag/{blog}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@removetag','as' => 'admin.blogs.removetag']);   
-    Route::post('admin/blogs/{blog}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@addcomment','as' => 'admin.blogs.addcomment']);
+    Route::get('admin/blogs/removetag/{blog}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@removetag','as' => 'admin.blogs.removetag']);  
 
 	// Chords
     Route::get('admin/worship/chords',['uses'=>'Bishopm\Connexion\Http\Controllers\GchordsController@index','as'=>'admin.chords.index']);
@@ -191,14 +195,6 @@ Route::group(['middleware' => ['web','isverified','role:admin#editor#backend']],
 	Route::post('admin/projects',['uses'=>'Bishopm\Connexion\Http\Controllers\ProjectsController@store','as'=>'admin.projects.store']);
     Route::delete('admin/projects/{project}',['uses'=>'Bishopm\Connexion\Http\Controllers\ProjectsController@destroy','as'=>'admin.projects.destroy']);
 
-	// Ratings
-	Route::get('admin/resources/{resource}/ratings',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@index','as'=>'admin.ratings.index']);
-	Route::get('admin/resources/{resource}/ratings/create',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@create','as'=>'admin.ratings.create']);
-	
-	Route::get('admin/resources/{resource}/ratings/{rating}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@edit','as'=>'admin.ratings.edit']);
-	Route::put('admin/resources/{resource}/ratings/{rating}',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@update','as'=>'admin.ratings.update']);
-	Route::post('admin/resources/{resource}/ratings',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@store','as'=>'admin.ratings.store']);
-    Route::delete('admin/resources/{resource}/ratings/{rating}',['uses'=>'Bishopm\Connexion\Http\Controllers\RatingsController@destroy','as'=>'admin.ratings.destroy']);
 
 	// Resources
 	Route::get('admin/resources',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@index','as'=>'admin.resources.index']);
@@ -208,7 +204,6 @@ Route::group(['middleware' => ['web','isverified','role:admin#editor#backend']],
 	Route::post('admin/resources',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@store','as'=>'admin.resources.store']);
     Route::delete('admin/resources/{resource}',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@destroy','as'=>'admin.resources.destroy']);
 	Route::get('admin/resources/{resource}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\ResourcesController@removemedia','as'=>'admin.resources.removemedia']);   
-    Route::post('admin/resources/{resource}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\ResourcesController@addcomment','as' => 'admin.resources.addcomment']);
 
 	// Rosters
     Route::get('admin/rosters',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@index','as'=>'admin.rosters.index']);
@@ -243,7 +238,6 @@ Route::group(['middleware' => ['web','isverified','role:admin#editor#backend']],
 	Route::put('admin/series/{series}/sermons/{sermon}',['uses'=>'Bishopm\Connexion\Http\Controllers\SermonsController@update','as'=>'admin.sermons.update']);
 	Route::post('admin/series/{series}/sermons',['uses'=>'Bishopm\Connexion\Http\Controllers\SermonsController@store','as'=>'admin.sermons.store']);
     Route::delete('admin/series/{series}/sermons/{sermon}',['uses'=>'Bishopm\Connexion\Http\Controllers\SermonsController@destroy','as'=>'admin.sermons.destroy']);
-    Route::post('admin/series/{series}/sermons/{sermon}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@addcomment','as' => 'admin.sermons.addcomment']);
 
 	// Services
 	Route::get('admin/societies/{society}/services',['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@index','as'=>'admin.services.index']);
@@ -358,7 +352,6 @@ Route::group(['middleware' => ['web','isverified','role:admin#editor#backend']],
 		Route::get('admin/users/create',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@create','as'=>'admin.users.create']);
 		Route::get('admin/users/{user}',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@show','as'=>'admin.users.show']);
 		Route::get('admin/users/{user}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@edit','as'=>'admin.users.edit']);
-		Route::put('admin/users/{user}',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@update','as'=>'admin.users.update']);
 		Route::post('admin/users',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@store','as'=>'admin.users.store']);
 	    Route::delete('admin/users/{user}',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@destroy','as'=>'admin.users.destroy']);
 

@@ -5,8 +5,87 @@
 <div class="container">
 	<div class="row">
 	  @if (isset($currentUser))
-	  <h3>My details <small>{{$household->addressee}}</small></h3>
-		{{$household}}  
+		  <div class="col-md-12">
+			  <h3>My details <small>{{$household->addressee}}</small></h3>
+		  </div>
+		  <div class="col-md-6">
+		  	<div class="col-xs-12"><b>Residential address</b>&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-xs">Edit household</a></div>
+			<div class="col-xs-12">{{$household->addr1}}</div>
+			<div class="col-xs-12">{{$household->addr2}}</div>
+			<div class="col-xs-12">{{$household->addr3}}</div>
+			<div class="col-xs-12"><b>Postal address</b></div>
+			<div class="col-xs-12">{{$household->post1}}</div>
+			<div class="col-xs-12">{{$household->post2}}</div>
+			<div class="col-xs-12">{{$household->post3}}</div>
+			<div class="col-xs-12"><b>Home phone: </b>{{$household->homephone}}</div>
+			<div class="col-xs-12"><b>SMS'es go to: </b>{{$household->cellmember}}</div>
+			<div class="col-xs-12 top20"><b>Anniversaries</b>&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-xs">Edit/add anniversaries</a></div>
+			@foreach ($household->specialdays as $ann)
+				<div class="col-xs-12">{{date("d M Y",strtotime($ann->anniversarydate))}} - {{$ann->details}} ({{$ann->anniversarytype}})</div>
+			@endforeach
+		  </div>
+		  <div class="col-md-6">
+			  <ul class="nav nav-tabs" role="tablist">
+			  	@foreach ($household->individuals as $tabname)
+			  		@if ($loop->first)
+				    	<li role="presentation" class="active">
+				    @else
+						<li role="presentation">
+				    @endif
+				    <a href="#{{$tabname->id}}" aria-controls="home" role="tab" data-toggle="tab">{{$tabname->firstname}}</a></li>
+			    @endforeach
+			    <li role="presentation"><a href="#" title="Add new individual to this household" data-toggle="tab">+</a></li>
+			  </ul>
+			  <!-- Tab panes -->
+			  <div class="tab-content">
+			  	@foreach ($household->individuals as $indiv)
+			  		<div role="tabpanel" 
+			  			@if ($loop->first)
+				    		class="tab-pane active" id="{{$indiv->id}}">
+				    	@else
+							class="tab-pane" id="{{$indiv->id}}">
+				    	@endif
+				    	<div class="row top20">
+			    			<div class="col-md-12"><b>{{$indiv->title}} {{$indiv->firstname}} {{$indiv->surname}}</b>&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-xs">Edit individual</a></div>
+			    			<div class="col-md-12"><i class="fa fa-fw fa-mobile"></i> {{$indiv->cellphone}}</div>
+			    			<div class="col-md-12"><i class="fa fa-fw fa-envelope-o"></i> {{$indiv->email}}</div>
+			    			<div class="col-md-12"><i class="fa fa-fw fa-birthday-cake"></i> 
+				    			@if ($indiv->birthdate)
+				    				{{date("d M Y",strtotime($indiv->birthdate))}}
+				    			@else
+				    				No birthday on record
+				    			@endif
+				    		</div>
+			    			<div class="col-md-12"><i class="fa fa-fw fa-gift"></i>
+			    				@if ($indiv->giving)
+			    					Planned giver
+			    				@else
+			    					No planned giving number allocated
+			    				@endif
+			    			</div>
+			    			<div class="col-md-12"><b>Service: </b> {{$indiv->service->society->society}} {{$indiv->service->servicetime}}</div>
+			    		</div>
+			    		<div class="row top20">
+			    			<div class="col-md-12">
+				    			<b>Groups: </b>
+				    			@foreach ($indiv->groups as $group)
+				    				@if ($group->publish)
+						    			<a href="{{url('/')}}/group/{{$group->slug}}">{{$group->groupname}}</a>
+						    		@else
+						    			{{$group->groupname}}
+						    		@endif
+					    			@if (!$loop->last)
+					    				,
+					    			@elseif (count($indiv->groups))
+					    				.
+					    			@endif
+					    		@endforeach
+					    	</div>
+			    		</div>
+			    	</div>
+			    @endforeach
+			  </div>
+		  </div>
 	  @else 
 	  	<h3>My details</h3>
         <p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to see your profile details</p>

@@ -438,13 +438,6 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Bishopm\Connexion\Repositories\RatingsRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\RatingsRepository(new \Bishopm\Connexion\Models\Rating());
-                return $repository;
-            }
-        );        
-        $this->app->bind(
             'Bishopm\Connexion\Repositories\ResourcesRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\ResourcesRepository(new \Bishopm\Connexion\Models\Resource());

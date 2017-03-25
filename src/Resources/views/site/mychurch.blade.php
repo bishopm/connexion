@@ -12,7 +12,10 @@
     <ul>
        <input type="text" class="filtr-search" name="filtr-search" data-search>    
        <li class="btn btn-primary" data-filter="all"> All </li>
-       <li class="btn btn-primary" data-filter="2"> Staff </li>
+       <li class="btn btn-primary" data-filter="999999"> Staff </li>
+       <li class="btn btn-primary" data-filter="1"> 07h00 </li>
+       <li class="btn btn-primary" data-filter="2"> 08h30 </li>
+       <li class="btn btn-primary" data-filter="3"> 10h00 </li>
     </ul>
     <div class="row">
         <div class="filtr-container">

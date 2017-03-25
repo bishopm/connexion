@@ -9,7 +9,12 @@ class UsersRepository extends EloquentBaseRepository
     }
 
 	public function getuserbyindiv($individual_id){
-        return $this->model->where('individual_id','=',$individual_id)->with(['comments'=>function($q) { return $q->orderBy('created_at','DESC')->take(8); }])->first();
+        return $this->model->where('individual_id','=',$individual_id)->with('comments')->first();
+    }
+
+    public function mostRecent($num=1)
+    {
+        return $this->model->with('individual')->orderBy('created_at', 'DESC')->get()->take($num);
     }
 
 }

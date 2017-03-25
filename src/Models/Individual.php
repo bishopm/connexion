@@ -44,6 +44,10 @@ class Individual extends Model implements TaggableInterface
         return $this->belongsTo('Bishopm\Connexion\Models\Household');
     }
 
+    public function service(){
+        return $this->belongsTo('Bishopm\Connexion\Models\Service');
+    }
+
     public function blogs(){
         return $this->hasMany('Bishopm\Connexion\Models\Blog');
     }

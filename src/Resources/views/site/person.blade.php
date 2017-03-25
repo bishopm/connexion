@@ -13,10 +13,12 @@
 	  </div>
 	  <div class="col-md-4">
 	    <h3>{{$person->firstname}} {{$person->surname}}</h3>
-	    Bio: {{$person->user->bio}}
+	    {{$person->user->bio}}
 	  </div>
 	  <div class="col-md-4">
 	  	<h3>Get in touch</h3>
+	  	Send {{$person->firstname}} an {{ HTML::mailto($person->email,'email') }}
+
 	  	@if ($person->user)
 	  		<a href="{{url('/')}}/users/{{$person->slug}}" class="btn btn-primary">View {{$person->firstname}}'s user page</a>
 	  	@endif

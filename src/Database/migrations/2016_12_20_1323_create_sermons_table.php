@@ -15,7 +15,7 @@ class CreateSermonsTable extends Migration
 		Schema::create('sermons', function(Blueprint $table) {
 			$table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('sermon');
+            $table->string('title');
             $table->string('slug');
             $table->integer('series_id');
             $table->string('servicedate');

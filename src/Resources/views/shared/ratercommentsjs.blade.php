@@ -19,7 +19,7 @@
         $.ajax({
             type : 'POST',
             url : '{{$url}}',
-            data : {'newcomment':$('textarea#newcomment').val(),'user':user},
+            data : {'newcomment':$('textarea#newcomment').val(),'user':user,'rating':$(".rating").rate("getValue")},
             success: function(){
             	$(newcom).appendTo('#allcomments');
             }

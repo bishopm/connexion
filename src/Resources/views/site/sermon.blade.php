@@ -9,15 +9,15 @@
 <img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
 	<div class="row">
-		<h3 class="text-center">{{$sermon->sermon}}</h3>
+		<h3 class="text-center">{{$sermon->title}}</h3>
 		<div class="col-md-4 text-center">
 			<img class="top17" src="{{$sermon->series->getMedia('image')->first()->getUrl()}}">
     	    <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
-            <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: {{$sermon->sermon}}</div>
+            <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: {{$sermon->title}}</div>
         	<div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
     	</div>
     	<div class="col-md-8">
-		    @include('connexion::shared.comments', ['entity' => $sermon])
+		    @include('connexion::shared.comments')
     	</div>
 	</div>
 </div>
@@ -35,5 +35,5 @@
   });
 })(jQuery);
 </script>
-@include('connexion::shared.commentsjs', ['url' => route('admin.blogs.addcomment',$sermon->id)])
+@include('connexion::shared.commentsjs', ['url' => route('admin.sermons.addcomment',array($sermon->series->id,$sermon->id))])
 @endsection

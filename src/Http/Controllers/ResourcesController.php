@@ -47,6 +47,7 @@ class ResourcesController extends Controller {
 	public function show($slug)
 	{
         $data['resource']=$this->resource->findBySlug($slug);
+        $data['comments'] = $data['resource']->comments()->paginate(5);
         return view('connexion::site.resource',$data);
 	}
 

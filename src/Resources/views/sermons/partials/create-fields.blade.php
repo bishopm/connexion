@@ -1,4 +1,4 @@
-{{ Form::bsText('sermon','Sermon title','Sermon title') }}
+{{ Form::bsText('title','Sermon title','Sermon title') }}
 {{ Form::bsText('slug','Slug','Slug') }}
 {{ Form::bsText('servicedate','Service date','Service date') }}
 {{ Form::bsText('mp3','Link to mp3','Link to mp3') }}
