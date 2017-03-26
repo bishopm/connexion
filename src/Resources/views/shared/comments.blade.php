@@ -1,5 +1,5 @@
 <h4>Comments</h4>
-@if ((isset($currentUser)) and ($currentUser->hasPermissionTo('edit-comment')))
+@can('edit-comment')
 	<div id="allcomments">
 		@foreach ($comments as $comment)
 			<div class="row top5">
@@ -52,4 +52,4 @@
 	</div>
 @else
 	<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to see comments or add your own</p>
-@endif
+@endcan

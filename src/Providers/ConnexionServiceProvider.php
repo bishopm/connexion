@@ -67,31 +67,31 @@ class ConnexionServiceProvider extends ServiceProvider
             $event->menu->add([
                 'text' => $society,
                 'icon' => 'book',
-                'can' => 'read-content',
+                'can' => 'read-backend',
                 'submenu' => [
                     [
                         'text' => 'Households',
                         'url'  => 'admin/households',
                         'icon' => 'child',
-                        'can' =>  'read-content'
+                        'can' =>  'read-backend'
                     ],
                     [
                         'text' => 'Groups',
                         'url'  => 'admin/groups',
                         'icon' => 'users',
-                        'can' =>  'read-content'
+                        'can' =>  'read-backend'
                     ],
                     [
                         'text' => 'Messages',
                         'url'  => 'admin/messages/create',
                         'icon' => 'envelope-o',
-                        'can' =>  'edit-content'
+                        'can' =>  'edit-backend'
                     ],
                     [
                         'text' => 'Rosters',
                         'url'  => 'admin/rosters',
                         'icon' => 'calendar',
-                        'can' =>  'edit-content'
+                        'can' =>  'edit-backend'
                     ]
                 ]
             ]);
@@ -99,37 +99,37 @@ class ConnexionServiceProvider extends ServiceProvider
                 $event->menu->add([
                     'text' => 'Circuit',
                     'icon' => 'comments',
-                    'can' => 'read-content',
+                    'can' => 'read-backend',
                     'submenu' => [
                         [
                             'text' => 'Preachers',
                             'url'  => 'admin/preachers',
                             'icon' => 'child',
-                            'can' =>  'edit-content'
+                            'can' =>  'edit-backend'
                         ],
                         [
                             'text' => 'Societies',
                             'url'  => 'admin/societies',
                             'icon' => 'envelope-o',
-                            'can' =>  'edit-content'
+                            'can' =>  'edit-backend'
                         ],
                         [
                             'text' => 'Plan',
                             'url'  => 'admin/plan/' . date('Y') . '/1/edit',
                             'icon' => 'calendar',
-                            'can' =>  'edit-content'
+                            'can' =>  'edit-backend'
                         ],
                         [
                             'text' => 'Meetings',
                             'url'  => 'admin/meetings',
                             'icon' => 'group',
-                            'can' =>  'edit-content'
+                            'can' =>  'edit-backend'
                         ],
                         [
                             'text' => 'Special services',
                             'url'  => 'admin/weekdays',
                             'icon' => 'tree',
-                            'can' =>  'edit-content'
+                            'can' =>  'edit-backend'
                         ]
                     ]
                 ]);
@@ -138,13 +138,13 @@ class ConnexionServiceProvider extends ServiceProvider
                 $event->menu->add([
                     'text' => 'Todo',
                     'icon' => 'list-ol',
-                    'can' => 'read-content',
+                    'can' => 'read-backend',
                     'submenu' => [
                         [
                             'text' => 'Tasks',
                             'url'  => 'admin/actions',
                             'icon' => 'check-square-o',
-                            'can' =>  'read-content'
+                            'can' =>  'read-backend'
                         ],
                         [
                             'text' => 'Folders',
@@ -156,7 +156,7 @@ class ConnexionServiceProvider extends ServiceProvider
                             'text' => 'Projects',
                             'url'  => 'admin/projects',
                             'icon' => 'tasks',
-                            'can' =>  'read-content'
+                            'can' =>  'read-backend'
                         ]
                     ]
                 ]);
@@ -165,7 +165,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 $event->menu->add([
                     'text' => 'Worship',
                     'icon' => 'music',
-                    'can' => 'read-content',
+                    'can' => 'read-backend',
                     'url' => 'admin/worship'
                 ]);
             }
@@ -175,24 +175,24 @@ class ConnexionServiceProvider extends ServiceProvider
                     'text' => 'Blog',
                     'url' => 'admin/blogs',
                     'icon' => 'pencil-square-o',
-                    'can' =>  'edit-content'
+                    'can' =>  'edit-backend'
                 ],
                 [
                     'text' => 'Resources',
                     'url' => 'admin/resources',
                     'icon' => 'book',
-                    'can' =>  'edit-content'
+                    'can' =>  'edit-backend'
                 ],            
                 [
                     'text' => 'Sermons',
                     'url' => 'admin/series',
                     'icon' => 'microphone',
-                    'can' =>  'edit-content'
+                    'can' =>  'edit-backend'
                 ],
                 [
                     'text' => 'Site structure',
                     'icon' => 'sitemap',
-                    'can' => 'edit-content',
+                    'can' => 'edit-backend',
                     'submenu' => [
                         [
                             'text' => 'Menus',
@@ -218,7 +218,7 @@ class ConnexionServiceProvider extends ServiceProvider
                     'text' => 'View site',
                     'url' => route('homepage'),
                     'icon' => 'globe',
-                    'can' =>  'read-content',
+                    'can' =>  'read-backend',
                     'target' => '_blank',
                     'active' => []
                 ]
@@ -304,8 +304,8 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
-        $this->app->register('Spatie\Permission\PermissionServiceProvider');
         $this->app->register('Cartalyst\Tags\TagsServiceProvider');
+        $this->app->register('Laratrust\LaratrustServiceProvider');
         $this->app->register('Plank\Mediable\MediableServiceProvider');
         $this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
         $this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
@@ -313,6 +313,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Felixkiss\UniqueWithValidator\ServiceProvider');
         $this->app->register('Jrean\UserVerification\UserVerificationServiceProvider');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
+        AliasLoader::getInstance()->alias("Laratrust",'Laratrust\LaratrustFacade');
         AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');

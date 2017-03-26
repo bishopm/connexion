@@ -37,15 +37,15 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$currentUser->individual->firstname}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  @if ($currentUser->hasPermissionTo('worship-edit'))
+                  @can('edit-backend'))
                     <li><a href="{{url('/')}}/admin"><i class="fa fa-fw fa-cogs"></i> Backend</a></li>
-                  @endif
+                  @endcan
                   <li><a href="{{url('/')}}/users/{{$currentUser->individual->slug}}"><i class="fa fa-fw fa-info-circle"></i> My user profile</a></li>
                   <li><a href="{{url('/')}}/my-church"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation']}}</a></li>
                   <li><a href="{{url('/')}}/my-details"><i class="fa fa-fw fa-user"></i> My details</a></li>
-                  @if ($currentUser->hasPermissionTo('worship-edit'))
+                  @can('worship-edit'))
                     <li><a href="{{url('/')}}/admin/worship"><i class="fa fa-fw fa-music"></i> Worship</a></li>
-                  @endif
+                  @endcan
                   <li role="separator" class="divider"></li>
                   <li>
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
