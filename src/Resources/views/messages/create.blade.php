@@ -40,7 +40,7 @@
                     </div>
                     <div class="row" id="emailrow1">
                         <div class="col-md-6">
-                            {{ Form::bsText('sender','Sender','Sender',$currentUser->email) }}
+                            {{ Form::bsText('sender','Sender','Sender',Auth::user()->email) }}
                         </div>
                         <div class="col-md-6">
                             {{ Form::bsText('subject','Subject','Subject') }}

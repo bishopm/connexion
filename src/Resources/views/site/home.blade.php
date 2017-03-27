@@ -45,7 +45,7 @@
       @endif
     </div>
     <div class="col-md-4 text-center">
-      @if (isset($currentUser))
+      @if (Auth::check())
         <img src="{{asset('vendor/bishopm/images/community.png')}}">
         <h4>What are we saying?</h4>
         <ul class="list-unstyled"><small>

@@ -1,7 +1,10 @@
 @extends('adminlte::page')
 
+@section('content_header')
+{{ Form::pgHeader('Add role','Roles',route('admin.roles.index')) }}
+@stop
+
 @section('content')
-    {{ Form::pgHeader('Add role','Roles',route('admin.roles.index')) }}
     @include('connexion::shared.errors')    
     {!! Form::open(['route' => array('admin.roles.store'), 'method' => 'post']) !!}
     <div class="row">

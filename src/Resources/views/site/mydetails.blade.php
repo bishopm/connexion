@@ -4,7 +4,7 @@
 <img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
 	<div class="row">
-	  @if (isset($currentUser))
+	  @if (Auth::check())
 		  <div class="col-md-12">
 			  <h3>My details <small>{{$household->addressee}}</small></h3>
 		  </div>

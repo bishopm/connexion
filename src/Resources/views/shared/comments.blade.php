@@ -1,5 +1,5 @@
 <h4>Comments</h4>
-@can('edit-comment')
+@if (Auth::user()->can('edit-comment'))
 	<div id="allcomments">
 		@foreach ($comments as $comment)
 			<div class="row top5">
@@ -26,9 +26,9 @@
 	<hr>
 	<div class="row">
 		<div class="col-xs-3 col-sm-1">
-			<a href="{{route('webuser',$currentUser->individual->slug)}}">
-			@if (count($currentUser->individual->getMedia('image')))
-                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{$currentUser->individual->getMedia('image')->first()->getUrl()}}">
+			<a href="{{route('webuser',Auth::user()->individual->slug)}}">
+			@if (count(Auth::user()->individual->getMedia('image')))
+                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{Auth::user()->individual->getMedia('image')->first()->getUrl()}}">
             @else
                 <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
             @endif
@@ -52,4 +52,4 @@
 	</div>
 @else
 	<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to see comments or add your own</p>
-@endcan
+@endif

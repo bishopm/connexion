@@ -1,6 +1,6 @@
 <?php
  
-Route::group(['middleware' => ['web','role:open']], function () {
+Route::group(['middleware' => ['web']], function () {
 	// Authentication for guests
 	Route::get('login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
 	Route::post('login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@login','as'=>'login']);
@@ -42,7 +42,7 @@ Route::group(['middleware' => ['web','isverified']], function () {
 	Route::post('logout',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@logout','as'=>'logout']);
 });
 
-Route::group(['middleware' => ['web','isverified','role:admin#editor#backend']], function () {
+Route::group(['middleware' => ['web','isverified']], function () {
 	
 	// Dashboard
 	Route::get('admin',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
@@ -316,7 +316,7 @@ Route::group(['middleware' => ['web','isverified','role:admin#editor#backend']],
 	Route::post('admin/weekdays',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@store','as'=>'admin.weekdays.store']);
     Route::delete('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@destroy','as'=>'admin.weekdays.destroy']);
 
-    Route::group(['middleware' => ['web','role:admin']], function () {
+    Route::group(['middleware' => ['web']], function () {
 
 		// Permissions
 		Route::get('admin/permissions',['uses'=>'Bishopm\Connexion\Http\Controllers\PermissionsController@index','as'=>'admin.permissions.index']);

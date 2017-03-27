@@ -8,7 +8,6 @@ use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Role;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
-use Bishopm\Connexion\Repositories\RolesRepository;
 use Bishopm\Connexion\Http\Requests\CreateUserRequest;
 use Bishopm\Connexion\Http\Requests\UpdateUserRequest;
 
@@ -16,11 +15,10 @@ class UsersController extends Controller {
 
 	private $user,$individuals;
 
-	public function __construct(UsersRepository $user, IndividualsRepository $individuals, RolesRepository $roles)
+	public function __construct(UsersRepository $user, IndividualsRepository $individuals)
     {
         $this->user = $user;
         $this->individuals = $individuals;
-        $this->roles = $roles;
     }
 
 	public function index()
@@ -31,12 +29,12 @@ class UsersController extends Controller {
 
 	public function edit(User $user)
     {
-        $uroles= $user->roles()->get();
+        $uroles= $user->roles;
         $data['userroles']=array();
         foreach ($uroles as $ur){
             $data['userroles'][]=$ur->id;
         }
-        $data['roles']=$this->roles->all();
+        $data['roles']=Role::all();
         $data['individuals'] = $this->individuals->all();
         $data['user'] = $user;
         return view('connexion::users.edit', $data);
@@ -54,7 +52,7 @@ class UsersController extends Controller {
 
     public function create()
     {
-        $data['roles']=$this->roles->all();
+        $data['roles']=Role::all();
         $data['individuals'] = $this->individuals->all();
 
         return view('connexion::users.create',$data);

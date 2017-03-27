@@ -1,7 +1,7 @@
-@if (isset($currentUser))
+@if (Auth::check())
   <?php
-  if (count($currentUser->individual->getMedia('image'))){
-    $imgsrc=$currentUser->individual->getMedia("image")->first()->getUrl();
+  if (count(Auth::user()->individual->getMedia('image'))){
+    $imgsrc=Auth::user()->individual->getMedia("image")->first()->getUrl();
   } else {
     $imgsrc=asset('vendor/bishopm/images/profile.png');
   }?>
@@ -12,9 +12,9 @@
           }
       });
       $('#publishButton').on('click',function(){
-      	user={{$currentUser->id or 0}};
+      	user={{Auth::user()->id or 0}};
       	if (user){
-          newcom='<div class="row top5"><div class="col-xs-2 col-sm-1"><img class="img-responsive img-circle img-thumbnail" width="50px" src="{{$imgsrc}}"></div><div class="col-xs-10 col-sm-11" style="font-size: 80%"><a href="{{route("admin.users.show",$currentUser->id)}}">{{$currentUser->individual->firstname}} {{$currentUser->individual->surname}}</a>: ' + $('textarea#newcomment').val() + '<div><i>{{date("j M")}}</i></div></div></div>';
+          newcom='<div class="row top5"><div class="col-xs-2 col-sm-1"><img class="img-responsive img-circle img-thumbnail" width="50px" src="{{$imgsrc}}"></div><div class="col-xs-10 col-sm-11" style="font-size: 80%"><a href="{{route("admin.users.show",Auth::user()->id)}}">{{Auth::user()->individual->firstname}} {{Auth::user()->individual->surname}}</a>: ' + $('textarea#newcomment').val() + '<div><i>{{date("j M")}}</i></div></div></div>';
       	}
         $.ajax({
             type : 'POST',

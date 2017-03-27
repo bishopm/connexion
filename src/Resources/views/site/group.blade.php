@@ -11,7 +11,7 @@
 		<div class="col-md-6">
 			<h4>Group members (only registered users shown)</h4>
 			<ul class="list-unstyled">
-			@if (isset($currentUser))
+			@if (Auth::check())
 				@foreach ($group->individuals as $indiv)
 					@if (isset($indiv->user))
 						<li><a href="{{url('/')}}/users/{{$indiv->slug}}">{{$indiv->firstname}} {{$indiv->surname}}</a></li>

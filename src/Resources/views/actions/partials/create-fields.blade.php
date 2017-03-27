@@ -1,5 +1,5 @@
 {{ Form::bsText('description','Description','Description') }}
-{{ Form::bsHidden('user_id',$currentUser->id) }}
+{{ Form::bsHidden('user_id',Auth::user()->id) }}
 <div class='form-group '>
   <label for="folder_id">Folder</label>
   <select id="folder_id" name="folder_id">

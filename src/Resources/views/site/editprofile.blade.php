@@ -5,7 +5,7 @@
 <div class="container">
 	@include('connexion::shared.errors') 
 	<div class="row top30">
-	  @if ((isset($currentUser)) and ($individual->user->id==$currentUser->id))
+	  @if ((Auth::check()) and ($individual->user->id==Auth::user()->id))
 	  	<h4>{{$individual->firstname}} {{$individual->surname}}</h4>
 	  	@include('connexion::shared.errors')
 	    {!! Form::open(['route' => array('admin.users.update',$individual->user->id), 'method' => 'put','files'=>'true']) !!}

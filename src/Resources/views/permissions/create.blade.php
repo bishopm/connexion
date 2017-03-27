@@ -1,7 +1,10 @@
 @extends('adminlte::page')
 
+@section('content_header')
+{{ Form::pgHeader('Add permission','Permissions',route('admin.permissions.index')) }}
+@stop
+
 @section('content')
-    {{ Form::pgHeader('Add permission','Permissions',route('admin.permissions.index')) }}
     @include('connexion::shared.errors')    
     {!! Form::open(['route' => array('admin.permissions.store'), 'method' => 'post']) !!}
     <div class="row">

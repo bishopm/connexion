@@ -4,7 +4,7 @@
 <img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
 	<div class="row top30">
-	  @if (isset($currentUser))
+	  @if (Auth::check())
 		  <div class="col-md-3">
 		  	@if (count($user->individual->getMedia('image')))
                 <img class="img-responsive img-circle img-thumbnail" src="{{$user->individual->getMedia('image')->first()->getUrl()}}">
@@ -15,7 +15,7 @@
 		  <div class="col-md-3">
 		    <h3>{{$user->individual->firstname}} {{$user->individual->surname}}</h3>
 		    {{$user->bio}}
-		    @if ($currentUser->id == $user->id)
+		    @if (Auth::user()->id == $user->id)
 			    <p class="top10"><a href="{{url('/')}}/users/{{$user->individual->slug}}/edit" class="btn btn-xs btn-primary">Edit my public profile</a></p>
 			@endif
 		  </div>

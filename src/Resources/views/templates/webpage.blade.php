@@ -33,19 +33,19 @@
             <li><a href="http://www.facebook.com/umhlalimethodist" target="_blank"><i class="fa fa-facebook"></i></a></li>
             <li><a href="http://www.twitter.com/umhlalichurch" target="_blank"><i class="fa fa-twitter"></i></a></li>
             <li><a href="http://www.youtube.com/umhlalimethodist" target="_blank"><i class="fa fa-youtube"></i></a></li>
-            @if(isset($currentUser))
+            @if(Auth::check())
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$currentUser->individual->firstname}} <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->individual->firstname}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  @can('edit-backend'))
+                  @if (Auth::user()->can('view-backend'))
                     <li><a href="{{url('/')}}/admin"><i class="fa fa-fw fa-cogs"></i> Backend</a></li>
-                  @endcan
-                  <li><a href="{{url('/')}}/users/{{$currentUser->individual->slug}}"><i class="fa fa-fw fa-info-circle"></i> My user profile</a></li>
+                  @endif
+                  <li><a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}"><i class="fa fa-fw fa-info-circle"></i> My user profile</a></li>
                   <li><a href="{{url('/')}}/my-church"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation']}}</a></li>
                   <li><a href="{{url('/')}}/my-details"><i class="fa fa-fw fa-user"></i> My details</a></li>
-                  @can('worship-edit'))
+                  @if (Auth::user()->can('view-worship'))
                     <li><a href="{{url('/')}}/admin/worship"><i class="fa fa-fw fa-music"></i> Worship</a></li>
-                  @endcan
+                  @endif
                   <li role="separator" class="divider"></li>
                   <li>
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i> Log Out</a>

@@ -2,8 +2,7 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use Bishopm\Connexion\Repositories\PermissionsRepository;
-use Spatie\Permission\Models\Permission;
+use Bishopm\Connexion\Models\Permission;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreatePermissionRequest;
 use Bishopm\Connexion\Http\Requests\UpdatePermissionRequest;
@@ -18,14 +17,14 @@ class PermissionsController extends Controller {
 
 	private $permission;
 
-	public function __construct(PermissionsRepository $permission)
+	public function __construct()
     {
-        $this->permission = $permission;
+        //
     }
 
 	public function index()
 	{
-        $permissions = $this->permission->all();
+        $permissions = Permission::all();
    		return view('connexion::permissions.index',compact('permissions'));
 	}
 
@@ -41,15 +40,21 @@ class PermissionsController extends Controller {
 
     public function store(CreatePermissionRequest $request)
     {
-        $this->permission->create($request->all());
-
+        $permission=new Permission();
+        $permission->name=$request->input('name');
+        $permission->display_name = $request->input('display_name');
+        $permission->description  = $request->input('description');
+        $permission->save();
         return redirect()->route('admin.permissions.index')
             ->withSuccess('New permission added');
     }
 	
     public function update(Permission $permission, UpdatePermissionRequest $request)
     {
-        $this->permission->update($permission, $request->all());
+        $permission->name=$request->input('name');
+        $permission->display_name = $request->input('display_name');
+        $permission->description  = $request->input('description');
+        $permission->save();
         return redirect()->route('admin.permissions.index')->withSuccess('Permission has been updated');
     }
 

@@ -4,14 +4,14 @@ namespace Bishopm\Connexion\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
 use Actuallymab\LaravelComment\CanComment;
 use Bishopm\Connexion\Notifications\ResetPasswordNotification;
+use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable
 {
     use Notifiable;
-    use HasRoles;
+    use LaratrustUserTrait;    
     use CanComment;
 
     /**

@@ -67,19 +67,19 @@ class ConnexionServiceProvider extends ServiceProvider
             $event->menu->add([
                 'text' => $society,
                 'icon' => 'book',
-                'can' => 'read-backend',
+                'can' => 'view-backend',
                 'submenu' => [
                     [
                         'text' => 'Households',
                         'url'  => 'admin/households',
                         'icon' => 'child',
-                        'can' =>  'read-backend'
+                        'can' =>  'view-backend'
                     ],
                     [
                         'text' => 'Groups',
                         'url'  => 'admin/groups',
                         'icon' => 'users',
-                        'can' =>  'read-backend'
+                        'can' =>  'view-backend'
                     ],
                     [
                         'text' => 'Messages',
@@ -99,7 +99,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 $event->menu->add([
                     'text' => 'Circuit',
                     'icon' => 'comments',
-                    'can' => 'read-backend',
+                    'can' => 'view-backend',
                     'submenu' => [
                         [
                             'text' => 'Preachers',
@@ -138,25 +138,25 @@ class ConnexionServiceProvider extends ServiceProvider
                 $event->menu->add([
                     'text' => 'Todo',
                     'icon' => 'list-ol',
-                    'can' => 'read-backend',
+                    'can' => 'view-backend',
                     'submenu' => [
                         [
                             'text' => 'Tasks',
                             'url'  => 'admin/actions',
                             'icon' => 'check-square-o',
-                            'can' =>  'read-backend'
+                            'can' =>  'view-backend'
                         ],
                         [
                             'text' => 'Folders',
                             'url'  => 'admin/folders',
                             'icon' => 'folder-open-o',
-                            'can' =>  'administer-site'
+                            'can' =>  'admin-backend'
                         ],
                         [
                             'text' => 'Projects',
                             'url'  => 'admin/projects',
                             'icon' => 'tasks',
-                            'can' =>  'read-backend'
+                            'can' =>  'view-backend'
                         ]
                     ]
                 ]);
@@ -165,7 +165,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 $event->menu->add([
                     'text' => 'Worship',
                     'icon' => 'music',
-                    'can' => 'read-backend',
+                    'can' => 'view-backend',
                     'url' => 'admin/worship'
                 ]);
             }
@@ -198,19 +198,19 @@ class ConnexionServiceProvider extends ServiceProvider
                             'text' => 'Menus',
                             'url'  => 'admin/menus',
                             'icon' => 'bars',
-                            'can' =>  'administer-site'
+                            'can' =>  'admin-backend'
                         ],            
                         [
                             'text' => 'Pages',
                             'url' => 'admin/pages',
                             'icon' => 'file',
-                            'can' =>  'administer-site'
+                            'can' =>  'admin-backend'
                         ],
                         [
                             'text' => 'Slides',
                             'url' => 'admin/slides',
                             'icon' => 'picture-o',
-                            'can' =>  'administer-site'
+                            'can' =>  'admin-backend'
                         ]
                     ]
                 ],
@@ -218,7 +218,7 @@ class ConnexionServiceProvider extends ServiceProvider
                     'text' => 'View site',
                     'url' => route('homepage'),
                     'icon' => 'globe',
-                    'can' =>  'read-backend',
+                    'can' =>  'view-backend',
                     'target' => '_blank',
                     'active' => []
                 ]
@@ -226,30 +226,30 @@ class ConnexionServiceProvider extends ServiceProvider
             }
             $event->menu->add([
                 'header' => 'SETTINGS',
-                'can' => 'administer-site'
+                'can' => 'admin-backend'
             ]);
             $event->menu->add([
                 'text' => 'User access',
                 'icon' => 'user',
-                'can' =>  'administer-site',
+                'can' =>  'admin-backend',
                 'submenu' => [
                     [
                         'text' => 'Permissions',
                         'url'  => 'admin/permissions',
                         'icon' => 'users',
-                        'can' =>  'administer-site'
+                        'can' =>  'admin-backend'
                     ],
                     [
                         'text' => 'Roles',
                         'url'  => 'admin/roles',
                         'icon' => 'user',
-                        'can' =>  'administer-site'
+                        'can' =>  'admin-backend'
                     ],
                     [
                         'text' => 'Users',
                         'url' => 'admin/users',
                         'icon' => 'user',
-                        'can' =>  'administer-site'
+                        'can' =>  'admin-backend'
                     ]
                 ]
             ]);           
@@ -257,7 +257,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 'text' => 'System settings',
                 'url' => 'admin/settings',
                 'icon' => 'cog',
-                'can' =>  'administer-site'
+                'can' =>  'admin-backend'
             ]);
         });
         Form::component('bsText', 'connexion::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
@@ -280,7 +280,6 @@ class ConnexionServiceProvider extends ServiceProvider
             config(['adminlte.logo_mini' => '<b>C</b>x']);
         }
         config(['adminlte.dashboard_url' => 'admin']);
-        //config(['adminlte.layout' => 'fixed']);
         config(['adminlte.filters' => [
             \JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
             \JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
@@ -289,6 +288,9 @@ class ConnexionServiceProvider extends ServiceProvider
             \Bishopm\Connexion\Middleware\MyMenuFilter::class]]);
         config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
         config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
+        config(['laratrust.user_models.users'=>'\Bishopm\Connexion\Models\User']);
+        config(['laratrust.role'=>'\Bishopm\Connexion\Models\Role']);
+        config(['laratrust.permission'=>'\Bishopm\Connexion\Models\Permission']);
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
         view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
     }
@@ -319,8 +321,9 @@ class ConnexionServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');
-        $this->app['router']->aliasMiddleware('role', 'Bishopm\Connexion\Middleware\RoleMiddleware');
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
+        $this->app['router']->aliasMiddleware('role','Laratrust\Middleware\LaratrustRole');
+        $this->app['router']->aliasMiddleware('permission','Laratrust\Middleware\LaratrustPermission');
         $this->registerBindings();
     }
 
@@ -411,13 +414,6 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Bishopm\Connexion\Repositories\PermissionsRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\PermissionsRepository(new \Spatie\Permission\Models\Permission());
-                return $repository;
-            }
-        );
-        $this->app->bind(
             'Bishopm\Connexion\Repositories\PlansRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\PlansRepository(new \Spatie\Permission\Models\Plan());
@@ -442,13 +438,6 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\ResourcesRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\ResourcesRepository(new \Bishopm\Connexion\Models\Resource());
-                return $repository;
-            }
-        );
-        $this->app->bind(
-            'Bishopm\Connexion\Repositories\RolesRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\RolesRepository(new \Spatie\Permission\Models\Role());
                 return $repository;
             }
         );
