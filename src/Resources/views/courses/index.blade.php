@@ -8,8 +8,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-md-6"><h4>Resources</h4></div>
-                        <div class="col-md-6"><a href="{{route('admin.resources.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new resource</a></div>
+                        <div class="col-md-6"><h4>Courses</h4></div>
+                        <div class="col-md-6"><a href="{{route('admin.courses.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new course</a></div>
                         <hr>
                     </div>
                 </div>
@@ -26,12 +26,12 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            @forelse ($resources as $resource)
+                            @forelse ($courses as $course)
                                 <tr>
-                                    <td><a href="{{route('admin.resources.edit',$resource->id)}}">{{$resource->title}}</a></td>
+                                    <td><a href="{{route('admin.courses.edit',$course->id)}}">{{$course->title}}</a></td>
                                 </tr>
                             @empty
-                                <tr><td>No resources have been added yet</td></tr>
+                                <tr><td>No courses have been added yet</td></tr>
                             @endforelse
                         </tbody>
                     </table>

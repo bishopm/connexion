@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Plank\Mediable\Mediable;
 use Actuallymab\LaravelComment\Commentable;
 
-class Resource extends Model
+class Course extends Model
 {
     use Mediable;
     use Commentable;
@@ -15,7 +15,4 @@ class Resource extends Model
     protected $canBeRated = true;
     protected $mustBeApproved = false;
 
-    public function ratings(){
-        return $this->hasMany('Bishopm\Connexion\Models\Rating');
-    }
 }

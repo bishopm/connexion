@@ -80,7 +80,11 @@ class HouseholdsController extends Controller {
     public function update(Household $household, UpdateHouseholdRequest $request)
     {
         $this->household->update($household, $request->all());
-        return redirect()->route('admin.households.index')->withSuccess('Household has been updated');
+        if (null!==$request->input('latitude')){
+            return redirect()->route('admin.households.index')->withSuccess('Household has been updated');
+        } else {
+            return redirect()->route('mydetails')->withSuccess('Household has been updated');
+        }
     }
 
 }

@@ -63,12 +63,17 @@ class SpecialdaysController extends Controller
      */
     public function store(Request $request, Household $household)
     {
-        $special = New Specialday;
-        $special->anniversarydate=$request->anniversarydate;
-        $special->details=$request->anniversarydetails;
-        $special->anniversarytype=$request->anniversarytype;
-        $special->household_id=$household->id;
-        $special->save();
+        if (null!==$request->input('anniversaryid')){
+            $special = New Specialday;
+            $special->anniversarydate=$request->anniversarydate;
+            $special->details=$request->anniversarydetails;
+            $special->anniversarytype=$request->anniversarytype;
+            $special->household_id=$household->id;
+            $special->save();
+        } else {
+            $special=$this->specialday->create($request->all());
+            return redirect()->route('mydetails')->withSuccess('New anniversary added');
+        }
     }
 
     /**
@@ -91,11 +96,17 @@ class SpecialdaysController extends Controller
      */
     public function update(Request $request)
     {
-      $special=$this->specialday->find($request->anniversaryid);
-      $special->details=$request->anniversarydetails;
-      $special->anniversarydate=$request->anniversarydate;
-      $special->anniversarytype=$request->anniversarytype;
-      $special->save();
+        if (null!==$request->input('anniversaryid')){
+            $special=$this->specialday->find($request->anniversaryid);
+            $special->details=$request->anniversarydetails;
+            $special->anniversarydate=$request->anniversarydate;
+            $special->anniversarytype=$request->anniversarytype;
+            $special->save();
+        } else {
+            $special=$this->specialday->find($request->input('id'));
+            $this->specialday->update($special, $request->all());
+            return redirect()->route('mydetails');
+        }
     }
     /**
      * Remove the specified resource from storage.

@@ -3,7 +3,6 @@
 @section('content')
 <img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
-	@include('connexion::shared.errors') 
 	<div class="row top30">
 	  @if ((Auth::check()) and ($individual->user->id==Auth::user()->id))
 	  	<h4>{{$individual->firstname}} {{$individual->surname}}</h4>
@@ -13,7 +12,7 @@
 	    {{ Form::bsHidden('email',$individual->user->email) }}
 	    {{ Form::bsText('bio','Say a little about yourself (optional)','Brief bio',$individual->user->bio) }}
 	    <div class="form-group">
-			<label for="service_id" class="control-label">Which service do you usually attend</label>
+			<label for="service_id" class="control-label">Which service do you usually attend?</label>
 			<select name="service_id" id="service_id" class="form-control">
 				@foreach ($society as $soc)
 					@foreach ($soc->services as $service)
@@ -45,4 +44,25 @@
 	  @endif
 	</div>
 </div>
+@endsection
+
+@section('js')
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
+        }
+    });
+    $("#removeMedia").on('click',function(e){
+        e.preventDefault();
+        $.ajax({
+            type : 'GET',
+            url : '{{url('/')}}/admin/individuals/<?php echo $individual->id;?>/removemedia',
+            success: function(){
+              $('#thumbdiv').hide();
+              $('#filediv').show();
+            }
+        });
+    });
+</script>
 @endsection

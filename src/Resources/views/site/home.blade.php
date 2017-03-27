@@ -56,7 +56,7 @@
                 <a href="{{url('/')}}/blog/{{$comment->commentable->slug}}">
               @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Sermon")
                 <a href="{{url('/')}}/sermons/{{$comment->commentable->series->slug}}/{{$comment->commentable->slug}}">
-              @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Resource")
+              @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Course")
                 <a href="{{url('/')}}/course/{{$comment->commentable->slug}}">
               @endif
               {{substr($comment->commentable->title,0,20)}}

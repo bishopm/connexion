@@ -15,11 +15,31 @@
   </ul>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="courses"><br>
-    	@forelse($courses as $course)
-    		{{$course}}
-    	@empty
-    		No courses have been added to the site yet
-    	@endforelse
+    	<table id="cTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th></th><th>Course</th><th>Description</th><th>Average rating (1-5)</th><th>Comments</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th><th>Course</th><th>Description</th><th>Average rating (1-5)</th><th>Comments</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @forelse ($courses as $cc)
+                    <tr>
+                        <td><a href="{{route('webresource',$cc->slug)}}"><img width="150px" class="img-responsive" src="{{$cc->getMedia('image')->first()->getUrl()}}"></a></td>
+                        <td><a href="{{route('webresource',$cc->slug)}}">{{$cc->title}}</a></td>
+                        <td><a href="{{route('webresource',$cc->slug)}}">{!!$cc->description!!}</a></td>
+                        <td><a href="{{route('webresource',$cc->slug)}}">{{$cc->averageRate()}}</a></td>
+                        <td><a href="{{route('webresource',$cc->slug)}}">{{count($cc->comments)}}</a></td>
+                    </tr>
+                @empty
+                    <tr><td>No home group materials have been added yet</td></tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
     <div role="tabpanel" class="tab-pane" id="homegroups"><br>
         <table id="hgTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
@@ -64,6 +84,7 @@
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script language="javascript">
 $(document).ready(function() {
+    $('#cTable').DataTable();
     $('#hgTable').DataTable();
 } );
 </script>

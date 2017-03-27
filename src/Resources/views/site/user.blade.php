@@ -47,7 +47,7 @@
 		  			<li>{{date("d M",strtotime($comment->created_at))}} (sermon) - <a href="{{url('/')}}/sermons/{{$comment->commentable->series->slug}}/{{$comment->commentable->slug}}">{{$comment->commentable->title}}</a></li>
 		  		@elseif (strpos($comment->commentable_type,'Blog'))
 					<li>{{date("d M",strtotime($comment->created_at))}} (blog) - <a href="{{url('/')}}/blog/{{$comment->commentable->slug}}">{{$comment->commentable->title}}</a></li>
-		  		@elseif (strpos($comment->commentable_type,'Resource'))
+		  		@elseif (strpos($comment->commentable_type,'Course'))
 					<li>{{date("d M",strtotime($comment->created_at))}} (course) - <a href="{{url('/')}}/course/{{$comment->commentable->slug}}">{{$comment->commentable->title}}</a></li>
 		  		@endif
 		  	@endforeach

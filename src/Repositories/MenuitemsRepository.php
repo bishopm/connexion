@@ -78,4 +78,16 @@ class MenuitemsRepository extends EloquentBaseRepository
         }
         return $mainmenu;
     }
+
+    public function makeFooter($id)
+    {
+	    $items=$this->model->where('menu_id',$id)->where('parent_id',0)->orderBy('position', 'ASC')->get();
+	    foreach ($items as $menu){
+	    	$children = $this->model->where('parent_id',$menu->id)->get();
+	    	foreach ($children as $child){
+	    		$mainfooter[$menu->title][]='<a href="' . url('/') . '/' . $child->url . '">' . $child->title . '</a>';
+	    	}
+	    }
+        return $mainfooter;
+    }
 }

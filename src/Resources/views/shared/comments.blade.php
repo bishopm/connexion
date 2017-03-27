@@ -1,5 +1,5 @@
 <h4>Comments</h4>
-@if (Auth::user()->can('edit-comment'))
+@if ((Auth::check()) and (Auth::user()->can('edit-comment')))
 	<div id="allcomments">
 		@foreach ($comments as $comment)
 			<div class="row top5">

@@ -65,7 +65,22 @@
 </body>
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="text-center top30">5 Burnedale Place, Umhlali| <i class="fa fa-phone"></i> 032 947 0173 | <i class="fa fa-envelope-o"></i> {{ HTML::mailto('info@umc.org.za') }}</li></div>
+  <div class="text-center top30">
+    <div class="row footer">
+      @foreach ($webfooter as $kk=>$wf)
+        <div class="col-md-3"><h4>{{$kk}}</h4>
+          <ul class="list-unstyled">
+            @foreach ($wf as $wi)
+                <li>{!!$wi!!}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endforeach
+    </div>
+    <div class="top30">
+      5 Burnedale Place, Umhlali| <i class="fa fa-phone"></i> 032 947 0173 | <i class="fa fa-envelope-o"></i> {{ HTML::mailto('info@umc.org.za') }}
+    </div>
+  </div>
 </footer>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="{{asset('vendor/bishopm/js/bootstrap.min.js')}}"></script>

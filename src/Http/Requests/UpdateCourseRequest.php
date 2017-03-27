@@ -4,7 +4,7 @@ namespace Bishopm\Connexion\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateResourceRequest extends FormRequest
+class UpdateCourseRequest extends FormRequest
 {
     public function rules()
     {

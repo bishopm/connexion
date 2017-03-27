@@ -178,8 +178,8 @@ class ConnexionServiceProvider extends ServiceProvider
                     'can' =>  'edit-backend'
                 ],
                 [
-                    'text' => 'Resources',
-                    'url' => 'admin/resources',
+                    'text' => 'Courses',
+                    'url' => 'admin/courses',
                     'icon' => 'book',
                     'can' =>  'edit-backend'
                 ],            
@@ -291,6 +291,7 @@ class ConnexionServiceProvider extends ServiceProvider
         config(['laratrust.user_models.users'=>'\Bishopm\Connexion\Models\User']);
         config(['laratrust.role'=>'\Bishopm\Connexion\Models\Role']);
         config(['laratrust.permission'=>'\Bishopm\Connexion\Models\Permission']);
+        config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
         view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
     }
@@ -347,6 +348,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\CommentsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\CommentsRepository(new \Actuallymab\LaravelComment\Models\Comment());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\CoursesRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\CoursesRepository(new \Bishopm\Connexion\Models\Course());
                 return $repository;
             }
         );
@@ -431,13 +439,6 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\ProjectsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\ProjectsRepository(new \Bishopm\Connexion\Models\Project());
-                return $repository;
-            }
-        );
-        $this->app->bind(
-            'Bishopm\Connexion\Repositories\ResourcesRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\ResourcesRepository(new \Bishopm\Connexion\Models\Resource());
                 return $repository;
             }
         );

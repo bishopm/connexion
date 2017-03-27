@@ -58,8 +58,12 @@ class IndividualsController extends Controller {
             ->toDirectory('individuals')->useFilename($fname)->upload();
             $individual->attachMedia($media, 'image');
         }
-        return redirect()->route('admin.households.show',$request->household_id)
+        if (null!==$request->input('notes')){
+            return redirect()->route('admin.households.show',$request->household_id)
             ->withSuccess('New individual added');
+        } else {
+            return redirect()->route('mydetails')->withSuccess('Individual has added');
+        }
     }
 
     public function update($household, Individual $individual, UpdateIndividualRequest $request)
@@ -71,7 +75,11 @@ class IndividualsController extends Controller {
             ->toDirectory('individuals')->useFilename($fname)->upload();
             $individual->attachMedia($media, 'image');
         }
-        return redirect()->route('admin.households.show',$individual->household_id)->withSuccess('Individual has been updated');
+        if (null!==$request->input('notes')){
+            return redirect()->route('admin.households.show',$individual->household_id)->withSuccess('Individual has been updated');
+        } else {
+            return redirect()->route('mydetails')->withSuccess('Individual has been updated');
+        }
     }
 
     public function addgroup($individual, $group)

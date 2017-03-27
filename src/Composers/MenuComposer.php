@@ -14,10 +14,12 @@ class MenuComposer
     public function __construct(MenuitemsRepository $menuitems)
     {
         $this->menu=$menuitems->makeMenu(1);
+        $this->footer=$menuitems->makeFooter(1);
     }
 
     public function compose(View $view)
     {
         $view->with('webmenu', $this->menu);
+        $view->with('webfooter', $this->footer);
     }
 }

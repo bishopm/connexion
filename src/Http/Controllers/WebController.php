@@ -16,10 +16,11 @@ use Bishopm\Connexion\Repositories\ActionsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
-use Bishopm\Connexion\Repositories\ResourcesRepository;
+use Bishopm\Connexion\Repositories\CoursesRepository;
 use Bishopm\Connexion\Models\Blog;
 use Bishopm\Connexion\Models\Society;
 use Bishopm\Connexion\Models\Sermon;
+use Bishopm\Connexion\Models\Specialday;
 use Actuallymab\LaravelComment\Models\Comment;
 use Spatie\GoogleCalendar\Event;
 use Auth;
@@ -27,9 +28,9 @@ use Auth;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings, $users, $series, $sermon, $individual, $resources, $group, $comments;
+    private $page, $slides, $settings, $users, $series, $sermon, $individual, $courses, $group, $comments;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, ResourcesRepository $resources, GroupsRepository $group, HouseholdsRepository $household)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household)
     {
         $this->page = $page;
         $this->group = $group;
@@ -39,7 +40,7 @@ class WebController extends Controller
         $this->series = $series;
         $this->sermon = $sermon;
         $this->individual = $individual;
-        $this->resources = $resources;
+        $this->courses = $courses;
         $this->household = $household;
         $this->settingsarray=$this->settings->makearray();
     }
@@ -193,11 +194,48 @@ class WebController extends Controller
         return view('connexion::site.editprofile',compact('individual','society'));
     }        
 
+    public function webuserhouseholdedit()
+    {
+        $household=Auth::user()->individual->household;
+        foreach ($household->individuals as $indiv){
+            if (strlen($indiv->cellphone)==10){
+                $cellphones[$indiv->id]['name']=$indiv->firstname;
+            }
+        }
+        return view('connexion::site.edithousehold',compact('household','cellphones'));
+    }  
+
+    public function webuserindividualedit($slug)
+    {
+        $individual = $this->individual->findBySlug($slug);
+        $media="webpage";
+        return view('connexion::site.editindividual',compact('individual','media'));
+    } 
+
+    public function webuserindividualadd()
+    {
+        $household=Auth::user()->individual->household;
+        $media="webpage";
+        return view('connexion::site.addindividual',compact('household','media'));
+    } 
+
+    public function webuseranniversaryedit($ann)
+    {
+        $special = Specialday::find($ann);
+        return view('connexion::site.editanniversary',compact('special'));
+    } 
+
+    public function webuseranniversaryadd()
+    {
+        $household = Auth::user()->individual->household;
+        return view('connexion::site.addanniversary',compact('household'));
+    } 
+
     public function webcourses()
     {
-        $data['courses'] = $this->resources->getcourses('course');
-        $data['homegroup'] = $this->resources->getcourses('home group');
-        $data['selfstudy'] = $this->resources->getcourses('self-study');
+        $data['courses'] = $this->courses->getcourses('course');
+        $data['homegroup'] = $this->courses->getcourses('home group');
+        $data['selfstudy'] = $this->courses->getcourses('self-study');
         return view('connexion::site.courses',$data);
     }        
 

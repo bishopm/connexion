@@ -9,7 +9,11 @@
 	<label for="Household Cellphone" class="control-label">Household Cellphone</label>
 	<select name="householdcell" id="householdcell" class="form-control">
 		@foreach ($cellphones as $key=>$cellphone)
-			<option value="{{$key}}">{{$cellphone['name']}}</option>
+			@if ($household->householdcell==$key)
+				<option selected value="{{$key}}">{{$cellphone['name']}}</option>
+			@else
+				<option value="{{$key}}">{{$cellphone['name']}}</option>
+			@endif
 		@endforeach
 	</select>
 </div>

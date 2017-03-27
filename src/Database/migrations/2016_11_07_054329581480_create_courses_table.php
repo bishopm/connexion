@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateResourcesTable extends Migration
+class CreateCoursesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateResourcesTable extends Migration
      */
     public function up()
     {
-        Schema::create('resources', function (Blueprint $table) {
+        Schema::create('courses', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('title');
@@ -30,6 +30,6 @@ class CreateResourcesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resources');
+        Schema::dropIfExists('courses');
     }
 }

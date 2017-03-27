@@ -6,11 +6,11 @@
 
 @section('content')  
     <div class="container">
-      <h3>{{$resource->title}}</h3>
+      <h3>{{$course->title}}</h3>
         <div class="row">
-          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{$resource->getMedia('image')->first()->getUrl()}}"></div>
+          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{$course->getMedia('image')->first()->getUrl()}}"></div>
           <div class="col-md-9">
-          {!!$resource->description!!}
+          {!!$course->description!!}
           </div>
           <div class="col-md-9">
               @include('connexion::shared.comments', ['rating' => true])
@@ -47,5 +47,5 @@
     });
   </script>
 @endif
-@include('connexion::shared.ratercommentsjs', ['url' => route('admin.resources.addcomment',$resource->id)])
+@include('connexion::shared.ratercommentsjs', ['url' => route('admin.courses.addcomment',$course->id)])
 @stop

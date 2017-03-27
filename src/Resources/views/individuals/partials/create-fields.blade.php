@@ -7,6 +7,10 @@
 {{ Form::bsSelect('sex','Sex',array('male','female')) }}
 {{ Form::bsSelect('title','Title',array('Mr','Mrs','Ms','Dr','Rev')) }}
 {{ Form::bsSelect('memberstatus','Membership status',array('Member','Non-member','Child')) }}
-{{ Form::bsFile('image') }}
-{{ Form::bsTextarea('notes','Notes','Notes') }}
-{{ Form::bsHidden('household_id',$household) }}
+@if ((isset($media)) and ($media<>"webpage"))
+	{{ Form::bsFile('image') }}
+	{{ Form::bsTextarea('notes','Notes','Notes') }}
+	{{ Form::bsHidden('household_id',$household) }}
+@else
+	{{ Form::bsHidden('household_id',$household->id) }}
+@endif

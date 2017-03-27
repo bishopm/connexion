@@ -9,7 +9,7 @@
 			  <h3>My details <small>{{$household->addressee}}</small></h3>
 		  </div>
 		  <div class="col-md-6">
-		  	<div class="col-xs-12"><b>Residential address</b>&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-xs">Edit household</a></div>
+		  	<div class="col-xs-12"><b>Residential address</b>&nbsp;&nbsp;<a href="{{url('/')}}/my-details/householdedit" class="btn btn-primary btn-xs">Edit my household</a></div>
 			<div class="col-xs-12">{{$household->addr1}}</div>
 			<div class="col-xs-12">{{$household->addr2}}</div>
 			<div class="col-xs-12">{{$household->addr3}}</div>
@@ -19,9 +19,9 @@
 			<div class="col-xs-12">{{$household->post3}}</div>
 			<div class="col-xs-12"><b>Home phone: </b>{{$household->homephone}}</div>
 			<div class="col-xs-12"><b>SMS'es go to: </b>{{$household->cellmember}}</div>
-			<div class="col-xs-12 top20"><b>Anniversaries</b>&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-xs">Edit/add anniversaries</a></div>
+			<div class="col-xs-12 top20"><b>Anniversaries</b>&nbsp;&nbsp;<a href="{{url('/')}}/my-details/add-anniversary" class="btn btn-primary btn-xs">Add an anniversary</a></div>
 			@foreach ($household->specialdays as $ann)
-				<div class="col-xs-12">{{date("d M Y",strtotime($ann->anniversarydate))}} - {{$ann->details}} ({{$ann->anniversarytype}})</div>
+				<div class="col-xs-12">{{date("d M Y",strtotime($ann->anniversarydate))}} - {{$ann->details}} ({{$ann->anniversarytype}}) <a class="btn btn-default btn-xs" href="{{url('/')}}/my-details/edit-anniversary/{{$ann->id}}">Edit</a></div>
 			@endforeach
 		  </div>
 		  <div class="col-md-6">
@@ -34,7 +34,7 @@
 				    @endif
 				    <a href="#{{$tabname->id}}" aria-controls="home" role="tab" data-toggle="tab">{{$tabname->firstname}}</a></li>
 			    @endforeach
-			    <li role="presentation"><a href="#" title="Add new individual to this household" data-toggle="tab">+</a></li>
+			    <li><a href="{{url('/')}}/my-details/add-individual" title="Add new individual to this household">+</a></li>
 			  </ul>
 			  <!-- Tab panes -->
 			  <div class="tab-content">
@@ -46,7 +46,7 @@
 							class="tab-pane" id="{{$indiv->id}}">
 				    	@endif
 				    	<div class="row top20">
-			    			<div class="col-md-12"><b>{{$indiv->title}} {{$indiv->firstname}} {{$indiv->surname}}</b>&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-xs">Edit individual</a></div>
+			    			<div class="col-md-12"><b>{{$indiv->title}} {{$indiv->firstname}} {{$indiv->surname}}</b>&nbsp;&nbsp;<a href="{{url('/')}}/my-details/edit/{{$indiv->slug}}" class="btn btn-primary btn-xs">Edit {{$indiv->firstname}}</a></div>
 			    			<div class="col-md-12"><i class="fa fa-fw fa-mobile"></i> {{$indiv->cellphone}}</div>
 			    			<div class="col-md-12"><i class="fa fa-fw fa-envelope-o"></i> {{$indiv->email}}</div>
 			    			<div class="col-md-12"><i class="fa fa-fw fa-birthday-cake"></i> 

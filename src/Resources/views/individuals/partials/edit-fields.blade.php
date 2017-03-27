@@ -9,7 +9,7 @@
 {{ Form::bsSelect('memberstatus','Membership status',array('Member','Non-member','Child'),$individual->memberstatus) }}
 @if (!count($media))
 {{ Form::bsFile('image') }}
-@else
+@elseif ($media<>"webpage")
 <div id="thumbdiv">
 	{{ Form::bsThumbnail($media->getUrl(),120,'Image') }}
 </div>
@@ -17,5 +17,7 @@
 	{{ Form::bsFile('image') }}
 </div>
 @endif
+@if ($media<>"webpage")
 {{ Form::bsTextarea('notes','Notes','Notes',$individual->notes) }}
+@endif
 {{ Form::bsHidden('household_id',$individual->household_id) }}
