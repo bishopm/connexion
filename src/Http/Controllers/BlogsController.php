@@ -99,6 +99,12 @@ class BlogsController extends Controller {
         $bb->untag($tag);
     }
 
+    public function removemedia(Blog $blog)
+    {
+        $media = $blog->getMedia('image');
+        $blog->detachMedia($media);
+    }
+
     public function addcomment(Blog $blog, CreateCommentRequest $request)
     {
         $user=$this->user->find($request->user);

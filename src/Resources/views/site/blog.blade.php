@@ -14,8 +14,15 @@
 		  	<a class="label label-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
 		  @endforeach
 		  </small></h3>
-		  {!!$blog->body!!}
-		  @include('connexion::shared.comments')
+		  @if (count($media))
+			  <div class="pull-left" style="margin-right:20px"><img class="img-responsive" src="{{$blog->getMedia('image')->first()->getUrl()}}"></div>
+		  @endif
+   		  <div class="pull-left">{!!$blog->body!!}</div>
+   		  <div class="row">
+   		  	<div class="col-md-12">
+			  @include('connexion::shared.comments')
+			</div>
+		  </div>
 	  </div>
 	  <div class="col-md-3">
 	  	<h3>Other tags</h3>

@@ -77,5 +77,16 @@
                 $("#slug").val(slug);
             });
         });
+        $("#removeMedia").on('click',function(e){
+        e.preventDefault();
+        $.ajax({
+            type : 'GET',
+            url : '{{url('/')}}/admin/blogs/<?php echo $blog->id;?>/removemedia',
+            success: function(){
+              $('#thumbdiv').hide();
+              $('#filediv').show();
+            }
+        });
+    });
     </script>
 @stop

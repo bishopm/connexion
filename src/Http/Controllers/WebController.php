@@ -113,7 +113,8 @@ class WebController extends Controller
     {
         $blog = $blogs->findBySlug($slug);
         $comments = $blog->comments()->paginate(5);
-        return view('connexion::site.blog',compact('blog','comments'));
+        $media=$blog->getMedia('image')->first();
+        return view('connexion::site.blog',compact('blog','comments','media'));
     }
 
     public function webperson($slug, IndividualsRepository $individual)

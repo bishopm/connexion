@@ -35,7 +35,7 @@
   {{ Form::bsFile('image') }}
 @else
   <div id="thumbdiv">
-    {{ Form::bsThumbnail($media->getUrl(),120,'Image') }}
+    {{ Form::bsImgpreview($media->getUrl(),120,'Image') }}
   </div>
   <div id="filediv" style="display:none;">
     {{ Form::bsFile('image') }}

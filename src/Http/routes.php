@@ -80,7 +80,8 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
 	Route::post('admin/blogs',['uses'=>'Bishopm\Connexion\Http\Controllers\BlogsController@store','as'=>'admin.blogs.store']);
     Route::delete('admin/blogs/{blog}',['uses'=>'Bishopm\Connexion\Http\Controllers\BlogsController@destroy','as'=>'admin.blogs.destroy']);
 	Route::get('admin/blogs/addtag/{blog}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@addtag','as' => 'admin.blogs.addtag']);
-    Route::get('admin/blogs/removetag/{blog}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@removetag','as' => 'admin.blogs.removetag']);  
+    Route::get('admin/blogs/removetag/{blog}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@removetag','as' => 'admin.blogs.removetag']);
+    Route::get('admin/blogs/{blog}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\BlogsController@removemedia','as'=>'admin.blogs.removemedia']);
 
 	// Chords
     Route::get('admin/worship/chords',['uses'=>'Bishopm\Connexion\Http\Controllers\GchordsController@index','as'=>'admin.chords.index']);
