@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateBlogRequest;
 use Bishopm\Connexion\Http\Requests\UpdateBlogRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
+use MediaUploader;
 
 class BlogsController extends Controller {
 
@@ -37,12 +38,13 @@ class BlogsController extends Controller {
 	public function edit(Blog $blog)
     {
         $tags=Blog::allTags()->get();
+        $media=Blog::find($blog->id)->getMedia('image')->first();
         $btags=array();
         foreach ($blog->tags as $tag){
             $btags[]=$tag->name;
         }
         $bloggers=$this->bloggers;
-        return view('connexion::blogs.edit', compact('blog','bloggers','tags','btags'));
+        return view('connexion::blogs.edit', compact('blog','bloggers','tags','btags','media'));
     }
 
     public function create()
@@ -60,16 +62,28 @@ class BlogsController extends Controller {
 
     public function store(CreateBlogRequest $request)
     {
-        $blog=$this->blog->create($request->except('tags','files'));
+        $blog=$this->blog->create($request->except('tags','files','image'));
         $blog->tag($request->tags);
+        if ($request->file('image')){
+            $fname=$blog->id;
+            $media = MediaUploader::fromSource($request->file('image'))
+            ->toDirectory('blogs')->useFilename($fname)->upload();
+            $blog->attachMedia($media, 'image');
+        }
         return redirect()->route('admin.blogs.index')
             ->withSuccess('New blog post added');
     }
 	
     public function update(Blog $blog, UpdateBlogRequest $request)
     {
-        $this->blog->update($blog, $request->except('tags','files'));
+        $this->blog->update($blog, $request->except('tags','files','image'));
         $blog->tag($request->tags);
+        if ($request->file('image')){
+            $fname=$blog->id;
+            $media = MediaUploader::fromSource($request->file('image'))
+            ->toDirectory('blogs')->useFilename($fname)->upload();
+            $blog->attachMedia($media, 'image');
+        }
         return redirect()->route('admin.blogs.index')->withSuccess('Blog has been updated');
     }
 

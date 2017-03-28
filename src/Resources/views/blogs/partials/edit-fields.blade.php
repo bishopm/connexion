@@ -31,4 +31,14 @@
   </select>
 </div> 
 {{ Form::bsSelect('status','Status',array('Draft','Published'),$blog->status) }}
+@if (!count($media))
+  {{ Form::bsFile('image') }}
+@else
+  <div id="thumbdiv">
+    {{ Form::bsThumbnail($media->getUrl(),120,'Image') }}
+  </div>
+  <div id="filediv" style="display:none;">
+    {{ Form::bsFile('image') }}
+  </div>
+@endif
 {{ Form::bsTextarea('body','Body','Body',$blog->body) }}

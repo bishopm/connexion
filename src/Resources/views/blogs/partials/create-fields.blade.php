@@ -24,4 +24,7 @@
 </div> 
 {{ Form::bsSelect('status','Status',array('Draft','Published')) }}
 {{ Form::bsTextarea('body','Body','Body') }}
+@if (isset($media)
+  {{ Form::bsFile('image') }}
+@endif
 

@@ -11,7 +11,7 @@
 
 @section('content')
     @include('connexion::shared.errors')
-    {!! Form::open(['route' => array('admin.blogs.store'), 'method' => 'post']) !!}
+    {!! Form::open(['route' => array('admin.blogs.store'), 'method' => 'post','files'=>'true']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
@@ -48,7 +48,18 @@
               plugins: ['remove_button'],
               openOnFocus: 0
             });            
-            $('#body').summernote();
+            $('#body').summernote({ 
+              height: 250,
+              toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['table', ['table']],
+                ['link', ['linkDialogShow', 'unlink']],
+                ['para', ['ul', 'ol', 'paragraph']]
+              ]
+            });
             $('#title').on('input', function() {
                 var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
                 $("#slug").val(slug);
