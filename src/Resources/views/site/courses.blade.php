@@ -36,7 +36,7 @@
                         <td><a href="{{route('webresource',$cc->slug)}}">{{count($cc->comments)}}</a></td>
                     </tr>
                 @empty
-                    <tr><td>No home group materials have been added yet</td></tr>
+                    <tr><td>No courses have been added yet</td></tr>
                 @endforelse
             </tbody>
         </table>

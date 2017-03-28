@@ -25,7 +25,7 @@
                 @forelse ($series->sermons as $sermon)
                   <div class="row">
                     <div class="col-md-3">
-                      <a href="{{route('admin.sermons.edit',array($series->id,$sermon->id))}}">{{$sermon->sermon}}</a>
+                      <a href="{{route('admin.sermons.edit',array($series->id,$sermon->id))}}">{{$sermon->title}}</a>
                     </div>
                     <div class="col-md-3">
                       {{$sermon->servicedate}}
