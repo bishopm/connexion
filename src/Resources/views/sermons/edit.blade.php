@@ -5,7 +5,7 @@
 @stop
 
 @section('content_header')
-    {{ Form::pgHeader('Edit sermon',$sermon->series->series,route('admin.series.show',$series)) }}
+    {{ Form::pgHeader('Edit sermon',$sermon->series->title,route('admin.series.show',$series)) }}
 @endsection
 
 @section('content')
@@ -33,6 +33,10 @@
             $('.selectize').selectize({
               plugins: ['remove_button'],
               openOnFocus: 0
+            });
+            $('#title').on('input', function() {
+                var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+                $("#slug").val(slug);
             });
         });
     </script>

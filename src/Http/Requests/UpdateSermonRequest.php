@@ -9,7 +9,7 @@ class UpdateSermonRequest extends FormRequest
     public function rules()
     {
         return [
-            'sermon' => 'required'
+            'title' => 'required'
         ];
     }
 

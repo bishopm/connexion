@@ -1,5 +1,9 @@
 @extends('adminlte::page')
 
+@section('css')
+    <link href="{{ asset('/vendor/bishopm/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
 @section('content_header')
     {{ Form::pgHeader('Edit series','Series',route('admin.series.index')) }}
 @stop
@@ -23,6 +27,8 @@
 @stop
 
 @section('js')
+<script src="{{ asset('vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
+<script src="{{ asset('vendor/bishopm/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -38,6 +44,15 @@
               $('#thumbdiv').hide();
               $('#filediv').show();
             }
+        });
+    });
+    $( document ).ready(function() {
+        $('#title').on('input', function() {
+            var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+            $("#slug").val(slug);
+        });
+        $('#created_at').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss'
         });
     });
 </script>

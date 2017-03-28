@@ -47,7 +47,7 @@
 		                @forelse ($person->sermons as $sermon)
 		                    <tr>
 		                    	<td>{{date("d M Y",strtotime($sermon->servicedate))}}</td>
-		                        <td><a href="{{url('/')}}/sermons/{{$sermon->series->slug}}/{{$sermon->slug}}">{{$sermon->sermon}}</a></td>
+		                        <td><a href="{{url('/')}}/sermons/{{$sermon->series->slug}}/{{$sermon->slug}}">{{$sermon->title}}</a></td>
 		                        <td>{{$sermon->readings}}</td>
 		                    </tr>
 		                @empty

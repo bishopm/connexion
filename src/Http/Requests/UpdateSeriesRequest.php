@@ -9,7 +9,7 @@ class UpdateSeriesRequest extends FormRequest
     public function rules()
     {
         return [
-            'series' => 'required'
+            'title' => 'required'
         ];
     }
 

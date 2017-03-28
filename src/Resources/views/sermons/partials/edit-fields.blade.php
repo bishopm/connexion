@@ -1,5 +1,11 @@
-{{ Form::bsText('title','Sermon title','Sermon title',$sermon->sermon) }}
-{{ Form::bsText('slug','Slug','Slug',$sermon->slug) }}
+<div class="form-group">
+  <label for="name">Sermon title</label>
+  <input class="form-control" data-slug="source" placeholder="Title" name="title" id="title" type="text" value="{{$sermon->title}}">
+</div>
+<div class="form-group">
+  <label for="slug">Slug</label>
+  <input class="form-control" data-slug="target" placeholder="Slug" name="slug" id="slug" type="text" value="{{$sermon->slug}}">
+</div>
 {{ Form::bsText('servicedate','Service date','Service date',$sermon->servicedate) }}
 {{ Form::bsText('mp3','Link to mp3','Link to mp3',$sermon->mp3) }}
 {{ Form::bsText('readings','Readings','Readings',$sermon->readings) }}

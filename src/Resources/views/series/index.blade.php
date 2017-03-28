@@ -31,7 +31,7 @@
                             <tbody>
                                 @forelse ($series as $serie)
                                     <tr>
-                                        <td><a href="{{route('admin.series.show',$serie->id)}}">{{$serie->series}}</a>
+                                        <td><a href="{{route('admin.series.show',$serie->id)}}">{{$serie->title}}</a>
                                         </td>
                                         <td><a href="{{route('admin.series.show',$serie->id)}}">{{date("d M Y",strtotime($serie->created_at))}}</a>
                                         </td>

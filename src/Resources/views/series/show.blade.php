@@ -14,7 +14,7 @@
         <div class="box box-primary"> 
           <div class="box-header">
             <div class="row">
-              <div class="col-md-6"><h4>{{$series->series}}</h4></div>
+              <div class="col-md-6"><h4>{{$series->title}}</h4></div>
               <div class="col-md-6"><a href="{{route('admin.series.edit',$series->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit series</a> <a href="{{route('admin.sermons.create',$series->id)}}" style="margin-right:7px;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add a sermon</a></div>
             </div>
           </div>

@@ -16,7 +16,7 @@
 	  	  	  </thead>
 	  	  	  <tbody>
 			      @foreach ($series as $serie)
-			      	  <tr><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{$serie->series}}</a></td><td>{{date("d M Y",strtotime($serie->created_at))}}</td><td>{{count($serie->sermons)}}</td></tr>
+			      	  <tr><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{$serie->title}}</a></td><td>{{date("d M Y",strtotime($serie->created_at))}}</td><td>{{count($serie->sermons)}}</td></tr>
 			      @endforeach
 			  </tbody>
 		  </table>

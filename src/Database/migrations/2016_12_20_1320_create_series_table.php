@@ -15,7 +15,7 @@ class CreateSeriesTable extends Migration
 		Schema::create('series', function(Blueprint $table) {
 			$table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('series');
+            $table->string('title');
             $table->string('slug');
             $table->text('description');
             $table->timestamps();

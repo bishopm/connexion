@@ -34,7 +34,7 @@
 		    @if ((count($user->individual->sermons)) or (count($user->individual->blogs)))
 		       	<a class="btn btn-primary top10" href="{{url('/')}}/people/{{$user->individual->slug}}">View {{$user->individual->firstname}}'s blogs/sermons</a>
 		    @endif
-		    @if (!$staff)
+		    @if ((!$staff) and (isset($user->individual->service_id)))
 				<h4>Usual Sunday service</h4>
 				{{$user->individual->service->society->society}} {{$user->individual->service->servicetime}}
 			@endif
