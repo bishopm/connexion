@@ -6,4 +6,5 @@
   <label for="slug">Slug</label>
   <input class="form-control" placeholder="Slug" name="slug" id="slug" type="text"  value="{{$page->slug}}">
 </div>
+{{ Form::bsSelect('template','Template',$templates,$page->template)}}
 {{ Form::bsTextarea('body','Body','Body', $page->body) }}

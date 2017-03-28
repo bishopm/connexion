@@ -13,7 +13,7 @@
 	  </div>
 	  <div class="col-md-4">
 	    <h3>{{$person->firstname}} {{$person->surname}}</h3>
-	    {{$person->user->bio}}
+	    {{$person->user->bio or ''}}
 	  </div>
 	  <div class="col-md-4">
 	  	<h3>Get in touch</h3>

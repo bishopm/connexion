@@ -43,7 +43,7 @@ class PagesController extends Controller {
 
     public function store(CreatePageRequest $request)
     {
-        $this->page->create($request->all());
+        $this->page->create($request->except('files'));
 
         return redirect()->route('admin.pages.index')
             ->withSuccess('New page added');
@@ -51,7 +51,7 @@ class PagesController extends Controller {
 
     public function update(Page $page, UpdatePageRequest $request)
     {
-        $this->page->update($page, $request->all());
+        $this->page->update($page, $request->except('files'));
         return redirect()->route('admin.pages.index')->withSuccess('Page has been updated');
     }
 

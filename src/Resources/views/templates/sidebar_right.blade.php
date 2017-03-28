@@ -5,7 +5,7 @@
 <div class="container">
 	<div class="row">
 	  <div class="col-md-9 top30">
-	    {{$page->body}}
+	    {!!$page->body!!}
 	  </div>
 	  <div class="col-md-3 top30">
 	    Sidebar content

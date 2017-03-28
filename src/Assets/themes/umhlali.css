@@ -7079,6 +7079,8 @@ input[type="checkbox"] {
 .top20 { margin-top:20px; }
 .top25 { margin-top:25px; }
 .top30 { margin-top:30px; }
+.top40 { margin-top:40px; }
+.top50 { margin-top:50px; }
 
 body {
   background-color: #fff;
@@ -7086,8 +7088,36 @@ body {
 }
 
 .footer {
-  background-color:black;
+  background-color:#141d0a;
   color:white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.footer a {
+  color:white;
+  text-decoration: none;
+}
+
+.footer h4 {
+  font-weight: bold;
+}
+
+.highlight {
+  padding:5px;
+  background-color: #81be41;
+  height:90px; 
+  overflow:hidden;
+}
+
+.highlight a {
+  color:white;
+  text-decoration: none;
+}
+
+#highlightlink {
+  color:green;
+  text-decoration: none;
 }
 
 @media (min-width: 768px) {

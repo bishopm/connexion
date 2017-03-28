@@ -61,12 +61,13 @@
       </div>
     </div><!-- /navbar wrapper -->
     @yield('content')
+    <div class="top30"></div>
     @include('connexion::shared.login-modal') 
 </body>
 <!-- FOOTER -->
-<footer class="footer">
-  <div class="text-center top30">
-    <div class="row footer">
+<footer>
+  <div class="footer text-center">
+    <div class="row">
       @foreach ($webfooter as $kk=>$wf)
         <div class="col-md-3"><h4>{{$kk}}</h4>
           <ul class="list-unstyled">
@@ -76,9 +77,9 @@
           </ul>
         </div>
       @endforeach
-    </div>
-    <div class="top30">
-      5 Burnedale Place, Umhlali| <i class="fa fa-phone"></i> 032 947 0173 | <i class="fa fa-envelope-o"></i> {{ HTML::mailto('info@umc.org.za') }}
+      <div class="col-xs-12">
+        5 Burnedale Place, Umhlali| <i class="fa fa-phone"></i> 032 947 0173 | <i class="fa fa-envelope-o"></i> {{ HTML::mailto('info@umc.org.za') }}
+      </div>
     </div>
   </div>
 </footer>

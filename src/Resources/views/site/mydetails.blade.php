@@ -9,19 +9,19 @@
 			  <h3>My details <small>{{$household->addressee}}</small></h3>
 		  </div>
 		  <div class="col-md-6">
-		  	<div class="col-xs-12"><b>Residential address</b>&nbsp;&nbsp;<a href="{{url('/')}}/my-details/householdedit" class="btn btn-primary btn-xs">Edit my household</a></div>
-			<div class="col-xs-12">{{$household->addr1}}</div>
-			<div class="col-xs-12">{{$household->addr2}}</div>
-			<div class="col-xs-12">{{$household->addr3}}</div>
-			<div class="col-xs-12"><b>Postal address</b></div>
-			<div class="col-xs-12">{{$household->post1}}</div>
-			<div class="col-xs-12">{{$household->post2}}</div>
-			<div class="col-xs-12">{{$household->post3}}</div>
-			<div class="col-xs-12"><b>Home phone: </b>{{$household->homephone}}</div>
-			<div class="col-xs-12"><b>SMS'es go to: </b>{{$household->cellmember}}</div>
-			<div class="col-xs-12 top20"><b>Anniversaries</b>&nbsp;&nbsp;<a href="{{url('/')}}/my-details/add-anniversary" class="btn btn-primary btn-xs">Add an anniversary</a></div>
+		  	<div><b>Residential address</b>&nbsp;&nbsp;<a href="{{url('/')}}/my-details/householdedit" class="btn btn-primary btn-xs">Edit my household</a></div>
+			<div>{{$household->addr1}}</div>
+			<div>{{$household->addr2}}</div>
+			<div>{{$household->addr3}}</div>
+			<div><b>Postal address</b></div>
+			<div>{{$household->post1}}</div>
+			<div>{{$household->post2}}</div>
+			<div>{{$household->post3}}</div>
+			<div><b>Home phone: </b>{{$household->homephone}}</div>
+			<div><b>SMS'es go to: </b>{{$household->cellmember}}</div>
+			<div class="top20"><b>Anniversaries</b>&nbsp;&nbsp;<a href="{{url('/')}}/my-details/add-anniversary" class="btn btn-primary btn-xs">Add an anniversary</a></div>
 			@foreach ($household->specialdays as $ann)
-				<div class="col-xs-12">{{date("d M Y",strtotime($ann->anniversarydate))}} - {{$ann->details}} ({{$ann->anniversarytype}}) <a class="btn btn-default btn-xs" href="{{url('/')}}/my-details/edit-anniversary/{{$ann->id}}">Edit</a></div>
+				<div>{{date("d M Y",strtotime($ann->anniversarydate))}} - {{$ann->details}} ({{$ann->anniversarytype}}) <a class="btn btn-default btn-xs" href="{{url('/')}}/my-details/edit-anniversary/{{$ann->id}}">Edit</a></div>
 			@endforeach
 		  </div>
 		  <div class="col-md-6">

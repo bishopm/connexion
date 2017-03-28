@@ -1,5 +1,9 @@
 @extends('adminlte::page')
 
+@section('css')
+    <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
 @section('content_header')
     {{ Form::pgHeader('Add page','Pages',route('admin.pages.index')) }}
 @stop
@@ -23,12 +27,25 @@
 @stop
 
 @section('js')
+<script src="{{ asset('vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
 <script langugage="javascript">
 $(document).ready(function()
 {
     $('#title').on('input', function() {
         var title = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
         $("#slug").val(title);
+    });
+    $('#body').summernote({ 
+      height: 250,
+      toolbar: [
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['superscript', 'subscript']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['table', ['table']],
+        ['link', ['linkDialogShow', 'unlink']],
+        ['para', ['ul', 'ol', 'paragraph']]
+      ]
     });
 });
 </script>

@@ -13,13 +13,25 @@
     <div class="col-md-4 text-center">
       <img src="{{asset('vendor/bishopm/images/blog.png')}}">
       <h4>From our Blog</h4>
-      <ul class="top30 list-unstyled text-left">
+      <div class="top30 list-unstyled text-left">
         @forelse ($blogs as $blog)
-          <li>{{date("j M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></li>
+          @if ($loop->first)
+            <div class="col-xs-12">
+              <div class="highlight">
+                <a id="highlightlink" href="{{url('/')}}/blog/{{$blog->slug}}">
+                @if (count($blog->getMedia('image')))
+                  <img height="80px" style="float:right;margin-left:7px;" src="{{$blog->getMedia('image')->first()->getUrl()}}">
+                @endif
+                {{$blog->title}}</a><a href="{{url('/')}}/blog/{{$blog->slug}}">{!!substr($blog->body, 0, strpos($blog->body, ' ', 200))!!}</a>
+              </div>
+            </div>
+          @else
+            <div class="col-xs-12 top5">{{date("j M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
+          @endif
         @empty
           <li>No blog posts have been published yet</li>
         @endforelse
-      </ul>
+      </div>
       <img class="top17" src="{{asset('vendor/bishopm/images/diary.png')}}">
       <h4>Coming up</h4>
       <ul class="top30 list-unstyled text-left">
@@ -48,7 +60,7 @@
       @if (Auth::check())
         <img src="{{asset('vendor/bishopm/images/community.png')}}">
         <h4>What are we saying?</h4>
-        <ul class="list-unstyled"><small>
+        <ul class="list-unstyled top20"><small>
           @foreach ($comments as $comment)
             <li class="text-left">
               <a href="{{url('/')}}/users/{{$comment->commented->individual->slug}}">{{$comment->commented->individual->firstname}} {{$comment->commented->individual->surname}}</a> commented on 
@@ -67,7 +79,7 @@
             </li>
           @endforeach
         </small></ul>
-        <h4>Welcome to our newest users!</h4>
+        <h4 class="top30">Welcome to our newest users!</h4>
         <p class="text-left"><small>
         @foreach ($users as $user)
             <a href="{{url('/')}}/users/{{$user->individual->slug}}">{{$user->individual->firstname}} {{$user->individual->surname}}</a>
