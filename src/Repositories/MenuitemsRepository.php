@@ -82,6 +82,7 @@ class MenuitemsRepository extends EloquentBaseRepository
     public function makeFooter($id)
     {
 	    $items=$this->model->where('menu_id',$id)->where('parent_id',0)->orderBy('position', 'ASC')->get();
+	    $mainfooter=array();
 	    foreach ($items as $menu){
 	    	$children = $this->model->where('parent_id',$menu->id)->get();
 	    	foreach ($children as $child){
