@@ -166,7 +166,11 @@ class WebController extends Controller
                 $groups['ZZZZ'][]=$group;
             }
         }
-        ksort($groups);
+        if (isset($groups)) {
+            ksort($groups);
+        } else {
+            $groups=array();
+        }
         return view('connexion::site.allgroups',compact('groups'));
     } 
 

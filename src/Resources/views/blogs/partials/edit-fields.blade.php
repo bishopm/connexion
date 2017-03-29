@@ -31,6 +31,7 @@
   </select>
 </div> 
 {{ Form::bsSelect('status','Status',array('Draft','Published'),$blog->status) }}
+{{ Form::bsText('created_at','Publication date','Publication date', $blog->created_at) }}
 @if (!count($media))
   {{ Form::bsFile('image') }}
 @else

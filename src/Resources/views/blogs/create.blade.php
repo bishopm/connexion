@@ -3,6 +3,7 @@
 @section('css')
     <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/vendor/bishopm/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
@@ -30,6 +31,8 @@
 @section('js')
     <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('.input-tags').selectize({
@@ -47,7 +50,10 @@
             $('.selectize').selectize({
               plugins: ['remove_button'],
               openOnFocus: 0
-            });            
+            }); 
+            $('#created_at').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });           
             $('#body').summernote({ 
               height: 250,
               toolbar: [

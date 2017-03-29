@@ -23,8 +23,9 @@
   </select>
 </div> 
 {{ Form::bsSelect('status','Status',array('Draft','Published')) }}
+{{ Form::bsText('created_at','Publication date','Publication date') }}
 {{ Form::bsTextarea('body','Body','Body') }}
-@if (isset($media)
+@if (isset($media))
   {{ Form::bsFile('image') }}
 @endif
 
