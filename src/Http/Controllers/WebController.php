@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use LithiumDev\TagCloud\TagCloud;
 use Bishopm\Connexion\Repositories\PagesRepository;
 use Bishopm\Connexion\Repositories\SeriesRepository;
 use Bishopm\Connexion\Repositories\SlidesRepository;
@@ -114,7 +115,17 @@ class WebController extends Controller
         $blog = $blogs->findBySlug($slug);
         $comments = $blog->comments()->paginate(5);
         $media=$blog->getMedia('image')->first();
-        return view('connexion::site.blog',compact('blog','comments','media'));
+        $cloud = new TagCloud();
+        foreach ($blog->tags as $tag){
+            $cloud->addTag($tag->name);
+            $cloud->addTag(array('tag' => $tag->name, 'url' => $tag->slug));
+        }
+        $baseUrl=url('/');
+        $cloud->setHtmlizeTagFunction(function($tag, $size) use ($baseUrl) {
+          $link = '<a href="'.$baseUrl.'/subject/'.$tag['url'].'">'.$tag['tag'].'</a>';
+          return "<span class='tag size{$size}'>{$link}</span> ";
+        });
+        return view('connexion::site.blog',compact('blog','comments','media','cloud'));
     }
 
     public function webperson($slug, IndividualsRepository $individual)

@@ -21,7 +21,8 @@
   	    	@include('connexion::shared.comments')
   	  	</div>
 	  	<div class="col-md-3">
-	  		<h3>Other tags</h3>
+	  		<h3>Explore by subject</h3>
+	  		{!!$cloud->render()!!}
 	  	</div>
 	</div>
 </div>

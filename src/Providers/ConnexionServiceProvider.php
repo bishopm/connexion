@@ -315,6 +315,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
         $this->app->register('Felixkiss\UniqueWithValidator\ServiceProvider');
         $this->app->register('Jrean\UserVerification\UserVerificationServiceProvider');
+        $this->app->register('LithiumDev\TagCloud\ServiceProvider');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
         AliasLoader::getInstance()->alias("Laratrust",'Laratrust\LaratrustFacade');
         AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
