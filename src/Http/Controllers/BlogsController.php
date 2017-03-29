@@ -62,6 +62,7 @@ class BlogsController extends Controller {
 
     public function store(CreateBlogRequest $request)
     {
+        $request->request->add(['created_at' => $request->input('created_at') . ":00"]);
         $blog=$this->blog->create($request->except('tags','files','image'));
         $blog->tag($request->tags);
         if ($request->file('image')){
@@ -76,6 +77,7 @@ class BlogsController extends Controller {
 	
     public function update(Blog $blog, UpdateBlogRequest $request)
     {
+        $request->request->add(['created_at' => $request->input('created_at') . ":00"]);
         $this->blog->update($blog, $request->except('tags','files','image'));
         $blog->tag($request->tags);
         if ($request->file('image')){

@@ -63,7 +63,9 @@
 			    					No planned giving number allocated
 			    				@endif
 			    			</div>
-			    			<div class="col-md-12"><b>Service: </b> {{$indiv->service->society->society}} {{$indiv->service->servicetime}}</div>
+			    			@if (isset($indiv->service_id))
+				    			<div class="col-md-12"><b>Service: </b> {{$indiv->service->society->society}} {{$indiv->service->servicetime}}</div>
+				    		@endif
 			    		</div>
 			    		<div class="row top20">
 			    			<div class="col-md-12">

@@ -49,6 +49,7 @@ class SeriesController extends Controller {
 
     public function store(CreateSeriesRequest $request)
     {
+        $request->request->add(['created_at' => $request->input('created_at') . "12:00:00"]);
         $series=$this->series->create($request->except('image'));
         if ($request->file('image')){
             $fname=$series->id;
@@ -62,6 +63,7 @@ class SeriesController extends Controller {
 	
     public function update(Series $series, UpdateSeriesRequest $request)
     {
+        $request->request->add(['created_at' => $request->input('created_at') . "12:00:00"]);
         $this->series->update($series, $request->except('image'));
         if ($request->file('image')){
             $fname=$series->id;

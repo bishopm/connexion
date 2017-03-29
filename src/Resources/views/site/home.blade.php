@@ -22,7 +22,13 @@
                 @if (count($blog->getMedia('image')))
                   <img height="80px" style="float:right;margin-left:7px;" src="{{$blog->getMedia('image')->first()->getUrl()}}">
                 @endif
-                {{$blog->title}}</a><a href="{{url('/')}}/blog/{{$blog->slug}}">{!!substr($blog->body, 0, strpos($blog->body, ' ', 200))!!}</a>
+                {{$blog->title}}</a><a href="{{url('/')}}/blog/{{$blog->slug}}">
+                @if (strlen($blog->body > 199))
+                  {!!substr($blog->body, 0, strpos($blog->body, ' ', 200))!!}
+                @else
+                  {!!substr($blog->body, 0, strpos($blog->body, ' ', strlen($blog->body)))!!}
+                @endif
+                </a>
               </div>
             </div>
           @else
