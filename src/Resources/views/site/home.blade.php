@@ -26,7 +26,7 @@
                 @if (strlen($blog->body > 199))
                   {!!substr($blog->body, 0, strpos($blog->body, ' ', 200))!!}
                 @else
-                  {!!substr($blog->body, 0, strpos($blog->body, ' ', strlen($blog->body)))!!}
+                  {!!substr($blog->body, 0, strrpos($blog->body, ' '))!!}
                 @endif
                 </a>
               </div>
