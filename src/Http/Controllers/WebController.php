@@ -116,9 +116,11 @@ class WebController extends Controller
         $comments = $blog->comments()->paginate(5);
         $media=$blog->getMedia('image')->first();
         $cloud = new TagCloud();
-        foreach ($blog->tags as $tag){
-            $cloud->addTag($tag->name);
-            $cloud->addTag(array('tag' => $tag->name, 'url' => $tag->slug));
+        foreach ($blogs->all() as $thisblog){
+            foreach ($thisblog->tags as $tag){
+                $cloud->addTag($tag->name);
+                $cloud->addTag(array('tag' => $tag->name, 'url' => $tag->slug));
+            }
         }
         $baseUrl=url('/');
         $cloud->setHtmlizeTagFunction(function($tag, $size) use ($baseUrl) {
@@ -277,7 +279,16 @@ class WebController extends Controller
             $household=$this->household->find($indiv->household_id);
             $cellmember=$this->individual->find($household->householdcell);
             $household->cellmember = $cellmember->firstname;
-            return view('connexion::site.mydetails',compact('household'));
+            $giving=$this->individual->givingnumbers();
+            $pg=array();
+            $ndx=1;
+            while (count($pg)<40){
+                if (!in_array($ndx,$giving)){
+                    $pg[]=$ndx;
+                }
+                $ndx++;
+            }
+            return view('connexion::site.mydetails',compact('household','pg'));
         } else {
             return view('connexion::site.mydetails');
         }

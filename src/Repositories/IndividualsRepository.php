@@ -29,4 +29,14 @@ class IndividualsRepository extends EloquentBaseRepository
             return "No data";
         }
     }
+
+    public function givingnumbers()
+    {
+        $giving=$this->model->where('giving','>',0)->select('giving')->get();
+        $pg=array();
+        foreach ($giving as $give){
+            $pg[]=$give->giving;
+        }
+        return $pg;
+    }
 }

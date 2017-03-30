@@ -58,9 +58,9 @@
 				    		</div>
 			    			<div class="col-md-12"><i class="fa fa-fw fa-gift"></i>
 			    				@if ($indiv->giving)
-			    					Planned giver
+			    					Planned giver (click <b>here</b> to see your number and recorded payments)
 			    				@else
-			    					No planned giving number allocated
+			    					No planned giving number <button data-toggle="modal" data-target="#modal-giving">Allocate me a PG number</button>
 			    				@endif
 			    			</div>
 			    			@if (isset($indiv->service_id))
@@ -94,4 +94,11 @@
       @endif
 	</div>
 </div>
+@include('connexion::shared.giving-modal')
 @endsection
+
+@section('js')
+<script type="text/javascript">
+	@include('connexion::shared.giving-modal-script')
+</script>
+@stop

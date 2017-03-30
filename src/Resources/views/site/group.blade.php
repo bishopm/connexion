@@ -9,12 +9,14 @@
 			{{$group->description}}
 		</div>
 		<div class="col-md-6">
-			<h4>Group members (only registered users shown)</h4>
+			<h4>Group members</h4>
 			<ul class="list-unstyled">
 			@if (Auth::check())
 				@foreach ($group->individuals as $indiv)
 					@if (isset($indiv->user))
 						<li><a href="{{url('/')}}/users/{{$indiv->slug}}">{{$indiv->firstname}} {{$indiv->surname}}</a></li>
+					@else
+						<li>{{$indiv->firstname}} {{$indiv->surname}}</li>
 					@endif
 				@endforeach
 			@else
