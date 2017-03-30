@@ -40,6 +40,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('admin/individuals/{individual}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@removemedia','as'=>'admin.individuals.removemedia']);
 	Route::put('admin/households/{household}',['uses'=>'Bishopm\Connexion\Http\Controllers\HouseholdsController@update','as'=>'admin.households.update']);
 	Route::put('admin/households/{household}/individuals/{individual}',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@update','as'=>'admin.individuals.update']);
+	Route::put('admin/households/{household}/individuals/{individual}',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@addpg','as'=>'admin.individuals.giving']);
 	Route::put('admin/households/{household}/specialdays', ['uses' => 'Bishopm\Connexion\Http\Controllers\SpecialdaysController@update','as' => 'admin.specialdays.update']);
 	Route::post('admin/households/{household}/specialdays', ['uses' => 'Bishopm\Connexion\Http\Controllers\SpecialdaysController@store','as' => 'admin.specialdays.store']);
 	Route::post('admin/households/{household}/individuals',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@store','as'=>'admin.individuals.store']);

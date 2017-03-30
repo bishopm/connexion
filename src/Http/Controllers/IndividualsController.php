@@ -39,6 +39,12 @@ class IndividualsController extends Controller {
         return view('connexion::individuals.edit', compact('individual','media'));
     }
 
+    public function giving($household,Individual $individual, $pg)
+    {
+        $individual->giving=$pg;
+        $individual->save();
+    }    
+
     public function create($household)
     {
         return view('connexion::individuals.create', compact('household'));

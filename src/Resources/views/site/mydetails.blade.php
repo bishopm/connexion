@@ -1,5 +1,9 @@
 @extends('connexion::templates.webpage')
 
+@section('css')
+  <meta id="token" name="token" value="{{ csrf_token() }}" />
+@stop
+
 @section('content')
 <img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
@@ -60,7 +64,7 @@
 			    				@if ($indiv->giving)
 			    					Planned giver (click <b>here</b> to see your number and recorded payments)
 			    				@else
-			    					No planned giving number <button data-toggle="modal" data-target="#modal-giving">Allocate me a PG number</button>
+			    					No planned giving number <button data-toggle="modal" data-target="#modal-giving" data-id="{{$indiv->id}}">Allocate me a PG number</button>
 			    				@endif
 			    			</div>
 			    			@if (isset($indiv->service_id))
@@ -100,5 +104,21 @@
 @section('js')
 <script type="text/javascript">
 	@include('connexion::shared.giving-modal-script')
+</script>
+<script type="text/javascript">
+	$.ajaxSetup({
+	  	headers: {
+	    	'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
+	  	}
+	});
+	$('.addPg').on('click',function(){
+        $.ajax({
+            type : 'GET',
+            url : '{{route('admin.individuals.giving',$household->id)}}',
+            success: function(){
+            	alert('pp');
+            }
+        });
+      });
 </script>
 @stop
