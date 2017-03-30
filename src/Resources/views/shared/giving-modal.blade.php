@@ -18,7 +18,7 @@
                     @if (intval($key) % 8 ==0)
                         <tr>
                     @endif
-                        <td class="text-center"><a class="btn btn-default btn-xs">{{$p}}</a></td>
+                        <td class="text-center"><a class="addPg btn btn-default btn-xs">{{$p}}</a></td>
                     @if (intval($key+1) % 8 ==0)
                         </tr>
                     @endif

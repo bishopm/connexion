@@ -64,7 +64,7 @@
 			    				@if ($indiv->giving)
 			    					Planned giver (click <b>here</b> to see your number and recorded payments)
 			    				@else
-			    					No planned giving number <button data-toggle="modal" data-target="#modal-giving" data-id="{{$indiv->id}}">Allocate me a PG number</button>
+			    					No planned giving number <button data-toggle="modal" data-target="#modal-giving">Allocate me a PG number</button>
 			    				@endif
 			    			</div>
 			    			@if (isset($indiv->service_id))
@@ -111,10 +111,12 @@
 	    	'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
 	  	}
 	});
-	$('.addPg').on('click',function(){
+	var activeTab = $(".tab-content").find(".active");
+	var id = activeTab.attr('id');
+	$('.addPg').on('click',function(e){
         $.ajax({
             type : 'GET',
-            url : '{{route('admin.individuals.giving',$household->id)}}',
+            url : '{{url("/")}}/admin/households/{{$household->id}}/individuals/' + id + '/giving/' + e.target.innerText,
             success: function(){
             	alert('pp');
             }
