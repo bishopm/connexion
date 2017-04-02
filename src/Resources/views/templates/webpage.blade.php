@@ -78,7 +78,7 @@
         </div>
       @endforeach
       <div class="col-xs-12">
-        5 Burnedale Place, Umhlali| <i class="fa fa-phone"></i> 032 947 0173 | <i class="fa fa-envelope-o"></i> {{ HTML::mailto('info@umc.org.za') }}
+        5 Burnedale Place, Umhlali| <i class="fa fa-phone"></i> 032 947 0173 | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }}
       </div>
     </div>
   </div>

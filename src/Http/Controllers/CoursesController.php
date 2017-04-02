@@ -4,6 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\CoursesRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
+use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Models\Course;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateCourseRequest;
@@ -19,12 +20,13 @@ class CoursesController extends Controller {
 	 * @return Response
 	 */
 
-	private $course, $user;
+	private $course, $user, $group;
 
-	public function __construct(CoursesRepository $course, UsersRepository $user)
+	public function __construct(CoursesRepository $course, UsersRepository $user, GroupsRepository $group)
     {
         $this->course = $course;
         $this->user = $user;
+        $this->group = $group;
     }
 
 	public function index()
@@ -50,6 +52,12 @@ class CoursesController extends Controller {
         $data['comments'] = $data['course']->comments()->paginate(5);
         return view('connexion::site.course',$data);
 	}
+
+    public function signup($slug)
+    {
+        $course=$this->course->findBySlug($slug);
+        return view('connexion::site.coursesignup',compact('course'));
+    }
 
     public function store(CreateCourseRequest $request)
     {

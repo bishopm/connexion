@@ -6,8 +6,8 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>{{$group->groupname}}
-			@if ($group->signupby)
-				<a class="btn btn-primary btn-xs">Sign me up!</a>
+			@if (count($signup))
+				<a href="{{url('/')}}/course/{{$signup[0]->slug}}/sign-up" class="btn btn-primary btn-xs">Sign me up!</a>
 			@endif
 			</h3>
 			{{$group->description}}

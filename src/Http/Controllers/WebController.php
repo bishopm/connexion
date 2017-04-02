@@ -170,7 +170,8 @@ class WebController extends Controller
     public function webgroup($slug)
     {
         $group = $this->group->findBySlug($slug);
-        return view('connexion::site.group',compact('group'));
+        $signup = $this->courses->getByAttributes(array('group_id'=>$group->id));
+        return view('connexion::site.group',compact('group','signup'));
     }    
 
     public function weballgroups()

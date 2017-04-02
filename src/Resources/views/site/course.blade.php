@@ -8,7 +8,7 @@
     <div class="container">
       <h3>{{$course->title}}
       @if (count($course->group))
-        <small><a class="btn btn-xs btn-primary" href="{{route('webgroup',$course->group->slug)}}">Click here to sign up</a></small>
+        <small><a class="btn btn-xs btn-primary" href="{{url('/')}}/course/{{$course->slug}}/sign-up">Click here to sign up</a></small>
       @endif
       </h3>
         <div class="row">
