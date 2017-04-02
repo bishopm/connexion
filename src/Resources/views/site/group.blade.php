@@ -5,7 +5,11 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h3>{{$group->groupname}}</h3>
+			<h3>{{$group->groupname}}
+			@if ($group->signupby)
+				<a class="btn btn-primary btn-xs">Sign me up!</a>
+			@endif
+			</h3>
 			{{$group->description}}
 		</div>
 		<div class="col-md-6">

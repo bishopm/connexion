@@ -36,7 +36,7 @@
 		</div>
 		<div class="col-xs-6 col-sm-9">
 			@if (isset($rating))
-				<textarea rows="5" name="newcomment" id="newcomment" class="form-control" placeholder="If you've done the course, leave a comment and star rating to help others considering doing it."></textarea>
+				<textarea rows="5" name="newcomment" id="newcomment" class="form-control" placeholder="If you've done the course or read the book, leave a comment and star rating to help others considering it."></textarea>
 			@elseif (count($comments))
 				<textarea rows="5" name="newcomment" id="newcomment" class="form-control" placeholder="Join the conversation :)"></textarea>
 			@else

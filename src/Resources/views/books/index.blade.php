@@ -8,8 +8,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-md-6"><h4>Courses</h4></div>
-                        <div class="col-md-6"><a href="{{route('admin.courses.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new course</a></div>
+                        <div class="col-md-6"><h4>Books</h4></div>
+                        <div class="col-md-6"><a href="{{route('admin.books.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new book</a></div>
                         <hr>
                     </div>
                 </div>
@@ -17,21 +17,23 @@
                     <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Course</th>
+                                <th>Title</th><th>Author</th><th>Stock</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Course</th>
+                                <th>Title</th><th>Author</th><th>Stock</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            @forelse ($courses as $course)
+                            @forelse ($books as $book)
                                 <tr>
-                                    <td><a href="{{route('admin.courses.edit',$course->id)}}">{{$course->title}}</a></td>
+                                    <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->title}}</a></td>
+                                    <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->author}}</a></td>                                    
+                                    <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->stock}}</a></td>
                                 </tr>
                             @empty
-                                <tr><td>No courses have been added yet</td></tr>
+                                <tr><td>No books have been added yet</td></tr>
                             @endforelse
                         </tbody>
                     </table>

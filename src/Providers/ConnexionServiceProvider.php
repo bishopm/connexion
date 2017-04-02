@@ -92,6 +92,12 @@ class ConnexionServiceProvider extends ServiceProvider
                         'url'  => 'admin/rosters',
                         'icon' => 'calendar',
                         'can' =>  'edit-backend'
+                    ],
+                    [
+                        'text' => 'Giving',
+                        'url'  => 'admin/payments',
+                        'icon' => 'gift',
+                        'can' =>  'edit-giving'
                     ]
                 ]
             ]);
@@ -175,6 +181,12 @@ class ConnexionServiceProvider extends ServiceProvider
                     'text' => 'Blog',
                     'url' => 'admin/blogs',
                     'icon' => 'pencil-square-o',
+                    'can' =>  'edit-backend'
+                ],
+                [
+                    'text' => 'Books',
+                    'url' => 'admin/books',
+                    'icon' => 'book',
                     'can' =>  'edit-backend'
                 ],
                 [
@@ -342,6 +354,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\BlogsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\BlogsRepository(new \Bishopm\Connexion\Models\Blog());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\BooksRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\BooksRepository(new \Bishopm\Connexion\Models\Book());
                 return $repository;
             }
         );

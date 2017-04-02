@@ -6,15 +6,15 @@
 
 @section('content')  
     <div class="container">
-      <h3>{{$course->title}}
-      @if (count($course->group))
-        <small><a class="btn btn-xs btn-primary" href="{{route('webgroup',$course->group->slug)}}">Click here to sign up</a></small>
-      @endif
-      </h3>
+      <h3>{{$book->title}}<small>
+        @foreach ($book->tags as $tag)
+          <a class="label label-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
+        @endforeach
+        </small></h3>
         <div class="row">
-          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{$course->getMedia('image')->first()->getUrl()}}"></div>
+          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{$book->getMedia('image')->first()->getUrl()}}"></div>
           <div class="col-md-9">
-          {!!$course->description!!}
+          {!!$book->description!!}
           </div>
           <div class="col-md-9">
               @include('connexion::shared.comments', ['rating' => true])
@@ -51,5 +51,5 @@
     });
   </script>
 @endif
-@include('connexion::shared.ratercommentsjs', ['url' => route('admin.courses.addcomment',$course->id)])
+@include('connexion::shared.ratercommentsjs', ['url' => route('admin.books.addcomment',$book->id)])
 @stop

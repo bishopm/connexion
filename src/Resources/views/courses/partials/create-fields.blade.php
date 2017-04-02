@@ -8,4 +8,5 @@
 </div>
 {{ Form::bsSelect('category','Category',array('home group','course','self-study')) }}
 {{ Form::bsTextarea('description','Description','Description') }}
+{{ Form::bsText('group_id','Linked to group event','Linked to group event') }}
 {{ Form::bsFile('image') }}

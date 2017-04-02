@@ -1,5 +1,9 @@
 @extends('adminlte::page')
 
+@section('css')
+    <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
+@stop
+
 @section('content_header')
     {{ Form::pgHeader('Edit a group','Groups',route('admin.groups.index')) }}
 @stop
@@ -29,11 +33,17 @@
 @stop
 
 @section('js')
+    <script src="{{asset('/vendor/bishopm/js/bootstrap-datepicker.min.js')}}"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
     <script src="{{url('/')}}/vendor/bishopm/js/gmap.js" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             google.maps.event.addDomListener(window, 'load', initialize(12));
         });
+        $(function () {
+            $("#signupby").datepicker({
+                format: 'yyyy-mm-dd'
+            });
+        });        
     </script>
 @stop

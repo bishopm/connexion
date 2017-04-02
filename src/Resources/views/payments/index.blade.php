@@ -2,35 +2,37 @@
 
 @section('content')
     <div class="container-fluid spark-screen">
-    @include('connexion::shared.errors') 
+        @include('connexion::shared.errors') 
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-6"><h4>Groups</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.groups.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new group</a></div>
+                            <div class="col-md-6"><h4>Payments</h4></div>
+                            <div class="col-md-6"><a href="{{route('admin.payments.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new payment</a></div>
                         </div>
                     </div>
                     <div class="panel-body">
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Group name</th>
+                                    <th>Date</th><th>PG number</th><th>Amount</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Group name</th>
+                                    <th>Date</th><th>PG number</th><th>Amount</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                @forelse ($groups as $group)
+                                @forelse ($payments as $payment)
                                     <tr>
-                                        <td><a href="{{route('admin.groups.show',$group->id)}}">{{$group->groupname}}</a></td>
+                                        <td><a href="{{route('admin.payments.edit',$payment->id)}}">{{$payment->paymentdate}}</a></td>
+                                        <td><a href="{{route('admin.payments.edit',$payment->id)}}">{{$payment->pgnumber}}</a></td>
+                                        <td><a href="{{route('admin.payments.edit',$payment->id)}}">{{$payment->amount}}</a></td>
                                     </tr>
                                 @empty
-                                    <tr><td>No groups have been added yet</td></tr>
+                                    <tr><td>No payments have been added yet</td></tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -44,7 +46,7 @@
 @section('js')
 <script language="javascript">
 $(document).ready(function() {
-    $('#indexTable').DataTable();
-} );
+        $('#indexTable').DataTable();
+    } );
 </script>
 @endsection

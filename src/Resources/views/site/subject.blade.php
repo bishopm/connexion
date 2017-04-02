@@ -18,7 +18,15 @@
 		    <h4>Sermons</h4>
 		    <ul class="list-unstyled">
 			    @foreach ($sermons as $sermon)
-			    	<li>{{$sermon->sermon}}</li>
+			    	<li>{{$sermon->title}}</li>
+			    @endforeach
+			</ul>
+		@endif
+		@if (count($books))
+		    <h4>Books</h4>
+		    <ul class="list-unstyled">
+			    @foreach ($books as $book)
+			    	<li><a href="{{url('/')}}/book/{{$book->slug}}">{{$book->title}}</a></li>
 			    @endforeach
 			</ul>
 		@endif

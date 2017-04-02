@@ -18,6 +18,8 @@ use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\CoursesRepository;
+use Bishopm\Connexion\Repositories\BooksRepository;
+use Bishopm\Connexion\Models\Book;
 use Bishopm\Connexion\Models\Blog;
 use Bishopm\Connexion\Models\Society;
 use Bishopm\Connexion\Models\Sermon;
@@ -29,9 +31,9 @@ use Auth;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings, $users, $series, $sermon, $individual, $courses, $group, $comments;
+    private $page, $slides, $settings, $users, $series, $sermon, $individual, $courses, $group, $comments, $books;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household, BooksRepository $books)
     {
         $this->page = $page;
         $this->group = $group;
@@ -42,6 +44,7 @@ class WebController extends Controller
         $this->sermon = $sermon;
         $this->individual = $individual;
         $this->courses = $courses;
+        $this->books = $books;
         $this->household = $household;
         $this->settingsarray=$this->settings->makearray();
     }
@@ -140,7 +143,8 @@ class WebController extends Controller
     {
         $blogs = Blog::withTag($tag)->get();
         $sermons = Sermon::withTag($tag)->get();
-        return view('connexion::site.subject',compact('blogs','sermons','tag'));
+        $books = Book::withTag($tag)->get();
+        return view('connexion::site.subject',compact('blogs','sermons','tag','books'));
     }
 
     public function webseries($series)
@@ -256,6 +260,12 @@ class WebController extends Controller
         $data['selfstudy'] = $this->courses->getcourses('self-study');
         return view('connexion::site.courses',$data);
     }        
+
+    public function webbooks()
+    {
+        $books = $this->books->all();
+        return view('connexion::site.books',compact('books'));
+    }
 
     public function mychurch()
     {
