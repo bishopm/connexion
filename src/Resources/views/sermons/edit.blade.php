@@ -34,6 +34,24 @@
               plugins: ['remove_button'],
               openOnFocus: 0
             });
+            $('.input-tags').selectize({
+              plugins: ['remove_button'],
+              openOnFocus: 0,
+              maxOptions: 30,
+              dropdownParent: "body",
+              create: function(value) {
+                  return {
+                      value: value,
+                      text: value
+                  }
+              },
+              onItemAdd: function(value,$item) {
+                $.ajax({ url: "{{url('/')}}/admin/sermons/addtag/{{$sermon->id}}/" + value })
+              },
+              onItemRemove: function(value,$item) {
+                $.ajax({ url: "{{url('/')}}/admin/sermons/removetag/{{$sermon->id}}/" + value })
+              }
+            });
             $('#title').on('input', function() {
                 var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
                 $("#slug").val(slug);

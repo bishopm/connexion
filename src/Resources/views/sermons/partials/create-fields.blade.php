@@ -17,4 +17,12 @@
     @endforeach
   </select>
 </div> 
+<div class='form-group '>
+  <label for="tags">Tags</label>
+  <select name="tags[]" class="input-tags" multiple>
+  @foreach ($tags as $tag)
+    <option value="{{$tag->name}}">{{$tag->name}}</option>
+  @endforeach
+  </select>
+</div>
 {{ Form::bsHidden('series_id',$series_id) }}

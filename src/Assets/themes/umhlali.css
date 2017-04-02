@@ -7105,13 +7105,13 @@ body {
 
 .highlight {
   padding:5px;
-  background-color: #81be41;
+  background-color: #e5f2d9;
   height:90px; 
   overflow:hidden;
 }
 
 .highlight a {
-  color:white;
+  color:black;
   text-decoration: none;
 }
 

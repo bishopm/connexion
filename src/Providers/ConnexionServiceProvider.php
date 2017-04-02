@@ -192,7 +192,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 [
                     'text' => 'Courses',
                     'url' => 'admin/courses',
-                    'icon' => 'book',
+                    'icon' => 'graduation-cap',
                     'can' =>  'edit-backend'
                 ],            
                 [

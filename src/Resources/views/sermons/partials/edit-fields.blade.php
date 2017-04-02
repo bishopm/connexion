@@ -20,5 +20,17 @@
 	    @endif
     @endforeach
   </select>
-</div> 
+</div>
+<div class='form-group '>
+  <label for="tags">Tags</label>
+  <select name="tags[]" class="input-tags" multiple>
+  @foreach ($tags as $tag)
+    @if ((count($btags)) and (in_array($tag->name,$btags)))
+        <option selected value="{{$tag->name}}">{{$tag->name}}</option>
+    @else
+        <option value="{{$tag->name}}">{{$tag->name}}</option>
+    @endif
+  @endforeach
+  </select>
+</div>
 {{ Form::bsHidden('series_id',$series) }}

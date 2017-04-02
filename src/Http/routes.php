@@ -271,6 +271,8 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
 	Route::put('admin/series/{series}/sermons/{sermon}',['uses'=>'Bishopm\Connexion\Http\Controllers\SermonsController@update','as'=>'admin.sermons.update']);
 	Route::post('admin/series/{series}/sermons',['uses'=>'Bishopm\Connexion\Http\Controllers\SermonsController@store','as'=>'admin.sermons.store']);
     Route::delete('admin/series/{series}/sermons/{sermon}',['uses'=>'Bishopm\Connexion\Http\Controllers\SermonsController@destroy','as'=>'admin.sermons.destroy']);
+    Route::get('admin/sermons/addtag/{sermon}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@addtag','as' => 'admin.sermons.addtag']);
+    Route::get('admin/sermons/removetag/{sermon}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@removetag','as' => 'admin.sermons.removetag']);
 
 	// Services
 	Route::get('admin/societies/{society}/services',['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@index','as'=>'admin.services.index']);

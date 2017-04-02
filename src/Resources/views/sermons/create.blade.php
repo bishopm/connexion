@@ -34,6 +34,18 @@
               plugins: ['remove_button'],
               openOnFocus: 0
             });
+            $('.input-tags').selectize({
+              plugins: ['remove_button'],
+              openOnFocus: 0,
+              maxOptions: 30,
+              dropdownParent: "body",
+              create: function(value) {
+                  return {
+                      value: value,
+                      text: value
+                  }
+              }
+            });
             $('#title').on('input', function() {
                 var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
                 $("#slug").val(slug);

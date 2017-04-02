@@ -29,6 +29,11 @@ class SermonsController extends Controller {
 
 	public function edit($series,Sermon $sermon)
     {
+        $data['tags']=Sermon::allTags()->get();
+        $data['btags']=array();
+        foreach ($sermon->tags as $tag){
+            $data['btags'][]=$tag->name;
+        }
         $data['preachers'] = Individual::withTag('preacher')->get();
         $data['series'] = $series;
         $data['sermon'] = $sermon;
@@ -50,15 +55,16 @@ class SermonsController extends Controller {
 
     public function store(CreateSermonRequest $request)
     {
-        $this->sermon->create($request->all());
-
+        $sermon=$this->sermon->create($request->except('tags'));
+        $sermon->tag($request->tags);
         return redirect()->route('admin.series.show',$request->series_id)
             ->withSuccess('New sermon added');
     }
 	
     public function update($series, Sermon $sermon, UpdateSermonRequest $request)
     {
-        $this->sermon->update($sermon, $request->all());
+        $this->sermon->update($sermon,$request->except('tags'));
+        $sermon->tag($request->tags);
         return redirect()->route('admin.series.show',$series)->withSuccess('Sermon has been updated');
     }
 
