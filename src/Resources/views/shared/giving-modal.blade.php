@@ -13,17 +13,30 @@
                     <li>Facilitate anonymous giving, while still ensuring that the church acknowledges amounts received</li>
                 </ul>
                 Click on a button below to choose from the available PG numbers:
-                <table class="table table-condensed table-responsive top10">
-                @foreach ($pg as $key=>$p)
-                    @if (intval($key) % 8 ==0)
-                        <tr>
-                    @endif
-                        <td class="text-center"><a class="addPg btn btn-default btn-xs">{{$p}}</a></td>
-                    @if (intval($key+1) % 8 ==0)
-                        </tr>
-                    @endif
-                @endforeach
-                </table>
+                <div class="row">
+                    <div class="col-md-8">
+                        <table class="table table-condensed table-responsive top10">
+                            @foreach ($pg as $key=>$p)
+                                @if (intval($key) % 8 ==0)
+                                    <tr>
+                                @endif
+                                    <td class="text-center"><a class="addPg btn btn-default btn-xs">{{$p}}</a></td>
+                                @if (intval($key+1) % 8 ==0)
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        @if (count($householdpgs))
+                            <div class="panel-body small">A member of your houshold already has a PG number. Click the button below to use that number as your number too:
+                                @foreach ($householdpgs as $hpg)
+                                    <td class="text-center"><a class="addPg btn btn-default btn-xs">{{$hpg}}</a></td>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>
