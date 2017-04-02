@@ -187,6 +187,13 @@ class WebController extends Controller
         return view('connexion::site.allgroups',compact('groups'));
     } 
 
+    public function webgroupcategory($category)
+    {
+        $groups = $this->group->getByAttributes(array('grouptype'=>$category));
+        dd($groups);
+        return view('connexion::site.groupcategory',compact('groups'));
+    } 
+
     public function webuser($slug)
     {
         $individual = $this->individual->findBySlug($slug);
@@ -277,18 +284,26 @@ class WebController extends Controller
         if ($user){
             $indiv=$this->individual->find($user->individual_id);
             $household=$this->household->find($indiv->household_id);
+            $householdpgs=array();
+            foreach ($household->individuals as $ii){
+                if ($ii->giving){
+                    $householdpgs[]=$ii->giving;
+                }
+            }
+            $householdpgs=array_unique($householdpgs);
+            asort($householdpgs);
             $cellmember=$this->individual->find($household->householdcell);
             $household->cellmember = $cellmember->firstname;
             $giving=$this->individual->givingnumbers();
             $pg=array();
             $ndx=1;
-            while (count($pg)<40){
+            while (count($pg)<20){
                 if (!in_array($ndx,$giving)){
                     $pg[]=$ndx;
                 }
                 $ndx++;
             }
-            return view('connexion::site.mydetails',compact('household','pg'));
+            return view('connexion::site.mydetails',compact('household','pg','householdpgs'));
         } else {
             return view('connexion::site.mydetails');
         }

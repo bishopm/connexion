@@ -43,6 +43,7 @@ class IndividualsController extends Controller {
     {
         $individual->giving=$pg;
         $individual->save();
+        return redirect()->back();
     }    
 
     public function create($household)

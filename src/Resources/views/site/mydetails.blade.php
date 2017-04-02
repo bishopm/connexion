@@ -111,14 +111,15 @@
 	    	'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
 	  	}
 	});
-	var activeTab = $(".tab-content").find(".active");
-	var id = activeTab.attr('id');
 	$('.addPg').on('click',function(e){
+		var activeTab = $(".tab-content").find(".active");
+		var id = activeTab.attr('id');
         $.ajax({
             type : 'GET',
             url : '{{url("/")}}/admin/households/{{$household->id}}/individuals/' + id + '/giving/' + e.target.innerText,
             success: function(){
-            	alert('pp');
+            	$('#modal-giving').modal('hide');
+            	location.reload();
             }
         });
       });
