@@ -34,12 +34,14 @@ class GroupsController extends Controller {
 
 	public function edit(Group $group)
     {
-        return view('connexion::groups.edit', compact('group'));
+        $indivs=$this->individuals->all();
+        return view('connexion::groups.edit', compact('group','indivs'));
     }
 
     public function create()
     {
-        return view('connexion::groups.create');
+        $indivs=$this->individuals->all();
+        return view('connexion::groups.create',compact('indivs'));
     }
 
 	public function show(Group $group)
@@ -61,9 +63,15 @@ class GroupsController extends Controller {
     {
         if (!isset($request->publish)){
             $request->request->add(['publish'=>0]);
+        } elseif ($request->publish=="webedit"){
+            $group=$this->group->update($group, $request->except('publish'));
+            $group->publish=1;
+            $group->save();
+            return redirect()->route('webgroup',$group->slug)->withSuccess('Group has been updated');
+        } else {
+            $this->group->update($group, $request->all());
+            return redirect()->route('admin.groups.index')->withSuccess('Group has been updated');
         }
-        $this->group->update($group, $request->all());
-        return redirect()->route('admin.groups.index')->withSuccess('Group has been updated');
     }
 
     public function addmember(Group $group,$memberid)

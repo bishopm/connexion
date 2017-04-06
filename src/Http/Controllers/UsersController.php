@@ -10,6 +10,7 @@ use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Http\Requests\CreateUserRequest;
 use Bishopm\Connexion\Http\Requests\UpdateUserRequest;
+use Bishopm\Connexion\Notifications\ProfileUpdated;
 
 class UsersController extends Controller {
 
@@ -85,6 +86,7 @@ class UsersController extends Controller {
             $individual->save();
             $user->bio=$request->input('bio');
             $user->save();
+            $user->notify(new ProfileUpdated($user));
             return redirect()->route('webuser.edit',$individual->slug)->withSuccess('User profile has been updated');
         } else {
             $user->fill($request->except('password','role_id'));
@@ -94,6 +96,7 @@ class UsersController extends Controller {
             $user->save();
             $user->roles()->detach();
             $user->roles()->attach($request->role_id);        
+            $user->notify(new ProfileUpdated($user));
             return redirect()->route('admin.users.index')->withSuccess('User has been updated');
         }
     }

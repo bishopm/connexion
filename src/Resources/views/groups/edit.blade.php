@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('css')
-    <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
+    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
@@ -33,17 +33,13 @@
 @stop
 
 @section('js')
-    <script src="{{asset('/vendor/bishopm/js/bootstrap-datepicker.min.js')}}"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
     <script src="{{url('/')}}/vendor/bishopm/js/gmap.js" type="text/javascript"></script>
+    <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>    
     <script type="text/javascript">
         $( document ).ready(function() {
             google.maps.event.addDomListener(window, 'load', initialize(12));
         });
-        $(function () {
-            $("#signupby").datepicker({
-                format: 'yyyy-mm-dd'
-            });
-        });        
+        $('#leader').selectize();
     </script>
 @stop

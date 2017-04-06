@@ -171,8 +171,29 @@ class WebController extends Controller
     {
         $group = $this->group->findBySlug($slug);
         $signup = $this->courses->getByAttributes(array('group_id'=>$group->id));
-        return view('connexion::site.group',compact('group','signup'));
+        $leader = $this->individual->find($group->leader);
+        if (count($signup)){
+            foreach ($group->individuals as $indiv){
+                if ($indiv->id == Auth::user()->individual->id){
+                    $signup=array();
+                }
+            }
+        }
+        return view('connexion::site.group',compact('group','signup','leader'));
     }    
+
+    public function webgroupedit($slug)
+    {
+        $group = $this->group->findBySlug($slug);
+        if (Auth::user()->individual->id==$group->leader){
+            $leader = $this->individual->find($group->leader);
+            $individuals = $this->individual->all();
+            $indivs = $this->individual->all();
+            return view('connexion::site.groupedit',compact('group','leader','indivs','individuals'));
+        } else {
+            return redirect()->route('webgroup',$group->slug);
+        }
+    } 
 
     public function weballgroups()
     {
@@ -195,7 +216,6 @@ class WebController extends Controller
     public function webgroupcategory($category)
     {
         $groups = $this->group->getByAttributes(array('grouptype'=>$category));
-        dd($groups);
         return view('connexion::site.groupcategory',compact('groups'));
     } 
 

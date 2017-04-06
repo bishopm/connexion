@@ -20,7 +20,7 @@
 	  	Send {{$person->firstname}} an {{ HTML::mailto($person->email,'email') }}
 
 	  	@if ($person->user)
-	  		<a href="{{url('/')}}/users/{{$person->slug}}" class="btn btn-primary">View {{$person->firstname}}'s user page</a>
+	  		<a href="{{url('/')}}/users/{{$person->slug}}" class="top17 btn btn-primary">View {{$person->firstname}}'s user page</a>
 	  	@endif
 	  </div>
 	</div>

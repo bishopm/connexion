@@ -6,22 +6,22 @@
 
 @section('content')  
     <div class="container">
-      <h3>{{$book->title}}<small>
-        @foreach ($book->tags as $tag)
-          <a class="label label-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
-        @endforeach
-        </small></h3>
+      <h3>{{$book->title}} <small>{{$book->author}}</small></h3>
         <div class="row">
-          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{$book->getMedia('image')->first()->getUrl()}}"></div>
-          <div class="col-md-9">
-          {!!$book->description!!}
+          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{$book->getMedia('image')->first()->getUrl()}}">
+            <ul class="top10 list-unstyled">
+            <li>Price: R{{$book->saleprice}}</li>
+            <li>Copies available: {{$book->stock}}</li>
+            </ul>
+            @foreach ($book->tags as $tag)
+              <a class="label label-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
+            @endforeach
           </div>
           <div class="col-md-9">
-              @include('connexion::shared.comments', ['rating' => true])
+            {!!$book->description!!}
+            @include('connexion::shared.comments', ['rating' => true])
           </div> 
-          <hr>
         </div>
-      </div>
     </div>
 @stop
 

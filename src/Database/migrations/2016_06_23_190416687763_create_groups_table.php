@@ -23,7 +23,6 @@ class CreateGroupsTable extends Migration
       $table->double('longitude',20,15);
       $table->integer('leader')->nullable();
       $table->string('grouptype');
-      $table->date('signupby')->nullable();
       $table->integer('publish')->nullable();
       $table->softDeletes();
       $table->timestamps();

@@ -6,6 +6,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h3>{{$group->groupname}}
+			@include('connexion::shared.errors') 
 			@if (count($signup))
 				<a href="{{url('/')}}/course/{{$signup[0]->slug}}/sign-up" class="btn btn-primary btn-xs">Sign me up!</a>
 			@endif
@@ -16,6 +17,15 @@
 			<h4>Group members</h4>
 			<ul class="list-unstyled">
 			@if (Auth::check())
+				@if (Auth::user()->individual->id==$group->leader)
+					<a title="Only group leaders can see this button" class="btn btn-primary btn-xs" href="{{url('/')}}/group/{{$group->slug}}/edit">Edit this group</a>
+				@else
+					@if ($leader)
+						To change group details, contact: <a href="{{url('/')}}/users/{{$leader->slug}}">{{$leader->firstname}} {{$leader->surname}}</a>
+					@else
+						<b>No leader designated yet!</b>
+					@endif
+				@endif
 				@foreach ($group->individuals as $indiv)
 					@if (isset($indiv->user))
 						<li><a href="{{url('/')}}/users/{{$indiv->slug}}">{{$indiv->firstname}} {{$indiv->surname}}</a></li>

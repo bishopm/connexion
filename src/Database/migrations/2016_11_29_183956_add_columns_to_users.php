@@ -21,6 +21,8 @@ class AddColumnsToUsers extends Migration
             $table->string('toodledo_refresh')->nullable();
             $table->string('google_calendar')->nullable();
             $table->string('calendar_colour')->nullable();
+            $table->string('slack_username')->nullable();
+            $table->string('notification_channel')->nullable();
             $table->string('bio')->nullable();
             $table->dropUnique(['email']);
         });
@@ -43,6 +45,8 @@ class AddColumnsToUsers extends Migration
             $table->dropColumn('toodledo_refresh');
             $table->dropColumn('google_calendar');
             $table->dropColumn('calendar_colour');
+            $table->dropColumn('slack_username');
+            $table->dropColumn('notification_channel');
             $table->dropColumn('bio');
         });
     }
