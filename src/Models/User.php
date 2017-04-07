@@ -39,4 +39,9 @@ class User extends Authenticatable
         $this->notify(new ResetPasswordNotification($token));
     }
 
+    public function routeNotificationForSlack()
+    {
+        return 'https://hooks.slack.com/services/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';
+    }
+
 }

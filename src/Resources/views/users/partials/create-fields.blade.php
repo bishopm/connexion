@@ -8,5 +8,5 @@
 	<div class="input-group-addon"><i></i></div>
     {!! Form::text('calendar_colour', null, array('class' => 'form-control')) !!}
 </div>
-{{ Form::bsText('telegram_username','Telegram username','Telegram username') }}
-{{ Form::bsSelect('notification_channel','Notification Channel',array('Email','Telegram')) }}
+{{ Form::bsText('slack_username','Slack username','Slack username') }}
+{{ Form::bsSelect('notification_channel','Notification Channel',array('Email','Slack')) }}

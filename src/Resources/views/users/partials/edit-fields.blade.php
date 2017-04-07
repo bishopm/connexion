@@ -10,5 +10,5 @@
 	    {!! Form::text('calendar_colour', $user->calendar_colour, array('class' => 'form-control')) !!}    
 	</div>
 </div>
-{{ Form::bsText('telegram_username','Telegram username','Telegram username',$user->telegram_username) }}
-{{ Form::bsSelect('notification_channel','Notification Channel',array('Email','Telegram',$user->notification_channel)) }}
+{{ Form::bsText('slack_username','Slack username','Slack username',$user->slack_username) }}
+{{ Form::bsSelect('notification_channel','Notification Channel',array('Email','Slack'),$user->notification_channel) }}
