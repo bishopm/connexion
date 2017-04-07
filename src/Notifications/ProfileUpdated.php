@@ -46,16 +46,14 @@ class ProfileUpdated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line("*Hi " . $notifiable->individual->firstname . "!* \n Your user profile has been updated!");
     }
 
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
             ->to($notifiable->slack_username)
-            ->content("*HELLO!* \n Your user profile has been updated!");
+            ->content("*Hi " . $notifiable->individual->firstname . "!* \n Your user profile has been updated!");
     }
 
     /**
