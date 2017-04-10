@@ -17,6 +17,8 @@
 		    {{$user->bio}}
 		    @if (Auth::user()->id == $user->id)
 			    <p class="top10"><a href="{{url('/')}}/users/{{$user->individual->slug}}/edit" class="btn btn-xs btn-primary">Edit my public profile</a></p>
+			@elseif ($user->allow_messages=="Yes")
+				<button class="top10 btn btn-primary btn-flat btn-xs" data-toggle="modal" data-target="#modal-message"><i class="fa fa-login"></i>Send {{$user->individual->firstname}} a message</button>
 			@endif
 		  </div>
 		  <div class="col-md-3">
@@ -61,4 +63,11 @@
 	  @endif
 	</div>
 </div>
+@include('connexion::shared.message-modal')
 @endsection
+
+@section('js')
+<script type="text/javascript">
+	@include('connexion::shared.message-modal-script')
+</script>
+@stop

@@ -10,3 +10,4 @@
 </div>
 {{ Form::bsText('slack_username','Slack username','Slack username') }}
 {{ Form::bsSelect('notification_channel','Notification Channel',array('Email','Slack')) }}
+{{ Form::bsSelect('allow_messages','Allow direct messages',array('Yes','No')) }}

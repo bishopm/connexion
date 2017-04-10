@@ -35,6 +35,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
         config(['laravel-medialibrary.defaultFilesystem'=>'public']);
         config(['auth.providers.users.model'=>'Bishopm\Connexion\Models\User']);
+        config(['queue.default'=>'database']);
         $finset=array();
         if (Schema::hasTable('settings')){
             $finset=$settings->makearray();

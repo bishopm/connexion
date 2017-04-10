@@ -2,20 +2,26 @@
 
 namespace Bishopm\Connexion\Notifications;
 
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 
-class ProfileUpdated extends Notification
+class SendMessage extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    private $message;
+
+    public function __construct($message)
     {
-        //
+        $this->message=$message;
     }
 
     /**
@@ -42,14 +48,14 @@ class ProfileUpdated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line("*Hi " . $notifiable->individual->firstname . "!* \n Your user profile has been updated!");
+            ->line("*Hi " . $notifiable->individual->firstname . "!* \n" . $this->message);
     }
 
     public function toSlack($notifiable)
     {
         return (new SlackMessage)
             ->to($notifiable->slack_username)
-            ->content("*Hi " . $notifiable->individual->firstname . "!* \n Your user profile has been updated!");
+            ->content("*Hi " . $notifiable->individual->firstname . "!* \n" . $this->message);
     }
 
     /**

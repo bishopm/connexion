@@ -18,6 +18,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/sermons', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermons','as' => 'websermons']);
 	Route::get('/users/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuser','as' => 'webuser']);
 	Route::get('/users/{slug}/edit', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuseredit','as' => 'webuser.edit']);
+	Route::post('/users/{user}/message', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@usermessage','as' => 'usermessage']);
 	Route::get('/my-details/householdedit', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuserhouseholdedit','as' => 'webuser.household.edit']);
 	Route::get('/my-details/edit/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuserindividualedit','as' => 'webuser.individual.edit']);
 	Route::get('/my-details/add-individual', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuserindividualadd','as' => 'webuser.individual.create']);

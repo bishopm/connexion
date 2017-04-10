@@ -27,6 +27,7 @@ use Bishopm\Connexion\Models\Specialday;
 use Actuallymab\LaravelComment\Models\Comment;
 use Spatie\GoogleCalendar\Event;
 use Auth;
+use Bishopm\Connexion\Notifications\SendMessage;
 
 class WebController extends Controller
 {
@@ -231,6 +232,12 @@ class WebController extends Controller
             }
         }
         return view('connexion::site.user',compact('user','staff','comments'));
+    }
+
+    public function usermessage($id, Request $request){
+        $user = $this->users->find($id);
+        $user->notify(new SendMessage($request->input('message')));
+        return redirect()->route('webuser',$user->individual->slug);
     }
 
     public function webuseredit($slug)

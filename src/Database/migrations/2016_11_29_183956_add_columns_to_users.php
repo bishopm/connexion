@@ -23,6 +23,7 @@ class AddColumnsToUsers extends Migration
             $table->string('calendar_colour')->nullable();
             $table->string('slack_username')->nullable();
             $table->string('notification_channel')->nullable();
+            $table->string('allow_messages')->nullable();
             $table->string('bio')->nullable();
             $table->dropUnique(['email']);
         });
