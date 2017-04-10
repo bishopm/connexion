@@ -16,6 +16,12 @@
             "role": "Developer"
         }
     ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/bishopm/mediabrowser"
+        }
+    ],
     "require": {
         "illuminate/support": "5.4.*",
         "php" : "~5.6|~7.0",
