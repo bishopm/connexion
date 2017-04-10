@@ -34,7 +34,7 @@
         "felixkiss/uniquewith-validator": "3.*",
         "lithiumdev/laravel-tagcloud": "1.*",
         "guzzlehttp/guzzle": "6.*",
-        "unisharp/laravel-filemanager": "1.*"
+        "barryvdh/laravel-elfinder": "0.*"
     },
     "require-dev": {
         "phpunit/phpunit" : "~4.0||~5.0",        

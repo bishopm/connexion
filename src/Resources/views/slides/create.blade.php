@@ -1,5 +1,9 @@
 @extends('adminlte::page')
 
+@section('css')
+    
+@stop
+
 @section('content_header')
     {{ Form::pgHeader('Add slide','Slides',route('admin.slides.index')) }}
 @stop
@@ -20,4 +24,8 @@
         </div>
     </div>
     {!! Form::close() !!}
+@stop
+
+@section('js')
+    
 @stop
