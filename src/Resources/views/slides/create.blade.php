@@ -20,7 +20,7 @@
         </div>
     </div>
     {!! Form::close() !!}
-    @include('connexion::shared.filemanager-modal',['folder'=>'slides'])
+    @include('connexion::shared.filemanager-modal',['folder'=>'slides','action'=>'addimage'])
 @stop
 
 @section('js')

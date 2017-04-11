@@ -312,6 +312,7 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
 	Route::get('admin/slides/{slide}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@edit','as'=>'admin.slides.edit']);
 	Route::put('admin/slides/{slide}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@update','as'=>'admin.slides.update']);
 	Route::post('admin/slides',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@store','as'=>'admin.slides.store']);
+	Route::post('admin/slides/addimage',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@addimage','as'=>'admin.slides.addimage']);
     Route::delete('admin/slides/{slide}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@destroy','as'=>'admin.slides.destroy']);
 	Route::get('admin/slides/{slide}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@removemedia','as'=>'admin.slides.removemedia']);    
 

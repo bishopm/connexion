@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSlideRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSlideRequest;
 use MediaUploader;
+use Illuminate\Http\Request;
 
 class SlidesController extends Controller {
 
@@ -70,6 +71,10 @@ class SlidesController extends Controller {
             $slide->attachMedia($media, 'image');
         }        
         return redirect()->route('admin.slides.index')->withSuccess('Slide has been updated');
+    }
+
+    public function addimage(Request $request){
+        dd($request);
     }
 
     public function removemedia(Slide $slide)
