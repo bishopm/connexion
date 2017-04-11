@@ -1,9 +1,5 @@
 @extends('adminlte::page')
 
-@section('css')
-    <link href="{{ asset('/vendor/bishopm/css/colorbox.css') }}" rel="stylesheet" type="text/css" />
-@stop
-
 @section('content_header')
     {{ Form::pgHeader('Add slide','Slides',route('admin.slides.index')) }}
 @stop
@@ -24,14 +20,15 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.filemanager-modal',['folder'=>'slides'])
 @stop
 
 @section('js')
-    <script src="{{ asset('/vendor/bishopm/js/jquery.colorbox-min.js')}}" type="text/javascript"></script>
-    <script src="{{ asset('/vendor/bishopm/js/standalonepopup.min.js')}}" type="text/javascript"></script>
     <script type="text/javascript">
-        $( document ).ready(function() {
-            $(".browser").colorbox();
+        @include('connexion::shared.filemanager-modal-script')
+    
+        $('.fileMan').on('click',function(e){
+            alert('hello!');
         });
     </script>
 @stop

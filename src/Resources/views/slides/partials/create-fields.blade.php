@@ -4,4 +4,5 @@
 {{ Form::bsText('link','Link','Link') }}
 {{ Form::bsText('rankorder','Order','Order') }}
 {{ Form::bsText('active','Active','Active') }}
-{{ Form::bsFile('image') }}
+{{ Form::bsText('image','Image','Image') }}
+<a class="btn btn-primary" data-toggle="modal" data-target="#modal-filemanager">Browse server or upload new file</a>
