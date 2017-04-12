@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSlideRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSlideRequest;
 use MediaUploader;
-use Illuminate\Http\Request;
+use Plank\Mediable\Media;
 
 class SlidesController extends Controller {
 
@@ -51,10 +51,9 @@ class SlidesController extends Controller {
     public function store(CreateSlideRequest $request)
     {
         $slide=$this->slide->create($request->except('image'));
-        if ($request->file('image')){
-            $fname=$slide->id;
-            $media = MediaUploader::fromSource($request->file('image'))
-            ->toDirectory('slides')->useFilename($fname)->upload();
+        if ($request->input('image')){
+            $fname=explode('.',$request->input('image'));
+            $media = MediaUploader::import('public', 'slides', $fname[0], $fname[1]);
             $slide->attachMedia($media, 'image');
         }
         return redirect()->route('admin.slides.index')
@@ -64,17 +63,15 @@ class SlidesController extends Controller {
     public function update(Slide $slide, UpdateSlideRequest $request)
     {
         $this->slide->update($slide, $request->except('image'));
-        if ($request->file('image')){
-            $fname=$slide->id;
-            $media = MediaUploader::fromSource($request->file('image'))
-            ->toDirectory('slides')->useFilename($fname)->upload();
+        if ($request->input('image')){
+            $fname=explode('.',$request->input('image'));
+            $media=Media::where('disk','=','public')->where('directory','=','slides')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->firstOrFail();
+            if (!count($media)){
+                $media = MediaUploader::import('public', 'slides', $fname[0], $fname[1]);
+            }
             $slide->attachMedia($media, 'image');
-        }        
+        }      
         return redirect()->route('admin.slides.index')->withSuccess('Slide has been updated');
-    }
-
-    public function addimage(Request $request){
-        dd($request);
     }
 
     public function removemedia(Slide $slide)

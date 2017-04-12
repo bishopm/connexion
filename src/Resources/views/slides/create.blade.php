@@ -1,5 +1,9 @@
 @extends('adminlte::page')
 
+@section('css')
+  <meta id="token" name="token" value="{{ csrf_token() }}" />
+@stop
+
 @section('content_header')
     {{ Form::pgHeader('Add slide','Slides',route('admin.slides.index')) }}
 @stop
@@ -20,15 +24,11 @@
         </div>
     </div>
     {!! Form::close() !!}
-    @include('connexion::shared.filemanager-modal',['folder'=>'slides','action'=>'addimage'])
+    @include('connexion::shared.filemanager-modal',['folder'=>'slides'])
 @stop
 
 @section('js')
     <script type="text/javascript">
         @include('connexion::shared.filemanager-modal-script')
-    
-        $('.fileMan').on('click',function(e){
-            alert('hello!');
-        });
     </script>
 @stop

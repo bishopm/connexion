@@ -4,12 +4,13 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h3 class="modal-title" id="delete-confirmation-title">Choose a file <small>Folder: {{$folder}}</small></h3>
-                <form enctype="multipart/form-data" method="post" action="{{$action}}" files="true">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="col-md-6"><input type="file" name="file" required=""/></div><div class="col-md-6"><button id="submitbutton" type="submit">Upload</button></div>
+                <form id="upload_form" enctype="multipart/form-data" method="post" action="{{route('admin.addimage')}}">
+                    <div class="col-md-6"><input type="file" name="uploadfile" required=""/></div><div class="col-md-6">
+                    <input type="hidden" name="folder" value="{{$folder}}">
+                    <button id="submitbutton" type="submit">Upload</button></div>
                 </form>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="overflow-y: auto;">
                 <div class="row">
                 @foreach (scandir(public_path() . '/storage/' . $folder) as $thisfile)
                     @if (substr($thisfile,0,1)<>'.')

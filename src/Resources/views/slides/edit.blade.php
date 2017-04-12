@@ -20,15 +20,12 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.filemanager-modal',['folder'=>'slides'])
 @stop
 
 @section('js')
 <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
-        }
-    });
+    @include('connexion::shared.filemanager-modal-script')
     $("#removeMedia").on('click',function(e){
         e.preventDefault();
         $.ajax({

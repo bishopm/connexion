@@ -59,11 +59,14 @@ Route::get('email-verification/error', 'Bishopm\Connexion\Http\Controllers\Auth\
 Route::get('email-verification/check/{token}', 'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@getVerification')->name('email-verification.check');
 
 Route::group(['middleware' => ['web','isverified']], function () {
-// Logout
+	// Logout
 	Route::post('logout',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@logout','as'=>'logout']);
-});
+	});
 
 Route::group(['middleware' => ['web','isverified','permission:view-backend']], function () {
+	
+	//Images
+	Route::post('admin/addimage',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@addimage','as'=>'admin.addimage']);
 	
 	// Dashboard
 	Route::get('admin',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
@@ -312,7 +315,6 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
 	Route::get('admin/slides/{slide}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@edit','as'=>'admin.slides.edit']);
 	Route::put('admin/slides/{slide}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@update','as'=>'admin.slides.update']);
 	Route::post('admin/slides',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@store','as'=>'admin.slides.store']);
-	Route::post('admin/slides/addimage',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@addimage','as'=>'admin.slides.addimage']);
     Route::delete('admin/slides/{slide}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@destroy','as'=>'admin.slides.destroy']);
 	Route::get('admin/slides/{slide}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@removemedia','as'=>'admin.slides.removemedia']);    
 

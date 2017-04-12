@@ -27,6 +27,7 @@ use Bishopm\Connexion\Models\Specialday;
 use Actuallymab\LaravelComment\Models\Comment;
 use Spatie\GoogleCalendar\Event;
 use Auth;
+use MediaUploader;
 use Bishopm\Connexion\Notifications\SendMessage;
 
 class WebController extends Controller
@@ -363,6 +364,15 @@ class WebController extends Controller
         if (is_null($page)) {
             $this->app->abort('404');
         }
+    }
+
+    public function addimage(Request $request){
+        if ($request->file('uploadfile')){
+            $fname=strval(time());
+            $media = MediaUploader::fromSource($request->file('uploadfile'))
+            ->toDirectory($request->input('folder'))->useFilename($fname)->upload();
+            return $fname . "." . $media->extension;
+        }       
     }
 
 }
