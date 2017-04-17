@@ -40,13 +40,15 @@ class BooksController extends Controller {
         foreach ($book->tags as $tag){
             $btags[]=$tag->name;
         }
-        $media=$book->getMedia('image')->first();
+        $media=$book->getMedia('image')->first()->getUrl();
         return view('connexion::books.edit', compact('book','media','tags','btags'));
     }
 
     public function create()
     {
-        return view('connexion::books.create');
+        $media='';
+        $tags=Book::allTags()->get();
+        return view('connexion::books.create',compact('media','tags'));
     }
 
 	public function show($slug)
@@ -60,26 +62,27 @@ class BooksController extends Controller {
     {
         $book=$this->book->create($request->except('image','files','tags'));
         $book->tag($request->tags);
-        if ($request->file('image')){
-            $fname=$book->id;
-            $media = MediaUploader::fromSource($request->file('image'))
-            ->toDirectory('books')->useFilename($fname)->upload();
-            $book->attachMedia($media, 'image');
-        }
+        $fname=explode('.',$request->input('image'));
+        $media = MediaUploader::import('public', 'books', $fname[0], $fname[1]);
+        $book->attachMedia($media, 'image');
         return redirect()->route('admin.books.index')
             ->withSuccess('New book added');
     }
 	
     public function update(Book $book, UpdateBookRequest $request)
-    {
+    {      
+        if ($book->firstMedia->filename . '.' . $book->firstMedia->extension <> $request->input('image')){
+            $book->detachMedia($book->media);
+            // New image
+            $fname=explode('.',$request->input('image'));
+            $media=Media::where('disk','=','public')->where('directory','=','books')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->firstOrFail();
+            if (!$media){
+                $media = MediaUploader::import('public', 'books', $fname[0], $fname[1]);
+            }
+            $book->attachMedia($media, 'image');
+        } 
         $this->book->update($book, $request->except('image','files','tags'));
         $book->tag($request->tags);
-        if ($request->file('image')){
-            $fname=$book->id;
-            $media = MediaUploader::fromSource($request->file('image'))
-            ->toDirectory('books')->useFilename($fname)->upload();
-            $book->attachMedia($media, 'image');
-        }        
         return redirect()->route('admin.books.index')->withSuccess('Book has been updated');
     }
 

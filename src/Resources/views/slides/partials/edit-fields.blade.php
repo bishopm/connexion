@@ -4,13 +4,6 @@
 {{ Form::bsText('link','Link','Link',$slide->link) }}
 {{ Form::bsText('rankorder','Order','Order',$slide->rankorder) }}
 {{ Form::bsText('active','Active','Active',$slide->active) }}
-@if (!count($media))
-	<div id="filediv">
-		{{ Form::bsText('image','Image','Image') }}
-		<a class="btn btn-primary" data-toggle="modal" data-target="#modal-filemanager">Browse server or upload new file</a>
-	</div>
-@else
-	<div id="thumbdiv">
-		{{ Form::bsImgpreview($media->getUrl(),300,'Image') }}
-	</div>
-@endif
+{{ Form::bsHidden('image',$media) }}
+<div id="thumbdiv" style="margin-bottom:5px;"></div>
+<div id="filediv"></div>

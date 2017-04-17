@@ -1,8 +1,9 @@
 @extends('adminlte::page')
 
 @section('css')
-    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
+  <meta id="token" name="token" value="{{ csrf_token() }}" />
+  <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
@@ -25,6 +26,7 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.filemanager-modal',['folder'=>'books'])
 @stop
 
 @section('js')
@@ -61,5 +63,6 @@
               ]
             });
         });
+        @include('connexion::shared.filemanager-modal-script',['folder'=>'books'])
     </script>
 @stop

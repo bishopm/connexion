@@ -1,5 +1,9 @@
 @extends('adminlte::page')
 
+@section('css')
+    <meta id="token" name="token" value="{{ csrf_token() }}" />
+@stop
+
 @section('content_header')
     {{ Form::pgHeader('Edit slide','Slides',route('admin.slides.index')) }}
 @stop
@@ -25,17 +29,6 @@
 
 @section('js')
 <script>
-    @include('connexion::shared.filemanager-modal-script')
-    $("#removeMedia").on('click',function(e){
-        e.preventDefault();
-        $.ajax({
-            type : 'GET',
-            url : '{{url('/')}}/admin/slides/<?php echo $slide->id;?>/removemedia',
-            success: function(){
-              $('#thumbdiv').hide();
-              $('#filediv').show();
-            }
-        });
-    });
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'slides'])
 </script>
 @endsection

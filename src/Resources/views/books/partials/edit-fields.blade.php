@@ -8,16 +8,9 @@
 </div>
 {{ Form::bsText('author','Author','Author',$book->author) }}
 {{ Form::bsTextarea('description','Description','Description',$book->description) }}
-@if (!count($media))
-{{ Form::bsFile('image') }}
-@else
-<div id="thumbdiv">
-	{{ Form::bsImgpreview($media->getUrl(),300,'Image') }}
-</div>
-<div id="filediv" style="display:none;">
-	{{ Form::bsFile('image') }}
-</div>
-@endif
+{{ Form::bsHidden('image',$media) }}
+<div id="thumbdiv" style="margin-bottom:5px;"></div>
+<div id="filediv"></div>
 <div class='form-group '>
   <label for="tags">Tags</label>
   <select name="tags[]" class="input-tags" multiple>

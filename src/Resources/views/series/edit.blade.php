@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('css')
+    <meta id="token" name="token" value="{{ csrf_token() }}" />
     <link href="{{ asset('/vendor/bishopm/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
@@ -24,6 +25,7 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.filemanager-modal',['folder'=>'series'])
 @stop
 
 @section('js')
@@ -35,17 +37,6 @@
             'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
         }
     });
-    $("#removeMedia").on('click',function(e){
-        e.preventDefault();
-        $.ajax({
-            type : 'GET',
-            url : '{{url('/')}}/admin/series/<?php echo $series->id;?>/removemedia',
-            success: function(){
-              $('#thumbdiv').hide();
-              $('#filediv').show();
-            }
-        });
-    });
     $( document ).ready(function() {
         $('#title').on('input', function() {
             var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
@@ -55,5 +46,6 @@
             format: 'YYYY-MM-DD'
         });
     });
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'series'])
 </script>
 @endsection

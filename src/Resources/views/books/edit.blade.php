@@ -27,6 +27,7 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.filemanager-modal',['folder'=>'books'])
 @stop
 
 @section('js')
@@ -50,40 +51,41 @@
         });
     });
     $( document ).ready(function() {
-            $('#title').on('input', function() {
-                var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
-                $("#slug").val(slug);
-            });
-            $('#description').summernote({ 
-              height: 250,
-              toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
-                ['color', ['color']],
-                ['table', ['table']],
-                ['link', ['linkDialogShow', 'unlink']],
-                ['para', ['ul', 'ol', 'paragraph']]
-              ]
-            });
-            $('.input-tags').selectize({
-              plugins: ['remove_button'],
-              openOnFocus: 0,
-              maxOptions: 30,
-              dropdownParent: "body",
-              create: function(value) {
-                  return {
-                      value: value,
-                      text: value
-                  }
-              },
-              onItemAdd: function(value,$item) {
-                $.ajax({ url: "{{url('/')}}/admin/books/addtag/{{$book->id}}/" + value })
-              },
-              onItemRemove: function(value,$item) {
-                $.ajax({ url: "{{url('/')}}/admin/books/removetag/{{$book->id}}/" + value })
-              }
-            });
+        $('#title').on('input', function() {
+            var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+            $("#slug").val(slug);
         });
+        $('#description').summernote({ 
+          height: 250,
+          toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['table', ['table']],
+            ['link', ['linkDialogShow', 'unlink']],
+            ['para', ['ul', 'ol', 'paragraph']]
+          ]
+        });
+        $('.input-tags').selectize({
+          plugins: ['remove_button'],
+          openOnFocus: 0,
+          maxOptions: 30,
+          dropdownParent: "body",
+          create: function(value) {
+              return {
+                  value: value,
+                  text: value
+              }
+          },
+          onItemAdd: function(value,$item) {
+            $.ajax({ url: "{{url('/')}}/admin/books/addtag/{{$book->id}}/" + value })
+          },
+          onItemRemove: function(value,$item) {
+            $.ajax({ url: "{{url('/')}}/admin/books/removetag/{{$book->id}}/" + value })
+          }
+        });
+    });
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'books'])
 </script>
 @endsection

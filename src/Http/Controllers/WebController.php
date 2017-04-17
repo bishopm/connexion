@@ -368,10 +368,9 @@ class WebController extends Controller
 
     public function addimage(Request $request){
         if ($request->file('uploadfile')){
-            $fname=strval(time());
-            $media = MediaUploader::fromSource($request->file('uploadfile'))
-            ->toDirectory($request->input('folder'))->useFilename($fname)->upload();
-            return $fname . "." . $media->extension;
+            $fullname=strval(time()) . "." . $request->file('uploadfile')->getClientOriginalExtension();
+            $request->file('uploadfile')->move(base_path() . '/storage/app/public/' . $request->input('folder'),$fullname);
+            return $fullname;
         }       
     }
 

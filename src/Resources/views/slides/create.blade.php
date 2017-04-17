@@ -29,6 +29,6 @@
 
 @section('js')
     <script type="text/javascript">
-        @include('connexion::shared.filemanager-modal-script')
+        @include('connexion::shared.filemanager-modal-script',['folder'=>'slides'])
     </script>
 @stop

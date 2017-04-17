@@ -8,7 +8,9 @@
 </div>
 {{ Form::bsText('author','Author','Author') }}
 {{ Form::bsTextarea('description','Description','Description') }}
-{{ Form::bsFile('image') }}
+{{ Form::bsHidden('image') }}
+<div id="thumbdiv" style="margin-bottom:5px;"></div>
+<div id="filediv"></div>
 <div class='form-group '>
   <label for="tags">Tags</label>
   <select name="tags[]" class="input-tags" multiple>

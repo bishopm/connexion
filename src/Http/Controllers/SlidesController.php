@@ -33,13 +33,14 @@ class SlidesController extends Controller {
 
 	public function edit(Slide $slide)
     {
-        $media=$slide->getMedia('image')->first();
+        $media=$slide->getMedia('image')->first()->getUrl();
         return view('connexion::slides.edit', compact('slide','media'));
     }
 
     public function create()
     {
-        return view('connexion::slides.create');
+        $media='';
+        return view('connexion::slides.create',compact('media'));
     }
 
 	public function show(Slide $slide)
@@ -51,26 +52,26 @@ class SlidesController extends Controller {
     public function store(CreateSlideRequest $request)
     {
         $slide=$this->slide->create($request->except('image'));
-        if ($request->input('image')){
-            $fname=explode('.',$request->input('image'));
-            $media = MediaUploader::import('public', 'slides', $fname[0], $fname[1]);
-            $slide->attachMedia($media, 'image');
-        }
+        $fname=explode('.',$request->input('image'));
+        $media = MediaUploader::import('public', 'slides', $fname[0], $fname[1]);
+        $slide->attachMedia($media, 'image');
         return redirect()->route('admin.slides.index')
             ->withSuccess('New slide added');
     }
 	
     public function update(Slide $slide, UpdateSlideRequest $request)
     {
-        $this->slide->update($slide, $request->except('image'));
-        if ($request->input('image')){
+        if ($slide->firstMedia->filename . '.' . $slide->firstMedia->extension <> $request->input('image')){
+            $slide->detachMedia($slide->media);
+            // New image
             $fname=explode('.',$request->input('image'));
             $media=Media::where('disk','=','public')->where('directory','=','slides')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->firstOrFail();
-            if (!count($media)){
+            if (!$media){
                 $media = MediaUploader::import('public', 'slides', $fname[0], $fname[1]);
             }
             $slide->attachMedia($media, 'image');
-        }      
+        } 
+        $this->slide->update($slide, $request->except('image'));
         return redirect()->route('admin.slides.index')->withSuccess('Slide has been updated');
     }
 
