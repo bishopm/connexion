@@ -12,7 +12,13 @@
             </div>
             <div class="modal-body" style="overflow-y: auto;">
                 <div class="row">
-                @foreach (scandir(public_path() . '/storage/' . $folder) as $thisfile)
+                <?php
+                    $fff=public_path() . '/storage/' . $folder;
+                    if (!file_exists($fff)){
+                        mkdir($fff);
+                    }
+                ?>
+                @foreach (scandir($fff) as $thisfile)
                     @if (substr($thisfile,0,1)<>'.')
                         <div class="col-xs-2"><a class="fmgr" href="#{{$thisfile}}">{{$thisfile}}</a></div>
                         <div class="col-xs-4"><img style="padding-bottom:10px;" height="40px" src="{{url('/')}}/storage/{{$folder}}/{{$thisfile}}"></div>
