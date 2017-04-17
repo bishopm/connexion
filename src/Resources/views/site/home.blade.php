@@ -14,29 +14,31 @@
       <img src="{{asset('vendor/bishopm/images/blog.png')}}">
       <h4>From our Blog</h4>
       <div class="top30 list-unstyled text-left">
-        @forelse ($blogs as $blog)
-          @if ($loop->first)
-            <div class="col-xs-12">
-              <div class="highlight">
-                <a id="highlightlink" href="{{url('/')}}/blog/{{$blog->slug}}">
-                @if (count($blog->getMedia('image')))
-                  <img height="80px" style="float:right;margin-left:7px;" src="{{$blog->getMedia('image')->first()->getUrl()}}">
-                @endif
-                {{$blog->title}}</a><a href="{{url('/')}}/blog/{{$blog->slug}}">
-                @if (strlen($blog->body > 199))
-                  {!!substr($blog->body, 0, strpos($blog->body, ' ', 200))!!}
-                @else
-                  {!!substr($blog->body, 0, strrpos($blog->body, ' '))!!}
-                @endif
-                </a>
+        @if (count($blogs))
+          @foreach ($blogs as $blog)
+            @if ($loop->first)
+              <div class="col-xs-12">
+                <div class="highlight">
+                  <a id="highlightlink" href="{{url('/')}}/blog/{{$blog->slug}}">
+                  @if (count($blog->getMedia('image')))
+                    <img height="80px" style="float:right;margin-left:7px;" src="{{$blog->getMedia('image')->first()->getUrl()}}">
+                  @endif
+                  {{$blog->title}}</a><a href="{{url('/')}}/blog/{{$blog->slug}}">
+                  @if (strlen($blog->body > 199))
+                    {!!substr($blog->body, 0, strpos($blog->body, ' ', 200))!!}
+                  @else
+                    {!!substr($blog->body, 0, strrpos($blog->body, ' '))!!}
+                  @endif
+                  </a>
+                </div>
               </div>
-            </div>
-          @else
-            <div class="col-xs-12 top5">{{date("j M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
-          @endif
-        @empty
+            @else
+              <div class="col-xs-12 top5">{{date("j M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
+            @endif
+          @endforeach
+        @else
           <li>No blog posts have been published yet</li>
-        @endforelse
+        @endif
       </div>      
     </div>
     <div class="col-md-4 text-center">
@@ -80,12 +82,16 @@
         </small></ul>
         <h4 class="top30">Welcome to our newest users!</h4>
         <p class="text-left"><small>
-        @foreach ($users as $user)
-            <a href="{{url('/')}}/users/{{$user->individual->slug}}">{{$user->individual->firstname}} {{$user->individual->surname}}</a>
-            @if (!$loop->last)
-              ,
+        @forelse ($users as $user)
+            @if ($user->individual)
+              <a href="{{url('/')}}/users/{{$user->individual->slug}}">{{$user->individual->firstname}} {{$user->individual->surname}}</a>
+              @if (!$loop->last)
+                ,
+              @endif
             @endif
-        @endforeach
+        @empty
+            No users are set up yet
+        @endforelse
         </small></p>
       @else
         <img src="{{asset('vendor/bishopm/images/contact.png')}}">

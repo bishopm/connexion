@@ -17,7 +17,6 @@ class ConnexionServiceProvider extends ServiceProvider
 
     protected $commands = [
         'Bishopm\Connexion\Console\InstallConnexionCommand',
-        'Bishopm\Connexion\Console\SyncToodledoCommand'
     ];
 
     /**
@@ -316,6 +315,9 @@ class ConnexionServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if (Schema::hasTable('settings')){
+            $this->commands[]="Bishopm\Connexion\Console\SyncToodledoCommand";
+        }
         $this->commands($this->commands);
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');

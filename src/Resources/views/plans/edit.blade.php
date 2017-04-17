@@ -19,6 +19,7 @@ select.form-control.pplan {
 </div>
 {!! Form::open() !!}
 <div class="container-fluid">
+@if (count($societies))
 <table class="table table-condensed table-striped table-responsive table-hover">
   <thead>
     <tr>
@@ -111,6 +112,9 @@ select.form-control.pplan {
   @endforeach
   </tbody>
 </table>
+@else
+  No societies or preaching places have been set up yet. <a class="btn btn-primary" href="{{url('/')}}/admin/societies">Add a society</a>
+@endif
 </div>
 {!! Form::close() !!}
 @stop

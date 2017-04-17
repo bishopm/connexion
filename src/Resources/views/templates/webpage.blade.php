@@ -30,18 +30,26 @@
         <div class="navbar-collapse collapse">
           {!!$webmenu!!}
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="http://www.facebook.com/umhlalimethodist" target="_blank"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="http://www.twitter.com/umhlalichurch" target="_blank"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="http://www.youtube.com/umhlalimethodist" target="_blank"><i class="fa fa-youtube"></i></a></li>
+            <li><a href="{{$setting['facebook_page']}}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="{{$setting['twitter_profile']}}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="{{$setting['youtube_page']}}" target="_blank"><i class="fa fa-youtube"></i></a></li>
             @if(Auth::check())
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->individual->firstname}} <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  @if (Auth::user()->individual)
+                    {{Auth::user()->individual->firstname}} 
+                  @else
+                    {{Auth::user()->name}} 
+                  @endif
+                  <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   @if (Auth::user()->can('view-backend'))
                     <li><a href="{{url('/')}}/admin"><i class="fa fa-fw fa-cogs"></i> Backend</a></li>
                   @endif
-                  <li><a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}"><i class="fa fa-fw fa-info-circle"></i> My user profile</a></li>
-                  <li><a href="{{url('/')}}/my-church"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation']}}</a></li>
+                  @if (Auth::user()->individual)
+                    <li><a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}"><i class="fa fa-fw fa-info-circle"></i> My user profile</a></li>
+                  @endif
+                  <li><a href="{{url('/')}}/my-church"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation'] or 'church'}}</a></li>
                   <li><a href="{{url('/')}}/my-details"><i class="fa fa-fw fa-user"></i> My details</a></li>
                   @if (Auth::user()->can('view-worship'))
                     <li><a href="{{url('/')}}/admin/worship"><i class="fa fa-fw fa-music"></i> Worship</a></li>
@@ -78,7 +86,7 @@
         </div>
       @endforeach
       <div class="col-xs-12">
-        5 Burnedale Place, Umhlali| <i class="fa fa-phone"></i> 032 947 0173 | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }}
+        {{$setting['church_address']}}| <i class="fa fa-phone"></i> {{$setting['church_phone']}} | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }}
       </div>
     </div>
   </div>

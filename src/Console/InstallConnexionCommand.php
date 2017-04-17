@@ -14,18 +14,19 @@ class InstallConnexionCommand extends Command
 
     public function handle()
     {
-        $this->info('Setting up database tables');
         $this->call('vendor:publish');
+        $this->info('Setting up database tables');
         $this->call('migrate');
         $users=User::all();
         if (count($users)){
             $this->info('This command may only be run on a blank installation. Exiting ...');
         } else {
             $newuser=New User;
-            $newuser->name=$this->ask('Enter name of administrative user');
-            $newuser->email=$this->ask('Enter user email address');
-            $newuser->password=Hash::make($this->secret('Enter user password'));
+            $newuser->name=$this->ask('Enter username of administrative user');
+            $newuser->email=$this->ask('Enter administrative user email address');
+            $newuser->password=Hash::make($this->secret('Enter administrative user password'));
             $this->info('Creating new administrative user...');
+            $newuser->verified=1;
             $newuser->save();          
             $this->seeder();
             $this->call('storage:link');
@@ -36,50 +37,51 @@ class InstallConnexionCommand extends Command
     protected function seeder()
     {
         DB::table('roles')->insert([
-            'name' => 'admin'
+            'name' => 'administrator'
         ]);
         DB::table('roles')->insert([
-            'name' => 'editor'
-        ]);
-        DB::table('roles')->insert([
-            'name' => 'backend'
+            'name' => 'web-user'
         ]);
         DB::table('permissions')->insert([
-            'name' => 'administer-site'
+            'name' => 'admin-backend'
         ]);
         DB::table('permissions')->insert([
-            'name' => 'read-content'
+            'name' => 'edit-comment'
         ]);
         DB::table('permissions')->insert([
-            'name' => 'edit-content'
+            'name' => 'view-backend'
         ]);
-        DB::table('role_has_permissions')->insert([
+        DB::table('permissions')->insert([
+            'name' => 'view-worship'
+        ]);
+        DB::table('permission_role')->insert([
             'role_id' => '1',
             'permission_id' => '1'
         ]);
-        DB::table('role_has_permissions')->insert([
+        DB::table('permission_role')->insert([
             'role_id' => '1',
             'permission_id' => '2'
         ]);
-        DB::table('role_has_permissions')->insert([
+        DB::table('permission_role')->insert([
             'role_id' => '1',
             'permission_id' => '3'
         ]);
-        DB::table('role_has_permissions')->insert([
+        DB::table('permission_role')->insert([
+            'role_id' => '1',
+            'permission_id' => '4'
+        ]);
+        DB::table('permission_role')->insert([
             'role_id' => '2',
             'permission_id' => '2'
         ]);
-        DB::table('role_has_permissions')->insert([
+        DB::table('permission_role')->insert([
             'role_id' => '2',
-            'permission_id' => '3'
+            'permission_id' => '4'
         ]);
-        DB::table('role_has_permissions')->insert([
-            'role_id' => '3',
-            'permission_id' => '3'
-        ]);
-        DB::table('user_has_roles')->insert([
+        DB::table('role_user')->insert([
             'role_id' => '1',
-            'user_id' => '1'
+            'user_id' => '1',
+            'user_type' => 'Bishopm\Connexion\Models\User'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'site_name',
@@ -89,6 +91,36 @@ class InstallConnexionCommand extends Command
         DB::table('settings')->insert([
             'setting_key' => 'society_name',
             'setting_value' => '',
+            'category' => 'general'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'church_email',
+            'setting_value' => 'info@church.com',
+            'category' => 'general'
+        ]); 
+        DB::table('settings')->insert([
+            'setting_key' => 'church_address',
+            'setting_value' => 'Church address',
+            'category' => 'general'
+        ]); 
+        DB::table('settings')->insert([
+            'setting_key' => 'facebook_page',
+            'setting_value' => 'http://www.facebook.com',
+            'category' => 'general'
+        ]); 
+        DB::table('settings')->insert([
+            'setting_key' => 'twitter_profile',
+            'setting_value' => 'http://www.twitter.com',
+            'category' => 'general'
+        ]); 
+        DB::table('settings')->insert([
+            'setting_key' => 'youtube_page',
+            'setting_value' => 'http://www.youtube.com',
+            'category' => 'general'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'church_phone',
+            'setting_value' => 'Office number',
             'category' => 'general'
         ]); 
         DB::table('settings')->insert([
@@ -111,11 +143,6 @@ class InstallConnexionCommand extends Command
             'setting_value' => '<b>C</b>x',
             'category' => 'general'
         ]); 
-        DB::table('settings')->insert([
-            'setting_key' => 'society',
-            'setting_value' => '',
-            'category' => 'general'
-        ]);         
         DB::table('settings')->insert([
             'setting_key' => 'google_api',
             'setting_value' => 'AIzaSyBQmfbfWGd1hxfR1sbnRXdCaQ5Mx5FjUhA',
