@@ -17,8 +17,8 @@ class CreateSlidesTable extends Migration
       		$table->increments('id');
 			$table->string('slideshowname');
 			$table->string('title');
-      		$table->string('description');
-			$table->string('link');
+      		$table->string('description')->nullable();
+			$table->string('link')->nullable();
 			$table->integer('rankorder');
 			$table->boolean('active');
       		$table->timestamps();
