@@ -26,6 +26,7 @@ class ConnexionServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events, SettingsRepository $settings)
     {
+        Schema::defaultStringLength(191);
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/routes.php';
         }
