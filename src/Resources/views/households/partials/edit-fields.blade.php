@@ -8,6 +8,7 @@
 <div class="form-group">
 	<label for="Household Cellphone" class="control-label">Household Cellphone</label>
 	<select name="householdcell" id="householdcell" class="form-control">
+	@if(isset($cellphones))
 		@foreach ($cellphones as $key=>$cellphone)
 			@if ($household->householdcell==$key)
 				<option selected value="{{$key}}">{{$cellphone['name']}}</option>
@@ -16,5 +17,6 @@
 			@endif
 		@endforeach
 	</select>
+	@endif
 </div>
 {{ Form::bsText('homephone','Home Phone','Home Phone',$household->homephone) }}

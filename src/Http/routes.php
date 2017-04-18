@@ -105,7 +105,6 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
     Route::delete('admin/books/{book}',['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@destroy','as'=>'admin.books.destroy']);
     Route::get('admin/books/addtag/{book}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@addtag','as' => 'admin.books.addtag']);
     Route::get('admin/books/removetag/{book}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@removetag','as' => 'admin.books.removetag']);
-	Route::get('admin/books/{book}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@removemedia','as'=>'admin.books.removemedia']); 
 
 	// Chords
     Route::get('admin/worship/chords',['uses'=>'Bishopm\Connexion\Http\Controllers\GchordsController@index','as'=>'admin.chords.index']);
@@ -123,7 +122,7 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
 	Route::put('admin/courses/{course}',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@update','as'=>'admin.courses.update']);
 	Route::post('admin/courses',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@store','as'=>'admin.courses.store']);
     Route::delete('admin/courses/{course}',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@destroy','as'=>'admin.courses.destroy']);
-	Route::get('admin/courses/{course}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@removemedia','as'=>'admin.courses.removemedia']); 
+
 
 	// Folders
 	Route::get('admin/folders',['uses'=>'Bishopm\Connexion\Http\Controllers\FoldersController@index','as'=>'admin.folders.index']);
@@ -267,7 +266,6 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
 	Route::put('admin/series/{series}',['uses'=>'Bishopm\Connexion\Http\Controllers\SeriesController@update','as'=>'admin.series.update']);
 	Route::post('admin/series',['uses'=>'Bishopm\Connexion\Http\Controllers\SeriesController@store','as'=>'admin.series.store']);
     Route::delete('admin/series/{series}',['uses'=>'Bishopm\Connexion\Http\Controllers\SeriesController@destroy','as'=>'admin.series.destroy']);
-	Route::get('admin/series/{series}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\SeriesController@removemedia','as'=>'admin.series.removemedia']);    
 
 	// Sermons
 	Route::get('admin/series/{series}/sermons',['uses'=>'Bishopm\Connexion\Http\Controllers\SermonsController@index','as'=>'admin.sermons.index']);
@@ -316,7 +314,6 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
 	Route::put('admin/slides/{slide}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@update','as'=>'admin.slides.update']);
 	Route::post('admin/slides',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@store','as'=>'admin.slides.store']);
     Route::delete('admin/slides/{slide}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@destroy','as'=>'admin.slides.destroy']);
-	Route::get('admin/slides/{slide}/removemedia',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@removemedia','as'=>'admin.slides.removemedia']);    
 
 	// Societies
 	Route::get('admin/societies',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@index','as'=>'admin.societies.index']);

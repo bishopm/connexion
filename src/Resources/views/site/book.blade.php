@@ -8,7 +8,7 @@
     <div class="container">
       <h3>{{$book->title}} <small>{{$book->author}}</small></h3>
         <div class="row">
-          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{$book->getMedia('image')->first()->getUrl()}}">
+          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{url('/')}}/storage/books/{{$book->image}}">
             <ul class="top10 list-unstyled">
             <li>Price: R{{$book->saleprice}}</li>
             <li>Copies available: {{$book->stock}}</li>

@@ -9,8 +9,6 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateBookRequest;
 use Bishopm\Connexion\Http\Requests\UpdateBookRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
-use MediaUploader;
-use Plank\Mediable\Media;
 
 class BooksController extends Controller {
 
@@ -41,15 +39,13 @@ class BooksController extends Controller {
         foreach ($book->tags as $tag){
             $btags[]=$tag->name;
         }
-        $media=$book->getMedia('image')->first()->getUrl();
-        return view('connexion::books.edit', compact('book','media','tags','btags'));
+        return view('connexion::books.edit', compact('book','tags','btags'));
     }
 
     public function create()
     {
-        $media='';
         $tags=Book::allTags()->get();
-        return view('connexion::books.create',compact('media','tags'));
+        return view('connexion::books.create',compact('tags'));
     }
 
 	public function show($slug)
@@ -61,39 +57,17 @@ class BooksController extends Controller {
 
     public function store(CreateBookRequest $request)
     {
-        $book=$this->book->create($request->except('image','files','tags'));
+        $book=$this->book->create($request->except('files','tags'));
         $book->tag($request->tags);
-        $fname=explode('.',$request->input('image'));
-        $media=Media::where('disk','=','public')->where('directory','=','books')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->first();
-        if (!$media){
-            $media = MediaUploader::import('public', 'books', $fname[0], $fname[1]);
-        }
-        $book->attachMedia($media, 'image');
         return redirect()->route('admin.books.index')
             ->withSuccess('New book added');
     }
 	
     public function update(Book $book, UpdateBookRequest $request)
     {      
-        $file_name=substr($request->input('image'),strrpos($request->input('image'),'/'));   
-        if ($book->media[0]->filename . '.' . $book->media[0]->extension <> $file_name){
-            // New image
-            $fname=explode('.',$file_name);
-            $media=Media::where('disk','=','public')->where('directory','=','books')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->first();
-            if (!$media){
-                $media = MediaUploader::import('public', 'books', $fname[0], $fname[1]);
-            }
-            $book->syncMedia($media, 'image');
-        } 
-        $this->book->update($book, $request->except('image','files','tags'));
+        $this->book->update($book, $request->except('files','tags'));
         $book->tag($request->tags);
         return redirect()->route('admin.books.index')->withSuccess('Book has been updated');
-    }
-
-    public function removemedia(Book $book)
-    {
-        $media = $book->getMedia('image');
-        $book->detachMedia($media);
     }
 
     public function addcomment(Book $book, CreateCommentRequest $request)

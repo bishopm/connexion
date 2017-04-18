@@ -18,7 +18,7 @@
       @else
         <div class="item">
       @endif
-      <img src="{{$slide->getMedia('image')->first()->getUrl()}}" style="width:100%">
+      <img src="{{url('/')}}/storage/slides/{{$slide->image}}" style="width:100%">
       <div class="container">
         <div class="carousel-caption">
           <h1>{{$slide->title}}</h1>

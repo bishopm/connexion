@@ -4,9 +4,12 @@
     <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
 @stop
 
+@section('content_header')
+    {{ Form::pgHeader('Add household member','Individuals',route('admin.households.show',$household)) }}
+@stop
+
 @section('content')
     @include('connexion::shared.errors')
-    {{ Form::pgHeader('Add household member','Individuals',route('admin.households.show',$household)) }}
     {!! Form::open(['route' => array('admin.individuals.store',$household), 'method' => 'post', 'files'=>'true']) !!}
     <div class="row">
         <div class="col-md-12">

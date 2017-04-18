@@ -7,8 +7,6 @@ use Bishopm\Connexion\Models\Slide;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSlideRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSlideRequest;
-use MediaUploader;
-use Plank\Mediable\Media;
 
 class SlidesController extends Controller {
 
@@ -33,14 +31,12 @@ class SlidesController extends Controller {
 
 	public function edit(Slide $slide)
     {
-        $media=$slide->getMedia('image')->first()->getUrl();
-        return view('connexion::slides.edit', compact('slide','media'));
+        return view('connexion::slides.edit', compact('slide'));
     }
 
     public function create()
     {
-        $media='';
-        return view('connexion::slides.create',compact('media'));
+        return view('connexion::slides.create');
     }
 
 	public function show(Slide $slide)
@@ -51,37 +47,15 @@ class SlidesController extends Controller {
 
     public function store(CreateSlideRequest $request)
     {
-        $slide=$this->slide->create($request->except('image'));
-        $fname=explode('.',$request->input('image'));
-        $media=Media::where('disk','=','public')->where('directory','=','slides')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->first();
-        if (!$media){
-            $media = MediaUploader::import('public', 'slides', $fname[0], $fname[1]);
-        }
-        $slide->attachMedia($media, 'image');
+        $slide=$this->slide->create($request->all());
         return redirect()->route('admin.slides.index')
             ->withSuccess('New slide added');
     }
 	
     public function update(Slide $slide, UpdateSlideRequest $request)
     {
-        $file_name=substr($request->input('image'),strrpos($request->input('image'),'/'));
-        if ($slide->media[0]->filename . '.' . $slide->media[0]->extension <> $file_name){
-            // New image
-            $fname=explode('.',$file_name);
-            $media=Media::where('disk','=','public')->where('directory','=','slides')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->first();
-            if (!$media){
-                $media = MediaUploader::import('public', 'slides' , $fname[0], $fname[1]);
-            }
-            $slide->syncMedia($media, 'image');
-        } 
-        $this->slide->update($slide, $request->except('image'));
+        $this->slide->update($slide, $request->all());
         return redirect()->route('admin.slides.index')->withSuccess('Slide has been updated');
-    }
-
-    public function removemedia(Slide $slide)
-    {
-        $media = $slide->getMedia('image');
-        $slide->detachMedia($media);
     }
 
 }

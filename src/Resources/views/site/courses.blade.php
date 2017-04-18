@@ -29,7 +29,7 @@
             <tbody>
                 @forelse ($courses as $cc)
                     <tr>
-                        <td><a href="{{route('webresource',$cc->slug)}}"><img width="150px" class="img-responsive" src="{{$cc->getMedia('image')->first()->getUrl()}}"></a></td>
+                        <td><a href="{{route('webresource',$cc->slug)}}"><img width="150px" class="img-responsive" src="{{url('/')}}/storage/courses/{{$cc->image}}"></a></td>
                         <td><a href="{{route('webresource',$cc->slug)}}">{{$cc->title}}</a></td>
                         <td><a href="{{route('webresource',$cc->slug)}}">{!!$cc->description!!}</a></td>
                         <td><a href="{{route('webresource',$cc->slug)}}">{{$cc->averageRate()}}</a></td>
@@ -56,7 +56,7 @@
             <tbody>
                 @forelse ($homegroup as $hg)
                     <tr>
-                    	<td><a href="{{route('webresource',$hg->slug)}}"><img width="150px" class="img-responsive" src="{{$hg->getMedia('image')->first()->getUrl()}}"></a></td>
+                    	<td><a href="{{route('webresource',$hg->slug)}}"><img width="150px" class="img-responsive" src="{{url('/')}}/storage/courses/{{$hg->image}}"></a></td>
                         <td><a href="{{route('webresource',$hg->slug)}}">{{$hg->title}}</a></td>
                         <td><a href="{{route('webresource',$hg->slug)}}">{!!$hg->description!!}</a></td>
                         <td><a href="{{route('webresource',$hg->slug)}}">{{$hg->averageRate()}}</a></td>

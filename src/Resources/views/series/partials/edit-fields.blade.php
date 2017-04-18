@@ -8,6 +8,6 @@
 </div>
 {{ Form::bsText('description','Description','Description',$series->description) }}
 {{ Form::bsText('created_at','Starting date','Starting date',$series->created_at) }}
-{{ Form::bsHidden('image',$media) }}
+{{ Form::bsHidden('image',$series->image) }}
 <div id="thumbdiv" style="margin-bottom:5px;"></div>
 <div id="filediv"></div>

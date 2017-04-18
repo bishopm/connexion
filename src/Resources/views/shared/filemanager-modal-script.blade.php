@@ -38,5 +38,9 @@ $( document ).ready(function() {
             }
         });                            
     });
-    setupImage('{{$media}}');
+    if ($('#image').val()==''){
+        setupImage($('#image').val());
+    } else {
+        setupImage("{{url('/')}}" + "/storage/{{$folder}}/" + $('#image').val());
+    }
 });

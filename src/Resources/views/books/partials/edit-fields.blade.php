@@ -8,7 +8,7 @@
 </div>
 {{ Form::bsText('author','Author','Author',$book->author) }}
 {{ Form::bsTextarea('description','Description','Description',$book->description) }}
-{{ Form::bsHidden('image',$media) }}
+{{ Form::bsHidden('image',$book->image) }}
 <div id="thumbdiv" style="margin-bottom:5px;"></div>
 <div id="filediv"></div>
 <div class='form-group '>

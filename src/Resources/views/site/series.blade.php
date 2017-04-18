@@ -6,7 +6,7 @@
 	<div class="row">
 	  <h3>{{$series->title}}</h3>
 	  <div class="col-md-6">
-	    <img src="{{$series->getMedia('image')->first()->getUrl()}}">
+	    <img src="{{url('/')}}/storage/series/{{$series->image}}">
 	  </div>
 	  <div class="col-md-6">
 	  	  <p>{{$series->description}}</p>

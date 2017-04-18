@@ -23,7 +23,7 @@
             <tbody>
                 @forelse ($books as $cc)
                     <tr>
-                        <td><a href="{{route('webbook',$cc->slug)}}"><img width="50px" class="img-responsive" src="{{$cc->getMedia('image')->first()->getUrl()}}"></a></td>
+                        <td><a href="{{route('webbook',$cc->slug)}}"><img width="50px" class="img-responsive" src="{{url('/')}}/storage/books/{{$cc->image}}"></a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->title}}</a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{!!$cc->author!!}</a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->averageRate()}}</a></td>

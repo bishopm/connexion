@@ -8,9 +8,9 @@
 {{ Form::bsSelect('title','Title',array('Mr','Mrs','Ms','Dr','Rev')) }}
 {{ Form::bsSelect('memberstatus','Membership status',array('Member','Non-member','Child')) }}
 @if ((isset($media)) and ($media<>"webpage"))
+	{{ Form::bsHidden('household_id',$household) }}
+@else
 	{{ Form::bsFile('image') }}
 	{{ Form::bsTextarea('notes','Notes','Notes') }}
 	{{ Form::bsHidden('household_id',$household) }}
-@else
-	{{ Form::bsHidden('household_id',$household->id) }}
 @endif
