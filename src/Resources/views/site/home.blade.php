@@ -37,7 +37,7 @@
             @endif
           @endforeach
         @else
-          <li>No blog posts have been published yet</li>
+          No blog posts have been published yet
         @endif
       </div>      
     </div>
@@ -52,16 +52,18 @@
         <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: <a href="{{route('websermon',array($sermon->series->slug,$sermon->slug))}}">{{$sermon->title}}</a></div>
         <div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
       @else
-        No sermons have been added yet
+        <div class="top30">
+          No sermons have been added yet  
+        </div>
       @endif
     </div>
     <div class="col-md-4 text-center">
       @if (Auth::check())
         <img src="{{asset('vendor/bishopm/images/community.png')}}">
         <h4>What are we saying?</h4>
-        <ul class="list-unstyled top20"><small>
-          @foreach ($comments as $comment)
-            <li class="text-left">
+        <ul class="list-unstyled top30">
+          @forelse ($comments as $comment)
+            <li class="text-left"><small>
               <a href="{{url('/')}}/users/{{$comment->commented->individual->slug}}">{{$comment->commented->individual->firstname}} {{$comment->commented->individual->surname}}</a> commented on 
               @if ($comment->commentable_type=="Bishopm\Connexion\Models\Blog")
                 <a href="{{url('/')}}/blog/{{$comment->commentable->slug}}">
@@ -77,22 +79,24 @@
                 ...
               @endif
               </a>
-            </li>
-          @endforeach
-        </small></ul>
-        <h4 class="top30">Welcome to our newest users!</h4>
-        <p class="text-left"><small>
-        @forelse ($users as $user)
-            @if ($user->individual)
-              <a href="{{url('/')}}/users/{{$user->individual->slug}}">{{$user->individual->firstname}} {{$user->individual->surname}}</a>
-              @if (!$loop->last)
-                ,
-              @endif
+            </small></li>
+          @empty
+            No users have posted comments yet
+          @endforelse
+        </ul>
+        @if (isset(Auth::user()->individual))
+          <h4 class="top30">Welcome to our newest users!</h4>
+          <p class="text-left"><small>
+          @forelse ($users as $user)
+            <a href="{{url('/')}}/users/{{$user->individual->slug}}">{{$user->individual->firstname}} {{$user->individual->surname}}</a>
+            @if (!$loop->last)
+              ,
             @endif
-        @empty
-            No users are set up yet
-        @endforelse
-        </small></p>
+          @empty
+              No users are set up yet
+          @endforelse
+          </small></p>
+        @endif
       @else
         <img src="{{asset('vendor/bishopm/images/contact.png')}}">
         <h4>Find us</h4>
