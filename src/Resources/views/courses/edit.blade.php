@@ -21,6 +21,7 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.filemanager-modal',['folder'=>'courses'])
 @stop
 
 @section('js')
@@ -30,22 +31,12 @@
             'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
         }
     });
-    $("#removeMedia").on('click',function(e){
-        e.preventDefault();
-        $.ajax({
-            type : 'GET',
-            url : '{{url('/')}}/admin/courses/<?php echo $course->id;?>/removemedia',
-            success: function(){
-              $('#thumbdiv').hide();
-              $('#filediv').show();
-            }
+    $( document ).ready(function() {
+        $('#title').on('input', function() {
+            var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+            $("#slug").val(slug);
         });
     });
-    $( document ).ready(function() {
-            $('#title').on('input', function() {
-                var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
-                $("#slug").val(slug);
-            });
-        });
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'courses'])    
 </script>
 @endsection

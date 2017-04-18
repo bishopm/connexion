@@ -9,13 +9,6 @@
 {{ Form::bsSelect('category','Category',array('home group','course','self-study'),$course->category) }}
 {{ Form::bsTextarea('description','Description','Description',$course->description) }}
 {{ Form::bsText('group_id','Linked to group event','Linked to group event', $course->group_id) }}
-@if (!count($media))
-{{ Form::bsFile('image') }}
-@else
-<div id="thumbdiv">
-	{{ Form::bsImgpreview($media->getUrl(),300,'Image') }}
-</div>
-<div id="filediv" style="display:none;">
-	{{ Form::bsFile('image') }}
-</div>
-@endif
+{{ Form::bsHidden('image',$media) }}
+<div id="thumbdiv" style="margin-bottom:5px;"></div>
+<div id="filediv"></div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSeriesRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSeriesRequest;
 use MediaUploader;
+use Plank\Mediable\Media;
 
 class SeriesController extends Controller {
 
@@ -53,7 +54,10 @@ class SeriesController extends Controller {
         $request->request->add(['created_at' => $request->input('created_at') . "12:00:00"]); 
         $series=$this->series->create($request->except('image'));
         $fname=explode('.',$request->input('image'));
-        $media = MediaUploader::import('public', 'series', $fname[0], $fname[1]);
+        $media=Media::where('disk','=','public')->where('directory','=','series')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->first();
+        if (!$media){
+            $media = MediaUploader::import('public', 'series', $fname[0], $fname[1]);
+        }
         $series->attachMedia($media, 'image');
         return redirect()->route('admin.series.index')
             ->withSuccess('New series added');
@@ -62,15 +66,15 @@ class SeriesController extends Controller {
     public function update(Series $series, UpdateSeriesRequest $request)
     {
         $request->request->add(['created_at' => $request->input('created_at') . "12:00:00"]);
-        if ($series->firstMedia->filename . '.' . $series->firstMedia->extension <> $request->input('image')){
-            $series->detachMedia($series->media);
+        $file_name=substr($request->input('image'),strrpos($request->input('image'),'/'));
+        if ($series->media[0]->filename . '.' . $series->media[0]->extension <> $file_name){
             // New image
-            $fname=explode('.',$request->input('image'));
-            $media=Media::where('disk','=','public')->where('directory','=','series')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->firstOrFail();
+            $fname=explode('.',$file_name);
+            $media=Media::where('disk','=','public')->where('directory','=','series')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->first();
             if (!$media){
-                $media = MediaUploader::import('public', 'series', $fname[0], $fname[1]);
+                $media = MediaUploader::import('public', 'series' , $fname[0], $fname[1]);
             }
-            $series->attachMedia($media, 'image');
+            $series->syncMedia($media, 'image');
         } 
         $this->series->update($series, $request->except('image'));
         return redirect()->route('admin.series.index')->withSuccess('Series has been updated');

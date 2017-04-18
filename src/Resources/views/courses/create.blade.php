@@ -1,5 +1,9 @@
 @extends('adminlte::page')
 
+@section('css')
+  <meta id="token" name="token" value="{{ csrf_token() }}" />
+@stop
+
 @section('content_header')
     {{ Form::pgHeader('Add course','Courses',route('admin.courses.index')) }}
 @stop
@@ -20,6 +24,7 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.filemanager-modal',['folder'=>'courses'])
 @stop
 
 @section('js')
@@ -30,5 +35,6 @@
                 $("#slug").val(slug);
             });
         });
+        @include('connexion::shared.filemanager-modal-script',['folder'=>'courses'])
     </script>
-@stop
+@stop 

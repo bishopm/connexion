@@ -39,17 +39,6 @@
             'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
         }
     });
-    $("#removeMedia").on('click',function(e){
-        e.preventDefault();
-        $.ajax({
-            type : 'GET',
-            url : '{{url('/')}}/admin/books/<?php echo $book->id;?>/removemedia',
-            success: function(){
-              $('#thumbdiv').hide();
-              $('#filediv').show();
-            }
-        });
-    });
     $( document ).ready(function() {
         $('#title').on('input', function() {
             var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");

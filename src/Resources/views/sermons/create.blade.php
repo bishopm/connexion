@@ -14,12 +14,18 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
-                <div class="box-body">
-                    @include('connexion::sermons.partials.create-fields')
-                </div>
-                <div class="box-footer">
-                    {{Form::pgButtons('Create',route('admin.series.show',$series_id)) }}
-                </div>
+                @if (count($preachers))
+                  <div class="box-body">
+                      @include('connexion::sermons.partials.create-fields')
+                  </div>
+                  <div class="box-footer">
+                      {{Form::pgButtons('Create',route('admin.series.show',$series_id)) }}
+                  </div>
+                @else
+                  <div class="box-body">
+                    You need to <a href="{{url('/')}}/admin/preachers">add preachers</a> to the system before you can add a sermon
+                  </div>
+                @endif
             </div>
         </div>
     </div>

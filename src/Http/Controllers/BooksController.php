@@ -10,6 +10,7 @@ use Bishopm\Connexion\Http\Requests\CreateBookRequest;
 use Bishopm\Connexion\Http\Requests\UpdateBookRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use MediaUploader;
+use Plank\Mediable\Media;
 
 class BooksController extends Controller {
 
@@ -63,7 +64,10 @@ class BooksController extends Controller {
         $book=$this->book->create($request->except('image','files','tags'));
         $book->tag($request->tags);
         $fname=explode('.',$request->input('image'));
-        $media = MediaUploader::import('public', 'books', $fname[0], $fname[1]);
+        $media=Media::where('disk','=','public')->where('directory','=','books')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->first();
+        if (!$media){
+            $media = MediaUploader::import('public', 'books', $fname[0], $fname[1]);
+        }
         $book->attachMedia($media, 'image');
         return redirect()->route('admin.books.index')
             ->withSuccess('New book added');
@@ -71,15 +75,15 @@ class BooksController extends Controller {
 	
     public function update(Book $book, UpdateBookRequest $request)
     {      
-        if ($book->firstMedia->filename . '.' . $book->firstMedia->extension <> $request->input('image')){
-            $book->detachMedia($book->media);
+        $file_name=substr($request->input('image'),strrpos($request->input('image'),'/'));   
+        if ($book->media[0]->filename . '.' . $book->media[0]->extension <> $file_name){
             // New image
-            $fname=explode('.',$request->input('image'));
-            $media=Media::where('disk','=','public')->where('directory','=','books')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->firstOrFail();
+            $fname=explode('.',$file_name);
+            $media=Media::where('disk','=','public')->where('directory','=','books')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->first();
             if (!$media){
                 $media = MediaUploader::import('public', 'books', $fname[0], $fname[1]);
             }
-            $book->attachMedia($media, 'image');
+            $book->syncMedia($media, 'image');
         } 
         $this->book->update($book, $request->except('image','files','tags'));
         $book->tag($request->tags);

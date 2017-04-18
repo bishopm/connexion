@@ -11,6 +11,7 @@ use Bishopm\Connexion\Http\Requests\CreateCourseRequest;
 use Bishopm\Connexion\Http\Requests\UpdateCourseRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use MediaUploader;
+use Plank\Mediable\Media;
 
 class CoursesController extends Controller {
 
@@ -43,7 +44,8 @@ class CoursesController extends Controller {
 
     public function create()
     {
-        return view('connexion::courses.create');
+        $media='';
+        return view('connexion::courses.create',compact('media'));
     }
 
 	public function show($slug)
@@ -62,25 +64,29 @@ class CoursesController extends Controller {
     public function store(CreateCourseRequest $request)
     {
         $course=$this->course->create($request->except('image'));
-        if ($request->file('image')){
-            $fname=$course->id;
-            $media = MediaUploader::fromSource($request->file('image'))
-            ->toDirectory('courses')->useFilename($fname)->upload();
-            $course->attachMedia($media, 'image');
+        $fname=explode('.',$request->input('image'));
+        $media=Media::where('disk','=','public')->where('directory','=','courses')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->first();
+        if (!$media){
+            $media = MediaUploader::import('public', 'courses', $fname[0], $fname[1]);
         }
+        $course->attachMedia($media, 'image');
         return redirect()->route('admin.courses.index')
             ->withSuccess('New course added');
     }
 	
     public function update(Course $course, UpdateCourseRequest $request)
     {
-        $this->course->update($course, $request->except('image'));
-        if ($request->file('image')){
-            $fname=$course->id;
-            $media = MediaUploader::fromSource($request->file('image'))
-            ->toDirectory('courses')->useFilename($fname)->upload();
-            $course->attachMedia($media, 'image');
-        }        
+        $file_name=substr($request->input('image'),strrpos($request->input('image'),'/'));
+        if ($course->media[0]->filename . '.' . $course->media[0]->extension <> $file_name){
+            // New image
+            $fname=explode('.',$file_name);
+            $media=Media::where('disk','=','public')->where('directory','=','courses')->where('filename','=',$fname[0])->where('extension','=',$fname[1])->first();
+            if (!$media){
+                $media = MediaUploader::import('public', 'courses' , $fname[0], $fname[1]);
+            }
+            $course->syncMedia($media, 'image');
+        } 
+        $this->course->update($course, $request->except('image'));   
         return redirect()->route('admin.courses.index')->withSuccess('Course has been updated');
     }
 

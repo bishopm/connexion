@@ -1,4 +1,4 @@
-@if (Auth::check())
+@if ((Auth::check()) and (isset(Auth::user()->individual)))
   <?php
   if (count(Auth::user()->individual->getMedia('image'))){
     $imgsrc=Auth::user()->individual->getMedia("image")->first()->getUrl();
