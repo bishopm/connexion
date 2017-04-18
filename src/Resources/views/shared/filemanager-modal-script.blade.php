@@ -1,8 +1,8 @@
 function setupImage(img) {
-    alert(img);
     $('#filediv').html("<div id='filediv'><a class='btn btn-primary' data-toggle='modal' data-target='#modal-filemanager'>Browse server or upload new file</a></div>");
     if (img){
-        $('#thumbdiv').html("<a data-toggle='modal' data-target='#modal-filemanager'><img width='300px' class='img-thumbnail' src='" + img + "'></a>");
+        pic="<a data-toggle='modal' data-target='#modal-filemanager'><img width='300px' class='img-thumbnail' src='" + img + "'></a>";
+        $('#thumbdiv').html(pic);
     }
 }
 $.ajaxSetup({
