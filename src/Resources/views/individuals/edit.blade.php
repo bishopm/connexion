@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('css')
+    <meta id="token" name="token" value="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
 @stop
 
@@ -24,11 +25,17 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.filemanager-modal',['folder'=>'individuals/' . $individual->id])
 @stop
 
 @section('js')
 <script src="{{asset('/vendor/bishopm/js/bootstrap-datepicker.min.js')}}"></script>
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
+        }
+    });
     $(function () {
         $("#birthdate").datepicker({
             format: 'yyyy-mm-dd'
@@ -50,5 +57,6 @@
             }
         });
     });
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals/' . $individual->id])
 </script>
 @endsection

@@ -64,7 +64,7 @@ class IndividualsController extends Controller {
         if (!file_exists($newfolder)){
             mkdir($newfolder);
         }
-        $move = File::move($folder . $individual->image, $newfolder . $individual->image);
+        $move = File::move($folder . $individual->image, $newfolder . '/' . $individual->image);
         if (null!==$request->input('notes')){
             return redirect()->route('admin.households.show',$request->household_id)
             ->withSuccess('New individual added');

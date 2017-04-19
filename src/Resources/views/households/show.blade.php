@@ -79,8 +79,10 @@
                           <div title="Notes"><i class="fa fa-fw fa-pencil-square-o"></i>{!! $individual->notes !!}</div>
                         </div>
                         <div class="col-md-6">
-                          @if ($individual->getMedia('image')->first())
-                            {{ Form::bsThumbnail($individual->getMedia('image')->first()->getUrl(),120) }}
+                          @if ($individual->image<>'')
+                            {{ Form::bsThumbnail(url('/') . '/storage/individuals/' . $individual->id . '/' . $individual->image,120) }}
+                          @else
+                            {{ Form::bsThumbnail(url('/') . '/vendor/bishopm/images/profile.png',120) }}
                           @endif
                         </div>
                       </div>

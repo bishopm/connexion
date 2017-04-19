@@ -74,22 +74,18 @@ class UsersController extends Controller {
     public function update($user, UpdateUserRequest $request)
     {
         $user=User::find($user);
-        if (null!==$request->input('service_id')){
+        if (null!==$request->input('profile')){
             $individual=$user->individual;
             $fname=$individual->id;
-            if ($request->file('image')){
-                $media = MediaUploader::fromSource($request->file('image'))
-                ->toDirectory('individuals')->useFilename($fname)->upload();
-                $individual->attachMedia($media, 'image');
-            }
             $individual->service_id=$request->input('service_id');
+            $individual->image=$request->input('image');
             $individual->save();
             $user->bio=$request->input('bio');
             $user->save();
             $user->notify(new ProfileUpdated($user));
             return redirect()->route('webuser.edit',$individual->slug)->withSuccess('User profile has been updated');
         } else {
-            $user->fill($request->except('password','role_id'));
+            $user->fill($request->except('password','role_id','profile'));
             if ($request->input('password')<>""){
                 $user->password = Hash::make($request->input('password'));
             }

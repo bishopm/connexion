@@ -6,8 +6,8 @@
 	<div class="row top30">
 	  @if (Auth::check())
 		  <div class="col-md-3">
-		  	@if (count($user->individual->getMedia('image')))
-                <img class="img-responsive img-circle img-thumbnail" src="{{$user->individual->getMedia('image')->first()->getUrl()}}">
+		  	@if ($user->individual->image)
+                <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
             @else
                 <img class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
             @endif

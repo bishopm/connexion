@@ -23,8 +23,8 @@
                 @if (isset($user->individual))
                 <div class="col-xs-4 col-sm-3 col-md-2 filtr-item" data-category="{{$user->status}}" data-sort="{{$user->individual->slug}}">
                     <a href="{{url('/')}}/users/{{$user->individual->slug}}">
-                        @if (count($user->individual->getMedia('image')))
-                            <img class="img-responsive img-circle img-thumbnail" src="{{$user->individual->getMedia('image')->first()->getUrl()}}">
+                        @if ($user->individual->image)
+                            <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
                         @else
                             <img class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
                         @endif
