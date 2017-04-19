@@ -53,6 +53,15 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/group/{slug}/edit', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroupedit','as' => 'webgroupedit']);
     Route::get('admin/groups/{group}/addmember/{member}', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@addmember','as' => 'admin.groups.addmember']);
     Route::get('admin/groups/{group}/removemember/{member}', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@removemember','as' => 'admin.groups.removemember']);
+
+	// Forum posts
+	Route::get('forum',['uses'=>'Bishopm\Connexion\Http\Controllers\PostsController@index','as'=>'posts.index']);
+	Route::get('forum/newpost',['uses'=>'Bishopm\Connexion\Http\Controllers\PostsController@create','as'=>'posts.create']);
+	Route::get('forum/posts/{post}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\PostsController@edit','as'=>'posts.edit']);
+	Route::get('forum/posts/{post}',['uses'=>'Bishopm\Connexion\Http\Controllers\PostsController@show','as'=>'posts.show']);
+	Route::put('forum/posts/{post}',['uses'=>'Bishopm\Connexion\Http\Controllers\PostsController@update','as'=>'posts.update']);
+	Route::post('forum/posts',['uses'=>'Bishopm\Connexion\Http\Controllers\PostsController@store','as'=>'posts.store']);
+    Route::delete('forum/posts/{post}',['uses'=>'Bishopm\Connexion\Http\Controllers\PostsController@destroy','as'=>'posts.destroy']);
 });
 
 Route::get('email-verification/error', 'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@getVerificationError')->name('email-verification.error');

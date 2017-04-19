@@ -1,6 +1,7 @@
 <?php namespace Bishopm\Connexion\Repositories;
 
 use Bishopm\Connexion\Repositories\EloquentBaseRepository;
+use Bishopm\Connexion\Models\Society;
 
 class SettingsRepository extends EloquentBaseRepository
 {
@@ -22,6 +23,14 @@ class SettingsRepository extends EloquentBaseRepository
     public function makearray(){
     	foreach ($this->model->all()->toArray() as $setting){
     		$fin[$setting['setting_key']]=$setting['setting_value'];
+            if ($setting['setting_key']=="society_name"){
+                $soc=Society::with('services')->where('society',$setting['setting_value'])->first();
+                foreach ($soc->services as $serv){
+                    $dat[]=$serv->servicetime;
+                }
+                asort($dat);
+                $fin['service_times']="Services: " . implode(',',$dat);
+            }
     	}
     	return $fin;
     }

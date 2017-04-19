@@ -8,4 +8,8 @@ class SocietiesRepository extends EloquentBaseRepository
     {
         return $this->model->with('services')->find($id);
     }
+
+    public function dropdown(){
+        return $this->model->orderBy('society', 'ASC')->select('id','society')->get();
+    }
 }

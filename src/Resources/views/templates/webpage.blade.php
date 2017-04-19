@@ -50,7 +50,10 @@
                     <li><a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}"><i class="fa fa-fw fa-info-circle"></i> My user profile</a></li>
                   @endif
                   <li><a href="{{url('/')}}/my-church"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation'] or 'church'}}</a></li>
-                  <li><a href="{{url('/')}}/my-details"><i class="fa fa-fw fa-user"></i> My details</a></li>
+                  @if (Auth::user()->individual)
+                    <li><a href="{{url('/')}}/my-details"><i class="fa fa-fw fa-user"></i> My details</a></li>
+                    <li><a href="{{url('/')}}/forum"><i class="fa fa-fw fa-comments-o"></i> User forum</a></li>
+                  @endif
                   @if (Auth::user()->can('view-worship'))
                     <li><a href="{{url('/')}}/admin/worship"><i class="fa fa-fw fa-music"></i> Worship</a></li>
                   @endif
@@ -86,7 +89,7 @@
         </div>
       @endforeach
       <div class="col-xs-12">
-        {{$setting['church_address']}}| <i class="fa fa-phone"></i> {{$setting['church_phone']}} | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }}
+        {{$setting['church_address']}}| <i class="fa fa-phone"></i> {{$setting['church_phone']}} | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }} | {{$setting['service_times']}}
       </div>
     </div>
   </div>

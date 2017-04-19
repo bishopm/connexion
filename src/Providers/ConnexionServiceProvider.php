@@ -31,6 +31,9 @@ class ConnexionServiceProvider extends ServiceProvider
             require __DIR__.'/../Http/routes.php';
         }
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'connexion');
+        $this->publishes([
+        __DIR__.'/../Resources/views/errors' => base_path('resources/views/errors'),
+        ]);
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
         config(['laravel-medialibrary.defaultFilesystem'=>'public']);
@@ -448,7 +451,14 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->bind(
             'Bishopm\Connexion\Repositories\PlansRepository',
             function () {
-                $repository = new \Bishopm\Connexion\Repositories\PlansRepository(new \Spatie\Permission\Models\Plan());
+                $repository = new \Bishopm\Connexion\Repositories\PlansRepository(new \Bishopm\Connexion\Models\Plan());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\PostsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\PostsRepository(new \Bishopm\Connexion\Models\Post());
                 return $repository;
             }
         );

@@ -39,9 +39,9 @@ class SocietiesController extends Controller {
         return view('connexion::societies.create');
     }
 
-	public function show(Society $society)
+	public function show($society)
 	{
-        $data['society']=$society;
+        $data['society']=$this->society->find($society);
         return view('connexion::societies.show',$data);
 	}
 
