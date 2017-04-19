@@ -8,7 +8,7 @@
 <img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
 	<div class="row">
-	  @if (Auth::check())
+	  @if ((Auth::check()) and (isset($household)))
 		  <div class="col-md-12">
 			  <h3>My details <small>{{$household->addressee}}</small></h3>
 		  </div>
@@ -98,10 +98,13 @@
       @endif
 	</div>
 </div>
-@include('connexion::shared.giving-modal')
+@if (isset($householdpgs))
+	@include('connexion::shared.giving-modal')
+@endif
 @endsection
 
 @section('js')
+@if (isset($household))
 <script type="text/javascript">
 	@include('connexion::shared.giving-modal-script')
 </script>
@@ -124,4 +127,5 @@
         });
       });
 </script>
+@endif
 @stop

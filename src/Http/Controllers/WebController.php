@@ -307,10 +307,12 @@ class WebController extends Controller
     {
         $users=$this->users->all();
         foreach ($users as $user){
-            $user->status=$user->individual->service_id;
-            foreach ($user->individual->tags as $tag){
-                if (strtolower($tag->slug)=="staff"){
-                    $user->status="999999, " . $user->status;
+            if (isset($user->individual)){
+                $user->status=$user->individual->service_id;
+                foreach ($user->individual->tags as $tag){
+                    if (strtolower($tag->slug)=="staff"){
+                        $user->status="999999, " . $user->status;
+                    }
                 }
             }
         }
@@ -320,7 +322,7 @@ class WebController extends Controller
     public function mydetails()
     {
         $user=Auth::user();
-        if ($user){
+        if (($user) and (isset($user->individual))){
             $indiv=$this->individual->find($user->individual_id);
             $household=$this->household->find($indiv->household_id);
             $householdpgs=array();

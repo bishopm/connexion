@@ -20,6 +20,7 @@
     <div class="row">
         <div class="filtr-container">
             @foreach ($users as $user)
+                @if (isset($user->individual))
                 <div class="col-xs-4 col-sm-3 col-md-2 filtr-item" data-category="{{$user->status}}" data-sort="{{$user->individual->slug}}">
                     <a href="{{url('/')}}/users/{{$user->individual->slug}}">
                         @if (count($user->individual->getMedia('image')))
@@ -30,6 +31,7 @@
                         <p class="text-center item-desc">{{$user->individual->firstname}} {{$user->individual->surname}}</p>
                     </a>
                 </div>
+                @endif
             @endforeach
         </div>
     </div>

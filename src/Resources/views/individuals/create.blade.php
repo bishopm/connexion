@@ -1,7 +1,8 @@
 @extends('adminlte::page')
 
 @section('css')
-    <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
+  <meta id="token" name="token" value="{{ csrf_token() }}" />
+  <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
 @stop
 
 @section('content_header')
@@ -24,6 +25,7 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.filemanager-modal',['folder'=>'individuals'])
 @stop
 
 @section('js')
@@ -34,5 +36,6 @@
             format: 'yyyy-mm-dd'
         });
     });
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals'])
 </script>
 @endsection

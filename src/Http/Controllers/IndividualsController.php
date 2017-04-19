@@ -58,13 +58,7 @@ class IndividualsController extends Controller {
 
     public function store(CreateIndividualRequest $request)
     {
-        $individual=$this->individual->create($request->except('image'));
-        if ($request->file('image')){
-            $fname=$individual->id;
-            $media = MediaUploader::fromSource($request->file('image'))
-            ->toDirectory('individuals')->useFilename($fname)->upload();
-            $individual->attachMedia($media, 'image');
-        }
+        $individual=$this->individual->create($request->all());
         if (null!==$request->input('notes')){
             return redirect()->route('admin.households.show',$request->household_id)
             ->withSuccess('New individual added');
@@ -75,13 +69,7 @@ class IndividualsController extends Controller {
 
     public function update($household, Individual $individual, UpdateIndividualRequest $request)
     {
-        $this->individual->update($individual, $request->except('image'));
-        if ($request->file('image')){
-            $fname=$individual->id;
-            $media = MediaUploader::fromSource($request->file('image'))
-            ->toDirectory('individuals')->useFilename($fname)->upload();
-            $individual->attachMedia($media, 'image');
-        }
+        $this->individual->update($individual, $request->all());
         if (null!==$request->input('notes')){
             return redirect()->route('admin.households.show',$individual->household_id)->withSuccess('Individual has been updated');
         } else {

@@ -26,7 +26,7 @@ class ConnexionServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events, SettingsRepository $settings)
     {
-        Schema::defaultStringLength(191);
+        Schema::defaultStringLength(255);
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/routes.php';
         }
@@ -54,10 +54,10 @@ class ConnexionServiceProvider extends ServiceProvider
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
             $society=Setting::where('setting_key','=','society_name')->first();
-            if ($society){
+            if ($society->setting_value<>''){
                 $society=$society->setting_value . " society";
             } else {
-                $society="Society";
+                $society="Members";
             }
             $modules=Setting::where('category','=','modules')->get()->toArray();
             foreach ($modules as $module){
