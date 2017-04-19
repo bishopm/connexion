@@ -9,7 +9,7 @@ use Bishopm\Connexion\Models\Group;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateIndividualRequest;
 use Bishopm\Connexion\Http\Requests\UpdateIndividualRequest;
-use DB, MediaUploader, Illuminate\Http\Request;
+use DB, Illuminate\Http\Request, Illuminate\Support\Facades\File;
 
 class IndividualsController extends Controller {
 
@@ -59,6 +59,12 @@ class IndividualsController extends Controller {
     public function store(CreateIndividualRequest $request)
     {
         $individual=$this->individual->create($request->all());
+        $folder=base_path() . '/storage/app/public/individuals/';
+        $newfolder=$folder . $individual->id;
+        if (!file_exists($newfolder)){
+            mkdir($newfolder);
+        }
+        $move = File::move($folder . $individual->image, $newfolder . $individual->image);
         if (null!==$request->input('notes')){
             return redirect()->route('admin.households.show',$request->household_id)
             ->withSuccess('New individual added');
