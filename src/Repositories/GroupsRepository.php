@@ -13,4 +13,13 @@ class GroupsRepository extends EloquentBaseRepository
     {
         return $this->model->with('individuals')->find($id);
     }
+
+    public function findByName($name)
+    {
+        return $this->model->with('individuals')->where('groupname',$name)->first();
+    }
+
+    public function dropdown(){
+        return $this->model->orderBy('groupname', 'ASC')->select('id','groupname')->get();
+    }
 }

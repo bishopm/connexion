@@ -48,6 +48,7 @@ class GroupsController extends Controller {
 	{
         $data['individuals']=$this->individuals->all();
         $data['group']=$group;
+        $data['leader']=$this->individuals->find($group->leader);
         return view('connexion::groups.show',$data);
 	}
 

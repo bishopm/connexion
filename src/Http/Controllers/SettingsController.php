@@ -4,6 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
+use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Models\Setting;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSettingRequest;
@@ -17,12 +18,13 @@ class SettingsController extends Controller {
      * @return Response
      */
 
-    private $setting,$societies;
+    private $setting,$societies,$groups;
 
-    public function __construct(SettingsRepository $setting, SocietiesRepository $societies)
+    public function __construct(SettingsRepository $setting, SocietiesRepository $societies, GroupsRepository $groups)
     {
         $this->setting = $setting;
         $this->societies = $societies;
+        $this->groups = $groups;
     }
 
     public function index()
@@ -62,6 +64,14 @@ class SettingsController extends Controller {
             foreach ($vals as $val){
                 $dum[0]=$val->id;
                 $dum[1]=$val->society;
+                $dropdown[]=$dum;
+            }
+        } elseif ($setting->setting_key=="pastoral_group"){
+            $vals=$this->groups->dropdown();
+            $dropdown=array();
+            foreach ($vals as $val){
+                $dum[0]=$val->id;
+                $dum[1]=$val->groupname;
                 $dropdown[]=$dum;
             }
         } else {

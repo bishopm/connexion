@@ -63,7 +63,7 @@ class SpecialdaysController extends Controller
      */
     public function store(Request $request, Household $household)
     {
-        if (null!==$request->input('anniversaryid')){
+        if ($request->exists('anniversaryid')){
             $special = New Specialday;
             $special->anniversarydate=$request->anniversarydate;
             $special->details=$request->anniversarydetails;
@@ -96,7 +96,7 @@ class SpecialdaysController extends Controller
      */
     public function update(Request $request)
     {
-        if (null!==$request->input('anniversaryid')){
+        if ($request->exists('anniversaryid')){
             $special=$this->specialday->find($request->anniversaryid);
             $special->details=$request->anniversarydetails;
             $special->anniversarydate=$request->anniversarydate;

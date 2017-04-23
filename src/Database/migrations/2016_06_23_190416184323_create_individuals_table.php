@@ -15,14 +15,14 @@ class CreateIndividualsTable extends Migration
 		Schema::create('individuals', function(Blueprint $table) {
 			$table->engine = 'InnoDB';
             $table->increments('id');
-			$table->string('title');
+			$table->string('title')->nullable();
             $table->string('surname');
             $table->string('firstname');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('birthdate')->nullable();
-            $table->string('sex');
-            $table->string('image');
-            $table->string('memberstatus');
+            $table->string('sex')->nullable();
+            $table->string('image')->nullable();
+            $table->string('memberstatus')->nullable();
             $table->integer('household_id');
             $table->string('giving')->nullable();
             $table->string('officephone')->nullable();

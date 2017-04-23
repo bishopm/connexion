@@ -6,12 +6,12 @@
 @stop
 
 @section('content_header')
-    {{ Form::pgHeader('Add household member','Individuals',route('admin.households.show',$household)) }}
+    {{ Form::pgHeader('Add household member',$household->addressee,route('admin.households.show',$household->id)) }}
 @stop
 
 @section('content')
     @include('connexion::shared.errors')
-    {!! Form::open(['route' => array('admin.individuals.store',$household), 'method' => 'post', 'files'=>'true']) !!}
+    {!! Form::open(['route' => array('admin.individuals.store',$household->id), 'method' => 'post', 'files'=>'true']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
@@ -19,7 +19,7 @@
                     @include('connexion::individuals.partials.create-fields')
                 </div>
                 <div class="box-footer">
-                    {{Form::pgButtons('Create',route('admin.households.show',$household)) }}
+                    {{Form::pgButtons('Create',route('admin.households.show',$household->id)) }}
                 </div>
             </div>
         </div>

@@ -5,34 +5,47 @@
 @stop
 
 @section('content_header')
-  {{ Form::pgHeader($group->addressee,'Groups',route('admin.groups.index')) }}
+  {{ Form::pgHeader($group->groupname,'Groups',route('admin.groups.index')) }}
 @stop
 
 @section('content')
 @include('connexion::shared.errors') 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="box box-primary"> 
-          <div class="box-header">
-            <div class="row">
-              <div class="col-md-6"><h4>{{$group->groupname}}</h4></div>
-              <div class="col-md-6"><a href="{{route('admin.groups.edit',$group->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit group</a>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box box-primary"> 
+      <div class="box-header">
+        <div class="row">
+          <div class="col-md-6">
+            <div>{{$group->description}}</div>
+          </div>
+          <div class="col-md-6">
+            <div class="col-md-12">
+              <a href="{{route('admin.groups.edit',$group->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit group</a>
             </div>
           </div>
-          <div class="box-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div>{{$group->description}}</div>
-                <div>Group type: {{$group->grouptype}}</div>
-              </div>
-              <div class="col-md-6">
-                {{Form::bsHidden('latitude',$group->latitude)}}
-                {{Form::bsHidden('longitude',$group->longitude)}}
-                <div id="map_canvas" style="height:200px;">
-                </div>
-              </div>
+        </div>
+      </div>
+      <div class="box-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div><b>Group type:</b> {{$group->grouptype}}</div>
+            <div><b>Published on site?:</b>
+              @if ($group->publish>0)
+                Yes
+              @else
+                No
+              @endif
             </div>
-
+            <div><b>Leader:</b> {{$leader->firstname}} {{$leader->surname}}</div>
+          </div>
+          <div class="col-md-6">
+            {{Form::bsHidden('latitude',$group->latitude)}}
+            {{Form::bsHidden('longitude',$group->longitude)}}
+            <div id="map_canvas" style="height:200px;"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
             <div class="nav-tabs-custom">
               <ul id="myGroupTab" class="nav nav-tabs">
                 <li class="active">
@@ -76,6 +89,8 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
 @stop
 
 @section('js')

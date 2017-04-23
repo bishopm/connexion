@@ -23,6 +23,7 @@
             </div>
             {{ Form::bsText('latitude','Latitude','Latitude',$household->latitude) }}
             {{ Form::bsText('longitude','Longitude','Longitude',$household->longitude) }}
+            {{ Form::bsText('sortsurname','Sort by (Household Surname)','Sort by (Household Surname)',$household->sortsurname) }}
         </div>
     </div>
     {!! Form::close() !!}

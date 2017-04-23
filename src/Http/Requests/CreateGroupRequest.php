@@ -18,10 +18,4 @@ class CreateGroupRequest extends FormRequest
         return true;
     }
 
-    public function messages()
-    {
-        return [
-            'groupname.required' => 'This field is really important'
-        ];
-    }
 }

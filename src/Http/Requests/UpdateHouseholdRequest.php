@@ -9,7 +9,8 @@ class UpdateHouseholdRequest extends FormRequest
     public function rules()
     {
         return [
-            'addressee' => 'required'
+            'addressee' => 'required',
+            'sortsurname' => 'required'
         ];
     }
 
@@ -21,7 +22,8 @@ class UpdateHouseholdRequest extends FormRequest
     public function messages()
     {
         return [
-            'addressee.required' => 'This field is really important'
+            'addressee.required' => 'You must enter the addressee name - eg: Mary and John Smith',
+            'sortsurname.required' => 'Please add one family surname which will be used for sorting purposes'
         ];
     }
 }

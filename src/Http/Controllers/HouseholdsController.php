@@ -9,6 +9,7 @@ use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateHouseholdRequest;
 use Bishopm\Connexion\Http\Requests\UpdateHouseholdRequest;
+use Bishopm\Connexion\Models\Setting;
 
 class HouseholdsController extends Controller {
 
@@ -50,7 +51,16 @@ class HouseholdsController extends Controller {
 
 	public function show(Household $household)
 	{
-        $data['pastors'][0]=['id'=>1,'firstname'=>'Michael','surname'=>'Bishop'];
+        $pastoralgroup=Setting::where('setting_key','pastoral_group')->first();
+        if ($pastoralgroup->setting_value<>''){
+            $group=$this->groups->findByName($pastoralgroup->setting_value);
+            foreach ($group->individuals as $indiv){
+                $dum['id']=$indiv->id;
+                $dum['firstname']=$indiv->firstname;
+                $dum['surname']=$indiv->surname;
+                $data['pastors'][]=$dum;
+            }
+        }
         $data['groups']=$this->groups->all();
         $data['household']=$household;
         $data['tags']=Individual::allTags()->get();

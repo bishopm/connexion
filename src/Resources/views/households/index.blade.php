@@ -29,15 +29,13 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                @forelse ($households as $household)
+                                @foreach ($households as $household)
                                     <tr>
                                         <td><a href="{{route('admin.households.show',$household->id)}}">{{$household->sortsurname}}</a></td>
                                         <td><a href="{{route('admin.households.show',$household->id)}}">{{$household->addressee}}</a></td>
                                         <td><a href="{{route('admin.households.show',$household->id)}}">{{$household->addr1}}</a></td>
                                     </tr>
-                                @empty
-                                    <tr><td>No households have been added yet</td></tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -58,7 +56,10 @@ $(document).ready(function() {
                         "visible": false,
                         "searchable": false
                     }
-                ]
+                ],
+                "oLanguage": {
+                    "sEmptyTable": "No households have been added yet"
+                },
             }
         );
 } );

@@ -30,7 +30,9 @@
               <div class="col-md-6">
                 <div>{{$household->physicaladdress}}</div>
                 <div>{{$household->postaladdress}}</div>
-                <div><i class="fa fa-phone"></i> {{$household->homephone}}</div>
+                @if ($household->homephone)
+                  <div><i class="fa fa-phone"></i> {{$household->homephone}}</div>
+                @endif
               </div>
               <div class="col-md-6">
                 {{Form::bsHidden('latitude',$household->latitude)}}
@@ -199,7 +201,7 @@
                 <form id="pastoralform" method="post">
                   <table class="table table-condensed">
                     <input name="id" id="id" type="hidden">
-                    <tr><th class="col-sm-6">Date</th><td class="col-sm-6"><input id="pastoraldate" name="pastoraldate" value="{{date('yyyy-mm-dd')}}"></td></tr>
+                    <tr><th class="col-sm-6">Date</th><td class="col-sm-6"><input id="pastoraldate" name="pastoraldate"></td></tr>
                     <tr><th class="col-sm-6">Type</th><td class="col-sm-6"><select id="actiontype" name="actiontype"><option>visit</option><option>message</option><option>phone</option></select></td></tr>
                     <tr><th class="col-sm-6">Details</th><td class="col-sm-6"><input id="details" name="details"></td></tr>
                     <tr><th class="col-sm-6">Pastor</th><td class="col-sm-6"><select id="individual_id" name="individual_id">
@@ -251,7 +253,7 @@
                 <form id="specialform" method="post">
                   <table class="table table-condensed">
                     <input name="anniversaryid" id="anniversaryid" type="hidden">
-                    <tr><th class="col-sm-6">Date</th><td class="col-sm-6"><input id="anniversarydate" name="anniversarydate" value="{{date('yyyy-mm-dd')}}"></td></tr>
+                    <tr><th class="col-sm-6">Date</th><td class="col-sm-6"><input id="anniversarydate" name="anniversarydate"></td></tr>
                     <tr><th class="col-sm-6">Type</th><td class="col-sm-6"><select id="anniversarytype" name="anniversarytype"><option>baptism</option><option>death</option><option>wedding</option></select></td></tr>
                     <tr><th class="col-sm-6">Details</th><td class="col-sm-6"><input id="anniversarydetails" name="anniversarydetails"></td></tr>
                   </table>
@@ -374,15 +376,13 @@
           $(function() {
             $("#pastoraldate").datepicker({
               todayHighlight: true,
-              format: "yyyy-mm-dd",
-              useCurrent: true
+              format: "yyyy-mm-dd"
             });
           });
           $(function() {
             $("#anniversarydate").datepicker({
               todayHighlight: true,
-              format: "yyyy-mm-dd",
-              useCurrent: true
+              format: "yyyy-mm-dd"
             });
           });
       });
@@ -392,7 +392,6 @@
         $('#deletepastoral').hide();
         $('#myModalLabel').text("Add new pastoral entry");
         $('#pastoralmodal').modal('show');
-        $('#pastoraldate').val('{{date('Y-m-d')}}');
         $('#id').val('');
         $('#actiontype').val('');
         $('#details').val('');
@@ -437,7 +436,7 @@
         $('#deletespecial').hide();
         $('#myModalLabel2').text("Add new special entry");
         $('#specialmodal').modal('show');
-        $('#anniversarydate').val('{{date('Y-m-d')}}');
+        $('#anniversarydate').val('');
         $('#anniversaryid').val('');
         $('#anniversarytype').val('');
         $('#anniversarydetails').val('');

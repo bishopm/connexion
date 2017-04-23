@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Models\Individual;
+use Bishopm\Connexion\Models\Household;
 use Bishopm\Connexion\Models\Group;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateIndividualRequest;
@@ -46,7 +47,7 @@ class IndividualsController extends Controller {
         return redirect()->back();
     }    
 
-    public function create($household)
+    public function create(Household $household)
     {
         return view('connexion::individuals.create', compact('household'));
     }
@@ -59,24 +60,26 @@ class IndividualsController extends Controller {
     public function store(CreateIndividualRequest $request)
     {
         $individual=$this->individual->create($request->all());
-        $folder=base_path() . '/storage/app/public/individuals/';
-        $newfolder=$folder . $individual->id;
-        if (!file_exists($newfolder)){
-            mkdir($newfolder);
+        if ($individual->image){
+            $folder=base_path() . '/storage/app/public/individuals/';
+            $newfolder=$folder . $individual->id;
+            if (!file_exists($newfolder)){
+                mkdir($newfolder);
+            }
+            $move = File::move($folder . $individual->image, $newfolder . '/' . $individual->image);
         }
-        $move = File::move($folder . $individual->image, $newfolder . '/' . $individual->image);
-        if (null!==$request->input('notes')){
+        if ($request->exists('notes')){
             return redirect()->route('admin.households.show',$request->household_id)
             ->withSuccess('New individual added');
         } else {
-            return redirect()->route('mydetails')->withSuccess('Individual has added');
+            return redirect()->route('mydetails')->withSuccess('Individual was added');
         }
     }
 
     public function update($household, Individual $individual, UpdateIndividualRequest $request)
     {
         $this->individual->update($individual, $request->all());
-        if (null!==$request->input('notes')){
+        if ($request->exists('notes')){
             return redirect()->route('admin.households.show',$individual->household_id)->withSuccess('Individual has been updated');
         } else {
             return redirect()->route('mydetails')->withSuccess('Individual has been updated');

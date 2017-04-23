@@ -24,7 +24,7 @@ class CreateHouseholdsTable extends Migration
             $table->string('post2')->nullable();
             $table->string('post3')->nullable();
             $table->string('homephone')->nullable();
-            $table->integer('householdcell');
+            $table->integer('householdcell')->nullable();
             $table->decimal('latitude',20,15);
             $table->decimal('longitude',20,15);
             $table->softDeletes();

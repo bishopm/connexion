@@ -89,7 +89,7 @@
         </div>
       @endforeach
       <div class="col-xs-12">
-        {{$setting['church_address']}}| <i class="fa fa-phone"></i> {{$setting['church_phone']}} | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }} | {{$setting['service_times']}}
+         {{$setting['church_address']}}| <i class="fa fa-phone"></i> {{$setting['church_phone']}} | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }} {{$setting['service_times'] or ''}}
       </div>
     </div>
   </div>

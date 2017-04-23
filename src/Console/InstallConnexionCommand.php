@@ -5,6 +5,8 @@ namespace Bishopm\Connexion\Console;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Bishopm\Connexion\Models\User;
+use Bishopm\Connexion\Models\Household;
+use Bishopm\Connexion\Models\Individual;
 use Illuminate\Support\Facades\DB;
 
 class InstallConnexionCommand extends Command
@@ -22,12 +24,30 @@ class InstallConnexionCommand extends Command
             $this->info('This command may only be run on a blank installation. Exiting ...');
         } else {
             $newuser=New User;
+            $newhousehold=New Household;
+            $newindiv=New Individual;
+            $this->info('We will now set up an admin user, who will also be included in the membership database');
+            $newindiv->title=$this->choice('What is the title of the admin user?', ['Mr', 'Ms','Mrs']);
+            if ($newindiv->title=="Mr"){
+                $newindiv->sex="male";
+            } else {
+                $newindiv->sex="female";
+            }
+            $newindiv->firstname=$this->ask('What is the first name of the admin user?');
+            $newindiv->surname=$this->ask('What is the surname of the admin user?');
+            $newhousehold->addressee=$newindiv->title . " " . $newindiv->firstname . " " . $newindiv->surname;
+            $newhousehold->save();
+            $newuser->household_id=$newhousehold->id;
             $newuser->name=$this->ask('Enter username of administrative user');
             $newuser->email=$this->ask('Enter administrative user email address');
+            $newindiv->email=$newuser->email;
+            $newindiv->save();
             $newuser->password=Hash::make($this->secret('Enter administrative user password'));
             $this->info('Creating new administrative user...');
             $newuser->verified=1;
-            $newuser->save();          
+            $newuser->individual_id=$newindiv->id;
+            $newuser->save();
+
             $this->seeder();
             $this->call('storage:link');
             $this->call('cache:clear');
@@ -86,164 +106,213 @@ class InstallConnexionCommand extends Command
         DB::table('settings')->insert([
             'setting_key' => 'site_name',
             'setting_value' => 'Connexion',
-            'category' => 'general'
+            'description' => 'Website name',
+            'category' => 'General'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'society_name',
             'setting_value' => '',
-            'category' => 'general'
+            'description' => 'Name of society (must set up societies first)',
+            'category' => 'General'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'church_email',
             'setting_value' => 'info@church.com',
-            'category' => 'general'
+            'description' => 'Church email address',
+            'category' => 'General'
         ]); 
         DB::table('settings')->insert([
             'setting_key' => 'church_address',
             'setting_value' => 'Church address',
-            'category' => 'general'
+            'description' => 'Church physical address',
+            'category' => 'General'
         ]); 
         DB::table('settings')->insert([
             'setting_key' => 'facebook_page',
             'setting_value' => 'http://www.facebook.com',
-            'category' => 'general'
+            'description' => 'Church Facebook page url',
+            'category' => 'General'
         ]); 
         DB::table('settings')->insert([
             'setting_key' => 'twitter_profile',
             'setting_value' => 'http://www.twitter.com',
-            'category' => 'general'
+            'description' => 'Church Twitter profile',
+            'category' => 'General'
         ]); 
         DB::table('settings')->insert([
             'setting_key' => 'youtube_page',
             'setting_value' => 'http://www.youtube.com',
-            'category' => 'general'
+            'description' => 'Church Youtube page',
+            'category' => 'General'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'church_phone',
             'setting_value' => 'Office number',
-            'category' => 'general'
+            'description' => 'Church office phone number',
+            'category' => 'General'
         ]); 
         DB::table('settings')->insert([
             'setting_key' => 'google_calendar',
             'setting_value' => '',
-            'category' => 'calendar'
+            'description' => 'Church Google calendar',
+            'category' => 'Calendar'
         ]);         
         DB::table('settings')->insert([
             'setting_key' => 'site_abbreviation',
             'setting_value' => 'Cx',
-            'category' => 'general'
+            'description' => 'Church name abbreviated',
+            'category' => 'General'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'site_logo',
             'setting_value' => '<b>Connexion</b>Site',
-            'category' => 'general'
+            'description' => 'Text logo in menu bar',
+            'category' => 'General'
         ]); 
         DB::table('settings')->insert([
             'setting_key' => 'site_logo_mini',
             'setting_value' => '<b>C</b>x',
-            'category' => 'general'
+            'description' => 'Text logo when sidebar is collapsed',
+            'category' => 'General'
         ]); 
         DB::table('settings')->insert([
             'setting_key' => 'google_api',
             'setting_value' => 'AIzaSyBQmfbfWGd1hxfR1sbnRXdCaQ5Mx5FjUhA',
-            'category' => 'maps'
+            'description' => 'Google API for maps',
+            'category' => 'API'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'home_latitude',
             'setting_value' => '-29.481602708198054',
-            'category' => 'maps'
+            'description' => 'Church location: latitude',
+            'category' => 'Maps'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'home_longitude',
             'setting_value' => '31.222890615408687',
-            'category' => 'maps'
+            'description' => 'Church location: longitude',
+            'category' => 'Maps'
         ]);        
         DB::table('settings')->insert([
             'setting_key' => 'toodledo_clientid',
             'setting_value' => '',
-            'category' => 'tasks'
+            'description' => 'Toodledo client id',
+            'category' => 'API'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'toodledo_secret',
             'setting_value' => '',
-            'category' => 'tasks'
+            'description' => 'Toodledo secret',
+            'category' => 'API'
         ]);                
         DB::table('settings')->insert([
             'setting_key' => 'toodledo_redirect_uri',
             'setting_value' => '',
-            'category' => 'tasks'
+            'description' => 'Toodledo redirect url',
+            'category' => 'API'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'website_theme',
             'setting_value' => 'umhlali',
+            'description' => 'Website theme',
             'category' => 'website'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'mail_encryption',
+            'setting_value' => 'null',
+            'description' => 'Email settings: email account encryption (or leave as null)',
+            'category' => 'Email'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'mail_host',
+            'setting_value' => '',
+            'description' => 'Email settings: host name',
+            'category' => 'Email'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'mail_password',
+            'setting_value' => '',
+            'description' => 'Email settings: email account password',
+            'category' => 'Email'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'mail_port',
+            'setting_value' => '25',
+            'description' => 'Email settings: port number',
+            'category' => 'Email'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'mail_username',
+            'setting_value' => '',
+            'description' => 'Email settings: email account username',
+            'category' => 'Email'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'presiding_bishop',
+            'setting_value' => '',
+            'description' => 'Presiding Bishop name',
+            'category' => 'Circuit'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'general_secretary',
+            'setting_value' => '',
+            'description' => 'General Secretary name',
+            'category' => 'Circuit'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'district_bishop',
+            'setting_value' => '',
+            'description' => 'District Bishop name',
+            'category' => 'Circuit'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'superintendent',
+            'setting_value' => '',
+            'description' => 'Superintendent name',
+            'category' => 'Circuit'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'circuit_name',
+            'setting_value' => '',
+            'description' => 'Circuit name',
+            'category' => 'Circuit'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'circuit_number',
+            'setting_value' => '',
+            'description' => 'Circuit number',
+            'category' => 'Circuit'
         ]);
         // Modules
         DB::table('settings')->insert([
             'setting_key' => 'core_module',
             'setting_value' => 'yes',
             'description' => 'Church membership data - individuals, households and groups, together with email and sms facilities and reporting',
-            'category' => 'modules'
+            'category' => 'Modules'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'worship_module',
             'setting_value' => 'yes',
             'description' => 'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage',
-            'category' => 'modules'
+            'category' => 'Modules'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'todo_module',
             'setting_value' => 'yes',
             'description' => 'Task and project management module with an optional connection to the Toodledo web interface and mobile apps',
-            'category' => 'modules'
+            'category' => 'Modules'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'website_module',
             'setting_value' => 'yes',
             'description' => 'Backend module to create a website, including blog, slides, group resources, sermon audio',
-            'category' => 'modules'
+            'category' => 'Modules'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'circuit_preachers',
             'setting_value' => 'yes',
             'description' => 'Collects names of preachers and circuit ministers and includes the quarterly preaching plan',
-            'category' => 'modules'
-        ]);
-        DB::table('settings')->insert([
-            'setting_key' => 'presiding_bishop',
-            'setting_value' => '',
-            'description' => 'Presiding Bishop name',
-            'category' => 'circuit'
-        ]);
-        DB::table('settings')->insert([
-            'setting_key' => 'general_secretary',
-            'setting_value' => '',
-            'description' => 'General Secretary name',
-            'category' => 'circuit'
-        ]);
-        DB::table('settings')->insert([
-            'setting_key' => 'district_bishop',
-            'setting_value' => '',
-            'description' => 'District Bishop name',
-            'category' => 'circuit'
-        ]);
-        DB::table('settings')->insert([
-            'setting_key' => 'superintendent',
-            'setting_value' => '',
-            'description' => 'Superintendent name',
-            'category' => 'circuit'
-        ]);
-        DB::table('settings')->insert([
-            'setting_key' => 'circuit_name',
-            'setting_value' => '',
-            'description' => 'Circuit name',
-            'category' => 'circuit'
-        ]);
-        DB::table('settings')->insert([
-            'setting_key' => 'circuit_number',
-            'setting_value' => '',
-            'description' => 'Circuit number',
-            'category' => 'circuit'
+            'category' => 'Modules'
         ]);
     }
 }

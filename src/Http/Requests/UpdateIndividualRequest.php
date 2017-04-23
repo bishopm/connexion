@@ -9,7 +9,11 @@ class UpdateIndividualRequest extends FormRequest
     public function rules()
     {
         return [
-            'surname' => 'required'
+            'firstname' => 'required',
+            'surname' => 'required',
+            'cellphone' => 'nullable|digits:10',
+            'officephone' => 'nullable|numeric',
+            'email' => 'nullable|email'
         ];
     }
 
@@ -21,6 +25,8 @@ class UpdateIndividualRequest extends FormRequest
     public function messages()
     {
         return [
+            'cellphone.digits' => 'Cellphone number must be exactly 10 digits with no spaces or hyphens'
         ];
     }
+
 }

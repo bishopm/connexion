@@ -17,7 +17,7 @@
 			<h4>Group members</h4>
 			<ul class="list-unstyled">
 			@if (Auth::check())
-				@if (Auth::user()->individual->id==$group->leader)
+				@if ((isset(Auth::user()->individual)) and (Auth::user()->individual->id==$group->leader))
 					<a title="Only group leaders can see this button" class="btn btn-primary btn-xs" href="{{url('/')}}/group/{{$group->slug}}/edit">Edit this group</a>
 				@else
 					@if ($leader)
