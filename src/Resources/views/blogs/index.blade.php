@@ -16,20 +16,21 @@
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Title</th><th>Author</th><th>Date</th>
+                                    <th>Date</th><th>Title</th><th>Author</th><th>Status</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Title</th><th>Author</th><th>Date</th>
+                                    <th>Date</th><th>Title</th><th>Author</th><th>Status</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @forelse ($blogs as $blog)
                                     <tr>
+                                        <td><a href="{{route('admin.blogs.edit',$blog->id)}}">{{date("Y-m-d", strtotime($blog->created_at))}}</a></td>
                                         <td><a href="{{route('admin.blogs.edit',$blog->id)}}">{{$blog->title}}</a></td>
                                         <td><a href="{{route('admin.blogs.edit',$blog->id)}}">{{$blog->individual->firstname}} {{$blog->individual->surname}}</a></td>
-                                        <td><a href="{{route('admin.blogs.edit',$blog->id)}}">{{date("Y-m-d", strtotime($blog->created_at))}}</a></td>
+                                        <td><a href="{{route('admin.blogs.edit',$blog->id)}}">{{$blog->status}}</a></td>
                                     </tr>
                                 @empty
                                     <tr><td>No posts have been added yet</td></tr>
