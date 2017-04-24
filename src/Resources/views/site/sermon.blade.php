@@ -11,7 +11,7 @@
 	<div class="row">
 		<h3 class="text-center">{{$sermon->title}} <small>{{$sermon->readings}}</small></h3>
 		<div class="col-md-4 text-center">
-			<a title="View sermon series: {{$sermon->series->title}}" href="{{url('/')}}/sermons/{{$sermon->series->slug}}"><img class="top17" src="{{$sermon->series->getMedia('image')->first()->getUrl()}}"></a>
+			<a title="View sermon series: {{$sermon->series->title}}" href="{{url('/')}}/sermons/{{$sermon->series->slug}}"><img class="top17" src="{{$sermon->series->image}}"></a>
     	    <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
             <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: {{$sermon->title}}</div>
         	<div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>

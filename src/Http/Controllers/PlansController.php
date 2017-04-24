@@ -86,7 +86,7 @@ class PlansController extends Controller
         $sundays[]=$dum;
         $data['societies']=Society::orderBy('society')->with('services')->get();
         $data['preachers']=Preacher::where('status','=','Local preacher')->orWhere('status','=','On trial preacher')->get();
-        $data['ministers']=Preacher::where('status','=','Minister')->get();
+        $data['ministers']=Preacher::where('status','=','Minister')->orWhere('status','=','Superintendent')->get();
         $data['guests']=Preacher::where('status','=','Guest')->get();
         while (date($lastSunday+604800<=$lastDay)) {
           $lastSunday=$lastSunday+604800;
@@ -202,19 +202,19 @@ class PlansController extends Controller
         } else {
           $data['pb']=$this->settings['presiding_bishop'];
           if (!$data['pb']){
-            return view('errors.errors')->with('errormessage','Before you can view the plan, please enter the name of the Presiding Bishop');
+            return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please enter the name of the Presiding Bishop');
           }
           $data['gs']=$this->settings['general_secretary'];
           if (!$data['gs']){
-            return view('errors.errors')->with('errormessage','Before you can view the plan, please enter the name of the General Secretary');
+            return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please enter the name of the General Secretary');
           }
           $data['db']=$this->settings['district_bishop'];
           if (!$data['db']){
-            return view('errors.errors')->with('errormessage','Before you can view the plan, please enter the name of the District Bishop');
+            return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please enter the name of the District Bishop');
           }
           $data['super']=$this->settings['superintendent'];
           if (!$data['super']){
-            return view('errors.errors')->with('errormessage','Before you can view the plan, please specify who the Circuit Superintendent is');
+            return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please specify who the Circuit Superintendent is');
           }
           $this->report($data);
         }
@@ -339,7 +339,7 @@ class PlansController extends Controller
       $pdf->Image($logopath,10,5,0,21);
       $pdf->SetFillColor(0,0,0);
       $pdf->SetFont('Arial','B',14);
-      $pdf->text($left_side+$soc_width+8,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . $this->settings['circuit_name'] . " CIRCUIT " . $this->settings['circuit_number']);
+      $pdf->text($left_side+$soc_width+8,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($this->settings['circuit_name']) . " CIRCUIT " . $this->settings['circuit_number']);
       $pdf->text($left_side+$soc_width+8,17,"PREACHING PLAN: " . strtoupper(date("F Y",$dat['sundays'][0]['dt'])) . " - " . strtoupper(date("F Y",$dat['sundays'][count($dat['sundays'])-1]['dt'])));
       $pfin=array();
       foreach($dat['preachers'] as $preacher1){

@@ -30,9 +30,6 @@
         <div class="navbar-collapse collapse">
           {!!$webmenu!!}
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{$setting['facebook_page']}}" target="_blank"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="{{$setting['twitter_profile']}}" target="_blank"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="{{$setting['youtube_page']}}" target="_blank"><i class="fa fa-youtube"></i></a></li>
             @if(Auth::check())
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -88,8 +85,19 @@
           </ul>
         </div>
       @endforeach
+    </div>
+    <div class="row">
       <div class="col-xs-12">
-         {{$setting['church_address']}}| <i class="fa fa-phone"></i> {{$setting['church_phone']}} | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }} {{$setting['service_times'] or ''}}
+        <i class="fa fa-phone"></i> {{$setting['church_phone']}} | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }}
+      </div>
+      <div class="col-xs-12">
+        {{$setting['church_address']}} |
+         <a href="{{$setting['facebook_page']}}" title="Facebook page" target="_blank"><i class="fa fa-facebook"></i></a>&nbsp;
+        <a href="{{$setting['twitter_profile']}}" title="Twitter profile" target="_blank"><i class="fa fa-twitter"></i></a>&nbsp;
+        <a href="{{$setting['youtube_page']}}" title="Youtube channel" target="_blank"><i class="fa fa-youtube"></i></a>
+      </div>
+      <div class="col-xs-12">
+        {{$setting['service_times'] or ''}}
       </div>
     </div>
   </div>

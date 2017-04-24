@@ -1,8 +1,8 @@
 @extends('adminlte::page')
 
 @section('content')
-@include('connexion::shared.errors') 
     <div class="container-fluid spark-screen">
+    @include('connexion::shared.errors') 
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">

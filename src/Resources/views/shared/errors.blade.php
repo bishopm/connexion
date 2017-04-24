@@ -1,5 +1,5 @@
 @if(count($errors))
-    <div class="alert alert-error"><h4>Error - record has not been saved</h4>
+    <div class="alert alert-error"><h4>Error!</h4>
     	<div class="row">
     		<ul>
 	        @foreach ($errors->all() as $error)
@@ -25,5 +25,14 @@
       <i class="fa fa-info-circle fa-lg fa-fw"></i> Please note: 
     </strong>
     {{ Session::get('notice') }}
+  </div>
+@endif
+@if (isset($errormessage))
+  <div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>
+      <i class="fa fa-info-circle fa-lg fa-fw"></i> Error!
+    </strong>
+    {{ $errormessage }}
   </div>
 @endif

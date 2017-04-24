@@ -25,11 +25,13 @@ class SettingsRepository extends EloquentBaseRepository
     		$fin[$setting['setting_key']]=$setting['setting_value'];
             if (($setting['setting_key']=="society_name") and ($setting['setting_value']<>'')){
                 $soc=Society::with('services')->where('society',$setting['setting_value'])->first();
-                foreach ($soc->services as $serv){
-                    $dat[]=$serv->servicetime;
+                if ((isset($soc->services)) and (count($soc->services))){
+                    foreach ($soc->services as $serv){
+                        $dat[]=$serv->servicetime;
+                    }
+                    asort($dat);
+                    $fin['service_times']="Services: " . implode(',',$dat);
                 }
-                asort($dat);
-                $fin['service_times']="| Services: " . implode(',',$dat);
             }
     	}
     	return $fin;

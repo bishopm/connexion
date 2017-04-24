@@ -167,7 +167,7 @@
               @if (count($pastors))
                 <button id="addpastoral" class="pull-right btn btn-primary btn-xs">Add</button>
               @else
-                <span class="pull-right small">Set up and populate pastoral <a href="{{ route('admin.members.group.index') }}">group</a> and update <a href="{{ route('admin.setting.settings.index') }}">settings</a></span>
+                <span class="pull-right small">Set up and populate pastoral <a href="{{ route('admin.groups.index') }}">group</a> and update <a href="{{ route('admin.settings.index') }}">settings</a></span>
               @endif
             </h4>
           </div>

@@ -1,6 +1,6 @@
 <!-- Carousel
 ================================================== -->
-<div id="myCarousel" class="carousel slide carousel-fade">
+<div id="myCarousel" class="carousel slide carousel-fade hidden-xs">
   <!-- Indicators -->
   <ol class="carousel-indicators">
     @foreach ($slides as $counter)

@@ -14,7 +14,7 @@ class CreatePreacherRequest extends FormRequest
             'title' => 'required',
             'society_id' => 'required',
             'status' => 'required',
-            'phone' => 'numeric'
+            'phone' => 'nullable|numeric'
         ];
     }
 

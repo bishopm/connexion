@@ -15,7 +15,7 @@
                 <?php
                     $fff=public_path() . '/storage/' . $folder;
                     if (!file_exists($fff)){
-                        mkdir($fff);
+                        mkdir($fff, 0755, true);
                     }
                 ?>
                 @foreach (scandir($fff) as $thisfile)

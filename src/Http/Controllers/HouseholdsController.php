@@ -60,6 +60,8 @@ class HouseholdsController extends Controller {
                 $dum['surname']=$indiv->surname;
                 $data['pastors'][]=$dum;
             }
+        } else {
+            $data['pastors']=array();
         }
         $data['groups']=$this->groups->all();
         $data['household']=$household;

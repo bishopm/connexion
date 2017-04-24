@@ -13,7 +13,8 @@ class UpdatePreacherRequest extends FormRequest
             'surname' => 'required|min:2',
             'title' => 'required',
             'society_id' => 'required',
-            'status' => 'required'
+            'status' => 'required',
+            'phone' => 'nullable|numeric'
         ];
     }
 

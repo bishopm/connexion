@@ -9,7 +9,11 @@
 <div class="container">
 	<div class="row top30">
 	  <div class="col-md-4">
-	    <img src="{{$person->getMedia('image')->first()->getUrl()}}" class="img-circle img-thumbnail">
+	    @if (isset($person->user->individual->image))
+            <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$person->user->individual->id}}/{{$person->user->individual->image}}">
+        @else
+            <img class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
+        @endif
 	  </div>
 	  <div class="col-md-4">
 	    <h3>{{$person->firstname}} {{$person->surname}}</h3>
