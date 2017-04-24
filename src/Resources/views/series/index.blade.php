@@ -16,24 +16,24 @@
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Series name</th>
                                     <th>Starting date</th>
+                                    <th>Series name</th>
                                     <th data-sortable="false">Actions</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Series name</th>
                                     <th>Starting date</th>
+                                    <th>Series name</th>
                                     <th data-sortable="false">Actions</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @forelse ($series as $serie)
                                     <tr>
-                                        <td><a href="{{route('admin.series.show',$serie->id)}}">{{$serie->title}}</a>
+                                        <td><a href="{{route('admin.series.show',$serie->id)}}">{{date("Y-m-d",strtotime($serie->created_at))}}</a>
                                         </td>
-                                        <td><a href="{{route('admin.series.show',$serie->id)}}">{{date("d M Y",strtotime($serie->created_at))}}</a>
+                                        <td><a href="{{route('admin.series.show',$serie->id)}}">{{$serie->title}}</a>
                                         </td>
                                         <td>
                                             <div class="btn-group">
@@ -57,7 +57,9 @@
 @section('js')
 <script language="javascript">
 $(document).ready(function() {
-        $('#indexTable').DataTable();
+        $('#indexTable').DataTable( {
+            "order": [[ 0, "desc" ]]
+        } );
     } );
 </script>
 @endsection

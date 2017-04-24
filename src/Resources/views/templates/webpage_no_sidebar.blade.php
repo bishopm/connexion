@@ -3,11 +3,8 @@
 @section('content')
 <div class="container">
 	<div class="row">
-	  <div class="col-md-9 top30">
+	  <div class="col-md-12 top30">
 	    {!!$page->body!!}
-	  </div>
-	  <div class="col-md-3 top30">
-	    Sidebar content
 	  </div>
 	</div>
 </div>

@@ -108,11 +108,12 @@ class WebController extends Controller
         $data['blogs']=$blogs->mostRecent(5);
         $data['sermon']=$sermon->mostRecent();
         $data['slides']=$this->slides->getSlideshow('front');
+        $data['slideshow']="front";
         if (Auth::user()){
             $data['comments']=Comment::orderBy('created_at','DESC')->get()->take(10);
             $data['users']=$this->users->mostRecent(5);
         } 
-        return view('connexion::site.home',$data);
+        return view('connexion::home',$data);
     }
 
     public function webblog($slug, BlogsRepository $blogs)

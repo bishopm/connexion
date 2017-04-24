@@ -68,6 +68,11 @@
         </div>
       </div>
     </div><!-- /navbar wrapper -->
+    @if ($slideshow=="back")
+      @include('connexion::shared.carousel-back')
+    @elseif ($slideshow=="front")
+      @include('connexion::shared.carousel-front')
+    @endif
     @yield('content')
     <div class="top30"></div>
     @include('connexion::shared.login-modal') 
@@ -108,4 +113,33 @@
 @include('connexion::shared.login-modal-script')
 </script>
 @yield('js')
+@if ($slideshow=="back")
+  <script type="text/javascript">
+  (function ($) {
+    jQuery(window).on('load', function() {
+      $('.carousel').carousel({
+        pause: "false",
+        interval: 7000
+      });
+      $('audio').mediaelementplayer({
+        features: ['playpause','tracks','progress','volume'],
+      });
+    });
+  })(jQuery);
+  </script>
+@else
+  <script type="text/javascript">
+  (function ($) {
+    jQuery(window).on('load', function() {
+      $('.carousel').carousel({
+        pause: "false",
+        interval: 4000
+      });
+      $('audio').mediaelementplayer({
+        features: ['playpause','tracks','progress','volume'],
+      });
+    });
+  })(jQuery);
+  </script>
+@endif
 </html>

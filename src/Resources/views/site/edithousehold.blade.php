@@ -1,7 +1,6 @@
 @extends('connexion::templates.webpage')
 
 @section('content')
-<img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
 	<div class="row top30">
 	  @if (Auth::check())

@@ -5,7 +5,6 @@
 @stop
 
 @section('content')
-<img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
 	@if ((Auth::check()) and ($individual->user->id==Auth::user()->id))
 		<h4>{{$individual->firstname}} {{$individual->surname}}</h4>

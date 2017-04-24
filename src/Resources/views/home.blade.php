@@ -6,7 +6,6 @@
 
 @section('content')
 @include('connexion::shared.errors')
-@include('connexion::shared.carousel')
 <div class="container top30">
   <!-- Three columns of text below the carousel -->
   <div class="row">
@@ -118,17 +117,4 @@
 @section('js')
 <script src="{{ asset('vendor/bishopm/mediaelement/build/mediaelement.js') }}" type="text/javascript"></script>
 <script src="{{ asset('vendor/bishopm/mediaelement/build/mediaelementplayer.js') }}" type="text/javascript"></script>
-<script type="text/javascript">
-(function ($) {
-  jQuery(window).on('load', function() {
-    $('.carousel').carousel({
-      pause: "false",
-      interval: 4000
-    });
-    $('audio').mediaelementplayer({
-      features: ['playpause','tracks','progress','volume'],
-    });
-  });
-})(jQuery);
-</script>
 @endsection

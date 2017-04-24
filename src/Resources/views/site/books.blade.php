@@ -5,7 +5,6 @@
 @stop
 
 @section('content')
-<img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
     <div class="top30">
         <h1>Explore our bookshop</h1>

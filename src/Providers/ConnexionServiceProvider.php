@@ -310,6 +310,7 @@ class ConnexionServiceProvider extends ServiceProvider
         config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
         view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
+        view()->composer('connexion::site.*', \Bishopm\Connexion\Composers\SlideComposer::class);
     }
 
     /**

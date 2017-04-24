@@ -5,7 +5,6 @@
 @stop
 
 @section('content')
-<img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
 <h1>{{$setting['site_abbreviation']}} Courses</h1>
   <ul class="nav nav-tabs" role="tablist">

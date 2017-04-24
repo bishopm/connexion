@@ -1,7 +1,6 @@
 @extends('connexion::templates.webpage')
 
 @section('content')
-<img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
 	<h1>{{$setting['site_abbreviation']}} Groups</h1>
 	@foreach ($groups as $key=>$category)

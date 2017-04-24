@@ -5,7 +5,6 @@
 @stop
 
 @section('content')
-<img class="img-responsive" src="{{ asset('vendor/bishopm/images/webpageheader.png') }}">
 <div class="container">
   	<h1>Meet the {{$setting['site_abbreviation']}} community</h1>
     @if (Auth::check())
