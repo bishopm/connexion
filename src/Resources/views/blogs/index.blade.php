@@ -47,7 +47,9 @@
 @section('js')
 <script language="javascript">
 $(document).ready(function() {
-        $('#indexTable').DataTable();
+        $('#indexTable').DataTable( {
+            "order": [[ 0, "desc" ]]
+        } );
     } );
 </script>
 @endsection
