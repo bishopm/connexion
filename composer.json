@@ -30,7 +30,7 @@
         "spatie/laravel-google-calendar": "1.*",
         "cartalyst/tags": "4.*",
         "actuallymab/laravel-comment": "0.3.*",
-        "jrean/laravel-user-verification": "^4.1",
+        "jrean/laravel-user-verification": "4.*",
         "felixkiss/uniquewith-validator": "3.*",
         "lithiumdev/laravel-tagcloud": "1.*",
         "guzzlehttp/guzzle": "6.*"
