@@ -26,7 +26,7 @@
 	<hr>
 	<div class="row">
 		<div class="col-xs-3 col-sm-1">
-			<a href="{{url('/')}}/users/{{Auth::user()->individual->slug)}}">
+			<a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}">
 			@if (Auth::user()->individual->image)
                 <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{Auth::user()->individual->id}}/{{Auth::user()->individual->image}}">
             @else
