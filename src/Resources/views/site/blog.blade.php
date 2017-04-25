@@ -10,7 +10,7 @@
 	  	<div class="col-md-9">
 			<h3>{{$blog->title}} <small><a href="{{url('/')}}/people/{{$blog->individual->slug}}">{{$blog->individual->firstname}} {{$blog->individual->surname}}</a>&nbsp;
 		  	@foreach ($blog->tags as $tag)
-		  		<a class="label label-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
+		  		<a class="label label-primary" href="{{url('/')}}/subject/{{$tag->slug}}">{{$tag->name}}</a></b>&nbsp;
 		  	@endforeach
 		  	</small></h3>
 		  	@if (count($media))

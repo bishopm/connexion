@@ -11,11 +11,11 @@
 		  <h3>{{$setting['site_abbreviation']}} preaching series</h3>  
 	  	  <table id="seriesTable" class="table table-responsive table-striped">
 	  	  	  <thead>
-	  	  	  	<tr><th>Series title</th><th>Starting date</th><th>No. of sermons</th></tr>
+	  	  	  	<tr><th>Starting date</th><th>Series title</th><th>No. of sermons</th></tr>
 	  	  	  </thead>
 	  	  	  <tbody>
 			      @foreach ($series as $serie)
-			      	  <tr><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{$serie->title}}</a></td><td>{{date("d M Y",strtotime($serie->created_at))}}</td><td>{{count($serie->sermons)}}</td></tr>
+			      	  <tr><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{date("Y-m-d",strtotime($serie->created_at))}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{$serie->title}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{count($serie->sermons)}}</a></td></tr>
 			      @endforeach
 			  </tbody>
 		  </table>
@@ -29,7 +29,9 @@
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script language="javascript">
   $(document).ready(function() {
-    $('#seriesTable').DataTable();
+    $('#seriesTable').DataTable( {
+            "order": [[ 0, "desc" ]]
+        } );
   });
 </script>
 @stop

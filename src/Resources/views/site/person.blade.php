@@ -49,7 +49,7 @@
 		            <tbody>
 		                @forelse ($person->sermons as $sermon)
 		                    <tr>
-		                    	<td>{{date("d M Y",strtotime($sermon->servicedate))}}</td>
+		                    	<td>{{date("Y-m-d",strtotime($sermon->servicedate))}}</td>
 		                        <td><a href="{{url('/')}}/sermons/{{$sermon->series->slug}}/{{$sermon->slug}}">{{$sermon->title}}</a></td>
 		                        <td>{{$sermon->readings}}</td>
 		                    </tr>
@@ -79,7 +79,7 @@
 		            <tbody>
 		                @forelse ($person->blogs as $blog)
 		                    <tr>
-		                    	<td>{{date("d M Y",strtotime($blog->created_at))}}</td>
+		                    	<td>{{date("Y-m-d",strtotime($blog->created_at))}}</td>
 		                        <td><a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></td>
 		                    </tr>
 		                @empty
@@ -98,8 +98,12 @@
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script language="javascript">
   $(document).ready(function() {
-    $('#sermonTable').DataTable();
-    $('#blogTable').DataTable();
+    $('#sermonTable').DataTable( {
+            "order": [[ 0, "desc" ]]
+        } );
+    $('#blogTable').DataTable( {
+            "order": [[ 0, "desc" ]]
+        } );
   });
 </script>
 @stop

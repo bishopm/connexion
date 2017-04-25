@@ -5,15 +5,15 @@
 			<div class="row top5">
 				<div class="col-xs-2 col-sm-1">
 					<a href="{{route('webuser',$comment->commented->individual->slug)}}">
-					@if (count($comment->commented->individual->getMedia('image')))
-		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{$comment->commented->individual->getMedia('image')->first()->getUrl()}}">
+					@if ($comment->commented->individual->image)
+		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$comment->commented->individual->id}}/{{$comment->commented->individual->image}}">
 		            @else
 		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
 		            @endif
 		            </a>
 				</div>
 				<div class="col-xs-10 col-sm-11" style="font-size: 80%">
-					<a href="{{route('webuser',$comment->commented->individual->slug)}}">{{$comment->commented->individual->firstname}} {{$comment->commented->individual->surname}}</a>: {{$comment->comment}}
+					<a href="{{url('/')}}/users/{{$comment->commented->individual->slug}}">{{$comment->commented->individual->firstname}} {{$comment->commented->individual->surname}}</a>: {{$comment->comment}}
 					@if (isset($comment->rate))
 						<div class="ratingro" data-rate-value={{$comment->rate}}></div>
 					@endif
@@ -26,9 +26,9 @@
 	<hr>
 	<div class="row">
 		<div class="col-xs-3 col-sm-1">
-			<a href="{{route('webuser',Auth::user()->individual->slug)}}">
-			@if (count(Auth::user()->individual->getMedia('image')))
-                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{Auth::user()->individual->getMedia('image')->first()->getUrl()}}">
+			<a href="{{url('/')}}/users/{{Auth::user()->individual->slug)}}">
+			@if (Auth::user()->individual->image)
+                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{Auth::user()->individual->id}}/{{Auth::user()->individual->image}}">
             @else
                 <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
             @endif
