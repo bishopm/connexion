@@ -13,7 +13,7 @@ class MenuitemsRepository extends EloquentBaseRepository
 
 	public function allMain($id)
     {
-        return $this->model->where('menu_id',$id)->where('parent_id',0)->orderBy('title', 'ASC')->get();
+        return $this->model->where('menu_id',$id)->where('parent_id',0)->orderBy('position', 'ASC')->get();
     }
 
     public function arrayForMenu($id)

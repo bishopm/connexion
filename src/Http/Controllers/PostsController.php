@@ -31,23 +31,27 @@ class PostsController extends Controller {
             $post->replies=$this->post->countreplies($post->id);
             $posts[]=$post;
         }
-   		return view('connexion::posts.index',compact('posts'));
+        $slideshow="none";
+   		return view('connexion::posts.index',compact('posts','slideshow'));
 	}
 
 	public function edit(Post $post)
     {
-        return view('connexion::posts.edit', compact('post'));
+        $slideshow="none";
+        return view('connexion::posts.edit', compact('post','slideshow'));
     }
 
     public function show(Post $post)
     {
+        $slideshow="none";
         $replies=$this->post->getreplies($post->id);
-        return view('connexion::posts.show', compact('post','replies'));
+        return view('connexion::posts.show', compact('post','replies','slideshow'));
     }
 
     public function create()
     {
-        return view('connexion::posts.create');
+        $slideshow="none";
+        return view('connexion::posts.create',compact('slideshow'));
     }
 
     public function store(CreatePostRequest $request)
