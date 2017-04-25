@@ -98,7 +98,6 @@ class RegisterController extends Controller
         event(new Registered($user));
         $this->guard()->login($user);
         UserVerification::generate($user);
-        UserVerification::emailView('connexion::emails.newuser');
         UserVerification::send($user, 'Welcome!');
         return $this->registered($request, $user)
                         ?: redirect($this->redirectPath());

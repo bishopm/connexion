@@ -52,8 +52,9 @@ class ConnexionServiceProvider extends ServiceProvider
             //config(['mail.encryption'=>$finset['mail_encryption']]);
         }
         if (isset($finset['site_name'])){
-            config(['app.name'=>$finset['site_name']]);
+            config(['user-verification.email.view'=>'connexion::emails.newuser']);
         }
+        config(['app.name'=>$finset['site_name']]);
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
             $society=Setting::where('setting_key','=','society_name')->first();
