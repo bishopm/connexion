@@ -52,7 +52,7 @@ class HouseholdsController extends Controller {
 	public function show(Household $household)
 	{
         $pastoralgroup=Setting::where('setting_key','pastoral_group')->first();
-        if ($pastoralgroup->setting_value<>''){
+        if ((isset($pastoralgroup->setting_value)) and ($pastoralgroup->setting_value<>'')){
             $group=$this->groups->findByName($pastoralgroup->setting_value);
             foreach ($group->individuals as $indiv){
                 $dum['id']=$indiv->id;

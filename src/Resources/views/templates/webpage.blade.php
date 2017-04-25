@@ -57,7 +57,7 @@
                   <li role="separator" class="divider"></li>
                   <li>
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                    <form id="logout-form" action="http://localhost/mjb/public/logout" method="POST" style="display: none;"><input type="hidden" name="_token" value="{{csrf_token()}}"></form>
+                    <form id="logout-form" action="{{url('/')}}/logout" method="POST" style="display: none;"><input type="hidden" name="_token" value="{{csrf_token()}}"></form>
                   </li>
                 </ul>
               </li>
