@@ -24,12 +24,12 @@ class SongsController extends Controller
         $newest=array();
         $mostrecentset=0;
         foreach ($recents as $recent){
-            if (!array_key_exists($recent->service->service,$arecents)){
-                $arecents[$recent->service->service]=array();
+            if (!array_key_exists($recent->service->servicetime,$arecents)){
+                $arecents[$recent->service->servicetime]=array();
             }
             foreach ($recent->setitems as $si){
-                if (array_key_exists($si->song_id,$arecents[$recent->service->service])){
-                    $arecents[$recent->service->service][$si->song_id]['count']++;
+                if (array_key_exists($si->song_id,$arecents[$recent->service->servicetime])){
+                    $arecents[$recent->service->servicetime][$si->song_id]['count']++;
                 } else {
                     $arecents[$recent->service->servicetime][$si->song_id]['count']=1;
                     $arecents[$recent->service->servicetime][$si->song_id]['title']=$si->song->title;
