@@ -18,13 +18,13 @@ class MenuitemsRepository extends EloquentBaseRepository
 
     public function arrayForMenu($id)
     {
-        $items=$this->model->where('menu_id',$id)->where('parent_id',0)->get();
+        $items=$this->model->where('menu_id',$id)->where('parent_id',0)->orderBy('position','ASC')->get();
         $fin="<ol class=\"dd-list\">";
         foreach ($items as $item){
         	$fin.="<li class=\"dd-item\" data-id=\"" . $item->id . "\">\n";
         	$fin.="<div class=\"btn-group\" role=\"group\" aria-label=\"Action buttons\" style=\"display: inline\"><a class=\"btn btn-sm btn-info\" style=\"float:left;\" href=\"" . route('admin.menuitems.edit',array($id,$item->id)) . "\"><i class=\"fa fa-pencil\"></i></a><a class=\"btn btn-sm btn-danger jsDeleteMenuItem\" style=\"float:left; margin-right: 15px;\" data-item-id=\"" . $item->id . "\"><i class=\"fa fa-times\"></i></a></div>";
 			$fin.="<div class=\"dd-handle\">" . $item->title . "</div>\n";
-			$children = $this->model->where('parent_id',$item->id)->get();
+			$children = $this->model->where('parent_id',$item->id)->orderBy('position')->get();
 			if (count($children)){
 				$fin.="<ol class=\"dd-list\">\n";
 				foreach ($children as $child){

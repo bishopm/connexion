@@ -11,11 +11,11 @@
 		  <h3>{{$setting['site_abbreviation']}} preaching series</h3>  
 	  	  <table id="seriesTable" class="table table-responsive table-striped">
 	  	  	  <thead>
-	  	  	  	<tr><th>Starting date</th><th>Series title</th><th>No. of sermons</th></tr>
+	  	  	  	<tr><th>Starting date</th><th>Series title</th><th>No. of sermons</th><th></th></tr>
 	  	  	  </thead>
 	  	  	  <tbody>
 			      @foreach ($series as $serie)
-			      	  <tr><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{date("Y-m-d",strtotime($serie->created_at))}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{$serie->title}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{count($serie->sermons)}}</a></td></tr>
+			      	  <tr><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{date("Y-m-d",strtotime($serie->created_at))}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{$serie->title}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{count($serie->sermons)}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}"><img width="60px" src="{{url('/')}}/storage/series/{{$serie->image}}"></a></td></tr>
 			      @endforeach
 			  </tbody>
 		  </table>
