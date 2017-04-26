@@ -4,28 +4,6 @@ namespace Bishopm\Connexion\Libraries;
 
 require_once('gdext.inc.php');
 
-/**
- * PHP Chord
- * Chord class for PHP 5
- *
- * Version:		1.0
- * Release:		2010-07-25
- * Author:		Tony Pottier
- * Website:		http://www.tonypottier.info
- * Contact:		contact@tonypottier.info
- *
- * Don't hesitate to contact me for any suggestion, feature request
- * and/or bug fixes.
- *
- * This work is published under the Creative Commons
- * Attribution-NonCommercial 3.0 license
- * http://creativecommons.org/licenses/by-nc/3.0/
- *
- * To obtain a commercial license please contact me.
- *
- */
-
-
 class Chord
 {
 
@@ -265,7 +243,11 @@ class Chord
 			}
 		}
         $fname=str_replace('/','_',$fname);
-        $fullfname=base_path() . '/public/vendor/bishopm/images/chords/' . $fname . '.png';
+        $fff=base_path() . '/public/storage/chords/';
+        if (!file_exists($fff)){
+        	mkdir($fff, 0755, true);
+        }
+        $fullfname=$fff . $fname . '.png';
 		imagepng($img,$fullfname);
 		imagedestroy($img);
 

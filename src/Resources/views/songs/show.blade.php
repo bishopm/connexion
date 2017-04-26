@@ -46,7 +46,7 @@
                 <div>
                 @foreach ($chords as $chord)
                     @if (isset($chord['id']))
-                        <a href="{{url('/')}}/admin/worship/chords/{{$chord['id']}}/edit"><img width="45" src="{{url('/')}}/vendor/bishopm/images/chords/{{$chord['id']}}.png"></a>
+                        <a href="{{url('/')}}/admin/worship/chords/{{$chord['id']}}/edit"><img width="45" src="{{url('/')}}/storage/chords/{{$chord['id']}}.png"></a>
                     @else
                         <a href="{{url('/')}}/admin/worship/chords/create/{{str_replace('/','_',str_replace('#','^',$chord))}}">{{$chord}}</a>
                     @endif

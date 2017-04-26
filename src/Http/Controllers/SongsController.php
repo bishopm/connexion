@@ -162,7 +162,7 @@ class SongsController extends Controller
     {
         $pdf = New Fpdf;
         $pdf->AddPage('P');
-        $logopath=base_path() . '/public/vendor/bishopm/images/chords/';
+        $logopath=base_path() . '/public/storage/chords/';
         $pdf->SetAutoPageBreak(true,0);
         $pdf->SetFont('Courier','B',14);
         $pdf->text(20,16,$dat['song']->title);
