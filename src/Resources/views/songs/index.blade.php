@@ -88,20 +88,6 @@
                         @endif
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Most recent user logins</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                          @foreach ($users as $user)
-                              <div class="col-sm-3">
-                                {{$user->name}}
-                              </div>
-                          @endforeach
-                        </div>
-                    </div>
-                </div>
             </div>
             @foreach ($lets as $key=>$let)
               <div class="tab-pane" id="k{{$key}}">
