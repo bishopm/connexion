@@ -130,6 +130,7 @@ class WebController extends Controller
             }
         }
         $baseUrl=url('/');
+        $cloud->setOrder('tag','ASC');
         $cloud->setHtmlizeTagFunction(function($tag, $size) use ($baseUrl) {
           $link = '<a href="'.$baseUrl.'/subject/'.$tag['url'].'">'.$tag['tag'].'</a>';
           return "<span class='tag size{$size}'>{$link}</span> ";
