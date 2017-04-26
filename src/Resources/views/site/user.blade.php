@@ -4,6 +4,7 @@
 <div class="container">
 	<div class="row top30">
 	  @if (Auth::check())
+	  	@if ($user)
 		  <div class="col-md-3">
 		  	@if ($user->individual->image)
                 <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
@@ -57,6 +58,9 @@
 		  	</ul>
 		  	{{ $comments->links() }}
 		  </div>
+	  	@else
+	  		Sorry! This user has not set up a profile yet.
+	  	@endif
 	  @else
 		<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to view {{$user->individual->firstname}}'s user profile</p>
 	  @endif

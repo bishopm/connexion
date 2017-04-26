@@ -11,7 +11,7 @@
   <div class="row">
     <div class="col-md-4 text-center">
       <img src="{{asset('vendor/bishopm/images/blog.png')}}">
-      <h4>From our <a href="{{url('/')}}/blog">Blog</a></h4>
+      <h4>From our Blog</h4>
       <div class="top30 list-unstyled text-left">
         @if (count($blogs))
           @foreach ($blogs as $blog)
@@ -23,6 +23,7 @@
                     <img height="80px" style="float:right;margin-left:7px;" src="{{$blog->getMedia('image')->first()->getUrl()}}">
                   @endif
                   {{$blog->title}}</a><a href="{{url('/')}}/blog/{{$blog->slug}}">
+                  <div class="small"><b>{{date("d M Y",strtotime($blog->created_at))}}</b> {{$blog->individual->firstname}} {{$blog->individual->surname}}</div>
                   @if (strlen($blog->body > 199))
                     {!!substr($blog->body, 0, strpos($blog->body, ' ', 200))!!}
                   @else
@@ -32,9 +33,15 @@
                 </div>
               </div>
             @else
-              <div class="col-xs-12 top5">{{date("j M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
+              @if ($loop->index==1)
+                <div class="col-xs-12 top10" style="padding-left:26px;">
+              @else
+                <div class="col-xs-12 top5" style="padding-left:26px;">
+              @endif
+                {{date("j M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
             @endif
           @endforeach
+          <a class="pull-right" style="padding-right: 20px;" href="{{url('/')}}/blog">more...</a>
         @else
           No blog posts have been published yet
         @endif

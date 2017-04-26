@@ -246,12 +246,16 @@ class WebController extends Controller
     {
         $individual = $this->individual->findBySlug($slug);
         $user = $this->users->getuserbyindiv($individual->id);
-        $comments = $user->comments()->paginate(10);
         $staff=0;
-        foreach ($individual->tags as $tag){
-            if ($tag->slug=="staff"){
-                $staff=1;
-            }
+        if ($user){
+            $comments = $user->comments()->paginate(10);            
+            foreach ($individual->tags as $tag){
+                if ($tag->slug=="staff"){
+                    $staff=1;
+                }
+            }            
+        } else {
+            $comments="";
         }
         return view('connexion::site.user',compact('user','staff','comments'));
     }

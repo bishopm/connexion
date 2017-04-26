@@ -8,11 +8,11 @@
 <div class="container">
 	<div class="row">
 	  	<div class="col-md-9">
-			<h3>{{$blog->title}} <small><a href="{{url('/')}}/people/{{$blog->individual->slug}}">{{$blog->individual->firstname}} {{$blog->individual->surname}}</a>&nbsp;
+			<h3>{{$blog->title}}</h3>
+			<a href="{{url('/')}}/people/{{$blog->individual->slug}}">{{$blog->individual->firstname}} {{$blog->individual->surname}}</a>&nbsp;{{date("d M Y",strtotime($blog->created_at))}}
 		  	@foreach ($blog->tags as $tag)
-		  		<a class="label label-primary" href="{{url('/')}}/subject/{{$tag->slug}}">{{$tag->name}}</a></b>&nbsp;
+		  		<a class="label label-default" href="{{url('/')}}/subject/{{$tag->slug}}">{{$tag->name}}</a></b>&nbsp;
 		  	@endforeach
-		  	</small></h3>
 		  	@if (count($media))
 		  		<img style="float:left; margin-right:15px;" src="{{$blog->getMedia('image')->first()->getUrl()}}">
 			@endif

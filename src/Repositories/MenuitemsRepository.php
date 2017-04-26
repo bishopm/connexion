@@ -8,12 +8,12 @@ class MenuitemsRepository extends EloquentBaseRepository
 
 	public function allForMenu($id)
     {
-        return $this->model->where('menu_id',$id)->orderBy('parent_id', 'ASC')->orderBy('position', 'ASC')->get();
+        return $this->model->where('menu_id',$id)->orderBy('parent_id', 'ASC')->get();
     }
 
 	public function allMain($id)
     {
-        return $this->model->where('menu_id',$id)->where('parent_id',0)->orderBy('position', 'ASC')->get();
+        return $this->model->where('menu_id',$id)->where('parent_id',0)->get();
     }
 
     public function arrayForMenu($id)
@@ -56,7 +56,7 @@ class MenuitemsRepository extends EloquentBaseRepository
 	    $items=$this->model->where('menu_id',$id)->where('parent_id',0)->orderBy('position', 'ASC')->get();
         $mainmenu =Menu::new()->addClass('nav navbar-nav');
         foreach ($items as $item){
-    		$children = $this->model->where('parent_id',$item->id)->get();
+    		$children = $this->model->where('parent_id',$item->id)->orderBy('position', 'ASC')->get();
     		if (!count($children)){
 	    		if ($item->url){
 	    			$mainmenu->link(url(strtolower($item->url)),$item->title);
@@ -84,7 +84,7 @@ class MenuitemsRepository extends EloquentBaseRepository
 	    $items=$this->model->where('menu_id',$id)->where('parent_id',0)->orderBy('position', 'ASC')->get();
 	    $mainfooter=array();
 	    foreach ($items as $menu){
-	    	$children = $this->model->where('parent_id',$menu->id)->get();
+	    	$children = $this->model->where('parent_id',$menu->id)->orderBy('position', 'ASC')->get();
 	    	foreach ($children as $child){
 	    		$mainfooter[$menu->title][]='<a href="' . url('/') . '/' . $child->url . '">' . $child->title . '</a>';
 	    	}
