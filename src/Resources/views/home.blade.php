@@ -11,7 +11,7 @@
   <div class="row">
     <div class="col-md-4 text-center">
       <img src="{{asset('vendor/bishopm/images/blog.png')}}">
-      <h4>From our Blog</h4>
+      <h4>From our <a href="{{url('/')}}/blog">Blog</a></h4>
       <div class="top30 list-unstyled text-left">
         @if (count($blogs))
           @foreach ($blogs as $blog)

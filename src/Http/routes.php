@@ -11,6 +11,7 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@home','as' => 'homepage']);
 	Route::get('/blog/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webblog','as' => 'webblog']);
+	Route::get('/blog', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webblogs','as' => 'webblogs']);
 	Route::get('/people/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webperson','as' => 'webperson']);
 	Route::get('/subject/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websubject','as' => 'websubject']);
 	Route::get('/sermons/{series}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webseries','as' => 'webseries']);

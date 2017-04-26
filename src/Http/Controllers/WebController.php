@@ -33,9 +33,9 @@ use Bishopm\Connexion\Notifications\SendMessage;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings, $users, $series, $sermon, $individual, $courses, $group, $comments, $books;
+    private $page, $slides, $settings, $users, $series, $sermon, $individual, $courses, $group, $comments, $books, $blogs;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household, BooksRepository $books)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household, BooksRepository $books, BlogsRepository $blogs)
     {
         $this->page = $page;
         $this->group = $group;
@@ -48,6 +48,7 @@ class WebController extends Controller
         $this->courses = $courses;
         $this->books = $books;
         $this->household = $household;
+        $this->blogs = $blogs;
         $this->settingsarray=$this->settings->makearray();
     }
 
@@ -134,6 +135,24 @@ class WebController extends Controller
           return "<span class='tag size{$size}'>{$link}</span> ";
         });
         return view('connexion::site.blog',compact('blog','comments','media','cloud'));
+    }
+
+    public function webblogs()
+    {
+        $blogs = $this->blogs->all();
+        $cloud = new TagCloud();
+        foreach ($blogs->all() as $thisblog){
+            foreach ($thisblog->tags as $tag){
+                $cloud->addTag($tag->name);
+                $cloud->addTag(array('tag' => $tag->name, 'url' => $tag->slug));
+            }
+        }
+        $baseUrl=url('/');
+        $cloud->setHtmlizeTagFunction(function($tag, $size) use ($baseUrl) {
+          $link = '<a href="'.$baseUrl.'/subject/'.$tag['url'].'">'.$tag['tag'].'</a>';
+          return "<span class='tag size{$size}'>{$link}</span> ";
+        });
+        return view('connexion::site.blogs',compact('blogs','cloud'));
     }
 
     public function webperson($slug, IndividualsRepository $individual)
