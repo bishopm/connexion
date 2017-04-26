@@ -5,7 +5,6 @@
       <div class="box-header">
         @include('connexion::shared.errors')
         <h3 class="box-title">Find by title below or use the search box</h3>
-        <small>or go to <a target="_blank" href="http://oldworship.umc.org.za">old site</a></small>
       </div>
       <div class="box-body">
         @foreach($songs as $song)
