@@ -4,7 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Illuminate\Http\Request, Log, DB, Mail, App\Http\Requests, View;
 use Bishopm\Connexion\Http\Requests\CreateSetRequest, Bishopm\Connexion\Http\Requests\UpdateSetRequest;
-use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Models\Society;
+use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Models\Society, Bishopm\Connexion\Models\Setting;
 
 class SetsController extends Controller
 {
@@ -15,8 +15,8 @@ class SetsController extends Controller
      */
     public function index()
     {
-        $soc=1;
-        $society=Society::find($soc);
+        $soc=Setting::where('setting_key','society_name')->first()->setting_value;
+        $society=Society::where('society',$soc)->first();
         if ($society){
             $data['society']=$society->society;
         } else {
@@ -54,13 +54,13 @@ class SetsController extends Controller
      */
     public function create()
     {
-        $soc=1;
+        $soc=Setting::where('setting_key','society_name')->first()->setting_value;
+        $data['society']=Society::where('society',$soc)->first();
         $data['sunday']=date("Y-m-d",strtotime("next Sunday"));
-        $data['services']=Service::where('society_id','=',$soc)->orderBy('servicetime')->get();
+        $data['services']=Service::where('society_id','=',$data['society']->id)->orderBy('servicetime')->get();
         if (!count($data['services'])){
             return redirect()->route('admin.societies.index')->with('notice','At least one service must be added before adding a set. Click a society below to add a new service');
         }
-        $data['society']=Society::find($soc)->society;
         return view('connexion::sets.create',$data);
     }
 

@@ -21,7 +21,7 @@
                         <select name="service_id" class="selectize">
                             <option></option>
                             @foreach ($services as $service)
-                               <option value="{{$service->id}}">{{$service->servicetime}} ({{$society}})</option>
+                               <option value="{{$service->id}}">{{$service->servicetime}} ({{$society->society}})</option>
                             @endforeach
                         </select>
                     </div>
