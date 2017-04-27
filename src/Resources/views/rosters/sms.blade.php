@@ -3,7 +3,8 @@
 @section('content')
 <div class="box box-default">
   <div class="box-header with-border">
-    <h3 class="box-title">{{$roster->rostername}} ({{date("d F Y",strtotime($rosterdate))}})</h3>
+    <h3 class="box-title">{{$roster->rostername}} ({{date("d F Y",strtotime($rosterdate))}}) 
+    <small>Available credits: {{$credits}}</small></h3>
     <span class="pull-right">
       {!! Form::open(['method'=>'post','url'=>'/admin/rosters/' . $roster->id . '/sms/send'])!!}
       @if (isset($extrainfo))

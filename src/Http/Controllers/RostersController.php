@@ -311,6 +311,11 @@ class RostersController extends Controller {
 			$data['rosterdetails'][]=$dum;
 		}
 		$data['rosterdate']=$dday;
+		if ($settings['sms_provider']=="bulksms"){
+			$data['credits']=SMSfunctions::BS_get_credits($settings['sms_username'],$settings['sms_password']);
+		} else {
+			$data['credits']=SMSfunctions::SF_checkCredits($settings['sms_username'],$settings['sms_password']);
+		}
 		if ($send=="preview"){
 			return View::make('connexion::rosters.sms', $data);
 		} else {
@@ -353,7 +358,7 @@ class RostersController extends Controller {
 			$data['results']=$results;
 			$data['type']="SMS";
 		}
-		return View::make('connexion::messages.results',$data);
+		return View::make('connexion::rosters.results',$data);
 	}
 
 	public function revise()

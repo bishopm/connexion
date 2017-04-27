@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Bishopm\Connexion\Libraries;
 
 class SMSfunctions {
 
