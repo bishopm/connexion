@@ -59,4 +59,9 @@ class LoginController extends Controller
     {
         return 'name';
     }
+
+    protected function getFailedLoginMessage()
+    {
+        return 'YourCustomMessage';
+    } 
 }

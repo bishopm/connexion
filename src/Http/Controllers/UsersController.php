@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller, MediaUploader;
 use Illuminate\Support\Facades\Hash;
 use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Role;
+use Bishopm\Connexion\Models\Household;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Http\Requests\CreateUserRequest;
 use Bishopm\Connexion\Http\Requests\UpdateUserRequest;
 use Bishopm\Connexion\Notifications\ProfileUpdated;
+use Jrean\UserVerification\Traits\VerifiesUsers;
+use Jrean\UserVerification\Facades\UserVerification;
 
 class UsersController extends Controller {
 
@@ -27,6 +30,24 @@ class UsersController extends Controller {
         $users = $this->user->all();
    		return view('connexion::users.index',compact('users'));
 	}
+
+    public function activate()
+    {
+        $users = $this->user->inactive();
+        return view('connexion::users.activate',compact('users'));
+    }
+
+    public function activateuser($id)
+    {
+        $user=$this->user->activate($id);
+        $hid=$user->individual->household_id;
+        $household=Household::withTrashed()->where('id',$hid)->first();
+        $household->restore();
+        UserVerification::generate($user);
+        UserVerification::send($user, 'Welcome!');
+        return redirect()->route('admin.users.activate')
+            ->withSuccess('User has been activated');
+    }
 
 	public function edit(User $user)
     {

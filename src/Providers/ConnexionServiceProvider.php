@@ -191,12 +191,6 @@ class ConnexionServiceProvider extends ServiceProvider
                     'can' =>  'edit-backend'
                 ],
                 [
-                    'text' => 'Books',
-                    'url' => 'admin/books',
-                    'icon' => 'book',
-                    'can' =>  'edit-backend'
-                ],
-                [
                     'text' => 'Courses',
                     'url' => 'admin/courses',
                     'icon' => 'graduation-cap',
@@ -243,31 +237,58 @@ class ConnexionServiceProvider extends ServiceProvider
                 ]
             );
             }
+            if ($mods['bookshop_module']=="yes"){
+                $event->menu->add('BOOKSHOP');
+                $event->menu->add([
+                    'text' => 'Books',
+                    'url' => 'admin/books',
+                    'icon' => 'book',
+                    'can' =>  'edit-bookshop'
+                ],
+                [
+                    'text' => 'Suppliers',
+                    'url' => 'admin/suppliers',
+                    'icon' => 'archive',
+                    'can' =>  'edit-bookshop'
+                ],
+                [
+                    'text' => 'Transactions',
+                    'url' => 'admin/transactions',
+                    'icon' => 'shopping-cart',
+                    'can' =>  'edit-bookshop'
+                ]);
+            }
             $event->menu->add([
                 'header' => 'SETTINGS',
                 'can' => 'admin-backend'
             ]);
             $event->menu->add([
-                'text' => 'User access',
+                'text' => 'User administration',
                 'icon' => 'user',
                 'can' =>  'admin-backend',
                 'submenu' => [
                     [
                         'text' => 'Permissions',
                         'url'  => 'admin/permissions',
-                        'icon' => 'users',
+                        'icon' => 'battery-full',
                         'can' =>  'admin-backend'
                     ],
                     [
                         'text' => 'Roles',
                         'url'  => 'admin/roles',
-                        'icon' => 'user',
+                        'icon' => 'eye',
                         'can' =>  'admin-backend'
                     ],
                     [
                         'text' => 'Users',
                         'url' => 'admin/users',
                         'icon' => 'user',
+                        'can' =>  'admin-backend'
+                    ],
+                    [
+                        'text' => 'Activate new users',
+                        'url' => 'admin/users/activate',
+                        'icon' => 'plug',
                         'can' =>  'admin-backend'
                     ]
                 ]
@@ -535,6 +556,20 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\SpecialdaysRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\SpecialdaysRepository(new \Bishopm\Connexion\Models\Specialday());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\SuppliersRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\SuppliersRepository(new \Bishopm\Connexion\Models\Supplier());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\TransactionsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\TransactionsRepository(new \Bishopm\Connexion\Models\Transaction());
                 return $repository;
             }
         );

@@ -11,12 +11,12 @@
     	<table id="bTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th></th><th>Book</th><th>Author</th><th>Average rating (1-5)</th><th>Comments</th>
+                    <th></th><th>Book</th><th>Author</th><th>Copies</th><th>Average rating (1-5)</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th></th><th>Book</th><th>Author</th><th>Average rating (1-5)</th><th>Comments</th>
+                    <th></th><th>Book</th><th>Author</th><th>Copies</th><th>Average rating (1-5)</th>
                 </tr>
             </tfoot>
             <tbody>
@@ -25,8 +25,8 @@
                         <td><a href="{{route('webbook',$cc->slug)}}"><img width="50px" class="img-responsive" src="{{url('/')}}/storage/books/{{$cc->image}}"></a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->title}}</a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{!!$cc->author!!}</a></td>
-                        <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->averageRate()}}</a></td>
-                        <td><a href="{{route('webbook',$cc->slug)}}">{{count($cc->comments)}}</a></td>
+                        <td><a href="{{route('webbook',$cc->slug)}}">{!!$cc->stock!!}</a></td>
+                        <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->averageRate()}} ({{count($cc->comments)}} comments)</a></td>
                     </tr>
                 @empty
                     <tr><td>No books have been added yet</td></tr>

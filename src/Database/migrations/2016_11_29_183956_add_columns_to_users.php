@@ -26,6 +26,8 @@ class AddColumnsToUsers extends Migration
             $table->string('allow_messages')->nullable();
             $table->string('bio')->nullable();
             $table->dropUnique(['email']);
+            $table->softDeletes();
+            $table->nullableTimestamps();
         });
         Schema::table('users', function($table) {
             $table->string('password')->nullable();

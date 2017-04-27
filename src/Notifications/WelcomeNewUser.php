@@ -2,15 +2,11 @@
 
 namespace Bishopm\Connexion\Notifications;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class WelcomeNewUserNotification extends Notification
+class WelcomeNewUser extends Notification
 {
-    use Queueable;
-
     /**
      * Create a new notification instance.
      *
@@ -41,9 +37,7 @@ class WelcomeNewUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', 'https://laravel.com')
-                    ->line('Thank you for using our application!');
+            ->line("*Hi " . $notifiable->individual->firstname . "!* \n Your user profile has been updated!");
     }
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use LithiumDev\TagCloud\TagCloud;
+use Illuminate\Support\Facades\Validator;
 use Bishopm\Connexion\Repositories\PagesRepository;
 use Bishopm\Connexion\Repositories\SeriesRepository;
 use Bishopm\Connexion\Repositories\SlidesRepository;
@@ -24,11 +25,15 @@ use Bishopm\Connexion\Models\Blog;
 use Bishopm\Connexion\Models\Society;
 use Bishopm\Connexion\Models\Sermon;
 use Bishopm\Connexion\Models\Specialday;
+use Bishopm\Connexion\Models\Household;
+use Bishopm\Connexion\Models\Individual;
+use Bishopm\Connexion\Models\User;
 use Actuallymab\LaravelComment\Models\Comment;
 use Spatie\GoogleCalendar\Event;
 use Auth;
 use MediaUploader;
 use Bishopm\Connexion\Notifications\SendMessage;
+use Bishopm\Connexion\Http\Requests\NewUserRequest;
 
 class WebController extends Controller
 {
@@ -106,7 +111,7 @@ class WebController extends Controller
             $data['cals'][]=$cdum;
         }*/
         $data['cals']=array();
-        $data['blogs']=$blogs->mostRecent(5);
+        $data['blogs']=$blogs->mostRecent(6);
         $data['sermon']=$sermon->mostRecent();
         $data['slides']=$this->slides->getSlideshow('front');
         $data['slideshow']="front";
@@ -378,8 +383,12 @@ class WebController extends Controller
     public function uri($slug)
     {
         $data['page'] = $this->page->findBySlug($slug);
-        $template = $data['page']->template;
-        return view('connexion::templates.' . $template, $data);
+        if ($data['page']){
+            $template = $data['page']->template;
+            return view('connexion::templates.' . $template, $data);
+        } else {
+            return redirect()->route('homepage');
+        }
     }
 
     /**
@@ -399,6 +408,55 @@ class WebController extends Controller
             $request->file('uploadfile')->move(base_path() . '/storage/app/public/' . $request->input('folder'),$fullname);
             return $fullname;
         }       
+    }
+
+    public function registeruser(){
+        if ($this->settingsarray['society_name']){
+            $society=Society::with('services')->where('society','=',$this->settingsarray['society_name'])->get();
+        } else {
+            $society=Society::with('services')->get();
+        }
+        return view('connexion::site.registeruser',compact('society'));
+    }
+
+    public function newuser(NewUserRequest $request){
+        $household=new Household();
+        $household->addressee = $request->input('title') . " " . $request->input('firstname') . " " . $request->input('surname');
+        $household->save();
+
+        $individual = new Individual();
+        $individual->title=$request->input('title');
+        $individual->firstname=$request->input('firstname');
+        $individual->surname=$request->input('surname');
+        $individual->cellphone=$request->input('cellphone');
+        $individual->email=$request->input('email');
+        $individual->service_id=$request->input('service_id');
+        $individual->sex=$request->input('sex');
+        $individual->household_id=$household->id;
+        $individual->save();
+
+        $household->sortsurname=$individual->surname;
+        $household->householdcell=$individual->id;
+        $household->save();
+        $household->delete();
+        
+        $user=new User();
+        $user->name=$request->input('name');
+        $user->email=$request->input('email');
+        $user->individual_id=$individual->id;
+        $user->save();
+        $user->delete();
+        // Send email to office and enable undelete of user and household, then email user with verification email.
+        return redirect()->route('homepage')->with('success', 'Your user has been created. We will email you and let you know when it has been activated.');
+    }
+
+    public function checkname($username){
+        $user=$this->users->getByAttributes(array('name'=>$username));
+        if (count($user)){
+            return "error";
+        } else {
+            return "ok";
+        }
     }
 
 }

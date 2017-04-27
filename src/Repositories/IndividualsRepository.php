@@ -21,10 +21,14 @@ class IndividualsRepository extends EloquentBaseRepository
 
     public function forEmail($email)
     {
-        $hhh=$this->model->where('email', $email)->select('household_id')->first();
+        $hhh=$this->model->with('household')->where('email', $email)->select('household_id')->first();
         if ($hhh){
-            $household=$hhh->household_id;
-            return $this->model->where('household_id', $household)->select('id','surname','firstname')->get()->toJson();   
+            if ($hhh->household){
+                $household=$hhh->household_id;
+                return $this->model->where('household_id', $household)->select('id','surname','firstname')->get()->toJson();   
+            } else {
+                return "No data";    
+            }
         } else {
             return "No data";
         }

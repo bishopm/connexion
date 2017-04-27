@@ -1,8 +1,6 @@
 <?php
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class CreateBooksTable extends Migration
 {
     /**
@@ -23,10 +21,10 @@ class CreateBooksTable extends Migration
             $table->decimal('saleprice');
             $table->decimal('costprice');
             $table->text('description');
+            $table->integer('supplier_id');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

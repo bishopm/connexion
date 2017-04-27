@@ -1,10 +1,7 @@
 @extends('adminlte::page')
 
-@section('content_header')
-{{ Form::pgHeader('Edit folder','Folders',route('admin.folders.index')) }}
-@stop
-
 @section('content')
+    {{ Form::pgHeader('Edit folder','Folders',route('admin.folders.index')) }}
     @include('connexion::shared.errors')    
     {!! Form::open(['route' => array('admin.folders.update',$folder->id), 'method' => 'put']) !!}
     <div class="row">

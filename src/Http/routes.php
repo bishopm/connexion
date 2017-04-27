@@ -37,6 +37,9 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('register',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@register','as'=>'admin.register']);
 	Route::post('checkmail',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);
 	//Webuser routes
+	Route::get('/register-user', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@registeruser','as' => 'registeruser']);
+	Route::post('admin/newuser',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@newuser','as'=>'admin.newuser']);
+	Route::get('admin/newuser/checkname/{username}',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@checkname','as'=>'admin.checkname']);
 	Route::get('/my-church', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
 	Route::get('/my-details', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mydetails','as' => 'mydetails']);
 	Route::post('admin/blogs/{blog}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@addcomment','as' => 'admin.blogs.addcomment']);
@@ -68,7 +71,7 @@ Route::group(['middleware' => ['web']], function () {
 Route::get('email-verification/error', 'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@getVerificationError')->name('email-verification.error');
 Route::get('email-verification/check/{token}', 'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@getVerification')->name('email-verification.check');
 
-Route::group(['middleware' => ['web','isverified']], function () {
+Route::group(['middleware' => 'web'], function () {
 	// Logout
 	Route::post('logout',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@logout','as'=>'logout']);
 	});
@@ -353,6 +356,24 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
     Route::get('admin/households/{household}/specialdays', ['uses' => 'Bishopm\Connexion\Http\Controllers\SpecialdaysController@index','as' => 'admin.specialdays.index']);
     Route::delete('admin/households/{household}/specialdays/{specialday}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SpecialdaysController@destroy','as' => 'admin.specialdays.destroy']);
 
+	// Suppliers
+	Route::get('admin/suppliers',['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@index','as'=>'admin.suppliers.index']);
+	Route::get('admin/suppliers/create',['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@create','as'=>'admin.suppliers.create']);
+	Route::get('admin/suppliers/{supplier}',['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@show','as'=>'admin.suppliers.show']);
+	Route::get('admin/suppliers/{supplier}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@edit','as'=>'admin.suppliers.edit']);
+	Route::put('admin/suppliers/{supplier}',['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@update','as'=>'admin.suppliers.update']);
+	Route::post('admin/suppliers',['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@store','as'=>'admin.suppliers.store']);
+    Route::delete('admin/suppliers/{supplier}',['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@destroy','as'=>'admin.suppliers.destroy']);
+
+	// Transactions
+	Route::get('admin/transactions',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@index','as'=>'admin.transactions.index']);
+	Route::get('admin/transactions/create',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@create','as'=>'admin.transactions.create']);
+	Route::get('admin/transactions/{transaction}',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@show','as'=>'admin.transactions.show']);
+	Route::get('admin/transactions/{transaction}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@edit','as'=>'admin.transactions.edit']);
+	Route::put('admin/transactions/{transaction}',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@update','as'=>'admin.transactions.update']);
+	Route::post('admin/transactions',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@store','as'=>'admin.transactions.store']);
+    Route::delete('admin/transactions/{transaction}',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@destroy','as'=>'admin.transactions.destroy']);
+
     // Weekdays
 	Route::get('admin/weekdays',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@index','as'=>'admin.weekdays.index']);
 	Route::get('admin/weekdays/create',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@create','as'=>'admin.weekdays.create']);
@@ -395,6 +416,8 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
 
 		// Users
 		Route::get('admin/users',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@index','as'=>'admin.users.index']);
+		Route::get('admin/users/activate',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@activate','as'=>'admin.users.activate']);
+		Route::get('admin/users/activate/{user}',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@activateuser','as'=>'admin.users.activateuser']);
 		Route::get('admin/users/create',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@create','as'=>'admin.users.create']);
 		Route::get('admin/users/{user}',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@show','as'=>'admin.users.show']);
 		Route::get('admin/users/{user}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@edit','as'=>'admin.users.edit']);

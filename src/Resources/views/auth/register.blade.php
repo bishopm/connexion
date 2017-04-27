@@ -35,15 +35,16 @@
 
     <div class="register-box-body">
         <p class="login-box-msg"><b>Register as a new user</b></p>
-        <p class="login-box-msg">Choose a unique username and enter your email address below. If your details and email address are in our existing database, you'll be able to link your account to that record and we'll send you a mail to make sure you are you who say you are :) If your name or email address are not on our system, we'll follow up with you via the email address you supply here.</p>
+        <p class="login-box-msg">Choose a unique username (eg: johnsmith) and enter the email address that you have think we have on record for you. If that email address is in our existing database, you'll be able to select your name and we'll send you a mail to make sure you are you who say you are :)<br><br>If your name or email address are not on our system, click <a href="register-user">here</a> and we'll help you sign up.</p>
         <form action="{{ url('/register') }}" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group has-feedback">
-                <input class="form-control" placeholder="Username" name="name" value="{{ old('name') }}"/>
-                <span class="fa fa-user form-control-feedback"></span>
+                <input class="form-control" placeholder="Username" id="name" name="name" autocomplete="off" value="{{ old('name') }}"/>
+                <div id="errmess" style="display:none;"><i class="fa fa-times"></i> Username is required and must be unique</div>
+                <div id="okmess" style="display:none;"><i class="fa fa-check"></i> This username is available</div>
             </div>
             <div class="form-group has-feedback">
-                <input type="email" class="form-control" placeholder="Email" id="email" name="email" value="{{ old('email') }}"/>
+                <input type="email" class="form-control" placeholder="Email" id="email" name="email"/>
                 <span class="fa fa-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -121,7 +122,30 @@
                     }); 
                 }
             });                   
+            $('#name').bind('input', function(){
+            if ($('#name').val()!==''){
+                usercheck($('#name').val());
+            } else {
+                $('#errmess').show();
+                $('#okmess').hide();
+            }
         });
+        });
+        function usercheck(username){
+            $.ajax({
+                type : 'GET',
+                url : '{{url('/')}}' + '/admin/newuser/checkname/' + username,
+                success: function(e){
+                    if (e=='error'){
+                        $('#errmess').show();
+                        $('#okmess').hide();
+                    } else {
+                        $('#errmess').hide();
+                        $('#okmess').show();
+                    }
+                }
+            });
+        };
     </script>
     @yield('js')
-@stop
+@stop 

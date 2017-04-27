@@ -1,0 +1,26 @@
+<?php
+
+namespace Bishopm\Connexion\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class CreateTransactionRequest extends FormRequest
+{
+    public function rules()
+    {
+        return [
+            'transactiondate' => 'required',
+            'details' => 'required',
+            'transactiontype' => 'required',
+            'units' => 'required',
+            'unitamount' => 'required',
+            'book_id' => 'required'
+        ];
+    }
+
+    public function authorize()
+    {
+        return true;
+    }
+
+}

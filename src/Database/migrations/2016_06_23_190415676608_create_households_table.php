@@ -16,7 +16,7 @@ class CreateHouseholdsTable extends Migration
 			$table->engine = 'InnoDB';
             $table->increments('id');
 			$table->string('addressee');
-            $table->string('sortsurname');
+            $table->string('sortsurname')->nullable();
             $table->string('addr1')->nullable();
             $table->string('addr2')->nullable();
             $table->string('addr3')->nullable();

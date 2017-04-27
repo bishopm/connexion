@@ -1,7 +1,10 @@
 @extends('adminlte::page')
 
+@section('content_header')
+{{ Form::pgHeader('Add folder','Folders',route('admin.folders.index')) }}
+@stop
+
 @section('content')
-    {{ Form::pgHeader('Add folder','Folders',route('admin.folders.index')) }}
     @include('connexion::shared.errors')    
     {!! Form::open(['route' => array('admin.folders.store'), 'method' => 'post']) !!}
     <div class="row">

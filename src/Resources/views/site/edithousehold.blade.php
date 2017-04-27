@@ -8,6 +8,7 @@
 	  	@include('connexion::shared.errors')
 	    {!! Form::open(['route' => array('admin.households.update',$household->id), 'method' => 'put']) !!}
 	    @include('connexion::households.partials.edit-fields')
+	    {{ Form::bsText('sortsurname','Sort by (Household Surname)','Sort by (Household Surname)',$household->sortsurname) }}
 	    {{ Form::pgButtons('Update',route('mydetails')) }}
 	    {!! Form::close() !!}
 	  @else

@@ -7,25 +7,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Actuallymab\LaravelComment\CanComment;
 use Bishopm\Connexion\Notifications\ResetPasswordNotification;
 use Laratrust\Traits\LaratrustUserTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use LaratrustUserTrait;    
     use CanComment;
+    use SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $dates = ['deleted_at'];
     protected $guarded = array('id');
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
