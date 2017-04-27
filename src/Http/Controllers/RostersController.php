@@ -2,18 +2,19 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use Bishopm\Connexion\Models\Roster, Bishopm\Connexion\Models\Group, Bishopm\Connexion\Models\Society, View, DB, Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Models\Roster, Bishopm\Connexion\Models\Group, Bishopm\Connexion\Models\Society, View, DB, Bishopm\Connexion\Repositories\IndividualsRepository, Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Http\Requests\CreateRosterRequest, Bishopm\Connexion\Http\Requests\UpdateRosterRequest, Illuminate\Http\Request;
-use Bishopm\Connexion\Services\SMSfunctions, Bishopm\Connexion\Libraries\Fpdf\Fpdf; 
+use Bishopm\Connexion\Libraries\SMSfunctions, Bishopm\Connexion\Libraries\Fpdf\Fpdf; 
 use Illuminate\Support\Facades\Redirect, App\Http\Controllers\Controller;
 
 class RostersController extends Controller {
 
-	private $individual;
+	private $individual,$settings;
 
-	public function __construct(IndividualsRepository $individual)
+	public function __construct(IndividualsRepository $individual, SettingsRepository $settings)
     {
         $this->individual = $individual;
+        $this->settings = $settings;
     }
 
 	/**
@@ -194,7 +195,6 @@ class RostersController extends Controller {
         exit;
     }
 
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -282,6 +282,7 @@ class RostersController extends Controller {
 
 	public function sms($id,$send, Request $request)
 	{
+		$settings=$this->settings->makearray();
 		$extra=array();
 		$extra=$request->extrainfo;
 		$data['extrainfo']=$extra;
@@ -313,31 +314,31 @@ class RostersController extends Controller {
 		if ($send=="preview"){
 			return View::make('connexion::rosters.sms', $data);
 		} else {
-			if ($soc->sms_provider=="bulksms"){
-				if (count($data['rosterdetails'])>SMSfunctions::BS_get_credits($soc->sms_username,$soc->sms_password)){
+			if ($settings['sms_provider']=="bulksms"){
+				if (count($data['rosterdetails'])>SMSfunctions::BS_get_credits($settings['sms_username'],$settings['sms_password'])){
 					return Redirect::back()->withInput()->withErrors("Insufficient Bulk SMS credits to send SMS");
 				}
 				$url = 'http://community.bulksms.com/eapi/submission/send_sms/2/2.0';
 				$port = 80;
-			} elseif ($soc->sms_provider=="smsfactory"){
-				if (count($data['rosterdetails'])>SMSfunctions::SF_checkCredits($soc->sms_username,$soc->sms_password)){
+			} elseif ($settings['sms_provider']=="smsfactory"){
+				if (count($data['rosterdetails'])>SMSfunctions::SF_checkCredits($settings['sms_username'],$settings['sms_password'])){
 					return Redirect::back()->withInput()->withErrors("Insufficient SMS Factory credits to send SMS");
 				}
 			}
 			foreach ($data['rosterdetails'] as $sms){
-				$seven_bit_msg=$sms['message'] . " (From " . substr($soc->society,0,1) . "MC)";
-				if ($soc->sms_provider=="bulksms"){
+				$seven_bit_msg=$sms['message'] . " (From " . $settings['site_abbreviation'] . ")";
+				if ($settings['sms_provider']=="bulksms"){
 					$transient_errors = array(40 => 1);
 					$msisdn = "+27" . substr($sms['cellphone'],1);
-					$post_body = SMSfunctions::BS_seven_bit_sms($soc->sms_username,$soc->sms_password, $seven_bit_msg, $msisdn );
+					$post_body = SMSfunctions::BS_seven_bit_sms($settings['sms_username'],$settings['sms_password'], $seven_bit_msg, $msisdn );
 				}
 				$dum2['name']=$sms['recipient'];
 				$dum2['household']=$sms['household'];
 				if (SMSfunctions::checkcell($sms['cellphone'])){
-					if ($soc->sms_provider=="bulksms"){
-						$smsresult = SMSfunctions::BS_send_message( $post_body, $url, $port );
-					} elseif ($soc->sms_provider=="smsfactory"){
-						$smsresult = SMSfunctions::SF_sendSms($soc->sms_username,$soc->sms_password,$sms['cellphone'],$seven_bit_msg);
+					if ($settings['sms_provider']=="bulksms"){
+						//$smsresult = SMSfunctions::BS_send_message( $post_body, $url, $port );
+					} elseif ($settings['sms_provider']=="smsfactory"){
+						//$smsresult = SMSfunctions::SF_sendSms($settings['sms_username'],$settings['sms_password'],$sms['cellphone'],$seven_bit_msg);
 				 	}
 					$dum2['address']=$sms['cellphone'];
 				} else {

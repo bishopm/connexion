@@ -199,6 +199,24 @@ class InstallConnexionCommand extends Command
             'setting_value' => 'Office number',
             'description' => 'Church office phone number',
             'category' => 'General'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'sms_provider',
+            'setting_value' => '',
+            'description' => 'Choose either bulksms or smsfactory',
+            'category' => 'SMS'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'sms_username',
+            'setting_value' => '',
+            'description' => 'SMS username',
+            'category' => 'SMS'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'sms_password',
+            'setting_value' => '',
+            'description' => 'SMS password',
+            'category' => 'SMS'
         ]); 
         DB::table('settings')->insert([
             'setting_key' => 'google_calendar',

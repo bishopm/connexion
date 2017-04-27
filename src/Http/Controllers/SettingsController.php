@@ -74,6 +74,11 @@ class SettingsController extends Controller {
                 $dum[1]=$val->groupname;
                 $dropdown[]=$dum;
             }
+        } elseif ($setting->setting_key=="sms_provider"){
+            $dropdown[0][0]="bulksms";
+            $dropdown[0][1]="bulksms";
+            $dropdown[1][0]="smsfactory";
+            $dropdown[1][1]="smsfactory";
         } else {
             $dropdown='';
         }
