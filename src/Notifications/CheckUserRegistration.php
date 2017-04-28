@@ -5,8 +5,6 @@ namespace Bishopm\Connexion\Notifications;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Bishopm\Connexion\Repositories\SettingsRepository;
-use Bishopm\Connexion\Repositories\IndividualsRepository;
 
 class CheckUserRegistration extends Notification
 {
