@@ -3,7 +3,6 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use App\Http\Controllers\Controller, MediaUploader;
-use Illuminate\Support\Facades\Hash;
 use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Role;
 use Bishopm\Connexion\Models\Household;
@@ -84,7 +83,7 @@ class UsersController extends Controller {
     {
         $user=User::create($request->except('password','role_id'));
         if ($request->input('password')<>""){
-            $user->password = Hash::make($request->input('password'));
+            $user->password = bcrypt($request->input('password'));
         }
         $user->save();
         $user->roles()->attach($request->role_id);
@@ -108,7 +107,7 @@ class UsersController extends Controller {
         } else {
             $user->fill($request->except('password','role_id','profile'));
             if ($request->input('password')<>""){
-                $user->password = Hash::make($request->input('password'));
+                $user->password = bcrypt($request->input('password'));
             }
             $user->save();
             $user->roles()->detach();

@@ -30,7 +30,6 @@ use Bishopm\Connexion\Models\Individual;
 use Bishopm\Connexion\Models\User;
 use Actuallymab\LaravelComment\Models\Comment;
 use Spatie\GoogleCalendar\Event;
-use Illuminate\Support\Facades\Hash;
 use Auth;
 use MediaUploader;
 use Bishopm\Connexion\Notifications\SendMessage;
@@ -446,7 +445,7 @@ class WebController extends Controller
         $user->name=$request->input('name');
         $user->email=$request->input('email');
         $user->individual_id=$individual->id;
-        $user->password=Hash::make($request->input('password'));
+        $user->password=bcrypt($request->input('password'));
         $user->save();
         $user->delete();
         
