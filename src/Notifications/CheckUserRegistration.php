@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\SlackMessage;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 
-class NewUserRegistration extends Notification
+class CheckUserRegistration extends Notification
 {
     /**
      * Create a new notification instance.

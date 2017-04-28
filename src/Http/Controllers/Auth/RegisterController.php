@@ -3,12 +3,15 @@
 namespace Bishopm\Connexion\Http\Controllers\Auth;
 
 use Bishopm\Connexion\Models\User;
+use Bishopm\Connexion\Models\Individual;
+use Bishopm\Connexion\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Jrean\UserVerification\Traits\VerifiesUsers;
 use Jrean\UserVerification\Facades\UserVerification;
+use Bishopm\Connexion\Notifications\NewUserRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 
@@ -41,6 +44,8 @@ class RegisterController extends Controller
      *
      * @return void
      */
+
+    private $settings;   
 
     public function __construct()
     {
@@ -93,6 +98,11 @@ class RegisterController extends Controller
     */
     public function register(Request $request)
     {
+        $settings=Setting::where('setting_key','site_abbreviation')->first();
+        $indiv=Individual::find($request->input('individual_id'));
+        $message=$indiv->firstname . " " . $indiv->surname . " has successfully registered as a user on the " . $settings->setting_value . " website. You may want to give their profile additional permissions?";
+        $admin=User::find(1);
+        $admin->notify(new NewUserRegistration($message));
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
         event(new Registered($user));

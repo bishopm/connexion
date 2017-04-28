@@ -54,6 +54,8 @@ class ConnexionServiceProvider extends ServiceProvider
         if (isset($finset['site_name'])){
             config(['app.name'=>$finset['site_name']]);
         }
+        config(['mail.from.address'=>$finset['church_email']]);
+        config(['mail.from.name'=>$finset['site_name']]);
         config(['user-verification.email.view'=>'connexion::emails.newuser']);
         config(['user-verification.email.type'=>'markdown']);
         config(['app.name'=>$finset['site_name']]);

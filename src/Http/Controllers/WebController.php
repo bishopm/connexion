@@ -33,6 +33,7 @@ use Spatie\GoogleCalendar\Event;
 use Auth;
 use MediaUploader;
 use Bishopm\Connexion\Notifications\SendMessage;
+use Bishopm\Connexion\Notifications\CheckUserRegistration;
 use Bishopm\Connexion\Http\Requests\NewUserRequest;
 
 class WebController extends Controller
@@ -191,7 +192,7 @@ class WebController extends Controller
 
     public function websermons()
     {
-        $series = $this->series->all();
+        $series = $this->series->allwithsermons();
         return view('connexion::site.sermons',compact('series'));
     }
 
@@ -446,7 +447,11 @@ class WebController extends Controller
         $user->individual_id=$individual->id;
         $user->save();
         $user->delete();
-        // Send email to office and enable undelete of user and household, then email user with verification email.
+        
+        $message=$individual->firstname . " " . $individual->surname . " has created a temporary user on the " . $this->settingsarray['site_abbreviation'] . " website. You can now go to the site and activate this user.";
+        $admin=User::find(1);
+        $admin->notify(new CheckUserRegistration($message));
+
         return redirect()->route('homepage')->with('success', 'Your user has been created. We will email you and let you know when it has been activated.');
     }
 

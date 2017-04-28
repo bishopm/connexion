@@ -1,5 +1,5 @@
 @extends('connexion::templates.webpage')
-
+ 
 @section('css')
     <meta id="token" name="token" value="{{ csrf_token() }}" />
 @stop
