@@ -341,9 +341,9 @@ class RostersController extends Controller {
 				$dum2['household']=$sms['household'];
 				if (SMSfunctions::checkcell($sms['cellphone'])){
 					if ($settings['sms_provider']=="bulksms"){
-						//$smsresult = SMSfunctions::BS_send_message( $post_body, $url, $port );
+						$smsresult = SMSfunctions::BS_send_message( $post_body, $url, $port );
 					} elseif ($settings['sms_provider']=="smsfactory"){
-						//$smsresult = SMSfunctions::SF_sendSms($settings['sms_username'],$settings['sms_password'],$sms['cellphone'],$seven_bit_msg);
+						$smsresult = SMSfunctions::SF_sendSms($settings['sms_username'],$settings['sms_password'],$sms['cellphone'],$seven_bit_msg);
 				 	}
 					$dum2['address']=$sms['cellphone'];
 				} else {

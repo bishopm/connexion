@@ -4,8 +4,9 @@ namespace Bishopm\Connexion\Notifications;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
 
-class WelcomeNewUser extends Notification
+class NewUserRegistration extends Notification
 {
     /**
      * Create a new notification instance.
@@ -25,7 +26,11 @@ class WelcomeNewUser extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        if ($notifiable->notification_channel=="Slack"){
+            return ['slack'];
+        } else {
+            return ['mail'];
+        }
     }
 
     /**
@@ -38,6 +43,13 @@ class WelcomeNewUser extends Notification
     {
         return (new MailMessage)
             ->line("*Hi " . $notifiable->individual->firstname . "!* \n Your user profile has been updated!");
+    }
+
+    public function toSlack($notifiable)
+    {
+        return (new SlackMessage)
+            ->to($notifiable->slack_username)
+            ->content("*Hi " . $notifiable->individual->firstname . "!* \n Your user profile has been updated!");
     }
 
     /**

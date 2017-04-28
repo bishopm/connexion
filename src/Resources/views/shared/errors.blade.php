@@ -1,5 +1,5 @@
 @if(count($errors))
-    <div class="alert alert-error"><h4>Error!</h4>
+    <div class="alert alert-danger"><h4>Error!</h4>
     	<div class="row">
     		<ul>
 	        @foreach ($errors->all() as $error)
@@ -28,7 +28,7 @@
   </div>
 @endif
 @if (isset($errormessage))
-  <div class="alert alert-error">
+  <div class="alert alert-danger">
     <button type="button" class="close" data-dismiss="alert">×</button>
     <strong>
       <i class="fa fa-info-circle fa-lg fa-fw"></i> Error!

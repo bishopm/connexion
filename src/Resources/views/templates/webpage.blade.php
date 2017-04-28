@@ -71,6 +71,7 @@
     @if ((isset($slideshow)) and ($slideshow=="back"))
       @include('connexion::shared.carousel-back')
     @elseif ((isset($slideshow)) and ($slideshow=="front"))
+      @include('connexion::shared.errors')
       @include('connexion::shared.carousel-front')
     @endif
     @yield('content')
