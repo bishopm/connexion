@@ -29,12 +29,16 @@ class SongsController extends Controller
             }
             foreach ($recent->setitems as $si){
                 if (array_key_exists($si->song_id,$arecents[$recent->service->servicetime])){
-                    $arecents[$recent->service->servicetime][$si->song_id]['count']++;
+                    if ($si->song->musictype<>'liturgy'){
+                        $arecents[$recent->service->servicetime][$si->song_id]['count']++;
+                    }
                 } else {
-                    $arecents[$recent->service->servicetime][$si->song_id]['count']=1;
-                    $arecents[$recent->service->servicetime][$si->song_id]['title']=$si->song->title;
-                    $arecents[$recent->service->servicetime][$si->song_id]['musictype']=$si->song->musictype;
-                    $arecents[$recent->service->servicetime][$si->song_id]['id']=$si->song_id;
+                    if ($si->song->musictype<>'liturgy'){
+                        $arecents[$recent->service->servicetime][$si->song_id]['count']=1;
+                        $arecents[$recent->service->servicetime][$si->song_id]['title']=$si->song->title;
+                        $arecents[$recent->service->servicetime][$si->song_id]['musictype']=$si->song->musictype;
+                        $arecents[$recent->service->servicetime][$si->song_id]['id']=$si->song_id;
+                    }
                 }
                 $newest[strtotime($recent->servicedate)][$recent->service->servicetime][$si->song_id]['title']=$si->song->title;
                 $newest[strtotime($recent->servicedate)][$recent->service->servicetime][$si->song_id]['musictype']=$si->song->musictype;

@@ -26,6 +26,7 @@ class CreateSongsTable extends Migration
             $table->text('lyrics');
             $table->text('words')->nullable();
             $table->integer('user_id')->default(0);
+            $table->softDeletes();
             $table->nullableTimestamps();
         });
     }

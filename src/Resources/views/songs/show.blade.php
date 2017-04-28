@@ -11,9 +11,11 @@
             <li class="active">
                 <a href="#k0" data-toggle="tab" v-on:click="getMe">View song</a>
             </li>
+            @if ($song->musictype<>"liturgy")
             <li>
                 <a href="#k1" data-toggle="tab" v-on:click="loadPdf">Chords (PDF)</a>
             </li>
+            @endif
             <li>
                 <a href="#k2" data-toggle="tab">Edit</a>
             </li>
@@ -32,7 +34,11 @@
         </ul>
         <div id="myTabContent" class="tab-content">
             <div class="tab-pane active" id="k0">
-                <h2>{{$song->title}} <small>{{$song->author}} ({{$song->key}} | {{$song->tempo}})</small></h2>
+                <h2>{{$song->title}} <small>{{$song->author}} 
+                @if ($song->musictype<>"liturgy")
+                  ({{$song->key}} | {{$song->tempo}})
+                @endif
+                </small></h2>
                 @if ($song->audio)
                     <audio preload="none" controls="" width="250px" height="30px" src="http://{{$song->audio}}"></audio>
                     <script>
@@ -58,11 +64,13 @@
                 </song>
                 <br>
             </div>
+            @if ($song->musictype<>"liturgy")
             <div class="tab-pane" id="k1">
                 <iframe v-if="pdfsource" id="pdfdoc" type="text/html" width="100%" height="600" :src="pdfsource"
                   frameborder="0"/>
                 </iframe>
             </div>
+            @endif
             <div class="tab-pane" id="k2">
                 <div class="box box-default">
                     <div class="box-header with-border">
