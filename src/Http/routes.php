@@ -54,6 +54,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::put('admin/households/{household}/specialdays', ['uses' => 'Bishopm\Connexion\Http\Controllers\SpecialdaysController@update','as' => 'admin.specialdays.update']);
 	Route::post('admin/households/{household}/specialdays', ['uses' => 'Bishopm\Connexion\Http\Controllers\SpecialdaysController@store','as' => 'admin.specialdays.store']);
 	Route::post('admin/households/{household}/individuals',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@store','as'=>'admin.individuals.store']);
+	Route::post('admin/updateimage/{entity}/{individual?}',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@updateimage','as'=>'admin.individuals.updateimage']);
 	Route::get('/group/{slug}/edit', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroupedit','as' => 'webgroupedit']);
     Route::get('admin/groups/{group}/addmember/{member}', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@addmember','as' => 'admin.groups.addmember']);
     Route::get('admin/groups/{group}/removemember/{member}', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@removemember','as' => 'admin.groups.removemember']);

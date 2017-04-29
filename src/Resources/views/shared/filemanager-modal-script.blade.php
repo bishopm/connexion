@@ -1,7 +1,7 @@
 function setupImage(img) {
-    $('#filediv').html("<div id='filediv'><a class='btn btn-primary' data-toggle='modal' data-target='#modal-filemanager'>Choose image</a></div>");
+    $('#filediv').html("<div id='filediv'><a id='loadbut' class='btn btn-primary' data-toggle='modal' data-target='#modal-filemanager'>Choose image</a> <span id='cropbut' onclick='docrop({{$width}},{{$height}});' class='btn btn-default'>Crop or resize</span> <span style='display:none;' onclick='savecroppie();' id='savebut' class='btn btn-default'>Save changes</span> <span style='display:none;' onclick='destroycroppie();' id='cancelbut' class='btn btn-default'>Cancel</span></div>");
     if (img){
-        pic="<a data-toggle='modal' data-target='#modal-filemanager'><img width='300px' class='img-thumbnail' src='" + img + "'></a>";
+        pic="<img id='thumbpic' width='300px' class='img-thumbnail' src='" + img + "'>";
         $('#thumbdiv').html(pic);
     }
 }
@@ -10,6 +10,46 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
     }
 });
+function docrop(ww,hh){
+    cropp=$('#thumbpic').croppie({
+        viewport: {
+            width: ww,
+            height: hh,
+            type: 'square'
+        },
+        boundary: {
+            width: ww+50,
+            height: hh+50
+        }
+    });
+    $('#savebut').show();
+    $('#cancelbut').show();
+    $('#cropbut').hide();
+    $('#loadbut').hide();
+};
+function destroycroppie(){
+    cropp.croppie('destroy');
+    $('#cropbut').show();
+    $('#loadbut').show();
+    $('#savebut').hide();
+    $('#cancelbut').hide();
+};
+function savecroppie(){
+    cropp.croppie('result', 'base64').then(function(base64) {
+        $.ajax({ 
+            type: "POST", 
+            url: "{{url('/')}}/admin/updateimage/{{$folder}}{{$entity or ''}}",
+            dataType: 'text',
+            data: {
+                base64data : base64
+            },
+            success: function (fname) {
+                destroycroppie();
+                $("#thumbpic").attr('src', fname + '?timestamp=' + new Date().getTime());              
+            }
+        });    
+    });
+};
 $( document ).ready(function() {
     $('#modal-filemanager').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);

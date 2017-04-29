@@ -49,7 +49,6 @@
 		    	</div>
 			</div>
 		</div>
-		<img class='img-thumbnail' src='{{url('/')}}/storage/individuals/{{$individual->id}}/{{$individual->image}}'>
 		{{ Form::pgButtons('Update',route('admin.users.show',$individual->user->id)) }}
 		{!! Form::close() !!}
 		@include('connexion::shared.filemanager-modal',['folder'=>'individuals/' . $individual->id])
@@ -62,20 +61,6 @@
 @section('js')
 <script src="{{ asset('vendor/bishopm/js/croppie.js') }}" type="text/javascript"></script>
 <script>
-	$( document ).ready(function() {
-		$('.img-thumbnail').croppie({
-
-			viewport: {
-	        	width: 200,
-		        height: 200,
-		        type: 'circle'
-		    },
-		    boundary: {
-		        width: 300,
-		        height: 300
-		    }
-		});
-	});
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
@@ -92,6 +77,6 @@
             }
         });
     });
-    @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals/' . $individual->id])
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals/' . $individual->id,'width'=>250,'height'=>250])
 </script>
 @endsection

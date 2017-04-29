@@ -465,4 +465,20 @@ class WebController extends Controller
         }
     }
 
+    public function updateimage(Request $request,$entity,$id='') 
+    {
+        if ($entity=="individuals"){
+            $indiv=$this->individual->find($id);
+            $file=base_path() . "/storage/app/public/individuals/" . $indiv->id . "/" . $indiv->image;
+            $url=url('/') . "/storage/individuals/" . $indiv->id . "/" . $indiv->image;
+        } elseif ($entity=="books") {
+            $book=$this->books->find($id);
+            $file=base_path() . "/storage/app/public/books/" . $book->image;
+            $url=url('/') . "/storage/books/" . $book->image;
+        }
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->input('base64data')));
+        file_put_contents($file,$data);
+        return $url;
+    }
+
 }

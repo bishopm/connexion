@@ -126,5 +126,6 @@ class IndividualsController extends Controller {
         $email = $request->email;
         $individuals=$this->individual->forEmail($email);
         return $individuals;
-    }    
+    }   
+
 }
