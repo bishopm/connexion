@@ -1,5 +1,5 @@
 function setupImage(img) {
-    $('#filediv').html("<div id='filediv'><a class='btn btn-primary' data-toggle='modal' data-target='#modal-filemanager'>Browse server or upload new file</a></div>");
+    $('#filediv').html("<div id='filediv'><a class='btn btn-primary' data-toggle='modal' data-target='#modal-filemanager'>Choose image</a></div>");
     if (img){
         pic="<a data-toggle='modal' data-target='#modal-filemanager'><img width='300px' class='img-thumbnail' src='" + img + "'></a>";
         $('#thumbdiv').html(pic);

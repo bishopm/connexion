@@ -2,6 +2,7 @@
  
 @section('css')
     <meta id="token" name="token" value="{{ csrf_token() }}" />
+    <link href="{{ asset('/vendor/bishopm/css/croppie.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')
@@ -13,39 +14,42 @@
 	    {{ Form::bsHidden('name',$individual->user->name) }}
 	    {{ Form::bsHidden('profile','true') }}
 	    {{ Form::bsHidden('email',$individual->user->email) }}
-		<ul class="nav nav-tabs" role="tablist">
-	    	<li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">User profile</a></li>
-	    	<li role="presentation"><a href="#advanced" aria-controls="advanced" role="tab" data-toggle="tab">Advanced</a></li>
-		</ul>
-		<div class="tab-content">
-	    	<div role="tabpanel" class="tab-pane active" id="profile"><br>
-				{{ Form::bsText('bio','Say a little about yourself (optional)','Brief bio',$individual->user->bio) }}
-			    <div class="form-group">
-					<label for="service_id" class="control-label">Which service do you usually attend?</label>
-					<select name="service_id" id="service_id" class="form-control">
-						@foreach ($society as $soc)
-							@foreach ($soc->services as $service)
-								@if ($individual->service_id==$service->id)
-									<option selected value="{{$service->id}}">
-								@else
-									<option value="{{$service->id}}">
-								@endif
-									{{$service->society->society}} {{$service->servicetime}}
-								</option>
+	    <div class="nav-tabs-custom well">
+			<ul class="nav nav-tabs" role="tablist">
+		    	<li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">User profile</a></li>
+		    	<li role="presentation"><a href="#advanced" aria-controls="advanced" role="tab" data-toggle="tab">Advanced</a></li>
+			</ul>
+			<div class="tab-content">
+		    	<div role="tabpanel" class="tab-pane active" id="profile"><br>
+					{{ Form::bsText('bio','Say a little about yourself (optional)','Brief bio',$individual->user->bio) }}
+				    <div class="form-group">
+						<label for="service_id" class="control-label">Which service do you usually attend?</label>
+						<select name="service_id" id="service_id" class="form-control">
+							@foreach ($society as $soc)
+								@foreach ($soc->services as $service)
+									@if ($individual->service_id==$service->id)
+										<option selected value="{{$service->id}}">
+									@else
+										<option value="{{$service->id}}">
+									@endif
+										{{$service->society->society}} {{$service->servicetime}}
+									</option>
+								@endforeach
 							@endforeach
-						@endforeach
-					</select>
-				</div>
-				{{ Form::bsHidden('image',$individual->image) }}
-				<div id="thumbdiv" style="margin-bottom:5px;"></div>
-				<div id="filediv"></div>
-	    	</div>
-	    	<div role="tabpanel" class="tab-pane" id="advanced"><br>
-				{{ Form::bsText('slack_username','Slack username (optional)','Email us for Slack access',$individual->user->slack_username) }}
-				{{ Form::bsSelect('notification_channel','Notification Channel',array('Email','Slack'),$individual->user->notification_channel) }}
-				{{ Form::bsSelect('allow_messages','Allow direct messages',array('Yes','No'),$individual->user->allow_messages) }}
-	    	</div>
+						</select>
+					</div>
+					{{ Form::bsHidden('image',$individual->image) }}
+					<div id="thumbdiv" style="margin-bottom:5px;"></div>
+					<div id="filediv"></div>
+		    	</div>
+		    	<div role="tabpanel" class="tab-pane" id="advanced"><br>
+					{{ Form::bsText('slack_username','Slack username (optional)','Email us for Slack access',$individual->user->slack_username) }}
+					{{ Form::bsSelect('notification_channel','Notification Channel',array('Email','Slack'),$individual->user->notification_channel) }}
+					{{ Form::bsSelect('allow_messages','Allow direct messages',array('Yes','No'),$individual->user->allow_messages) }}
+		    	</div>
+			</div>
 		</div>
+		<img class='img-thumbnail' src='{{url('/')}}/storage/individuals/{{$individual->id}}/{{$individual->image}}'>
 		{{ Form::pgButtons('Update',route('admin.users.show',$individual->user->id)) }}
 		{!! Form::close() !!}
 		@include('connexion::shared.filemanager-modal',['folder'=>'individuals/' . $individual->id])
@@ -56,7 +60,22 @@
 @endsection
 
 @section('js')
+<script src="{{ asset('vendor/bishopm/js/croppie.js') }}" type="text/javascript"></script>
 <script>
+	$( document ).ready(function() {
+		$('.img-thumbnail').croppie({
+
+			viewport: {
+	        	width: 200,
+		        height: 200,
+		        type: 'circle'
+		    },
+		    boundary: {
+		        width: 300,
+		        height: 300
+		    }
+		});
+	});
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
