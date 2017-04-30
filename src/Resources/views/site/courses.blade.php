@@ -31,7 +31,7 @@
                         <td><a href="{{route('webresource',$cc->slug)}}"><img width="150px" class="img-responsive" src="{{url('/')}}/storage/courses/{{$cc->image}}"></a></td>
                         <td><a href="{{route('webresource',$cc->slug)}}">{{$cc->title}}</a></td>
                         <td><a href="{{route('webresource',$cc->slug)}}">{!!$cc->description!!}</a></td>
-                        <td><a href="{{route('webresource',$cc->slug)}}">{{$cc->averageRate()}}</a></td>
+                        <td><a href="{{route('webresource',$cc->slug)}}">{{round($cc->averageRate(),2)}}</a></td>
                         <td><a href="{{route('webresource',$cc->slug)}}">{{count($cc->comments)}}</a></td>
                     </tr>
                 @empty
@@ -58,7 +58,7 @@
                     	<td><a href="{{route('webresource',$hg->slug)}}"><img width="150px" class="img-responsive" src="{{url('/')}}/storage/courses/{{$hg->image}}"></a></td>
                         <td><a href="{{route('webresource',$hg->slug)}}">{{$hg->title}}</a></td>
                         <td><a href="{{route('webresource',$hg->slug)}}">{!!$hg->description!!}</a></td>
-                        <td><a href="{{route('webresource',$hg->slug)}}">{{$hg->averageRate()}}</a></td>
+                        <td><a href="{{route('webresource',$hg->slug)}}">{{round($hg->averageRate(),2)}}</a></td>
                         <td><a href="{{route('webresource',$hg->slug)}}">{{count($hg->comments)}}</a></td>
                     </tr>
                 @empty

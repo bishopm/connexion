@@ -26,7 +26,7 @@
                         <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->title}}</a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{!!$cc->author!!}</a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{!!$cc->stock!!}</a></td>
-                        <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->averageRate()}} ({{count($cc->comments)}} comments)</a></td>
+                        <td><a href="{{route('webbook',$cc->slug)}}">{{round($cc->averageRate(),2)}} ({{count($cc->comments)}} comments)</a></td>
                     </tr>
                 @empty
                     <tr><td>No books have been added yet</td></tr>

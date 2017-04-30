@@ -146,7 +146,7 @@ class WebController extends Controller
 
     public function webblogs()
     {
-        $blogs = $this->blogs->all();
+        $blogs = $this->blogs->allPublished();
         $cloud = new TagCloud();
         foreach ($blogs->all() as $thisblog){
             foreach ($thisblog->tags as $tag){

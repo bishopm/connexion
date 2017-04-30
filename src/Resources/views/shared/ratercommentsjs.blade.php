@@ -1,7 +1,7 @@
 @if ((Auth::check()) and (isset(Auth::user()->individual)))
   <?php
-  if (count(Auth::user()->individual->getMedia('image'))){
-    $imgsrc=Auth::user()->individual->getMedia("image")->first()->getUrl();
+  if (Auth::user()->individual->image){
+    $imgsrc=url('/') . "/storage/individuals/" . Auth::user()->individual->id . "/" . Auth::user()->individual->image;
   } else {
     $imgsrc=asset('vendor/bishopm/images/profile.png');
   }?>

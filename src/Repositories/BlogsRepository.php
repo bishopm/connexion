@@ -8,4 +8,9 @@ class BlogsRepository extends EloquentBaseRepository
     {
         return $this->model->with('individual')->orderBy('created_at', 'DESC')->get()->take($num);
     }
+
+    public function allPublished()
+    {
+    	return $this->model->with('individual')->where('status','published')->orderBy('created_at', 'DESC')->get();	
+    }
 }
