@@ -7,6 +7,14 @@
   <input class="form-control" data-slug="target" placeholder="Slug" name="slug" id="slug" type="text">
 </div>
 {{ Form::bsText('author','Author','Author') }}
+<div class='form-group '>
+  <label for="supplier_id">Supplier</label>
+  <select class="selectize" id="supplier_id" name="supplier_id">
+    @foreach ($suppliers as $supplier)
+      <option value="{{$supplier->id}}">{{$supplier->supplier}}</option>
+    @endforeach
+  </select>
+</div>
 {{ Form::bsTextarea('description','Description','Description') }}
 {{ Form::bsHidden('image') }}
 <div id="thumbdiv" style="margin-bottom:5px;"></div>

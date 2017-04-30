@@ -76,7 +76,8 @@
             $.ajax({ url: "{{url('/')}}/admin/books/removetag/{{$book->id}}/" + value })
           }
         });
+        $('.selectize').selectize();
     });
-    @include('connexion::shared.filemanager-modal-script',['folder'=>'books','width'=>250,'height'=>250,'entity'=>'/' . $book->id])
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'books','width'=>250,'height'=>250])
 </script>
 @endsection

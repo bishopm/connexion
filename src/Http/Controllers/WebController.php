@@ -467,16 +467,17 @@ class WebController extends Controller
 
     public function updateimage(Request $request,$entity,$id='') 
     {
+        $fn=strval(time()) . '.' . explode('.',$request->input('filename'))[1];
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->input('base64data')));
         if ($entity=="individuals"){
             $indiv=$this->individual->find($id);
-            $file=base_path() . "/storage/app/public/individuals/" . $indiv->id . "/" . $indiv->image;
-            $url=url('/') . "/storage/individuals/" . $indiv->id . "/" . $indiv->image;
+            $file=base_path() . "/storage/app/public/individuals/" . $indiv->id . "/" . $fn;
+            $url=url('/') . "/storage/individuals/" . $indiv->id . '/' . $fn;
         } elseif ($entity=="books") {
             $book=$this->books->find($id);
-            $file=base_path() . "/storage/app/public/books/" . $book->image;
-            $url=url('/') . "/storage/books/" . $book->image;
+            $file=base_path() . "/storage/app/public/books/" . $fn;
+            $url=url('/') . "/storage/books/" . $fn;
         }
-        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->input('base64data')));
         file_put_contents($file,$data);
         return $url;
     }

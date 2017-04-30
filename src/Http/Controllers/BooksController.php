@@ -4,6 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\BooksRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
+use Bishopm\Connexion\Repositories\SuppliersRepository;
 use Bishopm\Connexion\Models\Book;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateBookRequest;
@@ -18,12 +19,13 @@ class BooksController extends Controller {
 	 * @return Response
 	 */
 
-	private $book, $user;
+	private $book, $user, $suppliers;
 
-	public function __construct(BooksRepository $book, UsersRepository $user)
+	public function __construct(BooksRepository $book, UsersRepository $user, SuppliersRepository $suppliers)
     {
         $this->book = $book;
         $this->user = $user;
+        $this->suppliers = $suppliers;
     }
 
 	public function index()
@@ -39,13 +41,15 @@ class BooksController extends Controller {
         foreach ($book->tags as $tag){
             $btags[]=$tag->name;
         }
-        return view('connexion::books.edit', compact('book','tags','btags'));
+        $suppliers=$this->suppliers->all();
+        return view('connexion::books.edit', compact('book','tags','btags','suppliers'));
     }
 
     public function create()
     {
         $tags=Book::allTags()->get();
-        return view('connexion::books.create',compact('tags'));
+        $suppliers=$this->suppliers->all();
+        return view('connexion::books.create',compact('tags','suppliers'));
     }
 
 	public function show($slug)

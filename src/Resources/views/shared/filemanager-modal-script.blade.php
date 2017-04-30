@@ -1,56 +1,65 @@
 function setupImage(img) {
-    $('#filediv').html("<div id='filediv'><a id='loadbut' class='btn btn-primary' data-toggle='modal' data-target='#modal-filemanager'>Choose image</a> <span id='cropbut' onclick='docrop({{$width}},{{$height}});' class='btn btn-default'>Crop or resize</span> <span style='display:none;' onclick='savecroppie();' id='savebut' class='btn btn-default'>Save changes</span> <span style='display:none;' onclick='destroycroppie();' id='cancelbut' class='btn btn-default'>Cancel</span></div>");
+    $('#filediv').html("<div id='filediv'><a id='loadbut' class='btn btn-primary' data-toggle='modal' data-target='#modal-filemanager'>Choose image</a></div>");
     if (img){
         pic="<img id='thumbpic' width='300px' class='img-thumbnail' src='" + img + "'>";
         $('#thumbdiv').html(pic);
     }
 }
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
-    }
-});
-function docrop(ww,hh){
-    cropp=$('#thumbpic').croppie({
-        viewport: {
-            width: ww,
-            height: hh,
-            type: 'square'
-        },
-        boundary: {
-            width: ww+50,
-            height: hh+50
+
+$( document ).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
         }
     });
-    $('#savebut').show();
-    $('#cancelbut').show();
-    $('#cropbut').hide();
-    $('#loadbut').hide();
-};
-function destroycroppie(){
-    cropp.croppie('destroy');
-    $('#cropbut').show();
-    $('#loadbut').show();
-    $('#savebut').hide();
-    $('#cancelbut').hide();
-};
-function savecroppie(){
-    cropp.croppie('result', 'base64').then(function(base64) {
-        $.ajax({ 
-            type: "POST", 
-            url: "{{url('/')}}/admin/updateimage/{{$folder}}{{$entity or ''}}",
-            dataType: 'text',
-            data: {
-                base64data : base64
-            },
-            success: function (fname) {
-                destroycroppie();
-                $("#thumbpic").attr('src', fname + '?timestamp=' + new Date().getTime());              
-            }
-        });    
+    var $uploadCrop;
+
+    function readFile(input) {
+        if (input.files && input.files[0]) {
+            $('#filename').val(input.files[0]['name']);
+            $uploadCrop = $('#upload-demo').croppie({
+                viewport: {
+                    width: {{$width}},
+                    height: {{$height}},
+                    type: 'square'
+                },
+                boundary: {
+                    width: {{$width+100}},
+                    height: {{$height+100}}
+                }
+            });
+            var reader = new FileReader();          
+            reader.onload = function (e) {
+                $uploadCrop.croppie('bind', {
+                    url: e.target.result
+                });
+                $('.upload-demo').addClass('ready');
+            }           
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $('#upload').on('change', function () { readFile(this); });
+    $('#upload-result').on('click', function (ev) {
+        $uploadCrop.croppie('result', 'base64').then(function(base64) {
+            $.ajax({ 
+                type: "POST", 
+                url: "{{url('/')}}/admin/updateimage/{{$folder}}{{$entity or ''}}",
+                dataType: 'text',
+                data: {
+                    base64data : base64,
+                    filename: $('#filename').val()
+                },
+                success: function (fname) {
+                    fileonly=fname.split('/').pop();
+                    setupImage(fname + '?timestamp=' + new Date().getTime());
+                    $('#image').val(fileonly);
+                    $('#modal-filemanager').modal('hide');              
+                }
+            });    
+        });
     });
-};
-$( document ).ready(function() {
+
     $('#modal-filemanager').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var actionTarget = button.data('action-target');

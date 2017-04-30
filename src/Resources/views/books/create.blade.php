@@ -52,6 +52,7 @@
                   }
               }
             });
+            $('.selectize').selectize();
             $('#description').summernote({ 
               height: 250,
               toolbar: [
@@ -65,6 +66,6 @@
               ]
             });
         });
-        @include('connexion::shared.filemanager-modal-script',['folder'=>'books','width'=>250,'height'=>250,'entity'=>'/' . $book->id])
+        @include('connexion::shared.filemanager-modal-script',['folder'=>'books','width'=>250,'height'=>250])
     </script>
 @stop
