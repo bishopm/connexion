@@ -57,7 +57,27 @@
                 }
             });
         });
+        $('.jsDeleteMenuItem').on('click', function(e) {
+            var self = $(this),
+                menuItemId = self.data('item-id');
+            $.ajax({
+                type: 'DELETE',
+                url: "{{url('/')}}/admin/menus/{{$menu->id}}/menuitems/" + menuItemId,
+                data: {
+                    _token: '{{ csrf_token() }}',
+                     menuitem: menuItemId
+                },
+                success: function(data) {
+                    if (! data.errors) {
+                        var elem = self.closest('li');
+                        elem.fadeOut()
+                        setTimeout(function(){
+                            elem.remove()
+                        }, 300);
+                    }
+                }
+            });
+        });
     });
-
     </script>
 @stop

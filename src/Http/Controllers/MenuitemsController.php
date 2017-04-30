@@ -93,4 +93,11 @@ class MenuitemsController extends Controller {
         print "Done!";
     }
 
+    public function destroy($menu, Menuitem $menuitem)
+    {
+        $this->menuitem->destroy($menuitem);
+
+        return redirect()->route('admin.menus.edit',$menu)->withSuccess('Menu item has been deleted');
+    }
+
 }
