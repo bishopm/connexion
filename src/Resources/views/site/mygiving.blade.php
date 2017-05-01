@@ -13,7 +13,7 @@
 	            <div class="panel panel-default">
 	                <div class="panel-heading">
 	                    <div class="row">
-	                        <div class="col-md-6"><h4>Payment received from PG {{$individual->giving}}</h4></div>
+	                        <div class="col-md-6"><h4>Payments received from PG{{$individual->giving}}</h4></div>
 	                    </div>
 	                </div>
 	                <div class="panel-body">
@@ -35,7 +35,7 @@
 	                                    <td>{{$payment->amount}}</a></td>
 	                                </tr>
 	                            @empty
-	                                <tr><td>No payments have been added yet</td></tr>
+	                                <tr><td>No payments have been recorded yet</td></tr>
 	                            @endforelse
 	                        </tbody>
 	                    </table>

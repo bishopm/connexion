@@ -52,11 +52,11 @@
 
 @section('js')
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
-<script src="{{url('/')}}/vendor/bishopm/js/mapsinglepoint.js" type="text/javascript"></script>
+<script src="{{url('/')}}/vendor/bishopm/js/gmap.js" type="text/javascript"></script>
 <script type="text/javascript">
 (function ($) {
   jQuery(window).on('load', function() {
-    google.maps.event.addDomListener(window, 'load', initialize(11,{{$group->latitude}},{{$group->longitude}}));
+    google.maps.event.addDomListener(window, 'load', showMap(13,{{$group->latitude}},{{$group->longitude}}));
   });
 })(jQuery);
 </script>

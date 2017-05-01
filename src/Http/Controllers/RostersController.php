@@ -101,6 +101,16 @@ class RostersController extends Controller {
 		return $weeks;
 	}
 
+	public function currentroster ($rosterid)
+	{
+		$this->report($rosterid,date('Y'),date('m'));
+	}
+
+	public function nextroster ($rosterid)
+	{
+		$this->report($rosterid,date('Y'),1+intval(date('m')));
+	}
+
     public function report($rosterid,$yy,$mm)
     {
         $pdf = new Fpdf();

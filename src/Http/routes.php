@@ -29,6 +29,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::group(['middleware' => 'isverified'], function () {
 		//Webuser routes
 		Route::get('/users/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuser','as' => 'webuser']);
+		Route::get('/rosters/{roster}/current',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@currentroster','as'=>'rosters.current']);
+		Route::get('/rosters/{roster}/next',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@nextroster','as'=>'rosters.next']);
 		Route::get('/users/{slug}/edit', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuseredit','as' => 'webuser.edit']);
 		Route::post('/users/{user}/message', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@usermessage','as' => 'usermessage']);
 		Route::get('/my-details/householdedit', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuserhouseholdedit','as' => 'webuser.household.edit']);
