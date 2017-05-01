@@ -339,6 +339,7 @@ class ConnexionServiceProvider extends ServiceProvider
         view()->composer('connexion::site.*', \Bishopm\Connexion\Composers\SlideComposer::class);
         view()->composer('connexion::templates.webpage_no_sidebar', \Bishopm\Connexion\Composers\SlideComposer::class);
         view()->composer('connexion::templates.sidebar_right', \Bishopm\Connexion\Composers\SlideComposer::class);
+        view()->composer('connexion::templates.map_page', \Bishopm\Connexion\Composers\SlideComposer::class);
     }
 
     /**
@@ -474,6 +475,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\PastoralsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\PastoralsRepository(new \Bishopm\Connexion\Models\Pastoral());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\PaymentsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\PaymentsRepository(new \Bishopm\Connexion\Models\Payment());
                 return $repository;
             }
         );

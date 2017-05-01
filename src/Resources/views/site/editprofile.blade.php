@@ -13,42 +13,30 @@
 	    {!! Form::open(['route' => array('admin.users.update',$individual->user->id), 'method' => 'put','files'=>'true']) !!}
 	    {{ Form::bsHidden('name',$individual->user->name) }}
 	    {{ Form::bsHidden('profile','true') }}
-	    {{ Form::bsHidden('email',$individual->user->email) }}
-	    <div class="nav-tabs-custom well">
-			<ul class="nav nav-tabs" role="tablist">
-		    	<li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">User profile</a></li>
-		    	<li role="presentation"><a href="#advanced" aria-controls="advanced" role="tab" data-toggle="tab">Advanced</a></li>
-			</ul>
-			<div class="tab-content">
-		    	<div role="tabpanel" class="tab-pane active" id="profile"><br>
-					{{ Form::bsText('bio','Say a little about yourself (optional)','Brief bio',$individual->user->bio) }}
-				    <div class="form-group">
-						<label for="service_id" class="control-label">Which service do you usually attend?</label>
-						<select name="service_id" id="service_id" class="form-control">
-							@foreach ($society as $soc)
-								@foreach ($soc->services as $service)
-									@if ($individual->service_id==$service->id)
-										<option selected value="{{$service->id}}">
-									@else
-										<option value="{{$service->id}}">
-									@endif
-										{{$service->society->society}} {{$service->servicetime}}
-									</option>
-								@endforeach
-							@endforeach
-						</select>
-					</div>
-					{{ Form::bsHidden('image',$individual->image) }}
-					<div id="thumbdiv" style="margin-bottom:5px;"></div>
-					<div id="filediv"></div>
-		    	</div>
-		    	<div role="tabpanel" class="tab-pane" id="advanced"><br>
-					{{ Form::bsText('slack_username','Slack username (optional)','Email us for Slack access',$individual->user->slack_username) }}
-					{{ Form::bsSelect('notification_channel','Notification Channel',array('Email','Slack'),$individual->user->notification_channel) }}
-					{{ Form::bsSelect('allow_messages','Allow direct messages',array('Yes','No'),$individual->user->allow_messages) }}
-		    	</div>
-			</div>
+	    {{ Form::bsHidden('email',$individual->user->email) }} 
+		{{ Form::bsText('bio','Say a little about yourself (optional)','Brief bio',$individual->user->bio) }}
+	    <div class="form-group">
+			<label for="service_id" class="control-label">Which service do you usually attend?</label>
+			<select name="service_id" id="service_id" class="form-control">
+				@foreach ($society as $soc)
+					@foreach ($soc->services as $service)
+						@if ($individual->service_id==$service->id)
+							<option selected value="{{$service->id}}">
+						@else
+							<option value="{{$service->id}}">
+						@endif
+							{{$service->society->society}} {{$service->servicetime}}
+						</option>
+					@endforeach
+				@endforeach
+			</select>
 		</div>
+		{{ Form::bsHidden('image',$individual->image) }}
+		<div id="thumbdiv" style="margin-bottom:5px;"></div>
+		<div id="filediv"></div>
+		{{ Form::bsText('slack_username','Slack username (optional - eg: @johnsmith)','Email us for Slack access',$individual->user->slack_username) }}
+		{{ Form::bsSelect('notification_channel','Notification Channel',array('Email','Slack'),$individual->user->notification_channel) }}
+		{{ Form::bsSelect('allow_messages','Allow direct messages',array('Yes','No'),$individual->user->allow_messages) }}
 		{{ Form::pgButtons('Update',route('admin.users.show',$individual->user->id)) }}
 		{!! Form::close() !!}
 		@include('connexion::shared.filemanager-modal',['folder'=>'individuals/' . $individual->id])

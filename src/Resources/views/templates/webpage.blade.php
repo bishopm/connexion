@@ -62,7 +62,7 @@
                 </ul>
               </li>
             @else
-              <li><a href="#" title="User login" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-sign-in"></i></a></li>
+              <li><a href="#" title="User login" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-sign-in"></i> Login / Register</a></li>
             @endif
           </ul>
         </div>

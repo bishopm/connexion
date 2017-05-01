@@ -9,7 +9,7 @@ function initialize(zz) {
 		var map_options = {
 				center: pos,
 				zoom: zz,
-				mapTypeId: google.maps.MapTypeId.HYBRID
+				mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
 		map = new google.maps.Map(map_canvas, map_options)
 		google.maps.event.addListener(map, 'click', function(event) {
@@ -24,7 +24,7 @@ function showMap(zzz,lat,lng){
 		var map_options = {
 				center: pos,
 				zoom: zzz,
-				mapTypeId: google.maps.MapTypeId.HYBRID
+				mapTypeId: google.maps.MapTypeId.ROADMAP
 		}
 		map = new google.maps.Map(map_canvas, map_options)
 		var marker = new google.maps.Marker({

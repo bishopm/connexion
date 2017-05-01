@@ -61,7 +61,7 @@
 				    		</div>
 			    			<div class="col-md-12"><i class="fa fa-fw fa-gift"></i>
 			    				@if ($indiv->giving)
-			    					Planned giver (click <b>here</b> to see your number and recorded payments)
+			    					Planned giver (click <a href="{{route('mygiving')}}">here</a> to see your number and recorded payments)
 			    				@else
 			    					No planned giving number <button data-toggle="modal" data-target="#modal-giving">Allocate me a PG number</button>
 			    				@endif

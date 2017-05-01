@@ -48,6 +48,27 @@ class PlansController extends Controller
         //
     }
 
+    public function currentplan()
+    {
+      $one=range(2,4);
+      $two=range(5,7);
+      $three=range(8,10);
+      $four=range(11,12);
+      $m=intval(date('n'));
+      $y=intval(date('Y'));
+      if (in_array($m,$one)){
+        $this->show($y,1,'view');
+      } elseif (in_array($m,$two)){
+        $this->show($y,2,'view');
+      } elseif (in_array($m,$three)){
+        $this->show($y,3,'view');
+      } elseif (in_array($m,$four)){
+        $this->show($y,4,'view');
+      } elseif ($m==1){
+        $this->show($y-1,4,'view');
+      }
+    }
+
     /**
      * Display the specified resource.
      *

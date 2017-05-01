@@ -20,6 +20,7 @@ use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\CoursesRepository;
 use Bishopm\Connexion\Repositories\BooksRepository;
+use Bishopm\Connexion\Repositories\PaymentsRepository;
 use Bishopm\Connexion\Models\Book;
 use Bishopm\Connexion\Models\Blog;
 use Bishopm\Connexion\Models\Society;
@@ -39,9 +40,9 @@ use Bishopm\Connexion\Http\Requests\NewUserRequest;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings, $users, $series, $sermon, $individual, $courses, $group, $comments, $books, $blogs;
+    private $page, $slides, $settings, $users, $series, $sermon, $individual, $courses, $group, $comments, $books, $blogs, $payments;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household, BooksRepository $books, BlogsRepository $blogs)
+    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household, BooksRepository $books, BlogsRepository $blogs, PaymentsRepository $payments)
     {
         $this->page = $page;
         $this->group = $group;
@@ -55,6 +56,7 @@ class WebController extends Controller
         $this->books = $books;
         $this->household = $household;
         $this->blogs = $blogs;
+        $this->payments = $payments;
         $this->settingsarray=$this->settings->makearray();
     }
 
@@ -274,7 +276,7 @@ class WebController extends Controller
 
     public function usermessage($id, Request $request){
         $user = $this->users->find($id);
-        $user->notify(new SendMessage($request->input('message')));
+        $user->notify(new SendMessage($request->input('message'),Auth::user()->individual));
         return redirect()->route('webuser',$user->individual->slug);
     }
 
@@ -386,6 +388,17 @@ class WebController extends Controller
             return view('connexion::site.mydetails');
         }
     }        
+
+    public function mygiving()
+    {
+        if (Auth::check()){
+            $individual=Auth::user()->individual;
+            $payments=$this->payments->byPG($individual->giving);
+            return view('connexion::site.mygiving',compact('individual','payments'));
+        } else {
+            return view('connexion::site.mygiving');
+        }
+    }
 
     public function uri($slug)
     {
