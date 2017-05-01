@@ -48,7 +48,6 @@
         @endif
       </div>      
     </div>
-    <div class="xs-visible">&nbsp;</div>
     <div class="col-md-4 text-center">
       <img src="{{asset('vendor/bishopm/images/preaching.png')}}">
       <h4>Last Sunday</h4>
@@ -65,7 +64,6 @@
         </div>
       @endif
     </div>
-    <div class="xs-visible">&nbsp;</div>
     <div class="col-md-4 text-center">
       @if ((Auth::check()) and (Auth::user()->isverified==1))
         <img src="{{asset('vendor/bishopm/images/community.png')}}">
