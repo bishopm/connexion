@@ -5,7 +5,7 @@
 	<div class="row top30">
 	  @if (Auth::check())
 	  	@if ($user)
-		  <div class="col-md-3">
+		  <div class="col-md-3 centre-xs">
 		  	@if ($user->individual->image)
                 <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
             @else

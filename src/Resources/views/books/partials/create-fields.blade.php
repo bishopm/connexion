@@ -27,6 +27,5 @@
 	@endforeach
   </select>
 </div>
-{{ Form::bsText('stock','Current stock','Current stock') }}
 {{ Form::bsText('saleprice','Sale price','Sale price') }}
 {{ Form::bsText('costprice','Cost price','Cost price') }}

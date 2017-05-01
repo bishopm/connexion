@@ -1,5 +1,5 @@
 <h4>Comments</h4>
-@if ((isset(Auth::user()->individual)) and (Auth::check()) and (Auth::user()->can('edit-comment')))
+@if ((isset(Auth::user()->individual)) and (Auth::check()) and (Auth::user()->can('edit-comment')) and (Auth::user()->verified==1))
 	<div id="allcomments">
 		@foreach ($comments as $comment)
 			<div class="row top5">
@@ -50,6 +50,8 @@
 			<a id="publishButton" class="btn btn-primary">Publish</a>
 		</div>
 	</div>
-@else
+@elseif (!Auth::check())
 	<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to see comments or add your own</p>
+@elseif (Auth::user()->verified==0)
+	<div class="alert alert-danger">Please check your email inbox and click on the mail we sent you to verify your email address before you can view comments</div>
 @endif

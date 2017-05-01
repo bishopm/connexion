@@ -20,7 +20,9 @@
 	  </div>
 	  <div class="col-md-4">
 	  	<h3>Get in touch</h3>
-	  	Send {{$person->firstname}} an {{ HTML::mailto($person->email,'email') }}
+	  	@if ($staff)
+		  	{{$person->firstname}} is a staff member at {{$setting['site_abbreviation']}}.<br> Send {{$person->firstname}} an {{ HTML::mailto($person->email,'email') }}
+		@endif
 
 	  	@if ($person->user)
 	  		<a href="{{url('/')}}/users/{{$person->slug}}" class="top17 btn btn-primary">View {{$person->firstname}}'s user page</a>

@@ -6,7 +6,7 @@ class BlogsRepository extends EloquentBaseRepository
 {   
 	public function mostRecent($num=1)
     {
-        return $this->model->with('individual')->orderBy('created_at', 'DESC')->get()->take($num);
+        return $this->model->with('individual')->where('status','published')->orderBy('created_at', 'DESC')->get()->take($num);
     }
 
     public function allPublished()

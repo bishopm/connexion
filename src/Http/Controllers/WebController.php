@@ -165,7 +165,13 @@ class WebController extends Controller
     public function webperson($slug, IndividualsRepository $individual)
     {
         $person = $individual->findBySlug($slug);
-        return view('connexion::site.person',compact('person'));
+        $staff=false;
+        foreach ($person->tags as $tag){
+            if ($tag->name=="staff"){
+                $staff=true;
+            }
+        }
+        return view('connexion::site.person',compact('person','staff'));
     }    
 
     public function websubject($tag)

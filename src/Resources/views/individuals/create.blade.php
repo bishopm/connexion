@@ -36,6 +36,6 @@
             format: 'yyyy-mm-dd'
         });
     });
-    @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals'])
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals','width'=>250,'height'=>250])
 </script>
 @endsection

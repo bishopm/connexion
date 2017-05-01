@@ -8,7 +8,7 @@
 <div class="container top30">
   <!-- Three columns of text below the carousel -->
   <div class="row">
-    <div class="col-md-4 text-center">
+    <div class="col-md-4 text-center" style="z-index: 1;">
       <img src="{{asset('vendor/bishopm/images/blog.png')}}">
       <h4>From our Blog</h4>
       <div class="top30 list-unstyled text-left">
@@ -40,12 +40,15 @@
                 {{date("j M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
             @endif
           @endforeach
-          <a class="pull-right" style="padding-right: 20px;" href="{{url('/')}}/blog">more...</a>
+          <div class="col-xs-12 top10">
+            <span class="pull-right"><a href="{{url('/')}}/blog">more...</a></span>
+          </div>
         @else
           No blog posts have been published yet
         @endif
       </div>      
     </div>
+    <div class="xs-visible">&nbsp;</div>
     <div class="col-md-4 text-center">
       <img src="{{asset('vendor/bishopm/images/preaching.png')}}">
       <h4>Last Sunday</h4>
@@ -62,8 +65,9 @@
         </div>
       @endif
     </div>
+    <div class="xs-visible">&nbsp;</div>
     <div class="col-md-4 text-center">
-      @if (Auth::check())
+      @if ((Auth::check()) and (Auth::user()->isverified==1))
         <img src="{{asset('vendor/bishopm/images/community.png')}}">
         <h4>What are we saying?</h4>
         <ul class="list-unstyled top30">

@@ -46,6 +46,6 @@
             format: 'YYYY-MM-DD'
         });
     });
-    @include('connexion::shared.filemanager-modal-script',['folder'=>'series'])
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'series','width'=>250,'height'=>250])
 </script>
 @endsection

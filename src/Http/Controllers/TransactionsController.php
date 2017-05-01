@@ -3,6 +3,7 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\TransactionsRepository;
+use Bishopm\Connexion\Repositories\BooksRepository;
 use Bishopm\Connexion\Models\Transaction;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateTransactionRequest;
@@ -16,11 +17,12 @@ class TransactionsController extends Controller {
 	 * @return Response
 	 */
 
-	private $transaction;
+	private $transaction, $book;
 
-	public function __construct(TransactionsRepository $transaction)
+	public function __construct(TransactionsRepository $transaction, BooksRepository $book)
     {
         $this->transaction = $transaction;
+        $this->book = $book;
     }
 
 	public function index()
@@ -31,12 +33,14 @@ class TransactionsController extends Controller {
 
 	public function edit(Transaction $transaction)
     {
-        return view('connexion::transactions.edit', compact('transaction'));
+        $books=$this->book->all();
+        return view('connexion::transactions.edit', compact('transaction','books'));
     }
 
     public function create()
     {
-        return view('connexion::transactions.create');
+        $books=$this->book->all();
+        return view('connexion::transactions.create', compact('books'));
     }
 
 	public function show(Transaction $transaction)

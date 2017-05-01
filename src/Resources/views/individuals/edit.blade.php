@@ -57,6 +57,6 @@
             }
         });
     });
-    @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals/' . $individual->id])
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals/' . $individual->id,'width'=>250,'height'=>250])
 </script>
 @endsection

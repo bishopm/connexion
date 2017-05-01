@@ -6582,6 +6582,9 @@ button.close {
   td.visible-xs {
     display: table-cell !important;
   }
+  .centre-xs {
+    text-align: center;
+  }
 }
 @media (max-width: 767px) {
   .visible-xs-block {
@@ -7106,8 +7109,9 @@ body {
 .highlight {
   padding:10px;
   background-color: #e5f2d9;
-  height:157px; 
+  height:156px; 
   overflow:hidden;
+  text-overflow: ellipsis;
 }
 
 .highlight a {

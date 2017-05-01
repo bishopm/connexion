@@ -37,6 +37,6 @@
             $("#slug").val(slug);
         });
     });
-    @include('connexion::shared.filemanager-modal-script',['folder'=>'courses'])    
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'courses','width'=>250,'height'=>250])    
 </script>
 @endsection

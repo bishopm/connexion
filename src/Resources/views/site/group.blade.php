@@ -20,7 +20,13 @@
 					<a title="Only group leaders can see this button" class="btn btn-primary btn-xs" href="{{url('/')}}/group/{{$group->slug}}/edit">Edit this group</a>
 				@else
 					@if ($leader)
-						To change group details, contact: <a href="{{url('/')}}/users/{{$leader->slug}}">{{$leader->firstname}} {{$leader->surname}}</a>
+						To change group details, contact: 
+						@if (null!==$leader->user)
+							<a href="{{url('/')}}/users/{{$leader->slug}}">{{$leader->firstname}} {{$leader->surname}}</a>
+							}
+						@else
+							{{$leader->firstname}} {{$leader->surname}}
+						@endif
 					@else
 						<b>No leader designated yet!</b>
 					@endif
