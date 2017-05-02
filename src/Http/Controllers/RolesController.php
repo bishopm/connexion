@@ -46,6 +46,7 @@ class RolesController extends Controller {
         $role->display_name = $request->input('display_name');
         $role->description  = $request->input('description');
         $role->save();
+        $role->flushCache();
         return redirect()->route('admin.roles.index')
             ->withSuccess('New role added');
     }
@@ -56,6 +57,7 @@ class RolesController extends Controller {
         $role->display_name = $request->input('display_name');
         $role->description  = $request->input('description');
         $role->save();
+        $role->flushCache();
         return redirect()->route('admin.roles.index')->withSuccess('Role has been updated');
     }
 

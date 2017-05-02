@@ -76,19 +76,19 @@ class ConnexionServiceProvider extends ServiceProvider
             $event->menu->add([
                 'text' => $society,
                 'icon' => 'book',
-                'can' => 'view-backend',
+                'can' => 'edit-backend',
                 'submenu' => [
                     [
                         'text' => 'Households',
                         'url'  => 'admin/households',
                         'icon' => 'child',
-                        'can' =>  'view-backend'
+                        'can' =>  'edit-backend'
                     ],
                     [
                         'text' => 'Groups',
                         'url'  => 'admin/groups',
                         'icon' => 'users',
-                        'can' =>  'view-backend'
+                        'can' =>  'edit-backend'
                     ],
                     [
                         'text' => 'Messages',
@@ -112,7 +112,7 @@ class ConnexionServiceProvider extends ServiceProvider
                         'text' => 'Giving',
                         'url'  => 'admin/payments',
                         'icon' => 'gift',
-                        'can' =>  'edit-giving'
+                        'can' =>  'edit-backend'
                     ]
                 ]
             ]);
@@ -159,13 +159,13 @@ class ConnexionServiceProvider extends ServiceProvider
                 $event->menu->add([
                     'text' => 'Todo',
                     'icon' => 'list-ol',
-                    'can' => 'view-backend',
+                    'can' => 'edit-backend',
                     'submenu' => [
                         [
                             'text' => 'Tasks',
                             'url'  => 'admin/actions',
                             'icon' => 'check-square-o',
-                            'can' =>  'view-backend'
+                            'can' =>  'edit-backend'
                         ],
                         [
                             'text' => 'Folders',
@@ -177,7 +177,7 @@ class ConnexionServiceProvider extends ServiceProvider
                             'text' => 'Projects',
                             'url'  => 'admin/projects',
                             'icon' => 'tasks',
-                            'can' =>  'view-backend'
+                            'can' =>  'edit-backend'
                         ]
                     ]
                 ]);
@@ -186,7 +186,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 $event->menu->add([
                     'text' => 'Worship',
                     'icon' => 'music',
-                    'can' => 'view-backend',
+                    'can' => 'view-worship',
                     'url' => 'admin/worship'
                 ]);
             }

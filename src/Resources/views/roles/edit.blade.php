@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('content_header')
-{{ Form::pgHeader('Add role','Roles',route('admin.roles.index')) }}
+{{ Form::pgHeader('Edit role','Roles',route('admin.roles.index')) }}
 @stop
 
 @section('content')
