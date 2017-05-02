@@ -8,7 +8,15 @@
 </div>
 {{ Form::bsSelect('category','Category',array('home group','course','self-study')) }}
 {{ Form::bsTextarea('description','Description','Description') }}
-{{ Form::bsText('group_id','Linked to group event','Linked to group event') }}
+<div class='form-group '>
+  <label for="individual_id">Current group associated with Course</label>
+  <select class="selectize" id="group_id" name="group_id">
+  	<option selected value="0">No current group</option>
+    @foreach ($groups as $group)
+    	<option value="{{$group->id}}">{{$group->groupname}}</option>
+    @endforeach
+  </select>
+</div> 
 {{ Form::bsHidden('image') }}
 <div id="thumbdiv" style="margin-bottom:5px;"></div>
 <div id="filediv"></div>

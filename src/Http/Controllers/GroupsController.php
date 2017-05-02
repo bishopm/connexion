@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateGroupRequest;
 use Bishopm\Connexion\Http\Requests\UpdateGroupRequest;
 use DB;
+use Illuminate\Http\Request;
 
 class GroupsController extends Controller {
 
@@ -64,6 +65,8 @@ class GroupsController extends Controller {
     {
         if (!isset($request->publish)){
             $request->request->add(['publish'=>0]);
+            $this->group->update($group, $request->all());
+            return redirect()->route('admin.groups.index')->withSuccess('Group has been updated');
         } elseif ($request->publish=="webedit"){
             $group=$this->group->update($group, $request->except('publish'));
             $group->publish=1;
@@ -82,12 +85,21 @@ class GroupsController extends Controller {
                 $group->individuals()->detach($memberid);
             }
         }
-        $group->individuals()->attach($memberid);
+        if (!$group->individuals->contains($memberid)){
+            $group->individuals()->attach($memberid);
+        }
     }
 
     public function removemember(Group $group,$memberid)
     {
         DB::table('group_individual')->where('group_id', $group->id)->where('individual_id', $memberid)->update(array('deleted_at' => DB::raw('NOW()')));
+    }
+
+    public function signup(Group $group, Request $request){
+        foreach ($request->input('individual_id') as $indiv){
+            $this->addmember($group,$indiv);
+        }
+        return redirect()->route('webcourses')->withSuccess('Sign-up complete :)');
     }
 
 }

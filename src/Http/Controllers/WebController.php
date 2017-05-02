@@ -411,7 +411,7 @@ class WebController extends Controller
                 $alltags[]=$tag->name;
             }
             if (count($alltags)){
-                $data['blogs']=Blog::withTag($alltags)->get()->take(10);
+                $data['blogs']=Blog::withTag($alltags)->orderBy('created_at','DESC')->get()->take(10);
             } else {
                 $data['blogs']=array();
             }
@@ -506,6 +506,10 @@ class WebController extends Controller
             $book=$this->books->find($id);
             $file=base_path() . "/storage/app/public/books/" . $fn;
             $url=url('/') . "/storage/books/" . $fn;
+        } elseif ($entity=="courses"){
+            $course=$this->courses->find($id);
+            $file=base_path() . "/storage/app/public/courses/" . $fn;
+            $url=url('/') . "/storage/courses/" . $fn;
         }
         file_put_contents($file,$data);
         return $url;

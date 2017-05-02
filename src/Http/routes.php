@@ -17,8 +17,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/sermons/{series}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webseries','as' => 'webseries']);
 	Route::get('/sermons/{series}/{sermon}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermon','as' => 'websermon']);
 	Route::get('/sermons', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermons','as' => 'websermons']);
-	Route::get('course/{course}',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@show','as'=>'webresource']);
-	Route::get('course/{course}/sign-up',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@signup','as'=>'coursesignup']);
+	Route::get('/course/{course}',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@show','as'=>'webresource']);
+	Route::get('/course/{course}/sign-up',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@signup','as'=>'coursesignup']);
 	Route::get('courses',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webcourses','as'=>'webcourses']);
 	Route::get('book/{book}',['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@show','as'=>'webbook']);
 	Route::get('books',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webbooks','as'=>'webbooks']);
@@ -41,6 +41,7 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/group/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroup','as' => 'webgroup']);
 		Route::get('/groups/{category}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroupcategory','as' => 'webgroupcategory']);
 		Route::get('/groups', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@weballgroups','as' => 'weballgroups']);
+		Route::post('/admin/groups/{group}/signup', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@signup','as' => 'admin.groups.signup']);
 		Route::get('/register-user', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@registeruser','as' => 'registeruser']);
 		Route::post('admin/newuser',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@newuser','as'=>'admin.newuser']);
 		Route::get('admin/newuser/checkname/{username}',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@checkname','as'=>'admin.checkname']);

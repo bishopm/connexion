@@ -5,11 +5,13 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Repositories\CoursesRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
+use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Models\Course;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateCourseRequest;
 use Bishopm\Connexion\Http\Requests\UpdateCourseRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
+use Illuminate\Http\Request;
 
 class CoursesController extends Controller {
 
@@ -19,13 +21,14 @@ class CoursesController extends Controller {
 	 * @return Response
 	 */
 
-	private $course, $user, $group;
+	private $course, $user, $group, $individual;
 
-	public function __construct(CoursesRepository $course, UsersRepository $user, GroupsRepository $group)
+	public function __construct(CoursesRepository $course, UsersRepository $user, GroupsRepository $group, IndividualsRepository $individual)
     {
         $this->course = $course;
         $this->user = $user;
         $this->group = $group;
+        $this->individual = $individual;
     }
 
 	public function index()
@@ -36,12 +39,14 @@ class CoursesController extends Controller {
 
 	public function edit(Course $course)
     {
-        return view('connexion::courses.edit', compact('course'));
+        $groups=$this->group->allPublished();
+        return view('connexion::courses.edit', compact('course','groups'));
     }
 
     public function create()
     {
-        return view('connexion::courses.create');
+        $groups=$this->group->allPublished();
+        return view('connexion::courses.create',compact('groups'));
     }
 
 	public function show($slug)
@@ -54,7 +59,9 @@ class CoursesController extends Controller {
     public function signup($slug)
     {
         $course=$this->course->findBySlug($slug);
-        return view('connexion::site.coursesignup',compact('course'));
+        $group=$this->group->find($course->id);
+        $leader = $this->individual->find($group->leader);
+        return view('connexion::site.coursesignup',compact('course','group','leader'));
     }
 
     public function store(CreateCourseRequest $request)

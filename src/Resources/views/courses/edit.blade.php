@@ -1,7 +1,13 @@
 @extends('adminlte::page')
 
+@section('css')
+  <meta id="token" name="token" value="{{ csrf_token() }}" />
+  <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/css/croppie.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
 @section('content_header')
-    {{ Form::pgHeader('Edit resource','Courses',route('admin.courses.index')) }}
+    {{ Form::pgHeader('Edit Course','Courses',route('admin.courses.index')) }}
 @stop
 
 @section('content')
@@ -25,6 +31,8 @@
 @stop
 
 @section('js')
+<script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('vendor/bishopm/js/croppie.js') }}" type="text/javascript"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -35,6 +43,10 @@
         $('#title').on('input', function() {
             var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
             $("#slug").val(slug);
+        });
+        $('.selectize').selectize({
+          plugins: ['remove_button'],
+          openOnFocus: 0
         });
     });
     @include('connexion::shared.filemanager-modal-script',['folder'=>'courses','width'=>250,'height'=>250])    

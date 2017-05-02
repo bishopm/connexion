@@ -7,6 +7,7 @@
 @section('content')
 <div class="container">
 <h1>{{$setting['site_abbreviation']}} Courses</h1>
+  @include('connexion::shared.errors') 
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#courses" aria-controls="courses" role="tab" data-toggle="tab">Courses</a></li>
     <li role="presentation"><a href="#homegroups" aria-controls="homegroups" role="tab" data-toggle="tab">Home group materials</a></li>

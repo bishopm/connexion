@@ -11,7 +11,7 @@
 	  		<h3>Related blog posts</h3>
 	  		<ul class="list-unstyled">
 		  		@foreach ($blogs as $blog)
-			    	<li><a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></li>
+			    	<li>{{date("d M",strtotime($blog->created_at))}} <a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></li>
 			    @endforeach
 			</ul>
 		@endif
