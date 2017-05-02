@@ -40,13 +40,15 @@
 					@endif
 				@endforeach
 			@else
-				<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to view group members</p>
+				<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to view group members and venue</p>
 			@endif
 			</ul>
 		</div>
-		<div class="col-md-6">
-			<div id="map_canvas" class="top10" style="height:250px;"></div>
-		</div>
+		@if (Auth::check())
+			<div class="col-md-6">
+				<div id="map_canvas" class="top10" style="height:250px;"></div>
+			</div>
+		@endif
 		@else
 			<p class="top20">This group is not configured to be published on the site. Contact us if you think it should be.</p>
 		@endif
@@ -56,12 +58,14 @@
 
 @section('js')
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
-<script src="{{url('/')}}/vendor/bishopm/js/gmap.js" type="text/javascript"></script>
-<script type="text/javascript">
-(function ($) {
-  jQuery(window).on('load', function() {
-    google.maps.event.addDomListener(window, 'load', showMap(13,{{$group->latitude}},{{$group->longitude}}));
-  });
-})(jQuery);
-</script>
+@if (Auth::check())
+	<script src="{{url('/')}}/vendor/bishopm/js/gmap.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	(function ($) {
+	  jQuery(window).on('load', function() {
+	    google.maps.event.addDomListener(window, 'load', showMap(13,{{$group->latitude}},{{$group->longitude}}));
+	  });
+	})(jQuery);
+	</script>
+@endif
 @endsection

@@ -209,12 +209,14 @@ class WebController extends Controller
         $group = $this->group->findBySlug($slug);
         $signup = $this->courses->getByAttributes(array('group_id'=>$group->id));
         $leader = $this->individual->find($group->leader);
-        if (count($signup)){
+        if ((count($signup)) and (Auth::check())){
             foreach ($group->individuals as $indiv){
                 if ($indiv->id == Auth::user()->individual->id){
                     $signup=array();
                 }
             }
+        } else {
+            $signup=array();
         }
         return view('connexion::site.group',compact('group','signup','leader'));
     }    

@@ -63,6 +63,7 @@
                 ['color', ['color']],
                 ['table', ['table']],
                 ['link', ['linkDialogShow', 'unlink']],
+                ['view', ['fullscreen', 'codeview']],
                 ['para', ['ul', 'ol', 'paragraph']]
               ]
             });
