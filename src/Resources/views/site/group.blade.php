@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
 	<div class="row">
+		@if ($group->publish)
 		<div class="col-md-12">
 			<h3>{{$group->groupname}}
 			@include('connexion::shared.errors') 
@@ -46,6 +47,9 @@
 		<div class="col-md-6">
 			<div id="map_canvas" class="top10" style="height:250px;"></div>
 		</div>
+		@else
+			<p class="top20">This group is not configured to be published on the site. Contact us if you think it should be.</p>
+		@endif
 	</div>
 </div>
 @endsection
