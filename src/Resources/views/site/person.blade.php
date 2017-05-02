@@ -16,7 +16,7 @@
 	  </div>
 	  <div class="col-md-4">
 	    <h3>{{$person->firstname}} {{$person->surname}}</h3>
-	    {{$person->user->bio or ''}}
+	    {{$person->notes}}
 	  </div>
 	  <div class="col-md-4">
 	  	<h3>Get in touch</h3>
