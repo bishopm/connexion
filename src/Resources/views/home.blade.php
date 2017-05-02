@@ -65,7 +65,7 @@
       @endif
     </div>
     <div class="col-md-4 text-center">
-      @if ((Auth::check()) and (Auth::user()->isverified==1))
+      @if ((Auth::check()) and (Auth::user()->verified==1))
         <img src="{{asset('vendor/bishopm/images/community.png')}}">
         <h4>What are we saying?</h4>
         <ul class="list-unstyled top30">
