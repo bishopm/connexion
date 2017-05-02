@@ -7,7 +7,14 @@
 	    {!!$page->body!!}
 	  </div>
 	  <div class="col-md-3 top30">
-	    Sidebar content
+	  	@if (count($blogs))
+	  		<h3>Related blog posts</h3>
+	  		<ul class="list-unstyled">
+		  		@foreach ($blogs as $blog)
+			    	<li><a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></li>
+			    @endforeach
+			</ul>
+		@endif
 	  </div>
 	</div>
 </div>

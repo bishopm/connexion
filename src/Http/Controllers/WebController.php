@@ -405,6 +405,11 @@ class WebController extends Controller
         $data['page'] = $this->page->findBySlug($slug);
         if ($data['page']){
             $template = $data['page']->template;
+            $tags=$data['page']->tags;
+            foreach ($tags as $tag){
+                $alltags[]=$tag->name;
+            }
+            $data['blogs']=Blog::withTag($alltags)->get()->take(10);
             return view('connexion::templates.' . $template, $data);
         } else {
             return redirect()->route('homepage');

@@ -1,9 +1,10 @@
-{{ Form::bsText('slideshowname','Slideshow name','Slideshow name') }}
-{{ Form::bsText('title','Title','Title') }}
-{{ Form::bsText('description','Description','Description') }}
-{{ Form::bsText('link','Link','Link') }}
-{{ Form::bsText('rankorder','Order','Order') }}
-{{ Form::bsText('active','Active','Active') }}
-{{ Form::bsHidden('image') }}
-<div id="thumbdiv" style="margin-bottom:5px;"></div>
-<div id="filediv"></div>
+{{ Form::bsText('statdate','Service date','Service date',date('Y-m-d',strtotime('last Sunday'))) }}
+<div class="form-group">
+    <label for="service_id" class="control-label">Service</label>
+    <select name="service_id" class="selectize">
+      @foreach ($services as $service)
+         <option value="{{$service->id}}">{{$service->servicetime}}</option>
+      @endforeach
+    </select>
+</div>
+{{ Form::bsText('attendance','Attendance','Attendance') }}

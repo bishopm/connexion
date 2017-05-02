@@ -6,6 +6,7 @@ use Bishopm\Connexion\Repositories\StatisticsRepository;
 use Bishopm\Connexion\Models\Statistic;
 use Bishopm\Connexion\Models\Setting;
 use Bishopm\Connexion\Models\Society;
+use Bishopm\Connexion\Models\Service;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateStatisticRequest;
 use Bishopm\Connexion\Http\Requests\UpdateStatisticRequest;
@@ -29,25 +30,33 @@ class StatisticsController extends Controller {
 	{
         $socname=Setting::where('setting_key','society_name')->first()->setting_value;
         $society=Society::with('services')->where('society',$socname)->first();
+        $soc=$society->id;
         $services=$society->services;
         foreach ($services as $service){
             foreach ($service->statistics as $stat){
-                $statistics[$stat->statdate][$service->servicetime]=$stat->attendance;
+                $statistics[$stat->statdate][$service->servicetime]['attendance']=$stat->attendance;
+                $statistics[$stat->statdate][$service->servicetime]['id']=$stat->id;
             }
             $servicetimes[]=$service->servicetime;
         }
         asort($servicetimes);
-   		return view('connexion::statistics.index',compact('statistics','servicetimes'));
+   		return view('connexion::statistics.index',compact('statistics','servicetimes','soc'));
 	}
 
-	public function edit()
+	public function edit($id)
     {
-        return view('connexion::statistics.edit', compact('statistic','society'));
+        $socname=Setting::where('setting_key','society_name')->first()->setting_value;
+        $society=Society::with('services')->where('society',$socname)->first();
+        $soc=$society->id;
+        $services=$society->services;
+        $statistic=$this->statistic->find($id);
+        return view('connexion::statistics.edit', compact('statistic','services'));
     }
 
-    public function create()
+    public function create($soc)
     {
-        return view('connexion::statistics.create',compact('society'));
+        $services=Service::where('society_id',$soc)->get();
+        return view('connexion::statistics.create',compact('services'));
     }
 
 	public function show()
@@ -56,20 +65,18 @@ class StatisticsController extends Controller {
         return view('connexion::statistics.show',$data);
 	}
 
-    public function store()
+    public function store(CreateStatisticRequest $request)
     {
-        $request->request->add(['society_id' => $society]);
         $this->statistic->create($request->all());
 
-        return redirect()->route('admin.societies.show',$society)
+        return redirect()->route('admin.statistics.index')
             ->withSuccess('New statistic added');
     }
 	
-    public function update()
+    public function update(Statistic $statistic, UpdateStatisticRequest $request)
     {
-        $request->request->add(['society_id' => $society]);
         $this->statistic->update($statistic, $request->all());
-        return redirect()->route('admin.societies.show',$society)->withSuccess('Statistic has been updated');
+        return redirect()->route('admin.statistics.index')->withSuccess('Statistic has been updated');
     }
 
 }

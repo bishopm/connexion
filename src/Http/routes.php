@@ -365,11 +365,11 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
 
 	// Statistics
 	Route::get('admin/statistics',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@index','as'=>'admin.statistics.index']);
-	Route::get('admin/societies/{society}/services/{service}/statistics/create',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@create','as'=>'admin.statistics.create']);
+	Route::get('admin/societies/{society}/statistics/create',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@create','as'=>'admin.statistics.create']);
 	Route::get('admin/societies/{society}/services/{service}/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@show','as'=>'admin.statistics.show']);
-	Route::get('admin/societies/{society}/services/{service}/statistics/{statistic}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@edit','as'=>'admin.statistics.edit']);
-	Route::put('admin/societies/{society}/services/{service}/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@update','as'=>'admin.statistics.update']);
-	Route::post('admin/societies/{society}/services/{service}/statistics',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@store','as'=>'admin.statistics.store']);
+	Route::get('admin/statistics/{statistic}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@edit','as'=>'admin.statistics.edit']);
+	Route::put('admin/societies/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@update','as'=>'admin.statistics.update']);
+	Route::post('admin/societies/statistics',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@store','as'=>'admin.statistics.store']);
     Route::delete('admin/societies/{society}/services/{service}/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@destroy','as'=>'admin.statistics.destroy']);
 
 

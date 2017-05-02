@@ -9,7 +9,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Statistics</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.slides.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new statistic</a></div>
+                            <div class="col-md-6"><a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/create" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new statistic</a></div>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -35,10 +35,10 @@
                                     <tr>
                                         <td>{{$statdate}}</td>
                                         @foreach ($servicetimes as $servicetime)
-                                            @if (isset($stat[$servicetime]))
-                                                <td>{{$stat[$servicetime]}}</td>
+                                            @if (isset($stat[$servicetime]['attendance']))
+                                                <td><a href="{{route('admin.statistics.edit',$stat[$servicetime]['id'])}}">{{$stat[$servicetime]['attendance']}}</a></td>
                                             @else
-                                                <td></td>
+                                                <td>-</td>
                                             @endif
                                         @endforeach
                                     </tr>

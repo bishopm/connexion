@@ -1,34 +1,49 @@
 @extends('adminlte::page')
 
 @section('css')
-  <meta id="token" name="token" value="{{ csrf_token() }}" />
+  <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
-    {{ Form::pgHeader('Add slide','Slides',route('admin.slides.index')) }}
+    {{ Form::pgHeader('Add attendance figure','Statistics',route('admin.statistics.index')) }}
 @stop
 
 @section('content')
     @include('connexion::shared.errors')
-    {!! Form::open(['route' => array('admin.slides.store'), 'method' => 'post', 'files'=>'true']) !!}
+    {!! Form::open(['route' => array('admin.statistics.store'), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('connexion::slides.partials.create-fields')
+                    @include('connexion::statistics.partials.create-fields')
                 </div>
                 <div class="box-footer">
-                    {{Form::pgButtons('Create',route('admin.slides.index')) }}
+                    {{Form::pgButtons('Create',route('admin.statistics.index')) }}
                 </div>
             </div>
         </div>
     </div>
-    {!! Form::close() !!}
-    @include('connexion::shared.filemanager-modal',['folder'=>'slides'])
+    {!! Form::close() !!} 
 @stop
 
 @section('js')
-    <script type="text/javascript">
-        @include('connexion::shared.filemanager-modal-script',['folder'=>'slides','width'=>1600,'height'=>350])
-    </script>
+<script src="{{ asset('vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
+<script src="{{ asset('vendor/bishopm/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('.selectize').selectize({
+          plugins: ['remove_button'],
+          openOnFocus: 0,
+          maxOptions: 30,
+        });
+        $(function() {
+            $("#statdate").datepicker({
+              todayHighlight: true,
+              format: "yyyy-mm-dd"
+            });
+          });
+    });
+</script>
 @stop

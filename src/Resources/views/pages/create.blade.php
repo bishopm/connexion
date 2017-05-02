@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('css')
+    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
@@ -28,6 +29,7 @@
 
 @section('js')
 <script src="{{ asset('vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
 <script langugage="javascript">
 $(document).ready(function()
 {
@@ -47,6 +49,10 @@ $(document).ready(function()
         ['para', ['ul', 'ol', 'paragraph']]
       ]
     });
+    $('.selectize').selectize({
+      plugins: ['remove_button'],
+      openOnFocus: 0
+    }); 
 });
 </script>
 @stop
