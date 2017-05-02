@@ -406,10 +406,15 @@ class WebController extends Controller
         if ($data['page']){
             $template = $data['page']->template;
             $tags=$data['page']->tags;
+            $alltags=array();
             foreach ($tags as $tag){
                 $alltags[]=$tag->name;
             }
-            $data['blogs']=Blog::withTag($alltags)->get()->take(10);
+            if (count($alltags)){
+                $data['blogs']=Blog::withTag($alltags)->get()->take(10);
+            } else {
+                $data['blogs']=array();
+            }
             return view('connexion::templates.' . $template, $data);
         } else {
             return redirect()->route('homepage');
