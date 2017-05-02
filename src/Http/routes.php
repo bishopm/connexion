@@ -363,6 +363,16 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
     Route::get('admin/households/{household}/specialdays', ['uses' => 'Bishopm\Connexion\Http\Controllers\SpecialdaysController@index','as' => 'admin.specialdays.index']);
     Route::delete('admin/households/{household}/specialdays/{specialday}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SpecialdaysController@destroy','as' => 'admin.specialdays.destroy']);
 
+	// Statistics
+	Route::get('admin/statistics',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@index','as'=>'admin.statistics.index']);
+	Route::get('admin/societies/{society}/services/{service}/statistics/create',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@create','as'=>'admin.statistics.create']);
+	Route::get('admin/societies/{society}/services/{service}/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@show','as'=>'admin.statistics.show']);
+	Route::get('admin/societies/{society}/services/{service}/statistics/{statistic}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@edit','as'=>'admin.statistics.edit']);
+	Route::put('admin/societies/{society}/services/{service}/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@update','as'=>'admin.statistics.update']);
+	Route::post('admin/societies/{society}/services/{service}/statistics',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@store','as'=>'admin.statistics.store']);
+    Route::delete('admin/societies/{society}/services/{service}/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@destroy','as'=>'admin.statistics.destroy']);
+
+
 	// Suppliers
 	Route::get('admin/suppliers',['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@index','as'=>'admin.suppliers.index']);
 	Route::get('admin/suppliers/create',['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@create','as'=>'admin.suppliers.create']);

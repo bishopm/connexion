@@ -12,4 +12,8 @@ class Service extends Model
 	public function society(){
         return $this->belongsTo('Bishopm\Connexion\Models\Society');
     }
+
+    public function statistics(){
+        return $this->hasMany('Bishopm\Connexion\Models\Statistic');
+    }
 }

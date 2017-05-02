@@ -103,6 +103,12 @@ class ConnexionServiceProvider extends ServiceProvider
                         'can' =>  'edit-backend'
                     ],
                     [
+                        'text' => 'Statistics',
+                        'url'  => 'admin/statistics',
+                        'icon' => 'line-chart',
+                        'can' =>  'edit-backend'
+                    ],
+                    [
                         'text' => 'Giving',
                         'url'  => 'admin/payments',
                         'icon' => 'gift',
@@ -566,6 +572,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\SpecialdaysRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\SpecialdaysRepository(new \Bishopm\Connexion\Models\Specialday());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\StatisticsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\StatisticsRepository(new \Bishopm\Connexion\Models\Statistic());
                 return $repository;
             }
         );
