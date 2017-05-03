@@ -43,16 +43,21 @@ class PastoralsController extends Controller
 
     public function index(Household $household)
     {
-      foreach ($household->pastorals as $row){
-        $row->pastorname=$this->individual->find($row->individual_id)->firstname;
-        $data['rows'][]=$row;
+      if (count($household->pastorals)){
+          foreach ($household->pastorals as $row){
+            $row->pastorname=$this->individual->find($row->individual_id)->firstname;
+            $data['rows'][]=$row;
+          }
+          $data['rowCount']=count($data['rows']);
+          if ($data['rowCount'] > 5) {
+            $data['rowCount']=5;
+          }
+          $data['current']=1;
+          $data['total']=count($data['rows']);
+      } else {
+          $data=array();
+          $data['rowCount']=0;
       }
-      $data['rowCount']=count($data['rows']);
-      if ($data['rowCount'] > 5) {
-        $data['rowCount']=5;
-      }
-      $data['current']=1;
-      $data['total']=count($data['rows']);
       return $data;
     }
 

@@ -31,18 +31,23 @@ class SpecialdaysController extends Controller
      */
      public function index(Household $household)
      {
-       foreach ($household->specialdays as $row){
-         $row->anniversarydetails=$row->details;
-         $row->anniversaryid=$row->id;
-         $data['rows'][]=$row;
-       }
-       $data['rowCount']=count($data['rows']);
-       if ($data['rowCount'] > 5) {
-         $data['rowCount']=5;
-       }
-       $data['current']=1;
-       $data['total']=count($data['rows']);
-       return $data;
+        if (count($household->specialdays)){
+            foreach ($household->specialdays as $row){
+                $row->anniversarydetails=$row->details;
+                $row->anniversaryid=$row->id;
+                $data['rows'][]=$row;
+            }
+            $data['rowCount']=count($data['rows']);
+            if ($data['rowCount'] > 5) {
+              $data['rowCount']=5;
+            }
+            $data['current']=1;
+            $data['total']=count($data['rows']);
+        } else {
+            $data=array();
+            $data['rowCount']=0;
+        }
+        return $data;
      }
 
     /**

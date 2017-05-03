@@ -37,7 +37,7 @@
               @else
                 <div class="col-xs-12 top5" style="padding-left:26px;">
               @endif
-                {{date("j M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
+                {{date("d M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
             @endif
           @endforeach
           <div class="col-xs-12 top10">
