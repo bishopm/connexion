@@ -356,7 +356,7 @@ class WebController extends Controller
                 $user->status=$user->individual->service_id;
                 foreach ($user->individual->tags as $tag){
                     if (strtolower($tag->slug)=="minister"){
-                        $user->status="999999, " . implode(',',$serviceids);
+                        $user->status="999999, " . implode(', ',$serviceids);
                     } elseif (strtolower($tag->slug)=="staff"){
                         $user->status="999999, " . $user->status;
                     }
