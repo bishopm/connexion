@@ -347,11 +347,17 @@ class WebController extends Controller
     public function mychurch()
     {
         $users=$this->users->allVerified();
+        $society=Society::where('society',$this->settingsarray['society_name'])->first();
+        foreach ($society->services as $service){
+            $serviceids[]=$service->id;
+        }
         foreach ($users as $user){
             if (isset($user->individual)){
                 $user->status=$user->individual->service_id;
                 foreach ($user->individual->tags as $tag){
-                    if (strtolower($tag->slug)=="staff"){
+                    if (strtolower($tag->slug)=="minister"){
+                        $user->status="999999, " . implode(',',$serviceids);
+                    } elseif (strtolower($tag->slug)=="staff"){
                         $user->status="999999, " . $user->status;
                     }
                 }
