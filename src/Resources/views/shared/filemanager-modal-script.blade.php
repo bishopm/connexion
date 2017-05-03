@@ -52,7 +52,7 @@ $( document ).ready(function() {
                 },
                 success: function (fname) {
                     fileonly=fname.split('/').pop();
-                    setupImage(fname + '?timestamp=' + new Date().getTime());
+                    setupImage('/public' + fname + '?timestamp=' + new Date().getTime());
                     $('#image').val(fileonly);
                     $('#modal-filemanager').modal('hide');              
                 }
