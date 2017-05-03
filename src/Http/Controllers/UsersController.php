@@ -13,6 +13,7 @@ use Bishopm\Connexion\Http\Requests\UpdateUserRequest;
 use Bishopm\Connexion\Notifications\ProfileUpdated;
 use Jrean\UserVerification\Traits\VerifiesUsers;
 use Jrean\UserVerification\Facades\UserVerification;
+use Auth;
 
 class UsersController extends Controller {
 

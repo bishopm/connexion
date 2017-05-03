@@ -1,7 +1,7 @@
 @extends('connexion::templates.webpage')
 
 @section('css')
-    <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
 @stop
 
 @section('content')
@@ -26,7 +26,7 @@
 @endsection
 
 @section('js')
-<script src="{{asset('/vendor/bishopm/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{asset('/public/vendor/bishopm/js/bootstrap-datepicker.min.js')}}"></script>
 <script>
     $(function () {
         $("#anniversarydate").datepicker({

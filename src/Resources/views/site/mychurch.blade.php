@@ -25,7 +25,7 @@
                         @if ($user->individual->image)
                             <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/public/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
                         @else
-                            <img class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
+                            <img class="img-responsive img-circle img-thumbnail" src="{{asset('public/vendor/bishopm/images/profile.png')}}">
                         @endif
                         <p class="text-center item-desc">{{$user->individual->firstname}} {{$user->individual->surname}}</p>
                     </a>
@@ -41,7 +41,7 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('vendor/bishopm/js/jquery.filterizr.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/vendor/bishopm/js/jquery.filterizr.js') }}" type="text/javascript"></script>
 <script language="javascript">
     $(function() {
         //Initialize filterizr with default options

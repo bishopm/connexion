@@ -2,8 +2,8 @@
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />
-  <link href="{{ asset('/vendor/bishopm/fullcalendar/fullcalendar.print.css') }}" rel="stylesheet" type="text/css" media="print"/>
-  <link href="{{ asset('/vendor/bishopm/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/public/vendor/bishopm/fullcalendar/fullcalendar.print.css') }}" rel="stylesheet" type="text/css" media="print"/>
+  <link href="{{ asset('/public/vendor/bishopm/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('htmlheader_title')
@@ -79,6 +79,6 @@
   });
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.5/moment.js"></script>
-  <script src="{{ asset('/vendor/bishopm/fullcalendar/fullcalendar.min.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('/vendor/bishopm/fullcalendar/gcal.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('/public/vendor/bishopm/fullcalendar/fullcalendar.min.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('/public/vendor/bishopm/fullcalendar/gcal.js') }}" type="text/javascript"></script>
 @endsection

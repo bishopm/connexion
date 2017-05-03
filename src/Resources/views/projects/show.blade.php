@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('css')
-  <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
   <meta id="token" name="token" value="{{ csrf_token() }}" />
 @stop
 

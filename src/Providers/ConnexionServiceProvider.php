@@ -11,6 +11,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Setting;
+use Illuminate\Support\Facades\Gate;
 
 class ConnexionServiceProvider extends ServiceProvider
 {
@@ -120,7 +121,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 $event->menu->add([
                     'text' => 'Circuit',
                     'icon' => 'comments',
-                    'can' => 'view-backend',
+                    'can' => 'edit-backend',
                     'submenu' => [
                         [
                             'text' => 'Preachers',
@@ -213,7 +214,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 [
                     'text' => 'Site structure',
                     'icon' => 'sitemap',
-                    'can' => 'edit-backend',
+                    'can' => 'admin-backend',
                     'submenu' => [
                         [
                             'text' => 'Menus',
@@ -236,7 +237,7 @@ class ConnexionServiceProvider extends ServiceProvider
                     ]
                 ],
                 [
-                    'text' => 'View site',
+                    'text' => 'View website',
                     'url' => route('homepage'),
                     'icon' => 'globe',
                     'can' =>  'view-backend',
@@ -275,12 +276,6 @@ class ConnexionServiceProvider extends ServiceProvider
                 'icon' => 'user',
                 'can' =>  'admin-backend',
                 'submenu' => [
-                    [
-                        'text' => 'Permissions',
-                        'url'  => 'admin/permissions',
-                        'icon' => 'battery-full',
-                        'can' =>  'admin-backend'
-                    ],
                     [
                         'text' => 'Roles',
                         'url'  => 'admin/roles',
@@ -333,12 +328,9 @@ class ConnexionServiceProvider extends ServiceProvider
             \JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
             \JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
             \JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
-            \Bishopm\Connexion\Middleware\MyMenuFilter::class]]);
+            \JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class]]);
         config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
         config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
-        config(['laratrust.user_models.users'=>'\Bishopm\Connexion\Models\User']);
-        config(['laratrust.role'=>'\Bishopm\Connexion\Models\Role']);
-        config(['laratrust.permission'=>'\Bishopm\Connexion\Models\Permission']);
         config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
         view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
@@ -363,7 +355,6 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
         $this->app->register('Cartalyst\Tags\TagsServiceProvider');
-        $this->app->register('Laratrust\LaratrustServiceProvider');
         $this->app->register('Plank\Mediable\MediableServiceProvider');
         $this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
         $this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
@@ -372,16 +363,48 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Jrean\UserVerification\UserVerificationServiceProvider');
         $this->app->register('LithiumDev\TagCloud\ServiceProvider');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
-        AliasLoader::getInstance()->alias("Laratrust",'Laratrust\LaratrustFacade');
         AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
-        $this->app['router']->aliasMiddleware('role','Laratrust\Middleware\LaratrustRole');
-        $this->app['router']->aliasMiddleware('permission','Laratrust\Middleware\LaratrustPermission');
         $this->registerBindings();
+        $this->registerUserPolicies();
+    }
+
+    public function registerUserPolicies()
+    {
+        Gate::define('admin-backend', function ($user) {
+            return $user->hasAccess(['admin-backend']);
+        });
+        Gate::define('edit-backend', function ($user) {
+            return $user->hasAccess(['edit-backend']);
+        });
+        Gate::define('view-backend', function ($user) {
+            return $user->hasAccess(['view-backend']);
+        });
+        Gate::define('edit-comments', function ($user) {
+            return $user->hasAccess(['edit-comments']);
+        });
+        Gate::define('edit-worship', function ($user) {
+            return $user->hasAccess(['edit-worship']);
+        });
+        Gate::define('view-worship', function ($user) {
+            return $user->hasAccess(['view-worship']);
+        });
+        Gate::define('edit-bookshop', function ($user) {
+            return $user->hasAccess(['edit-bookshop']);
+        });
+        Gate::define('manager-role', function ($user) {
+            return $user->inRole('manager');
+        });
+        Gate::define('administrator-role', function ($user) {
+            return $user->inRole('administrator');
+        });
+        Gate::define('bookshop-manager-role', function ($user) {
+            return $user->inRole('bookshop-manager');
+        });
     }
 
     private function registerBindings()
@@ -522,7 +545,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->bind(
             'Bishopm\Connexion\Repositories\RostersRepository',
             function () {
-                $repository = new \Bishopm\Connexion\Repositories\RostersRepository(new \Spatie\Permission\Models\Roster());
+                $repository = new \Bishopm\Connexion\Repositories\RostersRepository(new \Bishopm\Connexion\Models\Roster());
                 return $repository;
             }
         );

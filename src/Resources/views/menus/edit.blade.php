@@ -2,7 +2,7 @@
 
 @section('css')
     <meta id="token" name="token" value="{{ csrf_token() }}" />
-    <link rel="stylesheet" href="{{url('/')}}/vendor/bishopm/css/nestable.css">
+    <link rel="stylesheet" href="{{url('/')}}/public/vendor/bishopm/css/nestable.css">
 @stop
 
 @section('content_header')
@@ -34,7 +34,7 @@
 @stop
 
 @section('js')
-    <script src="{{url('/')}}/vendor/bishopm/js/jquery.nestable.js" type="text/javascript"></script>
+    <script src="{{url('/')}}/public/vendor/bishopm/js/jquery.nestable.js" type="text/javascript"></script>
     <script>
     $( document ).ready(function() {
         $.ajaxSetup({

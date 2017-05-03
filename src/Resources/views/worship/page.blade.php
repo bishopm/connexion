@@ -2,13 +2,13 @@
 
 @section('adminlte_css')
     <link rel="stylesheet"
-          href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
+          href="{{ asset('public/vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
     <link rel="stylesheet"
-          href="{{ asset('vendor/bishopm/css/app.css')}} ">
+          href="{{ asset('public/vendor/bishopm/css/app.css')}} ">
     <meta id="token" name="token" value="{{csrf_token()}}">
     @stack('css')
     @yield('css')
-    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />          
+    <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />          
 @stop
 
 @section('body_class', 'skin-' . config('adminlte.skin', 'blue') . ' sidebar-mini fixed')
@@ -188,7 +188,7 @@
 
 @section('adminlte_js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js"></script>
-    <script src="{{ asset('vendor/adminlte/dist/js/app.min.js') }}"></script>
+    <script src="{{ asset('public/vendor/adminlte/dist/js/app.min.js') }}"></script>
     <script type="text/javascript">
     $( document ).ready(function() {
         $('#songsearch').selectize({

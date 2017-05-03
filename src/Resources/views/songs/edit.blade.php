@@ -22,8 +22,8 @@
 
 @section('js')
     @include('connexion::worship.partials.scripts')
-    <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('.input-tags').selectize({

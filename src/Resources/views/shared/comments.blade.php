@@ -8,7 +8,7 @@
 					@if ($comment->commented->individual->image)
 		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/public/storage/individuals/{{$comment->commented->individual->id}}/{{$comment->commented->individual->image}}">
 		            @else
-		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
+		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('public/vendor/bishopm/images/profile.png')}}">
 		            @endif
 		            </a>
 				</div>
@@ -30,7 +30,7 @@
 			@if (Auth::user()->individual->image)
                 <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/public/storage/individuals/{{Auth::user()->individual->id}}/{{Auth::user()->individual->image}}">
             @else
-                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
+                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('public/vendor/bishopm/images/profile.png')}}">
             @endif
             </a>
 		</div>

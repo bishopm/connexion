@@ -3,7 +3,7 @@
   if (Auth::user()->individual->image){
     $imgsrc=url('/') . "/public/storage/individuals/" . Auth::user()->individual->id . "/" . Auth::user()->individual->image;
   } else {
-    $imgsrc=asset('vendor/bishopm/images/profile.png');
+    $imgsrc=asset('public/vendor/bishopm/images/profile.png');
   }?>
   <script type="text/javascript">
       $.ajaxSetup({

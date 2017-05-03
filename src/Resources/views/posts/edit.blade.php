@@ -1,7 +1,7 @@
 @extends('connexion::templates.webpage')
 
 @section('css')
-    <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/public/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')
@@ -26,7 +26,7 @@
 @stop
 
 @section('js')
-    <script src="{{ asset('vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('#body').summernote({ 

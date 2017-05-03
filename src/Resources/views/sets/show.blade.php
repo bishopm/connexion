@@ -45,7 +45,7 @@
 @stop
 @section('js')
     @include('connexion::worship.partials.scripts')
-    <script src="{{ asset('vendor/bishopm/js/jquery.nestable.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/jquery.nestable.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('#newitem').selectize({

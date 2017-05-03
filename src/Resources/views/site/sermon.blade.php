@@ -1,7 +1,7 @@
 @extends('connexion::templates.webpage')
 
 @section('css')
-<link href="{{ asset('/vendor/bishopm/mediaelement/build/mediaelementplayer.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('/public/vendor/bishopm/mediaelement/build/mediaelementplayer.css') }}" rel="stylesheet" type="text/css" />
 <meta id="token" name="token" value="{{ csrf_token() }}" />
 @endsection
 
@@ -23,8 +23,8 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('vendor/bishopm/mediaelement/build/mediaelement.js') }}" type="text/javascript"></script>
-<script src="{{ asset('vendor/bishopm/mediaelement/build/mediaelementplayer.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/vendor/bishopm/mediaelement/build/mediaelement.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/vendor/bishopm/mediaelement/build/mediaelementplayer.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
 (function ($) {
   jQuery(window).on('load', function() {

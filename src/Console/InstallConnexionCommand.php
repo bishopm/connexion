@@ -58,6 +58,21 @@ class InstallConnexionCommand extends Command
 
     protected function seeder()
     {
+        $author = Role::create([
+            'name' => 'Author', 
+            'slug' => 'author',
+            'permissions' => [
+                'create-post' => true,
+            ]
+        ]);
+        $editor = Role::create([
+            'name' => 'Editor', 
+            'slug' => 'editor',
+            'permissions' => [
+                'update-post' => true,
+                'publish-post' => true,
+            ]
+        ]);   
         DB::table('menus')->insert([
             'menu' => 'main',
             'description' => 'Main website menu'
@@ -104,120 +119,6 @@ class InstallConnexionCommand extends Command
             'title' => 'Sermons',
             'url' => 'sermons',
             'target' => '_self'
-        ]);
-        DB::table('roles')->insert([
-            'name' => 'administrator'
-        ]);
-        DB::table('roles')->insert([
-            'name' => 'web-user'
-        ]);
-        DB::table('roles')->insert([
-            'name' => 'bookshop-manager'
-        ]);
-        DB::table('roles')->insert([
-            'name' => 'manager'
-        ]);
-        DB::table('permissions')->insert([
-            'name' => 'admin-backend'
-        ]);
-        DB::table('permissions')->insert([
-            'name' => 'edit-comment'
-        ]);
-        DB::table('permissions')->insert([
-            'name' => 'edit-backend'
-        ]);
-        DB::table('permissions')->insert([
-            'name' => 'view-backend'
-        ]);
-        DB::table('permissions')->insert([
-            'name' => 'edit-worship'
-        ]);
-        DB::table('permissions')->insert([
-            'name' => 'edit-bookshop'
-        ]);
-        DB::table('permissions')->insert([
-            'name' => 'view-worship'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '1',
-            'permission_id' => '1'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '1',
-            'permission_id' => '2'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '1',
-            'permission_id' => '3'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '1',
-            'permission_id' => '4'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '1',
-            'permission_id' => '5'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '1',
-            'permission_id' => '6'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '1',
-            'permission_id' => '7'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '2',
-            'permission_id' => '2'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '3',
-            'permission_id' => '3'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '3',
-            'permission_id' => '4'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '3',
-            'permission_id' => '5'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '3',
-            'permission_id' => '6'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '3',
-            'permission_id' => '7'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '4',
-            'permission_id' => '2'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '4',
-            'permission_id' => '3'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '4',
-            'permission_id' => '4'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '4',
-            'permission_id' => '5'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '4',
-            'permission_id' => '6'
-        ]);
-        DB::table('permission_role')->insert([
-            'role_id' => '4',
-            'permission_id' => '7'
-        ]);
-        DB::table('role_user')->insert([
-            'role_id' => '1',
-            'user_id' => '1',
-            'user_type' => 'Bishopm\Connexion\Models\User'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'site_name',

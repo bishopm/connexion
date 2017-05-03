@@ -2,9 +2,9 @@
 
 @section('adminlte_css')
     <meta id="token" name="token" value="{{ csrf_token() }}" />
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/css/auth.css') }}">
-    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/plugins/iCheck/square/blue.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/css/auth.css') }}">
+    <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
     @yield('css')
 @stop
 
@@ -83,7 +83,7 @@
 @endsection
 
 @section('adminlte_js')
-    <script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ asset('public/vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
     <script>
         $(function () {
             $('input').iCheck({
@@ -93,7 +93,7 @@
             });
         });
     </script>
-    <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $.ajaxSetup({

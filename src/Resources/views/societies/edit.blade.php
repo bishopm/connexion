@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('css')
-    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')

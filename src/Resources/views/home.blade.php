@@ -1,7 +1,7 @@
 @extends('connexion::templates.webpage')
 
 @section('css')
-<link href="{{ asset('/vendor/bishopm/mediaelement/build/mediaelementplayer.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('/public/vendor/bishopm/mediaelement/build/mediaelementplayer.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
   <!-- Three columns of text below the carousel -->
   <div class="row">
     <div class="col-md-4 text-center" style="z-index: 1;">
-      <img src="{{asset('vendor/bishopm/images/blog.png')}}">
+      <img src="{{asset('public/vendor/bishopm/images/blog.png')}}">
       <h4>From our Blog</h4>
       <div class="top30 list-unstyled text-left">
         @if (count($blogs))
@@ -49,7 +49,7 @@
       </div>      
     </div>
     <div class="col-md-4 text-center">
-      <img src="{{asset('vendor/bishopm/images/preaching.png')}}">
+      <img src="{{asset('public/vendor/bishopm/images/preaching.png')}}">
       <h4>Last Sunday</h4>
       @if ($sermon)
         @if ($sermon->series->image)
@@ -66,7 +66,7 @@
     </div>
     <div class="col-md-4 text-center">
       @if ((Auth::check()) and (Auth::user()->verified==1))
-        <img src="{{asset('vendor/bishopm/images/community.png')}}">
+        <img src="{{asset('public/vendor/bishopm/images/community.png')}}">
         <h4>What are we saying?</h4>
         <ul class="list-unstyled top30">
           @forelse ($comments as $comment)
@@ -105,13 +105,13 @@
           </small></p>
         @endif
       @else
-        <img src="{{asset('vendor/bishopm/images/contact.png')}}">
+        <img src="{{asset('public/vendor/bishopm/images/contact.png')}}">
         <h4>Find us</h4>
         <ul class="list-unstyled top17">
             <li><b>Sunday services:</b> 07h00 | 08h30 | 1000</li>
             <li><b>Children and youth:</b> Sundays 08h30</li>
         </ul>      
-        <img class="img-responsive" src="{{ asset('vendor/bishopm/images/map.png') }}">
+        <img class="img-responsive" src="{{ asset('public/vendor/bishopm/images/map.png') }}">
         <ul class="list-unstyled top10">
           <li><i class="fa fa-phone"></i>  <b>032 947 0173</b></li>
           <li><a href="{{url('/')}}/contact">Interactive map and full contact details</a></li>
@@ -123,6 +123,6 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('vendor/bishopm/mediaelement/build/mediaelement.js') }}" type="text/javascript"></script>
-<script src="{{ asset('vendor/bishopm/mediaelement/build/mediaelementplayer.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/vendor/bishopm/mediaelement/build/mediaelement.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/vendor/bishopm/mediaelement/build/mediaelementplayer.js') }}" type="text/javascript"></script>
 @endsection

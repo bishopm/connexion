@@ -2,8 +2,8 @@
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />
-  <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
-  <link href="{{ asset('/vendor/bishopm/css/jquery.bootgrid.min.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/public/vendor/bishopm/css/jquery.bootgrid.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
@@ -276,12 +276,12 @@
     @if (isset($setting['google_api']))
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
     @endif
-    <script src="{{ asset('vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('vendor/bishopm/js/gmap.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('vendor/bishopm/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('vendor/bishopm/js/jquery.bootgrid.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('vendor/bishopm/js/jquery.bootgrid.fa.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/gmap.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/jquery.bootgrid.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/jquery.bootgrid.fa.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
       $.ajaxSetup({
           headers: {

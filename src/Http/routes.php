@@ -26,7 +26,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('register',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@register','as'=>'admin.register']);
 	Route::post('checkmail',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);
 	Route::get('preachingplan','Bishopm\Connexion\Http\Controllers\PlansController@currentplan');
-	Route::group(['middleware' => 'isverified'], function () {
+	Route::group(['middleware' => ['web','isverified','can:edit-comments']], function () {
 		//Webuser routes
 		Route::get('/users/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuser','as' => 'webuser']);
 		Route::get('/rosters/{roster}/current',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@currentroster','as'=>'rosters.current']);
@@ -84,7 +84,7 @@ Route::group(['middleware' => 'web'], function () {
 	Route::post('logout',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@logout','as'=>'logout']);
 	});
 
-Route::group(['middleware' => ['web','isverified','permission:view-backend']], function () {
+Route::group(['middleware' => ['web','isverified','can:view-backend']], function () {
 	
 	//Images
 	Route::post('admin/addimage',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@addimage','as'=>'admin.addimage']);
@@ -401,16 +401,7 @@ Route::group(['middleware' => ['web','isverified','permission:view-backend']], f
 	Route::post('admin/weekdays',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@store','as'=>'admin.weekdays.store']);
     Route::delete('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@destroy','as'=>'admin.weekdays.destroy']);
 
-    Route::group(['middleware' => ['web','permission:admin-backend']], function () {
-
-		// Permissions
-		Route::get('admin/permissions',['uses'=>'Bishopm\Connexion\Http\Controllers\PermissionsController@index','as'=>'admin.permissions.index']);
-		Route::get('admin/permissions/create',['uses'=>'Bishopm\Connexion\Http\Controllers\PermissionsController@create','as'=>'admin.permissions.create']);
-		Route::get('admin/permissions/{permission}',['uses'=>'Bishopm\Connexion\Http\Controllers\PermissionsController@show','as'=>'admin.permissions.show']);
-		Route::get('admin/permissions/{permission}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\PermissionsController@edit','as'=>'admin.permissions.edit']);
-		Route::put('admin/permissions/{permission}',['uses'=>'Bishopm\Connexion\Http\Controllers\PermissionsController@update','as'=>'admin.permissions.update']);
-		Route::post('admin/permissions',['uses'=>'Bishopm\Connexion\Http\Controllers\PermissionsController@store','as'=>'admin.permissions.store']);
-	    Route::delete('admin/permissions/{permission}',['uses'=>'Bishopm\Connexion\Http\Controllers\PermissionsController@destroy','as'=>'admin.permissions.destroy']);
+    Route::group(['middleware' => ['web','can:admin-backend']], function () {
 
 		// Roles
 		Route::get('admin/roles',['uses'=>'Bishopm\Connexion\Http\Controllers\RolesController@index','as'=>'admin.roles.index']);
