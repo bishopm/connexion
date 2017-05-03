@@ -14,7 +14,7 @@ class UsersRepository extends EloquentBaseRepository
 
     public function mostRecent($num=1)
     {
-        return $this->model->with('individual')->orderBy('created_at', 'DESC')->get()->take($num);
+        return $this->model->with('individual')->where('verified',1)->orderBy('created_at', 'DESC')->get()->take($num);
     }
 
     public function inactive()
@@ -27,6 +27,11 @@ class UsersRepository extends EloquentBaseRepository
         $user=$this->model->withTrashed()->where('id',$id)->first();
         $user->restore();
         return $user;
+    }
+
+    public function allVerified()
+    {
+        return $this->model->where('verified',1)->orderBy('name')->get();
     }
 
 }

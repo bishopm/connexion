@@ -346,7 +346,7 @@ class WebController extends Controller
 
     public function mychurch()
     {
-        $users=$this->users->all();
+        $users=$this->users->allVerified();
         foreach ($users as $user){
             if (isset($user->individual)){
                 $user->status=$user->individual->service_id;

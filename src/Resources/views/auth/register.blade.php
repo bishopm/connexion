@@ -51,6 +51,14 @@
                 <select class="selectize" placeholder="Find your name in our database" name="individual_id" id="individual_id" value="{{ old('individual_id') }}"/>
                 </select>
             </div>
+            <div class="form-group">
+                <label>Which service do you usually attend?</label>
+                <select name="service_id" class="form-control" id="service_id">
+                    @foreach ($society->services as $service)
+                        <option value="{{$service->id}}">{{$service->servicetime}}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="form-group has-feedback">
                 <input type="password" class="form-control" placeholder="Password" name="password"/>
                 <span class="fa fa-key form-control-feedback"></span>

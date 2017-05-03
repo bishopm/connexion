@@ -3,8 +3,9 @@
 namespace Bishopm\Connexion\Http\Controllers\Auth;
 
 use Bishopm\Connexion\Models\User;
-use Bishopm\Connexion\Models\Individual;
 use Bishopm\Connexion\Models\Setting;
+use Bishopm\Connexion\Models\Individual;
+use Bishopm\Connexion\Models\Society;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -64,7 +65,8 @@ class RegisterController extends Controller
             'name' => 'required|unique:users',
             'email' => 'required|email',
             'individual_id' => 'required|integer',
-            'password' => 'required|min:6|confirmed'
+            'password' => 'required|min:6|confirmed',
+            'service_id' => 'integer'
         ]);
     }
 
@@ -76,18 +78,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $indiv=Individual::find($data['individual_id']);
+        $indiv->service_id=$data['service_id'];
+        $indiv->save();
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'individual_id' => $data['individual_id'],
             'password' => bcrypt($data['password']),
+            'allow_messages' => 'Yes'
         ]);
     }
 
     public function showRegistrationForm()
     {
         $individuals=array();
-        return view('connexion::auth.register',compact('individuals'));
+        $socname=Setting::where('setting_key','society_name')->first()->setting_value;
+        $society=Society::with('services')->where('society',$socname)->first();
+        return view('connexion::auth.register',compact('individuals','society'));
     }
 
     /**
