@@ -82,7 +82,7 @@
                         </div>
                         <div class="col-md-6">
                           @if ($individual->image<>'')
-                            {{ Form::bsThumbnail(url('/') . '/storage/individuals/' . $individual->id . '/' . $individual->image,120) }}
+                            {{ Form::bsThumbnail(url('/') . '/public/storage/individuals/' . $individual->id . '/' . $individual->image,120) }}
                           @else
                             {{ Form::bsThumbnail(url('/') . '/vendor/bishopm/images/profile.png',120) }}
                           @endif
