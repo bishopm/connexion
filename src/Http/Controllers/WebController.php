@@ -509,15 +509,15 @@ class WebController extends Controller
         if ($entity=="individuals"){
             $indiv=$this->individual->find($id);
             $file=base_path() . "/storage/app/public/individuals/" . $indiv->id . "/" . $fn;
-            $url=url('/') . "/storage/individuals/" . $indiv->id . '/' . $fn;
+            $url=url('/') . "/public/storage/individuals/" . $indiv->id . '/' . $fn;
         } elseif ($entity=="books") {
             $book=$this->books->find($id);
             $file=base_path() . "/storage/app/public/books/" . $fn;
-            $url=url('/') . "/storage/books/" . $fn;
+            $url=url('/') . "/public/storage/books/" . $fn;
         } elseif ($entity=="courses"){
             $course=$this->courses->find($id);
             $file=base_path() . "/storage/app/public/courses/" . $fn;
-            $url=url('/') . "/storage/courses/" . $fn;
+            $url=url('/') . "/public/storage/courses/" . $fn;
         }
         file_put_contents($file,$data);
         return $url;
