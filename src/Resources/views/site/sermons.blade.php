@@ -15,7 +15,7 @@
 	  	  	  </thead>
 	  	  	  <tbody>
 			      @foreach ($series as $serie)
-			      	  <tr><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{date("Y-m-d",strtotime($serie->created_at))}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{$serie->title}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{count($serie->sermons)}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}"><img width="60px" src="{{url('/')}}/storage/series/{{$serie->image}}"></a></td></tr>
+			      	  <tr><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{date("Y-m-d",strtotime($serie->created_at))}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{$serie->title}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}">{{count($serie->sermons)}}</a></td><td><a href="{{url('/')}}/sermons/{{$serie->slug}}"><img width="60px" src="{{url('/')}}/public/storage/series/{{$serie->image}}"></a></td></tr>
 			      @endforeach
 			  </tbody>
 		  </table>

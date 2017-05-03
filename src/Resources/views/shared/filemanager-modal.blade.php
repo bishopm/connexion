@@ -29,7 +29,7 @@
                         @foreach (scandir($fff) as $thisfile)
                             @if (substr($thisfile,0,1)<>'.')
                                 <div class="col-xs-2"><a class="fmgr" href="#{{$thisfile}}">{{$thisfile}}</a></div>
-                                <div class="col-xs-4"><img style="padding-bottom:10px;" height="40px" src="{{url('/')}}/storage/{{$folder}}/{{$thisfile}}"></div>
+                                <div class="col-xs-4"><img style="padding-bottom:10px;" height="40px" src="{{url('/')}}/public/storage/{{$folder}}/{{$thisfile}}"></div>
                             @endif
                         @endforeach
                     </div>

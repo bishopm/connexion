@@ -12,7 +12,7 @@
       @endif
       </h3>
         <div class="row">
-          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{url('/')}}/storage/courses/{{$course->image}}"></div>
+          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{url('/')}}/public/storage/courses/{{$course->image}}"></div>
           <div class="col-md-9">
           {!!$course->description!!}
           </div>

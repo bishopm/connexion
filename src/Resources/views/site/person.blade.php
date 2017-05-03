@@ -9,7 +9,7 @@
 	<div class="row top30">
 	  <div class="col-md-4">
 	    @if (isset($person->image))
-            <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$person->id}}/{{$person->image}}">
+            <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/public/storage/individuals/{{$person->id}}/{{$person->image}}">
         @else
             <img class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
         @endif

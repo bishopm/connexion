@@ -5,7 +5,7 @@
 	<div class="row">
 	  <h3>{{$series->title}}</h3>
 	  <div class="col-md-6">
-	    <img src="{{url('/')}}/storage/series/{{$series->image}}">
+	    <img src="{{url('/')}}/public/storage/series/{{$series->image}}">
 	  </div>
 	  <div class="col-md-6">
 	  	  <p>{{$series->description}}</p>

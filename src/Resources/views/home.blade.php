@@ -53,7 +53,7 @@
       <h4>Last Sunday</h4>
       @if ($sermon)
         @if ($sermon->series->image)
-          <a href="{{route('webseries',$sermon->series->slug)}}"><img class="top17" src="{{url('/')}}/storage/series/{{$sermon->series->image}}"></a>
+          <a href="{{route('webseries',$sermon->series->slug)}}"><img class="top17" src="{{url('/')}}/public/storage/series/{{$sermon->series->image}}"></a>
         @endif
         <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
         <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: <a href="{{route('websermon',array($sermon->series->slug,$sermon->slug))}}">{{$sermon->title}}</a></div>

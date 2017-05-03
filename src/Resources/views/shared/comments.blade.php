@@ -6,7 +6,7 @@
 				<div class="col-xs-2 col-sm-1">
 					<a href="{{route('webuser',$comment->commented->individual->slug)}}">
 					@if ($comment->commented->individual->image)
-		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$comment->commented->individual->id}}/{{$comment->commented->individual->image}}">
+		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/public/storage/individuals/{{$comment->commented->individual->id}}/{{$comment->commented->individual->image}}">
 		            @else
 		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
 		            @endif
@@ -28,7 +28,7 @@
 		<div class="col-xs-3 col-sm-1">
 			<a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}">
 			@if (Auth::user()->individual->image)
-                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{Auth::user()->individual->id}}/{{Auth::user()->individual->image}}">
+                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/public/storage/individuals/{{Auth::user()->individual->id}}/{{Auth::user()->individual->image}}">
             @else
                 <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('vendor/bishopm/images/profile.png')}}">
             @endif

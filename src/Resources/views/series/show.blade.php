@@ -20,7 +20,7 @@
           </div>
           <div class="box-body">
             <div class="row">
-              <div class="col-md-4"><img class="img-responsive" src="{{url('/')}}/storage/series/{{$series->image}}"></div>
+              <div class="col-md-4"><img class="img-responsive" src="{{url('/')}}/public/storage/series/{{$series->image}}"></div>
               <div class="col-md-8">
                 @forelse ($series->sermons as $sermon)
                   <div class="row">
