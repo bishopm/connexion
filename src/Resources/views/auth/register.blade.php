@@ -35,11 +35,10 @@
 
     <div class="register-box-body">
         <p class="login-box-msg"><b>Register as a new user</b></p>
-        <p class="login-box-msg">Choose a unique username (eg: johnsmith) and enter the email address that you have think we have on record for you. If that email address is in our existing database, you'll be able to select your name and we'll send you a mail to make sure you are you who say you are :)<br><br>If your name or email address are not on our system, click <a href="register-user">here</a> and we'll help you sign up.</p>
         <form action="{{ url('/register') }}" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group has-feedback">
-                <input class="form-control" placeholder="Username" id="name" name="name" autocomplete="off" value="{{ old('name') }}"/>
+                <input class="form-control" placeholder="Choose a unique username" id="name" name="name" autocomplete="off" value="{{ old('name') }}"/>
                 <div id="errmess" style="display:none;"><i class="fa fa-times"></i> Username is required and must be unique</div>
                 <div id="okmess" style="display:none;"><i class="fa fa-check"></i> This username is available</div>
             </div>
@@ -72,13 +71,13 @@
                   <a href="{{ url('/login') }}" class="text-center">I have already registered</a>
                 </div><!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                    <button type="submit" id="registeruser" class="btn btn-primary btn-block btn-flat">Register</button>
                 </div><!-- /.col -->
             </div>
         </form>
     </div><!-- /.form-box -->
 </div><!-- /.register-box -->
-
+@include('connexion::shared.register-modal')
 
 @endsection
 
@@ -101,6 +100,7 @@
                  'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
               }
             });
+            $( "#registeruser" ).prop( "disabled", true );
             $('.selectize').selectize({
                 openOnFocus: 1
             });
@@ -120,7 +120,10 @@
                                 });
                                 selectize.open();
                             }
+                            $( "#registeruser" ).prop( "disabled", false );
                         } else {
+                            $('#modal-message').modal('show');
+                            $( "#registeruser" ).prop( "disabled", true );
                             selectize.addOption({
                                     text:'Matching record not found in database',
                                     value: 0

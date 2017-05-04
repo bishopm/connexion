@@ -33,6 +33,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/my-church', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
 	Route::get('/my-details', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mydetails','as' => 'mydetails']);
 	Route::get('/my-giving', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mygiving','as' => 'mygiving']);
+	Route::get('/register-user', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@registeruser','as' => 'registeruser']);
 	Route::group(['middleware' => ['web','isverified','can:edit-comments']], function () {
 		//Webuser routes
 		Route::get('/users/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuser','as' => 'webuser']);
@@ -46,7 +47,6 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/my-details/edit-anniversary/{ann}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuseranniversaryedit','as' => 'webuser.anniversary.edit']);	
 		Route::get('/my-details/add-anniversary', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuseranniversaryadd','as' => 'webuser.anniversary.add']);	
 		Route::post('/admin/groups/{group}/signup', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@signup','as' => 'admin.groups.signup']);
-		Route::get('/register-user', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@registeruser','as' => 'registeruser']);
 		Route::post('admin/newuser',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@newuser','as'=>'admin.newuser']);
 		Route::post('admin/blogs/{blog}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@addcomment','as' => 'admin.blogs.addcomment']);
 		Route::post('admin/books/{book}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@addcomment','as' => 'admin.books.addcomment']);
