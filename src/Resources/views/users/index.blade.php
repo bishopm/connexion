@@ -18,12 +18,14 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Role</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Role</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -31,6 +33,7 @@
                                     <tr>
                                         <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->name}}</a></td>
                                         <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->email}}</a></td>
+                                        <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->roles()->first()->name}}</a></td>
                                     </tr>
                                 @empty
                                     <tr><td>No users have been added yet</td></tr>

@@ -30,7 +30,7 @@ class RolesController extends Controller {
     public function show(Role $role)
     {
         $data['role']=$role;
-        $data['permissions']=Permission::all();
+        $data['users']=$role->users;
         return view('connexion::roles.show', $data);
     }
 

@@ -17,21 +17,16 @@
           <div class="col-md-6">
             <a href="{{route('admin.roles.edit',$role->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit role</a>
           </div>
-          <div class="col-md-12"><p>{{$role->description}}</p></div>
         </div>
       </div>
       <div class="box-body">
         <div class="row">
           <div class="col-md-12">
-            <h4>Role permissions</h4>
-            <select class="input-roles" multiple>
-              @foreach ($role->permissions as $pp)
-                <option selected value="{{$pp->id}}">{{$pp->name}}</option>
+            <ul class="list-unstyled">
+              @foreach ($users as $user)
+                <li>{{$user->individual->firstname}} {{$user->individual->surname}}</li>
               @endforeach
-              @foreach ($permissions as $perm)
-                <option value="{{$perm->id}}">{{$perm->name}}</option>
-              @endforeach
-            </select>
+            </ul>
           </div>
         </div>
       </div>
