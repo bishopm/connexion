@@ -229,9 +229,9 @@ class ConnexionServiceProvider extends ServiceProvider
                             'can' =>  'admin-backend'
                         ],
                         [
-                            'text' => 'Slides',
-                            'url' => 'admin/slides',
-                            'icon' => 'picture-o',
+                            'text' => 'Slideshows',
+                            'url' => 'admin/slideshows',
+                            'icon' => 'video-camera',
                             'can' =>  'admin-backend'
                         ]
                     ]
@@ -247,7 +247,10 @@ class ConnexionServiceProvider extends ServiceProvider
             );
             }
             if ($mods['bookshop_module']=="yes"){
-                $event->menu->add('BOOKSHOP');
+                $event->menu->add([
+                    'header' => 'BOOKSHOP',
+                    'can' => 'edit-bookshop'
+                ]);
                 $event->menu->add([
                     'text' => 'Books',
                     'url' => 'admin/books',
@@ -581,6 +584,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\SlidesRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\SlidesRepository(new \Bishopm\Connexion\Models\Slide());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\SlideshowsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\SlideshowsRepository(new \Bishopm\Connexion\Models\Slideshow());
                 return $repository;
             }
         );

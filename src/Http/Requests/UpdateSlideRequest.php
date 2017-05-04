@@ -9,7 +9,7 @@ class UpdateSlideRequest extends FormRequest
     public function rules()
     {
         return [
-            'slideshowname' => 'required',
+            'slideshow_id' => 'required',
             'image'=>'required'
         ];
     }

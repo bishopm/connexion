@@ -68,9 +68,9 @@
         </div>
       </div>
     </div><!-- /navbar wrapper -->
-    @if ((isset($slideshow)) and ($slideshow=="back"))
+    @if ((isset($slideshow)) and ($slideshow->slideshow=="back"))
       @include('connexion::shared.carousel-back')
-    @elseif ((isset($slideshow)) and ($slideshow=="front"))
+    @elseif ((isset($slideshow)) and ($slideshow->slideshow=="front"))
       @include('connexion::shared.errors')
       @include('connexion::shared.carousel-front')
     @endif
@@ -115,34 +115,18 @@
 </script>
 @yield('js')
 @if (isset($slideshow))
-  @if ($slideshow=="back")
-    <script type="text/javascript">
-    (function ($) {
-      jQuery(window).on('load', function() {
-        $('.carousel').carousel({
-          pause: "false",
-          interval: 7000
-        });
-        $('audio').mediaelementplayer({
-          features: ['playpause','tracks','progress','volume'],
-        });
+  <script type="text/javascript">
+  (function ($) {
+    jQuery(window).on('load', function() {
+      $('.carousel').carousel({
+        pause: "false",
+        interval: {{$slideshow->duration}}000
       });
-    })(jQuery);
-    </script>
-  @else
-    <script type="text/javascript">
-    (function ($) {
-      jQuery(window).on('load', function() {
-        $('.carousel').carousel({
-          pause: "false",
-          interval: 4000
-        });
-        $('audio').mediaelementplayer({
-          features: ['playpause','tracks','progress','volume'],
-        });
+      $('audio').mediaelementplayer({
+        features: ['playpause','tracks','progress','volume'],
       });
-    })(jQuery);
-    </script>
-  @endif
+    });
+  })(jQuery);
+  </script>
 @endif
 </html>

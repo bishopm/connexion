@@ -2,7 +2,7 @@
 ================================================== -->
 <div id="myCarousel" class="carousel slide carousel-fade hidden-xs">
   <div class="carousel-inner">
-    @foreach ($slides as $slide)
+    @foreach ($slideshow->slides as $slide)
       @if ($loop->first)
         <div class="item active">
       @else

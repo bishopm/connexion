@@ -3,7 +3,7 @@
 <div id="myCarousel" class="carousel slide carousel-fade hidden-xs">
   <!-- Indicators -->
   <ol class="carousel-indicators">
-    @foreach ($slides as $counter)
+    @foreach ($slideshow->slides as $counter)
       @if ($loop->first)
         <li data-target="#myCarousel" data-slide-to="{{$loop->index}}" class="active"></li>
       @else
@@ -12,7 +12,7 @@
     @endforeach
   </ol>
   <div class="carousel-inner">
-    @foreach ($slides as $slide)
+    @foreach ($slideshow->slides as $slide)
       @if ($loop->first)
         <div class="item active">
       @else

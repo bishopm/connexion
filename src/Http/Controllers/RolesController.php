@@ -24,13 +24,13 @@ class RolesController extends Controller {
 
 	public function edit(Role $role)
     {
-        $permissions=array('edit-backend','edit-comment','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop');
+        $permissions=array('edit-backend','edit-comments','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop');
         return view('connexion::roles.edit', compact('role','permissions'));
     }
 
     public function create()
     {
-        $permissions=array('edit-backend','edit-comment','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop');
+        $permissions=array('edit-backend','edit-comments','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop');
         return view('connexion::roles.create',compact('permissions'));
     }
 
@@ -52,10 +52,13 @@ class RolesController extends Controller {
     public function update(Role $role, UpdateRoleRequest $request)
     {
         $role->name=$request->input('name');
-        $role->display_name = $request->input('display_name');
-        $role->description  = $request->input('description');
+        $role->slug = $request->input('slug');
+        $perms=array();
+        foreach ($request->input('permissions') as $perm){
+            $perms[$perm]=true;
+        }
+        $role->permissions=$perms;
         $role->save();
-        $role->flushCache();
         return redirect()->route('admin.roles.index')->withSuccess('Role has been updated');
     }
 

@@ -9,7 +9,7 @@ use LithiumDev\TagCloud\TagCloud;
 use Illuminate\Support\Facades\Validator;
 use Bishopm\Connexion\Repositories\PagesRepository;
 use Bishopm\Connexion\Repositories\SeriesRepository;
-use Bishopm\Connexion\Repositories\SlidesRepository;
+use Bishopm\Connexion\Repositories\SlideshowsRepository;
 use Bishopm\Connexion\Repositories\SermonsRepository;
 use Bishopm\Connexion\Repositories\BlogsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
@@ -40,13 +40,13 @@ use Bishopm\Connexion\Http\Requests\NewUserRequest;
 class WebController extends Controller
 {
     
-    private $page, $slides, $settings, $users, $series, $sermon, $individual, $courses, $group, $comments, $books, $blogs, $payments;
+    private $page, $slideshow, $settings, $users, $series, $sermon, $individual, $courses, $group, $comments, $books, $blogs, $payments;
 
-    public function __construct(PagesRepository $page, SlidesRepository $slides, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household, BooksRepository $books, BlogsRepository $blogs, PaymentsRepository $payments)
+    public function __construct(PagesRepository $page, SlideshowsRepository $slideshow, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household, BooksRepository $books, BlogsRepository $blogs, PaymentsRepository $payments)
     {
         $this->page = $page;
         $this->group = $group;
-        $this->slides = $slides;
+        $this->slideshow = $slideshow;
         $this->settings = $settings;
         $this->users = $users;
         $this->series = $series;
@@ -116,8 +116,7 @@ class WebController extends Controller
         $data['cals']=array();
         $data['blogs']=$blogs->mostRecent(6);
         $data['sermon']=$sermon->mostRecent();
-        $data['slides']=$this->slides->getSlideshow('front');
-        $data['slideshow']="front";
+        $data['slideshow']=$this->slideshow->byName('front');
         if (Auth::user()){
             $data['comments']=Comment::orderBy('created_at','DESC')->get()->take(10);
             $data['users']=$this->users->mostRecent(5);

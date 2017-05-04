@@ -329,12 +329,21 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 
 	// Slides
 	Route::get('admin/slides',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@index','as'=>'admin.slides.index']);
-	Route::get('admin/slides/create',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@create','as'=>'admin.slides.create']);
+	Route::get('admin/slideshows/{slideshow}/create',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@create','as'=>'admin.slides.create']);
 	Route::get('admin/slides/{slide}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@show','as'=>'admin.slides.show']);
-	Route::get('admin/slides/{slide}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@edit','as'=>'admin.slides.edit']);
+	Route::get('admin/slideshows/{slideshow}/slides/{slide}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@edit','as'=>'admin.slides.edit']);
 	Route::put('admin/slides/{slide}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@update','as'=>'admin.slides.update']);
 	Route::post('admin/slides',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@store','as'=>'admin.slides.store']);
     Route::delete('admin/slides/{slide}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@destroy','as'=>'admin.slides.destroy']);
+
+	// Slideshows
+	Route::get('admin/slideshows',['uses'=>'Bishopm\Connexion\Http\Controllers\SlideshowsController@index','as'=>'admin.slideshows.index']);
+	Route::get('admin/slideshows/create',['uses'=>'Bishopm\Connexion\Http\Controllers\SlideshowsController@create','as'=>'admin.slideshows.create']);
+	Route::get('admin/slideshows/{slideshow}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlideshowsController@show','as'=>'admin.slideshows.show']);
+	Route::get('admin/slideshows/{slideshow}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\SlideshowsController@edit','as'=>'admin.slideshows.edit']);
+	Route::put('admin/slideshows/{slideshow}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlideshowsController@update','as'=>'admin.slideshows.update']);
+	Route::post('admin/slideshows',['uses'=>'Bishopm\Connexion\Http\Controllers\SlideshowsController@store','as'=>'admin.slideshows.store']);
+    Route::delete('admin/slideshows/{slideshow}',['uses'=>'Bishopm\Connexion\Http\Controllers\SlideshowsController@destroy','as'=>'admin.slideshows.destroy']);
 
 	// Societies
 	Route::get('admin/societies',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@index','as'=>'admin.societies.index']);

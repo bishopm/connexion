@@ -48,17 +48,6 @@
             'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
         }
     });
-    $("#removeMedia").on('click',function(e){
-        e.preventDefault();
-        $.ajax({
-            type : 'GET',
-            url : '{{url('/')}}/admin/individuals/<?php echo $individual->id;?>/removemedia',
-            success: function(){
-              $('#thumbdiv').hide();
-              $('#filediv').show();
-            }
-        });
-    });
     @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals/' . $individual->id,'width'=>250,'height'=>250])
 </script>
 @endsection

@@ -1,4 +1,4 @@
-{{ Form::bsText('slideshowname','Slideshow name','Slideshow name') }}
+{{ Form::bsHidden('slideshow_id',$slideshow->id) }}
 {{ Form::bsText('title','Title','Title') }}
 {{ Form::bsText('description','Description','Description') }}
 {{ Form::bsText('link','Link','Link') }}

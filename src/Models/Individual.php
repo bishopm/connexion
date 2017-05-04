@@ -7,13 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cartalyst\Tags\TaggableTrait;
 use Cartalyst\Tags\TaggableInterface;
-use Plank\Mediable\Mediable;
 
 class Individual extends Model implements TaggableInterface
 {
     use Sluggable;
     use SoftDeletes;
-    use Mediable;
     use TaggableTrait;
 
     protected $dates = ['deleted_at'];

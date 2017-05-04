@@ -1,23 +1,22 @@
 <?php namespace Bishopm\Connexion\Composers;
 
 use Illuminate\Contracts\View\View;
-use Bishopm\Connexion\Repositories\SlidesRepository;
+use Bishopm\Connexion\Repositories\SlideshowsRepository;
 
 class SlideComposer
 {
     /**
      * @var GroupRepository
      */
-    private $slides;
+    private $slideshow;
 
-    public function __construct(SlidesRepository $slides)
+    public function __construct(SlideshowsRepository $slideshow)
     {
-        $this->slides=$slides->getSlideshow('back');
+        $this->slideshow=$slideshow;
     }
 
     public function compose(View $view)
     {
-        $view->with('slides', $this->slides);
-        $view->with('slideshow', "back");
+        $view->with('slideshow', $this->slideshow->byName('back'));
     }
 }

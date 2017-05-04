@@ -36,7 +36,7 @@ class IndividualsController extends Controller {
 
 	public function edit($household,Individual $individual)
     {
-        $media=Individual::find($individual->id)->getMedia('image')->first();
+        $media='';
         return view('connexion::individuals.edit', compact('individual','media'));
     }
 
@@ -96,12 +96,6 @@ class IndividualsController extends Controller {
             }
         }
         $group->individuals()->attach($individual->id);
-    }
-
-    public function removemedia(Individual $individual)
-    {
-        $media = $individual->getMedia('image');
-        $individual->detachMedia($media);
     }
 
     public function removegroup($member, $group)
