@@ -265,7 +265,7 @@ var vm1 = new Vue({
         $('#musictype').val(vm1.formdata.musictype).trigger('change');
         if ('{{$song->musictype}}'=='liturgy'){
           initlyrics={!! json_encode($song->lyrics) !!};
-          $('#lyrics').summernote('editor.pasteHTML', initlyrics);
+          $('#lyrics').summernote('code', initlyrics);
           $('#musicrow1').addClass('hidden');
           $('#musicrow2').addClass('hidden');
           $('#musicrow3').addClass('hidden');
