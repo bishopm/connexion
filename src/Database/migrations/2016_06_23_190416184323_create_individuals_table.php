@@ -24,7 +24,7 @@ class CreateIndividualsTable extends Migration
             $table->string('image')->nullable();
             $table->string('memberstatus')->nullable();
             $table->integer('household_id');
-            $table->string('giving')->nullable();
+            $table->integer('giving')->nullable();
             $table->string('officephone')->nullable();
             $table->string('cellphone')->nullable();
             $table->string('social')->nullable();

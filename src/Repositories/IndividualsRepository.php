@@ -36,7 +36,7 @@ class IndividualsRepository extends EloquentBaseRepository
 
     public function givingnumbers()
     {
-        $giving=$this->model->where('giving','>',0)->select('giving')->get();
+        $giving=$this->model->where('giving','>',0)->select('giving')->orderBy('giving')->get();
         $pg=array();
         foreach ($giving as $give){
             $pg[]=$give->giving;

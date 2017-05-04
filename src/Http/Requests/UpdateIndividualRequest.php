@@ -13,6 +13,7 @@ class UpdateIndividualRequest extends FormRequest
             'surname' => 'required',
             'cellphone' => 'nullable|digits:10',
             'officephone' => 'nullable|numeric',
+            'giving' => 'nullable|numeric',
             'email' => 'nullable|email'
         ];
     }

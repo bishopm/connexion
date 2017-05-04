@@ -42,18 +42,7 @@
     <script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
     $( document ).ready(function() {
-          $('.selectize').selectize({
-              plugins: ['remove_button'],
-              openOnFocus: 0,
-              maxOptions: 10,
-              dropdownParent: "body",
-              create: function(value) {
-                  return {
-                      value: value,
-                      text: value
-                  }
-              }
-          });
+          $('.selectize').selectize();
           $(function() {
             $("#paymentdate").datepicker({
               todayHighlight: true,
