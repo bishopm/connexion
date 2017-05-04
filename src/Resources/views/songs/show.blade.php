@@ -247,12 +247,6 @@ var vm1 = new Vue({
             $("#tagselect").val(value);
           }
         });
-        if ($('#musictype').value=='liturgy'){
-            $('#lyrics').summernote();
-            $('#musicrow1').addClass('hidden');
-            $('#musicrow2').addClass('hidden');
-            $('#musicrow3').addClass('hidden');
-        }
         $('#musictype').on('change', function(event){
             if (event.target.value=='liturgy'){
                 $('#lyrics').summernote();
@@ -269,6 +263,14 @@ var vm1 = new Vue({
             }
         });
         $('#musictype').val(vm1.formdata.musictype).trigger('change');
+        if ('{{$song->musictype}}'=='liturgy'){
+          initlyrics='{!! json_encode($song->lyrics) !!}';
+          $('#lyrics').summernote('insertText', initlyrics);
+          $('#musicrow1').addClass('hidden');
+          $('#musicrow2').addClass('hidden');
+          $('#musicrow3').addClass('hidden');
+          $('button[name=transpose]').addClass('hidden');
+        }
     });
 </script>
 @stop
