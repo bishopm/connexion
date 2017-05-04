@@ -523,4 +523,15 @@ class WebController extends Controller
         return $url;
     }
 
+    public function search(Request $request)
+    {
+        $q=$request->input('q');
+        $individuals=Individual::where('surname','like','%' . $q . '%')->orwhere('firstname','like','%' . $q . '%')->get();
+        $thislink="";
+        foreach ($individuals as $indiv){
+            $thislink.="<a href=\"\">" . $indiv->firstname . " " . $indiv->surname . "</a><br>";
+        }
+        return json_encode($thislink);
+    }
+
 }

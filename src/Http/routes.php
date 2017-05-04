@@ -89,6 +89,9 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 	//Images
 	Route::post('admin/addimage',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@addimage','as'=>'admin.addimage']);
 	
+
+	Route::post('admin/search',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@search','as'=>'admin.search']);
+
 	// Dashboard
 	Route::get('admin',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
 	Route::get('home',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);

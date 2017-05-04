@@ -24,9 +24,20 @@
                       @endif
                     </div>
                     <div class="panel-body">
-                        <div id="calendar1" class="col-md-9">
+                        <div class="col-md-8">
+                        <form id="searchform" action="#" method="get" class="sidebar-form">
+                            <div class="input-group">
+                              <input type="text" id="q" name="q" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                  <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                                  </button>
+                                </span>
+                            </div>
+                          </form>
+                          <div id="searchdata">
+                          </div>
                         </div>
-                        <div class="well col-md-3">
+                        <div class="well col-md-4">
                         <h2 style="margin-top: -7px">To do 
                         @if (isset(Auth::user()->individual))
                           <small>{{Auth::user()->individual->firstname}}</small>
@@ -59,7 +70,10 @@
           url : '{{url('/')}}/admin/actions/togglecompleted/' + this.id,
         });
         $(this).find('i').toggleClass('fa-square-o fa-check');
-      });    
+      });
+      $(function() {
+        $("#q").focus();
+      });
       $('#calendar').fullCalendar({
           googleCalendarApiKey: 'AIzaSyD4y1RyWYcv2nqBlp0wJZr6ULGWGt8VrX4',
           header: {
@@ -75,6 +89,16 @@
           events: {!! json_encode($pcals) !!},
           eventSources:  {!! json_encode($cals) !!},
           defaultView: 'agendaWeek'
+      });
+      $('#q').on('change',function(){
+        $.ajax({
+            type : 'POST',
+            url : '{{route('admin.search')}}',
+            data : $('#searchform').serialize(),
+            success: function(e){
+              $('#searchdata').text(e);
+            }
+        });
       });
   });
   </script>
