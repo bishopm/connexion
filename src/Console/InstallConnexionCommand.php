@@ -58,21 +58,6 @@ class InstallConnexionCommand extends Command
 
     protected function seeder()
     {
-        $author = Role::create([
-            'name' => 'Author', 
-            'slug' => 'author',
-            'permissions' => [
-                'create-post' => true,
-            ]
-        ]);
-        $editor = Role::create([
-            'name' => 'Editor', 
-            'slug' => 'editor',
-            'permissions' => [
-                'update-post' => true,
-                'publish-post' => true,
-            ]
-        ]);   
         DB::table('menus')->insert([
             'menu' => 'main',
             'description' => 'Main website menu'

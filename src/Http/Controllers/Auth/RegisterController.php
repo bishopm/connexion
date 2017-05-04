@@ -6,6 +6,7 @@ use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Setting;
 use Bishopm\Connexion\Models\Individual;
 use Bishopm\Connexion\Models\Society;
+use Bishopm\Connexion\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -114,6 +115,8 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
         event(new Registered($user));
+        $webrole=Role::where('slug','web-user')->first()->id;
+        $user->roles()->attach($webrole);
         $this->guard()->login($user);
         UserVerification::generate($user);
         UserVerification::send($user, 'Welcome!');

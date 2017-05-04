@@ -106,10 +106,7 @@ class UsersController extends Controller {
             //$user->notify(new ProfileUpdated($user));
             return redirect()->route('webuser.edit',$individual->slug)->withSuccess('User profile has been updated');
         } else {
-            $user->fill($request->except('password','role_id','profile'));
-            if ($request->input('password')<>""){
-                $user->password = bcrypt($request->input('password'));
-            }
+            $user->fill($request->except('role_id','profile'));
             $user->save();
             $user->roles()->detach();
             $user->roles()->attach($request->role_id);        
