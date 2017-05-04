@@ -26,6 +26,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('register',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@register','as'=>'admin.register']);
 	Route::post('checkmail',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);
 	Route::get('preachingplan','Bishopm\Connexion\Http\Controllers\PlansController@currentplan');
+	Route::get('admin/newuser/checkname/{username}',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@checkname','as'=>'admin.checkname']);
 	Route::group(['middleware' => ['web','isverified','can:edit-comments']], function () {
 		//Webuser routes
 		Route::get('/users/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuser','as' => 'webuser']);
@@ -44,7 +45,6 @@ Route::group(['middleware' => ['web']], function () {
 		Route::post('/admin/groups/{group}/signup', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@signup','as' => 'admin.groups.signup']);
 		Route::get('/register-user', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@registeruser','as' => 'registeruser']);
 		Route::post('admin/newuser',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@newuser','as'=>'admin.newuser']);
-		Route::get('admin/newuser/checkname/{username}',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@checkname','as'=>'admin.checkname']);
 		Route::get('/my-church', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
 		Route::get('/my-details', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mydetails','as' => 'mydetails']);
 		Route::get('/my-giving', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mygiving','as' => 'mygiving']);
