@@ -84,7 +84,7 @@
                           @if ($individual->image<>'')
                             {{ Form::bsThumbnail(url('/') . '/public/storage/individuals/' . $individual->id . '/' . $individual->image,120) }}
                           @else
-                            {{ Form::bsThumbnail(url('/') . '/vendor/bishopm/images/profile.png',120) }}
+                            {{ Form::bsThumbnail(url('/') . '/public/vendor/bishopm/images/profile.png',120) }}
                           @endif
                         </div>
                       </div>

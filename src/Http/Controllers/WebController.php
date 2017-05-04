@@ -249,7 +249,8 @@ class WebController extends Controller
         } else {
             $groups=array();
         }
-        return view('connexion::site.allgroups',compact('groups'));
+        $blogs=Blog::withTag('home-groups, small-groups')->orderBy('created_at','DESC')->get()->take(10);
+        return view('connexion::site.allgroups',compact('groups','blogs'));
     } 
 
     public function webgroupcategory($category)
