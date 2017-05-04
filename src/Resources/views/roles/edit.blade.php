@@ -1,7 +1,11 @@
 @extends('adminlte::page')
 
+@section('css')
+    <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
 @section('content_header')
-{{ Form::pgHeader('Edit role','Roles',route('admin.roles.index')) }}
+{{ Form::pgHeader($role->name,'Roles',route('admin.roles.index')) }}
 @stop
 
 @section('content')
@@ -20,4 +24,19 @@
         </div>
     </div>
     {!! Form::close() !!}
+@stop
+
+@section('js')
+<script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('.selectize').selectize({
+          plugins: ['remove_button']
+        });
+        $('#name').on('input', function() {
+            var slug = $("#name").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+            $("#slug").val(slug);
+        });
+    });    
+</script>
 @stop

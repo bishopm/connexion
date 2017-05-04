@@ -27,7 +27,7 @@
                             <tbody>
                                 @forelse ($roles as $role)
                                     <tr>
-                                        <td><a href="{{route('admin.roles.show',$role->id)}}">{{$role->name}}</a></td>
+                                        <td><a href="{{route('admin.roles.edit',$role->id)}}">{{$role->name}}</a></td>
                                     </tr>
                                 @empty
                                     <tr><td>No roles have been added yet</td></tr>

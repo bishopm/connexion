@@ -24,29 +24,27 @@ class RolesController extends Controller {
 
 	public function edit(Role $role)
     {
-        return view('connexion::roles.edit', compact('role'));
-    }
-
-    public function show(Role $role)
-    {
-        $data['role']=$role;
-        $data['users']=$role->users;
-        return view('connexion::roles.show', $data);
+        $permissions=array('edit-backend','edit-comment','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop');
+        return view('connexion::roles.edit', compact('role','permissions'));
     }
 
     public function create()
     {
-        return view('connexion::roles.create');
+        $permissions=array('edit-backend','edit-comment','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop');
+        return view('connexion::roles.create',compact('permissions'));
     }
 
     public function store(CreateRoleRequest $request)
     {
         $role=new Role();
         $role->name=$request->input('name');
-        $role->display_name = $request->input('display_name');
-        $role->description  = $request->input('description');
+        $role->slug = $request->input('slug');
+        $perms=array();
+        foreach ($request->input('permissions') as $perm){
+            $perms[$perm]=true;
+        }
+        $role->permissions=$perms;
         $role->save();
-        $role->flushCache();
         return redirect()->route('admin.roles.index')
             ->withSuccess('New role added');
     }
