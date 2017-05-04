@@ -247,6 +247,12 @@ var vm1 = new Vue({
             $("#tagselect").val(value);
           }
         });
+        if ($('#musictype').value=='liturgy'){
+            $('#lyrics').summernote();
+            $('#musicrow1').addClass('hidden');
+            $('#musicrow2').addClass('hidden');
+            $('#musicrow3').addClass('hidden');
+        }
         $('#musictype').on('change', function(event){
             if (event.target.value=='liturgy'){
                 $('#lyrics').summernote();

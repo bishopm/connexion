@@ -12,5 +12,8 @@
 <div id="filediv"></div>
 @if ($media<>"webpage")
 {{ Form::bsTextarea('notes','Notes','Notes',$individual->notes) }}
+@can('edit-backend')
+	{{ Form::bsText('giving','Planned Giving','Planned Giving',$individual->giving) }}
+@endcan
 @endif
 {{ Form::bsHidden('household_id',$individual->household_id) }}

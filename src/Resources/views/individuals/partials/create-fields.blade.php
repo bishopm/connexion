@@ -16,4 +16,7 @@
 	<div id="filediv"></div>
 	{{ Form::bsTextarea('notes','Notes','Notes') }}
 	{{ Form::bsHidden('household_id',$household->id) }}
+	@can('edit-backend')
+		{{ Form::bsText('giving','Planned Giving','Planned Giving') }}
+	@endcan
 @endif
