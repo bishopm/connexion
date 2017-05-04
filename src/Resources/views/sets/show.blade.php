@@ -1,7 +1,7 @@
 @extends('connexion::worship.page')
 
 @section('css')
-  <link rel="stylesheet" href="{{url('/')}}/vendor/bishopm/css/nestable.css">
+  <link rel="stylesheet" href="{{url('/')}}/public/vendor/bishopm/css/nestable.css">
 @stop
 
 @section('content')
