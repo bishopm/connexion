@@ -1,20 +1,20 @@
 @extends('connexion::templates.webpage')
 
 @section('css')
-
+<link href="{{ asset('/public/vendor/bishopm/css/filterizr.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')
 <div class="container">
   	<h1>Meet the {{$setting['site_abbreviation']}} community</h1>
     @if (Auth::check())
-    <ul>
-       <input type="text" class="filtr-search" name="filtr-search" data-search>    
-       <li class="btn btn-primary" data-filter="all"> All </li>
-       <li class="btn btn-primary" data-filter="999999"> Staff </li>
-       <li class="btn btn-primary" data-filter="1"> 07h00 </li>
-       <li class="btn btn-primary" data-filter="2"> 08h30 </li>
-       <li class="btn btn-primary" data-filter="3"> 10h00 </li>
+    <ul class="nav nav-gallery filters">
+        <input type="text" class="filtr-search" name="filtr-search" data-search>    
+        <li class="filtr-button filtr" data-filter="all">All</li>
+        <li class="filtr-button filtr" data-filter="999999">Staff</li>
+        <li class="filtr-button filtr" data-filter="1">07h00</li>
+        <li class="filtr-button filtr" data-filter="2">08h30</li>
+        <li class="filtr-button filtr" data-filter="3">10h00</li>
     </ul>
     <div class="row">
         <div class="filtr-container">

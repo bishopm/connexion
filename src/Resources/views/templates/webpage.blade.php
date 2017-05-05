@@ -114,19 +114,19 @@
 @include('connexion::shared.login-modal-script')
 </script>
 @yield('js')
-@if (isset($slideshow))
-  <script type="text/javascript">
+<script type="text/javascript">
   (function ($) {
     jQuery(window).on('load', function() {
-      $('.carousel').carousel({
-        pause: "false",
-        interval: {{$slideshow->duration}}000
-      });
+      @if (isset($slideshow))
+        $('.carousel').carousel({
+          pause: "false",
+          interval: {{$slideshow->duration}}000
+        });
+      @endif
       $('audio').mediaelementplayer({
         features: ['playpause','tracks','progress','volume'],
       });
     });
   })(jQuery);
-  </script>
-@endif
+</script>
 </html>
