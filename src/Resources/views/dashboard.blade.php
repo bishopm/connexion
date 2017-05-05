@@ -34,9 +34,8 @@
                                 </span>
                             </div>
                           </form>
-                          <div id="searchdata">
+                          <div id="searchdata" style="padding-top:15px; padding-bottom: 15px;">
                           </div>
-                          <p>&nbsp;</p>
                         </div>
                         <div class="well col-md-4">
                         <h2 style="margin-top: -7px">To do 
