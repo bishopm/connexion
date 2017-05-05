@@ -119,7 +119,7 @@ class WebController extends Controller
         $data['slideshow']=$this->slideshow->byName('front');
         if (Auth::user()){
             $data['comments']=Comment::orderBy('created_at','DESC')->get()->take(10);
-            $data['users']=$this->users->mostRecent(5);
+            $data['users']=$this->users->mostRecent(10);
         } 
         return view('connexion::home',$data);
     }

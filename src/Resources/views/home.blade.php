@@ -92,13 +92,14 @@
           @endforelse
         </ul>
         @if (isset(Auth::user()->individual))
-          <h4 class="top30">Welcome to our newest users!</h4>
+          <h4 class="top30">Welcome to our 10 newest users!</h4>
           <p class="text-left"><small>
           @forelse ($users as $user)
-            <a href="{{url('/')}}/users/{{$user->individual->slug}}">{{$user->individual->firstname}} {{$user->individual->surname}}</a>
             @if (!$loop->last)
-              ,
-            @endif
+              <a href="{{url('/')}}/users/{{$user->individual->slug}}">{{$user->individual->firstname}} {{$user->individual->surname}}</a>, 
+            @else
+              <a href="{{url('/')}}/users/{{$user->individual->slug}}">{{$user->individual->firstname}} {{$user->individual->surname}}</a>. 
+            @endif            
           @empty
               No users are set up yet
           @endforelse
