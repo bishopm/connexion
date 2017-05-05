@@ -2,6 +2,7 @@
 
 @section('css')
     <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/public/vendor/bishopm/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
@@ -33,6 +34,8 @@
 @stop
 
 @section('js')
+    <script src="{{ asset('public/vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
@@ -51,6 +54,10 @@
                       text: value
                   }
               }
+            });
+            $("#servicedate").datepicker({
+              todayHighlight: true,
+              format: "yyyy-mm-dd"
             });
             $('#title').on('input', function() {
                 var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");

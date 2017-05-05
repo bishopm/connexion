@@ -31,7 +31,7 @@ use Bishopm\Connexion\Models\Individual;
 use Bishopm\Connexion\Models\User;
 use Actuallymab\LaravelComment\Models\Comment;
 use Spatie\GoogleCalendar\Event;
-use Auth;
+use Auth, Feed, App;
 use MediaUploader;
 use Bishopm\Connexion\Notifications\SendMessage;
 use Bishopm\Connexion\Notifications\CheckUserRegistration;
@@ -534,21 +534,20 @@ class WebController extends Controller
         return json_encode($thislink);
     }
 
-    public function feed($society)
+    public function feed()
     {
-        /*$feed = App::make("feed");
+        $feed = App::make("feed");
         // cache the feed for 60 minutes (second parameter is optional)
-        $feed->setCache(0, 'LowerTugelaCircuitFeed');
+        $feed->setCache(0, $this->settingsarray['site_abbreviation'] . 'Feed');
         // check if there is cached feed and build new only if is not
         if (!$feed->isCached()){
-            $society=Society::where('society','=',$society)->first();
             // creating rss feed with our most recent 20 posts
             $blogs = Blog::where('created_at','>','2016-02-13')->orderBy('created_at', 'desc')->take(20)->get();
             $sermons = Sermon::where('servicedate','>','2016-02-13')->orderBy('servicedate','desc')->orderBy('created_at', 'desc')->take(20)->get();
             // set your feed's title, description, link, pubdate and language
-            $feed->title = $society->society . ' Methodist Church';
-            $feed->description = 'Together, a transforming discipleship movement';
-            $feed->logo = 'http://church.net.za/public/images/logo.jpg';
+            $feed->title = $this->settingsarray['site_name'];
+            $feed->description = 'A worshiping community, making disciples of Jesus to change our world';
+            $feed->logo = 'http://umc.org.za/public/vendor/bishopm/images/logo.jpg';
             $feed->link = url('feed');
             $feed->setDateFormat('datetime'); // 'datetime', 'timestamp' or 'carbon'
             $feed->pubdate = date('d-m-Y');
@@ -558,19 +557,15 @@ class WebController extends Controller
             $feeddata=array();
             foreach ($blogs as $blog){
                 // set item's title, author, url, pubdate, description and content
-                if ($blog->blogimage<>""){
-                    $imgurl=url($blog->blogimage);
-                } elseif ($blog->individual->photo) {
-                    $imgurl=url($blog->individual->photo);
-                } elseif ($society->logo) {
-                    $imgurl=url($society->logo);
+                if ($blog->individual->image) {
+                    $imgurl=url('/') . "/public/storage/individuals/" . $blog->individual_id . "/" . $blog->individual->image;
                 } else {
-                    $imgurl="http://church.net.za/public/images/logo.jpg";
+                    $imgurl=$feed->logo;
                 }
-                $fulldescrip=strip_tags($blog->post);
+                $fulldescrip=strip_tags($blog->body);
                 $dum['title']=$blog->title;
                 $dum['author']=$imgurl;
-                $dum['link']=url('/blog#' . $blog->id);
+                $dum['link']=url('/blog/' . $blog->slug);
                 $dum['pubdate']=$blog->created_at;
                 $dum['summary']="A new blog post has been published on our site.";
                 $dum['content']=$fulldescrip;
@@ -578,13 +573,9 @@ class WebController extends Controller
             }
             foreach ($sermons as $sermon){
                 // set item's title, author, url, pubdate, description and content
-                $seriesimage=url($sermon->series->seriesimage);
-                if ($sermon->preachable_type=="App\Models\Guest"){
-                    $preacher=$sermon->preachable->firstname . " " . $sermon->preachable->surname;
-                } else {
-                    $preacher=$sermon->preachable->individual->firstname . " " . $preacher=$sermon->preachable->individual->surname;
-                }
-                $fulldescrip="Recording of a sermon preached by " . $preacher . " at " . $society->society . ' Methodist Church on ' . date("l j F Y",strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
+                $seriesimage=url('/') . "/public/storage/series/" . $sermon->series->image;
+                $preacher=$sermon->individual->firstname . " " . $sermon->individual->surname;
+                $fulldescrip="Recording of a sermon preached by " . $preacher . " at " . $this->settingsarray['site_name'] . ' on ' . date("l j F Y",strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
                 $dum['title']=$sermon->sermon;
                 $dum['author']=$seriesimage;
                 $dum['link']=url('/sermons/' . $sermon->series->slug . '/' . $sermon->slug);
@@ -601,7 +592,6 @@ class WebController extends Controller
             $feed->add($fd['title'],$fd['author'],$fd['link'],$fd['pubdate'],$fd['summary'],$fd['content']);
         }
         return $feed->render('atom');
-        */
     }
 
 }
