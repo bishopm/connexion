@@ -36,6 +36,7 @@
                           </form>
                           <div id="searchdata">
                           </div>
+                          <p>&nbsp;</p>
                         </div>
                         <div class="well col-md-4">
                         <h2 style="margin-top: -7px">To do 
