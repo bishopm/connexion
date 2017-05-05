@@ -2,6 +2,7 @@
  
 Route::group(['middleware' => ['web']], function () {
 	// Authentication for guests
+	Route::get('/feed', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@feed','as' => 'feed']);
 	Route::get('login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
 	Route::post('login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@login','as'=>'login']);
 	Route::post('password/email',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail','as'=>'sendResetLinkEmail']);

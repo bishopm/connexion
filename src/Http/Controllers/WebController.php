@@ -534,4 +534,74 @@ class WebController extends Controller
         return json_encode($thislink);
     }
 
+    public function feed($society)
+    {
+        /*$feed = App::make("feed");
+        // cache the feed for 60 minutes (second parameter is optional)
+        $feed->setCache(0, 'LowerTugelaCircuitFeed');
+        // check if there is cached feed and build new only if is not
+        if (!$feed->isCached()){
+            $society=Society::where('society','=',$society)->first();
+            // creating rss feed with our most recent 20 posts
+            $blogs = Blog::where('created_at','>','2016-02-13')->orderBy('created_at', 'desc')->take(20)->get();
+            $sermons = Sermon::where('servicedate','>','2016-02-13')->orderBy('servicedate','desc')->orderBy('created_at', 'desc')->take(20)->get();
+            // set your feed's title, description, link, pubdate and language
+            $feed->title = $society->society . ' Methodist Church';
+            $feed->description = 'Together, a transforming discipleship movement';
+            $feed->logo = 'http://church.net.za/public/images/logo.jpg';
+            $feed->link = url('feed');
+            $feed->setDateFormat('datetime'); // 'datetime', 'timestamp' or 'carbon'
+            $feed->pubdate = date('d-m-Y');
+            $feed->lang = 'en';
+            $feed->setShortening(true); // true or false
+            $feed->setTextLimit(120); // maximum length of description text
+            $feeddata=array();
+            foreach ($blogs as $blog){
+                // set item's title, author, url, pubdate, description and content
+                if ($blog->blogimage<>""){
+                    $imgurl=url($blog->blogimage);
+                } elseif ($blog->individual->photo) {
+                    $imgurl=url($blog->individual->photo);
+                } elseif ($society->logo) {
+                    $imgurl=url($society->logo);
+                } else {
+                    $imgurl="http://church.net.za/public/images/logo.jpg";
+                }
+                $fulldescrip=strip_tags($blog->post);
+                $dum['title']=$blog->title;
+                $dum['author']=$imgurl;
+                $dum['link']=url('/blog#' . $blog->id);
+                $dum['pubdate']=$blog->created_at;
+                $dum['summary']="A new blog post has been published on our site.";
+                $dum['content']=$fulldescrip;
+                $feeddata[]=$dum;
+            }
+            foreach ($sermons as $sermon){
+                // set item's title, author, url, pubdate, description and content
+                $seriesimage=url($sermon->series->seriesimage);
+                if ($sermon->preachable_type=="App\Models\Guest"){
+                    $preacher=$sermon->preachable->firstname . " " . $sermon->preachable->surname;
+                } else {
+                    $preacher=$sermon->preachable->individual->firstname . " " . $preacher=$sermon->preachable->individual->surname;
+                }
+                $fulldescrip="Recording of a sermon preached by " . $preacher . " at " . $society->society . ' Methodist Church on ' . date("l j F Y",strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
+                $dum['title']=$sermon->sermon;
+                $dum['author']=$seriesimage;
+                $dum['link']=url('/sermons/' . $sermon->series->slug . '/' . $sermon->slug);
+                $dum['pubdate']=$sermon->servicedate . " 12:00:00";
+                $dum['summary']="A new sermon has been uploaded to our site.";
+                $dum['content']=$fulldescrip;
+                $feeddata[]=$dum;
+            }
+            usort($feeddata, function ($a, $b) {
+                return strcmp($b["pubdate"], $a["pubdate"]);
+            });
+        }
+        foreach ($feeddata as $fd){
+            $feed->add($fd['title'],$fd['author'],$fd['link'],$fd['pubdate'],$fd['summary'],$fd['content']);
+        }
+        return $feed->render('atom');
+        */
+    }
+
 }
