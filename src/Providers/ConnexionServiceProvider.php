@@ -338,6 +338,7 @@ class ConnexionServiceProvider extends ServiceProvider
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
         view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
         view()->composer('connexion::site.*', \Bishopm\Connexion\Composers\SlideComposer::class);
+        view()->composer('connexion::posts.*', \Bishopm\Connexion\Composers\SlideComposer::class);
         view()->composer('connexion::templates.webpage_no_sidebar', \Bishopm\Connexion\Composers\SlideComposer::class);
         view()->composer('connexion::templates.sidebar_right', \Bishopm\Connexion\Composers\SlideComposer::class);
         view()->composer('connexion::templates.map_page', \Bishopm\Connexion\Composers\SlideComposer::class);
