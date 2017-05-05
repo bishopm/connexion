@@ -529,7 +529,7 @@ class WebController extends Controller
         $individuals=Individual::where('surname','like','%' . $q . '%')->orwhere('firstname','like','%' . $q . '%')->get();
         $thislink="";
         foreach ($individuals as $indiv){
-            $thislink.="<a href=\"\">" . $indiv->firstname . " " . $indiv->surname . "</a><br>";
+            $thislink.="<a href=\"". url('/') . "/admin/households/" . $indiv->household_id . "\">" . $indiv->surname . ", " . $indiv->firstname . " (" . $indiv->cellphone . ")</a><br>";
         }
         return json_encode($thislink);
     }

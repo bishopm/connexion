@@ -25,9 +25,9 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-md-8">
-                        <form id="searchform" action="#" method="get" class="sidebar-form">
+                        <form id="searchform" action="#" method="get" class="">
                             <div class="input-group">
-                              <input type="text" id="q" name="q" class="form-control" placeholder="Search...">
+                              <input type="text" id="q" name="q" autocomplete="off" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
                                   <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                                   </button>
@@ -90,15 +90,18 @@
           eventSources:  {!! json_encode($cals) !!},
           defaultView: 'agendaWeek'
       });
-      $('#q').on('change',function(){
-        $.ajax({
-            type : 'POST',
-            url : '{{route('admin.search')}}',
-            data : $('#searchform').serialize(),
-            success: function(e){
-              $('#searchdata').text(e);
-            }
-        });
+      $('#q').on('keyup',function(e){
+        if ($('#q').val().length>2){
+          $.ajax({
+              type : 'POST',
+              url : '{{route('admin.search')}}',
+              data : $('#searchform').serialize(),
+              success: function(e){
+                ttt=JSON.parse(e);
+                $('#searchdata').html(ttt);
+              }
+          });
+        }
       });
   });
   </script>
