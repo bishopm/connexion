@@ -8,4 +8,5 @@ class SermonsRepository extends EloquentBaseRepository
     {
         return $this->model->with('series','individual')->orderBy('servicedate', 'DESC')->first();
     }
+    
 }

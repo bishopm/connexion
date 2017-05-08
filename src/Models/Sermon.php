@@ -9,7 +9,6 @@ use Actuallymab\LaravelComment\Commentable;
 
 class Sermon extends Model implements TaggableInterface
 {
-
     use TaggableTrait;
     use Commentable;
 

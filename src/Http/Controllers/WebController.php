@@ -206,10 +206,10 @@ class WebController extends Controller
         return view('connexion::site.series',compact('series'));
     }
 
-    public function websermon($series,$sermon)
+    public function websermon($seriesslug,$sermonslug)
     {
-        $series = $this->series->findBySlug($series);
-        $sermon = $this->sermon->findBySlug($sermon);
+        $series = $this->series->findBySlug($seriesslug);
+        $sermon = $this->sermon->getByAttributes(array('slug'=>$sermonslug));
         $comments = $sermon->comments()->paginate(5);
         return view('connexion::site.sermon',compact('series','sermon','comments'));
     }
