@@ -9,6 +9,11 @@ class GroupsRepository extends EloquentBaseRepository
         return $this->model->orderBy('groupname', 'ASC')->get();
     }
 
+    public function fellowship()
+    {
+        return $this->model->where('publish',1)->where('grouptype','fellowship')->orderBy('groupname', 'ASC')->get();
+    }
+
     public function allPublished()
     {
         return $this->model->where('publish',1)->orderBy('groupname', 'ASC')->get();

@@ -252,7 +252,7 @@ class WebController extends Controller
 
     public function weballgroups()
     {
-        $data = $this->group->getByAttributes(array('publish'=>'1'));
+        $data = $this->group->fellowship();
         foreach($data as $group){
             if ($group->subcategory){
                 $groups[$group->subcategory][]=$group;
