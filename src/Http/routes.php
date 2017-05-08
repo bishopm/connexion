@@ -23,6 +23,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('courses',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webcourses','as'=>'webcourses']);
 	Route::get('book/{book}',['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@show','as'=>'webbook']);
 	Route::get('books',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webbooks','as'=>'webbooks']);
+	Route::get('/author/{author}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webauthor','as' => 'webauthor']);
 	Route::get('register',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@showRegistrationForm','as'=>'registrationform']);
 	Route::post('register',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@register','as'=>'admin.register']);
 	Route::post('checkmail',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);

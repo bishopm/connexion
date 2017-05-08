@@ -209,7 +209,7 @@ class WebController extends Controller
     public function websermon($seriesslug,$sermonslug)
     {
         $series = $this->series->findBySlug($seriesslug);
-        $sermon = $this->sermon->getByAttributes(array('slug'=>$sermonslug));
+        $sermon = $this->sermon->findBySlug($sermonslug);
         $comments = $sermon->comments()->paginate(5);
         return view('connexion::site.sermon',compact('series','sermon','comments'));
     }
@@ -359,6 +359,13 @@ class WebController extends Controller
     {
         $books = $this->books->all();
         return view('connexion::site.books',compact('books'));
+    }
+
+    public function webauthor($author)
+    {
+        $author=urldecode($author);
+        $books=Book::where('author','like','%' . $author . '%')->get();
+        return view('connexion::site.author',compact('author','books'));
     }
 
     public function mychurch()

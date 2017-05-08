@@ -6,7 +6,7 @@
 
 @section('content')  
     <div class="container">
-      <h3>{{$book->title}} <small>{{$book->author}}</small></h3>
+      <h3>{{$book->title}} <small><a href="{{url('/')}}/author/{{urlencode($book->author)}}">{{$book->author}}</a></small></h3>
         <div class="row">
           <div class="col-md-3"><img class="img-responsive" width="250px" src="{{url('/')}}/public/storage/books/{{$book->image}}">
             <ul class="top10 list-unstyled">
