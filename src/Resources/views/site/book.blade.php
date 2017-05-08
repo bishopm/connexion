@@ -6,9 +6,22 @@
 
 @section('content')  
     <div class="container">
-      <h3>{{$book->title}} <small><a href="{{url('/')}}/author/{{urlencode($book->author)}}">{{$book->author}}</a></small></h3>
+      <h3>{{$book->title}} <small>
+      @foreach ($authors as $author)
+        @if (!$loop->last)
+          <a href="{{url('/')}}/author/{{urlencode(trim($author))}}">{{trim($author)}}</a>, 
+        @else
+          <a href="{{url('/')}}/author/{{urlencode(trim($author))}}">{{trim($author)}}</a>
+        @endif
+      @endforeach
+      </small></h3>
         <div class="row">
-          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{url('/')}}/public/storage/books/{{$book->image}}">
+          <div class="col-md-3">
+            @if ($book->image)
+                <img width="250px" class="img-responsive" src="{{url('/')}}/public/storage/books/{{$book->image}}">
+            @else
+                <img width="250px" class="img-responsive" src="{{url('/')}}/public/vendor/bishopm/images/book.png">
+            @endif
             <ul class="top10 list-unstyled">
             <li>Price: R{{$book->saleprice}}</li>
             <li>Copies available: {{$book->stock}}</li>

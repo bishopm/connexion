@@ -55,6 +55,7 @@ class BooksController extends Controller {
 	public function show($slug)
 	{
         $data['book']=$this->book->findBySlug($slug);
+        $data['authors']=explode(',',$data['book']->author);
         $data['comments'] = $data['book']->comments()->paginate(5);
         return view('connexion::site.book',$data);
 	}
