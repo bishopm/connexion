@@ -5,11 +5,13 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <form id="upload_form" enctype="multipart/form-data" method="post" action="{{route('admin.addimage')}}">
                     <h3 class="modal-title" id="delete-confirmation-title">Choose a file <small>Folder: {{$folder}}</small>
-                    <label class="btn btn-primary" for="upload">
+                    <label id="openbut" class="btn btn-primary" for="upload">
                         <input id="upload" type="file" style="display:none;">
-                        Upload
+                        Open file
                     </label>
-                    <a href="#" class="btn btn-primary" id="upload-result">Send</a></h3>
+                    <a href="#" class="btn btn-primary" style="display:none;" id="upload-result">OK</a>
+                    <a href="#" class="btn btn-primary" data-dismiss="modal" style="display:none;" id="cancelbut">Cancel</a></h3>
+                    </h3>
                     <input type="hidden" name="folder" value="{{$folder}}">
                     <input type="hidden" id="filename" name="filename">
                 </form>

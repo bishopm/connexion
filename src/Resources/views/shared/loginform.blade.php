@@ -1,3 +1,15 @@
+<div class="form-group top10" id="emaildiv" style="display:none;">
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="emailbox">Email address you registered with</label>
+            <input id="emailbox" class="form-control" placeholder="Enter your email address">
+        </div>
+        <div class="col-xs-6">
+            <label for="usernamebox">Recognise your username?</label>        
+            <select id="usernamebox" class="form-control"></select>
+        </div>
+    </div>
+</div>
 <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post">
                 {!! csrf_field() !!}
 
@@ -39,13 +51,13 @@
     </div>
 </form>
 <div class="auth-links">
-    <a href="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}"
-       class="text-center"
-    >{{ trans('adminlte::adminlte.i_forgot_my_password') }}</a>
-    <br>
     @if (config('adminlte.register_url', 'register'))
         <a href="{{ url(config('adminlte.register_url', 'register')) }}"
            class="text-center"
-        >Register as a user</a>
+        >Register as a user</a><br>
     @endif
+    <a href="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}"
+       class="text-center"
+    >I forgot my password</a><br>
+    <a href="#" onclick="usernametell();" class="text-center">I forgot my username</a>
 </div>

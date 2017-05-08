@@ -59,7 +59,11 @@ $( document ).ready(function() {
             });    
         });
     });
-
+    $('#openbut').on('click', function (ev) {
+        $('#upload-result').show();
+        $('#openbut').hide();
+        $('#cancelbut').show();
+    });
     $('#modal-filemanager').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var actionTarget = button.data('action-target');

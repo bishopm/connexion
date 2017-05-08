@@ -29,6 +29,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('checkmail',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);
 	Route::get('preachingplan','Bishopm\Connexion\Http\Controllers\PlansController@currentplan');
 	Route::get('admin/newuser/checkname/{username}',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@checkname','as'=>'admin.checkname']);
+	Route::get('admin/getusername/{email}',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@getusername','as'=>'admin.getusername']);
 	Route::get('/groups/{category}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroupcategory','as' => 'webgroupcategory']);
 	Route::get('/groups', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@weballgroups','as' => 'weballgroups']);
 	Route::get('/group/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroup','as' => 'webgroup']);

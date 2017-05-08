@@ -619,4 +619,16 @@ class WebController extends Controller
         return $feed->render('atom');
     }
 
+    public function getusername($email){
+        $users=$this->users->getByAttributes(array('email'=>$email));
+        if (count($users)){
+            foreach ($users as $user){
+                $dat[]=$user->name;
+            }
+            return json_encode($dat);
+        } else {
+            return "error";
+        }
+    }
+
 }
