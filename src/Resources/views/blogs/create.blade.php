@@ -31,6 +31,7 @@
 @section('js')
     <script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('public/vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/summernote/summernote-cleaner.js') }}" type="text/javascript"></script>
     <script src="{{ asset('public/vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
     <script src="{{ asset('public/vendor/bishopm/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
@@ -65,7 +66,18 @@
                 ['link', ['linkDialogShow', 'unlink']],
                 ['view', ['fullscreen', 'codeview']],
                 ['para', ['ul', 'ol', 'paragraph']]
-              ]
+              ],
+              cleaner:{
+                notTime: 2400, // Time to display Notifications.
+                action: 'paste', // both|button|paste 'button' only cleans via toolbar button, 'paste' only clean when pasting content, both does both options.
+                newline: '<p></p>', // Summernote's default is to use '<p><br></p>'
+                notStyle: 'position:absolute;top:0;left:0;right:0', // Position of Notification
+                icon: '<i class="note-icon">[Your Button]</i>',
+                keepHtml: false, // Remove all Html formats
+                keepClasses: false, // Remove Classes
+                badTags: ['style', 'script', 'applet', 'embed', 'noframes', 'font', 'noscript', 'html'], 
+                badAttributes: ['style', 'start','p'] // Remove attributes from remaining tags
+              }
             });
             $('#title').on('input', function() {
                 var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");

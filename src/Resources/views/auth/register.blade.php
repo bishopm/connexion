@@ -38,7 +38,7 @@
         <form action="{{ url('/register') }}" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group has-feedback">
-                <input class="form-control" placeholder="Choose a unique username" id="name" name="name" autocomplete="off" value="{{ old('name') }}"/>
+                <input class="form-control" placeholder="Choose a unique username eg:johnwesley" id="name" name="name" autocomplete="off" value="{{ old('name') }}"/>
                 <div id="errmess" style="display:none;"><i class="fa fa-times"></i> Username is required and must be unique</div>
                 <div id="okmess" style="display:none;"><i class="fa fa-check"></i> This username is available</div>
             </div>
@@ -47,7 +47,7 @@
                 <span class="fa fa-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <select class="selectize" placeholder="Find your name in our database" name="individual_id" id="individual_id" value="{{ old('individual_id') }}"/>
+                <select class="selectize" placeholder="Click to find your name in our database" name="individual_id" id="individual_id" value="{{ old('individual_id') }}"/>
                 </select>
             </div>
             <div class="form-group">
@@ -59,7 +59,7 @@
                 </select>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" placeholder="Password" name="password"/>
+                <input type="password" class="form-control" placeholder="Password (at least 6 characters)" name="password"/>
                 <span class="fa fa-key form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -73,6 +73,10 @@
                 <div class="col-xs-4">
                     <button type="submit" id="registeruser" class="btn btn-primary btn-block btn-flat">Register</button>
                 </div><!-- /.col -->
+                <div class="col-xs-12">
+                    <hr>
+                    <div class="well">After successfully registering, you will be sent an email to confirm your email address. You can then login using your username and password. </div>
+                </div>
             </div>
         </form>
     </div><!-- /.form-box -->
