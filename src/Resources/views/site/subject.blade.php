@@ -7,7 +7,7 @@
 		  	<h3>Content tagged '{{$tag}}'</h3>
 		</div>
 	    @if (count($blogs))
-	    	<div class="col-md-4">
+	    	<div class="col-md-{{$colwidth}}">
 			    <h4>Blog posts (News/Article)</h4>
 			    <ul class="list-unstyled">
 				    @foreach ($blogs as $blog)
@@ -17,7 +17,7 @@
 			</div>
 		@endif
 	    @if (count($sermons))
-	    	<div class="col-md-4">
+	    	<div class="col-md-{{$colwidth}}">
 			    <h4>Sermons</h4>
 			    <ul class="list-unstyled">
 				    @foreach ($sermons as $sermon)
@@ -27,7 +27,7 @@
 			</div>
 		@endif
 		@if (count($books))
-			<div class="col-md-4">
+			<div class="col-md-{{$colwidth}}">
 			    <h4>Books</h4>
 			    <ul class="list-unstyled">
 				    @foreach ($books as $book)

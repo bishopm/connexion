@@ -24,7 +24,6 @@
 						To change group details, contact: 
 						@if (null!==$leader->user)
 							<a href="{{url('/')}}/users/{{$leader->slug}}">{{$leader->firstname}} {{$leader->surname}}</a>
-							}
 						@else
 							{{$leader->firstname}} {{$leader->surname}}
 						@endif

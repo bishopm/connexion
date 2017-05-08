@@ -177,10 +177,27 @@ class WebController extends Controller
 
     public function websubject($tag)
     {
+        $cols=0;
         $blogs = Blog::withTag($tag)->get();
+        if (count($blogs)){
+            $cols++;
+        }
         $sermons = Sermon::withTag($tag)->get();
+        if (count($sermons)){
+            $cols++;
+        }
         $books = Book::withTag($tag)->get();
-        return view('connexion::site.subject',compact('blogs','sermons','tag','books'));
+        if (count($books)){
+            $cols++;
+        }
+        if ($cols<2){
+            $colwidth=12;
+        } elseif ($cols<3) {
+            $colwidth=6;
+        } else {
+            $colwidth=4;
+        }
+        return view('connexion::site.subject',compact('blogs','sermons','tag','books','colwidth'));
     }
 
     public function webseries($series)

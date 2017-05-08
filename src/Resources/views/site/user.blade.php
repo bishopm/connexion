@@ -25,9 +25,10 @@
 		  	<h4>Groups</h4>
 		    @forelse ($user->individual->groups as $group)
 		    	@if ($group->publish)
-			    	<a href="{{url('/')}}/group/{{$group->slug}}">{{$group->groupname}}</a>
 			    	@if (!$loop->last)
-			    		, 
+			    		<a href="{{url('/')}}/group/{{$group->slug}}">{{$group->groupname}}</a>, 
+			    	@else
+						<a href="{{url('/')}}/group/{{$group->slug}}">{{$group->groupname}}</a>.
 			    	@endif
 			    @endif
 			@empty
