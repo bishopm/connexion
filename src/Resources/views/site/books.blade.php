@@ -49,7 +49,7 @@
 <script language="javascript">
 $(document).ready(function() {
     $('#bTable').DataTable( {
-            "order": [[ 0, "desc" ]]
+            "order": [[ 1, "asc" ]]
         } );
 } );
 </script>
