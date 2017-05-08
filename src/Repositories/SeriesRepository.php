@@ -6,6 +6,6 @@ class SeriesRepository extends EloquentBaseRepository
 {
 	public function allwithsermons()
     {
-        return $this->model->has('sermons')->orderBy('servicedate')->get();
+        return $this->model->has('sermons')->get();
     }
 }

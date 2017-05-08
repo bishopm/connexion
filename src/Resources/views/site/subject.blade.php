@@ -21,7 +21,7 @@
 			    <h4>Sermons</h4>
 			    <ul class="list-unstyled">
 				    @foreach ($sermons as $sermon)
-				    	<li>{{date("Y-m-d",strtotime($blog->created_at))}} <a href="{{url('/')}}/sermons/{{$sermon->series->slug}}/{{$sermon->slug}}">{{$sermon->title}}</a> <a href="{{url('/')}}/people/{{$sermon->individual->slug}}"><i>{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</i></a></li>
+				    	<li>{{date("Y-m-d",strtotime($sermon->created_at))}} <a href="{{url('/')}}/sermons/{{$sermon->series->slug}}/{{$sermon->slug}}">{{$sermon->title}}</a> <a href="{{url('/')}}/people/{{$sermon->individual->slug}}"><i>{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</i></a></li>
 				    @endforeach
 				</ul>
 			</div>
