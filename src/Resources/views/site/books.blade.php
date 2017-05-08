@@ -48,7 +48,9 @@
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script language="javascript">
 $(document).ready(function() {
-    $('#bTable').DataTable();
+    $('#bTable').DataTable( {
+            "order": [[ 0, "desc" ]]
+        } );
 } );
 </script>
 @endsection
