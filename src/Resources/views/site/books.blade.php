@@ -31,7 +31,7 @@
                         </a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->title}}</a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{!!$cc->author!!}</a></td>
-                        <td><a href="{{route('webbook',$cc->slug)}}">{{floatval($cc->saleprice)}}<br>Stock: {!!$cc->stock!!}</a></td>
+                        <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->saleprice}}<br>Stock: {!!$cc->stock!!}</a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{{round($cc->averageRate(),2)}} ({{count($cc->comments)}} comments)</a></td>
                     </tr>
                 @empty
