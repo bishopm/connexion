@@ -11,12 +11,12 @@
     	<table id="bTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th></th><th>Book</th><th>Author</th><th>Copies</th><th>Average rating (1-5)</th>
+                    <th></th><th>Book</th><th>Author</th><th>Price</th><th>Average rating (1-5)</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th></th><th>Book</th><th>Author</th><th>Copies</th><th>Average rating (1-5)</th>
+                    <th></th><th>Book</th><th>Author</th><th>Price</th><th>Average rating (1-5)</th>
                 </tr>
             </tfoot>
             <tbody>
@@ -31,7 +31,7 @@
                         </a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->title}}</a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{!!$cc->author!!}</a></td>
-                        <td><a href="{{route('webbook',$cc->slug)}}">{!!$cc->stock!!}</a></td>
+                        <td><a href="{{route('webbook',$cc->slug)}}">{{floatval($cc->saleprice)}}<br>Stock: {!!$cc->stock!!}</a></td>
                         <td><a href="{{route('webbook',$cc->slug)}}">{{round($cc->averageRate(),2)}} ({{count($cc->comments)}} comments)</a></td>
                     </tr>
                 @empty
@@ -49,8 +49,9 @@
 <script language="javascript">
 $(document).ready(function() {
     $('#bTable').DataTable( {
-            "order": [[ 1, "asc" ]]
-        } );
+            "order": [[ 1, "asc" ]],
+            "columnDefs": [{ "orderable": false, "targets": 3 }]
+    } );
 } );
 </script>
 @endsection
