@@ -1,5 +1,5 @@
 .filtr-button {
-    background-color: #81BE41;
+    background-color: #3cd27b;
     border: none;
     border-radius: 0.25rem;
     color: white;
@@ -10,7 +10,7 @@
 }
 
 .filtr-button:hover {
-    background-color: #141D0A
+    background-color: #26a45b
 }
 
 #extra-margin {
@@ -213,14 +213,14 @@
 
 .nav-gallery li {
     border-radius: 0 !important;
-    border-bottom: 1px solid #81BE41;
+    border-bottom: 1px solid #26a45b;
     cursor: pointer !important
 }
 
 @media (min-width: 768px) {
     .nav-gallery li {
         border-bottom: none;
-        border-right: 1px solid #81BE41;
+        border-right: 1px solid #26a45b;
         display: inline-block
     }
 }
@@ -241,7 +241,7 @@
 }
 
 .nav-gallery .filtr-active {
-    background-color: #81BE41;
+    background-color: #26a45b;
     box-shadow: inset 0 0 5px rgba(26, 29, 25, 0.35)
 }
 
@@ -545,4 +545,171 @@
 .filteringModeSingle .purple>.item-number,
 .filteringModeMulti .purple>.item-number {
     background-color: purple !important
+}
+
+.docs {
+    margin-top: 1rem;
+    padding-bottom: 1rem
+}
+
+.docs .docs-container h3 {
+    margin-bottom: 0.5rem;
+    text-align: left !important;
+    padding-left: 2rem
+}
+
+.docs .docs-container .api-list {
+    padding: 0 3rem;
+    list-style: none
+}
+
+.docs .docs-container .api-list li {
+    cursor: pointer;
+    display: block;
+    padding: 0.25rem;
+    transition: color 0.25s
+}
+
+.docs .docs-container .api-list li:hover {
+    color: #3cd27b
+}
+
+.docs .docs-container .api-list li.active {
+    color: #3cd27b
+}
+
+.docs .docs-container .api-list li:before {
+    content: "";
+    border-color: transparent #3cd27b;
+    border-style: solid;
+    border-width: 0.35em 0 0.35em 0.45em;
+    display: block;
+    height: 0;
+    width: 0;
+    left: -1em;
+    top: 1.1em;
+    position: relative
+}
+
+.docs .docs-container .doc-window {
+    background-color: #fafafa;
+    border-radius: 0.5rem;
+    padding: 0 3rem
+}
+
+.docs .docs-container .doc-window h3 {
+    padding-left: 0
+}
+
+.docs .docs-container .doc-window .method-link {
+    cursor: pointer;
+    color: #26a45b;
+    border-bottom: 1px solid transparent;
+    text-decoration: none;
+    transition: border-bottom 0.25s
+}
+
+.docs .docs-container .doc-window .method-link:hover {
+    border-bottom: 1px solid #26a45b
+}
+
+.faq {
+    margin-top: 1rem;
+    padding-bottom: 1rem
+}
+
+.faq h2,
+.faq h3 {
+    text-align: left
+}
+
+.faq h2,
+.faq .list-row {
+    padding-left: 1rem
+}
+
+.faq h3 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem
+}
+
+.faq section:first-of-type {
+    margin-top: 0
+}
+
+.faq section {
+    margin-top: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem
+}
+
+.faq ol {
+    padding-left: 1rem
+}
+
+.contact {
+    padding: 3rem 1rem;
+    text-align: center
+}
+
+.contact form .row {
+    margin: 1rem
+}
+
+.contact input,
+.contact textarea {
+    background-color: #333831;
+    border: 1px solid #0a0b09;
+    border-radius: 0.2rem;
+    color: white;
+    text-transform: uppercase;
+    transition: all 0.25s;
+    padding: 0.75rem;
+    width: 90%
+}
+
+@media (min-width: 768px) {
+    .contact input,
+    .contact textarea {
+        width: 60%
+    }
+}
+
+.contact input:focus,
+.contact textarea:focus {
+    border: 1px solid #3cd27b
+}
+
+.contact textarea {
+    resize: none
+}
+
+.contact .filtr-button:focus {
+    outline: 0;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.9)
+}
+
+.contact #form-msg {
+    height: 8rem
+}
+
+.contact a:link,
+.contact a:active,
+.contact a:visited {
+    color: #68e49c !important
+}
+
+.contact a:link:hover,
+.contact a:active:hover,
+.contact a:visited:hover {
+    color: #3cd27b !important;
+    border-bottom: 1px solid #3cd27b !important
+}
+
+.footer-main {
+    color: #26a45b;
+    font-size: 85%;
+    letter-spacing: 0.075rem;
+    padding: 0.25rem 0;
+    text-align: center
 }
