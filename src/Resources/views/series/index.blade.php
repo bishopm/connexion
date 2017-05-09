@@ -18,6 +18,7 @@
                                 <tr>
                                     <th>Starting date</th>
                                     <th>Series name</th>
+                                    <th>Sermons</th>
                                     <th data-sortable="false">Actions</th>
                                 </tr>
                             </thead>
@@ -25,6 +26,7 @@
                                 <tr>
                                     <th>Starting date</th>
                                     <th>Series name</th>
+                                    <th>Sermons</th>
                                     <th data-sortable="false">Actions</th>
                                 </tr>
                             </tfoot>
@@ -34,6 +36,8 @@
                                         <td><a href="{{route('admin.series.show',$serie->id)}}">{{date("Y-m-d",strtotime($serie->created_at))}}</a>
                                         </td>
                                         <td><a href="{{route('admin.series.show',$serie->id)}}">{{$serie->title}}</a>
+                                        </td>
+                                        <td><a href="{{route('admin.series.show',$serie->id)}}">{{count($serie->sermons)}}</a>
                                         </td>
                                         <td>
                                             <div class="btn-group">

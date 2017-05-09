@@ -102,4 +102,11 @@ class GroupsController extends Controller {
         return redirect()->route('webcourses')->withSuccess('Sign-up complete :)');
     }
 
+    public function destroy($id)
+    {
+        $group=$this->group->find($id);
+        $group->delete();
+        return redirect()->route('admin.groups.index')->withSuccess('Group has been deleted');
+    }
+
 }

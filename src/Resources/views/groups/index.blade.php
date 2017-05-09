@@ -16,18 +16,25 @@
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Group name</th>
+                                    <th>Group name</th><th>Members</th><th>Actions</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Group name</th>
+                                    <th>Group name</th><th>Members</th><th>Actions</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @forelse ($groups as $group)
                                     <tr>
                                         <td><a href="{{route('admin.groups.show',$group->id)}}">{{$group->groupname}}</a></td>
+                                        <td><a href="{{route('admin.groups.show',$group->id)}}">{{count($group->individuals)}}</a></td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="{{ route('admin.groups.edit', [$group->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.groups.destroy', [$group->id]) }}"><i class="fa fa-trash"></i></button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr><td>No groups have been added yet</td></tr>
@@ -39,10 +46,12 @@
             </div>
         </div>
     </div>
+    @include('connexion::shared.delete-modal')
 @endsection
 
 @section('js')
 <script language="javascript">
+@include('connexion::shared.delete-modal-script')
 $(document).ready(function() {
     $('#indexTable').DataTable();
 } );
