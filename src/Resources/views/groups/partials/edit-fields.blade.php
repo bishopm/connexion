@@ -1,5 +1,5 @@
 {{ Form::bsText('groupname','Group name','Group name',$group->groupname) }}
-{{ Form::bsText('description','Brief description','Brief description',$group->description) }}
+{{ Form::bsTextarea('description','Brief description','Brief description',$group->description) }}
 @if (!isset($webedit))
   <div class='form-group '>
     <label for="individual_id">Leader</label>

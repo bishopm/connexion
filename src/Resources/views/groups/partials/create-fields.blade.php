@@ -1,5 +1,5 @@
 {{ Form::bsText('groupname','Group name','Group name') }}
-{{ Form::bsText('description','Brief description','Brief description') }}
+{{ Form::bsTextarea('description','Brief description','Brief description') }}
 <div class='form-group '>
   <label for="individual_id">Leader</label>
   <select class="selectize" id="leader" name="leader">
