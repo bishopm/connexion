@@ -36,6 +36,10 @@ class Individual extends Model implements TaggableInterface
         return $this->belongsToMany('Bishopm\Connexion\Models\Group')->whereNull('group_individual.deleted_at')->withTimestamps();
     }
 
+    public function publishedgroups(){
+        return $this->belongsToMany('Bishopm\Connexion\Models\Group')->where('publish',1)->whereNull('group_individual.deleted_at')->withTimestamps();
+    }
+
     public function pastgroups(){
         return $this->belongsToMany('Bishopm\Connexion\Models\Group')->whereNotNull('group_individual.deleted_at')->withTimestamps()->withPivot('deleted_at');
     }

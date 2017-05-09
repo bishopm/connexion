@@ -5,10 +5,12 @@ namespace Bishopm\Connexion\Models;
 use Illuminate\Database\Eloquent\Model;
 use Cartalyst\Tags\TaggableTrait;
 use Cartalyst\Tags\TaggableInterface;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Song extends Model implements TaggableInterface
 {
 	use TaggableTrait;
+    use LogsActivity;
 
     protected $guarded = array('id');
 

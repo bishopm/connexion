@@ -23,7 +23,7 @@
 		  </div>
 		  <div class="col-md-3">
 		  	<h4>Groups</h4>
-		    @forelse ($user->individual->groups as $group)
+		    @forelse ($user->individual->publishedgroups as $group)
 		    	@if ($group->publish)
 			    	@if (!$loop->last)
 			    		<a href="{{url('/')}}/group/{{$group->slug}}">{{$group->groupname}}</a>, 

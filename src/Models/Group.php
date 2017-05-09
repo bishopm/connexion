@@ -5,11 +5,13 @@ namespace Bishopm\Connexion\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Group extends Model
 {
     use Sluggable;
     use SoftDeletes;
+    use LogsActivity;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');

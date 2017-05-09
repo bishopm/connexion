@@ -4,10 +4,12 @@ namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Household extends Model {
 
     use SoftDeletes;
+    use LogsActivity;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');
