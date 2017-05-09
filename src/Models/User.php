@@ -7,12 +7,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Actuallymab\LaravelComment\CanComment;
 use Bishopm\Connexion\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\CausesActivity;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use CanComment;
     use SoftDeletes;
+    use CausesActivity;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');

@@ -355,6 +355,7 @@ class ConnexionServiceProvider extends ServiceProvider
             $this->commands[]="Bishopm\Connexion\Console\SyncToodledoCommand";
         }
         $this->commands($this->commands);
+        $this->app->register('Bishopm\Connexion\Providers\EventServiceProvider');
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
