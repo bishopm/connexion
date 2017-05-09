@@ -96,7 +96,7 @@
 @section('js')
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
     <script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
-    <script src="{{url('/')}}/vendor/bishopm/js/gmap.js" type="text/javascript"></script>
+    <script src="{{url('/')}}/public/vendor/bishopm/js/gmap.js" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('.input-groups').selectize({
