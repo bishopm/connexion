@@ -79,6 +79,9 @@
                           <div title="Email"><i class="fa fa-fw fa-envelope-o"></i>{{$individual->email}}</div>
                           <div title="Membership status"><i class="fa fa-fw fa-street-view"></i>{{$individual->memberstatus}}</div>
                           <div title="Notes"><i class="fa fa-fw fa-pencil-square-o"></i>{!! $individual->notes !!}</div>
+                          @if ((count($logs)) and (array_key_exists($individual->id, $logs)))
+                            <div class="small">{{$logs[$individual->id]}}</div>
+                          @endif
                         </div>
                         <div class="col-md-6">
                           @if ($individual->image<>'')

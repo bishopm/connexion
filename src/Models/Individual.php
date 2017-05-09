@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cartalyst\Tags\TaggableTrait;
 use Cartalyst\Tags\TaggableInterface;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Individual extends Model implements TaggableInterface
 {
     use Sluggable;
     use SoftDeletes;
     use TaggableTrait;
+    use LogsActivity;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');

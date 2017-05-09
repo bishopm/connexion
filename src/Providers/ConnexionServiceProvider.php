@@ -367,6 +367,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Jrean\UserVerification\UserVerificationServiceProvider');
         $this->app->register('LithiumDev\TagCloud\ServiceProvider');
         $this->app->register('Roumen\Feed\FeedServiceProvider');
+        $this->app->register('Spatie\Activitylog\ActivitylogServiceProvider');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
         AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');

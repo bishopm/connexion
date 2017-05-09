@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Repositories\HouseholdsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Models\Household;
+use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateHouseholdRequest;
@@ -66,7 +67,14 @@ class HouseholdsController extends Controller {
         $data['groups']=$this->groups->all();
         $data['household']=$household;
         $data['tags']=Individual::allTags()->get();
+        $data['logs']=array();
         foreach ($household->individuals as $indiv){
+            $activity=$indiv->activity->last();
+            if ($activity){
+                $user=User::find($activity->causer_id);
+                $thislog=ucfirst($activity['description']) . " by " .  $user->individual->firstname . " " . $user->individual->surname . " on " . date("d M Y",strtotime($activity['created_at']));
+                $data['logs'][$indiv->id]=$thislog;
+            }
             if ($indiv->tags){
                 foreach ($indiv->tags as $itag){
                     $data['itags'][$indiv->id][]=$itag->name;
