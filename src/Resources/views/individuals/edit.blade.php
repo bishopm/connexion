@@ -21,6 +21,7 @@
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.households.show',$individual->household_id)) }}
+                    <button class="btn btn-danger btn-flat pull-right" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.individuals.destroy', [$individual->household_id,$individual->id]) }}">Delete</button>
                 </div>
             </div>
         </div>
