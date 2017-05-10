@@ -340,7 +340,7 @@ class ConnexionServiceProvider extends ServiceProvider
             \JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class]]);
         //config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
         //config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
-        config(['analytics.service_account_credentials_json' => public_path('vendor/bishopm/service_account_credentials.json')]);
+        config(['analytics.service_account_credentials_json' => app_path('public/vendor/bishopm/service_account_credentials.json')]);
         config(['analytics.view_id' => '150021590']);
         config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
