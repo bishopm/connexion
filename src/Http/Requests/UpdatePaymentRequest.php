@@ -9,7 +9,9 @@ class UpdatePaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'paymentdate' => 'required'
+            'paymentdate' => 'required',
+            'pgnumber'=>'required',
+            'amount'=>'required'
         ];
     }
 
@@ -21,7 +23,6 @@ class UpdatePaymentRequest extends FormRequest
     public function messages()
     {
         return [
-            'paymentdate.required' => 'This field is really important'
         ];
     }
 }
