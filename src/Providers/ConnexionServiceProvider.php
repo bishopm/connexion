@@ -332,8 +332,10 @@ class ConnexionServiceProvider extends ServiceProvider
             \JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
             \JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
             \JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class]]);
-        config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
-        config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
+        //config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
+        //config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
+        config(['analytics.service_account_credentials_json' => public_path('vendor/bishopm/service_account_credentials.json')]);
+        config(['analytics.view_id' => '150021590']);
         config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
         view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
@@ -362,20 +364,22 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Cartalyst\Tags\TagsServiceProvider');
         $this->app->register('Plank\Mediable\MediableServiceProvider');
         $this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
-        $this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
+        //$this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
         $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
         $this->app->register('Felixkiss\UniqueWithValidator\ServiceProvider');
         $this->app->register('Jrean\UserVerification\UserVerificationServiceProvider');
         $this->app->register('LithiumDev\TagCloud\ServiceProvider');
         $this->app->register('Roumen\Feed\FeedServiceProvider');
         $this->app->register('Spatie\Activitylog\ActivitylogServiceProvider');
+        $this->app->register('Spatie\Analytics\AnalyticsServiceProvider');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
-        AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
+        //AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
         AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');
         AliasLoader::getInstance()->alias("Feed",'Roumen\Feed\Feed');
+        AliasLoader::getInstance()->alias("Analytics",'Spatie\Analytics\AnalyticsFacade');
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
         $this->registerBindings();
         $this->registerUserPolicies();

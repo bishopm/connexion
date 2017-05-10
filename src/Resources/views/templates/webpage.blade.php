@@ -129,4 +129,5 @@
     });
   })(jQuery);
 </script>
+@include('connexion::shared.analytics')
 </html>
