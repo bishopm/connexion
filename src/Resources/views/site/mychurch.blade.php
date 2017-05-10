@@ -1,5 +1,9 @@
 @extends('connexion::templates.webpage')
 
+@section('css')
+  <link href="{{ asset('/public/vendor/bishopm/css/isotope.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
 @section('content')
 <div class="container">
   	<h1>Meet the {{$setting['site_abbreviation']}} community</h1>
@@ -18,7 +22,7 @@
                 <div class="col-xs-4 col-sm-3 col-md-2 element-item {{$user->status}}">
                     <a href="{{url('/')}}/users/{{$user->individual->slug}}">
                         @if ($user->individual->image)
-                            <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/public/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
+                            <img class="img-responsive img-circle" src="{{url('/')}}/public/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
                         @else
                             <img class="img-responsive img-circle img-thumbnail" src="{{asset('public/vendor/bishopm/images/profile.png')}}">
                         @endif
