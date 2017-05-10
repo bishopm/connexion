@@ -1,4 +1,4 @@
-@extends('connexion::templates.webpage_jqold')
+@extends('connexion::templates.webpage')
 
 @section('css')
 <link href="{{ asset('/public/vendor/bishopm/css/filterizr.css') }}" rel="stylesheet" type="text/css" />
