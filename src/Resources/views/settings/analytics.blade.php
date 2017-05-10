@@ -24,8 +24,8 @@
                         <tbody>
                             @forelse ($analytics as $analytic)
                                 <tr>
-                                    <td>{{$analytic->url}}</td>
-                                    <td>{{$analytic->pageViews}}</td>
+                                    <td>{{$analytic['url']}}</td>
+                                    <td>{{$analytic['pageViews']}}</td>
                                 </tr>
                             @empty
                                 <tr><td>No data has been added yet</td></tr>
