@@ -42,7 +42,7 @@
 <script language="javascript">
 $(document).ready(function() {
         $('#indexTable').DataTable( {
-            "order": [[ 0, "desc" ]]
+            "order": [[ 1, "desc" ]]
         } );
     } );
 </script>
