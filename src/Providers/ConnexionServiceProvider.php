@@ -298,7 +298,13 @@ class ConnexionServiceProvider extends ServiceProvider
                         'can' =>  'admin-backend'
                     ]
                 ]
-            ]);           
+            ]);
+            $event->menu->add([
+                'text' => 'Google Analytics',
+                'url' => 'admin/analytics',
+                'icon' => 'area-chart',
+                'can' =>  'edit-backend'
+            ]);
             $event->menu->add([
                 'text' => 'System settings',
                 'url' => 'admin/settings',

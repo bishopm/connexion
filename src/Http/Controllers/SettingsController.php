@@ -9,6 +9,7 @@ use Bishopm\Connexion\Models\Setting;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSettingRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSettingRequest;
+use Spatie\Analytics\Period;
 
 class SettingsController extends Controller {
 
@@ -102,6 +103,12 @@ class SettingsController extends Controller {
     {
         $this->setting->update($setting, $request->all());
         return redirect()->route('admin.settings.index')->withSuccess('Setting has been updated');
+    }
+
+    public function analytics()
+    {
+        $analytics=Analytics::fetchMostVisitedPages(Period::days(7));
+        return view('connexion::settings.analytics', compact('analytics'));   
     }
 
 }

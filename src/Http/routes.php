@@ -437,6 +437,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 		Route::put('admin/settings/{setting}',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@update','as'=>'admin.settings.update']);
 		Route::post('admin/settings',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@store','as'=>'admin.settings.store']);
 	    Route::delete('admin/settings/{setting}',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@destroy','as'=>'admin.settings.destroy']);
+	    Route::get('admin/analytics',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@analytics','as'=>'admin.settings.analytics']);
 
 		// Users
 		Route::get('admin/users',['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@index','as'=>'admin.users.index']);
