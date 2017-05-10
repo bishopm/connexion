@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSettingRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSettingRequest;
 use Spatie\Analytics\Period;
-use Spatie\Analytics\Analytics;
+use Analytics;
 
 class SettingsController extends Controller {
 
