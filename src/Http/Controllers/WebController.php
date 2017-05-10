@@ -372,22 +372,23 @@ class WebController extends Controller
     {
         $users=$this->users->allVerified();
         $society=Society::where('society',$this->settingsarray['society_name'])->first();
-        foreach ($society->services as $service){
-            $serviceids[]=$service->id;
+        $services=$society->services;
+        foreach ($services as $service){
+            $servicetimes[$service->id]=$service->servicetime;
         }
         foreach ($users as $user){
             if (isset($user->individual)){
-                $user->status=$user->individual->service_id;
+                $user->status=$servicetimes[$user->individual->service_id];
                 foreach ($user->individual->tags as $tag){
                     if (strtolower($tag->slug)=="minister"){
-                        $user->status="999999, " . implode(', ',$serviceids);
+                        $user->status="staff " . implode(' ',$servicetimes);
                     } elseif (strtolower($tag->slug)=="staff"){
-                        $user->status="999999, " . $user->status;
+                        $user->status="staff " . $user->status;
                     }
                 }
             }
         }
-        return view('connexion::site.mychurch',compact('users'));
+        return view('connexion::site.mychurch',compact('users','services'));
     }    
 
     public function mydetails()
