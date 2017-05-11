@@ -69,12 +69,16 @@ class HouseholdsController extends Controller {
         $data['tags']=Individual::allTags()->get();
         $data['logs']=array();
         foreach ($household->individuals as $indiv){
-            /*$activity=$indiv->activity->last();
+            $activity=$indiv->activity->last();
             if ($activity){
-                $user=User::find($activity->causer_id);
-                $thislog=ucfirst($activity['description']) . " by " .  $user->individual->firstname . " " . $user->individual->surname . " on " . date("d M Y",strtotime($activity['created_at']));
+                if ($activity->causer_id){
+                    $user=User::find($activity->causer_id);
+                    $thislog=ucfirst($activity['description']) . " by " .  $user->individual->firstname . " " . $user->individual->surname . " on " . date("d M Y",strtotime($activity['created_at']));
+                } else {
+                    $thislog=ucfirst($activity['description']) . " by System on " . date("d M Y",strtotime($activity['created_at']));
+                }
                 $data['logs'][$indiv->id]=$thislog;
-            }*/
+            }
             if ($indiv->tags){
                 foreach ($indiv->tags as $itag){
                     $data['itags'][$indiv->id][]=$itag->name;
