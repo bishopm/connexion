@@ -19,6 +19,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th>Verified</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -26,14 +27,21 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th>Verified</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @forelse ($users as $user)
                                     <tr>
-                                        <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->name}}</a></td>
+                                        <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->individual->firstname}} {{$user->individual->surname}}</a></td>
                                         <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->email}}</a></td>
                                         <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->roles()->first()->name}}</a></td>
+                                        <td>@if ($user->verified)
+                                                <i class="fa fa-check"></i>
+                                            @else
+                                                <i class="fa fa-times"></i>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr><td>No users have been added yet</td></tr>
