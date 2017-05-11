@@ -10,12 +10,20 @@ a.liturgy {
     color:#b8c7ce;
 }
 
+a.archive {
+    color:#000000;
+}
+
 .sidebar-menu > li.songtitles > a.contemporary {
     color:#3c8dbc;
 }
 
 .sidebar-menu > li.songtitles > a.liturgy {
     color:#b8c7ce;
+}
+
+.sidebar-menu > li.songtitles > a.liturgy {
+    color:#000000;
 }
 
 .divider-vertical {
