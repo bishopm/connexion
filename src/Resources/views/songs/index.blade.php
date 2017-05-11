@@ -10,7 +10,7 @@
         @foreach($songs as $song)
         	<?php
                 $initlet=substr($song->title,0,1);
-        		$pagedhouse[$initlet][]="<a class="{{$song->musictype}}" title=\"View song\" href=\"" . url('/') . "/admin/worship/songs/" . $song->id . "\">" . $song->title . "</a>";
+        		$pagedhouse[$initlet][]="<a class=\"{{$song->musictype}}\" title=\"View song\" href=\"" . url('/') . "/admin/worship/songs/" . $song->id . "\">" . $song->title . "</a>";
             ?>
         @endforeach
         <div id="tabs">
