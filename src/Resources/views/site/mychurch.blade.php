@@ -42,7 +42,7 @@
 @section('js')
 <script src="{{ asset('public/vendor/bishopm/js/isotope.min.js') }}" type="text/javascript"></script>
 <script language="javascript">
-    $( document ).ready(function() {
+    $( window ).load(function() {
         // init Isotope
         var $grid = $('.grid').isotope({
           // options
