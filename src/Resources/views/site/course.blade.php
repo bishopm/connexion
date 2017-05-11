@@ -27,7 +27,7 @@
 
 @section('js')
 @if (Auth::check())
-  <script src="{{url('/')}}/vendor/bishopm/rater/rater.min.js" type="text/javascript"></script>
+  <script src="{{url('/')}}/public/vendor/bishopm/rater/rater.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     $( document ).ready(function() {
       var options = {
