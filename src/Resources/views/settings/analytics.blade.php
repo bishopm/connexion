@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    <h2>Google Analytics</h2>
+                    <h2>Google Analytics <small>Site traffic for the last 7 days</small></h2>
                 </div>
                 <div class="box-body">
                     <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
@@ -24,7 +24,7 @@
                         <tbody>
                             @forelse ($analytics as $analytic)
                                 <tr>
-                                    <td>{{$analytic['url']}}</td>
+                                    <td><a target="_blank" href="{{url('/')}}{{$analytic['url']}}">{{$analytic['url']}}</a></td>
                                     <td>{{$analytic['pageViews']}}</td>
                                 </tr>
                             @empty
