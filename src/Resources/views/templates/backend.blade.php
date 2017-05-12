@@ -1,11 +1,14 @@
 @extends('adminlte::page')
 
-@section('htmlheader_title')
-    Dashboard
-@endsection
+@section('css')
+	<meta id="token" name="token" value="{{csrf_token()}}">
+	<link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+@stop
 
 @section('content')
-    <div class="container-fluid spark-screen">
-        Backend
-    </div>
-@endsection
+	@yield('content')
+@stop
+
+@section('js')
+	<script src="//cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></script>
+@stop

@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
 
 @section('css')
     <link rel="stylesheet" href="{{asset('/public/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">

@@ -1,4 +1,4 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
 
 @section('css')
     <link rel="stylesheet" href="{{asset('/public/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">

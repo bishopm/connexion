@@ -331,6 +331,7 @@ class ConnexionServiceProvider extends ServiceProvider
             config(['adminlte.logo' => '<b>Connexion</b>']);
             config(['adminlte.logo_mini' => '<b>C</b>x']);
         }
+        config(['adminlte.plugins.datatables' => false]);
         config(['adminlte.dashboard_url' => 'admin']);
         config(['adminlte.filters' => [
             \JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,

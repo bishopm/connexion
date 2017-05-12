@@ -1,4 +1,8 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
+
+@section('css')
+    @parent
+@stop
 
 @section('content') 
     <div class="container-fluid spark-screen">
@@ -46,22 +50,23 @@
 @endsection
 
 @section('js')
+@parent
 <script language="javascript">
 $(document).ready(function() {
-    $('#indexTable').DataTable(
-            {
-                "columnDefs": [
-                    {
-                        "targets": [ 0 ],
-                        "visible": false,
-                        "searchable": false
-                    }
-                ],
-                "oLanguage": {
-                    "sEmptyTable": "No households have been added yet"
-                },
-            }
-        );
-} );
+    $('#indexTable').DataTable( 
+        {
+            "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ],
+            "oLanguage": {
+                "sEmptyTable": "No households have been added yet"
+            },
+        }
+    );
+});
 </script>
 @endsection

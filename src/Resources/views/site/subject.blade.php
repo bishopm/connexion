@@ -1,4 +1,6 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
+
+@section('title','Content tagged ' . $tag)
 
 @section('content')
 <div class="container">

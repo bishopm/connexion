@@ -1,4 +1,6 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
+
+@section('title','Courses at ' . $setting['site_abbreviation'])
 
 @section('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">

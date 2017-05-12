@@ -1,7 +1,7 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
 
 @section('css')
-  <meta id="token" name="token" value="{{ csrf_token() }}" />
+    @parent
 @stop
 
 @section('content')
@@ -66,6 +66,7 @@
 @endsection
 
 @section('js')
+@parent
 <script language="javascript">
   $.ajaxSetup({
       headers: {

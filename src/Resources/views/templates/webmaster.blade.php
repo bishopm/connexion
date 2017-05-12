@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title', $setting['site_name'])</title>
+    <title>@yield('title_prefix', $setting['site_name']) | @yield('title')</title>
+    <meta name="description" content="{{$setting['site_description']}}"/>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="{{ asset('public/vendor/bishopm/themes/' . $setting['website_theme'] . '.css')}}">
@@ -114,20 +115,5 @@
 @include('connexion::shared.login-modal-script')
 </script>
 @yield('js')
-<script type="text/javascript">
-  (function ($) {
-    jQuery(window).on('load', function() {
-      @if (isset($slideshow))
-        $('.carousel').carousel({
-          pause: "false",
-          interval: {{$slideshow->duration}}000
-        });
-      @endif
-      $('audio').mediaelementplayer({
-        features: ['playpause','tracks','progress','volume'],
-      });
-    });
-  })(jQuery);
-</script>
 @include('connexion::shared.analytics')
 </html>

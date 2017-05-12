@@ -1,4 +1,4 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
 
 @section('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
@@ -55,6 +55,7 @@
 @endsection
 
 @section('js')
+@parent
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script language="javascript">

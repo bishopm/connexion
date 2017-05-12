@@ -1,11 +1,22 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.webmaster')
 
-@section('htmlheader_title')
-    Dashboard
-@endsection
+@section('css')
+
+@stop
 
 @section('content')
-    <div class="container-fluid spark-screen">
-        Backend
-    </div>
-@endsection
+	@yield('content')
+@stop
+
+@section('js')
+<script type="text/javascript">
+  (function ($) {
+    jQuery(window).on('load', function() {
+      $('.carousel').carousel({
+        pause: "false",
+        interval: {{$slideshow->duration}}000
+      });
+    });
+  })(jQuery);
+</script>
+@stop

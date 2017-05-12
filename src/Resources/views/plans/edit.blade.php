@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
 
 @section('css')
 <style media="screen" type="text/css">

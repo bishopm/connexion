@@ -1,4 +1,4 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
 
 @section('css')
     <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />

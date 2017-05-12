@@ -1,4 +1,6 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
+
+@section('title','Register as a user')
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />

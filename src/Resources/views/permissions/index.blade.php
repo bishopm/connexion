@@ -1,7 +1,10 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
+
+@section('css')
+    @parent
+@stop
 
 @section('content')
-
 <div class="container-fluid spark-screen">
     @include('connexion::shared.errors') 
     <div class="row">
@@ -43,6 +46,7 @@
 @endsection
 
 @section('js')
+@parent
 <script language="javascript">
 $(document).ready(function() {
         $('#indexTable').DataTable();

@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
 
 @section('content_header')
     {{ Form::pgHeader($household->addressee,'Households',route('admin.households.index')) }}

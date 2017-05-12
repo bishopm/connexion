@@ -1,8 +1,8 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
 
 @section('css')
+  @parent
   <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
-  <meta id="token" name="token" value="{{ csrf_token() }}" />
 @stop
 
 
@@ -81,6 +81,7 @@
 @stop
 
 @section('js')
+@parent
 <script language="javascript">
   $.ajaxSetup({
       headers: {

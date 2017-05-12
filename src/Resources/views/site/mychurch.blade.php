@@ -1,4 +1,6 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
+
+@section('title','Meet the community')
 
 @section('css')
   <link href="{{ asset('/public/vendor/bishopm/css/isotope.css') }}" rel="stylesheet" type="text/css" />

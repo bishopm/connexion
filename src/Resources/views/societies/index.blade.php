@@ -1,4 +1,8 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
+
+@section('css')
+    @parent
+@stop
 
 @section('content')
     <div class="container-fluid spark-screen">
@@ -53,6 +57,7 @@
     @include('connexion::shared.delete-modal') 
 @endsection
 @section('js')
+@parent
 <script language="javascript">
 @include('connexion::shared.delete-modal-script') 
 $(document).ready(function() {

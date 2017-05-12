@@ -1,4 +1,4 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
 
 @section('css')
 <link href="{{ asset('/public/vendor/bishopm/mediaelement/build/mediaelementplayer.css') }}" rel="stylesheet" type="text/css" />
@@ -126,4 +126,13 @@
 @section('js')
 <script src="{{ asset('public/vendor/bishopm/mediaelement/build/mediaelement.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/vendor/bishopm/mediaelement/build/mediaelementplayer.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+  (function ($) {
+    jQuery(window).on('load', function() {
+      $('audio').mediaelementplayer({
+        features: ['playpause','tracks','progress','volume'],
+      });
+    });
+  })(jQuery);
+</script>
 @endsection

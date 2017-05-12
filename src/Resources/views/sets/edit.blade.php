@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
 
 @section('content')
     {{ Form::pgHeader('Edit set','Sets',route('admin.sets.index')) }}

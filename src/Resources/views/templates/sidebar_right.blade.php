@@ -1,4 +1,4 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
 
 @section('content')
 <div class="container">

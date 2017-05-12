@@ -1,4 +1,6 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
+
+@section('title','User profile: ' . $user->individual->firstname . ' ' . $user->individual->surname)
 
 @section('content')
 <div class="container">

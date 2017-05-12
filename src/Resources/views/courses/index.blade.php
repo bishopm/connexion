@@ -1,4 +1,8 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
+
+@section('css')
+    @parent
+@stop
 
 @section('content')
 @include('connexion::shared.errors') 
@@ -42,6 +46,7 @@
 @endsection
 
 @section('js')
+@parent
 <script language="javascript">
 $(document).ready(function() {
         $('#indexTable').DataTable();

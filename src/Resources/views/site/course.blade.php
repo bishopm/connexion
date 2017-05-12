@@ -1,4 +1,6 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
+
+@section('title','Course details: ' . $course->title)
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />

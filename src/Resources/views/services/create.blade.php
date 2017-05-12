@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('connexion::templates.backend')
 
 @section('content_header')
 {{ Form::pgHeader('Add service','Services',route('admin.services.index',$society)) }}

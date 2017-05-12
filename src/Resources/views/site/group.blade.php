@@ -1,4 +1,6 @@
-@extends('connexion::templates.webpage')
+@extends('connexion::templates.frontend')
+
+@section('title','Group details: ' . $group->groupname)
 
 @section('content')
 <div class="container">
@@ -56,6 +58,7 @@
 @endsection
 
 @section('js')
+@parent
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
 @if (Auth::check())
 	<script src="{{url('/')}}/public/vendor/bishopm/js/gmap.js" type="text/javascript"></script>
