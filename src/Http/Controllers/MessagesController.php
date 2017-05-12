@@ -40,7 +40,7 @@ class MessagesController extends Controller {
         } elseif ($request->msgtype=="email") {
             $results=$this->sendsms($request,$recipients);
         }
-        return view('connexion::messages.results');
+        return view('connexion::messages.results',compact('recipients'));
     }
 
     protected function getrecipients($groups,$individuals)
@@ -73,6 +73,6 @@ class MessagesController extends Controller {
             foreach ($household as $indiv){
                 Mail::to($indiv['email'])->send(new GenericMail($data));
             }
-        }
+        }   
     }
 }
