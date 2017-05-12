@@ -305,7 +305,7 @@ class SongsController extends Controller
         $keys=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#','A');
         $song=Song::find($id);
         $song->setTags($request->tags);
-        $song->fill($request->except('transpose','tags'));
+        $song->fill($request->except('transpose','tags','created_at','updated_at'));
         $song->key=$this->_moveOne($keys,$request->key,strtolower($request->transpose));
         if (!strpos($request->lyrics,'}')){
             $song->lyrics=$this->convert($song->lyrics);
