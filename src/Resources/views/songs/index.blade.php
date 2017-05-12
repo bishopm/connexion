@@ -72,7 +72,7 @@
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Most played songs in the last quarter</h3>
+                        <h3 class="panel-title">Most played songs in the last 4 months</h3>
                     </div>
                     <div class="panel-body">
                         @if (isset($recents))
