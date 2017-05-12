@@ -332,6 +332,16 @@ class SongsController extends Controller
         $op=preg_replace('/\[[^\[\]]*\]/', '', $data['song']->lyrics);
         $op=str_replace('{','---[',$op);
         $op=str_replace('}',']---',$op);
+        $op=str_replace('<p>','',$op);
+        $op=str_replace('</p>','',$op);
+        $op=str_replace("\n<b>", "<b>\n", $op);        
+        $op=str_replace("\n</b>", "</b>\n", $op);
+        $op=str_replace('<b>','{st}',$op);
+        $op=str_replace('</b>','{/st}',$op);
+        $op=str_replace("\n</i>", "</i>\n", $op);
+        $op=str_replace("\n<i>", "<i>\n", $op);
+        $op=str_replace('<i>','{it}',$op);
+        $op=str_replace('</i>','{/it}',$op);
         $op=str_replace('[V','[Verse:',$op);
         $op=str_replace('[Verse:]','[Verse:1]',$op);
         $op=str_replace('[C','[Chorus:',$op);
