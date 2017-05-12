@@ -1,5 +1,9 @@
 @extends('connexion::templates.webmaster')
 
+@if (isset($titletagtitle))
+	@section('title',$titletagtitle)
+@endif
+
 @section('css')
 
 @stop

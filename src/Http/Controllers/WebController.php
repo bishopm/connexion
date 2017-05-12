@@ -436,6 +436,7 @@ class WebController extends Controller
     public function uri($slug)
     {
         $data['page'] = $this->page->findBySlug($slug);
+        $data['titletagtitle']=$data['page']->title;
         if ($data['page']){
             $template = $data['page']->template;
             $tags=$data['page']->tags;

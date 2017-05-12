@@ -1,5 +1,9 @@
 @extends('connexion::templates.frontend')
 
+@if (isset($titletagtitle))
+	@section('title',$titletagtitle)
+@endif
+
 @section('content')
 <div class="container">
 	<div class="row">
