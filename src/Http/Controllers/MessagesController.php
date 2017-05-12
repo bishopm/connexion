@@ -34,7 +34,7 @@ class MessagesController extends Controller {
 
     public function store(MessageRequest $request)
     {
-        $recipients=$this->getrecipients($request->groups,$request->individuals);
+        $recipients=$this->getrecipients($request->groups,$request->individuals,$request->grouprec);
         if ($request->msgtype=="email"){
             $results=$this->sendemail($request,$recipients);
         } elseif ($request->msgtype=="email") {
@@ -43,16 +43,23 @@ class MessagesController extends Controller {
         return view('connexion::messages.results',compact('recipients'));
     }
 
-    protected function getrecipients($groups,$individuals)
+    protected function getrecipients($groups,$individuals,$grouprec)
     {
         $recipients=array();
         if (null!==$groups){
             foreach ($groups as $group){
-                $indivs=$this->groups->find($group)->individuals;
-                foreach ($indivs as $indiv){
+                if ($grouprec=="leadersonly"){
+                    $indiv=$this->individuals->find($this->groups->find($group)->leader);
                     $recipients[$indiv->household_id][$indiv->id]['name']=$indiv->fullname;
                     $recipients[$indiv->household_id][$indiv->id]['email']=$indiv->email;
                     $recipients[$indiv->household_id][$indiv->id]['cellphone']=$indiv->cellphone;
+                } else {
+                    $indivs=$this->groups->find($group)->individuals;
+                    foreach ($indivs as $indiv){
+                        $recipients[$indiv->household_id][$indiv->id]['name']=$indiv->fullname;
+                        $recipients[$indiv->household_id][$indiv->id]['email']=$indiv->email;
+                        $recipients[$indiv->household_id][$indiv->id]['cellphone']=$indiv->cellphone;
+                    }
                 }
             }
         }
