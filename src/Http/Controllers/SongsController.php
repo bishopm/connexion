@@ -19,7 +19,7 @@ class SongsController extends Controller
         $data['songs']=Song::orderBy('title')->get();
         $data['songcount']=count($data['songs']);
         $lasthree=date("Y-m-d",strtotime("-3 month"));
-        $recents=Set::with('setitems')->where('servicedate','>',$lasthree)->get();
+        $recents=Set::with(['setitems' => function($query) { $query->orderBy('itemorder', 'asc'); }])->where('servicedate','>',$lasthree)->get();
         $arecents=array();
         $newest=array();
         $mostrecentset=0;
@@ -48,6 +48,7 @@ class SongsController extends Controller
                 }
             }
         }
+        //dd($newest);
         krsort($newest);
         $newestsets=reset($newest);
         if ($newestsets){
