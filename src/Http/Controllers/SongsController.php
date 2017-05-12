@@ -292,6 +292,37 @@ class SongsController extends Controller
         return Redirect::route('admin.songs.index')->with('okmessage','New song has been added');
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(SongsRequest $request, $id)
+    {
+        $keys=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#','A');
+        $song=Song::find($id);
+        $song->setTags($request->tags);
+        $song->fill($request->except('transpose','tags'));
+        $song->key=$this->_moveOne($keys,$request->key,strtolower($request->transpose));
+        if (!strpos($request->lyrics,'}')){
+            $song->lyrics=$this->convert($song->lyrics);
+        }
+        if (isset($request->transpose)){
+            $song->lyrics=$this->_transposeLyrics($request->lyrics,strtolower($request->transpose));
+        }
+        $song->lyrics=preg_replace('/\[[^\[\]]*\]/', '', $song->lyrics);
+        $song->audio=str_replace("dropbox.com","dl.dropboxusercontent.com",$song->audio);
+        $song->music=str_replace("www.","",$song->music);
+        $song->music=str_replace("dropbox.com","dl.dropboxusercontent.com",$song->music);
+        $song->video=str_replace("www.youtube.com/watch?v=","www.youtube.com/embed/",$song->video);
+        $song->save();
+        $data['lyrics']=$song->lyrics;
+        $data['key']=$song->key;
+        return $data;
+    }
+
     private function _getChords($lyrics){
         preg_match_all("/\[([^\]]*)\]/", $lyrics, $matches);
         $chords=array_unique($matches[1]);
@@ -468,37 +499,6 @@ class SongsController extends Controller
         $data['chords']=$this->_getChords($data['song']->lyrics);
         $data['tags']=Song::allTags()->get();
         return View::make('connexion::songs.edit',$data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(SongsRequest $request, $id)
-    {
-        $keys=array('A','Bb','B','C','C#','D','Eb','E','F','F#','G','G#','A');
-        $song=Song::find($id);
-        $song->setTags($request->tags);
-        $song->fill($request->except('transpose','tags'));
-        $song->key=$this->_moveOne($keys,$request->key,strtolower($request->transpose));
-        if (!strpos($request->lyrics,'}')){
-            $song->lyrics=$this->convert($song->lyrics);
-        }
-        if (isset($request->transpose)){
-            $song->lyrics=$this->_transposeLyrics($request->lyrics,strtolower($request->transpose));
-        }
-        $song->words=preg_replace('/\[[^\[\]]*\]/', '', $song->lyrics);
-        $song->audio=str_replace("dropbox.com","dl.dropboxusercontent.com",$song->audio);
-        $song->music=str_replace("www.","",$song->music);
-        $song->music=str_replace("dropbox.com","dl.dropboxusercontent.com",$song->music);
-        $song->video=str_replace("www.youtube.com/watch?v=","www.youtube.com/embed/",$song->video);
-        $song->save();
-        $data['lyrics']=$song->lyrics;
-        $data['key']=$song->key;
-        return $data;
     }
 
     /**
