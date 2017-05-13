@@ -1,5 +1,7 @@
 @extends('connexion::templates.frontend')
 
+@section('title','Home page')
+
 @section('css')
 <link href="{{ asset('/public/vendor/bishopm/mediaelement/build/mediaelementplayer.css') }}" rel="stylesheet" type="text/css" />
 @endsection
