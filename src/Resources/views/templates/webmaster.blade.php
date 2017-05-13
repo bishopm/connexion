@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@yield('title_prefix', $setting['site_name']) | @yield('title')</title>
     <meta name="description" content="{{$setting['site_description']}}"/>
+    <meta name="keywords" content="Church,Ballito,Umhlali,Salt Rock,Methodist,Christian,UMC,KZN,God,education,high school,pre-school" />
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="{{ asset('public/vendor/bishopm/themes/' . $setting['website_theme'] . '.css')}}">

@@ -22,10 +22,10 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            @forelse ($analytics as $analytic)
+                            @forelse ($analytics as $url=>$analytic)
                                 <tr>
-                                    <td><a target="_blank" href="{{url('/')}}{{$analytic['url']}}">{{$analytic['url']}}</a></td>
-                                    <td>{{$analytic['pageViews']}}</td>
+                                    <td><a target="_blank" href="{{url('/')}}{{$url}}">{{$url}}</a></td>
+                                    <td>{{$analytic}}</td>
                                 </tr>
                             @empty
                                 <tr><td>No data has been added yet</td></tr>
@@ -39,6 +39,7 @@
 @stop
 
 @section('js')
+@parent
 <script language="javascript">
 $(document).ready(function() {
         $('#indexTable').DataTable( {

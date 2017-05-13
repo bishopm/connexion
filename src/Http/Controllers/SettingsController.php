@@ -108,7 +108,17 @@ class SettingsController extends Controller {
 
     public function analytics()
     {
-        $analytics=Analytics::fetchMostVisitedPages(Period::days(7));
+        $anal=Analytics::fetchMostVisitedPages(Period::days(7));
+        $analytics=array();
+        foreach ($anal as $ana){
+            $url=$ana['url'];
+            if (array_key_exists($url, $analytics)){
+                $analytics[$url]=$analytics[$url]+$ana['pageViews'];
+            } else {
+                $analytics[$url]=$ana['pageViews'];
+            }
+        }
+        arsort($analytics);
         return view('connexion::settings.analytics', compact('analytics'));   
     }
 
