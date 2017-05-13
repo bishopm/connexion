@@ -47,7 +47,7 @@
 		  <div class="col-md-3">
 		  	<h4>Recent comments</h4>
 		  	<ul class="list-unstyled">
-		  	@foreach ($comments as $comment)
+		  	@foreach ($comments->sortByDesc('created_at') as $comment)
 		  		@if (strpos($comment->commentable_type,'Sermon'))
 		  			<li>{{date("d M",strtotime($comment->created_at))}} (sermon) - <a href="{{url('/')}}/sermons/{{$comment->commentable->series->slug}}/{{$comment->commentable->slug}}">{{$comment->commentable->title}}</a></li>
 		  		@elseif (strpos($comment->commentable_type,'Blog'))
