@@ -4,6 +4,7 @@
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />
+  <link href="{{ asset('/public/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')  

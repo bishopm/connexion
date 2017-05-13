@@ -5,6 +5,7 @@
 @section('css')
 <link href="{{ asset('/public/vendor/bishopm/mediaelement/build/mediaelementplayer.css') }}" rel="stylesheet" type="text/css" />
 <meta id="token" name="token" value="{{ csrf_token() }}" />
+<link href="{{ asset('/public/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')

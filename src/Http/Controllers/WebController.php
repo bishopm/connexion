@@ -621,6 +621,12 @@ class WebController extends Controller
         return $feed->render('atom');
     }
 
+    public function deletecomment(Request $request){
+        $comment=Comment::find($request->id);
+        $comment->delete();
+        return $request->id;
+    }
+
     public function getusername($email){
         $users=$this->users->getByAttributes(array('email'=>$email));
         if (count($users)){

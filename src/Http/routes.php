@@ -39,6 +39,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/register-user', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@registeruser','as' => 'registeruser']);
 	Route::group(['middleware' => ['web','isverified','can:edit-comments']], function () {
 		//Webuser routes
+		Route::post('/comments', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@deletecomment','as' => 'deletecomment']);
 		Route::get('/users/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webuser','as' => 'webuser']);
 		Route::get('/rosters/{roster}/current',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@currentroster','as'=>'rosters.current']);
 		Route::get('/rosters/{roster}/next',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@nextroster','as'=>'rosters.next']);

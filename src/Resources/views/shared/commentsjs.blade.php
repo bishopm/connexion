@@ -5,11 +5,19 @@
   } else {
     $imgsrc=asset('public/vendor/bishopm/images/profile.png');
   }?>
+  <script src="{{ asset('public/vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
   <script type="text/javascript">
       $.ajaxSetup({
           headers: {
               'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
           }
+      });
+      $('#newcomment').summernote({ 
+        height: 100,
+        toolbar: [
+          ['style', ['bold', 'italic', 'underline']],
+          ['link', ['linkDialogShow', 'unlink']]
+        ]
       });
       $('#publishButton').on('click',function(){
       	user={{Auth::user()->id or 0}};
@@ -25,5 +33,16 @@
             }
         });
       });
+      function deleteme(id){
+        $.ajax({
+            type : 'POST',
+            url : '{{route('deletecomment')}}',
+            data : {'id':id},
+            success: function(e){
+              rowid='#row' + e;
+              $(rowid).hide();
+            }
+        });
+      }
 </script>
 @endif
