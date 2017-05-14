@@ -35,7 +35,7 @@
 
     <div class="register-box-body">
         <p class="login-box-msg"><b>Register as a new user</b></p>
-        <form action="{{ url('/register') }}" method="post">
+        <form action="{{ url('/register') }}" id="registerform" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group has-feedback">
                 <input class="form-control" placeholder="Choose a unique username eg:johnwesley" id="name" name="name" autocomplete="off" value="{{ old('name') }}"/>
@@ -82,6 +82,7 @@
     </div><!-- /.form-box -->
 </div><!-- /.register-box -->
 @include('connexion::shared.register-modal')
+@include('connexion::shared.register-choosename')
 
 @endsection
 
@@ -136,7 +137,15 @@
                         }
                     }); 
                 }
-            });                   
+            });
+            $("#registeruser").click(function(event){
+                event.preventDefault();
+                if ($(".selectize")[0].selectize.getValue()){
+                    $('#registerform').submit();
+                } else {
+                    $('#modal-choosename').modal('show');
+                }
+            });
             $('#name').bind('input', function(){
             if ($('#name').val()!==''){
                 usercheck($('#name').val());

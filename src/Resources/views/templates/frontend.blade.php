@@ -13,6 +13,7 @@
 @stop
 
 @section('js')
+@if(isset($slideshow))
 <script type="text/javascript">
   (function ($) {
     jQuery(window).on('load', function() {
@@ -23,4 +24,5 @@
     });
   })(jQuery);
 </script>
+@endif
 @stop
