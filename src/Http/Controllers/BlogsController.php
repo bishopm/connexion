@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Repositories\BlogsRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Models\Blog;
+use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateBlogRequest;
