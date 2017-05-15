@@ -22,7 +22,7 @@
     @endforeach
   </select>
 </div>
-@can('admin-backend'))
+@can('admin-backend',Auth::user()))
   {{ Form::bsSelect('status','Status',array('Draft','Published')) }}
 @else
   {{ Form::bsSelect('status','Status',array('Draft')) }}
