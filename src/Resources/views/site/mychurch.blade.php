@@ -28,7 +28,7 @@
                         @else
                             <img class="img-responsive img-circle img-thumbnail" src="{{asset('public/vendor/bishopm/images/profile.png')}}">
                         @endif
-                        <p class="text-center item-desc">{{$user->individual->firstname}} {{$user->individual->surname}}</p>
+                        <p class="text-center item-desc" style="min-height: 58px;">{{$user->individual->firstname}} {{$user->individual->surname}}</p>
                     </a>
                 </div>
                 @endif
