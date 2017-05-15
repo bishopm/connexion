@@ -94,7 +94,7 @@
           @endforelse
         </ul>
         @if (isset(Auth::user()->individual))
-          <h4 class="top30">Welcome to our 10 newest users!</h4>
+          <h4 class="top30">Welcome to our 10 newest users!<br><small>{{$usercount}} users registered so far</small></h4>
           <p class="text-left"><small>
           @forelse ($users as $user)
             @if (!$loop->last)

@@ -113,6 +113,7 @@ class WebController extends Controller
             }            
             $data['cals'][]=$cdum;
         }*/
+        $data['usercount']=User::where('verified','1')->count();
         $data['cals']=array();
         $data['blogs']=$blogs->mostRecent(6);
         $data['sermon']=$sermon->mostRecent();
