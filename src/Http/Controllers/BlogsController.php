@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateBlogRequest;
 use Bishopm\Connexion\Http\Requests\UpdateBlogRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
+use Bishopm\Connexion\Notifications\NewBlogPost;
 use MediaUploader;
 
 class BlogsController extends Controller {
@@ -71,6 +72,8 @@ class BlogsController extends Controller {
             ->toDirectory('blogs')->useFilename($fname)->upload();
             $blog->attachMedia($media, 'image');
         }
+        $admin=User::find(1);
+        $admin->notify(new NewBlogPost("A new blog post has been created. Check it and publish it when ready."));
         return redirect()->route('admin.blogs.index')
             ->withSuccess('New blog post added');
     }
