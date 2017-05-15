@@ -66,12 +66,9 @@
 
             <a href="{{ url('/auth/login') }}">Log in</a><br>
             <a href="{{ url('/auth/register') }}" class="text-center">Register a new membership</a>
-
         </div><!-- /.login-box-body -->
 
-    </div><!-- /.login-box -->
-
-    
+    </div><!-- /.login-box -->    
 
     <script>
         $(function () {

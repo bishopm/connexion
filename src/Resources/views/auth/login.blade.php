@@ -25,6 +25,7 @@
 @section('adminlte_js')
     <script src="{{ asset('public/vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
     <script>
+        @include('connexion::shared.login-modal-script')
         $(function () {
             $('input').iCheck({
                 checkboxClass: 'icheckbox_square-blue',

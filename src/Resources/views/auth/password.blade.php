@@ -32,6 +32,18 @@
         @endif
 
         <div class="login-box-body">
+            <div class="form-group top10" id="emaildiv" style="display:none;">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label for="emailbox">Email address you registered with</label>
+                        <input id="emailbox" class="form-control" placeholder="Enter your email address">
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="usernamebox">Recognise your username?</label>        
+                        <select id="usernamebox" class="form-control"></select>
+                    </div>
+                </div>
+            </div>
             <p class="login-box-msg">Reset your password</p>
             <form action="{{ url('/password/email') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -52,8 +64,8 @@
             </form>
 
             <a href="{{ url('/login') }}">Log in</a><br>
-            <a href="{{ url('/register') }}" class="text-center">Register a new user</a>
-
+            <a href="{{ url('/register') }}" class="text-center">Register a new user</a><br>
+            <a href="#" onclick="usernametell();" class="text-center">I forgot my username</a>
         </div><!-- /.login-box-body -->
 
     </div><!-- /.login-box -->
@@ -62,6 +74,7 @@
 @section('adminlte_js')
     <script src="{{ asset('public/vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
     <script>
+        @include('connexion::shared.login-modal-script')
         $(function () {
             $('input').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
