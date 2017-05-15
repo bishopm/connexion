@@ -21,8 +21,12 @@
       <option value="{{$blogger->id}}">{{$blogger->firstname}} {{$blogger->surname}}</option>
     @endforeach
   </select>
-</div> 
-{{ Form::bsSelect('status','Status',array('Draft','Published')) }}
+</div>
+@can('admin-backend'))
+  {{ Form::bsSelect('status','Status',array('Draft','Published')) }}
+@else
+  {{ Form::bsSelect('status','Status',array('Draft')) }}
+@endcan
 {{ Form::bsText('created_at','Publication date','Publication date') }}
 {{ Form::bsTextarea('body','Body','Body') }}
 @if (isset($media))
