@@ -128,22 +128,26 @@ class WebController extends Controller
     public function webblog($slug, BlogsRepository $blogs)
     {
         $blog = $blogs->findBySlug($slug);
-        $comments = $blog->comments()->paginate(5);
-        $media=$blog->getMedia('image')->first();
-        $cloud = new TagCloud();
-        foreach ($blogs->all() as $thisblog){
-            foreach ($thisblog->tags as $tag){
-                $cloud->addTag($tag->name);
-                $cloud->addTag(array('tag' => $tag->name, 'url' => $tag->slug));
+        if ($blog){
+            $comments = $blog->comments()->paginate(5);
+            $media=$blog->getMedia('image')->first();
+            $cloud = new TagCloud();
+            foreach ($blogs->all() as $thisblog){
+                foreach ($thisblog->tags as $tag){
+                    $cloud->addTag($tag->name);
+                    $cloud->addTag(array('tag' => $tag->name, 'url' => $tag->slug));
+                }
             }
+            $baseUrl=url('/');
+            $cloud->setOrder('tag','ASC');
+            $cloud->setHtmlizeTagFunction(function($tag, $size) use ($baseUrl) {
+              $link = '<a href="'.$baseUrl.'/subject/'.$tag['url'].'">'.$tag['tag'].'</a>';
+              return "<span class='tag size{$size}'>{$link}</span> ";
+            });
+            return view('connexion::site.blog',compact('blog','comments','media','cloud'));
+        } else {
+            abort(404);
         }
-        $baseUrl=url('/');
-        $cloud->setOrder('tag','ASC');
-        $cloud->setHtmlizeTagFunction(function($tag, $size) use ($baseUrl) {
-          $link = '<a href="'.$baseUrl.'/subject/'.$tag['url'].'">'.$tag['tag'].'</a>';
-          return "<span class='tag size{$size}'>{$link}</span> ";
-        });
-        return view('connexion::site.blog',compact('blog','comments','media','cloud'));
     }
 
     public function webblogs()
@@ -167,13 +171,17 @@ class WebController extends Controller
     public function webperson($slug, IndividualsRepository $individual)
     {
         $person = $individual->findBySlug($slug);
-        $staff=false;
-        foreach ($person->tags as $tag){
-            if ($tag->name=="staff"){
-                $staff=true;
+        if ($person){
+            $staff=false;
+            foreach ($person->tags as $tag){
+                if ($tag->name=="staff"){
+                    $staff=true;
+                }
             }
+            return view('connexion::site.person',compact('person','staff'));
+        } else {
+            abort(404);
         }
-        return view('connexion::site.person',compact('person','staff'));
     }    
 
     public function websubject($tag)
@@ -204,14 +212,26 @@ class WebController extends Controller
     public function webseries($series)
     {
         $series = $this->series->findBySlug($series);
-        return view('connexion::site.series',compact('series'));
+        if ($series){
+            return view('connexion::site.series',compact('series'));
+        } else {
+            abort(404);
+        }
     }
 
     public function websermon($seriesslug,$sermonslug)
     {
         $series = $this->series->findBySlug($seriesslug);
-        $sermon = $this->sermon->findBySlug($sermonslug);
-        $comments = $sermon->comments()->paginate(5);
+        if ($series){
+            $sermon = $this->sermon->findBySlug($sermonslug);
+        } else {
+            abort(404);
+        }
+        if ($sermon){
+            $comments = $sermon->comments()->paginate(5);
+        } else {
+            abort(404);
+        }
         return view('connexion::site.sermon',compact('series','sermon','comments'));
     }
 
@@ -224,30 +244,38 @@ class WebController extends Controller
     public function webgroup($slug)
     {
         $group = $this->group->findBySlug($slug);
-        $signup = $this->courses->getByAttributes(array('group_id'=>$group->id));
-        $leader = $this->individual->find($group->leader);
-        if ((count($signup)) and (Auth::check())){
-            foreach ($group->individuals as $indiv){
-                if ($indiv->id == Auth::user()->individual->id){
-                    $signup=array();
+        if ($group){
+            $signup = $this->courses->getByAttributes(array('group_id'=>$group->id));
+            $leader = $this->individual->find($group->leader);
+            if ((count($signup)) and (Auth::check())){
+                foreach ($group->individuals as $indiv){
+                    if ($indiv->id == Auth::user()->individual->id){
+                        $signup=array();
+                    }
                 }
+            } else {
+                $signup=array();
             }
+            return view('connexion::site.group',compact('group','signup','leader'));
         } else {
-            $signup=array();
+            abort(404);
         }
-        return view('connexion::site.group',compact('group','signup','leader'));
     }    
 
     public function webgroupedit($slug)
     {
         $group = $this->group->findBySlug($slug);
-        if (Auth::user()->individual->id==$group->leader){
-            $leader = $this->individual->find($group->leader);
-            $individuals = $this->individual->all();
-            $indivs = $this->individual->all();
-            return view('connexion::site.groupedit',compact('group','leader','indivs','individuals'));
+        if ($group){
+            if (Auth::user()->individual->id==$group->leader){
+                $leader = $this->individual->find($group->leader);
+                $individuals = $this->individual->all();
+                $indivs = $this->individual->all();
+                return view('connexion::site.groupedit',compact('group','leader','indivs','individuals'));
+            } else {
+                return redirect()->route('webgroup',$group->slug);
+            }
         } else {
-            return redirect()->route('webgroup',$group->slug);
+            abort(404);
         }
     } 
 
@@ -273,25 +301,37 @@ class WebController extends Controller
     public function webgroupcategory($category)
     {
         $groups = $this->group->getByAttributes(array('grouptype'=>$category));
-        return view('connexion::site.groupcategory',compact('groups'));
+        if ($groups){
+            return view('connexion::site.groupcategory',compact('groups'));
+        } else {
+            abort(404);
+        }
     } 
 
     public function webuser($slug)
     {
         $individual = $this->individual->findBySlug($slug);
-        $user = $this->users->getuserbyindiv($individual->id);
-        $staff=0;
-        if ($user){
-            $comments = $user->comments()->paginate(10);            
-            foreach ($individual->tags as $tag){
-                if ($tag->slug=="staff"){
-                    $staff=1;
+        if ($individual){
+            $user = $this->users->getuserbyindiv($individual->id);
+            if ($user){
+                $staff=0;
+                if ($user){
+                    $comments = $user->comments()->paginate(10);            
+                    foreach ($individual->tags as $tag){
+                        if ($tag->slug=="staff"){
+                            $staff=1;
+                        }
+                    }            
+                } else {
+                    $comments="";
                 }
-            }            
+                return view('connexion::site.user',compact('user','staff','comments'));
+            } else {
+                abort(404);
+            }
         } else {
-            $comments="";
+            abort(404);
         }
-        return view('connexion::site.user',compact('user','staff','comments'));
     }
 
     public function usermessage($id, Request $request){
@@ -303,12 +343,16 @@ class WebController extends Controller
     public function webuseredit($slug)
     {
         $individual = $this->individual->findBySlug($slug);
-        if ($this->settingsarray['society_name']){
-            $society=Society::with('services')->where('society','=',$this->settingsarray['society_name'])->get();
+        if ($individual){
+            if ($this->settingsarray['society_name']){
+                $society=Society::with('services')->where('society','=',$this->settingsarray['society_name'])->get();
+            } else {
+                $society=Society::with('services')->get();
+            }
+            return view('connexion::site.editprofile',compact('individual','society'));
         } else {
-            $society=Society::with('services')->get();
+            abort(404);
         }
-        return view('connexion::site.editprofile',compact('individual','society'));
     }        
 
     public function webuserhouseholdedit()
@@ -452,7 +496,7 @@ class WebController extends Controller
             }
             return view('connexion::templates.' . $template, $data);
         } else {
-            return redirect()->route('homepage');
+            abort(404);
         }
     }
 
