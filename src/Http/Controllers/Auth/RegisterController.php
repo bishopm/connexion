@@ -111,13 +111,13 @@ class RegisterController extends Controller
         $indiv=Individual::find($request->input('individual_id'));
         $message=$indiv->firstname . " " . $indiv->surname . " has successfully registered as a user on the " . $settings->setting_value . " website. You may want to give their profile additional permissions?";
         $admin=User::find(1);
-        $admin->notify(new NewUserRegistration($message));
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
         event(new Registered($user));
         $webrole=Role::where('slug','web-user')->first()->id;
         $user->roles()->attach($webrole);
         $this->guard()->login($user);
+        $admin->notify(new NewUserRegistration($message));
         UserVerification::generate($user);
         UserVerification::send($user, 'Welcome!');
         return $this->registered($request, $user)

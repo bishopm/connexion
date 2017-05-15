@@ -212,6 +212,18 @@ class InstallConnexionCommand extends Command
             'setting_value' => '31.222890615408687',
             'description' => 'Church location: longitude',
             'category' => 'Maps'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'slack_webhook',
+            'setting_value' => '',
+            'description' => 'Slack webhook for notifications',
+            'category' => 'API'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'admin_slack_username',
+            'setting_value' => '',
+            'description' => 'Admin user Slack username for notifications',
+            'category' => 'API'
         ]);        
         DB::table('settings')->insert([
             'setting_key' => 'toodledo_clientid',

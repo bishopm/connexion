@@ -4,7 +4,7 @@ namespace Bishopm\Connexion\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
-use Form;
+use Form, Log;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -12,6 +12,7 @@ use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Setting;
 use Illuminate\Support\Facades\Gate;
+use Monolog\Handler\SlackWebhookHandler, Monolog\Logger;
 
 class ConnexionServiceProvider extends ServiceProvider
 {
@@ -351,6 +352,13 @@ class ConnexionServiceProvider extends ServiceProvider
         view()->composer('connexion::templates.webpage_no_sidebar', \Bishopm\Connexion\Composers\SlideComposer::class);
         view()->composer('connexion::templates.sidebar_right', \Bishopm\Connexion\Composers\SlideComposer::class);
         view()->composer('connexion::templates.map_page', \Bishopm\Connexion\Composers\SlideComposer::class);
+
+        // Send errors to slack channel
+        $monolog = Log::getMonolog();
+        if (!\App::environment('local')) {
+            $slackHandler = new SlackWebhookHandler($finset['slack_webhook'], $finset['admin_slack_username'], 'App Alerts', false, 'warning', true, true, Logger::ERROR);
+            $monolog->pushHandler($slackHandler);
+        }
     }
 
     /**

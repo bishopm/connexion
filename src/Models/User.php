@@ -8,6 +8,7 @@ use Actuallymab\LaravelComment\CanComment;
 use Bishopm\Connexion\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\CausesActivity;
+use Bishopm\Connexion\Models\Setting;
 
 class User extends Authenticatable
 {
@@ -33,7 +34,10 @@ class User extends Authenticatable
 
     public function routeNotificationForSlack()
     {
-        return 'https://hooks.slack.com/services/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';
+        $setting=Setting::where('setting_key','slack_webhook')->first();
+        if ($setting){
+            return $setting->setting_value;
+        }
     }
 
     public function roles()
