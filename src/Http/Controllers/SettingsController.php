@@ -108,7 +108,7 @@ class SettingsController extends Controller {
 
     public function analytics()
     {
-        $anal=Analytics::fetchMostVisitedPages(Period::days(7));
+        $anal=Analytics::fetchMostVisitedPages(Period::days(7),75);
         $analytics=array();
         foreach ($anal as $ana){
             $url=$ana['url'];
