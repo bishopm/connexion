@@ -298,6 +298,25 @@ class WebController extends Controller
         return view('connexion::site.allgroups',compact('groups','blogs'));
     } 
 
+    public function comingup()
+    {
+        $data = $this->group->event();
+        foreach($data as $event){
+            if ($event->subcategory){
+                $events[$event->subcategory][]=$event;
+            } else {
+                $events['ZZZZ'][]=$event;
+            }
+        }
+        if (isset($events)) {
+            ksort($events);
+        } else {
+            $events=array();
+        }
+        $blogs=Blog::withTag('events')->orderBy('created_at','DESC')->get()->take(10);
+        return view('connexion::site.comingup',compact('events','blogs'));
+    }
+
     public function webgroupcategory($category)
     {
         $groups = $this->group->getByAttributes(array('grouptype'=>$category));

@@ -13,7 +13,7 @@
       @endforeach
     </select>
   </div>
-  {{ Form::bsSelect('grouptype','Group Type',array('fellowship','service','worship','course','admin'),$group->grouptype) }}
+  {{ Form::bsSelect('grouptype','Group Type',array('fellowship','service','worship','course','admin','event'),$group->grouptype) }}
   <div class="form-group">
   	<label for="publish" class="control-label">Publish to website</label>
   	@if ($group->publish)
