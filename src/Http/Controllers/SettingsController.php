@@ -6,6 +6,7 @@ use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Models\Setting;
+use Bishopm\Connexion\Models\User;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSettingRequest;
@@ -90,6 +91,29 @@ class SettingsController extends Controller {
 
     public function userlogs(){
         $activities=Activity::all();
+        foreach ($activities as $activity){
+            $user=User::find($activity->causer_id);
+            if ($user){
+                $name=$user->individual->firstname . " " . $user->individual->surname;
+            } else {
+                $name="System";
+            }
+            if ($activity->subject_type){
+                $obj=$activity->subject_type::find($activity->subject_id);
+                $object=substr($activity->subject_type,1+strrpos($activity->subject_type,'\\'));
+                $details=$name . " " . $activity->description . " " . strtolower($object) . " (";
+                if ($object=="Group"){
+                    $details.=$obj->groupname . ")";
+                } elseif ($object=="Individual"){
+                    $details.=$obj->firstname . " " . $obj->surname . ")";
+                } elseif ($object=="Household"){
+                    $details.=$obj->addressee . ")";
+                }
+            } else {
+                $details=$name . " " . $activity->description;
+            }
+            $activity->details=$details;
+        }
         return view('connexion::settings.userlogs',compact('activities'));
     }
 

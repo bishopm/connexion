@@ -12,14 +12,12 @@
                     <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>User</th>
                                 <th>Action</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>User</th>
                                 <th>Action</th>
                                 <th>Date</th>
                             </tr>
@@ -27,8 +25,7 @@
                         <tbody>
                             @forelse ($activities as $activity)
                                 <tr>
-                                    <td>{{$activity->causer_id}}</td>
-                                    <td>{{$activity->description}} {{substr($activity->subject_type,1+strrpos($activity->subject_type,'\\'))}}</td>
+                                    <td>{{$activity->details}}</td>
                                     <td>{{$activity->created_at}}</td>
                                 </tr>
                             @empty
