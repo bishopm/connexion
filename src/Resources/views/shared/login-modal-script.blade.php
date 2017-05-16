@@ -17,6 +17,7 @@ $( document ).ready(function() {
 	        success: function(e){
 	        	if (e!=='error'){
 	        		var usernamebox = $("#usernamebox");
+                    usernamebox.empty();
 	        		var names = $.parseJSON(e);
                     for (var i = 0; i < names.length; i++) {
                         usernamebox.append($('<option>', {
@@ -24,9 +25,13 @@ $( document ).ready(function() {
                             text:names[i],
                         }));
                     }
+                    usernamebox.change();
 	        	}
 	        }
     	});
+    });
+    $('#usernamebox').change(function (){
+        $("#name").val(this.value);
     });
 });
 function usernametell() {

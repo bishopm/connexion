@@ -9,7 +9,7 @@
 @section('body_class', 'login-page')
 
 @section('body')
-    <div class="login-box">
+    <div class="login-box" style="width:480px;">
         <div class="login-logo">
             <a href="{{ url('/') }}">{!!$setting['site_logo']!!}</a>
         </div><!-- /.login-logo -->
@@ -35,7 +35,7 @@
             <div class="form-group top10" id="emaildiv" style="display:none;">
                 <div class="row">
                     <div class="col-xs-6">
-                        <label for="emailbox">Email address you registered with</label>
+                        <label for="emailbox">Your email address</label>
                         <input id="emailbox" class="form-control" placeholder="Enter your email address">
                     </div>
                     <div class="col-xs-6">
@@ -48,7 +48,7 @@
             <form action="{{ url('/password/email') }}" method="post">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group has-feedback">
-                    <input class="form-control" placeholder="Username" name="name" value="{{ old('name') }}"/>
+                    <input id="name" class="form-control" placeholder="Username" name="name" value="{{ old('name') }}"/>
                     <span class="fa fa-user form-control-feedback"></span>
                 </div>
 
