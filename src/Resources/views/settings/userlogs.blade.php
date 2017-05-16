@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    <h2>Google Analytics <small>Site traffic for the last 7 days</small></h2>
+                    <h2>User logs</h2>
                 </div>
                 <div class="box-body">
                     
