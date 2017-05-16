@@ -6,6 +6,7 @@ use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Models\Setting;
+use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSettingRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSettingRequest;
@@ -85,6 +86,11 @@ class SettingsController extends Controller {
             $dropdown='';
         }
         return view('connexion::settings.edit', compact('setting','dropdown'));
+    }
+
+    public function userlogs(){
+        $activities=Activity::all();
+        return view('connexion::settings.userlogs',compact('activities'));
     }
 
     public function create()

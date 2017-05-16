@@ -433,6 +433,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 
 	    // Settings
 		Route::get('admin/settings',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@index','as'=>'admin.settings.index']);
+		Route::get('admin/logs',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@userlogs','as'=>'admin.settings.logs']);
 		Route::get('admin/settings/create',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@create','as'=>'admin.settings.create']);
 		Route::get('admin/settings/{setting}',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@show','as'=>'admin.settings.show']);
 		Route::get('admin/settings/{setting}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@edit','as'=>'admin.settings.edit']);

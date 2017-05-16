@@ -14,18 +14,18 @@ class CreateGroupsTable extends Migration
 	{
 		Schema::create('groups', function(Blueprint $table) {
 			$table->engine = 'InnoDB';
-      $table->increments('id');
+	  		$table->increments('id');
 			$table->string('groupname');
-      $table->string('slug');
-      $table->text('description')->nullable();
-      $table->integer('meeting')->nullable();
-      $table->double('latitude',20,15);
-      $table->double('longitude',20,15);
-      $table->integer('leader')->nullable();
-      $table->string('grouptype');
-      $table->integer('publish')->nullable();
-      $table->softDeletes();
-      $table->timestamps();
+	      	$table->string('slug');
+	      	$table->text('description')->nullable();
+	      	$table->integer('eventdatetime')->nullable();
+	      	$table->double('latitude',20,15);
+	      	$table->double('longitude',20,15);
+	      	$table->integer('leader')->nullable();
+	      	$table->string('grouptype');
+	      	$table->integer('publish')->nullable();
+	      	$table->softDeletes();
+	      	$table->timestamps();
 		});
 	}
 

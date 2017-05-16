@@ -272,7 +272,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 ]);
             }
             $event->menu->add([
-                'header' => 'SETTINGS',
+                'header' => 'ADMINISTRATION',
                 'can' => 'admin-backend'
             ]);
             $event->menu->add([
@@ -301,16 +301,29 @@ class ConnexionServiceProvider extends ServiceProvider
                 ]
             ]);
             $event->menu->add([
-                'text' => 'Google Analytics',
-                'url' => 'admin/analytics',
-                'icon' => 'area-chart',
-                'can' =>  'edit-backend'
-            ]);
-            $event->menu->add([
-                'text' => 'System settings',
-                'url' => 'admin/settings',
+                'text' => 'General administration',
                 'icon' => 'cog',
-                'can' =>  'admin-backend'
+                'can' =>  'admin-backend',
+                'submenu' => [
+                    [
+                        'text' => 'Google Analytics',
+                        'url' => 'admin/analytics',
+                        'icon' => 'area-chart',
+                        'can' =>  'admin-backend'
+                    ],
+                    [
+                        'text' => 'User logs',
+                        'url' => 'admin/logs',
+                        'icon' => 'pencil-square-o',
+                        'can' =>  'admin-backend'
+                    ],
+                    [
+                        'text' => 'System settings',
+                        'url' =>  'admin/settings',
+                        'icon' => 'cogs',
+                        'can' =>  'admin-backend'
+                    ]
+                ]
             ]);
         });
         Form::component('bsText', 'connexion::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
