@@ -16,6 +16,7 @@
                 <button class="btn btn-primary" data-filter=".{{$service->servicetime}}">{{$service->servicetime}}</button>
             @endforeach
         <button class="btn btn-primary" data-filter=".staff">Staff</button>
+        <input type="text" class="quicksearch" style="line-height: 30px; margin-top: 10px;" placeholder=" Search" />
     </div>
     <div class="row">
         <div class="grid top20">
@@ -45,13 +46,42 @@
 <script src="{{ asset('public/vendor/bishopm/js/isotope.min.js') }}" type="text/javascript"></script>
 <script language="javascript">
     $(window).on('load', function() {
+        var qsRegex;
         // init Isotope
-        var $grid = $('.grid').isotope({ sortBy: 'name' });
+        var $grid = $('.grid').isotope({ 
+            getSortData: {
+                name: '[data-name]'
+            },
+            sortBy: 'name' ,
+            filter: function() {
+                return qsRegex ? $(this).text().match( qsRegex ) : true;
+            }
+        });
+
+        var $quicksearch = $('.quicksearch').keyup( debounce( function() {
+          qsRegex = new RegExp( $quicksearch.val(), 'gi' );
+          $grid.isotope();
+        }, 200 ) );
+
         // filter items on button click
         $('.filter-button-group').on( 'click', 'button', function() {
             var filterValue = $(this).attr('data-filter');
             $grid.isotope({ filter: filterValue });
         });
+
+        function debounce( fn, threshold ) {
+          var timeout;
+          return function debounced() {
+            if ( timeout ) {
+              clearTimeout( timeout );
+            }
+            function delayed() {
+              fn();
+              timeout = null;
+            }
+            timeout = setTimeout( delayed, threshold || 100 );
+          }
+        }
     });
 </script>
 @stop
