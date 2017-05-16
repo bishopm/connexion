@@ -21,7 +21,7 @@
         <div class="grid top20">
             @foreach ($users as $user)
                 @if (isset($user->individual))
-                <div class="col-xs-4 col-sm-3 col-md-2 element-item {{$user->status}}">
+                <div class="col-xs-4 col-sm-3 col-md-2 element-item {{$user->status}}" data-name="{{$user->individual->surname}}{{$user->individual->firstname}}">
                     <a href="{{url('/')}}/users/{{$user->individual->slug}}">
                         @if ($user->individual->image)
                             <img class="img-responsive img-circle" src="{{url('/')}}/public/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
@@ -46,9 +46,7 @@
 <script language="javascript">
     $(window).on('load', function() {
         // init Isotope
-        var $grid = $('.grid').isotope({
-          // options
-        });
+        var $grid = $('.grid').isotope({ sortBy: 'name' });
         // filter items on button click
         $('.filter-button-group').on( 'click', 'button', function() {
             var filterValue = $(this).attr('data-filter');
