@@ -5,7 +5,7 @@
 @stop
 
 @section('content_header')
-  {{ Form::pgHeader($group->groupname,'Groups',route('admin.groups.index')) }}
+  {{ Form::pgHeader($event->groupname,'Groups',route('admin.events.index')) }}
 @stop
 
 @section('content')
@@ -16,11 +16,11 @@
       <div class="box-header">
         <div class="row">
           <div class="col-md-6">
-            <div>{{$group->description}}</div>
+            <div>{{$event->description}}</div>
           </div>
           <div class="col-md-6">
             <div class="col-md-12">
-              <a href="{{route('admin.groups.edit',$group->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit group</a>
+              <a href="{{route('admin.events.edit',$event->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit event</a>
             </div>
           </div>
         </div>
@@ -28,9 +28,9 @@
       <div class="box-body">
         <div class="row">
           <div class="col-md-6">
-            <div><b>Group type:</b> {{$group->grouptype}}</div>
+            <div><b>Group type:</b> {{$event->grouptype}}</div>
             <div><b>Published on site?:</b>
-              @if ($group->publish>0)
+              @if ($event->publish>0)
                 Yes
               @else
                 No
@@ -39,8 +39,8 @@
             <div><b>Leader:</b> {{$leader->firstname}} {{$leader->surname}}</div>
           </div>
           <div class="col-md-6">
-            {{Form::bsHidden('latitude',$group->latitude)}}
-            {{Form::bsHidden('longitude',$group->longitude)}}
+            {{Form::bsHidden('latitude',$event->latitude)}}
+            {{Form::bsHidden('longitude',$event->longitude)}}
             <div id="map_canvas" style="height:200px;"></div>
           </div>
         </div>
@@ -60,7 +60,7 @@
                   <div class="box-default">
                     <div class="box-body">
                       <select class="input-groups" multiple>
-                        @foreach ($group->individuals as $indiv)
+                        @foreach ($event->individuals as $indiv)
                           <option selected value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>
                         @endforeach
                         @foreach ($individuals as $individual)
@@ -73,7 +73,7 @@
                 <div class="tab-pane" id="g1">
                   <div class="box-default">
                     <div class="box-body">
-                      @foreach ($group->pastmembers as $indiv)
+                      @foreach ($event->pastmembers as $indiv)
                         @if (!$loop->last)
                           {{$indiv->firstname}} {{$indiv->surname}}, 
                         @else
@@ -104,10 +104,10 @@
               openOnFocus: 0,
               maxOptions: 30,
               onItemAdd: function(value,$item) {
-                $.ajax({ url: "{{url('/')}}/admin/groups/{{$group->id}}/addmember/" + value })
+                $.ajax({ url: "{{url('/')}}/admin/groups/{{$event->id}}/addmember/" + value })
               },
               onItemRemove: function(value,$item) {
-                $.ajax({ url: "{{url('/')}}/admin/groups/{{$group->id}}/removemember/" + value })
+                $.ajax({ url: "{{url('/')}}/admin/groups/{{$event->id}}/removemember/" + value })
               }
             });
             google.maps.event.addDomListener(window, 'load', initialize(16));

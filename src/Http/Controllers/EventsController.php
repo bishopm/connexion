@@ -55,8 +55,9 @@ class EventsController extends Controller {
 
     public function store(CreateGroupRequest $request)
     {
-        $request->request->add(['eventdatetime'=>date('Y-m-d H:')]);
-        $this->group->create($request->all());
+        $data=$request->all();
+        $data['eventdatetime']=strtotime($data['eventdatetime']);
+        $this->group->create($data);
 
         return redirect()->route('admin.events.index')
             ->withSuccess('New event added');
@@ -64,19 +65,10 @@ class EventsController extends Controller {
 	
     public function update(Group $event, UpdateGroupRequest $request)
     {
-        if (!isset($request->publish)){
-            $request->request->add(['publish'=>0]);
-            $this->group->update($event, $request->all());
-            return redirect()->route('admin.events.index')->withSuccess('Event has been updated');
-        } elseif ($request->publish=="webedit"){
-            $event=$this->group->update($event, $request->except('publish'));
-            $event->publish=1;
-            $event->save();
-            return redirect()->route('webevent',$event->slug)->withSuccess('Event has been updated');
-        } else {
-            $this->group->update($event, $request->all());
-            return redirect()->route('admin.events.index')->withSuccess('Event has been updated');
-        }
+        $data=$request->all();
+        $data['eventdatetime']=strtotime($data['eventdatetime']);
+        $this->group->update($event,$data);
+        return redirect()->route('admin.events.index')->withSuccess('Event has been updated');
     }
 
     public function addmember(Group $event,$memberid)
@@ -97,10 +89,11 @@ class EventsController extends Controller {
     }
 
     public function signup(Group $event, Request $request){
+        $event->individuals()->detach();
         foreach ($request->input('individual_id') as $indiv){
-            $this->addmember($event,$indiv);
+            $event->individuals()->attach($indiv);
         }
-        return redirect()->route('webcourses')->withSuccess('Sign-up complete :)');
+        return redirect()->route('comingup')->withSuccess('Sign-up complete :)');
     }
 
     public function destroy($id)
@@ -108,6 +101,18 @@ class EventsController extends Controller {
         $event=$this->group->find($id);
         $event->delete();
         return redirect()->route('admin.events.index')->withSuccess('Event has been deleted');
+    }
+
+    public function showsignup($slug)
+    {
+        $event=$this->group->findBySlug($slug);
+        $attendees=$event->individuals;
+        $people=array();
+        foreach ($attendees as $attendee){
+            $people[]=$attendee->id;
+        }
+        $leader = $this->individuals->find($event->leader);
+        return view('connexion::site.eventsignup',compact('event','leader','people'));
     }
 
 }

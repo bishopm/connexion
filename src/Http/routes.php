@@ -19,8 +19,11 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/sermons/{series}/{sermon}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermon','as' => 'websermon']);
 	Route::get('/sermons', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermons','as' => 'websermons']);
 	Route::get('/course/{course}',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@show','as'=>'webresource']);
+	Route::get('/coming-up/{event}',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webevent','as'=>'webevent']);
 	Route::get('/coming-up',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@comingup','as'=>'comingup']);
 	Route::get('/course/{course}/sign-up',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@signup','as'=>'coursesignup']);
+	Route::get('/event/{course}/sign-up',['uses'=>'Bishopm\Connexion\Http\Controllers\EventsController@showsignup','as'=>'eventsignup']);
+	Route::post('/admin/events/{event}/signup', ['uses' => 'Bishopm\Connexion\Http\Controllers\EventsController@signup','as' => 'admin.events.signup']);
 	Route::get('courses',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webcourses','as'=>'webcourses']);
 	Route::get('book/{book}',['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@show','as'=>'webbook']);
 	Route::get('books',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webbooks','as'=>'webbooks']);

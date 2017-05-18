@@ -317,6 +317,12 @@ class WebController extends Controller
         return view('connexion::site.comingup',compact('events','blogs'));
     }
 
+    public function webevent($slug)
+    {
+        $event=$this->group->findBySlug($slug);
+        return view('connexion::site.event',compact('event'));
+    }
+
     public function webgroupcategory($category)
     {
         $groups = $this->group->getByAttributes(array('grouptype'=>$category));

@@ -34,7 +34,7 @@
                                         <td><a href="{{route('admin.events.show',$event->id)}}">{{$event->groupname}}</a></td>
                                         <td><a href="{{route('admin.events.show',$event->id)}}">{{count($event->individuals)}}</a></td>
                                         <td>
-                                            <a href="{{route('admin.events.show',$event->id)}}">{{count($event->eventdatetime)}}</a>
+                                            <a href="{{route('admin.events.show',$event->id)}}">{{date("Y-m-d H:i",$event->eventdatetime)}}</a>
                                         </td>
                                     </tr>
                                 @empty
