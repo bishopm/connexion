@@ -44,7 +44,7 @@
     $( document ).ready(function() {
           $('.selectize').selectize({
               plugins: ['remove_button'],
-              openOnFocus: 0,
+              openOnFocus: 1,
               maxOptions: 10,
           });
           $(function() {

@@ -1,4 +1,4 @@
-@extends('adminlte::master')
+@extends('connexion::templates.backend')
 
 @section('adminlte_css')
     <link rel="stylesheet"

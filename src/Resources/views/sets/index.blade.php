@@ -1,7 +1,7 @@
 @extends('connexion::worship.page')
 
 @section('css')
-    @parent
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 @stop
 
 @section('content')
@@ -60,7 +60,7 @@
 
 @section('js')
 @include('connexion::worship.partials.scripts')
-@parent
+<script src="//cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></script>
 <script language="javascript">
 $('#indexTable').DataTable(
     {
