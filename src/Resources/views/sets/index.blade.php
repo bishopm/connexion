@@ -22,7 +22,7 @@
                                 <tr>
                                     <th>Date of service</th>
                                     @foreach ($services as $service)
-                                        <th>{{$service}}</th>
+                                        <th>{{date("Y-m-d",strtotime($service))}}</th>
                                     @endforeach
                                 </tr>
                             </thead>
