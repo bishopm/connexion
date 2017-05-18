@@ -27,7 +27,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="row">
-                    <form method="POST" action="{{url('/')}}/sets/sendemail">
+                    <form method="POST" action="{{url('/')}}/admin/worship/sets/sendemail">
                         {{ csrf_field() }}
                         <div class="col-sm-12">
                             <textarea id="message" class="form-control" rows="20"></textarea>

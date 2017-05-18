@@ -4,7 +4,8 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Illuminate\Http\Request, Log, DB, Mail, App\Http\Requests, View;
 use Bishopm\Connexion\Http\Requests\CreateSetRequest, Bishopm\Connexion\Http\Requests\UpdateSetRequest;
-use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Models\Society, Bishopm\Connexion\Models\Setting;
+use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Models\Society, Bishopm\Connexion\Models\Setting, Bishopm\Connexion\Models\Individual;
+use Bishopm\Connexion\Notifications\WorshipSetNotification;
 
 class SetsController extends Controller
 {
@@ -170,16 +171,12 @@ class SetsController extends Controller
     }
 
     public function sendEmail(Request $request) {
+        $admin_id=Setting::where('setting_key','worship_administrator')->first()->setting_value;
+        $admin=Individual::find($admin_id)->user;
 		$message = nl2br($request->message);
-        $sendername=auth()->user()->name;
-        $senderemail=auth()->user()->email;
-		Mail::queue('messages.message', array('msg' => $message), function($message) use ($sendername,$senderemail){
-	    	$message->from($senderemail, $sendername);
-			$message->to('info@umc.org.za','Janet Botes');
-            $message->cc($senderemail,$sendername);
-			$message->replyTo($senderemail);
-			$message->subject("Songs for order of of service");
-		});
-        return redirect(url('/') . '/sets')->with('okmessage','Email has been sent to the church office and copied to you');
+        $sender=auth()->user();
+        $admin->notify(new WorshipSetNotification($message));
+        $sender->notify(new WorshipSetNotification($message));
+        return redirect(url('/admin/worship') . '/sets')->with('okmessage','Email has been sent to the church office and copied to you');
     }
 }

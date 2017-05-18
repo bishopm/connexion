@@ -194,7 +194,13 @@ class InstallConnexionCommand extends Command
             'setting_value' => '<b>C</b>x',
             'description' => 'Text logo when sidebar is collapsed',
             'category' => 'General'
-        ]); 
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'worship_administrator',
+            'setting_value' => 1,
+            'description' => 'Individual who receives set emails and prepares the PC for services',
+            'category' => 'General'
+        ]);
         DB::table('settings')->insert([
             'setting_key' => 'google_api',
             'setting_value' => 'AIzaSyBQmfbfWGd1hxfR1sbnRXdCaQ5Mx5FjUhA',

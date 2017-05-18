@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Illuminate\Http\Request, Log, DB;
 use App\Http\Requests, View, Bishopm\Connexion\Http\Requests\SetsRequest;
 use App\Http\Controllers\Controller, Helpers, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service;
+use Bishopm\Connexion\Models\Setting, Bishopm\Connexion\Models\Individual;
 
 class SetitemsController extends Controller
 {
@@ -31,6 +32,7 @@ class SetitemsController extends Controller
     public function getitems($set)
     {
         $setitems=Setitem::with('song')->where('set_id','=',$set)->orderBy('itemorder')->get();
+        $fin=array();
         foreach ($setitems as $setitem){
             $dum['title']=$setitem->song->title;
             $dum['id']=$setitem->id;
@@ -41,8 +43,10 @@ class SetitemsController extends Controller
 
     public function getmessage($set)
     {
+        $admin_id=Setting::where('setting_key','worship_administrator')->first()->setting_value;
+        $admin=Individual::find($admin_id)->firstname;
         $fullset=Set::find($set);
-        $msg="Hi Janet\n\nHere are the songs for the " . $fullset->service->servicetime . " service on " . $fullset->servicedate . ":\n\n";
+        $msg="Hi " . $admin . "\n\nHere are the songs for the " . $fullset->service->servicetime . " service on " . $fullset->servicedate . ":\n\n";
         $setitems=Setitem::with('song')->where('set_id','=',$set)->orderBy('itemorder')->get();
         foreach ($setitems as $setitem){
             $msg.=$setitem->song->title . "\n";
