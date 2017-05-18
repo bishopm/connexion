@@ -365,7 +365,8 @@ class WebController extends Controller
                         if ($tag->slug=="staff"){
                             $staff=1;
                         }
-                    }            
+                    }
+                    krsort($comments);
                 } else {
                     $comments="";
                 }
