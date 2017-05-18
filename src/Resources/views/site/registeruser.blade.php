@@ -38,7 +38,6 @@
 					<label for="service_id" class="control-label">Which service do you usually attend?</label>
 					<select name="service_id" id="service_id" class="form-control">
 						@foreach ($society as $soc)
-							<option></option>
 							@foreach ($soc->services as $service)
 								<option value="{{$service->id}}">{{$service->servicetime}} ({{$soc->society}})</option>
 							@endforeach
