@@ -11,4 +11,9 @@ class Post extends Model
     public function user(){
         return $this->belongsTo('Bishopm\Connexion\Models\User');
     }
+
+    public function scopeThreadtitle($query,$thread)
+    {
+        return $query->where('id',$thread)->first();
+    }
 }

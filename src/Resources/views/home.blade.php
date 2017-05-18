@@ -73,21 +73,31 @@
         <ul class="list-unstyled top30">
           @forelse ($comments as $comment)
             <li class="text-left"><small>
-              <a href="{{url('/')}}/users/{{$comment->commented->individual->slug}}">{{$comment->commented->individual->firstname}} {{$comment->commented->individual->surname}}</a> commented on 
-              @if ($comment->commentable_type=="Bishopm\Connexion\Models\Blog")
-                <a href="{{url('/')}}/blog/{{$comment->commentable->slug}}">
-              @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Sermon")
-                <a href="{{url('/')}}/sermons/{{$comment->commentable->series->slug}}/{{$comment->commentable->slug}}">
-              @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Course")
-                <a href="{{url('/')}}/course/{{$comment->commentable->slug}}">
-              @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Book")
-                <a href="{{url('/')}}/book/{{$comment->commentable->slug}}">                
+              @if (isset($comment->commentable_type))
+                <a href="{{url('/')}}/users/{{$comment->commented->individual->slug}}">{{$comment->commented->individual->firstname}} {{$comment->commented->individual->surname}}</a> commented on 
+                @if ($comment->commentable_type=="Bishopm\Connexion\Models\Blog")
+                  <a href="{{url('/')}}/blog/{{$comment->commentable->slug}}">
+                @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Sermon")
+                  <a href="{{url('/')}}/sermons/{{$comment->commentable->series->slug}}/{{$comment->commentable->slug}}">
+                @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Course")
+                  <a href="{{url('/')}}/course/{{$comment->commentable->slug}}">
+                @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Book")
+                  <a href="{{url('/')}}/book/{{$comment->commentable->slug}}">                
+                @endif
+                {{substr($comment->commentable->title,0,20)}}
+                @if (strlen($comment->commentable->title)>20)
+                  ...
+                @endif
+                </a>
+              @else
+                <a href="{{url('/')}}/users/{{$comment->user->individual->slug}}">{{$comment->user->individual->firstname}} {{$comment->user->individual->surname}}</a> 
+                @if ($comment->title)
+                  posted <a href="{{url('/')}}/forum/posts/{{$comment->id}}">{{$comment->title}}</a>
+                @else
+                  replied to <a href="{{url('/')}}/forum/posts/{{$comment->thread}}">{{$comment->threadtitle($comment->thread)->title}}</a>
+                @endif
+
               @endif
-              {{substr($comment->commentable->title,0,20)}}
-              @if (strlen($comment->commentable->title)>20)
-                ...
-              @endif
-              </a>
             </small></li>
           @empty
             No users have posted comments yet

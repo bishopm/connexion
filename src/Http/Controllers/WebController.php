@@ -21,8 +21,10 @@ use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\CoursesRepository;
 use Bishopm\Connexion\Repositories\BooksRepository;
 use Bishopm\Connexion\Repositories\PaymentsRepository;
+use Bishopm\Connexion\Models\Group;
 use Bishopm\Connexion\Models\Book;
 use Bishopm\Connexion\Models\Blog;
+use Bishopm\Connexion\Models\Post;
 use Bishopm\Connexion\Models\Society;
 use Bishopm\Connexion\Models\Sermon;
 use Bishopm\Connexion\Models\Specialday;
@@ -119,9 +121,18 @@ class WebController extends Controller
         $data['sermon']=$sermon->mostRecent();
         $data['slideshow']=$this->slideshow->byName('front');
         if (Auth::user()){
-            $data['comments']=Comment::orderBy('created_at','DESC')->get()->take(10);
+            $comments=Comment::orderBy('created_at','DESC')->get()->take(10);
             $data['users']=$this->users->mostRecent(10);
-        } 
+        }
+        $forum=Post::where('user_id',Auth::user()->id)->get()->take(10);
+        foreach ($comments as $comment){
+            $contribs[strtotime($comment->created_at)]=$comment;
+        }
+        foreach ($forum as $foru){
+            $contribs[strtotime($foru->created_at)]=$foru;
+        }
+        krsort($contribs);
+        $data['comments']=array_slice($contribs,0,10);
         return view('connexion::home',$data);
     }
 
@@ -641,6 +652,7 @@ class WebController extends Controller
             // creating rss feed with our most recent 20 posts
             $blogs = Blog::where('status','Published')->where('created_at','>','2016-02-13')->orderBy('created_at', 'desc')->take(20)->get();
             $sermons = Sermon::where('servicedate','>','2016-02-13')->orderBy('servicedate','desc')->orderBy('created_at', 'desc')->take(20)->get();
+            $events = Group::where('grouptype','event')->orderBy('created_at','desc')->take(20)->get();
             // set your feed's title, description, link, pubdate and language
             $feed->title = $this->settingsarray['site_name'];
             $feed->description = 'A worshiping community, making disciples of Jesus to change our world';
@@ -681,6 +693,16 @@ class WebController extends Controller
                 $dum['content']=$fulldescrip;
                 $feeddata[]=$dum;
             }
+            foreach ($events as $event){
+                $dum['title']=$event->groupname . " (" . date("d M Y H:i",$event->eventdatetime) . ")";
+                $dum['author']=url('/') . "/public/vendor/bishopm/images/signmeup.jpg";
+                $dum['link']=url('/coming-up/' . $event->slug);
+                $dum['pubdate']=$event->created_at;
+                $dum['summary']="A new event has been set up on our site.";
+                $dum['content']=$event->description;
+                $feeddata[]=$dum;
+            }
+
             usort($feeddata, function ($a, $b) {
                 return strcmp($b["pubdate"], $a["pubdate"]);
             });
