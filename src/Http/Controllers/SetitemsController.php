@@ -2,7 +2,7 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use Illuminate\Http\Request, Log, DB;
+use Illuminate\Http\Request, Log, DB, Auth;
 use App\Http\Requests, View, Bishopm\Connexion\Http\Requests\SetsRequest;
 use App\Http\Controllers\Controller, Helpers, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service;
 use Bishopm\Connexion\Models\Setting, Bishopm\Connexion\Models\User;
@@ -51,7 +51,8 @@ class SetitemsController extends Controller
         foreach ($setitems as $setitem){
             $msg.=$setitem->song->title . "\n";
         }
-        $msg.="\nThanks!";
+        $msg.="\nThanks!\n\n";
+        $msg.=Auth::user()->individual->firstname;
         return $msg;
     }
 
