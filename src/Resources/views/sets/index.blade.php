@@ -22,7 +22,7 @@
                                 <tr>
                                     <th>Date of service</th>
                                     @foreach ($services as $service)
-                                        <th>{{date("Y-m-d",strtotime($service))}}</th>
+                                        <th>{{$service}}</th>
                                     @endforeach
                                 </tr>
                             </thead>
@@ -37,7 +37,7 @@
                             <tbody>
                                 @forelse ($sets as $key=>$set)                           
                                     <tr>
-                                        <td>{{date("d M Y",$key)}}</td>
+                                        <td>{{date("Y-m-d",$key)}}</td>
                                         @foreach ($set as $ss)
                                             <td>
                                                 @if($ss<>"")
