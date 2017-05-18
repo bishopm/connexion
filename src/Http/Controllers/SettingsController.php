@@ -83,6 +83,14 @@ class SettingsController extends Controller {
             $dropdown[0][1]="bulksms";
             $dropdown[1][0]="smsfactory";
             $dropdown[1][1]="smsfactory";
+        } elseif ($setting->setting_key=="worship_administrator"){
+            $users=User::orderBy('name')->get();
+            $count=0;
+            foreach ($users as $user){
+                $dropdown[$count][0]=$user->name;
+                $dropdown[$count][1]=$user->name;
+                $count++;
+            }
         } else {
             $dropdown='';
         }

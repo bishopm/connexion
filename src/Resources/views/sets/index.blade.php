@@ -4,9 +4,9 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 @stop
 
-@section('content')
-@include('connexion::shared.errors') 
+@section('content') 
     <div class="container-fluid spark-screen">
+        @include('connexion::shared.errors')
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">

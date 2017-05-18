@@ -198,7 +198,7 @@ class InstallConnexionCommand extends Command
         DB::table('settings')->insert([
             'setting_key' => 'worship_administrator',
             'setting_value' => 1,
-            'description' => 'Individual who receives set emails and prepares the PC for services',
+            'description' => 'User who receives set emails and prepares the PC for services',
             'category' => 'General'
         ]);
         DB::table('settings')->insert([

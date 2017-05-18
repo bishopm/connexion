@@ -6,14 +6,13 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 
-class WorshipSetNotification extends Notification
+class NewSermonComment extends Notification
 {
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-
     public function __construct($message)
     {
         $this->message=$message;
@@ -43,7 +42,7 @@ class WorshipSetNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Songs for worship set')
+            ->line("*Hi " . $notifiable->individual->firstname . "!* \n ")
             ->markdown('connexion::emails.markdown',['message'=>$this->message]);
     }
 
@@ -51,7 +50,7 @@ class WorshipSetNotification extends Notification
     {
         return (new SlackMessage)
             ->to($notifiable->slack_username)
-            ->content($this->message);
+            ->content("*Hi " . $notifiable->individual->firstname . "!* \n " . $this->message);
     }
 
     /**

@@ -30,7 +30,7 @@
                     <form method="POST" action="{{url('/')}}/admin/worship/sets/sendemail">
                         {{ csrf_field() }}
                         <div class="col-sm-12">
-                            <textarea id="message" class="form-control" rows="20"></textarea>
+                            <textarea id="message" name="message" class="form-control" rows="20"></textarea>
                         </div>
                         <div class="col-sm-12">&nbsp;</div>
                         <div class="col-sm-12">

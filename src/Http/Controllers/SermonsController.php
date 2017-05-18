@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use Bishopm\Connexion\Http\Requests\CreateSermonRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSermonRequest;
+use Bishopm\Connexion\Notifications\NewSermonComment;
 
 class SermonsController extends Controller {
 
@@ -73,6 +74,9 @@ class SermonsController extends Controller {
     {
         $user=$this->user->find($request->user);
         $user->comment($sermon, $request->newcomment);
+        $preacher=$sermon->individual->user;
+        $message=$user->individual->firstname . " " . $user->individual->surname . " has posted a comment on your sermon: '" . $sermon->title . "'";
+        $preacher->notify(new NewSermonComment($message));
     }
 
 }

@@ -4,7 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Illuminate\Http\Request, Log, DB, Mail, App\Http\Requests, View;
 use Bishopm\Connexion\Http\Requests\CreateSetRequest, Bishopm\Connexion\Http\Requests\UpdateSetRequest;
-use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Models\Society, Bishopm\Connexion\Models\Setting, Bishopm\Connexion\Models\Individual;
+use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Models\Society, Bishopm\Connexion\Models\Setting, Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Notifications\WorshipSetNotification;
 
 class SetsController extends Controller
@@ -172,11 +172,11 @@ class SetsController extends Controller
 
     public function sendEmail(Request $request) {
         $admin_id=Setting::where('setting_key','worship_administrator')->first()->setting_value;
-        $admin=Individual::find($admin_id)->user;
+        $admin=User::where('name',$admin_id)->first();
 		$message = nl2br($request->message);
         $sender=auth()->user();
         $admin->notify(new WorshipSetNotification($message));
         $sender->notify(new WorshipSetNotification($message));
-        return redirect(url('/admin/worship') . '/sets')->with('okmessage','Email has been sent to the church office and copied to you');
+        return redirect(url('/admin/worship') . '/sets')->withSuccess('Set details have been sent to ' . $admin->individual->firstname . ' and copied to you');
     }
 }

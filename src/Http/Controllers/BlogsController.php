@@ -12,6 +12,7 @@ use Bishopm\Connexion\Http\Requests\CreateBlogRequest;
 use Bishopm\Connexion\Http\Requests\UpdateBlogRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use Bishopm\Connexion\Notifications\NewBlogPost;
+use Bishopm\Connexion\Notifications\NewBlogComment;
 use MediaUploader;
 
 class BlogsController extends Controller {
@@ -114,7 +115,10 @@ class BlogsController extends Controller {
     public function addcomment(Blog $blog, CreateCommentRequest $request)
     {
         $user=$this->user->find($request->user);
+        $author=$blog->individual->user;
         $user->comment($blog, $request->newcomment);
+        $message=$user->individual->firstname . " " . $user->individual->surname . " has posted a comment on your blog post: '" . $blog->title . "'";
+        $author->notify(new NewBlogComment($message));
     }
 
 }
