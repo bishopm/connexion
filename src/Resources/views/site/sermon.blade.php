@@ -15,8 +15,12 @@
 			<a title="View sermon series: {{$sermon->series->title}}" href="{{url('/')}}/sermons/{{$sermon->series->slug}}"><img class="top17" src="{{url('/')}}/public/storage/series/{{$sermon->series->image}}"></a>
     	    <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
           <div class="col-xs-12">{{date("j M", strtotime($sermon->servicedate))}}: {{$sermon->title}}</div>
-          <div class="col-xs-12">{{$sermon->readings}}</div>  
-        	<div class="col-xs-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
+          <div class="col-xs-12">{{$sermon->readings}}</div>
+          @if (isset($sermon->individual))
+        	  <div class="col-xs-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
+          @else
+            <div class="col-xs-12">Guest preacher</div>
+          @endif
           <div class="col-xs-12">
             @foreach ($sermon->tags as $tag)
               <span class="label label-default"><a href="{{url('/')}}/subject/{{$tag->slug}}">{{$tag->name}}</a></span> 
