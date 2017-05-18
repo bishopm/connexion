@@ -47,19 +47,35 @@
 		  <div class="col-md-3">
 		  	<h4>Recent comments</h4>
 		  	<ul class="list-unstyled">
-		  	@foreach ($comments->sortByDesc('created_at') as $comment)
-		  		@if (strpos($comment->commentable_type,'Sermon'))
-		  			<li>{{date("d M",strtotime($comment->created_at))}} (sermon) - <a href="{{url('/')}}/sermons/{{$comment->commentable->series->slug}}/{{$comment->commentable->slug}}">{{$comment->commentable->title}}</a></li>
-		  		@elseif (strpos($comment->commentable_type,'Blog'))
-					<li>{{date("d M",strtotime($comment->created_at))}} (blog) - <a href="{{url('/')}}/blog/{{$comment->commentable->slug}}">{{$comment->commentable->title}}</a></li>
-		  		@elseif (strpos($comment->commentable_type,'Course'))
-					<li>{{date("d M",strtotime($comment->created_at))}} (course) - <a href="{{url('/')}}/course/{{$comment->commentable->slug}}">{{$comment->commentable->title}}</a></li>
-				@elseif (strpos($comment->commentable_type,'Book'))
-					<li>{{date("d M",strtotime($comment->created_at))}} (book) - <a href="{{url('/')}}/book/{{$comment->commentable->slug}}">{{$comment->commentable->title}}</a></li>					
-		  		@endif
-		  	@endforeach
+		  	@foreach ($comments as $comment)
+		  	  <li class="text-left">{{date("d M",strtotime($comment->created_at))}}
+			  @if (isset($comment->commentable_type))
+                @if ($comment->commentable_type=="Bishopm\Connexion\Models\Blog")
+                  (blog) - <a href="{{url('/')}}/blog/{{$comment->commentable->slug}}">
+                @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Sermon")
+                  (sermon) - <a href="{{url('/')}}/sermons/{{$comment->commentable->series->slug}}/{{$comment->commentable->slug}}">
+                @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Course")
+                  (course) - <a href="{{url('/')}}/course/{{$comment->commentable->slug}}">
+                @elseif ($comment->commentable_type=="Bishopm\Connexion\Models\Book")
+                  (book) - <a href="{{url('/')}}/book/{{$comment->commentable->slug}}">                
+                @endif
+                {{substr($comment->commentable->title,0,20)}}
+                @if (strlen($comment->commentable->title)>20)
+                  ...
+                @endif
+                </a>
+              @else
+              	(forum) - 
+                @if ($comment->title)
+                  posted <a href="{{url('/')}}/forum/posts/{{$comment->id}}">{{$comment->title}}</a>
+                @else
+                  replied to <a href="{{url('/')}}/forum/posts/{{$comment->thread}}">{{$comment->threadtitle($comment->thread)->title}}</a>
+                @endif
+              @endif
+              </li>
+            @endforeach
 		  	</ul>
-		  	{{ $comments->links() }}
+		  	
 		  </div>
 	  	@else
 	  		Sorry! This user has not set up a profile yet.

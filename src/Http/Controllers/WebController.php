@@ -124,7 +124,7 @@ class WebController extends Controller
             $comments=Comment::orderBy('created_at','DESC')->get()->take(10);
             $data['users']=$this->users->mostRecent(10);
         }
-        $forum=Post::where('user_id',Auth::user()->id)->get()->take(10);
+        $forum=Post::orderBy('created_at','DESC')->get()->take(10);
         foreach ($comments as $comment){
             $contribs[strtotime($comment->created_at)]=$comment;
         }
@@ -352,7 +352,15 @@ class WebController extends Controller
             if ($user){
                 $staff=0;
                 if ($user){
-                    $comments = $user->comments()->paginate(10);            
+                    $comms = $user->comments()->paginate(10);
+                    $posts = $user->posts;
+                    $comments=array();
+                    foreach ($comms as $comm){
+                        $comments[strtotime($comm->created_at)]=$comm;
+                    }
+                    foreach ($posts as $post){
+                        $comments[strtotime($post->created_at)]=$post;
+                    }
                     foreach ($individual->tags as $tag){
                         if ($tag->slug=="staff"){
                             $staff=1;

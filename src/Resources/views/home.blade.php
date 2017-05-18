@@ -96,7 +96,6 @@
                 @else
                   replied to <a href="{{url('/')}}/forum/posts/{{$comment->thread}}">{{$comment->threadtitle($comment->thread)->title}}</a>
                 @endif
-
               @endif
             </small></li>
           @empty

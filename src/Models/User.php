@@ -45,6 +45,11 @@ class User extends Authenticatable
         return $this->belongsToMany('Bishopm\Connexion\Models\Role', 'role_user');
     }
 
+    public function posts()
+    {
+        return $this->hasMany('Bishopm\Connexion\Models\Post');
+    }
+
     /**
      * Checks if User has access to $permissions.
      */
@@ -66,5 +71,7 @@ class User extends Authenticatable
     {
         return $this->roles()->where('slug', $roleSlug)->count() == 1;
     }
+
+
 
 }
