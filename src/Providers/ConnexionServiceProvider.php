@@ -99,6 +99,12 @@ class ConnexionServiceProvider extends ServiceProvider
                         'can' =>  'edit-backend'
                     ],
                     [
+                        'text' => 'Events',
+                        'url'  => 'admin/events',
+                        'icon' => 'calendar-check-o',
+                        'can' =>  'edit-backend'
+                    ],
+                    [
                         'text' => 'Rosters',
                         'url'  => 'admin/rosters',
                         'icon' => 'calendar',

@@ -152,6 +152,14 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 	Route::post('admin/courses',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@store','as'=>'admin.courses.store']);
     Route::delete('admin/courses/{course}',['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@destroy','as'=>'admin.courses.destroy']);
 
+	// Events
+	Route::get('admin/events',['uses'=>'Bishopm\Connexion\Http\Controllers\EventsController@index','as'=>'admin.events.index']);
+	Route::get('admin/events/create',['uses'=>'Bishopm\Connexion\Http\Controllers\EventsController@create','as'=>'admin.events.create']);
+	Route::get('admin/events/{event}',['uses'=>'Bishopm\Connexion\Http\Controllers\EventsController@show','as'=>'admin.events.show']);
+	Route::get('admin/events/{event}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\EventsController@edit','as'=>'admin.events.edit']);
+	Route::put('admin/events/{event}',['uses'=>'Bishopm\Connexion\Http\Controllers\EventsController@update','as'=>'admin.events.update']);
+	Route::post('admin/events',['uses'=>'Bishopm\Connexion\Http\Controllers\EventsController@store','as'=>'admin.events.store']);
+    Route::delete('admin/events/{event}',['uses'=>'Bishopm\Connexion\Http\Controllers\EventsController@destroy','as'=>'admin.events.destroy']);
 
 	// Folders
 	Route::get('admin/folders',['uses'=>'Bishopm\Connexion\Http\Controllers\FoldersController@index','as'=>'admin.folders.index']);

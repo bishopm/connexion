@@ -20,7 +20,7 @@
         ]
       });
       $('#publishButton').on('click',function(){
-      	user={{Auth::user()->id or 0}};
+      	user={{Auth::user()->id}};
       	if (user){
           newcom='<div class="row top5"><div class="col-xs-2 col-sm-1"><img class="img-responsive img-circle img-thumbnail" width="50px" src="{{$imgsrc}}"></div><div class="col-xs-10 col-sm-11" style="font-size: 80%"><a href="{{route("admin.users.show",Auth::user()->id)}}">{{Auth::user()->individual->firstname}} {{Auth::user()->individual->surname}}</a>: ' + $('textarea#newcomment').val() + '<div><i>{{date("j M")}}</i></div></div></div>';
       	}

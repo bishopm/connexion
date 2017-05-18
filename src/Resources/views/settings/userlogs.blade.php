@@ -43,9 +43,9 @@
 @parent
 <script language="javascript">
 $(document).ready(function() {
-        $('#indexTable').DataTable( {
-            "order": [[ 1, "desc" ]]
-        } );
+    $('#indexTable').DataTable( {
+        "order": [[ 1, "desc" ]]
     } );
+} );
 </script>
 @endsection
