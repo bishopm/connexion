@@ -1,5 +1,9 @@
 @extends('connexion::worship.page')
 
+@section('css')
+    @parent
+@stop
+
 @section('content')
 @include('connexion::shared.errors') 
     <div class="container-fluid spark-screen">
@@ -56,6 +60,7 @@
 
 @section('js')
 @include('connexion::worship.partials.scripts')
+@parent
 <script language="javascript">
 $('#indexTable').DataTable(
     {

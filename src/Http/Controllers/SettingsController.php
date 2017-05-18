@@ -112,6 +112,8 @@ class SettingsController extends Controller {
                     } elseif ($object=="Song"){
                         $details.=$obj->title . ")";
                     }
+                } else {
+                    $details.=$activity->subject_id . ")";
                 }
             } else {
                 $details=$name . " " . $activity->description;
