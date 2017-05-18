@@ -123,16 +123,18 @@ class WebController extends Controller
         if (Auth::user()){
             $comments=Comment::orderBy('created_at','DESC')->get()->take(10);
             $data['users']=$this->users->mostRecent(10);
+            $forum=Post::orderBy('created_at','DESC')->get()->take(10);
+            foreach ($comments as $comment){
+                $contribs[strtotime($comment->created_at)]=$comment;
+            }
+            foreach ($forum as $foru){
+                $contribs[strtotime($foru->created_at)]=$foru;
+            }
+            krsort($contribs);
+            $data['comments']=array_slice($contribs,0,10);
+        } else {
+            $data['comments']=array();
         }
-        $forum=Post::orderBy('created_at','DESC')->get()->take(10);
-        foreach ($comments as $comment){
-            $contribs[strtotime($comment->created_at)]=$comment;
-        }
-        foreach ($forum as $foru){
-            $contribs[strtotime($foru->created_at)]=$foru;
-        }
-        krsort($contribs);
-        $data['comments']=array_slice($contribs,0,10);
         return view('connexion::home',$data);
     }
 
