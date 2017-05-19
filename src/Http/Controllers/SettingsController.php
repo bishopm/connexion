@@ -110,7 +110,7 @@ class SettingsController extends Controller {
                 $obj=$activity->subject_type::find($activity->subject_id);
                 $object=substr($activity->subject_type,1+strrpos($activity->subject_type,'\\'));
                 $details=$name . " " . $activity->description . " " . strtolower($object) . " (";
-                if ($activity->description<>"deleted"){
+                if ($obj){
                     if ($object=="Group") {
                         $details.=$obj->groupname . ")";
                     } elseif ($object=="Individual"){
