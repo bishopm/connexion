@@ -5,10 +5,11 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Models\Group;
+use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateGroupRequest;
 use Bishopm\Connexion\Http\Requests\UpdateGroupRequest;
-use DB;
+use DB, Auth;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller {
@@ -89,7 +90,10 @@ class EventsController extends Controller {
     }
 
     public function signup(Group $event, Request $request){
-        $event->individuals()->detach();
+        $family=Individual::where('household_id',Auth::user()->individual->household_id)->get();
+        foreach ($family as $indiv){
+            $event->individuals()->detach($indiv->id);
+        }
         foreach ($request->input('individual_id') as $indiv){
             $event->individuals()->attach($indiv);
         }
