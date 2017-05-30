@@ -40,6 +40,8 @@ class UsersController extends Controller {
     public function activateuser($id)
     {
         $user=$this->user->activate($id);
+        $webrole=Role::where('slug','web-user')->first()->id;
+        $user->roles()->attach($webrole);
         $hid=$user->individual->household_id;
         $household=Household::withTrashed()->where('id',$hid)->first();
         $household->restore();

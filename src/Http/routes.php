@@ -1,5 +1,7 @@
 <?php
- 
+
+Route::get('/api/currentblog', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@currentblog','as' => 'api.currentblog']);
+
 Route::group(['middleware' => ['web']], function () {
 	// Authentication for guests
 	Route::get('/feed', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@feed','as' => 'feed']);

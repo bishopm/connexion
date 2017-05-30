@@ -127,4 +127,11 @@ class IndividualsController extends Controller {
         return $individuals;
     }   
 
+    public function destroy($household,$id)
+    {
+        $individual=$this->individual->find($id);
+        $individual->delete();
+        return redirect()->route('admin.households.show',$household)->withSuccess('Individual has been deleted');
+    }
+
 }

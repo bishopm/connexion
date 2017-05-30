@@ -111,4 +111,11 @@ class HouseholdsController extends Controller {
         }
     }
 
+    public function destroy($id)
+    {
+        $household=$this->household->find($id);
+        $household->delete();
+        return redirect()->route('admin.households.index')->withSuccess('Household has been deleted');
+    }
+
 }

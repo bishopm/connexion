@@ -15,6 +15,7 @@
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.households.index')) }}
+                    <button type="button" class="btn btn-danger btn-flat pull-right" data-action-entity="{{$household->addressee}}" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.households.destroy', [$household->id]) }}">Delete</button>
                 </div>
             </div>
         </div>
@@ -27,6 +28,7 @@
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.delete-modal')
 @stop
 
 @section('js')
@@ -36,5 +38,6 @@
         $( document ).ready(function() {
             google.maps.event.addDomListener(window, 'load', initialize(12));
         });
+        @include('connexion::shared.delete-modal-script')
     </script>
 @stop

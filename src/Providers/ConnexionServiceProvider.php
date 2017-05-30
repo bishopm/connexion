@@ -375,7 +375,7 @@ class ConnexionServiceProvider extends ServiceProvider
         // Send errors to slack channel
         $monolog = Log::getMonolog();
         if (!\App::environment('local')) {
-            $slackHandler = new SlackWebhookHandler($finset['slack_webhook'], $finset['admin_slack_username'], 'App Alerts', false, 'warning', true, true, Logger::ERROR);
+            $slackHandler = new SlackWebhookHandler($finset['slack_webhook'], $finset['admin_slack_username'], 'App Alerts', false, 'warning', true, true, Logger::ERROR);            
             $monolog->pushHandler($slackHandler);
         }
     }
