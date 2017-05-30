@@ -21,13 +21,14 @@
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.households.show',$individual->household_id)) }}
-                    <button class="btn btn-danger btn-flat pull-right" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.individuals.destroy', [$individual->household_id,$individual->id]) }}">Delete</button>
+                    {!! Form::close() !!}
+                    <button class="btn btn-danger btn-flat pull-right" data-action-entity="{{$individual->firstname}}" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.individuals.destroy', [$individual->household_id,$individual->id]) }}">Delete</button>
                 </div>
             </div>
         </div>
     </div>
-    {!! Form::close() !!}
     @include('connexion::shared.filemanager-modal',['folder'=>'individuals/' . $individual->id])
+    @include('connexion::shared.delete-modal')
 @stop
 
 @section('js')
@@ -49,6 +50,7 @@
             'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
         }
     });
+    @include('connexion::shared.delete-modal-script')
     @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals/' . $individual->id,'width'=>250,'height'=>250])
 </script>
 @endsection

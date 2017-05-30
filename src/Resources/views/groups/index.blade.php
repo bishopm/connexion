@@ -36,7 +36,7 @@
                                         <td>
                                             <div class="btn-group">
                                                 <a href="{{ route('admin.groups.edit', [$group->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.groups.destroy', [$group->id]) }}"><i class="fa fa-trash"></i></button>
+                                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-action-entity="Group" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.groups.destroy', [$group->id]) }}"><i class="fa fa-trash"></i></button>
                                             </div>
                                         </td>
                                     </tr>

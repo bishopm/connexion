@@ -1,10 +1,10 @@
-<div class="modal fade" id="modal-filemanager" tabindex="-1" role="dialog" aria-labelledby="delete-confirmation-title" aria-hidden="true">
+<div class="modal fade" id="modal-filemanager" tabindex="-1" role="dialog" aria-labelledby="fmgr-confirmation-title" aria-hidden="true">
     <div class="modal-dialog" style="width:100%;height=100%;">
         <div class="modal-content" style="min-height:100%;height=100%;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <form id="upload_form" enctype="multipart/form-data" method="post" action="{{route('admin.addimage')}}">
-                    <h3 class="modal-title" id="delete-confirmation-title">Choose a file <small>Folder: {{$folder}}</small>
+                    <h3 class="modal-title" id="fmgr-confirmation-title">Choose a file <small>Folder: {{$folder}}</small>
                     <label id="openbut" class="btn btn-primary" for="upload">
                         <input id="upload" type="file" style="display:none;">
                         Open file
