@@ -5,5 +5,5 @@
 {{ Form::bsText('post1','Postal Address','Postal Address 1') }}
 {{ Form::bsText('post2','','Postal Address 2') }}
 {{ Form::bsText('post3','','Postal Address 3') }}
-{{ Form::bsText('householdcell','Household Cellphone','Household Cellphone') }}
+{{ Form::bsHidden('householdcell',0) }}
 {{ Form::bsText('homephone','Home Phone','Home Phone') }}

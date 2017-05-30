@@ -95,10 +95,10 @@ class HouseholdsController extends Controller {
 
     public function store(CreateHouseholdRequest $request)
     {
-        $this->household->create($request->all());
+        $household=$this->household->create($request->all());
 
-        return redirect()->route('admin.households.index')
-            ->withSuccess('New household added');
+        return redirect()->route('admin.households.show',$household->id)
+            ->withSuccess('New household added - now add an individual');
     }
 
     public function update(Household $household, UpdateHouseholdRequest $request)

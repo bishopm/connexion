@@ -60,6 +60,11 @@ class IndividualsController extends Controller {
     public function store(CreateIndividualRequest $request)
     {
         $individual=$this->individual->create($request->all());
+        $household=Household::find($individual->household_id);
+        if (($household->householdcell==0) and ($individual->cellphone<>'')){
+            $household->householdcell=$individual->id;
+            $household->save();
+        }
         if ($individual->image){
             $folder=base_path() . '/storage/app/public/individuals/';
             $newfolder=$folder . $individual->id;
