@@ -1,10 +1,10 @@
 <?php
-
 namespace Bishopm\Connexion\Http\Controllers;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException, Bishopm\Connexion\Models\Individual;
 use Illuminate\Http\Request, Bishopm\Connexion\Models\Plan, Bishopm\Connexion\Models\Society, Bishopm\Connexion\Models\Meeting, Auth;
 use Bishopm\Connexion\Models\Preacher, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Libraries\Fpdf\Fpdf;
-use Bishopm\Connexion\Http\Requests\PlansRequest, Helpers, Redirect, View, Bishopm\Connexion\Models\Weekday;
+use Bishopm\Connexion\Http\Requests\PlansRequest, Helpers, Redirect, Bishopm\Connexion\Models\Weekday;
 use App\Http\Controllers\Controller, Bishopm\Connexion\Repositories\SettingsRepository;
 
 class PlansController extends Controller
@@ -78,8 +78,24 @@ class PlansController extends Controller
     public function show($yy,$qq,$aa)
     {
         if ($qq=="current"){
-          $this->currentplan("edit");
-          return;
+          $one=range(2,4);
+          $two=range(5,7);
+          $three=range(8,10);
+          $four=range(11,12);
+          $m=intval(date('n'));
+          $y=intval(date('Y'));
+          if (in_array($m,$one)){
+            $qq=1;
+          } elseif (in_array($m,$two)){
+            $qq=2;
+          } elseif (in_array($m,$three)){
+            $qq=3;
+          } elseif (in_array($m,$four)){
+            $qq=4;
+          } elseif ($m==1){
+            $yy=$yy-1;
+            $qq=4;
+          }
         }
         $fin=array();
         $fm=2;
@@ -221,7 +237,7 @@ class PlansController extends Controller
           $data['next']="plan/$yy/" . strval($qq+1);
         }
         if ($aa=="edit"){
-          return View::make('connexion::plans.edit',$data);
+          return view('connexion::plans.edit',$data);
         } else {
           $data['pb']=$this->settings['presiding_bishop'];
           if (!$data['pb']){
@@ -243,7 +259,7 @@ class PlansController extends Controller
         }
     }
 
-    public function report($dat){
+    public function report($dat){      
       $pdf = new Fpdf();
       $pdf->AddPage('L');
       $logopath=base_path() . '/public/vendor/bishopm/images/mcsa.jpg';
