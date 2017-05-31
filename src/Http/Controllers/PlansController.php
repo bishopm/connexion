@@ -572,7 +572,7 @@ class PlansController extends Controller
               $plan->save();
             }
           } else {
-            if (($tag) or ($pid)){
+            if ($pid){
               $newplan=Plan::create(array('society_id'=>$kk[0][1], 'service_id'=>$kk[0][2], 'planyear'=>$kk[0][3], 'planmonth'=>$kk[0][4], 'planday'=>$kk[0][5], 'preacher_id'=>$pid, 'servicetype'=>$tag));
             }
           }
