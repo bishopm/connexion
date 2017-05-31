@@ -640,6 +640,7 @@ class WebController extends Controller
             $series=$this->series->find($id);
             $file=base_path() . "/storage/app/public/series/" . $fn;
             $url=url('/') . "/public/storage/series/" . $fn;
+        }
         file_put_contents($file,$data);
         return $url;
     }
