@@ -144,7 +144,7 @@ class ConnexionServiceProvider extends ServiceProvider
                         ],
                         [
                             'text' => 'Plan',
-                            'url'  => 'admin/plan/' . date('Y') . '/1/edit',
+                            'url'  => 'admin/plan/' . date('Y') . '/current/edit',
                             'icon' => 'calendar',
                             'can' =>  'edit-backend'
                         ],
