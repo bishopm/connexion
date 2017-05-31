@@ -48,7 +48,7 @@ class PlansController extends Controller
         //
     }
 
-    public function currentplan()
+    public function currentplan($status="view")
     {
       $one=range(2,4);
       $two=range(5,7);
@@ -57,15 +57,15 @@ class PlansController extends Controller
       $m=intval(date('n'));
       $y=intval(date('Y'));
       if (in_array($m,$one)){
-        $this->show($y,1,'view');
+        $this->show($y,1,$status);
       } elseif (in_array($m,$two)){
-        $this->show($y,2,'view');
+        $this->show($y,2,$status);
       } elseif (in_array($m,$three)){
-        $this->show($y,3,'view');
+        $this->show($y,3,$status);
       } elseif (in_array($m,$four)){
-        $this->show($y,4,'view');
+        $this->show($y,4,$status);
       } elseif ($m==1){
-        $this->show($y-1,4,'view');
+        $this->show($y-1,4,$status);
       }
     }
 
@@ -77,6 +77,10 @@ class PlansController extends Controller
      */
     public function show($yy,$qq,$aa)
     {
+        if ($qq=="current"){
+          $this->currentplan("edit");
+          return;
+        }
         $fin=array();
         $fm=2;
         $m1=$qq*3-3+$fm;
@@ -106,7 +110,7 @@ class PlansController extends Controller
         $dum['dd']=intval(date("j",$lastSunday));
         $sundays[]=$dum;
         $data['societies']=Society::orderBy('society')->with('services')->get();
-        $data['preachers']=Preacher::where('status','=','Local preacher')->orWhere('status','=','On trial preacher')->get();
+        $data['preachers']=Preacher::where('status','=','Local preacher')->orWhere('status','=','On trial preacher')->orderBy('surname')->orderBy('firstname')->get();
         $data['ministers']=Preacher::where('status','=','Minister')->orWhere('status','=','Superintendent')->get();
         $data['guests']=Preacher::where('status','=','Guest')->get();
         while (date($lastSunday+604800<=$lastDay)) {
@@ -158,7 +162,6 @@ class PlansController extends Controller
               @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['tag']="";
             }
         }
-
         $pm2=Plan::where('planyear','=',$y2)->where('planmonth','=',$m2)->get();
         foreach ($pm2 as $p2){
             $soc=Society::find($p2->society_id)->society;
@@ -206,7 +209,6 @@ class PlansController extends Controller
               @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['tag']="";
             }
         }
-        
         $data['tags']=array('COM','COV');
         if ($qq==1){
           $data['prev']="plan/" . strval($yy-1) . "/4";
