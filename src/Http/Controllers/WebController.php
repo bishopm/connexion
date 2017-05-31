@@ -636,7 +636,10 @@ class WebController extends Controller
             $course=$this->courses->find($id);
             $file=base_path() . "/storage/app/public/courses/" . $fn;
             $url=url('/') . "/public/storage/courses/" . $fn;
-        }
+        } elseif ($entity=="series"){
+            $series=$this->series->find($id);
+            $file=base_path() . "/storage/app/public/series/" . $fn;
+            $url=url('/') . "/public/storage/series/" . $fn;
         file_put_contents($file,$data);
         return $url;
     }
