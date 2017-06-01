@@ -33,16 +33,28 @@
 						<a href="{{url('/')}}/group/{{$group->slug}}">{{$group->groupname}}</a>.
 			    	@endif
 			    @endif
-			@empty
-				No group memberships
+				@empty
+					No group memberships
 		    @endforelse
-		    @if ((count($user->individual->sermons)) or (count($user->individual->blogs)))
-		       	<a class="btn btn-primary top10" href="{{url('/')}}/people/{{$user->individual->slug}}">View {{$user->individual->firstname}}'s blogs/sermons</a>
-		    @endif
-		    @if ((!$staff) and (isset($user->individual->service_id)))
-				<h4>Usual Sunday service</h4>
-				{{$user->individual->service->society->society}} {{$user->individual->service->servicetime}}
-			@endif
+				<h4>Events</h4>
+		    @forelse ($user->individual->publishedevents as $event)
+		    	@if ($event->publish)
+			    	@if (!$loop->last)
+			    		<a href="{{url('/')}}/group/{{$event->slug}}">{{$event->groupname}}</a>, 
+			    	@else
+						<a href="{{url('/')}}/group/{{$event->slug}}">{{$event->groupname}}</a>.
+			    	@endif
+			    @endif
+				@empty
+					No recent events
+		    @endforelse
+				@if ((count($user->individual->sermons)) or (count($user->individual->blogs)))
+					<a class="btn btn-primary top10" href="{{url('/')}}/people/{{$user->individual->slug}}">View {{$user->individual->firstname}}'s blogs/sermons</a>
+				@endif
+				@if ((!$staff) and (isset($user->individual->service_id)))
+					<h4>Usual Sunday service</h4>
+					{{$user->individual->service->society->society}} {{$user->individual->service->servicetime}}
+				@endif
 		  </div>
 		  <div class="col-md-3">
 		  	<h4>Recent comments</h4>
