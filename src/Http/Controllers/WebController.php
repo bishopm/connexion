@@ -501,7 +501,7 @@ class WebController extends Controller
                 $cellmember=$this->individual->find($household->householdcell);
                 $household->cellmember = $cellmember->firstname;
             } else {
-                $household->cellmember = Please edit household to specify;
+                $household->cellmember = "Please edit household to specify";
             }
             $giving=$this->individual->givingnumbers();
             $pg=array();
