@@ -497,8 +497,12 @@ class WebController extends Controller
             }
             $householdpgs=array_unique($householdpgs);
             asort($householdpgs);
-            $cellmember=$this->individual->find($household->householdcell);
-            $household->cellmember = $cellmember->firstname;
+            if ($household->householdcell){
+                $cellmember=$this->individual->find($household->householdcell);
+                $household->cellmember = $cellmember->firstname;
+            } else {
+                $household->cellmember = Please edit household to specify;
+            }
             $giving=$this->individual->givingnumbers();
             $pg=array();
             $ndx=1;
