@@ -86,7 +86,7 @@
                     </div>
                     <div class="box-footer">
                         {!! Form::open(['method'=>'delete','style'=>'display:inline;','route'=>['admin.songs.destroy', $song->id]]) !!}
-                        {!! Form::submit('Delete',array('class'=>'btn btn-default','onclick'=>'return confirm("Are you sure you want to delete this song?")')) !!}
+                        {!! Form::submit('Delete',array('class'=>'btn btn-danger','onclick'=>'return confirm("Are you sure you want to delete this song?")')) !!}
                         {!! Form::close() !!}
                     </div>
                 </div>
