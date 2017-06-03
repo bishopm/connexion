@@ -7,8 +7,6 @@ use Bishopm\Connexion\Repositories\HouseholdsRepository;
 use Bishopm\Connexion\Models\Specialday;
 use Bishopm\Connexion\Models\Household;
 use App\Http\Controllers\Controller;
-use Bishopm\Connexion\Http\Requests\CreateSpecialdayRequest;
-use Bishopm\Connexion\Http\Requests\UpdateSpecialdayRequest;
 use Illuminate\Http\Request;
 
 class SpecialdaysController extends Controller
