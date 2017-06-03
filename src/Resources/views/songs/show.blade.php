@@ -205,18 +205,28 @@ var vm1 = new Vue({
       },
       transposeUp: function() {
           this.formdata.transpose='up';
-          this.$http.put('{{url('/')}}/admin/worship/songs/' + {{$song->id}},this.formdata).then(function (response){
-              this.formdata.lyrics=response.data.lyrics;
-              this.formdata.key=response.data.key;
-          });
+          $.ajax( { 
+              url: "{{url('/')}}/admin/worship/songs/" + {{$song->id}}, type: 'PUT', data: this.formdata,
+              success: 
+                function(data) {
+                  this.formdata.lyrics=data.lyrics;
+                  this.formdata.key=data.key;
+                }.bind(this)
+            }
+          ); 
           this.pdfsource='';
       },
       transposeDown: function() {
           this.formdata.transpose='down';
-          this.$http.put('{{url('/')}}/admin/worship/songs/' + {{$song->id}},this.formdata).then(function (response){
-              this.formdata.lyrics=response.data.lyrics;
-              this.formdata.key=response.data.key;
-          });
+          $.ajax( { 
+              url: "{{url('/')}}/admin/worship/songs/" + {{$song->id}}, type: 'PUT', data: this.formdata,
+              success: 
+                function(data) {
+                  this.formdata.lyrics=data.lyrics;
+                  this.formdata.key=data.key;
+                }.bind(this)
+            }
+          ); 
           this.pdfsource='';
       },
       loadPdf: function() {
