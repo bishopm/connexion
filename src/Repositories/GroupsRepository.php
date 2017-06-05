@@ -19,6 +19,12 @@ class GroupsRepository extends EloquentBaseRepository
         return $this->model->where('publish',1)->where('grouptype','event')->orderBy('groupname', 'ASC')->get();
     }
 
+    public function futureevent()
+    {
+        $datetime=time();
+        return $this->model->where('publish',1)->where('eventdatetime','>',$datetime)->where('grouptype','event')->orderBy('groupname', 'ASC')->get();
+    }
+
     public function allPublished()
     {
         return $this->model->where('publish',1)->orderBy('groupname', 'ASC')->get();

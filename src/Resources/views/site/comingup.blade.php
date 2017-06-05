@@ -24,7 +24,7 @@
 				</div>
 			@endforeach
 		@empty
-			No events are set up to be published on the site yet.
+			No upcoming events at the moment. Watch our Facebook page and website for announcements.
 		@endforelse
 	</div>
 </div>

@@ -313,7 +313,7 @@ class WebController extends Controller
 
     public function comingup()
     {
-        $data = $this->group->event();
+        $data = $this->group->futureevent();
         foreach($data as $event){
             if ($event->subcategory){
                 $events[$event->subcategory][]=$event;
