@@ -36,7 +36,9 @@
                 No
               @endif
             </div>
+            @if ($leader)
             <div><b>Leader:</b> {{$leader->firstname}} {{$leader->surname}}</div>
+            @endif
           </div>
           <div class="col-md-6">
             {{Form::bsHidden('latitude',$group->latitude)}}

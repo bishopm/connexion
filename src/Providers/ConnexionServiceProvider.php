@@ -406,6 +406,9 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Roumen\Feed\FeedServiceProvider');
         $this->app->register('Spatie\Activitylog\ActivitylogServiceProvider');
         $this->app->register('Spatie\Analytics\AnalyticsServiceProvider');
+        $this->app->register('Tymon\JWTAuth\Providers\JWTAuthServiceProvider');
+        AliasLoader::getInstance()->alias("JWTFactory", 'Tymon\JWTAuth\Facades\JWTFactory');
+        AliasLoader::getInstance()->alias("JWTAuth", 'Tymon\JWTAuth\Facades\JWTAuth');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
         //AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
