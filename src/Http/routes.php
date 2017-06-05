@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/api/currentblog', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@currentblog','as' => 'api.currentblog']);
+Route::get('/api/sermonapi/{sermon?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@sermonapi','as' => 'api.sermonapi']);
 
 Route::group(['middleware' => ['web']], function () {
 	// Authentication for guests
