@@ -41,7 +41,14 @@
 					@endif
 				@endforeach
 			@else
-				<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to view group members and venue</p>
+				<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button>
+				@if ($group->grouptype=="fellowship") 
+					to see who else is in the group and where they meet</p>
+				@elseif ($group->grouptype=="service")
+					to see who else serves on this team</p>
+				@else
+					to see who else has signed up</p>
+				@endif
 			@endif
 			</ul>
 		</div>
