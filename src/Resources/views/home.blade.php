@@ -140,6 +140,10 @@
 <script type="text/javascript">
   (function ($) {
     jQuery(window).on('load', function() {
+      $('.carousel').carousel({
+        pause: "false",
+        interval: 4000
+      });
       $('audio').mediaelementplayer({
         features: ['playpause','tracks','progress','volume'],
       });
