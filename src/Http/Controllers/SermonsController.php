@@ -88,4 +88,16 @@ class SermonsController extends Controller {
         return view('connexion::sermons.sermonapi',$data);
     }
 
+    public function addtag($sermon, $tag)
+    {
+        $bb=Sermon::find($sermon);
+        $bb->tag($tag);
+    }
+
+    public function removetag($sermon, $tag)
+    {
+        $bb=Sermon::find($sermon);
+        $bb->untag($tag);
+    }
+
 }
