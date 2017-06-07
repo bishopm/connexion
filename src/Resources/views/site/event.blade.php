@@ -17,20 +17,20 @@
 			{{$event->description}}
 		</div>
 		<div class="col-md-6">
-			<h4>Signed up already</h4>
-			<ul class="list-unstyled">
 			@if (Auth::check())
-				@foreach ($event->individuals as $indiv)
-					@if (isset($indiv->user))
-						<li><a href="{{url('/')}}/users/{{$indiv->slug}}">{{$indiv->firstname}} {{$indiv->surname}}</a></li>
-					@else
-						<li>{{$indiv->firstname}} {{$indiv->surname}}</li>
-					@endif
-				@endforeach
+				<h4>Signed up already</h4>
+				<ul class="list-unstyled">
+					@foreach ($event->individuals as $indiv)
+						@if (isset($indiv->user))
+							<li><a href="{{url('/')}}/users/{{$indiv->slug}}">{{$indiv->firstname}} {{$indiv->surname}}</a></li>
+						@else
+							<li>{{$indiv->firstname}} {{$indiv->surname}}</li>
+						@endif
+					@endforeach
+				</ul>
 			@else
 				<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to sign up and see who else will be there</p>
 			@endif
-			</ul>
 		</div>
 		@if (Auth::check())
 			<div class="col-md-6">
