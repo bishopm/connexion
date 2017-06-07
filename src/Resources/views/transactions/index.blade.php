@@ -20,18 +20,22 @@
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Transaction</th>
+                                    <th>Date</th><th>Details</th><th>Type</th><th>Book</th><th>Amount</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Transaction</th>
+                                    <th>Date</th><th>Details</th><th>Type</th><th>Book</th><th>Amount</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @forelse ($transactions as $transaction)
                                     <tr>
-                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->transaction}}</a></td>
+                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->transactiondate}}</a></td>
+                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->details}}</a></td>
+                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->transactiontype}}</a></td>
+                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->book->title}}</a></td>
+                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->unitamount}}</a></td>
                                     </tr>
                                 @empty
                                     <tr><td>No transactions have been added yet</td></tr>
