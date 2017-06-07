@@ -16,17 +16,19 @@
 			<h4>{{date("d M Y H:i",$event->eventdatetime)}}</h4>
 			{{$event->description}}
 		</div>
-		<div class="col-md-6">
+		<div class="top30 col-md-6">
 			@if (Auth::check())
 				<h4>Signed up already</h4>
 				<ul class="list-unstyled">
-					@foreach ($event->individuals as $indiv)
+					@forelse ($event->individuals as $indiv)
 						@if (isset($indiv->user))
 							<li><a href="{{url('/')}}/users/{{$indiv->slug}}">{{$indiv->firstname}} {{$indiv->surname}}</a></li>
 						@else
 							<li>{{$indiv->firstname}} {{$indiv->surname}}</li>
 						@endif
-					@endforeach
+					@empty
+						You'll be the first to sign up!'
+					@endforelse
 				</ul>
 			@else
 				<p><a class="btn btn-primary btn-flat" href="{{url('/')}}/register">Register</a> or <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-login"></i>Login</button> to sign up and see who else will be there</p>
