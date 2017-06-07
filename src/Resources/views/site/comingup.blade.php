@@ -3,6 +3,7 @@
 @section('title','Coming up')
 
 @section('content')
+@include('connexion::shared.errors') 
 <div class="container">
 	<div class="col-md-12 top30">
 		@forelse ($events as $key=>$category)

@@ -94,10 +94,14 @@ class EventsController extends Controller {
         foreach ($family as $indiv){
             $event->individuals()->detach($indiv->id);
         }
-        foreach ($request->input('individual_id') as $indiv){
-            $event->individuals()->attach($indiv);
+        if (count($request->input('individual_id'))){
+            foreach ($request->input('individual_id') as $indiv){
+                $event->individuals()->attach($indiv);
+            }
+            return redirect()->route('comingup')->withSuccess('Sign-up complete :)');
+        } else {
+            return redirect()->route('comingup')->withSuccess('You have chosen not to attend this event. Sign-up again if you change you mind!');
         }
-        return redirect()->route('comingup')->withSuccess('Sign-up complete :)');
     }
 
     public function destroy($id)
