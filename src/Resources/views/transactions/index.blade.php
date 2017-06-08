@@ -20,22 +20,21 @@
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Date</th><th>Details</th><th>Type</th><th>Book</th><th>Amount</th>
+                                    <th>Date</th><th>Book</th><th>Amount</th><th>Type</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Date</th><th>Details</th><th>Type</th><th>Book</th><th>Amount</th>
+                                    <th>Date</th><th>Book</th><th>Amount</th><th>Type</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 @forelse ($transactions as $transaction)
                                     <tr>
-                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->transactiondate}}</a></td>
-                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->details}}</a></td>
-                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->transactiontype}}</a></td>
-                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->book->title}}</a></td>
-                                        <td><a href="{{route('admin.transactions.edit',$transaction->id)}}">{{$transaction->unitamount}}</a></td>
+                                        <td>{{$transaction->transactiondate}}</td>
+                                        <td>{{$transaction->book->title}}</td>
+                                        <td>{{$transaction->unitamount}}</td>
+                                        <td>{{$transaction->transactiontype}}</td>
                                     </tr>
                                 @empty
                                     <tr><td>No transactions have been added yet</td></tr>

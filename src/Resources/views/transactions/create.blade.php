@@ -40,7 +40,15 @@
                   format: "yyyy-mm-dd",
                   useCurrent: true
                 });
-              });
+            });
+            $('#book_id').on('change', function() {
+                $.ajax({ 
+                    url: "{{url('/')}}/admin/books/getbook/" + this.value,
+                    success: function (data) { 
+                        $('#unitamount').val(data.saleprice);
+                    }
+                })
+            })
         });
     </script>
 @stop

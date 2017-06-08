@@ -97,4 +97,9 @@ class BooksController extends Controller {
         $bb->untag($tag);
     }
 
+    public function getbook(Book $book)
+    {
+        return $book;
+    }
+
 }

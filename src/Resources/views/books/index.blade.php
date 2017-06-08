@@ -21,20 +21,21 @@
                     <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Title</th><th>Stock</th><th>Supplier</th><th>Updated</th>
+                                <th>Title</th><th>Author</th><th>Supplier</th><th>Stock</th><th>Updated</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Title</th><th>Stock</th><th>Supplier</th><th>Updated</th>
+                                <th>Title</th><th>Author</th><th>Supplier</th><th>Stock</th><th>Updated</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @forelse ($books as $book)
                                 <tr>
                                     <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->title}}</a></td>
-                                    <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->stock}}</a></td>
+                                    <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->author}}</a></td>
                                     <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->supplier->supplier}}</a></td>
+                                    <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->stock}}</a></td>
                                     <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->updated_at}}</a></td>
                                 </tr>
                             @empty

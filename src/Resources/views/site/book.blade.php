@@ -26,7 +26,10 @@
                 <img width="250px" class="img-responsive" src="{{url('/')}}/public/vendor/bishopm/images/book.png">
             @endif
             <ul class="top10 list-unstyled">
-            <li>Price: R{{$book->saleprice}}</li>
+            <li>
+              Price: R{{$book->saleprice}} 
+              <button class="btn btn-primary btn-flat btn-xs" data-toggle="modal" data-target="#modal-message"><i class="fa fa-login"></i>Buy this book</button>
+            </li> 
             <li>Copies available: {{$book->stock}}</li>
             </ul>
             @foreach ($book->tags as $tag)
@@ -39,6 +42,7 @@
           </div> 
         </div>
     </div>
+    @include('connexion::shared.buybook-modal')
 @stop
 
 @section('js')
@@ -68,4 +72,5 @@
   </script>
 @endif
 @include('connexion::shared.ratercommentsjs', ['url' => route('admin.books.addcomment',$book->id)])
+@include('connexion::shared.message-modal-script')
 @stop

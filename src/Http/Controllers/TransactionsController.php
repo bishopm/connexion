@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Repositories\TransactionsRepository;
 use Bishopm\Connexion\Repositories\BooksRepository;
 use Bishopm\Connexion\Models\Transaction;
+use Bishopm\Connexion\Models\Book;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateTransactionRequest;
 use Bishopm\Connexion\Http\Requests\UpdateTransactionRequest;
@@ -51,8 +52,14 @@ class TransactionsController extends Controller {
 
     public function store(CreateTransactionRequest $request)
     {
-        $this->transaction->create($request->all());
-
+        $transaction=$this->transaction->create($request->all());
+        $book=Book::find($transaction->book_id);
+        if ($transaction->transactiontype=="Add stock"){
+            $book->stock=$book->stock + $transaction->units;
+        } else {
+            $book->stock=$book->stock - $transaction->units;
+        }
+        $book->save();
         return redirect()->route('admin.transactions.index')
             ->withSuccess('New transaction added');
     }

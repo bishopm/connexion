@@ -141,6 +141,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::delete('admin/books/{book}',['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@destroy','as'=>'admin.books.destroy']);
     Route::get('admin/books/addtag/{book}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@addtag','as' => 'admin.books.addtag']);
     Route::get('admin/books/removetag/{book}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@removetag','as' => 'admin.books.removetag']);
+	Route::get('admin/books/getbook/{book}',['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@getbook','as'=>'admin.books.getbook']);
 
 	// Chords
     Route::get('admin/worship/chords',['uses'=>'Bishopm\Connexion\Http\Controllers\GchordsController@index','as'=>'admin.chords.index']);
