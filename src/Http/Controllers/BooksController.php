@@ -8,6 +8,7 @@ use Bishopm\Connexion\Repositories\SuppliersRepository;
 use Bishopm\Connexion\Models\Book;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateBookRequest;
+use Bishopm\Connexion\Http\Requests\CreateOrderRequest;
 use Bishopm\Connexion\Http\Requests\UpdateBookRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 
@@ -57,7 +58,9 @@ class BooksController extends Controller {
         $data['book']=$this->book->findBySlug($slug);
         if ($data['book']){
             $data['authors']=explode(',',$data['book']->author);
-            $data['comments'] = $data['book']->comments()->paginate(5);     
+            $data['comments'] = $data['book']->comments()->paginate(5);
+            $data['fulltitle'] = $data['book']->title . " (" . $data['book']->author . ")";
+            $data['messagetxt'] = "I would like to buy a copy of: " . $data['fulltitle'] . ". When you email to confirm the book is ready for collection, I will bring payment or proof of payment to the church office. Thanks!";
             return view('connexion::site.book',$data);
         } else {
             abort(404);
@@ -100,6 +103,10 @@ class BooksController extends Controller {
     public function getbook(Book $book)
     {
         return $book;
+    }
+
+    public function placeorder(CreateOrderRequest $request){
+        dd($request->all());
     }
 
 }

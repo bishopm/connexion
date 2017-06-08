@@ -142,6 +142,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::get('admin/books/addtag/{book}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@addtag','as' => 'admin.books.addtag']);
     Route::get('admin/books/removetag/{book}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@removetag','as' => 'admin.books.removetag']);
 	Route::get('admin/books/getbook/{book}',['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@getbook','as'=>'admin.books.getbook']);
+	Route::post('admin/books/placeorder',['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@placeorder','as'=>'admin.books.placeorder']);
 
 	// Chords
     Route::get('admin/worship/chords',['uses'=>'Bishopm\Connexion\Http\Controllers\GchordsController@index','as'=>'admin.chords.index']);
@@ -296,12 +297,10 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::get('admin/rosters/{group}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@edit','as'=>'admin.rosters.edit']);
     Route::put('admin/rosters/{group}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@update','as'=>'admin.rosters.update']);
     Route::delete('admin/rosters/{group}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@destroy','as'=>'admin.rosters.destroy']);
-
     Route::get('/admin/rosters/{roster}/report/{year}/{month}',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@report','as'=>'admin.rosters.report']);
     Route::post('admin/rosters/{rosters}/sms/{send}','Bishopm\Connexion\Http\Controllers\RostersController@sms');
     Route::get('admin/rosters/{rosters}/{year}/{month}','Bishopm\Connexion\Http\Controllers\RostersController@details');
     Route::post('admin/rosters/{rosters}/revise',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@revise','as'=>'admin.rosters.revise']);
-
 
 	// Series
 	Route::get('admin/series',['uses'=>'Bishopm\Connexion\Http\Controllers\SeriesController@index','as'=>'admin.series.index']);

@@ -30,7 +30,8 @@
               Price: R{{$book->saleprice}} 
               <button class="btn btn-primary btn-flat btn-xs" data-toggle="modal" data-target="#modal-message"><i class="fa fa-login"></i>Buy this book</button>
             </li> 
-            <li>Copies available: {{$book->stock}}</li>
+            <li>Copies in stock: {{$book->stock}}<br>
+            <small>When out of stock, expect a delay of 2-5 days</small></li>
             </ul>
             @foreach ($book->tags as $tag)
               <a class="label label-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
@@ -72,5 +73,5 @@
   </script>
 @endif
 @include('connexion::shared.ratercommentsjs', ['url' => route('admin.books.addcomment',$book->id)])
-@include('connexion::shared.message-modal-script')
+@include('connexion::shared.buybook-modal-script')
 @stop

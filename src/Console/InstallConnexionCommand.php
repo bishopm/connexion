@@ -112,6 +112,12 @@ class InstallConnexionCommand extends Command
             'category' => 'General'
         ]);
         DB::table('settings')->insert([
+            'setting_key' => 'bookshop_manager',
+            'setting_value' => '',
+            'description' => 'User who will receive a copy of book orders in addition to the main church email address',
+            'category' => 'General'
+        ]);
+        DB::table('settings')->insert([
             'setting_key' => 'society_name',
             'setting_value' => '',
             'description' => 'Name of society (must set up societies first)',
