@@ -41,6 +41,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/groups/{category}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroupcategory','as' => 'webgroupcategory']);
 	Route::get('/groups', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@weballgroups','as' => 'weballgroups']);
 	Route::get('/group/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroup','as' => 'webgroup']);
+	Route::get('/lectionary', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@lectionary','as' => 'lectionary']);
 	Route::get('/my-church', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
 	Route::get('/my-details', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mydetails','as' => 'mydetails']);
 	Route::get('/my-giving', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mygiving','as' => 'mygiving']);

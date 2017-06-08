@@ -752,4 +752,25 @@ class WebController extends Controller
         }
     }
 
+    public function lectionary(){
+        //include(base_path().'/vendor/bishopm/connexion/src/Libraries/simple_html_dom.php');
+        $rawxml = simplexml_load_file('https://subscribe.esv.org/rss/bcp/');
+        $xml=$rawxml->xpath('channel')[0];
+        $data['copyright']=(string) $xml->copyright[0];
+        $item=$xml->item[0];
+        $title=(string) $item->title;
+        $titleparts=explode(':',$title);
+        $data['title']=$titleparts[0] . " (" . trim($titleparts[1]) . ")";
+        $title=str_replace($titleparts[0].":",'',$title);
+        $data['readings']=trim(str_replace($titleparts[1].":",'',$title));
+        $data['text']=(string) $item->description;
+        /*$html = new \simple_html_dom();
+        $html->load($text);
+        $text=$html->find('.chunk');
+        foreach ($text as $passage){
+            dd($passage);
+        }*/
+        return view('connexion::site.lectionary',$data);
+    }
+
 }
