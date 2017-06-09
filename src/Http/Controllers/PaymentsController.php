@@ -64,4 +64,10 @@ class PaymentsController extends Controller {
         return view('connexion::payments.monthlytotals',compact('year','months'));
     }
 
+    public function destroy($id)
+    {
+        $payment=DB::table('payments')->where('id','=',$id)->delete();
+        return redirect()->route('admin.payments.index')->withSuccess('Payment has been deleted');
+    }
+
 }

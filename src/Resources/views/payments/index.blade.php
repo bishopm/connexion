@@ -25,12 +25,12 @@
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Date</th><th>PG number</th><th>Amount</th>
+                                    <th>Date</th><th>PG number</th><th>Amount</th><th>Actions</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Date</th><th>PG number</th><th>Amount</th>
+                                    <th>Date</th><th>PG number</th><th>Amount</th><th>Actions</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -39,6 +39,12 @@
                                         <td><a href="{{route('admin.payments.edit',$payment->id)}}">{{$payment->paymentdate}}</a></td>
                                         <td><a href="{{route('admin.payments.edit',$payment->id)}}">{{$payment->pgnumber}}</a></td>
                                         <td><a href="{{route('admin.payments.edit',$payment->id)}}">{{$payment->amount}}</a></td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="{{ route('admin.payments.edit', [$payment->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-action-entity="Group" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.payments.destroy', [$payment->id]) }}"><i class="fa fa-trash"></i></button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr><td>No payments have been added yet</td></tr>
@@ -50,11 +56,13 @@
             </div>
         </div>
     </div>
+    @include('connexion::shared.delete-modal')
 @endsection
 
 @section('js')
 @parent
 <script language="javascript">
+@include('connexion::shared.delete-modal-script')
 $(document).ready(function() {
         $('#indexTable').DataTable();
     } );
