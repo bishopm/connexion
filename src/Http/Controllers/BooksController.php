@@ -6,11 +6,15 @@ use Bishopm\Connexion\Repositories\BooksRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\SuppliersRepository;
 use Bishopm\Connexion\Models\Book;
+use Bishopm\Connexion\Models\User;
+use Bishopm\Connexion\Models\Setting;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateBookRequest;
 use Bishopm\Connexion\Http\Requests\CreateOrderRequest;
 use Bishopm\Connexion\Http\Requests\UpdateBookRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
+use Bishopm\Connexion\Mail\GenericMail;
+use Illuminate\Support\Facades\Mail;
 
 class BooksController extends Controller {
 
@@ -106,7 +110,15 @@ class BooksController extends Controller {
     }
 
     public function placeorder(CreateOrderRequest $request){
-        dd($request->all());
+        $data = new \StdClass;
+        $data->subject=$request->input('title');
+        $data->sender=$request->input('email');
+        $data->emailmessage=$request->input('message') . "<br><br>" . $request->input('name');
+        $officeemail=Setting::where('setting_key','church_email')->first()->setting_value;
+        $bookshopuser=Setting::where('setting_key','bookshop_manager')->first()->setting_value;
+        $manager=User::where('name',$bookshopuser)->first();
+        Mail::to($officeemail)->cc($data->sender)->bcc($manager->individual->email)->send(new GenericMail($data));
+        return redirect()->route('webbooks')->withSuccess('Thank you! Your order has been emailed to us');
     }
 
 }

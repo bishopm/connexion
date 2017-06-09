@@ -54,4 +54,14 @@ class PaymentsController extends Controller {
         return redirect()->route('admin.payments.index')->withSuccess('Payment has been updated');
     }
 
+    public function monthtotals($year){
+        $payments=DB::table('payments')->where(DB::raw('SUBSTRING(paymentdate,1,4)'),'=',$year)->get();
+        $months=array_fill_keys(array('January','February','March','April','May','June','July','August','September','October','November','December'), 0);
+        foreach ($payments as $payment){
+            $month=date('F',strtotime($payment->paymentdate));
+            $months[$month]=$months[$month]+$payment->amount;
+        }
+        return view('connexion::payments.monthlytotals',compact('year','months'));
+    }
+
 }

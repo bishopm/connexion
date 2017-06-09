@@ -15,6 +15,7 @@
                     {!! csrf_field() !!}
                     <div class="row">
                         <div class="col-xs-12">
+                            <div id="errormsg" class="alert alert-danger" style="display:none;"></div>
                             @if (Auth::check())
                                 {{ Form::bsText('name','Name','Please enter your name',Auth::user()->individual->firstname . " " . Auth::user()->individual->surname)}}
                                 {{ Form::bsText('email','Email','Please supply your email address', Auth::user()->individual->email)}}

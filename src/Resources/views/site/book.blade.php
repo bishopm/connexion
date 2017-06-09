@@ -9,6 +9,7 @@
 
 @section('content')  
     <div class="container">
+      @include('connexion::shared.errors') 
       <h3>{{$book->title}} <small>
       @foreach ($authors as $author)
         @if (!$loop->last)
@@ -70,8 +71,8 @@
       $(".rating").rate(options);    
       $(".ratingro").rate(optionsro);    
     });
+    @include('connexion::shared.buybook-modal-script')
   </script>
 @endif
 @include('connexion::shared.ratercommentsjs', ['url' => route('admin.books.addcomment',$book->id)])
-@include('connexion::shared.buybook-modal-script')
 @stop

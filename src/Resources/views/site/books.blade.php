@@ -9,6 +9,7 @@
 @section('content')
 <div class="container">
     <div class="top30">
+        @include('connexion::shared.errors') 
         <h1>Explore our bookshop</h1>
     	<table id="bTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
             <thead>

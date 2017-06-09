@@ -13,7 +13,12 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Payments</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.payments.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new payment</a></div>
+                            <div class="col-md-6">
+                                <span class="pull-right">
+                                    <a href="{{route('admin.payments.create')}}" class="btn btn-primary"><i class="fa fa-pencil"></i> Add a new payment</a>
+                                    <a href="{{url('/')}}/admin/payments/monthtotals/{{date('Y')}}" class="btn btn-primary"><i class="fa fa-pencil"></i>Monthly totals</a>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-body">

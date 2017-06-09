@@ -260,11 +260,12 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 	// Payments
 	Route::get('admin/payments',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@index','as'=>'admin.payments.index']);
 	Route::get('admin/payments/create',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@create','as'=>'admin.payments.create']);
-	Route::get('admin/payments/{folder}',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@show','as'=>'admin.payments.show']);
-	Route::get('admin/payments/{folder}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@edit','as'=>'admin.payments.edit']);
-	Route::put('admin/payments/{folder}',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@update','as'=>'admin.payments.update']);
+	Route::get('admin/payments/{payment}',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@show','as'=>'admin.payments.show']);
+	Route::get('admin/payments/monthtotals/{year}',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@monthtotals','as'=>'admin.payments.monthtotals']);
+	Route::get('admin/payments/{payment}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@edit','as'=>'admin.payments.edit']);
+	Route::put('admin/payments/{payment}',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@update','as'=>'admin.payments.update']);
 	Route::post('admin/payments',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@store','as'=>'admin.payments.store']);
-    Route::delete('admin/payments/{folder}',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@destroy','as'=>'admin.payments.destroy']);
+    Route::delete('admin/payments/{payment}',['uses'=>'Bishopm\Connexion\Http\Controllers\PaymentsController@destroy','as'=>'admin.payments.destroy']);
 
     // Plan
     Route::get('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@show');
