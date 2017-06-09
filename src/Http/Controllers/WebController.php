@@ -38,6 +38,8 @@ use MediaUploader;
 use Bishopm\Connexion\Notifications\SendMessage;
 use Bishopm\Connexion\Notifications\CheckUserRegistration;
 use Bishopm\Connexion\Http\Requests\NewUserRequest;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 class WebController extends Controller
 {
@@ -753,23 +755,18 @@ class WebController extends Controller
     }
 
     public function lectionary(){
-        //include(base_path().'/vendor/bishopm/connexion/src/Libraries/simple_html_dom.php');
-        $rawxml = simplexml_load_file('https://subscribe.esv.org/rss/bcp/');
-        $xml=$rawxml->xpath('channel')[0];
-        $data['copyright']=(string) $xml->copyright[0];
-        $item=$xml->item[0];
-        $title=(string) $item->title;
-        $titleparts=explode(':',$title);
-        $data['title']=$titleparts[0] . " (" . trim($titleparts[1]) . ")";
-        $title=str_replace($titleparts[0].":",'',$title);
-        $data['readings']=trim(str_replace($titleparts[1].":",'',$title));
-        $data['text']=(string) $item->description;
-        /*$html = new \simple_html_dom();
-        $html->load($text);
-        $text=$html->find('.chunk');
-        foreach ($text as $passage){
-            dd($passage);
-        }*/
+        $xml = simplexml_load_file('http://lectionary.library.vanderbilt.edu/feeds/lectionary-daily.xml');
+        $data['title']=(string) $xml->channel->item->title;
+        $description=(string) $xml->channel->item->description;
+        $readings=explode(';',strip_tags($description));
+        $client = new Client(['auth' => ['DE3446OVkzT6ASUVyr5iNeoTNbEuZwkPO4Wj1dft','']]);
+        foreach ($readings as $reading){
+            $reading=trim($reading);
+            $response=json_decode($client->request('GET', 'https://bibles.org/v2/passages.js?q[]=' . urlencode($reading) . '&version=eng-GNBDC')->getBody()->getContents(),true);
+            $dum['reading']=$reading;
+            $dum['text']=$response['response']['search']['result']['passages'][0]['text'];
+            $data['readings'][]=$dum;
+        }
         return view('connexion::site.lectionary',$data);
     }
 

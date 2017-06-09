@@ -118,6 +118,12 @@ class InstallConnexionCommand extends Command
             'category' => 'General'
         ]);
         DB::table('settings')->insert([
+            'setting_key' => 'bibles_api_key',
+            'setting_value' => '',
+            'description' => 'Private API key for bibles.org',
+            'category' => 'API'
+        ]);
+        DB::table('settings')->insert([
             'setting_key' => 'society_name',
             'setting_value' => '',
             'description' => 'Name of society (must set up societies first)',
