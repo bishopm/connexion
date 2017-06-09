@@ -765,6 +765,7 @@ class WebController extends Controller
             $response=json_decode($client->request('GET', 'https://bibles.org/v2/passages.js?q[]=' . urlencode($reading) . '&version=eng-GNBDC')->getBody()->getContents(),true);
             $dum['reading']=$reading;
             $dum['text']=$response['response']['search']['result']['passages'][0]['text'];
+            $dum['copyright']=$response['response']['search']['result']['passages'][0]['copyright'];
             $data['readings'][]=$dum;
         }
         return view('connexion::site.lectionary',$data);

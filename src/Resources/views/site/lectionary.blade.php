@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <div class="col-md-12 top30">
+    <div class="col-md-12">
         <h3>{{$title}}</h3>
         <ul class="nav nav-tabs" role="tablist">
             @foreach ($readings as $reading)
@@ -18,10 +18,13 @@
         <div class="tab-content top20">
             @foreach ($readings as $reading)
                 @if ($loop->first)
-                    <div role="tabpanel" class="tab-pane active" id="{{$loop->index}}">{!!$reading['text']!!}</div>
+                    <div role="tabpanel" class="tab-pane active" id="{{$loop->index}}">
                 @else
-                    <div role="tabpanel" class="tab-pane" id="{{$loop->index}}">{!!$reading['text']!!}</div>
+                    <div role="tabpanel" class="tab-pane" id="{{$loop->index}}">
                 @endif
+                {!!$reading['text']!!}
+                <small>{!!$reading['copyright']!!}</small>
+                </div>
             @endforeach
         </div>
     </div>
