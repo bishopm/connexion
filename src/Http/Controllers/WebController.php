@@ -720,7 +720,7 @@ class WebController extends Controller
                 $seriesimage=url('/') . "/public/storage/series/" . $sermon->series->image;
                 $preacher=$sermon->individual->firstname . " " . $sermon->individual->surname;
                 $fulldescrip="Recording of a sermon preached by " . $preacher . " at " . $this->settingsarray['site_name'] . ' on ' . date("l j F Y",strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
-                $dum['title']=$sermon->sermon;
+                $dum['title']=$sermon->title;
                 $dum['author']=$seriesimage;
                 $dum['link']=url('/sermons/' . $sermon->series->slug . '/' . $sermon->slug);
                 $dum['pubdate']=$sermon->servicedate . " 12:00:00";
