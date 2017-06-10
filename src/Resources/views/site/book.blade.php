@@ -31,8 +31,11 @@
               Price: R{{$book->saleprice}} 
               <button class="btn btn-primary btn-flat btn-xs" data-toggle="modal" data-target="#modal-message"><i class="fa fa-login"></i>Buy this book</button>
             </li> 
-            <li>Copies in stock: {{$book->stock}}<br>
-            <small>When out of stock, expect a delay of 2-5 days</small></li>
+            @if ($book->stock)
+              <li>Copies in stock: {{$book->stock}}</li>
+            @else
+              <li><small>To order stock, expect a delay of 2-5 days</small></li>
+            @endif 
             </ul>
             @foreach ($book->tags as $tag)
               <a class="label label-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
@@ -40,6 +43,9 @@
           </div>
           <div class="col-md-9">
             {!!$book->description!!}
+            @if ($book->sample)
+              <p><a href="{{$book->sample}}" target="_blank">View a free sample of the book</a></p>
+            @endif
             @include('connexion::shared.comments', ['rating' => true])
           </div> 
         </div>

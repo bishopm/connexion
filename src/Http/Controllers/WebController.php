@@ -676,6 +676,7 @@ class WebController extends Controller
             $blogs = Blog::where('status','Published')->where('created_at','>','2016-02-13')->orderBy('created_at', 'desc')->take(20)->get();
             $sermons = Sermon::where('servicedate','>','2016-02-13')->orderBy('servicedate','desc')->orderBy('created_at', 'desc')->take(20)->get();
             $events = Group::where('grouptype','event')->orderBy('created_at','desc')->take(20)->get();
+            $books = Book::where('sample','<>','')->orderBy('created_at', 'desc')->take(20)->get();
             // set your feed's title, description, link, pubdate and language
             $feed->title = $this->settingsarray['site_name'];
             $feed->description = 'A worshiping community, making disciples of Jesus to change our world';
@@ -700,6 +701,17 @@ class WebController extends Controller
                 $dum['link']=url('/blog/' . $blog->slug);
                 $dum['pubdate']=$blog->created_at;
                 $dum['summary']="A new blog post has been published on our site.";
+                $dum['content']=$fulldescrip;
+                $feeddata[]=$dum;
+            }
+            foreach ($books as $book){
+                $image=url('/') . "/public/storage/books/" . $book->image;
+                $fulldescrip=$book->description;
+                $dum['title']=$book->title . " by " . $book->author;
+                $dum['author']=$image;
+                $dum['link']=url('/book/' . $book->slug);
+                $dum['pubdate']=$book->created_at;
+                $dum['summary']="Download a sample chapter of a new book available through our bookshop:";
                 $dum['content']=$fulldescrip;
                 $feeddata[]=$dum;
             }

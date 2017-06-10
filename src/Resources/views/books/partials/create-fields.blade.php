@@ -27,5 +27,6 @@
 	@endforeach
   </select>
 </div>
+{{ Form::bsText('sample','Sample','Sample') }}
 {{ Form::bsText('saleprice','Sale price','Sale price') }}
 {{ Form::bsText('costprice','Cost price','Cost price') }}

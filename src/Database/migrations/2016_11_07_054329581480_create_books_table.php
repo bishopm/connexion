@@ -17,6 +17,7 @@ class CreateBooksTable extends Migration
             $table->string('slug');
             $table->string('author');
             $table->string('image');
+            $table->string('sample');
             $table->integer('stock');
             $table->decimal('saleprice');
             $table->decimal('costprice');
