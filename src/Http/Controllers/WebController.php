@@ -788,7 +788,8 @@ class WebController extends Controller
         $data['title']=(string) $xml->channel->item->title;
         $description=(string) $xml->channel->item->description;
         $readings=explode(';',strip_tags($description));
-        $client = new Client(['auth' => ['DE3446OVkzT6ASUVyr5iNeoTNbEuZwkPO4Wj1dft','']]);
+        $api_secret=Setting::where('setting_key','bibles_api_key')->first()->setting_value;
+        $client = new Client(['auth' => [$api_secret,'']]);
         foreach ($readings as $reading){
             $reading=trim($reading);
             $response=json_decode($client->request('GET', 'https://bibles.org/v2/passages.js?q[]=' . urlencode($reading) . '&version=eng-GNBDC')->getBody()->getContents(),true);
