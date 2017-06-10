@@ -706,7 +706,7 @@ class WebController extends Controller
             }
             foreach ($books as $book){
                 $image=url('/') . "/public/storage/books/" . $book->image;
-                $fulldescrip=$book->description;
+                $fulldescrip=strip_tags($book->description);
                 $dum['title']=$book->title . " by " . $book->author;
                 $dum['author']=$image;
                 $dum['link']=url('/book/' . $book->slug);
