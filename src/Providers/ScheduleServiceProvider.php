@@ -12,7 +12,7 @@ class ScheduleServiceProvider extends ServiceProvider
     {
         $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
-            $schedule->command('BirthdayEmail')->weekly()->mondays()->at('08:00');
+            $schedule->command('BirthdayEmail')->weekly()->saturdays()->at('21:30');
         });
     }
 
