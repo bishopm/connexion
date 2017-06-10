@@ -19,6 +19,7 @@ class ConnexionServiceProvider extends ServiceProvider
 
     protected $commands = [
         'Bishopm\Connexion\Console\InstallConnexionCommand',
+        'Bishopm\Connexion\Console\BirthdayEmail',
     ];
 
     /**

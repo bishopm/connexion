@@ -124,6 +124,12 @@ class InstallConnexionCommand extends Command
             'category' => 'API'
         ]);
         DB::table('settings')->insert([
+            'setting_key' => 'birthday_group',
+            'setting_value' => '',
+            'description' => 'Group whose members receive birthday list emails each week',
+            'category' => 'General'
+        ]);
+        DB::table('settings')->insert([
             'setting_key' => 'society_name',
             'setting_value' => '',
             'description' => 'Name of society (must set up societies first)',

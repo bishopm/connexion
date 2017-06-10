@@ -78,6 +78,14 @@ class SettingsController extends Controller {
                 $dum[1]=$val->groupname;
                 $dropdown[]=$dum;
             }
+        } elseif ($setting->setting_key=="birthday_group"){
+            $vals=$this->groups->dropdown();
+            $dropdown=array();
+            foreach ($vals as $val){
+                $dum[0]=$val->id;
+                $dum[1]=$val->groupname;
+                $dropdown[]=$dum;
+            }
         } elseif ($setting->setting_key=="bookshop_manager"){
             $users=User::orderBy('name')->get();
             $count=0;
