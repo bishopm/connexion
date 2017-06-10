@@ -665,7 +665,7 @@ class WebController extends Controller
         return json_encode($thislink);
     }
 
-    public function feed()
+    public function feed($service="default")
     {
         $feed = App::make("feed");
         // cache the feed for 60 minutes (second parameter is optional)
@@ -677,6 +677,7 @@ class WebController extends Controller
             $sermons = Sermon::where('servicedate','>','2016-02-13')->orderBy('servicedate','desc')->orderBy('created_at', 'desc')->take(20)->get();
             $events = Group::where('grouptype','event')->orderBy('created_at','desc')->take(20)->get();
             $books = Book::where('sample','<>','')->orderBy('created_at', 'desc')->take(20)->get();
+
             // set your feed's title, description, link, pubdate and language
             $feed->title = $this->settingsarray['site_name'];
             $feed->description = 'A worshiping community, making disciples of Jesus to change our world';
@@ -701,7 +702,11 @@ class WebController extends Controller
                 $dum['link']=url('/blog/' . $blog->slug);
                 $dum['pubdate']=$blog->created_at;
                 $dum['summary']="A new blog post has been published on our site.";
-                $dum['content']=$fulldescrip;
+                if ($service=="default"){
+                    $dum['content']=$fulldescrip;
+                } else {
+                    $dum['content']="New blog post: " . $blog->title . " " . $dum['link'];
+                }
                 $feeddata[]=$dum;
             }
             foreach ($books as $book){
@@ -712,7 +717,11 @@ class WebController extends Controller
                 $dum['link']=url('/book/' . $book->slug);
                 $dum['pubdate']=$book->created_at;
                 $dum['summary']="Download a sample chapter of a new book available through our bookshop:";
-                $dum['content']=$fulldescrip;
+                if ($service=="default"){
+                    $dum['content']=$fulldescrip;
+                } else {
+                    $dum['content']="New book: Preview a sample from '" . $book->title . "' " . $dum['link'];
+                }
                 $feeddata[]=$dum;
             }
             foreach ($sermons as $sermon){
@@ -725,7 +734,11 @@ class WebController extends Controller
                 $dum['link']=url('/sermons/' . $sermon->series->slug . '/' . $sermon->slug);
                 $dum['pubdate']=$sermon->servicedate . " 12:00:00";
                 $dum['summary']="A new sermon has been uploaded to our site.";
-                $dum['content']=$fulldescrip;
+                if ($service=="default"){
+                    $dum['content']=$fulldescrip;
+                } else {
+                    $dum['content']="New sermon: " . $sermon->title . " " . $dum['link'];
+                }
                 $feeddata[]=$dum;
             }
             foreach ($events as $event){
@@ -734,7 +747,11 @@ class WebController extends Controller
                 $dum['link']=url('/coming-up/' . $event->slug);
                 $dum['pubdate']=$event->created_at;
                 $dum['summary']="A new event has been set up on our site.";
-                $dum['content']=$event->description;
+                if ($service=="default"){
+                    $dum['content']=$event->description;
+                } else {
+                    $dum['content']="New event at UMC: " . $event->groupname . " " . $dum['link'];
+                }
                 $feeddata[]=$dum;
             }
 
