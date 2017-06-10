@@ -788,7 +788,7 @@ class WebController extends Controller
         $data['title']=(string) $xml->channel->item->title;
         $description=(string) $xml->channel->item->description;
         $readings=explode(';',strip_tags($description));
-        $api_secret=Setting::where('setting_key','bibles_api_key')->first()->setting_value;
+        $api_secret=$this->settingsarray['bibles_api_key'];
         $client = new Client(['auth' => [$api_secret,'']]);
         foreach ($readings as $reading){
             $reading=trim($reading);
