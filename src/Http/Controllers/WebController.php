@@ -825,8 +825,8 @@ class WebController extends Controller
             foreach ($data['readings'] as $read){
                 $reading.="<h3>" . $read['reading'] . "</h3>" . $read['text'];
             }
-            $reading.="<small>" . $read['copyright'] ."</small>";
-            return $reading;
+            $data['reading']=$reading . "<small>" . $read['copyright'] ."</small>";
+            return $data;
         }
     }
 
