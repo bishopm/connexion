@@ -784,19 +784,39 @@ class WebController extends Controller
     }
 
     public function lectionary(){
-        $xml = simplexml_load_file('http://lectionary.library.vanderbilt.edu/feeds/lectionary-daily.xml');
-        $data['title']=(string) $xml->channel->item->title;
-        $description=(string) $xml->channel->item->description;
-        $readings=explode(';',strip_tags($description));
-        $api_secret=$this->settingsarray['bibles_api_key'];
-        $client = new Client(['auth' => [$api_secret,'']]);
-        foreach ($readings as $reading){
-            $reading=trim($reading);
-            $response=json_decode($client->request('GET', 'https://bibles.org/v2/passages.js?q[]=' . urlencode($reading) . '&version=eng-GNBDC')->getBody()->getContents(),true);
-            $dum['reading']=$reading;
-            $dum['text']=$response['response']['search']['result']['passages'][0]['text'];
-            $dum['copyright']=$response['response']['search']['result']['passages'][0]['copyright'];
-            $data['readings'][]=$dum;
+        $today=date('Y-m-d');
+        $yesterday=date("Y-m-d", time() - 60 * 60 * 24);
+        $lectionary=DB::table('readings')->where('readingdate',$today)->first();
+        $readings=explode(';',strip_tags($lectionary->readings));
+        $data['title']="Daily RCL readings for " . date("l, j F y");
+        if ($lectionary->copyright){
+            $loop=1;
+            foreach ($readings as $reading){
+                $reading=trim($reading);
+                $dum['reading']=$reading;
+                $varname="reading" . $loop;
+                $dum['text']=$lectionary->$varname;
+                $dum['copyright']=$lectionary->copyright;
+                $data['readings'][]=$dum;
+                $loop++;
+            }
+        } else {
+            $loop=1;
+            $api_secret=$this->settingsarray['bibles_api_key'];
+            $client = new Client(['auth' => [$api_secret,'']]);
+            foreach ($readings as $reading){
+                $varname="reading" . strval($loop);
+                $reading=trim($reading);
+                $response=json_decode($client->request('GET', 'https://bibles.org/v2/passages.js?q[]=' . urlencode($reading) . '&version=eng-GNBDC')->getBody()->getContents(),true);
+                $dum['reading']=$reading;
+                $dum['text']=$response['response']['search']['result']['passages'][0]['text'];
+                $dum['copyright']="Good News Bible. Scripture taken from the Good News Bible (Today's English Version Second Edition, UK/British Edition). Copyright © 1992 British & Foreign Bible Society. Used by permission.";
+                $data['readings'][]=$dum;
+                DB::table('readings')->where('id', $lectionary->id)->update([$varname => $dum['text']]);
+                DB::table('readings')->where('readingdate', $yesterday)->update(['reading1' => '', 'reading2' => '', 'reading3' => '', 'reading4' => '', 'copyright' => '']);
+                $loop++;
+            }
+            DB::table('readings')->where('id', $lectionary->id)->update(['copyright' => $dum['copyright']]);
         }
         return view('connexion::site.lectionary',$data);
     }

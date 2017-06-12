@@ -23,7 +23,7 @@
                     <div role="tabpanel" class="tab-pane" id="{{$loop->index}}">
                 @endif
                 {!!$reading['text']!!}
-                <small>{!!$reading['copyright']!!}</small>
+                <small class="label label-default">{!!$reading['copyright']!!}</small>
                 </div>
             @endforeach
         </div>
