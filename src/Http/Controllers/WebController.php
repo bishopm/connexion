@@ -788,7 +788,7 @@ class WebController extends Controller
         $yesterday=date("Y-m-d", time() - 60 * 60 * 24);
         $lectionary=DB::table('readings')->where('readingdate',$today)->first();
         $readings=explode(';',strip_tags($lectionary->readings));
-        $data['title']="Daily RCL readings for " . date("l, j F y");
+        $data['title']="Daily RCL readings for " . date("l, j F Y");
         if ($lectionary->copyright){
             $loop=1;
             foreach ($readings as $reading){
