@@ -821,12 +821,13 @@ class WebController extends Controller
         if (\Request::route()->getName()=="lectionary"){
             return view('connexion::site.lectionary',$data);
         } else {
-            $reading="<h2>Daily readings for " . date("l, j F Y") . "</h2>";
+            $alldat=array();
+            $alldat['reading']="<h2>Daily readings for " . date("l, j F Y") . "</h2>";
             foreach ($data['readings'] as $read){
-                $reading.="<h3>" . $read['reading'] . "</h3>" . $read['text'];
+                $alldat['reading'].="<h3>" . $read['reading'] . "</h3>" . $read['text'];
             }
-            $data['reading']=$reading . "<small>" . $read['copyright'] ."</small>";
-            return $data;
+            $alldat['reading'].="<small>" . $read['copyright'] ."</small>";
+            return $alldat;
         }
     }
 
