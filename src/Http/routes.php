@@ -2,6 +2,7 @@
 
 Route::get('/api/currentblog', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@currentblog','as' => 'api.currentblog']);
 Route::get('/api/sermonapi/{sermon?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@sermonapi','as' => 'api.sermonapi']);
+Route::get('/api/readings', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@lectionary','as' => 'api.lectionary']);
 
 Route::group(['middleware' => ['web']], function () {
 	// Authentication for guests

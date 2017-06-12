@@ -818,7 +818,11 @@ class WebController extends Controller
             }
             DB::table('readings')->where('id', $lectionary->id)->update(['copyright' => $dum['copyright']]);
         }
-        return view('connexion::site.lectionary',$data);
+        if (\Request::route()->getName()=="lectionary"){
+            return view('connexion::site.lectionary',$data);
+        } else {
+            return $data;
+        }
     }
 
 }
