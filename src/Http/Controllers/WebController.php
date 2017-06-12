@@ -788,7 +788,7 @@ class WebController extends Controller
         $yesterday=date("Y-m-d", time() - 60 * 60 * 24);
         $lectionary=DB::table('readings')->where('readingdate',$today)->first();
         $readings=explode(';',strip_tags($lectionary->readings));
-        $data['title']="Daily RCL readings for " . date("l, j F Y");
+        $data['title']="Daily readings for " . date("l, j F Y") . " <small>From the <a target=\"_blank\" href=\"http://www.commontexts.org\">Revised Common Lectionary</a></small>";
         if ($lectionary->copyright){
             $loop=1;
             foreach ($readings as $reading){
@@ -810,7 +810,7 @@ class WebController extends Controller
                 $response=json_decode($client->request('GET', 'https://bibles.org/v2/passages.js?q[]=' . urlencode($reading) . '&version=eng-GNBDC')->getBody()->getContents(),true);
                 $dum['reading']=$reading;
                 $dum['text']=$response['response']['search']['result']['passages'][0]['text'];
-                $dum['copyright']="Good News Bible. Scripture taken from the Good News Bible (Today's English Version Second Edition, UK/British Edition). Copyright © 1992 British & Foreign Bible Society. Used by permission.";
+                $dum['copyright']="Good News Bible. Scripture taken from the Good News Bible (Today's English Version Second Edition, UK/British Edition). Copyright © 1992 British & Foreign Bible Society. Used by permission. Revised Common Lectionary Daily Readings, copyright © 2005 Consultation on Common Texts. <a target=\"_blank\" href=\"http://www.commontexts.org\">www.commontexts.org</a>";
                 $data['readings'][]=$dum;
                 DB::table('readings')->where('id', $lectionary->id)->update([$varname => $dum['text']]);
                 DB::table('readings')->where('readingdate', $yesterday)->update(['reading1' => '', 'reading2' => '', 'reading3' => '', 'reading4' => '', 'copyright' => '']);
