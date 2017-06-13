@@ -57,9 +57,17 @@
                             <div class="col-sm-12">
                                 <h4>{{date("l, d F Y",strtotime($rdate))}}</h4>
                             </div>
-                            @foreach ($rost as $indiv)
+                            @foreach ($rost as $indiv=>$groups)
                                 <div class="col-sm-3">
-                                    {!!$indiv!!}
+                                    {{$indiv}} <small>(
+                                    @foreach ($groups as $group)
+                                        @if ($loop->last)
+                                            {{$group}}
+                                        @else
+                                            {{$group}}, 
+                                        @endif
+                                    @endforeach
+                                    )</small>
                                 </div>
                             @endforeach
                         @endforeach
