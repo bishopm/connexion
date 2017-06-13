@@ -79,7 +79,7 @@ class SongsController extends Controller
         }
         foreach ($arecents as $key=>$arecent){
             arsort($arecent);
-            $data['recents'][$key][]=array_splice($arecent,0,20);
+            $data['recents'][$key][]=array_splice($arecent,0,25);
         }
         $data['mostrecentset']=date("d F Y",$mostrecentset);
         $data['newest']=Song::orderBy('created_at', 'DESC')->get()->take(9);

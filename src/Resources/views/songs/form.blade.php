@@ -43,16 +43,16 @@
                     <option>contemporary</option>
                     <option selected>liturgy</option>
                     <option>archive</option>
-                @elseif ((!$is_new) and ($song->musictype=="contemporary"))
-                    <option>hymn</option>
-                    <option selected>contemporary</option>
-                    <option>liturgy</option>
-                    <option>archive</option>
-                @else
+                @elseif ((!$is_new) and ($song->musictype=="archive"))
                     <option>hymn</option>
                     <option>contemporary</option>
                     <option>liturgy</option>
                     <option selected>archive</option>
+                @else
+                    <option>hymn</option>
+                    <option selected>contemporary</option>
+                    <option>liturgy</option>
+                    <option>archive</option>
                 @endif
             </select>
         </div>        
