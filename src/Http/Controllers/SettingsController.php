@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
+use Bishopm\Connexion\Repositories\RostersRepository;
 use Bishopm\Connexion\Models\Setting;
 use Bishopm\Connexion\Models\User;
 use Spatie\Activitylog\Models\Activity;
@@ -24,11 +25,12 @@ class SettingsController extends Controller {
 
     private $setting,$societies,$groups;
 
-    public function __construct(SettingsRepository $setting, SocietiesRepository $societies, GroupsRepository $groups)
+    public function __construct(SettingsRepository $setting, SocietiesRepository $societies, GroupsRepository $groups, RostersRepository $rosters)
     {
         $this->setting = $setting;
         $this->societies = $societies;
         $this->groups = $groups;
+        $this->rosters = $rosters;
     }
 
     public function index()
@@ -86,6 +88,14 @@ class SettingsController extends Controller {
                 $dum[1]=$val->groupname;
                 $dropdown[]=$dum;
             }
+        } elseif ($setting->setting_key=="worship_roster"){
+            $vals=$this->rosters->dropdown();
+            $dropdown=array();
+            foreach ($vals as $val){
+                $dum[0]=$val->id;
+                $dum[1]=$val->rostername;
+                $dropdown[]=$dum;
+            }    
         } elseif ($setting->setting_key=="bookshop_manager"){
             $users=User::orderBy('name')->get();
             $count=0;

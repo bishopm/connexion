@@ -4,7 +4,7 @@ namespace Bishopm\Connexion\Mail;
 
 use Illuminate\Mail\Mailable;
 
-class BirthdayMail extends Mailable
+class MonthlyBookEmail extends Mailable
 {
     use SerializesModels;
 
@@ -29,6 +29,6 @@ class BirthdayMail extends Mailable
     {
         return $this->subject($this->emaildata['subject'])
             ->from($this->emaildata['sender'])
-            ->markdown('connexion::emails.birthday');
+            ->markdown('connexion::emails.monthlybook');
     }
 }

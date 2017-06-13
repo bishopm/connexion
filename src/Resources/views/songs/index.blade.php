@@ -31,7 +31,7 @@
                 <br>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Most recent sets ({{$mostrecentset}})</small></h3>
+                        <h3 class="panel-title">Most recent sets ({{$mostrecentset}})</h3>
                     </div>
                     <div class="panel-body">
                         @forelse ($newestsets as $kset=>$newset)
@@ -47,6 +47,25 @@
                         @endforelse
                     </div>
                 </div>
+                @if (count($roster))
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Worship team roster</h3>
+                    </div>
+                    <div class="panel-body">
+                        @foreach ($roster as $rdate=>$rost)
+                            <div class="col-sm-12">
+                                <h4>{{date("l, d F Y",strtotime($rdate))}}</h4>
+                            </div>
+                            @foreach ($rost as $indiv)
+                                <div class="col-sm-3">
+                                    {!!$indiv!!}
+                                </div>
+                            @endforeach
+                        @endforeach
+                    </div>
+                </div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Recently added <small>Total songs: {{$songcount}}</small></h3>

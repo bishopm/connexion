@@ -12,7 +12,7 @@
     @endforeach
   </select>
 </div>
-{{ Form::bsSelect('transactiontype','Transaction type',array('Cash sale','Card sale','Credit sale','Add stock','Shrinkage'),$transaction->transactiontype) }}
+{{ Form::bsSelect('transactiontype','Transaction type',array('Cash sale','Card sale','Credit sale','Add stock','Shrinkage','Zapper'),$transaction->transactiontype) }}
 {{ Form::bsText('units','Quantity','Quantity',$transaction->units) }}
 {{ Form::bsText('unitamount','Unit price','Unit price',$transaction->unitamount) }}
 {{ Form::bsText('details','Notes','Notes',$transaction->notes) }}
