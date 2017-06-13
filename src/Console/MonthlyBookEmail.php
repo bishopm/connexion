@@ -44,9 +44,7 @@ class MonthlyBookEmail extends Command
             if (($transaction->transactiontype<>"Add stock") and ($transaction->transactiontype<>"Shrinkage")){
                 $data[$transaction->book->supplier_id]['sales'][]=$transaction;
                 $data[$transaction->book->supplier_id]['salestotal']=$data[$transaction->book->supplier_id]['salestotal']+$transaction->unitamount*$transaction->units;
-            } elseif  {
-
-            }
+            } 
         }
         dd($data);
 
