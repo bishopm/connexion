@@ -10,7 +10,6 @@ class CreateTransactionRequest extends FormRequest
     {
         return [
             'transactiondate' => 'required',
-            'details' => 'required',
             'transactiontype' => 'required',
             'units' => 'required',
             'unitamount' => 'required',

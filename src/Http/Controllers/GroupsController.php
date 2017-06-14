@@ -55,9 +55,9 @@ class GroupsController extends Controller {
 
     public function store(CreateGroupRequest $request)
     {
-        $this->group->create($request->all());
+        $group=$this->group->create($request->all());
 
-        return redirect()->route('admin.groups.index')
+        return redirect()->route('admin.groups.show',$group->id)
             ->withSuccess('New group added');
     }
 	

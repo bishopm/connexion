@@ -62,11 +62,13 @@ class MonthlyBookshopEmail extends Command
         if ($setting){
             $churchemail=Setting::where('setting_key','church_email')->first()->setting_value;
             $group=Group::with('individuals')->where('groupname',$setting)->first();
-            foreach ($group->individuals as $recip){
-                $data['recipient']=$recip->firstname;
-                $data['subject']="Bookshop sales and stock report: " . date("M Y", strtotime("first day of previous month"));
-                $data['sender']=$churchemail;
-                Mail::to($recip->email)->send(new MonthlyBookshopMail($data));
+            if ($group){
+                foreach ($group->individuals as $recip){
+                    $data['recipient']=$recip->firstname;
+                    $data['subject']="Bookshop sales and stock report: " . date("M Y", strtotime("first day of previous month"));
+                    $data['sender']=$churchemail;
+                    Mail::to($recip->email)->send(new MonthlyBookshopMail($data));
+                }
             }
         }
     }

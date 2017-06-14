@@ -1,7 +1,7 @@
 @component('mail::message')
 # {{$data['subject']}}
 
-Hi {{$data['recipient']}}
+Hi {{$data['recipient']}} here is the bookshop report for last month:
 
 # Sales
 
@@ -40,7 +40,7 @@ No stock delivered during this period.
 # Existing stock
 @foreach ($data['stock'] as $name3=>$supplier3)
 ### {{$name3}}
-@if (count($supplier3)
+@if (count($supplier3))
 @component('mail::table')
 | Book | Cost price | Units |
 | -----|-----------:|------:|
@@ -48,7 +48,7 @@ No stock delivered during this period.
 |{{$book->title}}|{{$book->costprice}}|{{$book->stock}}|
 @endforeach
 @endcomponent
-Cost of Stock: R  {{number_format($data['stockvalue'][$name],2)}}
+Cost of Stock: R  {{number_format($data['stockvalue'][$name3],2)}}
 @else
 No stock held at present.
 @endif
