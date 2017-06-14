@@ -115,7 +115,7 @@ class InstallConnexionCommand extends Command
             'setting_key' => 'bookshop_manager',
             'setting_value' => '',
             'description' => 'User who will receive a copy of book orders in addition to the main church email address',
-            'category' => 'General'
+            'category' => 'Bookshop'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'bibles_api_key',
@@ -128,6 +128,12 @@ class InstallConnexionCommand extends Command
             'setting_value' => '',
             'description' => 'Group whose members receive birthday list emails each week',
             'category' => 'General'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'bookshop',
+            'setting_value' => '',
+            'description' => 'Group who receive monthly bookshop sales and stock emails',
+            'category' => 'Bookshop'
         ]);
         DB::table('settings')->insert([
             'setting_key' => 'society_name',

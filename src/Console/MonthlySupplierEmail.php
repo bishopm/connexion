@@ -5,24 +5,24 @@ namespace Bishopm\Connexion\Console;
 use Illuminate\Console\Command;
 use Bishopm\Connexion\Models\Book, Bishopm\Connexion\Models\Transaction, Bishopm\Connexion\Models\Supplier;
 use Bishopm\Connexion\Models\Setting, DB;
-use Bishopm\Connexion\Mail\MonthlyBookMail;
+use Bishopm\Connexion\Mail\MonthlySupplierMail;
 use Illuminate\Support\Facades\Mail;
 
-class MonthlyBookEmail extends Command
+class MonthlySupplierEmail extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'connexion:bookemails';
+    protected $signature = 'connexion:supplieremails';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send monthly book sales and stock emails';
+    protected $description = 'Send monthly supplier sale and stock emails';
 
     /**
      * Execute the console command.
@@ -35,7 +35,13 @@ class MonthlyBookEmail extends Command
         foreach ($suppliers as $supplier) {
             $data[$supplier->id]['email']=$supplier->email;
             $data[$supplier->id]['supplier']=$supplier->supplier;
+            $data[$supplier->id]['costofsalestotal']=0;
             $data[$supplier->id]['salestotal']=0;
+            $data[$supplier->id]['stockvalue']=0;
+            $data[$supplier->id]['subject']="Monthly sales and stock report: " . date("M Y", strtotime("first day of previous month"));
+            $data[$supplier->id]['deliveries']=array();
+            $data[$supplier->id]['sales']=array();
+            $data[$supplier->id]['stock']=array();
         }
         $startdate=date("Y-m-d", mktime(0, 0, 0, date("m")-1, 1));
         $enddate=date("Y-m-d", mktime(0, 0, 0, date("m"), 0));
@@ -44,21 +50,20 @@ class MonthlyBookEmail extends Command
             if (($transaction->transactiontype<>"Add stock") and ($transaction->transactiontype<>"Shrinkage")){
                 $data[$transaction->book->supplier_id]['sales'][]=$transaction;
                 $data[$transaction->book->supplier_id]['salestotal']=$data[$transaction->book->supplier_id]['salestotal']+$transaction->unitamount*$transaction->units;
-            } 
+                $data[$transaction->book->supplier_id]['costofsalestotal']=$data[$transaction->book->supplier_id]['costofsalestotal']+$transaction->units*$transaction->book->costprice;
+            } elseif ($transaction->transactiontype<>"Add stock") {
+                $data[$transaction->book->supplier_id]['deliveries'][]=$transaction;
+            }
         }
-        dd($data);
-
-        // Send to birthday group
-        $setting=Setting::where('setting_key','birthday_group')->first()->setting_value;
-        $churchname=Setting::where('setting_key','site_name')->first()->setting_value;
-        $churchemail=Setting::where('setting_key','church_email')->first()->setting_value;
-        $group=Group::with('individuals')->where('groupname',$setting)->first();
-        foreach ($group->individuals as $recip){
-            $data['recipient']=$recip->firstname;
-            $data['subject']="Birthday email from " . $churchname;
-            $data['sender']=$churchemail;
-            $data['emailmessage']=$msg;
-            Mail::to($recip->email)->send(new BirthdayMail($data));
+        $books=Book::where('stock','>',0)->orderBy('title','ASC')->get();
+        foreach ($books as $book){
+            $data[$book->supplier_id]['stock'][]=$book;
+            $data[$book->supplier_id]['stockvalue']=$data[$book->supplier_id]['stockvalue']+$book->costprice;
+        }
+        foreach ($data as $supplierdata){
+            if (($supplierdata['salestotal']) or ($supplierdata['stock'])){
+                Mail::to($supplierdata['email'])->send(new MonthlySupplierMail($supplierdata));
+            }
         }
     }
 }
