@@ -256,24 +256,6 @@ class InstallConnexionCommand extends Command
             'category' => 'API'
         ]);        
         DB::table('settings')->insert([
-            'setting_key' => 'toodledo_clientid',
-            'setting_value' => '',
-            'description' => 'Toodledo client id',
-            'category' => 'API'
-        ]);
-        DB::table('settings')->insert([
-            'setting_key' => 'toodledo_secret',
-            'setting_value' => '',
-            'description' => 'Toodledo secret',
-            'category' => 'API'
-        ]);                
-        DB::table('settings')->insert([
-            'setting_key' => 'toodledo_redirect_uri',
-            'setting_value' => '',
-            'description' => 'Toodledo redirect url',
-            'category' => 'API'
-        ]);
-        DB::table('settings')->insert([
             'setting_key' => 'website_theme',
             'setting_value' => 'umhlali',
             'description' => 'Website theme',
@@ -367,7 +349,7 @@ class InstallConnexionCommand extends Command
         DB::table('settings')->insert([
             'setting_key' => 'todo_module',
             'setting_value' => 'yes',
-            'description' => 'Task and project management module with an optional connection to the Toodledo web interface and mobile apps',
+            'description' => 'Task and project management module',
             'category' => 'Modules'
         ]);
         DB::table('settings')->insert([

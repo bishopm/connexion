@@ -18,7 +18,6 @@ class CreateActionsTable extends Migration
 			$table->integer('folder_id');
 			$table->string('status_details')->nullable();
 			$table->integer('completed')->nullable();
-			$table->integer('toodledo_id')->nullable();
 			$table->integer('individual_id')->nullable();
 			$table->integer('project_id')->nullable();
 			$table->integer('user_id');

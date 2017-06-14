@@ -19,9 +19,6 @@
                             </h4></div>
                             <div class="col-md-6">
                                 <a href="{{route('admin.actions.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new task</a>
-                                @if ($authorizationUrl<>"NA")
-                                    <a href="{{$authorizationUrl}}" class="btn btn-primary pull-right" style="margin-right:7px;"><i class="fa fa-plug"></i> Connect to Toodledo</a>
-                                @endif
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,6 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Auth;
-use Bishopm\Connexion\Http\Controllers\Toodledo;
 use Bishopm\Connexion\Models\Action;
 use Bishopm\Connexion\Repositories\ActionsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
@@ -27,7 +26,6 @@ class ActionsController extends Controller
         $this->individuals = $individuals;
         $this->projects = $projects;
         $this->folders = $folders;
-        $this->provider = new Toodledo();
     }
 
     /**
@@ -37,24 +35,13 @@ class ActionsController extends Controller
      */
     public function index()
     {
-        $user=Auth::user();
-        if ((!$user->toodledo_id) or (isset($_GET['code']))) {
-            $data['authorizationUrl'] = $this->provider->getAuthorizationUrl();
-            if (isset($_GET['code'])){
-                $token=$this->provider->getAccessToken('authorization_code', ['code' => $_GET['code']]);
-                $tokenStr=$token->getToken();
-                $data2 = $this->provider->getInitial($tokenStr);
-                $user->toodledo_id=$data2->userid;
-                $user->toodledo_token=$tokenStr;
-                $user->toodledo_refresh=$token->getRefreshToken();
-                $user->save();
-                Artisan::call('toodledo:sync', ['category' => 'initial']);
-            }
-        } else {
-            $data['authorizationUrl'] = "NA";
-        }
         $data['actions'] = $this->action->all();
         return view('connexion::actions.index', $data);
+    }
+
+    public function taskapi($id)
+    {
+        return $this->action->individualtasks($id);
     }
 
     /**
@@ -79,31 +66,6 @@ class ActionsController extends Controller
      */
     public function store(CreateActionRequest $request)
     {
-        $user=Auth::user();
-        if ($user->toodledo_token){
-            $contexts=$this->provider->getData($user,'contexts','initial');
-            foreach ($contexts as $c){
-                $tco[$c->name]=$c->id;
-            }
-            $task['title']=$request->description;
-            $task['tag']=$this->projects->find($request->project_id)->description;
-            $task['status']=$request->folder_id;
-            if (!in_array($request->context,array_keys($tco))){
-                $data="name=" . str_replace(' ','+',$request->context);
-                $data=str_replace(',', '%2C', $data);
-                $data=str_replace(' ', '+', $data);
-                $data.="&access_token=" . $user->toodledo_token;
-                $resp=$this->provider->addData($user,'contexts',$data);
-                $task['context']=$request->context;
-            } else {
-                $task['context']=$tco[$request->context];
-            }
-            $data="tasks=" . str_replace(':', '%3A', json_encode($task));
-            $data=str_replace(',', '%2C', $data);
-            $data.="&access_token=" . $user->toodledo_token;
-            $data.="&fields=tag,status,context";            
-            $resp=$this->provider->addData($user,'tasks',$data);
-        }
         $action=$this->action->create($request->except('context'));
         $action->tag($request->context);
         return redirect()->route('admin.actions.index')
@@ -138,24 +100,6 @@ class ActionsController extends Controller
      */
     public function update(Action $action, UpdateActionRequest $request)
     {
-        $user=Auth::user();
-        if ($user->toodledo_token){
-            $contexts=$this->provider->getData($user,'contexts','initial');
-            foreach ($contexts as $c){
-                $tco[$c->name]=$c->id;
-            }
-            $task['id']=$action->toodledo_id;
-            $task['title']=$request->description;
-            $task['tag']=$this->projects->find($request->project_id)->description;
-            $task['status']=$request->folder_id;
-            $task['context']=$tco[$request->context];
-            $data="tasks=" . str_replace(':', '%3A', json_encode($task));
-            $data=str_replace(',', '%2C', $data);
-            $data=str_replace(' ', '+', $data);
-            $data.="&access_token=" . $user->toodledo_token;
-            $data.="&fields=tag,status,context";            
-            $resp=$this->provider->updateData($user,'tasks',$data);
-        }
         $this->action->update($action, $request->except('context'));
 
         return redirect()->route('admin.actions.index')
@@ -197,16 +141,6 @@ class ActionsController extends Controller
             $task->completed=0;
         }
         $task->save();
-        if ($user->toodledo_token){
-            $t['id']=$task->toodledo_id;
-            $t['completed']=$task->completed;
-            $data="tasks=" . str_replace(':', '%3A', json_encode($t));
-            $data=str_replace(',', '%2C', $data);
-            $data=str_replace(' ', '+', $data);
-            $data.="&access_token=" . $user->toodledo_token;
-            $resp=$this->provider->updateData($user,'tasks',$data);
-            dd($resp);
-        }
         return "success!";
     }
 }

@@ -390,9 +390,6 @@ class ConnexionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (Schema::hasTable('settings')){
-            $this->commands[]="Bishopm\Connexion\Console\SyncToodledoCommand";
-        }
         $this->commands($this->commands);
         $this->app->register('Bishopm\Connexion\Providers\EventServiceProvider');
         $this->app->register('Bishopm\Connexion\Providers\ScheduleServiceProvider');
