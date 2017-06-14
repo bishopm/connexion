@@ -24,13 +24,13 @@ class RolesController extends Controller {
 
 	public function edit(Role $role)
     {
-        $permissions=array('edit-backend','edit-comments','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop');
+        $permissions=array('edit-backend','edit-comments','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop','admin-giving');
         return view('connexion::roles.edit', compact('role','permissions'));
     }
 
     public function create()
     {
-        $permissions=array('edit-backend','edit-comments','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop');
+        $permissions=array('edit-backend','edit-comments','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop','admin-giving');
         return view('connexion::roles.create',compact('permissions'));
     }
 

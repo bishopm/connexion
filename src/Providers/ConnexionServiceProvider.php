@@ -123,7 +123,7 @@ class ConnexionServiceProvider extends ServiceProvider
                         'text' => 'Giving',
                         'url'  => 'admin/payments',
                         'icon' => 'gift',
-                        'can' =>  'edit-backend'
+                        'can' =>  'admin-giving'
                     ]
                 ]
             ]);
@@ -448,6 +448,9 @@ class ConnexionServiceProvider extends ServiceProvider
         });
         Gate::define('edit-bookshop', function ($user) {
             return $user->hasAccess(['edit-bookshop']);
+        });
+        Gate::define('admin-giving', function ($user) {
+            return $user->hasAccess(['admin-giving']);
         });
         Gate::define('manager-role', function ($user) {
             return $user->inRole('manager');
