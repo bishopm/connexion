@@ -4,57 +4,55 @@
 Hi {{$data['recipient']}}
 
 # Sales
-@component('mail::table')
 
-@if (count ($data['sales']))
-| Book | Cost price | Units sold |
-| -----|-----------:| ----------:|
 @foreach ($data['sales'] as $name=>$supplier)
 ### {{$name}}
+@if (count($supplier))
+@component('mail::table')
+| Book | Cost price | Units sold |
+| -----|-----------:| ----------:|
 @foreach ($supplier as $sale)
 |{{$sale->book->title}}|{{$sale->book->costprice}}|{{$sale->units}}|
 @endforeach
-@endforeach
-Total Cost of Sales: R  {{number_format($data['costofsalestotal'],2)}}
-@else
-No sales recorded during this period.
-@endif
-
 @endcomponent
+Cost of Sales: R  {{number_format($data['costofsalestotal'][$name],2)}}
+@else
+No sales recorded this month
+@endif
+@endforeach
 
 # New stock
+@foreach ($data['deliveries'] as $name2=>$supplier2)
+### {{$name2}}
+@if (count($supplier2))
 @component('mail::table')
-
-@if (count ($data['deliveries']))
 | Book | Cost price |
 | -----|-----------:|
-@foreach ($data['deliveries'] as $delivery)
+@foreach ($supplier2 as $delivery)
 |{{$delivery->book->title}}|{{$delivery->book->costprice}}|
 @endforeach
-
+@endcomponent
 @else
 No stock delivered during this period.
 @endif
-
-@endcomponent
+@endforeach
 
 # Existing stock
+@foreach ($data['stock'] as $name3=>$supplier3)
+### {{$name3}}
+@if (count($supplier3)
 @component('mail::table')
-
-@if (count ($data['stock']))
 | Book | Cost price | Units |
 | -----|-----------:|------:|
-@foreach ($data['stock'] as $book)
+@foreach ($supplier3 as $book)
 |{{$book->title}}|{{$book->costprice}}|{{$book->stock}}|
 @endforeach
-Total Cost of Stock: R  {{number_format($data['stockvalue'],2)}}
+@endcomponent
+Cost of Stock: R  {{number_format($data['stockvalue'][$name],2)}}
 @else
 No stock held at present.
 @endif
-
-@endcomponent
-
-
+@endforeach
 
 Thank you :)
 @endcomponent

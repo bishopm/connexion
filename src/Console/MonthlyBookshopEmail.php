@@ -32,7 +32,6 @@ class MonthlyBookshopEmail extends Command
     public function handle()
     {
         $suppliers=Supplier::all();
-        $data['email']=$supplier->email;
         $data['subject']="Monthly sales and stock report: " . date("M Y", strtotime("first day of previous month"));
         foreach ($suppliers as $supplier) {
             $data['costofsalestotal'][$supplier->supplier]=0;
@@ -47,16 +46,16 @@ class MonthlyBookshopEmail extends Command
         foreach ($transactions as $transaction) {
             if (($transaction->transactiontype<>"Add stock") and ($transaction->transactiontype<>"Shrinkage")){
                 $data['sales'][$transaction->book->supplier->supplier][]=$transaction;
-                $data['salestotal']=$data['salestotal']+$transaction->unitamount*$transaction->units;
-                $data['costofsalestotal']=$data['costofsalestotal']+$transaction->units*$transaction->book->costprice;
+                $data['salestotal'][$transaction->book->supplier->supplier]=$data['salestotal'][$transaction->book->supplier->supplier]+$transaction->unitamount*$transaction->units;
+                $data['costofsalestotal'][$transaction->book->supplier->supplier]=$data['costofsalestotal'][$transaction->book->supplier->supplier]+$transaction->units*$transaction->book->costprice;
             } elseif ($transaction->transactiontype<>"Add stock") {
                 $data['deliveries'][$transaction->book->supplier->supplier][]=$transaction;
             }
         }
         $books=Book::where('stock','>',0)->orderBy('title','ASC')->get();
         foreach ($books as $book){
-            $data[$transaction->book->supplier->supplier]['stock'][$transaction->book->supplier->supplier][]=$book;
-            $data[$transaction->book->supplier->supplier]['stockvalue']=$data['stockvalue']+$book->costprice;
+            $data['stock'][$book->supplier->supplier][]=$book;
+            $data['stockvalue'][$book->supplier->supplier]=$data['stockvalue'][$book->supplier->supplier]+$book->costprice;
         }
         // Send to bookshop group
         $setting=Setting::where('setting_key','bookshop')->first()->setting_value;
