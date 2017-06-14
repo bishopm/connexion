@@ -14,13 +14,27 @@
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @foreach ($months as $key=>$month)
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <b>Month</b>
+                        </div>
+                        <div class="col-xs-4 text-right">
+                            <b>Total</b>
+                        </div>
+                        <div class="col-xs-4 text-right">
+                            <b>YTD average</b>
+                        </div>
+                    </div>
+                    @foreach ($data as $key=>$month)
                         <div class="row">
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                 {{$key}}
                             </div>
                             <div class="col-xs-4 text-right">
-                                {{number_format($month,2)}}
+                                {{number_format($month['amt'],2)}}
+                            </div>
+                            <div class="col-xs-4 text-right">
+                                {{number_format($month['avg'],2)}}
                             </div>
                         </div>
                     @endforeach

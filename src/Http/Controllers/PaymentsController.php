@@ -61,7 +61,15 @@ class PaymentsController extends Controller {
             $month=date('F',strtotime($payment->paymentdate));
             $months[$month]=$months[$month]+$payment->amount;
         }
-        return view('connexion::payments.monthlytotals',compact('year','months'));
+        $total=0;
+        $count=0;
+        foreach ($months as $kk=>$mm){
+            $total=$total+$mm;
+            $count++;
+            $data[$kk]['avg']=$total/$count;
+            $data[$kk]['amt']=$mm;
+        }
+        return view('connexion::payments.monthlytotals',compact('year','data'));
     }
 
     public function destroy($id)
