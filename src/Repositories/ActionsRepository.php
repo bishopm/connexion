@@ -18,7 +18,7 @@ class ActionsRepository extends EloquentBaseRepository
   }
 
   public function individualtasks($id){
-        return $this->model->where('individual_id',$id)->where('completed',0)->get();
+        return $this->model->where('individual_id',$id)->whereNull('completed')->get();
   }
 
 }

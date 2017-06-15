@@ -26,7 +26,7 @@
                     @endif
                 </h4>
               </div>
-              <div class="col-md-6"><a href="{{route('admin.projects.edit',$project->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit project</a>
+              <div class="col-md-6"><a href="{{route('admin.projects.edit',$project->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit project</a><a href="{{route('admin.actions.create',$project->id)}}" class="btn btn-primary pull-right" style="margin-right:5px;"><i class="fa fa-plus"></i> Add task</a>
             </div>
           </div>
           <div class="panel-body"> 

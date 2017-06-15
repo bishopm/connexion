@@ -32,15 +32,20 @@ class StatisticsController extends Controller {
         $society=Society::with('services')->where('society',$socname)->first();
         $soc=$society->id;
         $services=$society->services;
-        foreach ($services as $service){
-            foreach ($service->statistics as $stat){
-                $statistics[$stat->statdate][$service->servicetime]['attendance']=$stat->attendance;
-                $statistics[$stat->statdate][$service->servicetime]['id']=$stat->id;
+        $statistics=array();
+        if (count($services)){
+            foreach ($services as $service){
+                foreach ($service->statistics as $stat){
+                    $statistics[$stat->statdate][$service->servicetime]['attendance']=$stat->attendance;
+                    $statistics[$stat->statdate][$service->servicetime]['id']=$stat->id;
+                }
+                $servicetimes[]=$service->servicetime;
             }
-            $servicetimes[]=$service->servicetime;
+            asort($servicetimes);
+            return view('connexion::statistics.index',compact('statistics','servicetimes','soc','society'));
+        } else {
+            return redirect()->route('admin.societies.show',$soc)->with('notice','You need to add a service before recording statistics');
         }
-        asort($servicetimes);
-   		return view('connexion::statistics.index',compact('statistics','servicetimes','soc'));
 	}
 
 	public function edit($id)

@@ -1,7 +1,7 @@
 {{ Form::bsText('description','Description','Description',$action->description) }}
 {{ Form::bsHidden('user_id',$action->user_id) }}
 <div class='form-group '>
-  <label for="folder_id">Folder</label>
+  <label for="folder_id">Status</label>
   <select id="folder_id" name="folder_id">
     <option></option>
     @foreach ($folders as $folder)
@@ -13,9 +13,8 @@
     @endforeach
   </select>
 </div>
-{{ Form::bsText('status_details','Status details','Status details',$action->status_details) }}
 <div class='form-group '>
-  <label for="individual_id">Action owner</label>
+  <label for="individual_id">Assigned to</label>
   <select id="individual_id" name="individual_id">
     <option></option>
     @foreach ($individuals as $indiv)

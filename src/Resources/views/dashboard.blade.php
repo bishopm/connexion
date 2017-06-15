@@ -48,7 +48,7 @@
                     </h2>
                     <ul class="list-unstyled">
                     @foreach ($actions as $action)
-                        <li><a role="button" id="{{$action->id}}" title="Click to mark task as complete" class="toggletask"><i class="fa-square-o fa"></i></a> {{$action->description}}</li>
+                        <li><a role="button" id="{{$action->id}}" title="Click to mark task as complete" class="toggletask"><i class="fa-square-o fa"></i></a> {{$action->description}} ({{$action->project->description}})</li>
                     @endforeach
                     </ul>
                   </div>

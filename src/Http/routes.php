@@ -111,7 +111,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 
 	// Actions
 	Route::get('admin/actions',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@index','as'=>'admin.actions.index']);
-	Route::get('admin/actions/create',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@create','as'=>'admin.actions.create']);
+	Route::get('admin/actions/create/{project?}',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@create','as'=>'admin.actions.create']);
 	Route::get('admin/actions/{action}',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@show','as'=>'admin.actions.show']);
 	Route::get('admin/actions/{action}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@edit','as'=>'admin.actions.edit']);
 	Route::put('admin/actions/{action}',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@update','as'=>'admin.actions.update']);
