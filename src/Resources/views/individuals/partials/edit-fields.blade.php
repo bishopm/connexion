@@ -12,7 +12,7 @@
 <div id="filediv"></div>
 @if ($media<>"webpage")
 {{ Form::bsTextarea('notes','Notes','Notes',$individual->notes) }}
-@can('edit-backend')
+@can('admin-giving')
 	{{ Form::bsText('giving','Planned Giving','Planned Giving',$individual->giving) }}
 @endcan
 @endif

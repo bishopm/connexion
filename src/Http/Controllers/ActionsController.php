@@ -55,13 +55,13 @@ class ActionsController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create($proj=0)
     {
         $individuals=$this->individuals->dropdown();
         $folders=$this->folders->dropdown();
         $projects=$this->projects->dropdown();
         $tags=Action::allTags()->get();
-        return view('connexion::actions.create',compact('individuals','projects','folders','tags'));
+        return view('connexion::actions.create',compact('individuals','projects','folders','tags','proj'));
     }
 
     /**

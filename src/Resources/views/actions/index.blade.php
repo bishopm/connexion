@@ -28,7 +28,7 @@
                                 <tr>
                                     <th>Description</th>
                                     <th>Project</th>
-                                    <th>Status details</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -36,7 +36,7 @@
                                 <tr>
                                     <th>Description</th>
                                     <th>Project</th>
-                                    <th>Status details</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                             </tfoot>
@@ -46,7 +46,7 @@
                                         <td><a href="{{route('admin.actions.edit',$action->id)}}">{{$action->description}}</a></td>
                                         <td><a href="{{route('admin.projects.show',$action->project_id)}}">{{$action->project->description}}</a></td>
                                         <td>
-                                            <a href="{{route('admin.actions.edit',$action->id)}}">{{$action->status_details}}</a>
+                                            <a href="{{route('admin.actions.edit',$action->id)}}">{{$action->folder->folder}}</a>
                                         </td>
                                         <td><a id="{{$action->id}}" title="Click to mark task as complete" class="toggletask btn btn-xs btn-default"><i class="fa-square-o fa"></i></a></td>
                                     </tr>

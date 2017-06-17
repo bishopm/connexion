@@ -12,7 +12,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-6"><h4>Statistics</h4></div>
+                            <div class="col-md-6"><h4>Statistics <small>{{$society->society}}</small></h4></div>
                             <div class="col-md-6"><a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/create" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new statistic</a></div>
                         </div>
                     </div>
