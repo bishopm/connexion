@@ -41,7 +41,13 @@ class ActionsController extends Controller
 
     public function taskapi($id)
     {
-        return $this->action->individualtasks($id);
+        $tasks=$this->action->individualtasks($id);
+        foreach ($tasks as $task){
+            $task->project=$task->project->description;
+            $task->folder=$task->folder->folder;
+            $task->individual=$task->individual->firstname . " " . $task->individual->surname;
+            dd($task);
+        }
     }
 
     /**
