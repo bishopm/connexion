@@ -46,8 +46,8 @@ class ActionsController extends Controller
             $task->project=$task->project->description;
             $task->folder=$task->folder->folder;
             $task->individual=$task->individual->firstname . " " . $task->individual->surname;
-            dd($task);
-        }
+        };
+        return $tasks;
     }
 
     /**
