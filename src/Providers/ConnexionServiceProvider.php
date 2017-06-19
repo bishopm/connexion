@@ -408,6 +408,8 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Spatie\Activitylog\ActivitylogServiceProvider');
         $this->app->register('Spatie\Analytics\AnalyticsServiceProvider');
         $this->app->register('Tymon\JWTAuth\Providers\JWTAuthServiceProvider');
+        $this->app->register('Barryvdh\Cors\ServiceProvider');
+
         AliasLoader::getInstance()->alias("JWTFactory", 'Tymon\JWTAuth\Facades\JWTFactory');
         AliasLoader::getInstance()->alias("JWTAuth", 'Tymon\JWTAuth\Facades\JWTAuth');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
@@ -419,6 +421,7 @@ class ConnexionServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias("Feed",'Roumen\Feed\Feed');
         AliasLoader::getInstance()->alias("Analytics",'Spatie\Analytics\AnalyticsFacade');
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
+        $this->app['router']->aliasMiddleware('handlecors', 'Barryvdh\Cors\Middleware\HandleCors');
         $this->registerBindings();
         $this->registerUserPolicies();
     }

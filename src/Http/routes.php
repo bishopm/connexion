@@ -1,5 +1,6 @@
 <?php
 
+Route::post('/api/login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ApiAuthController@login','as'=>'api.login']);	
 Route::get('/api/currentblog', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@currentblog','as' => 'api.currentblog']);
 Route::get('/api/sermonapi/{sermon?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@sermonapi','as' => 'api.sermonapi']);
 Route::get('/api/taskapi/{individual}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@taskapi','as' => 'api.taskapi']);
