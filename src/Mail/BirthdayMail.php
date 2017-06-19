@@ -6,7 +6,6 @@ use Illuminate\Mail\Mailable;
 
 class BirthdayMail extends Mailable
 {
-    use SerializesModels;
 
     /**
      * Create a new message instance.
