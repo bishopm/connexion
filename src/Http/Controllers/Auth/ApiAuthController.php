@@ -6,9 +6,9 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
 
-class ApiAuthenticateController extends Controller
+class ApiAuthController extends Controller
 {
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
         // grab credentials from the request
         $credentials = $request->only('name', 'password');
