@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers\Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ApiAuthController extends Controller
