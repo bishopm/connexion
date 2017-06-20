@@ -421,7 +421,8 @@ class ConnexionServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias("Feed",'Roumen\Feed\Feed');
         AliasLoader::getInstance()->alias("Analytics",'Spatie\Analytics\AnalyticsFacade');
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
-        $this->app['router']->aliasMiddleware('handlecors', 'Barryvdh\Cors\Middleware\HandleCors');
+        $this->app['router']->aliasMiddleware('handlecors', 'Barryvdh\Cors\HandleCors');
+        //$this->app['router']->pushMiddlewareToGroup('api','Barryvdh\Cors\HandleCors');
         $this->registerBindings();
         $this->registerUserPolicies();
     }
