@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers\Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
+use Bishopm\Connexion\Models\User;
 
 class ApiAuthController extends Controller
 {
@@ -12,7 +13,9 @@ class ApiAuthController extends Controller
     {
         // grab credentials from the request
         $credentials = $request->only('name', 'password');
-
+        $user=User::where('name',$request->input('name'))->first();
+        $fullname=$user->individual->firstname . " " . $user->individual->surname;
+        $indiv_id=$user->individual_id;
         try {
             // attempt to verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
@@ -24,6 +27,6 @@ class ApiAuthController extends Controller
         }
 
         // all good so return the token
-        return response()->json(compact('token'));
+        return response()->json(compact('token','fullname','indiv_id'));
     }
 }
