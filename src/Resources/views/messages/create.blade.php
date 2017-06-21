@@ -51,8 +51,12 @@
                             <div class="form-group">
                                 <label for="msgtype" class="control-label">Group recipients</label>
                                 <div>
-                                    <input type="radio" class="grouprec" name="grouprec" value="allmembers" checked> All group members
-                                    &nbsp;<input type="radio" class="grouprec" name="grouprec" value="leadersonly"> Leaders only
+                                    <p><input type="radio" class="grouprec" name="grouprec" value="allmembers" checked> All group members
+                                    &nbsp;<input type="radio" class="grouprec" name="grouprec" value="leadersonly"> Leaders only</p>
+                                    @can('edit-backend')
+                                        <p><input type="radio" class="grouprec" name="grouprec" value="allchurchmembers"> All church members
+                                        &nbsp;<input type="radio" class="grouprec" name="grouprec" value="everyone"> Entire database</p>
+                                    @endcan
                                 </div>
                             </div>
                         </div>

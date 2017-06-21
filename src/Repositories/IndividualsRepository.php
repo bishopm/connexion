@@ -43,4 +43,14 @@ class IndividualsRepository extends EloquentBaseRepository
         }
         return $pg;
     }
+
+    public function allchurchmembers()
+    {
+        return $this->model->with('household')->where('memberstatus', 'member')->whereNull('deleted_at')->select('id','surname','firstname','email','cellphone','household_id')->get();
+    }
+
+    public function everyone()
+    {
+        return $this->model->with('household')->where('memberstatus','<>','child')->whereNull('deleted_at')->select('id','surname','firstname','email','cellphone','household_id')->get();
+    }
 }

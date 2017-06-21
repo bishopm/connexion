@@ -26,9 +26,7 @@ class MessageRequest extends FormRequest
         return [
             'sender'	       => 'required',
             'emailmessage'     => 'required_without:smsmessage',
-            'smsmessage'       => 'required_without:emailmessage',
-            'groups'           => 'required_without:individuals',
-            'individuals'      => 'required_without:groups'
+            'smsmessage'       => 'required_without:emailmessage'
         ];
     }
 }
