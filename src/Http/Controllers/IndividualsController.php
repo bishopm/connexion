@@ -134,4 +134,10 @@ class IndividualsController extends Controller {
         return redirect()->route('admin.households.show',$household)->withSuccess('Individual has been deleted');
     }
 
+    public function api_individual($id)
+    {
+        $indiv=Individual::with('user')->where('id',$id)->first();
+        return $indiv;
+    }
+
 }
