@@ -81,11 +81,11 @@ class SermonsController extends Controller {
 
     public function sermonapi($id=0){
         if ($id==0){
-            $data['sermon']=$this->sermon->mostRecent();
+            $sermon=$this->sermon->mostRecent();
         } else {
-            $data['sermon']=$this->sermon->find($id);
+            $sermon=$this->sermon->find($id);
         }
-        return view('connexion::sermons.sermonapi',$data);
+        return $sermon;
     }
 
     public function addtag($sermon, $tag)
