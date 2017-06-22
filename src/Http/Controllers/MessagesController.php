@@ -39,10 +39,11 @@ class MessagesController extends Controller {
         $recipients=$this->getrecipients($request->groups,$request->individuals,$request->grouprec,$request->msgtype);
         if ($request->msgtype=="email"){
             $results=$this->sendemail($request,$recipients);
+            return view('connexion::messages.results',compact('recipients'));
         } elseif ($request->msgtype=="sms") {
             $results=$this->sendsms($request->smsmessage,$recipients);
+            return view('connexion::messages.smsresults',compact('results'));
         }
-        return view('connexion::messages.results',compact('recipients'));
     }
 
     protected function getrecipients($groups,$individuals,$grouprec,$msgtype)
@@ -132,9 +133,9 @@ class MessagesController extends Controller {
                 $dum2['name']=$sms['name'];
                 if (SMSfunctions::checkcell($sms['cellphone'])){
                     if ($settings['sms_provider']=="bulksms"){
-                        $smsresult = SMSfunctions::BS_send_message( $post_body, $url, $port );
+                        $dum2['smsresult'] = SMSfunctions::BS_send_message( $post_body, $url, $port );
                     } elseif ($settings['sms_provider']=="smsfactory"){
-                        $smsresult = SMSfunctions::SF_sendSms($settings['sms_username'],$settings['sms_password'],$sms['cellphone'],$seven_bit_msg);
+                        $dum2['smsresult'] = SMSfunctions::SF_sendSms($settings['sms_username'],$settings['sms_password'],$sms['cellphone'],$seven_bit_msg);
                     }
                     $dum2['address']=$sms['cellphone'];
                 } else {
@@ -149,6 +150,6 @@ class MessagesController extends Controller {
             $data['results']=$results;
             $data['type']="SMS";
         }
-        return view('connexion::messages.results',$data);
+        return $data['results'];
     }
 }
