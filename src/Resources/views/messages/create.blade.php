@@ -79,8 +79,8 @@
                     <div class="row hidden" id="smsrow1">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="smsmessage" class="control-label">SMS Message (</label><span id="chars">100 characters left</span>)
-                                <textarea placeholder="SMS message" class="form-control" id="smsmessage" name="smsmessage" maxlength="100"></textarea>
+                                <label for="smsmessage" class="control-label">SMS Message (</label><span id="chars">130 characters left</span>)
+                                <textarea placeholder="SMS message" class="form-control" id="smsmessage" name="smsmessage" maxlength="130"></textarea>
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
             $('.grouprec').iCheck({
               radioClass: 'iradio_minimal-blue'
             });
-            var maxLength = 100;
+            var maxLength = 130;
             $('#smsmessage').keyup(function() {
               var length = $(this).val().length;
               var length = maxLength-length;
