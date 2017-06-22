@@ -23,7 +23,7 @@
                                 <label for="msg-type" class="control-label">Message type</label>
                                 <div>
                                     <input type="radio" class="msgtype" name="msgtype" value="email" checked> Email
-                                    &nbsp;<input type="radio" class="msgtype" name="msgtype" value="sms"> SMS
+                                    &nbsp;<input type="radio" class="msgtype" name="msgtype" value="sms"> SMS ({{$credits}} credits available)
                                 </div>
                             </div>
                         </div>

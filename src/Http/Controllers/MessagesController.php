@@ -31,6 +31,10 @@ class MessagesController extends Controller {
 	{
         $data['groups']=$this->groups->all();
         $data['individuals']=$this->individuals->all();
+        $settings=$this->settings->makearray();
+		if ($settings['sms_provider']=="bulksms"){
+			$data['credits']=SMSfunctions::BS_get_credits($settings['sms_username'],$settings['sms_password']);
+        }
    		return view('connexion::messages.create',$data);
 	}
 
