@@ -12,8 +12,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-6"><h4>Statistics <small>{{$society->society}}</small></h4></div>
-                            <div class="col-md-6"><a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/create" style="margin-left:5px;" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new statistic</a><a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/graph" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> View graph</a></div>
+                            <div class="col-md-6">
+                                <h4>Statistics <small>{{$society->society}}
+                                @foreach ($society->services as $service)
+                                    <a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/historygraph/{{$service->id}}" style="margin-left:5px;" class="btn btn-xs btn-primary">History: {{$service->servicetime}}</a>
+                                @endforeach
+                                </small></h4>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/create" style="margin-left:5px;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add figure</a>
+                                <a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/graph" class="btn btn-primary pull-right"><i class="fa fa-line-chart"></i> Current graph</a>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-body">

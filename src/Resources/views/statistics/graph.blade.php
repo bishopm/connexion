@@ -13,7 +13,15 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Statistics</small></h4></div>
-                            <div class="col-md-6"><a href="" class="btn btn-primary pull-right">2017</a></div>
+                            <div class="col-md-6">
+                                @if ($nextyr)
+                                    <a href="{{url('/')}}/admin/societies/{{$society}}/statistics/graph/{{$nextyr}}" class="btn btn-primary pull-right" style="margin-left:5px;">{{$nextyr}}</a>
+                                @endif
+                                <span class="btn btn-default pull-right" style="margin-left:5px;">{{$thisyr}}</span>
+                                @if ($lastyr)
+                                    <a href="{{url('/')}}/admin/societies/{{$society}}/statistics/graph/{{$lastyr}}" class="btn btn-primary pull-right">{{$lastyr}}</a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <div class="panel-body">
