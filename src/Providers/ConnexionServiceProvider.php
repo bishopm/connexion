@@ -409,7 +409,8 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Spatie\Analytics\AnalyticsServiceProvider');
         $this->app->register('Tymon\JWTAuth\Providers\JWTAuthServiceProvider');
         $this->app->register('Barryvdh\Cors\ServiceProvider');
-
+        $this->app->register('ConsoleTVs\Charts\ChartsServiceProvider');
+        AliasLoader::getInstance()->alias("Charts", 'ConsoleTVs\Charts\Facades\Charts');
         AliasLoader::getInstance()->alias("JWTFactory", 'Tymon\JWTAuth\Facades\JWTFactory');
         AliasLoader::getInstance()->alias("JWTAuth", 'Tymon\JWTAuth\Facades\JWTAuth');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');

@@ -10,6 +10,7 @@ use Bishopm\Connexion\Models\Service;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateStatisticRequest;
 use Bishopm\Connexion\Http\Requests\UpdateStatisticRequest;
+use Charts;
 
 class StatisticsController extends Controller {
 
@@ -82,6 +83,27 @@ class StatisticsController extends Controller {
     {
         $this->statistic->update($statistic, $request->all());
         return redirect()->route('admin.statistics.index')->withSuccess('Statistic has been updated');
+    }
+
+    public function showgraph($society,$year=""){
+        if (!$year){
+            $year=date('Y');
+        }
+        $data=Statistic::where('statdate','>=',$year . '-01-01')->where('statdate','<=',$year . '-12-31')->get();
+        $fin=array();
+        foreach ($data as $stat){
+            $fin[$stat->service->servicetime][intval(date('W',strtotime($stat->statdate)))]=$stat->attendance;
+        }
+        ksort($fin);
+        //dd($fin);
+        $chart = Charts::multi('line', 'material')
+			->title("Service attendance: " . $year)
+			->dimensions(0, 400) // Width x Height
+			->template("material")
+			->dataset('07h00', $fin['07h00'])
+			->dataset('08h30', $fin['08h30'])
+			->dataset('10h00', $fin['10h00']);
+        return view('connexion::statistics.graph', ['chart' => $chart]);
     }
 
 }

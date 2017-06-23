@@ -13,7 +13,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Statistics <small>{{$society->society}}</small></h4></div>
-                            <div class="col-md-6"><a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/create" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new statistic</a></div>
+                            <div class="col-md-6"><a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/create" style="margin-left:5px;" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new statistic</a><a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/graph" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> View graph</a></div>
                         </div>
                     </div>
                     <div class="panel-body">
