@@ -57,8 +57,8 @@
                               @endif
                             </td>
                             <td>
-                                @if ($action->user->individual)
-                                <a href="{{route('admin.actions.edit',$action->id)}}">{{$action->user->individual->firstname}} {{$action->user->individual->surname}}</a>
+                                @if ($action->individual)
+                                <a href="{{route('admin.actions.edit',$action->id)}}">{{$action->individual->firstname}} {{$action->individual->surname}}</a>
                                 @endif
                             </td>
                             <td><a id="{{$action->id}}" title="Click to mark task as complete" class="toggletask btn btn-xs btn-default">
