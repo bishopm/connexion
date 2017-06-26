@@ -138,7 +138,7 @@ class IndividualsController extends Controller {
     public function api_individual()
     {
         $user = JWTAuth::parseToken()->toUser();
-        $indiv=Individual::with('user')->where('id',$user->individual->id)->first();
+        $indiv=Individual::with('user')->where('id',$user->individual_id)->first();
         return $indiv;
     }
 
