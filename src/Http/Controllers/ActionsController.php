@@ -42,7 +42,7 @@ class ActionsController extends Controller
     public function taskapi()
     {
         $user = JWTAuth::parseToken()->toUser();
-        $tasks=$this->action->individualtasks($user->individual->id);
+        $tasks=$this->action->individualtasks($user->individual_id);
         if (count($tasks)){
             foreach ($tasks as $task){
                 $task->project=$task->project->description;
