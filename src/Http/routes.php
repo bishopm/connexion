@@ -5,9 +5,12 @@ Route::middleware(['handlecors'])->group(function () {
 	Route::post('/api/login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ApiAuthController@login','as'=>'api.login']);	
 	Route::get('/api/currentblog', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@currentblog','as' => 'api.currentblog']);
 	Route::get('/api/sermonapi/{sermon?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@sermonapi','as' => 'api.sermonapi']);
-	Route::get('/api/taskapi/{individual}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@taskapi','as' => 'api.taskapi']);
 	Route::get('/api/readings', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@lectionary','as' => 'api.lectionary']);
-	Route::get('/api/individual/{id}', ['uses' => 'Bishopm\Connexion\Http\Controllers\IndividualsController@api_individual','as' => 'api.individual']);	
+	Route::group(['middleware' => ['jwt.auth']], function () {
+		Route::get('/api/taskapi', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@taskapi','as' => 'api.taskapi']);
+		Route::get('/api/taskcompleted/{id}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@togglecompleted','as' => 'api.taskcompleted']);
+		Route::get('/api/individual', ['uses' => 'Bishopm\Connexion\Http\Controllers\IndividualsController@api_individual','as' => 'api.individual']);	
+	});
 });
 
 Route::group(['middleware' => ['web']], function () {

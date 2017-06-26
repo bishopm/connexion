@@ -2,7 +2,7 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use Auth;
+use Auth, JWTAuth;
 use Bishopm\Connexion\Models\Action;
 use Bishopm\Connexion\Repositories\ActionsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
@@ -39,9 +39,10 @@ class ActionsController extends Controller
         return view('connexion::actions.index', $data);
     }
 
-    public function taskapi($id)
+    public function taskapi()
     {
-        $tasks=$this->action->individualtasks($id);
+        $user = JWTAuth::parseToken()->toUser();
+        $tasks=$this->action->individualtasks($user->individual->id);
         foreach ($tasks as $task){
             $task->project=$task->project->description;
             $task->folder=$task->folder->folder;
@@ -138,15 +139,14 @@ class ActionsController extends Controller
         $task->untag($tag);
     }
 
-    public function togglecompleted($action){
-        $user=Auth::user();
+    public function togglecompleted($id){
         $task=Action::find($action);
-        if ($task->completed<1){
+        if (count($task)){
             $task->completed=time();
+            $task->save();
+            return "success!";
         } else {
-            $task->completed=0;
+            return "Task not found";
         }
-        $task->save();
-        return "success!";
     }
 }

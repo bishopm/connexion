@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateIndividualRequest;
 use Bishopm\Connexion\Http\Requests\UpdateIndividualRequest;
 use DB, Illuminate\Http\Request, Illuminate\Support\Facades\File;
+use JWTAuth;
 
 class IndividualsController extends Controller {
 
@@ -134,9 +135,10 @@ class IndividualsController extends Controller {
         return redirect()->route('admin.households.show',$household)->withSuccess('Individual has been deleted');
     }
 
-    public function api_individual($id)
+    public function api_individual()
     {
-        $indiv=Individual::with('user')->where('id',$id)->first();
+        $user = JWTAuth::parseToken()->toUser();
+        $indiv=Individual::with('user')->where('id',$user->individual->id)->first();
         return $indiv;
     }
 
