@@ -6,7 +6,7 @@ class SermonsRepository extends EloquentBaseRepository
 {
 	public function mostRecent()
     {
-        return $this->model->with('series','individual')->orderBy('servicedate', 'DESC')->first();
+        return $this->model->with('series','individual','comments')->orderBy('servicedate', 'DESC')->first();
     }
     
 }

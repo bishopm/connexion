@@ -85,6 +85,11 @@ class SermonsController extends Controller {
         } else {
             $sermon=$this->sermon->find($id);
         }
+        foreach ($sermon->comments as $comment){
+            $author=$this->user->find($comment->commented_id);
+            $comment->author = $author->individual->firstname . " " . $author->individual->surname;
+            $comment->image = $author->individual->image;
+        }
         return $sermon;
     }
 
