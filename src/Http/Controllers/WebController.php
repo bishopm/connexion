@@ -73,7 +73,7 @@ class WebController extends Controller
     {
         $user=Auth::user();
         //$settingsarray=$this->settings->makearray();
-        $data['actions']=$actions->getByAttributes(array('individual_id'=>$user->individual_id));;
+        $data['actions']=$actions->getByAttributes(array('individual_id'=>$user->individual_id,'completed'=>Null));
         $dum['googleCalendarId']=$this->settingsarray['google_calendar'];
         $dum['color']='red';
         //$pcals=Event::get(null,null,[],$user->google_calendar); 
