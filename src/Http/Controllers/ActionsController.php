@@ -142,7 +142,7 @@ class ActionsController extends Controller
     }
 
     public function togglecompleted($id){
-        $task=Action::find($action);
+        $task=Action::find($id);
         if (count($task)){
             $task->completed=time();
             $task->save();
