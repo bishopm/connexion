@@ -43,11 +43,13 @@ class ActionsController extends Controller
     {
         $user = JWTAuth::parseToken()->toUser();
         $tasks=$this->action->individualtasks($user->individual->id);
-        foreach ($tasks as $task){
-            $task->project=$task->project->description;
-            $task->folder=$task->folder->folder;
-            $task->individual=$task->individual->firstname . " " . $task->individual->surname;
-        };
+        if (count($tasks)){
+            foreach ($tasks as $task){
+                $task->project=$task->project->description;
+                $task->folder=$task->folder->folder;
+                $task->individual=$task->individual->firstname . " " . $task->individual->surname;
+            };
+        }
         return $tasks;
     }
 
