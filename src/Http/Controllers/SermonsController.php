@@ -88,7 +88,7 @@ class SermonsController extends Controller {
         foreach ($sermon->comments as $comment){
             $author=$this->user->find($comment->commented_id);
             $comment->author = $author->individual->firstname . " " . $author->individual->surname;
-            $comment->image = $author->individual->image;
+            $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->id . "/" . $author->individual->image;
         }
         return $sermon;
     }
