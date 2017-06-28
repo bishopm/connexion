@@ -3,6 +3,7 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\SuppliersRepository;
+use Bishopm\Connexion\Repositories\BooksRepository;
 use Bishopm\Connexion\Models\Supplier;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSupplierRequest;
@@ -16,11 +17,12 @@ class SuppliersController extends Controller {
 	 * @return Response
 	 */
 
-	private $supplier;
+	private $supplier, $books;
 
-	public function __construct(SuppliersRepository $supplier)
+	public function __construct(SuppliersRepository $supplier, BooksRepository $books)
     {
         $this->supplier = $supplier;
+        $this->books = $books;
     }
 
 	public function index()
@@ -31,7 +33,8 @@ class SuppliersController extends Controller {
 
 	public function edit(Supplier $supplier)
     {
-        return view('connexion::suppliers.edit', compact('supplier'));
+        $books = $this->books->getByAttributes(array('supplier_id'=>$supplier->id));
+        return view('connexion::suppliers.edit', compact('supplier','books'));
     }
 
     public function create()
