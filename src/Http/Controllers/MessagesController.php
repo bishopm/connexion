@@ -112,7 +112,7 @@ class MessagesController extends Controller {
                 $dum['name']=$indiv['name'];
                 $dum['address']=$indiv['email'];
                 if(filter_var($indiv['email'], FILTER_VALIDATE_EMAIL)) {
-                    //Mail::to($indiv['email'])->send(new GenericMail($data));
+                    Mail::to($indiv['email'])->send(new GenericMail($data));
                     $dum['emailresult']="OK";
                 }
                 else {
