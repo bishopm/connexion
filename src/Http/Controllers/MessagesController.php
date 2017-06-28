@@ -43,7 +43,7 @@ class MessagesController extends Controller {
         $recipients=$this->getrecipients($request->groups,$request->individuals,$request->grouprec,$request->msgtype);
         if ($request->msgtype=="email"){
             $results=$this->sendemail($request,$recipients);
-            return view('connexion::messages.results',compact('recipients'));
+            return view('connexion::messages.emailresults',compact('results'));
         } elseif ($request->msgtype=="sms") {
             $results=$this->sendsms($request->smsmessage,$recipients);
             return view('connexion::messages.smsresults',compact('results'));
@@ -106,11 +106,22 @@ class MessagesController extends Controller {
 
     protected function sendemail($data,$recipients)
     {
+        $results=array();
         foreach ($recipients as $household){
             foreach ($household as $indiv){
-                Mail::to($indiv['email'])->send(new GenericMail($data));
+                $dum['name']=$indiv['name'];
+                $dum['address']=$indiv['email'];
+                if(filter_var($indiv['email'], FILTER_VALIDATE_EMAIL)) {
+                    //Mail::to($indiv['email'])->send(new GenericMail($data));
+                    $dum['emailresult']="OK";
+                }
+                else {
+                    $dum['emailresult']="Invalid";
+                }
+                $results[]=$dum;
             }
         }   
+        return $results;
     }
 
     public function sendsms($message,$recipients)
