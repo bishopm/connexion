@@ -121,4 +121,13 @@ class BooksController extends Controller {
         return redirect()->route('webbooks')->withSuccess('Thank you! Your order has been emailed to us');
     }
 
+    public function destroy($id)
+    {
+        $book=$this->book->find($id);
+        $supplier=$book->supplier_id;
+        $book->delete();
+        return redirect()->route('admin.suppliers.edit',$supplier)->withSuccess('Book has been deleted');
+    }
+
+
 }
