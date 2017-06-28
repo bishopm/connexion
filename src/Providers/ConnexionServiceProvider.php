@@ -117,7 +117,8 @@ class ConnexionServiceProvider extends ServiceProvider
                         'text' => 'Statistics',
                         'url'  => 'admin/statistics',
                         'icon' => 'line-chart',
-                        'can' =>  'edit-backend'
+                        'can' =>  'edit-backend',
+                        'active' => []
                     ],
                     [
                         'text' => 'Giving',

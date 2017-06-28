@@ -89,7 +89,7 @@ class StatisticsController extends Controller {
         $ss=Service::find($service);
         $lastyear=date('Y');
         $firstyear=$lastyear-$years+1;
-        $stats=Statistic::where('service_id',$service)->where('statdate','>=',$firstyear . '-01-01')->where('statdate','<=',$lastyear . '-12-31')->orderBy('statdate')->get();
+        $stats=Statistic::where('service_id',$service)->where('included',1)->where('statdate','>=',$firstyear . '-01-01')->where('statdate','<=',$lastyear . '-12-31')->orderBy('statdate')->get();
         $fin=array();
         $wrk=array();
         foreach ($stats as $stat){
@@ -133,7 +133,7 @@ class StatisticsController extends Controller {
             $year=date('Y');
         }
         $services=array_flatten(Service::where('society_id',$society)->select('id')->get()->toArray());
-        $data=Statistic::whereIn('service_id',$services)->where('statdate','>=',$year . '-01-01')->where('statdate','<=',$year . '-12-31')->get();
+        $data=Statistic::whereIn('service_id',$services)->where('included',1)->where('statdate','>=',$year . '-01-01')->where('statdate','<=',$year . '-12-31')->get();
         $working=array();
         $allyears=array();
         $fin=array();
