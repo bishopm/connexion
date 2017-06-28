@@ -70,4 +70,18 @@ class TransactionsController extends Controller {
         return redirect()->route('admin.transactions.index')->withSuccess('Transaction has been updated');
     }
 
+    public function summary(){
+        $thismonth=date('Y-m');
+        $lastday=date('t');
+        $data['transactions']=Transaction::where('transactiondate','>=',$thismonth . '-01')->where('transactiondate','<=',$thismonth . '-' . $lastday)->orderBy('transactiondate')->get();
+        $sales=0;
+        foreach ($data['transactions'] as $trans){
+            if (($trans->transactiontype<>'Add stock') and ($trans->transactiontype<>'Shrinkage')){
+                $sales=$sales + $trans->units * $trans->unitamount;
+            } 
+        }
+        $data['sales']=number_format($sales,2);
+        return view('connexion::transactions.summary',$data);       
+    }
+
 }

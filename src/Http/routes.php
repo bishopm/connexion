@@ -432,6 +432,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 	// Transactions
 	Route::get('admin/transactions',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@index','as'=>'admin.transactions.index']);
 	Route::get('admin/transactions/create',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@create','as'=>'admin.transactions.create']);
+	Route::get('admin/transactions/summary',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@summary','as'=>'admin.transactions.summary']);
 	Route::get('admin/transactions/{transaction}',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@show','as'=>'admin.transactions.show']);
 	Route::get('admin/transactions/{transaction}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@edit','as'=>'admin.transactions.edit']);
 	Route::put('admin/transactions/{transaction}',['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@update','as'=>'admin.transactions.update']);
