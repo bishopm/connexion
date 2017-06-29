@@ -14,7 +14,11 @@
   <select id="individual_id" name="individual_id">
     <option></option>
     @foreach ($individuals as $indiv)
-      <option value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>
+      @if ($indiv->id == Auth::user()->individual_id)
+        <option selected value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>
+      @else
+        <option value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>
+      @endif
     @endforeach
   </select>
 </div>
