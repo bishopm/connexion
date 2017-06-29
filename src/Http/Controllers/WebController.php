@@ -72,8 +72,11 @@ class WebController extends Controller
     public function dashboard(ActionsRepository $actions)
     {
         $user=Auth::user();
-        //$settingsarray=$this->settings->makearray();
-        $data['actions']=$actions->getByAttributes(array('individual_id'=>$user->individual_id,'completed'=>Null));
+        if ($this->settingsarray['filtered_tasks']){
+            $data['actions']=$actions->filteredactionsforuser($this->settingsarray['filtered_tasks'],$user->individual_id);
+        } else {
+            $data['actions']=$actions->individualtasks($user->individual_id);
+        }
         $dum['googleCalendarId']=$this->settingsarray['google_calendar'];
         $dum['color']='red';
         //$pcals=Event::get(null,null,[],$user->google_calendar); 

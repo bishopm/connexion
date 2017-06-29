@@ -6,6 +6,7 @@ use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\RostersRepository;
+use Bishopm\Connexion\Repositories\FoldersRepository;
 use Bishopm\Connexion\Models\Setting;
 use Bishopm\Connexion\Models\User;
 use Spatie\Activitylog\Models\Activity;
@@ -23,13 +24,14 @@ class SettingsController extends Controller {
      * @return Response
      */
 
-    private $setting,$societies,$groups;
+    private $setting,$societies,$groups,$folders;
 
-    public function __construct(SettingsRepository $setting, SocietiesRepository $societies, GroupsRepository $groups, RostersRepository $rosters)
+    public function __construct(SettingsRepository $setting, SocietiesRepository $societies, GroupsRepository $groups, RostersRepository $rosters, FoldersRepository $folders)
     {
         $this->setting = $setting;
         $this->societies = $societies;
         $this->groups = $groups;
+        $this->folders = $folders;
         $this->rosters = $rosters;
     }
 
@@ -70,6 +72,14 @@ class SettingsController extends Controller {
             foreach ($vals as $val){
                 $dum[0]=$val->id;
                 $dum[1]=$val->society;
+                $dropdown[]=$dum;
+            }
+        } elseif ($setting->setting_key=="filtered_tasks"){
+            $vals=$this->folders->dropdown();
+            $dropdown=array();
+            foreach ($vals as $val){
+                $dum[0]=$val->id;
+                $dum[1]=$val->folder;
                 $dropdown[]=$dum;
             }
         } elseif ($setting->setting_key=="pastoral_group"){

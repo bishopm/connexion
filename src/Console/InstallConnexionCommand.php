@@ -118,6 +118,12 @@ class InstallConnexionCommand extends Command
             'category' => 'Bookshop'
         ]);
         DB::table('settings')->insert([
+            'setting_key' => 'filtered_tasks',
+            'setting_value' => '',
+            'description' => 'Only show this category of outstanding task on the Admin front page',
+            'category' => 'General'
+        ]);
+        DB::table('settings')->insert([
             'setting_key' => 'bibles_api_key',
             'setting_value' => '',
             'description' => 'Private API key for bibles.org',
