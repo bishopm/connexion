@@ -112,6 +112,18 @@ class InstallConnexionCommand extends Command
             'category' => 'General'
         ]);
         DB::table('settings')->insert([
+            'setting_key' => 'giving_reports',
+            'setting_value' => '0',
+            'description' => 'Number of emailed giving reports per year (0,1,2,3,4,6 or 12)',
+            'category' => 'Giving'
+        ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'giving_lagtime',
+            'setting_value' => '10',
+            'description' => 'Number of days after month end to send giving report (to allow data capture)',
+            'category' => 'Giving'
+        ]);
+        DB::table('settings')->insert([
             'setting_key' => 'bookshop_manager',
             'setting_value' => '',
             'description' => 'User who will receive a copy of book orders in addition to the main church email address',

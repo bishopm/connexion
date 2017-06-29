@@ -82,6 +82,14 @@ class SettingsController extends Controller {
                 $dum[1]=$val->folder;
                 $dropdown[]=$dum;
             }
+        } elseif ($setting->setting_key=="giving_reports"){
+            $vals=array('0','1','2','3','4','6','12');
+            $dropdown=array();
+            foreach ($vals as $val){
+                $dum[0]=$val;
+                $dum[1]=$val;
+                $dropdown[]=$dum;
+            }
         } elseif ($setting->setting_key=="pastoral_group"){
             $vals=$this->groups->dropdown();
             $dropdown=array();

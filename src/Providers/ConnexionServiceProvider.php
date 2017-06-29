@@ -22,6 +22,7 @@ class ConnexionServiceProvider extends ServiceProvider
         'Bishopm\Connexion\Console\BirthdayEmail',
         'Bishopm\Connexion\Console\MonthlySupplierEmail',
         'Bishopm\Connexion\Console\MonthlyBookshopEmail',
+        'Bishopm\Connexion\Console\PlannedGivingReportEmail',
     ];
 
     /**
