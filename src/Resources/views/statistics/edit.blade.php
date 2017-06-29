@@ -21,11 +21,13 @@
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.statistics.index')) }}
+                    <button type="button" class="btn btn-danger btn-flat pull-right" data-action-entity="Statistic" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.statistics.destroy', $statistic->id) }}">Delete</button>
                 </div>
             </div>
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.delete-modal')
 @stop
 
 @section('js')
@@ -50,5 +52,6 @@
             radioClass: 'iradio_minimal-blue'
         });
     });
+    @include('connexion::shared.delete-modal-script')
 </script>
 @stop

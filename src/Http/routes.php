@@ -417,7 +417,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 	Route::get('admin/statistics/{statistic}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@edit','as'=>'admin.statistics.edit']);
 	Route::put('admin/societies/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@update','as'=>'admin.statistics.update']);
 	Route::post('admin/societies/statistics',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@store','as'=>'admin.statistics.store']);
-    Route::delete('admin/societies/{society}/services/{service}/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@destroy','as'=>'admin.statistics.destroy']);
+    Route::delete('admin/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@destroy','as'=>'admin.statistics.destroy']);
 
 
 	// Suppliers

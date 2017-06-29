@@ -201,4 +201,11 @@ class StatisticsController extends Controller {
         return view('connexion::statistics.graph', $data);
     }
 
+    public function destroy($id)
+    {
+        $stat=$this->statistic->find($id);
+        $stat->delete();
+        return redirect()->route('admin.statistics.index')->withSuccess('Statistic has been deleted');
+    }
+
 }
