@@ -33,4 +33,15 @@ class ApiAuthController extends Controller
         // all good so return the token
         return response()->json(compact('token','fullname','indiv_id'));
     }
+
+    public function refreshToken(){
+        $token = JWTAuth::getToken();
+        $newToken = JWTAuth::refresh($token);
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'token' => $newToken
+            ],
+        ], 200);
+    }
 }
