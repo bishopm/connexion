@@ -37,10 +37,12 @@ class ApiAuthController extends Controller
     public function refreshToken(){
         $token = JWTAuth::getToken();
         $newToken = JWTAuth::refresh($token);
+        $user=JWTAuth::parseToken($newToken)->toUser();
         return response()->json([
             'success' => true,
             'data' => [
-                'token' => $newToken
+                'token' => $newToken,
+                'user' => $user
             ],
         ], 200);
     }
