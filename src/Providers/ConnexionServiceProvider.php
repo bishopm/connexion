@@ -426,6 +426,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
         $this->app['router']->aliasMiddleware('handlecors', 'Barryvdh\Cors\HandleCors');
         $this->app['router']->aliasMiddleware('jwt.auth', 'Tymon\JWTAuth\Middleware\GetUserFromToken');
+        $this->app['router']->aliasMiddleware('jwt.refresh', 'Tymon\JWTAuth\Middleware\RefreshToken');
         //$this->app['router']->pushMiddlewareToGroup('api','Barryvdh\Cors\HandleCors');
         $this->registerBindings();
         $this->registerUserPolicies();
