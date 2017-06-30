@@ -6,7 +6,7 @@ Route::middleware(['handlecors'])->group(function () {
 	Route::get('/api/currentblog', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@currentblog','as' => 'api.currentblog']);
 	Route::get('/api/sermonapi/{sermon?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@sermonapi','as' => 'api.sermonapi']);
 	Route::get('/api/readings', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@lectionary','as' => 'api.lectionary']);
-	Route::get('/api/refresh/{token}',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ApiAuthController@refreshToken','as'=>'api.refresh']);
+	Route::post('/api/refresh',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ApiAuthController@refreshToken','as'=>'api.refresh']);
 	Route::group(['middleware' => ['jwt.auth','handlecors']], function () {
 		Route::get('/api/taskapi', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@taskapi','as' => 'api.taskapi']);
 		Route::get('/api/taskcompleted/{id}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@togglecompleted','as' => 'api.taskcompleted']);
