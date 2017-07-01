@@ -35,7 +35,7 @@ class ApiAuthController extends Controller
     }
 
     public function refreshToken(Request $request){
-        $token=JWTAuth::parseToken();
+        $token=JWTAuth::getToken();
         /*echo $token;
         $newToken = JWTAuth::refresh($token);
         echo $newToken;*/
