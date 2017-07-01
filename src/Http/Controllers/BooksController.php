@@ -131,7 +131,7 @@ class BooksController extends Controller {
 
     public function booksapi()
     {
-        $books=Book::OrderBy('title')->select('id','title','author','image','saleprice')->get();
+        $books=Book::OrderBy('title')->select('id','title','author','image','saleprice','description')->get();
         return $books;
     }
 
