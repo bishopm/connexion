@@ -129,5 +129,10 @@ class BooksController extends Controller {
         return redirect()->route('admin.suppliers.edit',$supplier)->withSuccess('Book has been deleted');
     }
 
+    public function booksapi()
+    {
+        $books=Book::OrderBy('title')->select('id','title','author','image','saleprice')->get();
+        return $books;
+    }
 
 }
