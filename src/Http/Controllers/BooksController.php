@@ -131,8 +131,19 @@ class BooksController extends Controller {
 
     public function booksapi()
     {
-        $books=Book::OrderBy('title')->select('id','title','author','image','saleprice','description')->get();
+        $books=Book::OrderBy('title')->select('id','title','author','image','saleprice')->get();
         return $books;
+    }
+
+    public function bookapi($id)
+    {
+        $book=Book::with('comments')->where('id',$id)->first();
+        foreach ($book->comments as $comment){
+            $author=$this->user->find($comment->commented_id);
+            $comment->author = $author->individual->firstname . " " . $author->individual->surname;
+            $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->individual_id . "/" . $author->individual->image;
+        }
+        return $book;
     }
 
 }

@@ -6,6 +6,7 @@ Route::middleware(['handlecors'])->group(function () {
 	Route::get('/api/currentblog', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@currentblog','as' => 'api.currentblog']);
 	Route::get('/api/sermonapi/{sermon?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@sermonapi','as' => 'api.sermonapi']);
 	Route::get('/api/books', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@booksapi','as' => 'api.books']);
+	Route::get('/api/book/{book}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@bookapi','as' => 'api.book']);
 	Route::get('/api/readings', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@lectionary','as' => 'api.lectionary']);
 	Route::group(['middleware' => ['jwt.auth','handlecors']], function () {
 		Route::get('/api/taskapi', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@taskapi','as' => 'api.taskapi']);
