@@ -369,6 +369,8 @@ class ConnexionServiceProvider extends ServiceProvider
         config(['analytics.service_account_credentials_json' => public_path('vendor/bishopm/service_account_credentials.json')]);
         config(['analytics.view_id' => $finset['google_analytics_view_id']]);
         config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
+        config(['jwt.ttl' => 525600]);
+        config(['jwt.refresh_ttl' => 525600]);
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
         view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
         view()->composer('connexion::site.*', \Bishopm\Connexion\Composers\SlideComposer::class);
@@ -426,7 +428,6 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
         $this->app['router']->aliasMiddleware('handlecors', 'Barryvdh\Cors\HandleCors');
         $this->app['router']->aliasMiddleware('jwt.auth', 'Tymon\JWTAuth\Middleware\GetUserFromToken');
-        $this->app['router']->aliasMiddleware('jwt.refresh', 'Tymon\JWTAuth\Middleware\RefreshToken');
         //$this->app['router']->pushMiddlewareToGroup('api','Barryvdh\Cors\HandleCors');
         $this->registerBindings();
         $this->registerUserPolicies();
