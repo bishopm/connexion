@@ -303,6 +303,17 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 	Route::post('admin/projects',['uses'=>'Bishopm\Connexion\Http\Controllers\ProjectsController@store','as'=>'admin.projects.store']);
     Route::delete('admin/projects/{project}',['uses'=>'Bishopm\Connexion\Http\Controllers\ProjectsController@destroy','as'=>'admin.projects.destroy']);  
 
+	// Readings
+	Route::get('admin/readings',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@index','as'=>'admin.readings.index']);
+	Route::get('admin/readings/create',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@create','as'=>'admin.readings.create']);
+	Route::get('admin/readings/{reading}',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@show','as'=>'admin.readings.show']);
+	Route::get('admin/readings/monthtotals/{year}',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@monthtotals','as'=>'admin.readings.monthtotals']);
+	Route::get('admin/readings/{reading}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@edit','as'=>'admin.readings.edit']);
+	Route::put('admin/readings/{reading}',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@update','as'=>'admin.readings.update']);
+	Route::post('admin/readings',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@store','as'=>'admin.readings.store']);
+	Route::delete('admin/readings/{reading}',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@destroy','as'=>'admin.readings.destroy']);
+
+
 	// Rosters
     Route::get('admin/rosters',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@index','as'=>'admin.rosters.index']);
     Route::get('admin/rosters/create',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@create','as'=>'admin.rosters.create']);

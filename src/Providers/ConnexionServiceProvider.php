@@ -210,18 +210,31 @@ class ConnexionServiceProvider extends ServiceProvider
                     'url' => 'admin/blogs',
                     'icon' => 'pencil-square-o',
                     'can' =>  'edit-backend'
-                ],
-                [
-                    'text' => 'Courses',
-                    'url' => 'admin/courses',
-                    'icon' => 'graduation-cap',
-                    'can' =>  'edit-backend'
-                ],            
+                ],         
                 [
                     'text' => 'Sermons',
                     'url' => 'admin/series',
                     'icon' => 'microphone',
                     'can' =>  'edit-backend'
+                ],
+                [
+                    'text' => 'Resources',
+                    'icon' => 'thumbs-up',
+                    'can' => 'edit-backend',
+                    'submenu' => [
+                        [
+                            'text' => 'Courses',
+                            'url' => 'admin/courses',
+                            'icon' => 'graduation-cap',
+                            'can' =>  'edit-backend'
+                        ],              
+                        [
+                            'text' => 'Lectionary',
+                            'url' => 'admin/readings',
+                            'icon' => 'bookmark',
+                            'can' =>  'edit-backend'
+                        ]
+                    ]
                 ],
                 [
                     'text' => 'Site structure',
