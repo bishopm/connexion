@@ -79,12 +79,8 @@ class SermonsController extends Controller {
         $preacher->notify(new NewSermonComment($message));
     }
 
-    public function sermonapi($id=0){
-        if ($id==0){
-            $sermon=$this->sermon->mostRecent();
-        } else {
-            $sermon=$this->sermon->find($id);
-        }
+    public function currentsermonapi{
+        $sermon=$this->sermon->mostRecent();
         foreach ($sermon->comments as $comment){
             $author=$this->user->find($comment->commented_id);
             $comment->author = $author->individual->firstname . " " . $author->individual->surname;

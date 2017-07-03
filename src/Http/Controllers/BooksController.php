@@ -129,13 +129,13 @@ class BooksController extends Controller {
         return redirect()->route('admin.suppliers.edit',$supplier)->withSuccess('Book has been deleted');
     }
 
-    public function booksapi()
+    public function apibooks()
     {
         $books=Book::OrderBy('title')->select('id','title','author','image','saleprice')->get();
         return $books;
     }
 
-    public function bookapi($id)
+    public function apibook($id)
     {
         $book=Book::with('comments')->where('id',$id)->first();
         foreach ($book->comments as $comment){

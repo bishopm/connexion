@@ -1,5 +1,8 @@
 {{ Form::bsText('firstname','First name','First name',$individual->firstname) }}
 {{ Form::bsText('surname','Surname','Surname',$individual->surname) }}
+@can('admin-backend')
+    {{ Form::bsText('slug','Slug','Slug',$individual->slug) }}
+@endcan
 {{ Form::bsText('cellphone','Cellphone','Cellphone',$individual->cellphone) }}
 {{ Form::bsText('officephone','Office phone','Office phone',$individual->officephone) }}
 {{ Form::bsText('email','Email','Email',$individual->email) }}

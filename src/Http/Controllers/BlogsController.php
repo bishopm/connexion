@@ -121,7 +121,7 @@ class BlogsController extends Controller {
         $author->notify(new NewBlogComment($message));
     }
 
-    public function currentblog(){
+    public function apicurrentblog(){
         $blog=Blog::with('individual')->where('status','published')->orderBy('created_at','DESC')->first();
         $currentblog['title']=$blog->title;
         $currentblog['body']=$blog->body;
