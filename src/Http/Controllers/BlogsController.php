@@ -130,4 +130,18 @@ class BlogsController extends Controller {
         return $currentblog;
     }
 
+    public function apiblog(){
+        $blogs=array();
+        $dum=array();
+        $blogs=Blog::with('individual')->where('status','published')->orderBy('created_at','DESC')->get();
+        foreach ($blogs as $blog){
+            $dum['title']=$blog->title;
+            $dum['body']=$blog->body;
+            $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
+            $dum['pubDate']=date("d M Y",strtotime($blog->created_at));
+            $blogs[]=$dum;
+        }
+        return $blogs;
+    }
+
 }
