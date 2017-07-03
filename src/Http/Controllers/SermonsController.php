@@ -82,7 +82,7 @@ class SermonsController extends Controller {
     public function sermonapi($id){
         if ($id=="current"){
             $sermon=$this->sermon->mostRecent();
-        } elseif ($id){
+        } elseif ($id<>''){
             $sermon=$this->sermon->find($id);
         }
         foreach ($sermon->comments as $comment){
