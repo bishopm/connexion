@@ -14,7 +14,8 @@ class UpdateIndividualRequest extends FormRequest
             'cellphone' => 'nullable|digits:10',
             'officephone' => 'nullable|numeric',
             'giving' => 'nullable|numeric',
-            'email' => 'nullable|email'
+            'email' => 'nullable|email',
+            'slug' => 'required|unique:individuals'
         ];
     }
 

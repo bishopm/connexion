@@ -9,7 +9,8 @@ class UpdateGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'groupname' => 'required'
+            'groupname' => 'required',
+            'slug' => 'required|unique:groups'
         ];
     }
 
