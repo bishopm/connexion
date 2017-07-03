@@ -52,8 +52,12 @@ class CoursesController extends Controller {
 	public function show($slug)
 	{
         $data['course']=$this->course->findBySlug($slug);
-        $data['comments'] = $data['course']->comments()->paginate(5);
-        return view('connexion::site.course',$data);
+        if ($data['course']){
+            $data['comments'] = $data['course']->comments()->paginate(5);
+            return view('connexion::site.course',$data);
+        } else {
+            abort(404);
+        }
 	}
 
     public function signup($slug)
