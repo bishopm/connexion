@@ -10,7 +10,7 @@ class UpdateBlogRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'slug' => 'required|unique:blogs'
+            'slug' => 'required|unique:blogs,id,'.$this->get('id')
         ];
     }
 

@@ -10,7 +10,7 @@ class UpdateSeriesRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'slug' => 'required|unique:series'
+            'slug' => 'required|unique:series,id,'.$this->get('id')
         ];
     }
 

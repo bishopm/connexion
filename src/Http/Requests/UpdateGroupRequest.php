@@ -10,7 +10,7 @@ class UpdateGroupRequest extends FormRequest
     {
         return [
             'groupname' => 'required',
-            'slug' => 'required|unique:groups'
+            'slug' => 'required|unique:groups,id,'.$this->get('id')
         ];
     }
 

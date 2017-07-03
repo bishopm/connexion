@@ -15,7 +15,7 @@ class UpdateIndividualRequest extends FormRequest
             'officephone' => 'nullable|numeric',
             'giving' => 'nullable|numeric',
             'email' => 'nullable|email',
-            'slug' => 'required|unique:individuals'
+            'slug' => 'required|unique:individuals,id,'.$this->get('id')
         ];
     }
 
