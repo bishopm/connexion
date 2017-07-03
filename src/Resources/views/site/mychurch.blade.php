@@ -22,7 +22,7 @@
         <div class="grid top20">
             @foreach ($users as $user)
                 @if (isset($user->individual))
-                <div class="col-xs-4 col-sm-3 col-md-2 element-item {{$user->status}}" data-name="{{$user->individual->surname}}{{$user->individual->firstname}}">
+                <div class="col-xs-4 col-sm-3 col-md-2 element-item {{$user->status}}" data-name="{{strtolower($user->individual->surname)}}{{strtolower($user->individual->firstname)}}">
                     <a href="{{url('/')}}/users/{{$user->individual->slug}}">
                         @if ($user->individual->image)
                             <img class="img-responsive img-circle" src="{{url('/')}}/public/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
