@@ -65,6 +65,14 @@ class SeriesController extends Controller {
         if ($id<>'all'){
             $series=$this->series->findwithsermons($id);
             $series->image="http://umc.org.za/public/storage/series/" . $series->image;
+            foreach ($series->sermons as $sermon){
+                $preacher=Individual::find($sermon->individual_id);
+                if (count($preacher)){
+                    $sermon->preacher=$preacher->firstname . " " . $preacher->surname;
+                } else {
+                    $sermon->preacher="Guest preacher";
+                }
+            }
         } else {
             $series = $this->series->allwithsermons();
             foreach ($series as $seri){
