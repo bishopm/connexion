@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Bishopm\Connexion\Models\Book, Bishopm\Connexion\Models\Payment, Bishopm\Connexion\Models\Individual;
 use Bishopm\Connexion\Models\Setting, DB;
 use Bishopm\Connexion\Mail\GivingMail;
+use Bishopm\Connexion\Mail\GenericMail;
 use Illuminate\Support\Facades\Mail;
 
 class PlannedGivingReportEmail extends Command
@@ -31,7 +32,7 @@ class PlannedGivingReportEmail extends Command
      */
     public function handle()
     {
-        $today="2017-07-10";
+        $today=date('Y-m-d');
         $lagtime=intval(Setting::where('setting_key','giving_lagtime')->first()->setting_value);
         echo "You have a lag setting of " . $lagtime . " days\n";
         $effdate=strtotime($today)-$lagtime*86400;
@@ -73,8 +74,23 @@ class PlannedGivingReportEmail extends Command
             }
             $startofperiod=$repyr . "-" . $sm . "-01";
             echo "Calculating totals for the period: " . $startofperiod . " to " . $endofperiod . "\n";
-            $givers=Individual::where('giving','>',1)->where('surname','Bishop')->get();
-            $data=array();
+            $givers=Individual::where('giving','>',0)->where('email','<>','')->get();
+            $noemailgivers=Individual::where('giving','>',0)->where('email','')->get();
+            $msg="Planned giving emails were sent today to " . count($givers) . " planned givers.";
+            if (count($noemailgivers)){
+                $msg.="<br><br>The following planned givers do not have email addresses and require a hardcopy report:<br><br>";
+                foreach ($noemailgivers as $nomail){
+                    $msg.=$nomail->firstname . " " . $nomail->surname . "<br>";
+                }
+            } else {
+                $msg.="<br><br>Good news! All planned givers at present have email addresses :)";
+            }
+            $msg.="<br><br>Thank you!";
+            $nodat=new \stdClass();
+            $nodat->subject="Planned giving emails sent";
+            $nodat->sender="info@umc.org.za";
+            $nodat->emailmessage=$msg;
+            Mail::to('michael@umc.org.za')->send(new GenericMail($nodat));
             foreach ($givers as $giver){
                 $data[$giver->giving]['email'][]=$giver->email;
                 if (count($data[$giver->giving]['email'])==1){
@@ -105,7 +121,7 @@ class PlannedGivingReportEmail extends Command
                 }
             }
         } else {
-            echo "Today is not a report date (" . date("Y-m-d",$effdate) . ")\n";
+            echo "Today is not a report date\n";
         }
     }
 }

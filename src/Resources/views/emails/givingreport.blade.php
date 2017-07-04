@@ -12,7 +12,7 @@ This email is system-generated to preserve anonymity.
 Please feel free to contact the church office if you have any questions or concerns.
 
 # Last {{$data['scope']}}
-@if (count($data['current']))
+@if (isset($data['current']))
 @component('mail::table')
 | Date received | Amount | 
 | -----|-----------:| 
@@ -24,7 +24,7 @@ Please feel free to contact the church office if you have any questions or conce
 No payments received during this period
 @endif
 
-@if (count($data['historic']))
+@if (isset($data['historic']))
 # Other {{$data['pgyr']}} payments (prior to the last {{$data['scope']}})
 
 @component('mail::table')
