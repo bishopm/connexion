@@ -6,7 +6,7 @@ class SeriesRepository extends EloquentBaseRepository
 {
     public function findwithsermons($id)
     {
-        $series=$this->model->has('sermons')->where('id',$id)->first();
+        return $series=$this->model->with('sermons')->where('id',$id)->first();
     }
 
 

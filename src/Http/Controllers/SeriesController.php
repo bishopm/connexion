@@ -64,6 +64,7 @@ class SeriesController extends Controller {
 	{
         if ($id<>'all'){
             $series=$this->series->findwithsermons($id);
+            dd($series);
             $series->image="http://umc.org.za/public/storage/series/" . $series->image;
             foreach ($series->sermons as $sermon){
                 $preacher=Individual::find($sermon->individual_id);
