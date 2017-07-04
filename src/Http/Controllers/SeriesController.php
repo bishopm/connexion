@@ -71,7 +71,11 @@ class SeriesController extends Controller {
                 $seri->image="http://umc.org.za/public/storage/series/" . $seri->image;
                 foreach ($seri->sermons as $sermon){
                     $preacher=Individual::find($sermon->individual_id);
-                    $sermon->preacher=$preacher->firstname . " " . $preacher->surname;
+                    if (count($preacher)){
+                        $sermon->preacher=$preacher->firstname . " " . $preacher->surname;
+                    } else {
+                        $sermon->preacher="Guest preacher";
+                    }
                 }
             }
         }
