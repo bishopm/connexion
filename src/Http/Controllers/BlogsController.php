@@ -132,6 +132,7 @@ class BlogsController extends Controller {
         $data['body']=$blog->body;
         $data['author']=$blog->individual->firstname . " " . $blog->individual->surname;
         $data['pubDate']=date("d M Y",strtotime($blog->created_at));
+        $data['tags']=$blog->tags;
         return $data;
     }
 
@@ -144,6 +145,8 @@ class BlogsController extends Controller {
             $dum['body']=$blog->body;
             $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
             $dum['pubDate']=date("d M Y",strtotime($blog->created_at));
+            $dum['id']=$blog->id;
+            $dum['tags']=$blog->tags;
             $blogs[]=$dum;
         }
         return $blogs;
