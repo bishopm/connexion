@@ -4,6 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\SeriesRepository;
 use Bishopm\Connexion\Models\Series;
+use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSeriesRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSeriesRequest;
@@ -65,9 +66,13 @@ class SeriesController extends Controller {
             $series=$this->series->find($id);
             $series->image="http://umc.org.za/public/storage/series/" . $series->image;
         } else {
-            $series = $this->series->all();
+            $series = $this->series->allwithsermons();
             foreach ($series as $seri){
                 $seri->image="http://umc.org.za/public/storage/series/" . $seri->image;
+                foreach ($seri->sermons as $sermon){
+                    $preacher=Individual::find($sermon->individual_id);
+                    $sermon->preacher=$preacher->firstname . " " . $preacher->surname;
+                }
             }
         }
         return $series;
