@@ -138,8 +138,8 @@ class BlogsController extends Controller {
     public function apiblogs(){
         $blogs=array();
         $dum=array();
-        $blogs=Blog::with('individual')->where('status','published')->orderBy('created_at','DESC')->get();
-        foreach ($blogs as $blog){
+        $allblogs=Blog::with('individual')->where('status','published')->orderBy('created_at','DESC')->get();
+        foreach ($allblogs as $blog){
             $dum['title']=$blog->title;
             $dum['body']=$blog->body;
             $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
