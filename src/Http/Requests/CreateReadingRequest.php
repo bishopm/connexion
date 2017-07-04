@@ -4,14 +4,13 @@ namespace Bishopm\Connexion\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends FormRequest
+class CreateReadingRequest extends FormRequest
 {
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required',
-            'slug' => 'required|unique:users'
+            'readingdate' => 'required',
+            'readings'=>'required'
         ];
     }
 

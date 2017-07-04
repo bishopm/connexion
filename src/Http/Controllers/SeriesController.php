@@ -59,4 +59,18 @@ class SeriesController extends Controller {
         return redirect()->route('admin.series.index')->withSuccess('Series has been updated');
     }
 
+    public function seriesapi($id="all")
+	{
+        if ($id<>'all'){
+            $series=$this->series->find($id);
+            $series->image="http://umc.org.za/public/storage/series/" . $series->image;
+        } else {
+            $series = $this->series->all();
+            foreach ($series as $seri){
+                $seri->image="http://umc.org.za/public/storage/series/" . $seri->image;
+            }
+        }
+        return $series;
+	}
+
 }

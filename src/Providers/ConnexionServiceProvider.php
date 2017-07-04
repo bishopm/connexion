@@ -34,7 +34,8 @@ class ConnexionServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(255);
         if (! $this->app->routesAreCached()) {
-            require __DIR__.'/../Http/routes.php';
+            require __DIR__.'/../Http/api.routes.php';            
+            require __DIR__.'/../Http/web.routes.php';
         }
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'connexion');
         $this->publishes([
@@ -210,18 +211,31 @@ class ConnexionServiceProvider extends ServiceProvider
                     'url' => 'admin/blogs',
                     'icon' => 'pencil-square-o',
                     'can' =>  'edit-backend'
-                ],
-                [
-                    'text' => 'Courses',
-                    'url' => 'admin/courses',
-                    'icon' => 'graduation-cap',
-                    'can' =>  'edit-backend'
-                ],            
+                ],         
                 [
                     'text' => 'Sermons',
                     'url' => 'admin/series',
                     'icon' => 'microphone',
                     'can' =>  'edit-backend'
+                ],
+                [
+                    'text' => 'Resources',
+                    'icon' => 'thumbs-up',
+                    'can' => 'edit-backend',
+                    'submenu' => [
+                        [
+                            'text' => 'Courses',
+                            'url' => 'admin/courses',
+                            'icon' => 'graduation-cap',
+                            'can' =>  'edit-backend'
+                        ],              
+                        [
+                            'text' => 'Lectionary',
+                            'url' => 'admin/readings',
+                            'icon' => 'bookmark',
+                            'can' =>  'edit-backend'
+                        ]
+                    ]
                 ],
                 [
                     'text' => 'Site structure',
@@ -369,6 +383,8 @@ class ConnexionServiceProvider extends ServiceProvider
         config(['analytics.service_account_credentials_json' => public_path('vendor/bishopm/service_account_credentials.json')]);
         config(['analytics.view_id' => $finset['google_analytics_view_id']]);
         config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
+        config(['jwt.ttl' => 525600]);
+        config(['jwt.refresh_ttl' => 525600]);
         view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
         view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
         view()->composer('connexion::site.*', \Bishopm\Connexion\Composers\SlideComposer::class);

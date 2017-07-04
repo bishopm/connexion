@@ -10,7 +10,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required'
+            'email' => 'required',
+            'slug' => 'required|unique:users,id,'.$this->get('id')
         ];
     }
 

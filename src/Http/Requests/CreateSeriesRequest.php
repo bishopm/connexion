@@ -9,7 +9,8 @@ class CreateSeriesRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required'
+            'title' => 'required',
+            'slug' => 'required|unique:series'
         ];
     }
 

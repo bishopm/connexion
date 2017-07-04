@@ -121,13 +121,27 @@ class BlogsController extends Controller {
         $author->notify(new NewBlogComment($message));
     }
 
-    public function currentblog(){
+    public function apicurrentblog(){
         $blog=Blog::with('individual')->where('status','published')->orderBy('created_at','DESC')->first();
         $currentblog['title']=$blog->title;
         $currentblog['body']=$blog->body;
         $currentblog['author']=$blog->individual->firstname . " " . $blog->individual->surname;
         $currentblog['pubDate']=date("d M Y",strtotime($blog->created_at));
         return $currentblog;
+    }
+
+    public function apiblog(){
+        $blogs=array();
+        $dum=array();
+        $blogs=Blog::with('individual')->where('status','published')->orderBy('created_at','DESC')->get();
+        foreach ($blogs as $blog){
+            $dum['title']=$blog->title;
+            $dum['body']=$blog->body;
+            $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
+            $dum['pubDate']=date("d M Y",strtotime($blog->created_at));
+            $blogs[]=$dum;
+        }
+        return $blogs;
     }
 
 }

@@ -129,5 +129,21 @@ class BooksController extends Controller {
         return redirect()->route('admin.suppliers.edit',$supplier)->withSuccess('Book has been deleted');
     }
 
+    public function apibooks()
+    {
+        $books=Book::OrderBy('title')->select('id','title','author','image','saleprice')->get();
+        return $books;
+    }
+
+    public function apibook($id)
+    {
+        $book=Book::with('comments')->where('id',$id)->first();
+        foreach ($book->comments as $comment){
+            $author=$this->user->find($comment->commented_id);
+            $comment->author = $author->individual->firstname . " " . $author->individual->surname;
+            $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->individual_id . "/" . $author->individual->image;
+        }
+        return $book;
+    }
 
 }

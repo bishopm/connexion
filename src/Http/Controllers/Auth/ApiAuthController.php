@@ -33,4 +33,5 @@ class ApiAuthController extends Controller
         // all good so return the token
         return response()->json(compact('token','fullname','indiv_id'));
     }
+
 }

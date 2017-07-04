@@ -1,18 +1,4 @@
 <?php
-
-Route::get('/api/individual/{id}', ['uses' => 'Bishopm\Connexion\Http\Controllers\IndividualsController@api_individual','as' => 'api.individual']);	
-Route::middleware(['handlecors'])->group(function () {
-	Route::post('/api/login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ApiAuthController@login','as'=>'api.login']);	
-	Route::get('/api/currentblog', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@currentblog','as' => 'api.currentblog']);
-	Route::get('/api/sermonapi/{sermon?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@sermonapi','as' => 'api.sermonapi']);
-	Route::get('/api/readings', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@lectionary','as' => 'api.lectionary']);
-	Route::group(['middleware' => ['jwt.auth','handlecors']], function () {
-		Route::get('/api/taskapi', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@taskapi','as' => 'api.taskapi']);
-		Route::get('/api/taskcompleted/{id}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@togglecompleted','as' => 'api.taskcompleted']);
-		Route::get('/api/individual', ['uses' => 'Bishopm\Connexion\Http\Controllers\IndividualsController@api_individual','as' => 'api.individual']);	
-	});
-});
-
 Route::group(['middleware' => ['web']], function () {
 	// Authentication for guests
 	Route::get('/feed/{service?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@feed','as' => 'feed']);
@@ -300,6 +286,17 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 	Route::put('admin/projects/{project}',['uses'=>'Bishopm\Connexion\Http\Controllers\ProjectsController@update','as'=>'admin.projects.update']);
 	Route::post('admin/projects',['uses'=>'Bishopm\Connexion\Http\Controllers\ProjectsController@store','as'=>'admin.projects.store']);
     Route::delete('admin/projects/{project}',['uses'=>'Bishopm\Connexion\Http\Controllers\ProjectsController@destroy','as'=>'admin.projects.destroy']);  
+
+	// Readings
+	Route::get('admin/readings',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@index','as'=>'admin.readings.index']);
+	Route::get('admin/readings/create',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@create','as'=>'admin.readings.create']);
+	Route::get('admin/readings/{reading}',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@show','as'=>'admin.readings.show']);
+	Route::get('admin/readings/monthtotals/{year}',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@monthtotals','as'=>'admin.readings.monthtotals']);
+	Route::get('admin/readings/{reading}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@edit','as'=>'admin.readings.edit']);
+	Route::put('admin/readings/{reading}',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@update','as'=>'admin.readings.update']);
+	Route::post('admin/readings',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@store','as'=>'admin.readings.store']);
+	Route::delete('admin/readings/{reading}',['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@destroy','as'=>'admin.readings.destroy']);
+
 
 	// Rosters
     Route::get('admin/rosters',['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@index','as'=>'admin.rosters.index']);
