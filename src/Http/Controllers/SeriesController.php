@@ -63,7 +63,7 @@ class SeriesController extends Controller {
     public function seriesapi($id="all")
 	{
         if ($id<>'all'){
-            $series=$this->series->find($id);
+            $series=$this->series->findwithsermons($id);
             $series->image="http://umc.org.za/public/storage/series/" . $series->image;
         } else {
             $series = $this->series->allwithsermons();
