@@ -3,7 +3,7 @@
 Route::middleware(['handlecors'])->group(function () {
 	Route::post('/api/login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ApiAuthController@login','as'=>'api.login']);	
 	Route::get('/api/blogs', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@apiblogs','as' => 'api.blog']);
-	Route::get('/api/blog/{id?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@apiblog','as' => 'api.currentblog']);
+	Route::get('/api/blog/{blog}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@apiblog','as' => 'api.currentblog']);
 
 	// Books
 	Route::get('/api/books', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@apibooks','as' => 'api.books']);

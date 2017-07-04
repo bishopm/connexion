@@ -125,7 +125,7 @@ class BlogsController extends Controller {
         if ($id=="current"){
             $blog=Blog::with('individual')->where('status','published')->orderBy('created_at','DESC')->first();
         } else {
-            $blog=Blog::with('individual')->where('id',$id)->get();
+            $blog=Blog::with('individual')->where('id',$id)->first();
         }
         $data=array();
         $data['title']=$blog->title;
