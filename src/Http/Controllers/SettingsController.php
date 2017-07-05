@@ -90,6 +90,14 @@ class SettingsController extends Controller {
                 $dum[1]=$val;
                 $dropdown[]=$dum;
             }
+        } elseif ($setting->setting_key=="giving_administrator"){
+            $users=User::orderBy('name')->get();
+            $count=0;
+            foreach ($users as $user){
+                $dropdown[$count][0]=$user->name;
+                $dropdown[$count][1]=$user->name;
+                $count++;
+            }
         } elseif ($setting->setting_key=="pastoral_group"){
             $vals=$this->groups->dropdown();
             $dropdown=array();

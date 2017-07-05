@@ -131,7 +131,7 @@ class BlogsController extends Controller {
         $data['title']=$blog->title;
         $data['body']=$blog->body;
         $data['author']=$blog->individual->firstname . " " . $blog->individual->surname;
-        $data['pubDate']=date("d M Y",strtotime($blog->created_at));
+        $data['pubDate']=date("j F Y",strtotime($blog->created_at));
         $data['tags']=$blog->tags;
         return $data;
     }

@@ -3,7 +3,7 @@
 namespace Bishopm\Connexion\Console;
 
 use Illuminate\Console\Command;
-use Bishopm\Connexion\Models\Book, Bishopm\Connexion\Models\Payment, Bishopm\Connexion\Models\Individual;
+use Bishopm\Connexion\Models\Book, Bishopm\Connexion\Models\Payment, Bishopm\Connexion\Models\Individual, Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Setting, DB;
 use Bishopm\Connexion\Mail\GivingMail;
 use Bishopm\Connexion\Mail\GenericMail;
@@ -34,12 +34,13 @@ class PlannedGivingReportEmail extends Command
     {
         $today=date('Y-m-d');
         $lagtime=intval(Setting::where('setting_key','giving_lagtime')->first()->setting_value);
-        echo "You have a lag setting of " . $lagtime . " days\n";
+        //echo "You have a lag setting of " . $lagtime . " days\n";
         $effdate=strtotime($today)-$lagtime*86400;
         $repyr=date('Y',$effdate);
-        echo "Your report year is " . $repyr . "\n";
+        //echo "Your report year is " . $repyr . "\n";
         $reportnums=intval(Setting::where('setting_key','giving_reports')->first()->setting_value);
-        echo "Your system will deliver " . $reportnums . " reports per year\n";
+        //echo "Your system will deliver " . $reportnums . " reports per year\n";
+        $administrator=User::find(Setting::where('setting_key','giving_administrator')->first()->setting_value)->individual->email;
         switch ($reportnums){
             case 1:
                 $reportdates=array($repyr . "-12-31");
@@ -90,15 +91,16 @@ class PlannedGivingReportEmail extends Command
             $nodat->subject="Planned giving emails sent";
             $nodat->sender="info@umc.org.za";
             $nodat->emailmessage=$msg;
-            Mail::to('michael@umc.org.za')->send(new GenericMail($nodat));
+            Mail::to($administrator)->send(new GenericMail($nodat));
             foreach ($givers as $giver){
                 $data[$giver->giving]['email'][]=$giver->email;
                 if (count($data[$giver->giving]['email'])==1){
                     $data[$giver->giving]['period']=$startofperiod . " to " . $endofperiod;
                     $data[$giver->giving]['sender']=Setting::where('setting_key','church_email')->first()->setting_value;
                     $data[$giver->giving]['pg']=$giver->giving;
-                    $data[$giver->giving]['pgyr']=$repyr;                    
-                    $data[$giver->giving]['church']=Setting::where('setting_key','site_abbreviation')->first()->setting_value;
+                    $data[$giver->giving]['pgyr']=$repyr;
+                    $data[$giver->giving]['church']=Setting::where('setting_key','site_name')->first()->setting_value;
+                    $data[$giver->giving]['churchabbr']=Setting::where('setting_key','site_abbreviation')->first()->setting_value;
                     if ($period==1){
                         $data[$giver->giving]['scope']="month";
                     } else {
@@ -121,7 +123,19 @@ class PlannedGivingReportEmail extends Command
                 }
             }
         } else {
-            echo "Today is not a report date\n";
+            $warningdate=date("Y-m-d",$effdate+432000);
+            if (in_array($warningdate,$reportdates)){
+                $msg="This is a reminder that your system is configured to send out planned giving emails in 5 days time for the " . 12/$reportnums . " month period ending: " . $warningdate;
+                $msg.=".<br><br>If there are any payments for that period that have not yet been captured, you can still add them to the system and they will ";
+                $msg.="be included, provided the date of receipt falls within the period being reported.<br><br>Thank you!";
+                $warndat=new \stdClass();
+                $warndat->subject="Planned giving reminder";
+                $warndat->sender="info@umc.org.za";
+                $warndat->emailmessage=$msg;
+                Mail::to($administrator)->send(new GenericMail($warndat));
+            } else {
+                //echo "Today is not a report date\n";
+            }
         }
     }
 }
