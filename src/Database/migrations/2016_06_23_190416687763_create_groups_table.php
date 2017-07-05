@@ -18,6 +18,7 @@ class CreateGroupsTable extends Migration
 			$table->string('groupname');
 	      	$table->string('slug');
 	      	$table->text('description')->nullable();
+			$table->string('image')->nullable();
 	      	$table->integer('eventdatetime')->nullable();
 	      	$table->double('latitude',20,15);
 	      	$table->double('longitude',20,15);

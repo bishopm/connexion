@@ -28,15 +28,24 @@
       <div class="box-body">
         <div class="row">
           <div class="col-md-6">
-            <div><b>Group type:</b> {{$event->grouptype}}</div>
-            <div><b>Published on site?:</b>
-              @if ($event->publish>0)
-                Yes
-              @else
-                No
+            <div class="col-md-6">
+              <div><b>Group type:</b> {{$event->grouptype}}</div>
+              <div><b>Published on site?:</b>
+                @if ($event->publish>0)
+                  Yes
+                @else
+                  No
+                @endif
+              </div>
+              <div><b>Leader:</b> {{$leader->firstname}} {{$leader->surname}}</div>
+            </div>
+            <div class="col-md-6">
+              @if ($event->image)
+                <div>
+                  <img src="{{url('/')}}/public/storage/events/{{$event->image}}" class="img-responsive">
+                </div>
               @endif
             </div>
-            <div><b>Leader:</b> {{$leader->firstname}} {{$leader->surname}}</div>
           </div>
           <div class="col-md-6">
             {{Form::bsHidden('latitude',$event->latitude)}}

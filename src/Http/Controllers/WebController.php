@@ -649,6 +649,10 @@ class WebController extends Controller
             $series=$this->series->find($id);
             $file=base_path() . "/storage/app/public/series/" . $fn;
             $url=url('/') . "/public/storage/series/" . $fn;
+        } elseif ($entity=="events"){
+            $event=$this->group->find($id);
+            $file=base_path() . "/storage/app/public/events/" . $fn;
+            $url=url('/') . "/public/storage/events/" . $fn;
         }
         file_put_contents($file,$data);
         return $url;
@@ -678,7 +682,7 @@ class WebController extends Controller
             // creating rss feed with our most recent 20 posts
             $blogs = Blog::where('status','Published')->where('created_at','>','2016-02-13')->orderBy('created_at', 'desc')->take(20)->get();
             $sermons = Sermon::where('servicedate','>','2016-02-13')->orderBy('servicedate','desc')->orderBy('created_at', 'desc')->take(20)->get();
-            $events = Group::where('grouptype','event')->where('published',1)->orderBy('created_at','desc')->take(20)->get();
+            $events = Group::where('grouptype','event')->where('publish',1)->orderBy('created_at','desc')->take(20)->get();
             $books = Book::where('sample','<>','')->orderBy('created_at', 'desc')->take(20)->get();
 
             // set your feed's title, description, link, pubdate and language
@@ -746,7 +750,11 @@ class WebController extends Controller
             }
             foreach ($events as $event){
                 $dum['title']=$event->groupname . " (" . date("d M Y H:i",$event->eventdatetime) . ")";
-                $dum['author']=url('/') . "/public/vendor/bishopm/images/signmeup.jpg";
+                if ($event->image){
+                    $dum['author']=url('/') . "/public/storage/events/" . $event->image;
+                } else {
+                    $dum['author']=url('/') . "/public/vendor/bishopm/images/signmeup.jpg";
+                }
                 $dum['link']=url('/coming-up/' . $event->slug);
                 $dum['pubdate']=$event->created_at;
                 $dum['summary']="A new event has been set up on our site.";
