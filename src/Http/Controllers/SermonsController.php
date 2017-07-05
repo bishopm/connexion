@@ -83,7 +83,7 @@ class SermonsController extends Controller {
         if ($id=="current"){
             $sermon=$this->sermon->mostRecent();
         } elseif ($id<>''){
-            $sermon=$this->sermon->find($id);
+            $sermon=$this->sermon->forApi($id);
         }
         foreach ($sermon->comments as $comment){
             $author=$this->user->find($comment->commented_id);
