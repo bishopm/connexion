@@ -338,7 +338,12 @@ class WebController extends Controller
     public function webevent($slug)
     {
         $event=$this->group->findBySlug($slug);
-        return view('connexion::site.event',compact('event'));
+        if ($event->payment){
+            $payment=$this->settingsarray['qr_code'];
+        } else {
+            $payment="";
+        }
+        return view('connexion::site.event',compact('event','payment'));
     }
 
     public function webgroupcategory($category)

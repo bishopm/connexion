@@ -27,3 +27,7 @@
 	<label for="publish" class="control-label">Publish to website</label>
 	<input type="checkbox" name="publish" value="1">
 </div>
+<div class="form-group">
+	<label for="payment" class="control-label">Include QR code for payment?</label>
+	<input type="checkbox" name="payment" value="1">
+</div>

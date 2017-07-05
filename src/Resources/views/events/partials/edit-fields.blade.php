@@ -34,3 +34,11 @@
       <input type="checkbox" name="publish" value="1">
     @endif
 </div>
+<div class="form-group">
+  <label for="payment" class="control-label">Include QR code for payment</label>
+    @if ($event->payment)
+      <input type="checkbox" name="payment" value="1" checked>
+    @else
+      <input type="checkbox" name="payment" value="1">
+    @endif
+</div>
