@@ -4,8 +4,8 @@
 
 @section('content')
 <div class="container">
-	<div class="row">
-		@if ($event->publish)
+	@if ($event->publish)
+		<div class="row">
 			<div class="col-md-6">
 				<h3>{{$event->groupname}}
 				@include('connexion::shared.errors') 
@@ -15,15 +15,17 @@
 				</h3>
 				<h4>{{date("d M Y H:i",$event->eventdatetime)}}</h4>
 				@if ($event->image)
-					<img width="100px" class="pull-right" src="{{url('/')}}/public/storage/events/{{$event->image}}">
+					<img class="pull-right" src="{{url('/')}}/public/storage/events/{{$event->image}}">
 				@endif
 				{{$event->description}}
 			</div>
 			@if (Auth::check())
-				<div class="col-md-6 top50">
+				<div class="col-md-6 top10">
 					<div id="map_canvas" class="top10" style="height:250px;"></div>
 				</div>
 			@endif
+		</div>
+		<div class="row">
 			<div class="col-md-6 top10">
 				@if (Auth::check())
 					<h4>Signed up already</h4>
@@ -47,10 +49,10 @@
 					<img src="{{$payment}}">
 				@endif
 			</div>
-		@else
-			<p class="top20">This event is not configured to be published on the site. Contact us if you think it should be.</p>
-		@endif
-	</div>
+		</div>
+	@else
+		<p class="top20">This event is not configured to be published on the site. Contact us if you think it should be.</p>
+	@endif
 </div>
 @endsection
 
