@@ -34,19 +34,30 @@
                 </div>
               </div>
             @else
-              @if ($loop->index==1)
-                <div class="col-xs-12 top10" style="padding-left:26px;">
-              @else
-                <div class="col-xs-12 top5" style="padding-left:26px;">
-              @endif
-                {{date("d M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
+                @if ($loop->index==1)
+                  <div class="col-xs-12 top10" style="padding-left:26px;">
+                @else
+                  <div class="col-xs-12 top5" style="padding-left:26px;">
+                @endif
+                  {{date("d M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
             @endif
           @endforeach
           <div class="col-xs-12 top10">
-            <span class="pull-right"><a href="{{url('/')}}/blog">more...</a></span>
+            <span class="pull-right"><a href="{{url('/')}}/blog">more posts...</a></span>
           </div>
         @else
           No blog posts have been published yet
+        @endif
+        @if (count($events))
+          <div class="text-center">
+            <img src="{{asset('public/vendor/bishopm/images/diary.png')}}">
+            <h4>Coming up</h4>
+            <ul class="list-unstyled">
+            @foreach ($events as $event)
+              <li>{{date('j F',$event->eventdatetime)}} <a href="{{url('/')}}/coming-up/{{$event->slug}}">{{$event->groupname}}</a></li>
+            @endforeach
+            </ul>
+          </div>
         @endif
       </div>      
     </div>
@@ -60,6 +71,7 @@
         <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
         <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: <a href="{{route('websermon',array($sermon->series->slug,$sermon->slug))}}">{{$sermon->title}}</a></div>
         <div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
+        <span class="center-text"><a class="label label-default" href="{{url('/')}}/sermons">Find more sermons</a></span>
       @else
         <div class="top30">
           No sermons have been added yet  
