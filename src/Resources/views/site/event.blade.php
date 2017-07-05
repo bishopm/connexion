@@ -15,7 +15,7 @@
 				</h3>
 				<h4>{{date("d M Y H:i",$event->eventdatetime)}}</h4>
 				@if ($event->image)
-					<img width="100px" style="float-left;" src="{{url('/')}}/public/storage/events/{{$event->image}}">
+					<img width="100px" class="pull-right" src="{{url('/')}}/public/storage/events/{{$event->image}}">
 				@endif
 				{{$event->description}}
 			</div>
