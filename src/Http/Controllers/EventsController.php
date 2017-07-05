@@ -30,7 +30,7 @@ class EventsController extends Controller {
 
 	public function index()
 	{
-        $events = $this->group->event();
+        $events = $this->group->eventsIncludingUnpublished();
    		return view('connexion::events.index',compact('events'));
 	}
 

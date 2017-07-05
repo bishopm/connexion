@@ -678,7 +678,7 @@ class WebController extends Controller
             // creating rss feed with our most recent 20 posts
             $blogs = Blog::where('status','Published')->where('created_at','>','2016-02-13')->orderBy('created_at', 'desc')->take(20)->get();
             $sermons = Sermon::where('servicedate','>','2016-02-13')->orderBy('servicedate','desc')->orderBy('created_at', 'desc')->take(20)->get();
-            $events = Group::where('grouptype','event')->orderBy('created_at','desc')->take(20)->get();
+            $events = Group::where('grouptype','event')->where('published',1)->orderBy('created_at','desc')->take(20)->get();
             $books = Book::where('sample','<>','')->orderBy('created_at', 'desc')->take(20)->get();
 
             // set your feed's title, description, link, pubdate and language

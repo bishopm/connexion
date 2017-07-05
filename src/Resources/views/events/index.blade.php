@@ -20,7 +20,7 @@
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Event name</th><th>Patricipants</th><th>Event date</th>
+                                    <th>Event name</th><th>Participants</th><th>Event date</th>
                                 </tr>
                             </thead>
                             <tfoot>
