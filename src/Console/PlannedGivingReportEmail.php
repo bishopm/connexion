@@ -40,7 +40,8 @@ class PlannedGivingReportEmail extends Command
         //echo "Your report year is " . $repyr . "\n";
         $reportnums=intval(Setting::where('setting_key','giving_reports')->first()->setting_value);
         //echo "Your system will deliver " . $reportnums . " reports per year\n";
-        $administrator=User::where('name',Setting::where('setting_key','giving_administrator')->first()->setting_value)->individual->email;
+        $adminuser=Setting::where('setting_key','giving_administrator')->first()->setting_value;
+        $administrator=User::where('name',$adminuser)->first()->individual->email;
         switch ($reportnums){
             case 1:
                 $reportdates=array($repyr . "-12-31");
