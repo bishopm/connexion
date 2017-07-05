@@ -47,5 +47,9 @@
         $('#eventdatetime').datetimepicker({
             format: 'YYYY-MM-DD HH:mm'
         });
+        $('#groupname').on('input', function() {
+            var slug = $("#groupname").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+            $("#slug").val(slug);
+        });
     </script>
 @stop

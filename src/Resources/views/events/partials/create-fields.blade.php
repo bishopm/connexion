@@ -1,4 +1,8 @@
 {{ Form::bsText('groupname','Event name','Event name') }}
+<div class="form-group">
+  <label for="slug">Slug</label>
+  <input class="form-control" data-slug="target" placeholder="Slug" name="slug" id="slug" type="text">
+</div>
 {{ Form::bsTextarea('description','Brief description','Brief description') }}
 <div class='form-group '>
   <label for="individual_id">Leader</label>
