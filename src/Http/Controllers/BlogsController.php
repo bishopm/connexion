@@ -128,6 +128,12 @@ class BlogsController extends Controller {
             $blog=Blog::with('individual')->where('id',$id)->first();
         }
         $data=array();
+        foreach ($blog->comments as $comment){
+            $author=$this->user->find($comment->commented_id);
+            $comment->author = $author->individual->firstname . " " . $author->individual->surname;
+            $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->individual_id . "/" . $author->individual->image;
+        }
+        $data['comments']=$blog->comments;
         $data['title']=$blog->title;
         $data['body']=$blog->body;
         $data['author']=$blog->individual->firstname . " " . $blog->individual->surname;
