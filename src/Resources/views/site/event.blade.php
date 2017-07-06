@@ -19,11 +19,9 @@
 				@endif
 				{{$event->description}}
 			</div>
-			@if (Auth::check())
-				<div class="col-md-6 top10">
-					<div id="map_canvas" class="top10" style="height:250px;"></div>
-				</div>
-			@endif
+			<div class="col-md-6 top10">
+				<div id="map_canvas" class="top20" style="height:312px;"></div>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 top10">
