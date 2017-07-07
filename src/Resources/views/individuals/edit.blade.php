@@ -3,6 +3,7 @@
 @section('css')
     <meta id="token" name="token" value="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{asset('/public/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
+    <link href="{{ asset('/public/vendor/bishopm/icheck/grey.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/public/vendor/bishopm/css/croppie.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
@@ -28,11 +29,12 @@
         </div>
     </div>
     @include('connexion::shared.filemanager-modal',['folder'=>'individuals/' . $individual->id])
-    @include('connexion::shared.delete-modal')
+    @include('connexion::shared.delete-individual-modal')
 @stop
 
 @section('js')
 <script src="{{asset('/public/vendor/bishopm/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{ asset('public/vendor/bishopm/icheck/icheck.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/vendor/bishopm/js/croppie.js') }}" type="text/javascript"></script>
 <script>
     $.ajaxSetup({
@@ -44,11 +46,17 @@
         $("#birthdate").datepicker({
             format: 'yyyy-mm-dd'
         });
+        $("#deathdate").datepicker({
+            format: 'yyyy-mm-dd'
+        });
     });
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
         }
+    });
+    $('.deltype').iCheck({
+        radioClass: 'iradio_square-grey'
     });
     @include('connexion::shared.delete-modal-script')
     @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals/' . $individual->id,'width'=>250,'height'=>250])

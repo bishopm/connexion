@@ -6,6 +6,7 @@ use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Models\Individual;
 use Bishopm\Connexion\Models\Household;
+use Bishopm\Connexion\Models\Specialday;
 use Bishopm\Connexion\Models\Group;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateIndividualRequest;
@@ -128,10 +129,17 @@ class IndividualsController extends Controller {
         return $individuals;
     }   
 
-    public function destroy($household,$id)
+    public function destroy(Request $request,$household,$id)
     {
         $individual=$this->individual->find($id);
-        $individual->delete();
+        if ($request->deltype=="death"){
+            $ann=Specialday::create(['household_id' => $individual->household_id, 'anniversarytype'=>'death', 'anniversarydate'=>$request->deathdate, 'details'=>$individual->firstname . '\'s death']);
+            $individual->forceDelete();
+        } elseif ($request->deltype=="archive"){
+            $individual->delete();
+        } elseif ($request->deltype=="delete"){
+            $individual->forceDelete();
+        }
         return redirect()->route('admin.households.show',$household)->withSuccess('Individual has been deleted');
     }
 
