@@ -9,10 +9,10 @@ Hi {{$data['recipient']}} here is the bookshop report for last month:
 ### {{$name}}
 @if (count($supplier))
 @component('mail::table')
-| Book | Cost price | Units sold |
-| -----|-----------:| ----------:|
+| Book | Cost price | Sale price | Units sold |
+| -----|-----------:| ----------:|-----------:|
 @foreach ($supplier as $sale)
-|{{$sale->book->title}}|{{$sale->book->costprice}}|{{$sale->units}}|
+|{{$sale->book->title}}|{{$sale->book->costprice}}|{{$sale->book->saleprice}}|{{$sale->units}}|
 @endforeach
 @endcomponent
 Cost of Sales: R  {{number_format($data['costofsalestotal'][$name],2)}}
