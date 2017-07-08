@@ -15,7 +15,7 @@
 <div class="form-group">
 	<label for="society_id">Date and time</label>
     <div class='input-group date' id='meetingdatetime'>
-        <input type='text' class="form-control" name="meetingdatetime" value="{{$meeting->meetingdatetime}}"/>
+        <input type='text' class="form-control" name="meetingdatetime" value="{{date('Y-m-d H:i',$meeting->meetingdatetime)}}"/>
         <span class="input-group-addon">
 	        <span class="fa fa-calendar"></span>
         </span>

@@ -33,7 +33,8 @@ class MeetingsController extends Controller {
 
 	public function edit(Meeting $meeting)
     {
-        return view('connexion::meetings.edit', compact('meeting'));
+        $societies = $this->societies->all();
+        return view('connexion::meetings.edit', compact('meeting','societies'));
     }
 
     public function create()

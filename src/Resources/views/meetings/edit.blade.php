@@ -1,19 +1,45 @@
-@extends('app')
+@extends('connexion::templates.backend')
+
+@section('css')
+    <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/public/vendor/bishopm/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
+@stop
+
+@section('content_header')
+	{{ Form::pgHeader('Edit meeting','Meetings',route('admin.meetings.index')) }}
+@stop
 
 @section('content')
-<div class="box box-default">
-    @include('shared.errors')
-    <div class="box-header">
-        <h1 class="box-title">Edit a meeting <small>{{$meeting->description}}</small></h1>
+    @include('connexion::shared.errors')    
+    {!! Form::open(['route' => array('admin.meetings.update',$meeting->id), 'method' => 'put']) !!}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary"> 
+                <div class="box-body">
+                    @include('connexion::meetings.partials.edit-fields')
+                </div>
+                <div class="box-footer">
+                    {{Form::pgButtons('Update',route('admin.meetings.index')) }}
+                </div>
+            </div>
+        </div>
     </div>
-    {!! Form::model($meeting,array('route' => array('meetings.update', $meeting->id), 'method' => 'put', 'class' => 'form-horizontal', 'role' => 'form')) !!}
-    @include('meetings.form', array('is_new'=>false))
-    <div class="box-footer">
-        {!! Form::submit('Update meeting', array('class'=>'btn btn-danger')) !!} <a href="{{url('/meetings')}}" class="btn btn-danger">Cancel</a>{!! Form::close() !!}
-	    {!! Form::open(['style'=>'display:inline;','method'=>'delete','route'=>['meetings.destroy', $meeting->id]]) !!}
-	    {!! Form::submit('Delete',array('class'=>'btn btn-danger','onclick'=>'return confirm("Are you sure you want to delete this meeting?")')) !!}
-  	    {!! Form::close() !!}
-    </div>
-  </div>
-</div>
+    {!! Form::close() !!}
+@stop
+
+@section('js')
+    <script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('public/vendor/bishopm/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $('.selectize').selectize({
+              plugins: ['remove_button'],
+              openOnFocus: 0
+            });
+            $('#meetingdatetime').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });
+        });
+    </script>
 @stop
