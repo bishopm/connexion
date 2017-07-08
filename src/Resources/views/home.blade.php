@@ -52,7 +52,7 @@
           <div class="text-center">
             <img src="{{asset('public/vendor/bishopm/images/diary.png')}}">
             <h4>Coming up</h4>
-            <ul class="list-unstyled">
+            <ul class="list-unstyled" style="margin-bottom:20px;">
             @foreach ($events as $event)
               <li>{{date('j F',$event->eventdatetime)}} <a href="{{url('/')}}/coming-up/{{$event->slug}}">{{$event->groupname}}</a></li>
             @endforeach
@@ -71,7 +71,7 @@
         <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
         <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: <a href="{{route('websermon',array($sermon->series->slug,$sermon->slug))}}">{{$sermon->title}}</a></div>
         <div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
-        <span class="center-text"><a class="label label-default" href="{{url('/')}}/sermons">Find more sermons</a></span>
+        <div style="margin-bottom:20px;" class="center-text"><a class="btn btn-xs btn-primary" href="{{url('/')}}/sermons">Browse full sermon library</a></div>
       @else
         <div class="top30">
           No sermons have been added yet  
