@@ -1,9 +1,8 @@
 @extends('app')
 
 @section('content')
-@include('shared.messageform')
 <div class="box box-default">
-    @include('shared.messageform')
+    @include('shared.errors')
     <div class="box-header">
         <h1 class="box-title">Edit a meeting <small>{{$meeting->description}}</small></h1>
     </div>
