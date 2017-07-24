@@ -114,6 +114,14 @@ class SettingsController extends Controller {
                 $dum[1]=$val->groupname;
                 $dropdown[]=$dum;
             }
+        } elseif ($setting->setting_key=="church_structure"){
+            $vals=array('Independent Congregation','Methodist Church of Southern Africa');
+            $dropdown=array();
+            foreach ($vals as $val){
+                $dum[0]=$val;
+                $dum[1]=$val;
+                $dropdown[]=$dum;
+            }
         } elseif ($setting->setting_key=="birthday_group"){
             $vals=$this->groups->dropdown();
             $dropdown=array();

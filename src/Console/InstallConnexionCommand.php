@@ -351,6 +351,12 @@ class InstallConnexionCommand extends Command
             'description' => 'Pastoral team group',
             'category' => 'General'
         ]);
+        DB::table('settings')->insert([
+            'setting_key' => 'church_structure',
+            'setting_value' => 'Independent Congregation',
+            'description' => 'Choose between and independent congregation and one of the available denominational structures, depending on features required',
+            'category' => 'General'
+        ]);
         // Modules
         DB::table('settings')->insert([
             'setting_key' => 'core_module',
