@@ -18,6 +18,7 @@
                     <div class="box-body">
                         <h2>{{$group->groupname}} <small>Leader page</small></h2>
                         <p class="top10">Only the group leader can see this page. Here you can change details about the group, as well as add or remove group members.</p>
+                        <input type="hidden" name="slug" id="slug" value="{{$group->slug}}">
                         <hr>
                         @include('connexion::groups.partials.edit-fields',['webedit' => 'true'])
                         <h4>Current members</h4>
