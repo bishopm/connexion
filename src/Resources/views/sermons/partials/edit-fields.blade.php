@@ -18,12 +18,12 @@
 	    @else
 	    	<option value="{{$preacher->id}}">{{$preacher->firstname}} {{$preacher->surname}}</option>
 	    @endif
-      @if ($sermon->individual_id==0)
-        <option selected value="0">Guest preacher</option>
-      @else
-        <option value="0">Guest preacher</option>
-      @endif
     @endforeach
+    @if ($sermon->individual_id==0)
+      <option selected value="0">Guest preacher</option>
+    @else
+      <option value="0">Guest preacher</option>
+    @endif
   </select>
 </div>
 <div class='form-group '>
