@@ -3,6 +3,9 @@
 @can('admin-backend')
     {{ Form::bsText('slug','Slug','Slug',$individual->slug) }}
 @endcan
+@cannot('admin-backend')
+    {{ Form::bsHidden('slug',$individual->slug) }}
+@endcan
 {{ Form::bsText('cellphone','Cellphone','Cellphone',$individual->cellphone) }}
 {{ Form::bsText('officephone','Office phone','Office phone',$individual->officephone) }}
 {{ Form::bsText('email','Email','Email',$individual->email) }}
