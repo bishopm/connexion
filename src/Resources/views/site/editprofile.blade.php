@@ -14,6 +14,7 @@
 	    {{ Form::bsHidden('name',$individual->user->name) }}
 	    {{ Form::bsHidden('profile','true') }}
 	    {{ Form::bsHidden('email',$individual->user->email) }} 
+		{{ Form::bsHidden('slug',$individual->slug) }} 
 		{{ Form::bsText('bio','Say a little about yourself (optional)','Brief bio',$individual->user->bio) }}
 	    <div class="form-group">
 			<label for="service_id" class="control-label">Which service do you usually attend?</label>
