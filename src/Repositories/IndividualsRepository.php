@@ -25,7 +25,7 @@ class IndividualsRepository extends EloquentBaseRepository
         if ($hhh){
             if ($hhh->household){
                 $household=$hhh->household_id;
-                return $this->model->where('household_id', $household)->select('id','surname','firstname')->get()->toJson();   
+                return $this->model->where('household_id', $household)->select('id','surname','firstname')->get();   
             } else {
                 return "No data";    
             }

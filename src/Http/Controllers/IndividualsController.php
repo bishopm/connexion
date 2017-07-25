@@ -126,7 +126,15 @@ class IndividualsController extends Controller {
     {
         $email = $request->email;
         $individuals=$this->individual->forEmail($email);
-        return $individuals;
+        $family=array();
+        foreach ($individuals as $indiv){
+            if ($indiv->user){
+                $indiv->firstname=$indiv->firstname . " (already registered)";
+                $indiv->id=0;
+            }
+            $family[]=$indiv;
+        }
+        return json_encode($family);
     }   
 
     public function destroy(Request $request,$household,$id)

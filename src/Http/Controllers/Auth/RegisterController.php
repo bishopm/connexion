@@ -109,19 +109,23 @@ class RegisterController extends Controller
     {
         $settings=Setting::where('setting_key','site_abbreviation')->first();
         $this->validator($request->all())->validate();
-        $user = $this->create($request->all());
-        event(new Registered($user));
-        $webrole=Role::where('slug','web-user')->first()->id;
-        $user->roles()->attach($webrole);
-        $this->guard()->login($user);
-        $indiv=Individual::find($request->input('individual_id'));
-        $message=$indiv->firstname . " " . $indiv->surname . " has successfully registered as a user on the " . $settings->setting_value . " website. You may want to give their profile additional permissions?";
-        $admin=User::find(1);
-        $admin->notify(new NewUserRegistration($message));
-        UserVerification::generate($user);
-        UserVerification::send($user, 'Welcome!');
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
+        if ($request->individual_id==0){
+            return back()->withErrors(array('This individual is already a registered user. Go back to the login page, where help is available if you have forgotten your username or password'));
+        } else {
+            $user = $this->create($request->all());
+            event(new Registered($user));
+            $webrole=Role::where('slug','web-user')->first()->id;
+            $user->roles()->attach($webrole);
+            $this->guard()->login($user);
+            $indiv=Individual::find($request->input('individual_id'));
+            $message=$indiv->firstname . " " . $indiv->surname . " has successfully registered as a user on the " . $settings->setting_value . " website. You may want to give their profile additional permissions?";
+            $admin=User::find(1);
+            $admin->notify(new NewUserRegistration($message));
+            UserVerification::generate($user);
+            UserVerification::send($user, 'Welcome!');
+            return $this->registered($request, $user)
+                            ?: redirect($this->redirectPath());
+        }
     }
 
 }
