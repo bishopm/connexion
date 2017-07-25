@@ -38,6 +38,20 @@
             format: 'yyyy-mm-dd'
         });
     });
+    $('#surname').on('input', function() {
+        var slug = $("#surname").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+        if ($("#firstname").val()!==''){
+            slug=$("#firstname").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "") + '-' + slug;
+        }
+        $("#slug").val(slug);
+    });
+    $('#firstname').on('input', function() {
+        var slug = $("#firstname").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+        if ($("#surname").val()!==''){
+            slug=slug + '-' + $("#surname").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+        }
+        $("#slug").val(slug);
+    });
     @include('connexion::shared.filemanager-modal-script',['folder'=>'individuals','width'=>250,'height'=>250])
 </script>
 @endsection

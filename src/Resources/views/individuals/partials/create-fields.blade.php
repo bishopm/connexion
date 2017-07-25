@@ -1,5 +1,6 @@
 {{ Form::bsText('firstname','First name','First name') }}
 {{ Form::bsText('surname','Surname','Surname') }}
+{{ Form::bsText('slug','Slug','Slug') }}
 {{ Form::bsText('cellphone','Cellphone','Cellphone') }}
 {{ Form::bsText('officephone','Office phone','Office phone') }}
 {{ Form::bsText('email','Email','Email') }}

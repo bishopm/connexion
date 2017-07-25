@@ -1,5 +1,5 @@
 <?php
-dd($settings);
+
 Route::group(['middleware' => ['web']], function () {
 	// Authentication for guests
 	Route::get('/feed/{service?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@feed','as' => 'feed']);
@@ -412,75 +412,37 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 	Route::post('admin/meetings',['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@store','as'=>'admin.meetings.store']);
     Route::delete('admin/meetings/{meeting}',['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@destroy','as'=>'admin.meetings.destroy']);	
 
-	// Structure dependent routes
-	dd($settings);
-	$allsettings=$settings->makearray();
-	if ($allsettings['church_structure']=="Independent Congregation"){
-		// Plan
-		Route::get('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@show');
-		Route::post('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@update');
-		Route::get('admin/plan','Bishopm\Connexion\Http\Controllers\PlansController@index');
+	// Plan
+	Route::get('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@show');
+	Route::post('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@update');
+	Route::get('admin/plan','Bishopm\Connexion\Http\Controllers\PlansController@index');
 
-		// Preachers
-		Route::get('admin/preachers',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@index','as'=>'admin.preachers.index']);
-		Route::get('admin/preachers/create',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@create','as'=>'admin.preachers.create']);
-		Route::get('admin/preachers/{preacher}',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@show','as'=>'admin.preachers.show']);
-		Route::get('admin/preachers/{preacher}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@edit','as'=>'admin.preachers.edit']);
-		Route::put('admin/preachers/{preacher}',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@update','as'=>'admin.preachers.update']);
-		Route::post('admin/preachers',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@store','as'=>'admin.preachers.store']);
-		Route::delete('admin/preachers/{preacher}',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@destroy','as'=>'admin.preachers.destroy']);
+	// Preachers
+	Route::get('admin/preachers',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@index','as'=>'admin.preachers.index']);
+	Route::get('admin/preachers/create',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@create','as'=>'admin.preachers.create']);
+	Route::get('admin/preachers/{preacher}',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@show','as'=>'admin.preachers.show']);
+	Route::get('admin/preachers/{preacher}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@edit','as'=>'admin.preachers.edit']);
+	Route::put('admin/preachers/{preacher}',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@update','as'=>'admin.preachers.update']);
+	Route::post('admin/preachers',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@store','as'=>'admin.preachers.store']);
+	Route::delete('admin/preachers/{preacher}',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@destroy','as'=>'admin.preachers.destroy']);
 
-		// Societies
-		Route::get('admin/societies',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@index','as'=>'admin.societies.index']);
-		Route::get('admin/societies/create',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@create','as'=>'admin.societies.create']);
-		Route::get('admin/societies/{society}',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@show','as'=>'admin.societies.show']);
-		Route::get('admin/societies/{society}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@edit','as'=>'admin.societies.edit']);
-		Route::put('admin/societies/{society}',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@update','as'=>'admin.societies.update']);
-		Route::post('admin/societies',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@store','as'=>'admin.societies.store']);
-		Route::delete('admin/societies/{society}',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@destroy','as'=>'admin.societies.destroy']);
+	// Societies
+	Route::get('admin/societies',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@index','as'=>'admin.societies.index']);
+	Route::get('admin/societies/create',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@create','as'=>'admin.societies.create']);
+	Route::get('admin/societies/{society}',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@show','as'=>'admin.societies.show']);
+	Route::get('admin/societies/{society}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@edit','as'=>'admin.societies.edit']);
+	Route::put('admin/societies/{society}',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@update','as'=>'admin.societies.update']);
+	Route::post('admin/societies',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@store','as'=>'admin.societies.store']);
+	Route::delete('admin/societies/{society}',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@destroy','as'=>'admin.societies.destroy']);
 
-		// Weekdays
-		Route::get('admin/weekdays',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@index','as'=>'admin.weekdays.index']);
-		Route::get('admin/weekdays/create',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@create','as'=>'admin.weekdays.create']);
-		Route::get('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@show','as'=>'admin.weekdays.show']);
-		Route::get('admin/weekdays/{weekday}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@edit','as'=>'admin.weekdays.edit']);
-		Route::put('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@update','as'=>'admin.weekdays.update']);
-		Route::post('admin/weekdays',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@store','as'=>'admin.weekdays.store']);
-		Route::delete('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@destroy','as'=>'admin.weekdays.destroy']);
-	} else {
-		// Plan
-		Route::get('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@show');
-		Route::post('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@update');
-		Route::get('admin/plan','Bishopm\Connexion\Http\Controllers\PlansController@index');
-
-		// Preachers
-		Route::get('admin/preachers',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@index','as'=>'admin.preachers.index']);
-		Route::get('admin/preachers/create',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@create','as'=>'admin.preachers.create']);
-		Route::get('admin/preachers/{preacher}',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@show','as'=>'admin.preachers.show']);
-		Route::get('admin/preachers/{preacher}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@edit','as'=>'admin.preachers.edit']);
-		Route::put('admin/preachers/{preacher}',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@update','as'=>'admin.preachers.update']);
-		Route::post('admin/preachers',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@store','as'=>'admin.preachers.store']);
-		Route::delete('admin/preachers/{preacher}',['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@destroy','as'=>'admin.preachers.destroy']);
-
-		// Societies
-		Route::get('admin/societies',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@index','as'=>'admin.societies.index']);
-		Route::get('admin/societies/create',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@create','as'=>'admin.societies.create']);
-		Route::get('admin/societies/{society}',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@show','as'=>'admin.societies.show']);
-		Route::get('admin/societies/{society}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@edit','as'=>'admin.societies.edit']);
-		Route::put('admin/societies/{society}',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@update','as'=>'admin.societies.update']);
-		Route::post('admin/societies',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@store','as'=>'admin.societies.store']);
-		Route::delete('admin/societies/{society}',['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@destroy','as'=>'admin.societies.destroy']);
-
-		// Weekdays
-		Route::get('admin/weekdays',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@index','as'=>'admin.weekdays.index']);
-		Route::get('admin/weekdays/create',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@create','as'=>'admin.weekdays.create']);
-		Route::get('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@show','as'=>'admin.weekdays.show']);
-		Route::get('admin/weekdays/{weekday}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@edit','as'=>'admin.weekdays.edit']);
-		Route::put('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@update','as'=>'admin.weekdays.update']);
-		Route::post('admin/weekdays',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@store','as'=>'admin.weekdays.store']);
-		Route::delete('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@destroy','as'=>'admin.weekdays.destroy']);
-	}
-
+	// Weekdays
+	Route::get('admin/weekdays',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@index','as'=>'admin.weekdays.index']);
+	Route::get('admin/weekdays/create',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@create','as'=>'admin.weekdays.create']);
+	Route::get('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@show','as'=>'admin.weekdays.show']);
+	Route::get('admin/weekdays/{weekday}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@edit','as'=>'admin.weekdays.edit']);
+	Route::put('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@update','as'=>'admin.weekdays.update']);
+	Route::post('admin/weekdays',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@store','as'=>'admin.weekdays.store']);
+	Route::delete('admin/weekdays/{weekday}',['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@destroy','as'=>'admin.weekdays.destroy']);
 
     Route::group(['middleware' => ['web','can:admin-backend']], function () {
 
