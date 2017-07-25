@@ -121,7 +121,7 @@ class WebController extends Controller
             $data['cals'][]=$cdum;
         }*/
         $rightnow=time();
-        $data['events']=Group::where('grouptype','event')->where('publish',1)->where('eventdatetime','>',$rightnow)->get();
+        $data['events']=Group::where('grouptype','event')->with('individuals')->where('publish',1)->where('eventdatetime','>',$rightnow)->get();
         $data['usercount']=User::where('verified','1')->count();
         $data['cals']=array();
         if (count ($data['events'])){

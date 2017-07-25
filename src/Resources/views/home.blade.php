@@ -54,7 +54,7 @@
             <h4>Coming up</h4>
             <ul class="list-unstyled" style="margin-bottom:20px;">
             @foreach ($events as $event)
-              <li>{{date('j F',$event->eventdatetime)}} <a href="{{url('/')}}/coming-up/{{$event->slug}}">{{$event->groupname}}</a></li>
+              <li>{{date('j F',$event->eventdatetime)}} <a href="{{url('/')}}/coming-up/{{$event->slug}}">{{$event->groupname}} ({{$event->individuals->count()}} attending)</a></li>
             @endforeach
             </ul>
           </div>
