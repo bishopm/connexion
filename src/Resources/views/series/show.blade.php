@@ -34,7 +34,11 @@
                       {{$sermon->readings}}
                     </div>  
                     <div class="col-md-3">
-                      {{$sermon->individual->firstname}} {{$sermon->individual->surname}}
+                      @if ($sermon->individual)
+                        {{$sermon->individual->firstname}} {{$sermon->individual->surname}}
+                      @else
+                        Guest preacher
+                      @endif
                     </div>
                   </div>
                 @empty

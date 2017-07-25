@@ -1,4 +1,5 @@
 {{ Form::bsText('groupname','Group name','Group name') }}
+{{ Form::bsText('slug','Slug','Slug') }}
 {{ Form::bsTextarea('description','Brief description','Brief description') }}
 <div class='form-group '>
   <label for="individual_id">Leader</label>

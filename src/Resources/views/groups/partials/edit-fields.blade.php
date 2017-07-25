@@ -4,6 +4,9 @@
   @can('admin-backend')
     {{ Form::bsText('slug','Slug','Slug',$group->slug) }}
   @endcan
+  @cannot('admin-backend')
+    {{ Form::bsHidden('slug',$group->slug) }}
+  @endcan
   <div class='form-group '>
     <label for="individual_id">Leader</label>
     <select class="selectize" id="leader" name="leader">

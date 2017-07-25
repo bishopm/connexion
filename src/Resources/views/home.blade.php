@@ -70,7 +70,13 @@
         @endif
         <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
         <div class="col-md-12">{{date("j M", strtotime($sermon->servicedate))}}: <a href="{{route('websermon',array($sermon->series->slug,$sermon->slug))}}">{{$sermon->title}}</a></div>
-        <div class="col-md-12"><a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a></div>
+        <div class="col-md-12">
+          @if ($sermon->individual)
+            <a href="{{url('/')}}/people/{{$sermon->individual->slug}}">{{$sermon->individual->firstname}} {{$sermon->individual->surname}}</a>
+          @else
+            Guest preacher
+          @endif
+        </div>
         <div style="margin-bottom:20px;" class="center-text"><a class="btn btn-xs btn-primary" href="{{url('/')}}/sermons">Browse full sermon library</a></div>
       @else
         <div class="top30">

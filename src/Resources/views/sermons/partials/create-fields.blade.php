@@ -15,6 +15,7 @@
     @foreach ($preachers as $preacher)
       <option value="{{$preacher->id}}">{{$preacher->firstname}} {{$preacher->surname}}</option>
     @endforeach
+    <option value="0">Guest preacher</option>
   </select>
 </div> 
 <div class='form-group '>

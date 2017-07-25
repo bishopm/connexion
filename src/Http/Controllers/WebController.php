@@ -745,7 +745,11 @@ class WebController extends Controller
             foreach ($sermons as $sermon){
                 // set item's title, author, url, pubdate, description and content
                 $seriesimage=url('/') . "/public/storage/series/" . $sermon->series->image;
-                $preacher=$sermon->individual->firstname . " " . $sermon->individual->surname;
+                if ($sermon->individual){
+                    $preacher=$sermon->individual->firstname . " " . $sermon->individual->surname;
+                } else {
+                    $preacher="guest preacher";
+                }
                 $fulldescrip="Recording of a sermon preached by " . $preacher . " at " . $this->settingsarray['site_name'] . ' on ' . date("l j F Y",strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
                 $dum['title']=$sermon->title;
                 $dum['author']=$seriesimage;

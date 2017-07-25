@@ -41,5 +41,9 @@
             google.maps.event.addDomListener(window, 'load', initialize(12));
         });
         $('#leader').selectize();
+        $('#groupname').on('input', function() {
+            var slug = $("#groupname").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
+            $("#slug").val(slug);
+        });
     </script>
 @stop
