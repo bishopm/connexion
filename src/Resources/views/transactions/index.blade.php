@@ -20,12 +20,12 @@
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Date</th><th>Book</th><th>Amount</th><th>Type</th>
+                                    <th>Date</th><th>Book</th><th>Amount</th><th>Type</th><th>Notes</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Date</th><th>Book</th><th>Amount</th><th>Type</th>
+                                    <th>Date</th><th>Book</th><th>Amount</th><th>Type</th><th>Notes</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -35,6 +35,7 @@
                                         <td>{{$transaction->book->title}}</td>
                                         <td>{{$transaction->unitamount}}</td>
                                         <td>{{$transaction->transactiontype}}</td>
+                                        <td>{{$transaction->details}}</td>
                                     </tr>
                                 @empty
                                     <tr><td>No transactions have been added yet</td></tr>

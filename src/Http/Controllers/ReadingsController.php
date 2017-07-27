@@ -15,7 +15,8 @@ class ReadingsController extends Controller {
 	 */
 	public function index()
 	{
-        $readings = DB::table('readings')->get();;
+        $today=date('Y-m-d');
+        $readings = DB::table('readings')->where('readingdate','>=',$today)->get();;
    		return view('connexion::readings.index',compact('readings'));
 	}
 

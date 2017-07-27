@@ -31,6 +31,6 @@
 @section('js')
 <script src="{{ asset('public/vendor/bishopm/js/croppie.js') }}" type="text/javascript"></script>
 <script>
-    @include('connexion::shared.filemanager-modal-script',['folder'=>'slides','width'=>1600,'height'=>350])
+    @include('connexion::shared.filemanager-modal-script',['folder'=>'slides','width'=>$slide->slideshow->width,'height'=>$slide->slideshow->height])
 </script>
 @endsection

@@ -664,6 +664,10 @@ class WebController extends Controller
             $event=$this->group->find($id);
             $file=base_path() . "/storage/app/public/events/" . $fn;
             $url=url('/') . "/public/storage/events/" . $fn;
+        } elseif ($entity=="slides"){
+            $event=$this->group->find($id);
+            $file=base_path() . "/storage/app/public/slides/" . $fn;
+            $url=url('/') . "/public/storage/slides/" . $fn;
         }
         file_put_contents($file,$data);
         return $url;
