@@ -177,6 +177,9 @@ class PlansController extends Controller
             } else {
               @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['tag']="";
             }
+            if ($p1->trialservice){
+              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['trial']=$p1->trialservice;
+            }
         }
         $pm2=Plan::where('planyear','=',$y2)->where('planmonth','=',$m2)->get();
         foreach ($pm2 as $p2){
@@ -199,6 +202,9 @@ class PlansController extends Controller
               @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['tname']=$p2->servicetype;
             } else {
               @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['tag']="";
+            }
+            if ($p2->trialservice){
+              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['trial']=$p2->trialservice;
             }
         }
 
@@ -223,6 +229,9 @@ class PlansController extends Controller
               @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['tname']=$p3->servicetype;
             } else {
               @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['tag']="";
+            }
+            if ($p3->trialservice){
+              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['trial']=$p3->trialservice;
             }
         }
         $data['tags']=array('COM','COV');
@@ -362,6 +371,10 @@ class PlansController extends Controller
             	$pdf->SetFontSize($font_size -= $decrement_step);
               }
               $pdf->cell($x_add,$y_add-3,$pname,0,0,'C');
+            }
+            if (isset($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial'])){
+              $pdf->setxy($x,$y+$tagadd+3);
+              
             }
             $x=$x+$x_add;
           }
