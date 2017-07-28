@@ -69,7 +69,11 @@
                                 @endforeach
                                 </select>
                             </div>
-                        </div>                                                
+                        </div>                      
+                        <div class="col-md-12">
+                            {!! Form::label('attachment','Attachment', array('class'=>'control-label')) !!}
+                        	{!! Form::file('attachment', null, array('class'=>'form-control')) !!}
+                        </div>
                     </div>
                     <div class="row" id="emailrow2">
                         <div class="col-md-12">
