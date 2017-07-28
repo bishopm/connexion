@@ -67,13 +67,31 @@ select.form-control.pplan {
       @foreach ($sundays as $sun)
         <td>
           <select class="form-control pplan" name="t_{{$soc->id}}_{{$ser->id}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option></option>
-            @foreach ($tags as $tag)
-              @if ((isset($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['tname'])) and ($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['tname']==$tag))
-                <option selected value="{{$tag}}">{{$tag}}</option>
-              @else
-                <option value="{{$tag}}">{{$tag}}</option>
-              @endif
-            @endforeach
+            <optgroup label="Special services">
+              @foreach ($tags as $tag)
+                @if ((isset($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['tname'])) and ($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['tname']==$tag))
+                  <option selected value="{{$tag}}">{{$tag}}</option>
+                @else
+                  <option value="{{$tag}}">{{$tag}}</option>
+                @endif
+              @endforeach
+            </optgroup>
+            <optgroup label="Trial service markers">
+              @foreach ($ministers as $minister)
+                @if ((isset($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial'])) and ($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial']==$minister->id))
+                  <option selected value="{{$minister->id}}">{{substr($minister->firstname,0,1)}} {{$minister->surname}}</option>
+                @else
+                  <option value="{{$minister->id}}">{{substr($minister->firstname,0,1)}} {{$minister->surname}}</option>
+                @endif
+              @endforeach
+              @foreach ($preachers as $preacher)
+                @if ((isset($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial'])) and ($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial']==$preacher->id))
+                  <option selected value="{{$preacher->id}}">{{substr($preacher->firstname,0,1)}} {{$preacher->surname}}</option>
+                @else
+                  <option value="{{$preacher->id}}">{{substr($preacher->firstname,0,1)}} {{$preacher->surname}}</option>
+                @endif
+              @endforeach
+            </optgroup>
           </select>
           <select class="form-control pplan" name="p_{{$soc->id}}_{{$ser->id}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option></option>
             <optgroup label="Ministers">

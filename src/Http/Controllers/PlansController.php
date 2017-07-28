@@ -234,7 +234,7 @@ class PlansController extends Controller
               @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['trial']=$p3->trialservice;
             }
         }
-        $data['tags']=array('COM','COV');
+        $data['tags']=array('ASM','COM','COV','RHONA','WA','WG','WM','YMG','YOUTH');
         if ($qq==1){
           $data['prev']="plan/" . strval($yy-1) . "/4";
         } else {
@@ -596,7 +596,11 @@ class PlansController extends Controller
           $kk=array(explode('_',$key));
           $plan=Plan::where('society_id','=',$kk[0][1])->where('service_id','=',$kk[0][2])->where('planyear','=',$kk[0][3])->where('planmonth','=',$kk[0][4])->where('planday','=',$kk[0][5])->first();
           if (count($plan)){
-            $plan->servicetype=$tag;
+            if (is_numeric($tag)){
+              $plan->trialservice=intval($tag);
+            } else {
+              $plan->servicetype=$tag;
+            }
             $plan->preacher_id=$pid;
             if (($tag==null) and ($pid==null)){
               $plan->delete();
