@@ -18,11 +18,13 @@ class SocietiesController extends Controller {
 	 * @return Response
 	 */
 
-	public function __construct()
+    private $society;
+
+	public function __construct(SocietiesRepository $society)
     {
         $this->structure = Setting::where('setting_key','church_structure')->first()->setting_value;
         if ($this->structure=="independent"){
-            $this->society = New SocietiesRepository();
+            $this->society = $society;
         } else {
             $this->society = New SocietiesMcsaRepository(Setting::where('setting_key','church_api_url')->first()->setting_value);
         }
