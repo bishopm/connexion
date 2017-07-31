@@ -2,7 +2,7 @@
 
 @section('title','Sermon: ' . $sermon->title)
 @section('page_image',url('/') . '/public/storage/series/' . $sermon->series->image)
-@section('page_description', "A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " at " . $setting['site_name'] . " by " . $sermon->individual->firstname . " " . $sermon->individual->surname)
+@section('page_description', $description)
 
 @section('css')
 <link href="{{ asset('/public/vendor/bishopm/mediaelement/build/mediaelementplayer.css') }}" rel="stylesheet" type="text/css" />

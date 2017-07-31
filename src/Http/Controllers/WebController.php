@@ -248,6 +248,11 @@ class WebController extends Controller
         $series = $this->series->findBySlug($seriesslug);
         if ($series){
             $sermon = $this->sermon->findBySlug($sermonslug);
+            if ($sermon->individual){
+                $description="A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by " . $sermon->individual->firstname . " " . $sermon->individual->surname;
+            } else {
+                $description="A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by a guest preacher.";
+            }
         } else {
             abort(404);
         }
@@ -256,7 +261,7 @@ class WebController extends Controller
         } else {
             abort(404);
         }
-        return view('connexion::site.sermon',compact('series','sermon','comments'));
+        return view('connexion::site.sermon',compact('series','sermon','comments','description'));
     }
 
     public function websermons()
