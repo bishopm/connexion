@@ -718,15 +718,13 @@ class WebController extends Controller
                 } else {
                     $imgurl=$feed->logo;
                 }
-                $fulldescrip=strip_tags($blog->body);
                 $dum['title']=$blog->title;
                 $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
-                $dum['enclosure'] = ['url'=>$imgurl,'type'=>$this->get_image_mime_type($imgurl)];
                 $dum['link']=url('/blog/' . $blog->slug);
                 $dum['pubdate']=$blog->created_at;
                 $dum['summary']="A new blog post has been published on our site.";
                 if ($service=="default"){
-                    $dum['content']=$fulldescrip;
+                    $dum['content']="<h2><a href=\"" . $dum['link'] . "\">" . $blog->title . "</a></h2><img src=\"" . $imgurl . "\">" . $blog->body;
                 } else {
                     $dum['content']="New blog post: " . $blog->title . " " . $dum['link'];
                 }
@@ -738,15 +736,13 @@ class WebController extends Controller
                 } else {
                     $image=$feed->logo;
                 }
-                $fulldescrip=strip_tags($book->description);
                 $dum['title']=$book->title . " by " . $book->author;
                 $dum['author']=$this->settingsarray['site_name'];
                 $dum['link']=url('/book/' . $book->slug);
                 $dum['pubdate']=$book->created_at;
-                $dum['enclosure'] = ['url'=>$image,'type'=>$this->get_image_mime_type($image)];
                 $dum['summary']="Download a sample chapter of a new book available through our bookshop:";
                 if ($service=="default"){
-                    $dum['content']=$fulldescrip;
+                    $dum['content']="<h2><a href=\"" . $dum['link'] . "\">" . $dum['title'] . "</a></h2><img src=\"" . $imgurl . "\">" . $book->description;
                 } else {
                     $dum['content']="New book: Preview a sample from '" . $book->title . "' " . $dum['link'];
                 }
@@ -767,12 +763,11 @@ class WebController extends Controller
                 $fulldescrip="Recording of a sermon preached by " . $preacher . " at " . $this->settingsarray['site_name'] . ' on ' . date("l j F Y",strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
                 $dum['title']=$sermon->title;
                 $dum['author']=$preacher;
-                $dum['enclosure'] = ['url'=>$seriesimage,'type'=>$this->get_image_mime_type($seriesimage)];
                 $dum['link']=url('/sermons/' . $sermon->series->slug . '/' . $sermon->slug);
                 $dum['pubdate']=$sermon->servicedate . " 12:00:00";
                 $dum['summary']="A new sermon has been uploaded to our site.";
                 if ($service=="default"){
-                    $dum['content']=$fulldescrip;
+                    $dum['content']="<h2><a href=\"" . $dum['link'] . "\">" . $dum['title'] . "</a></h2><img src=\"" . $seriesimage . "\">" . $fulldescrip;
                 } else {
                     $dum['content']="New sermon: " . $sermon->title . " " . $dum['link'];
                 }
@@ -788,7 +783,6 @@ class WebController extends Controller
                 $dum['author']=$this->settingsarray['site_name'];
                 $dum['link']=url('/coming-up/' . $event->slug);
                 $dum['pubdate']=$event->created_at;
-                $dum['enclosure'] = ['url'=>$imgurl,'type'=>$this->get_image_mime_type($imgurl)];
                 $dum['summary']="A new event has been set up on our site.";
                 if ($service=="default"){
                     $dum['content']=$event->description;
@@ -803,40 +797,9 @@ class WebController extends Controller
             });
         }
         foreach ($feeddata as $fd){
-            $feed->add($fd['title'],$fd['author'],$fd['link'],$fd['pubdate'],$fd['summary'],$fd['content'],$fd['enclosure']);
+            $feed->add($fd['title'],$fd['author'],$fd['link'],$fd['pubdate'],$fd['summary'],$fd['content']);
         }
-        return $feed->render('rss');
-    }
-
-    function get_image_mime_type($image_path){
-        $mimes  = array(
-            IMAGETYPE_GIF => "image/gif",
-            IMAGETYPE_JPEG => "image/jpg",
-            IMAGETYPE_PNG => "image/png",
-            IMAGETYPE_SWF => "image/swf",
-            IMAGETYPE_PSD => "image/psd",
-            IMAGETYPE_BMP => "image/bmp",
-            IMAGETYPE_TIFF_II => "image/tiff",
-            IMAGETYPE_TIFF_MM => "image/tiff",
-            IMAGETYPE_JPC => "image/jpc",
-            IMAGETYPE_JP2 => "image/jp2",
-            IMAGETYPE_JPX => "image/jpx",
-            IMAGETYPE_JB2 => "image/jb2",
-            IMAGETYPE_SWC => "image/swc",
-            IMAGETYPE_IFF => "image/iff",
-            IMAGETYPE_WBMP => "image/wbmp",
-            IMAGETYPE_XBM => "image/xbm",
-            IMAGETYPE_ICO => "image/ico");
-
-        if (($image_type = exif_imagetype($image_path))
-            && (array_key_exists($image_type ,$mimes)))
-        {
-            return $mimes[$image_type];
-        }
-        else
-        {
-            return FALSE;
-        }
+        return $feed->render('atom');
     }
 
     public function deletecomment(Request $request){
