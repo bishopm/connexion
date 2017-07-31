@@ -1,6 +1,8 @@
 @extends('connexion::templates.frontend')
 
-@section('title','Event details: ' . $event->groupname)
+@section('title',$event->groupname)
+@section('page_image',url('/') . '/public/storage/events/' . $event->image)
+@section('page_description', $book->description)
 
 @section('content')
 <div class="container">
