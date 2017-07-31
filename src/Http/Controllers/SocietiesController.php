@@ -3,7 +3,9 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\SocietiesRepository;
+use Bishopm\Connexion\Repositories\SocietiesMcsaRepository;
 use Bishopm\Connexion\Models\Society;
+use Bishopm\Connexion\Models\Setting;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSocietyRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSocietyRequest;
@@ -16,11 +18,14 @@ class SocietiesController extends Controller {
 	 * @return Response
 	 */
 
-	private $society;
-
-	public function __construct(SocietiesRepository $society)
+	public function __construct()
     {
-        $this->society = $society;
+        $this->structure = Setting::where('setting_key','church_structure')->first()->setting_value;
+        if ($this->structure=="independent"){
+            $this->society = New SocietiesRepository();
+        } else {
+            $this->society = New SocietiesMcsaRepository(Setting::where('setting_key','church_api_url')->first()->setting_value);
+        }
     }
 
 	public function index()
