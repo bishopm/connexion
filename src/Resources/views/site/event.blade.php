@@ -2,7 +2,7 @@
 
 @section('title',$event->groupname)
 @section('page_image',url('/') . '/public/storage/events/' . $event->image)
-@section('page_description', $book->description)
+@section('page_description', strip_tags($event->description))
 
 @section('content')
 <div class="container">

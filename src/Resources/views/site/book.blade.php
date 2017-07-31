@@ -2,7 +2,7 @@
 
 @section('title',$book->title)
 @section('page_image',url('/') . '/public/storage/books/' . $book->image)
-@section('page_description', $book->description)
+@section('page_description', strip_tags($book->description))
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />

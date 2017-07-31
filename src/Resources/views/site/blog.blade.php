@@ -1,8 +1,8 @@
 @extends('connexion::templates.frontend')
 
-@section('title','Blog post: ' . $blog->title)
+@section('title',$blog->title)
 @section('page_image',url('/') . '/public/storage/individuals/' . $blog->individual->id . '/' . $blog->individual->image)
-@section('page_description', $blog->body)
+@section('page_description', strip_tags($blog->body))
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />
