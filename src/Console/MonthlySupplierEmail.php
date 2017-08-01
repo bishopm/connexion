@@ -51,8 +51,10 @@ class MonthlySupplierEmail extends Command
                 $data[$transaction->book->supplier_id]['sales'][]=$transaction;
                 $data[$transaction->book->supplier_id]['salestotal']=$data[$transaction->book->supplier_id]['salestotal']+$transaction->unitamount*$transaction->units;
                 $data[$transaction->book->supplier_id]['costofsalestotal']=$data[$transaction->book->supplier_id]['costofsalestotal']+$transaction->units*$transaction->book->costprice;
-            } elseif ($transaction->transactiontype<>"Add stock") {
+            } elseif ($transaction->transactiontype=="Add stock") {
                 $data[$transaction->book->supplier_id]['deliveries'][]=$transaction;
+            } else {
+                $data[$transaction->book->supplier_id]['shrinkage'][]=$transaction;
             }
         }
         $books=Book::where('stock','>',0)->orderBy('title','ASC')->get();
