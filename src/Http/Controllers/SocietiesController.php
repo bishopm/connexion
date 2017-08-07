@@ -23,7 +23,7 @@ class SocietiesController extends Controller {
 	public function __construct(SocietiesRepository $society)
     {
         $this->structure = Setting::where('setting_key','church_structure')->first()->setting_value;
-        if ($this->structure=="independent"){
+        if ($this->structure=="Independent Congregation"){
             $this->society = $society;
         } else {
             $this->society = New SocietiesMcsaRepository(Setting::where('setting_key','church_api_url')->first()->setting_value);
