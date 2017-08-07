@@ -11,7 +11,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Settings</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.settings.create')}}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add a new setting</a><a style="margin-right:7px;" href="{{route('admin.modules.index')}}" class="btn btn-primary pull-right"><i class="fa fa-cogs"></i> System modules</a></div>
+                            <div class="col-md-6"><a href="{{route('admin.modules.index')}}" class="btn btn-primary pull-right"><i class="fa fa-cogs"></i> System modules</a></div>
                         </div>
                     </div>
                     <div class="panel-body">

@@ -13,7 +13,9 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Sermons preached at {{$setting['site_abbreviation']}}</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.series.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new series</a></div>
+                            <div class="col-md-6">
+                                <a href="{{route('admin.series.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new series</a>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-body">

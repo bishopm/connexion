@@ -4,6 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers\Auth;
 
 use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Setting;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Individual;
 use Bishopm\Connexion\Models\Society;
 use Bishopm\Connexion\Models\Role;
@@ -47,11 +48,12 @@ class RegisterController extends Controller
      * @return void
      */
 
-    private $settings;   
+    private $setting;   
 
-    public function __construct()
+    public function __construct(SettingsRepository $setting)
     {
         $this->middleware('guest');
+        $this->setting=$setting;
     }
 
     /**
@@ -94,7 +96,7 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $individuals=array();
-        $socname=Setting::where('setting_key','society_name')->first()->setting_value;
+        $socname=$this->setting->getkey('society_name');
         $society=Society::with('services')->where('society',$socname)->first();
         return view('connexion::auth.register',compact('individuals','society'));
     }
@@ -107,7 +109,7 @@ class RegisterController extends Controller
     */
     public function register(Request $request)
     {
-        $settings=Setting::where('setting_key','site_abbreviation')->first();
+        $siteabbr=$this->setting->getkey('site_abbreviation');
         $this->validator($request->all())->validate();
         if ($request->individual_id==0){
             return back()->withErrors(array('This individual is already a registered user. Go back to the login page, where help is available if you have forgotten your username or password'));
@@ -118,7 +120,7 @@ class RegisterController extends Controller
             $user->roles()->attach($webrole);
             $this->guard()->login($user);
             $indiv=Individual::find($request->input('individual_id'));
-            $message=$indiv->firstname . " " . $indiv->surname . " has successfully registered as a user on the " . $settings->setting_value . " website. You may want to give their profile additional permissions?";
+            $message=$indiv->firstname . " " . $indiv->surname . " has successfully registered as a user on the " . $siteabbr . " website. You may want to give their profile additional permissions?";
             $admin=User::find(1);
             $admin->notify(new NewUserRegistration($message));
             UserVerification::generate($user);

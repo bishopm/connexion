@@ -4,6 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\HouseholdsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Household;
 use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Individual;
@@ -20,12 +21,13 @@ class HouseholdsController extends Controller {
 	 * @return Response
 	 */
 
-	private $household,$groups;
+	private $household,$groups,$setting;
 
-	public function __construct(HouseholdsRepository $household, GroupsRepository $groups)
+	public function __construct(HouseholdsRepository $household, GroupsRepository $groups, SettingsRepository $setting)
     {
         $this->household = $household;
         $this->groups = $groups;
+        $this->setting = $setting;
     }
 
 	public function index()
@@ -52,9 +54,9 @@ class HouseholdsController extends Controller {
 
 	public function show(Household $household)
 	{
-        $pastoralgroup=Setting::where('setting_key','pastoral_group')->first();
-        if ((isset($pastoralgroup->setting_value)) and ($pastoralgroup->setting_value<>'')){
-            $group=$this->groups->findByName($pastoralgroup->setting_value);
+        $pastoralgroup=$this->setting->getkey('pastoral_group');
+        if ((isset($pastoralgroup->setting_value)) and ($pastoralgroup<>'')){
+            $group=$this->groups->findByName($pastoralgroup);
             foreach ($group->individuals as $indiv){
                 $dum['id']=$indiv->id;
                 $dum['firstname']=$indiv->firstname;

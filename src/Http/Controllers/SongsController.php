@@ -6,6 +6,7 @@ use Illuminate\Http\Request, Bishopm\Connexion\Models\Gchord;
 use App\Http\Requests, Bishopm\Connexion\Models\User, Bishopm\Connexion\Models\Song, Auth, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Setitem, View, Redirect, DB;
 use App\Http\Controllers\Controller, Bishopm\Connexion\Http\Requests\SongsRequest, Bishopm\Connexion\Libraries\Fpdf\Fpdf;
 use Bishopm\Connexion\Models\Roster, Bishopm\Connexion\Models\Setting, Bishopm\Connexion\Models\Individual, Bishopm\Connexion\Models\Group;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 
 class SongsController extends Controller
 {
@@ -14,9 +15,17 @@ class SongsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+	private $setting;
+
+	public function __construct(SettingsRepository $setting)
+    {
+        $this->setting = $setting;
+    }
+
     public function index()
     {
-        $roster=Setting::where('setting_key','worship_roster')->first()->setting_value;
+        $roster=$this->setting->getkey('worship_roster');
         if ($roster){
             $today=date("Y-m-d");
             $nextweek=date("Y-m-d",time()+60*60*24*7);

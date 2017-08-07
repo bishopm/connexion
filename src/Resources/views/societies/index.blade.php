@@ -6,14 +6,18 @@
 
 @section('content')
     <div class="container-fluid spark-screen">
-    @include('connexion::shared.errors') 
+        @include('connexion::shared.settings-modal')
+        @include('connexion::shared.errors') 
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Societies</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.societies.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new society</a></div>
+                            <div class="col-md-6">
+                                <a style="margin-left:10px;" href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#settingsModal">Settings</a>
+                                <a href="{{route('admin.societies.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new society</a>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-body">

@@ -12,7 +12,7 @@ class SettingsRepository extends EloquentBaseRepository
 
     public function allsettings()
     {
-        return $this->model->where('category','<>','modules')->orderBy('setting_key')->get();
+        return $this->model->where('category','<>','modules')->whereNull('modular')->orderBy('setting_key')->get();
     }
 
     public function allmodules()
@@ -35,5 +35,14 @@ class SettingsRepository extends EloquentBaseRepository
             }
     	}
     	return $fin;
+    }
+
+    public function getkey($key){
+        $val=$this->model->where('setting_key',$key)->first();
+        if ($val){
+            return $val->setting_value;
+        } else {
+            return "Invalid";
+        }
     }
 }

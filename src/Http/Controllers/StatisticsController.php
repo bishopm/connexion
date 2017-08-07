@@ -3,6 +3,7 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\StatisticsRepository;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Statistic;
 use Bishopm\Connexion\Models\Setting;
 use Bishopm\Connexion\Models\Society;
@@ -20,16 +21,17 @@ class StatisticsController extends Controller {
 	 * @return Response
 	 */
 
-	private $statistic;
+	private $statistic, $setting;
 
-	public function __construct(StatisticsRepository $statistic)
+	public function __construct(StatisticsRepository $statistic, SettingsRepository)
     {
         $this->statistic = $statistic;
+        $this->setting = $setting;
     }
 
 	public function index()
 	{
-        $socname=Setting::where('setting_key','society_name')->first()->setting_value;
+        $socname=$this->setting->getkey('society_name');
         $society=Society::with('services')->where('society',$socname)->first();
         $soc=$society->id;
         $services=$society->services;
@@ -51,7 +53,7 @@ class StatisticsController extends Controller {
 
 	public function edit($id)
     {
-        $socname=Setting::where('setting_key','society_name')->first()->setting_value;
+        $socname=$this->setting->getkey('society_name');
         $society=Society::with('services')->where('society',$socname)->first();
         $soc=$society->id;
         $services=$society->services;

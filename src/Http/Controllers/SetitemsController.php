@@ -6,6 +6,7 @@ use Illuminate\Http\Request, Log, DB, Auth;
 use App\Http\Requests, View, Bishopm\Connexion\Http\Requests\SetsRequest;
 use App\Http\Controllers\Controller, Helpers, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service;
 use Bishopm\Connexion\Models\Setting, Bishopm\Connexion\Models\User;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 
 class SetitemsController extends Controller
 {
@@ -15,6 +16,14 @@ class SetitemsController extends Controller
      *
      * @return Response
      */
+
+	private $setting;
+
+	public function __construct(SettingsRepository $setting)
+    {
+        $this->setting = $setting;
+    }
+
 
     public function additem($set,$song)
     {
@@ -43,7 +52,7 @@ class SetitemsController extends Controller
 
     public function getmessage($set)
     {
-        $admin_id=Setting::where('setting_key','worship_administrator')->first()->setting_value;
+        $admin_id=$this->setting->getkey('worship_administrator');
         $admin=User::where('name',$admin_id)->first()->individual->firstname;
         $fullset=Set::find($set);
         $msg="Hi " . $admin . "\n\nHere are the songs for the " . $fullset->service->servicetime . " service on " . $fullset->servicedate . ":\n\n";

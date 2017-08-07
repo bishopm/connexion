@@ -6,6 +6,7 @@ use Illuminate\Http\Request, Log, DB, Mail, App\Http\Requests, View;
 use Bishopm\Connexion\Http\Requests\CreateSetRequest, Bishopm\Connexion\Http\Requests\UpdateSetRequest;
 use App\Http\Controllers\Controller, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Models\Society, Bishopm\Connexion\Models\Setting, Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Notifications\WorshipSetNotification;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 
 class SetsController extends Controller
 {
@@ -14,9 +15,16 @@ class SetsController extends Controller
      *
      * @return Response
      */
+	private $setting;
+
+	public function __construct(SettingsRepository $setting)
+    {
+        $this->setting = $setting;
+    }
+
     public function index()
     {
-        $soc=Setting::where('setting_key','society_name')->first()->setting_value;
+        $soc=$this->setting->getkey('society_name');
         $society=Society::where('society',$soc)->first();
         if ($society){
             $data['society']=$society->society;
@@ -55,7 +63,7 @@ class SetsController extends Controller
      */
     public function create()
     {
-        $soc=Setting::where('setting_key','society_name')->first()->setting_value;
+        $soc=$this->setting->getkey('society_name');
         $data['society']=Society::where('society',$soc)->first();
         $data['sunday']=date("Y-m-d",strtotime("next Sunday"));
         $data['services']=Service::where('society_id','=',$data['society']->id)->orderBy('servicetime')->get();
@@ -171,7 +179,7 @@ class SetsController extends Controller
     }
 
     public function sendEmail(Request $request) {
-        $admin_id=Setting::where('setting_key','worship_administrator')->first()->setting_value;
+        $admin_id=$this->setting->getkey('worship_administrator');
         $admin=User::where('name',$admin_id)->first();
 		$message = nl2br($request->message);
         $sender=auth()->user();

@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Repositories\BooksRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\SuppliersRepository;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Book;
 use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Setting;
@@ -24,13 +25,14 @@ class BooksController extends Controller {
 	 * @return Response
 	 */
 
-	private $book, $user, $suppliers;
+	private $book, $user, $suppliers, $setting;
 
-	public function __construct(BooksRepository $book, UsersRepository $user, SuppliersRepository $suppliers)
+	public function __construct(BooksRepository $book, UsersRepository $user, SuppliersRepository $suppliers, SettingsRepository $setting)
     {
         $this->book = $book;
         $this->user = $user;
         $this->suppliers = $suppliers;
+        $this->setting = $setting;
     }
 
 	public function index()
@@ -114,8 +116,8 @@ class BooksController extends Controller {
         $data->subject=$request->input('title');
         $data->sender=$request->input('email');
         $data->emailmessage=$request->input('message') . "<br><br>" . $request->input('name');
-        $officeemail=Setting::where('setting_key','church_email')->first()->setting_value;
-        $bookshopuser=Setting::where('setting_key','bookshop_manager')->first()->setting_value;
+        $officeemail=$this->setting->getkey('church_email');
+        $bookshopuser=$this->setting->getkey('bookshop_manager');
         $manager=User::where('name',$bookshopuser)->first();
         Mail::to($officeemail)->cc($data->sender)->bcc($manager->individual->email)->send(new GenericMail($data));
         return redirect()->route('webbooks')->withSuccess('Thank you! Your order has been emailed to us');
