@@ -17,6 +17,8 @@ use Monolog\Handler\SlackWebhookHandler, Monolog\Logger;
 class ConnexionServiceProvider extends ServiceProvider
 {
 
+    private $settings;
+
     protected $commands = [
         'Bishopm\Connexion\Console\InstallConnexionCommand',
         'Bishopm\Connexion\Console\BirthdayEmail',
@@ -32,6 +34,8 @@ class ConnexionServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events, SettingsRepository $settings)
     {
+        $this->settings=$settings;
+        $this->initialiseSettings();
         Schema::defaultStringLength(255);
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/api.routes.php';            
@@ -51,37 +55,31 @@ class ConnexionServiceProvider extends ServiceProvider
             $finset=$settings->makearray();
         }
         view()->share('setting', $finset);
-        if (isset($finset['mail_host'])){
-            config(['mail.host'=>$finset['mail_host']]);
-            config(['mail.port'=>$finset['mail_port']]);
-            config(['mail.username'=>$finset['mail_username']]);
-            config(['mail.password'=>$finset['mail_password']]);
-            //config(['mail.encryption'=>$finset['mail_encryption']]);
+        if ($settings->getkey('mail_host')<>"Invalid"){
+            config(['mail.host'=>$settings->getkey('mail_host')]);
+            config(['mail.port'=>$settings->getkey('mail_port')]);
+            config(['mail.username'=>$settings->getkey('mail_username')]);
+            config(['mail.password'=>$settings->getkey('mail_password')]);
+            //config(['mail.encryption'=>$settings->getkey('mail_encryption')]);
         }
-        if (isset($finset['site_name'])){
-            config(['app.name'=>$finset['site_name']]);
+        if (($settings->getkey('site_name'))<>"Invalid"){
+            config(['app.name'=>$settings->getkey('site_name')]);
         }
-        config(['mail.from.address'=>$finset['church_email']]);
-        config(['mail.from.name'=>$finset['site_name']]);
+        config(['mail.from.address'=>$settings->getkey('church_email')]);
+        config(['mail.from.name'=>$settings->getkey('site_name')]);
         config(['user-verification.email.view'=>'connexion::emails.newuser']);
         config(['user-verification.email.type'=>'markdown']);
-        config(['app.name'=>$finset['site_name']]);
+        config(['app.name'=>$settings->getkey('site_name')]);
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->menu=array();
-            $society=Setting::where('setting_key','=','society_name')->first();
-            if ($society->setting_value<>''){
-                $society=$society->setting_value . " society";
-            } else {
-                $society="Members";
-            }
-            $modules=Setting::where('category','=','modules')->get()->toArray();
+            $modules=Setting::where('module','=','module')->get()->toArray();
             foreach ($modules as $module){
                 $mods[$module['setting_key']]=$module['setting_value'];
             }
 
             $event->menu->add('CHURCH ADMIN');
             $event->menu->add([
-                'text' => $society,
+                'text' => 'Members',
                 'icon' => 'book',
                 'can' => 'edit-backend',
                 'submenu' => [
@@ -130,7 +128,7 @@ class ConnexionServiceProvider extends ServiceProvider
                     ]
                 ]
             ]);
-            if ($mods['circuit_preachers']=="yes"){
+            if ($mods['mcsa_module']=="yes"){
                 $event->menu->add([
                     'text' => 'Circuit',
                     'icon' => 'comments',
@@ -361,15 +359,9 @@ class ConnexionServiceProvider extends ServiceProvider
         Form::component('pgHeader', 'connexion::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
         Form::component('pgButtons', 'connexion::components.pgButtons', ['actionLabel', 'cancelRoute']);
         Form::component('bsFile', 'connexion::components.file', ['name', 'attributes' => []]);
-        if (count($finset)){
-            config(['adminlte.title' => $finset['site_name']]);
-            config(['adminlte.logo' => $finset['site_logo']]);
-            config(['adminlte.logo_mini' => $finset['site_logo_mini']]);
-        } else {
-            config(['adminlte.title' => 'Connexion']);
-            config(['adminlte.logo' => '<b>Connexion</b>']);
-            config(['adminlte.logo_mini' => '<b>C</b>x']);
-        }
+        config(['adminlte.title' => $settings->getkey('site_name')]);
+        config(['adminlte.logo' => $settings->getkey('site_logo')]);
+        config(['adminlte.logo_mini' => $settings->getkey('site_logo_mini')]);
         config(['adminlte.plugins.datatables' => false]);
         config(['adminlte.dashboard_url' => 'admin']);
         config(['adminlte.filters' => [
@@ -381,7 +373,7 @@ class ConnexionServiceProvider extends ServiceProvider
         //config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
         //config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
         config(['analytics.service_account_credentials_json' => public_path('vendor/bishopm/service_account_credentials.json')]);
-        config(['analytics.view_id' => $finset['google_analytics_view_id']]);
+        config(['analytics.view_id' => $settings->getkey('google_analytics_view_id')]);
         config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
         config(['jwt.ttl' => 525600]);
         config(['jwt.refresh_ttl' => 525600]);
@@ -396,7 +388,7 @@ class ConnexionServiceProvider extends ServiceProvider
         // Send errors to slack channel
         $monolog = Log::getMonolog();
         if (!\App::environment('local')) {
-            $slackHandler = new SlackWebhookHandler($finset['slack_webhook'], $finset['admin_slack_username'], 'App Alerts', false, 'warning', true, true, Logger::ERROR);            
+            $slackHandler = new SlackWebhookHandler($settings->getkey('slack_webhook'), $settings->getkey('admin_slack_username'), 'App Alerts', false, 'warning', true, true, Logger::ERROR);            
             $monolog->pushHandler($slackHandler);
         }
     }
@@ -482,6 +474,72 @@ class ConnexionServiceProvider extends ServiceProvider
         Gate::define('bookshop-manager-role', function ($user) {
             return $user->inRole('bookshop-manager');
         });
+    }
+
+    private function initialiseSettings()
+    {
+        $settings=array(
+            ['setting_key'=>'admin_slack_username','module'=>'core','description'=>'Admin user Slack username for notifications','setting_value'=>'Slack username'],
+            ['setting_key'=>'bibles_api_key','module'=>'website','description'=>'Private API key for bibles.org','setting_value'=>'Bible API key'],
+            ['setting_key'=>'bibles_api_user','module'=>'website','description'=>'API username for bibles.org','setting_value'=>'Bible API username'],
+            ['setting_key'=>'birthday_group','module'=>'core','description'=>'Group whose members receive birthday emails each week','setting_value'=>'Birthday group'],
+            ['setting_key'=>'bookshop','module'=>'bookshop','description'=>'Bookshop group','setting_value'=>'Bookshop group'],
+            ['setting_key'=>'bookshop_manager','module'=>'bookshop','description'=>'Individual who will receive a copy of book orders in addition to the main church email address','setting_value'=>'Bookshop manager'],
+            ['setting_key'=>'bookshop_module','module'=>'module','description'=>'Manage a small bookshop','setting_value'=>'no'],
+            ['setting_key'=>'church_address','module'=>'website','description'=>'Church physical address','setting_value'=>'Church address'],
+            ['setting_key'=>'church_api_url','module'=>'mcsa','description'=>'API for centralised church data','setting_value'=>'Church API'],
+            ['setting_key'=>'church_email','module'=>'website','description'=>'Church email address','setting_value'=>'Email address'],
+            ['setting_key'=>'church_phone','module'=>'website','description'=>'Church office phone number','setting_value'=>'Office phone number'],
+            ['setting_key'=>'circuit_name','module'=>'mcsa','description'=>'Circuit name','setting_value'=>'Circuit name'],
+            ['setting_key'=>'circuit_number','module'=>'mcsa','description'=>'Circuit number','setting_value'=>'Circuit number'],
+            ['setting_key'=>'circuit_preachers','module'=>'core','description'=>'Collects names of preachers and circuit ministers and includes the quarterly preaching plan','setting_value'=>'no'],
+            ['setting_key'=>'core_module','module'=>'module','description'=>'Church membership data - individuals, households and groups, together with email and sms facilities and reporting','setting_value'=>'yes'],
+            ['setting_key'=>'district_bishop','module'=>'mcsa','description'=>'District Bishop name','setting_value'=>'Bishop'],
+            ['setting_key'=>'facebook_page','module'=>'website','description'=>'Church Facebook page url','setting_value'=>'Facebook page'],
+            ['setting_key'=>'filtered_tasks','module'=>'todo','description'=>'Filter tasks','setting_value'=>'Next actions'],
+            ['setting_key'=>'general_secretary','module'=>'mcsa','description'=>'General Secretary name','setting_value'=>'General Secretary'],
+            ['setting_key'=>'giving_administrator','module'=>'core','description'=>'Person who has exclusive access to planned giving details','setting_value'=>'Giving administrator'],
+            ['setting_key'=>'giving_lagtime','module'=>'core','description'=>'Number of days before reports go out that administrator gets a warning email','setting_value'=>'Lag time in days'],
+            ['setting_key'=>'giving_reports','module'=>'core','description'=>'How many giving reports per year','setting_value'=>'Number of reports'],
+            ['setting_key'=>'google_analytics_view_id','module'=>'core','description'=>'View ID for Google Analytics API','setting_value'=>'Google analytics API'],
+            ['setting_key'=>'google_api','module'=>'core','description'=>'Google API for maps','setting_value'=>'Google maps API'],
+            ['setting_key'=>'google_calendar','module'=>'core','description'=>'Church Google calendar','setting_value'=>'Google calendar ID'],
+            ['setting_key'=>'home_latitude','module'=>'core','description'=>'Church location: latitude','setting_value'=>'Church latitude'],
+            ['setting_key'=>'home_longitude','module'=>'core','description'=>'Church location: longitude','setting_value'=>'Church longitude'],
+            ['setting_key'=>'mail_encryption','module'=>'core','description'=>'Email settings: email account encryption (or leave as null)','setting_value'=>''],
+            ['setting_key'=>'mail_host','module'=>'core','description'=>'Email settings: host name','setting_value'=>'host name'],
+            ['setting_key'=>'mail_password','module'=>'core','description'=>'Email settings: email account password','setting_value'=>'email password'],
+            ['setting_key'=>'mail_port','module'=>'core','description'=>'Email settings: port number','setting_value'=>'email port'],
+            ['setting_key'=>'mail_username','module'=>'core','description'=>'Email settings: email account username','setting_value'=>'email username'],
+            ['setting_key'=>'mcsa_module','module'=>'module','description'=>'Circuit preachers module','setting_value'=>'no'],
+            ['setting_key'=>'pastoral_group','module'=>'core','description'=>'Pastoral team group','setting_value'=>'Pastoral group'],
+            ['setting_key'=>'presiding_bishop','module'=>'mcsa','description'=>'Presiding Bishop name','setting_value'=>'Presiding Bishop'],
+            ['setting_key'=>'qr_code','module'=>'website','description'=>'URL of QR code image','setting_value'=>'QR code url'],
+            ['setting_key'=>'site_abbreviation','module'=>'core','description'=>'Church name abbreviated','setting_value'=>'Abbreviated church name'],
+            ['setting_key'=>'site_description','module'=>'website','description'=>'UL','setting_value'=>'Slogan or vision statement'],
+            ['setting_key'=>'site_logo','module'=>'core','description'=>'Text logo in menu bar','setting_value'=>'<b>C</b>onnexion'],
+            ['setting_key'=>'site_logo_mini','module'=>'core','description'=>'Text logo when sidebar is collapsed','setting_value'=>'<b>C</b>x'],
+            ['setting_key'=>'site_name','module'=>'core','description'=>'Church name','setting_value'=>'Church name'],
+            ['setting_key'=>'slack_webhook','module'=>'core','description'=>'Slack Webhook for notifications','setting_value'=>'Slack webhook'],
+            ['setting_key'=>'sms_password','module'=>'core','description'=>'SMS password','setting_value'=>'SMS password'],
+            ['setting_key'=>'sms_provider','module'=>'core','description'=>'Choose either bulksms or smsfactory','setting_value'=>'SMS provider'],
+            ['setting_key'=>'sms_username','module'=>'core','description'=>'SMS username','setting_value'=>'SMS username'],
+            ['setting_key'=>'society_name','module'=>'core','description'=>'Name of society (must set up societies first)','setting_value'=>'Society name'],
+            ['setting_key'=>'superintendent','module'=>'mcsa','description'=>'Superintendent name','setting_value'=>'Superintendent'],
+            ['setting_key'=>'todo_module','module'=>'module','description'=>'Task and project management module with an optional connection to the Toodledo web interface and mobile apps','setting_value'=>'no'],
+            ['setting_key'=>'twitter_profile','module'=>'website','description'=>'Church Twitter profile','setting_value'=>'Twitter profile'],
+            ['setting_key'=>'website_module','module'=>'module','description'=>'Backend module to create a website, including blog, slides, group resources, sermon audio','setting_value'=>'no'],
+            ['setting_key'=>'website_theme','module'=>'website','description'=>'Website theme','setting_value'=>'Website theme'],
+            ['setting_key'=>'worship_administrator','module'=>'worship','description'=>'Individual who receives set emails and prepares the PC for services','setting_value'=>'Worship administrator'],
+            ['setting_key'=>'worship_module','module'=>'module','description'=>'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage','setting_value'=>'no'],
+            ['setting_key'=>'youtube_page','module'=>'website','description'=>'Church Youtube page','setting_value'=>'Youtube page']
+        );
+        $existing=array_flatten(Setting::select('setting_key')->get()->toArray());
+        foreach ($settings as $ss){
+            if (!in_array($ss['setting_key'],$existing)){
+                $this->settings->create($ss);
+            }
+        }
     }
 
     private function registerBindings()

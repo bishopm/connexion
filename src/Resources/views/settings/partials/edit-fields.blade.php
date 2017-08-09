@@ -14,4 +14,3 @@
 	{{ Form::bsText('setting_value','Setting value','Setting value',$setting->setting_value) }}
 @endif
 {{ Form::bsText('description','Description','Description',$setting->description) }}
-{{ Form::bsText('category','Category','Category',$setting->category) }}

@@ -10,14 +10,28 @@ class SettingsRepository extends EloquentBaseRepository
         return $this->model->all()->toArray();
     }
 
+    public function activemodules(){
+        $modules=$this->model->where('module','=','module')->where('setting_value','=','yes')->get();
+        $fin=array();
+        foreach ($modules as $module){
+            $fin[]=str_replace('_module','',$module->setting_key);
+        }
+        return $fin;
+    }
+
+    public function activesettings($modules)
+    {
+        return $this->model->whereIn('module',$modules)->orderBy('setting_key')->get();
+    }
+
     public function allsettings()
     {
-        return $this->model->where('category','<>','modules')->whereNull('modular')->orderBy('setting_key')->get();
+        return $this->model->where('module','<>','module')->orderBy('setting_key')->get();
     }
 
     public function allmodules()
     {
-        return $this->model->where('category','=','modules')->get();
+        return $this->model->where('module','=','module')->get();
     }
 
     public function makearray(){
@@ -37,11 +51,12 @@ class SettingsRepository extends EloquentBaseRepository
     	return $fin;
     }
 
-    public function getkey($key){
+    public function getkey($key,$module='core'){
         $val=$this->model->where('setting_key',$key)->first();
         if ($val){
             return $val->setting_value;
         } else {
+            $this->model->create(['setting_key' => $key,'setting_value' => 'Please add a value for this setting','module' => $module]);
             return "Invalid";
         }
     }
