@@ -111,14 +111,6 @@ class SettingsController extends Controller {
                 $dum[1]=$val->groupname;
                 $dropdown[]=$dum;
             }
-        } elseif ($setting->setting_key=="church_structure"){
-            $vals=array('Independent Congregation','Methodist Church of Southern Africa');
-            $dropdown=array();
-            foreach ($vals as $val){
-                $dum[0]=$val;
-                $dum[1]=$val;
-                $dropdown[]=$dum;
-            }
         } elseif ($setting->setting_key=="birthday_group"){
             $vals=$this->groups->dropdown();
             $dropdown=array();
@@ -154,6 +146,14 @@ class SettingsController extends Controller {
             foreach ($users as $user){
                 $dropdown[$count][0]=$user->name;
                 $dropdown[$count][1]=$user->name;
+                $count++;
+            }
+        } elseif ($setting->setting_key=="circuit"){
+            $circuits=$this->societies->circuits();
+            $count=0;
+            foreach ($circuits as $circuit){
+                $dropdown[$count][0]=$circuit->id;
+                $dropdown[$count][1]=$circuit->circuitnumber . ' ' . $circuit->circuit;
                 $count++;
             }
         } else {

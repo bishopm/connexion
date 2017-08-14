@@ -16,7 +16,11 @@
                             <div class="col-md-6"><h4>Societies</h4></div>
                             <div class="col-md-6">
                                 <a style="margin-left:10px;" href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#settingsModal">Settings</a>
-                                <a href="{{route('admin.societies.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new society</a>
+                                @if ($setting['church_api_token'])
+                                    <a href="{{route('admin.societies.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new society</a>
+                                @else
+                                    <a href="{{route('admin.mcsa.register')}}" class="btn btn-primary pull-right">Connect to MCSA database</a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -43,8 +47,10 @@
                                         <td>{{count($society->services)}}
                                         <td>
                                             <div class="btn-group">
-                                                <a href="{{ route('admin.societies.edit', [$society->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.societies.destroy', [$society->id]) }}" data-action-entity="Society: {{$society->society}}"><i class="fa fa-trash"></i></button>
+                                                @if ($setting['church_api_token'])
+                                                    <a href="{{ route('admin.societies.edit', [$society->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.societies.destroy', [$society->id]) }}" data-action-entity="Society: {{$society->society}}"><i class="fa fa-trash"></i></button>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

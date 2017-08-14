@@ -3,28 +3,24 @@
 namespace Bishopm\Connexion\Repositories;
 
 use Bishopm\Connexion\Repositories\BaseRepository;
+use Bishopm\Connexion\Repositories\SettingsRepository;
+use Bishopm\Connexion\Models\Setting;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
 /**
- * Class EloquentCoreRepository
+ * Class MCSARepository
  *
- * @package Modules\Core\Repositories\Eloquent
  */
 abstract class McsaBaseRepository implements BaseRepository
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model An instance of the Eloquent Model
-     */
     protected $model;
 
-    /**
-     * @param Model $model
-     */
-    public function __construct($api_url)
+    public function __construct($model)
     {
-        $this->api_url = $api_url;
+        $this->api_url = Setting::where('setting_key','church_api_url')->first()->setting_value;
         $this->client = new Client();
+        $this->model = $model;
     }
 
     /**
@@ -40,8 +36,9 @@ abstract class McsaBaseRepository implements BaseRepository
      */
     public function all()
     {
+        $url = $this->api_url . '/' . $this->model . 's';
         $res = $this->client->request('GET', $this->api_url . '/circuits');
-        dd($res->getBody()->getContents());
+        return $res->getBody()->getContents();
     }
 
     /**

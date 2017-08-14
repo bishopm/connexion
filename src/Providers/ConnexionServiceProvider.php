@@ -488,10 +488,10 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'bookshop_module','module'=>'module','description'=>'Manage a small bookshop','setting_value'=>'no'],
             ['setting_key'=>'church_address','module'=>'website','description'=>'Church physical address','setting_value'=>'Church address'],
             ['setting_key'=>'church_api_url','module'=>'mcsa','description'=>'API for centralised church data','setting_value'=>'Church API'],
+            ['setting_key'=>'church_api_token','module'=>'mcsa','description'=>'Token for centralised church data API','setting_value'=>''],
             ['setting_key'=>'church_email','module'=>'website','description'=>'Church email address','setting_value'=>'Email address'],
             ['setting_key'=>'church_phone','module'=>'website','description'=>'Church office phone number','setting_value'=>'Office phone number'],
-            ['setting_key'=>'circuit_name','module'=>'mcsa','description'=>'Circuit name','setting_value'=>'Circuit name'],
-            ['setting_key'=>'circuit_number','module'=>'mcsa','description'=>'Circuit number','setting_value'=>'Circuit number'],
+            ['setting_key'=>'circuit','module'=>'mcsa','description'=>'Circuit','setting_value'=>''],
             ['setting_key'=>'circuit_preachers','module'=>'core','description'=>'Collects names of preachers and circuit ministers and includes the quarterly preaching plan','setting_value'=>'no'],
             ['setting_key'=>'core_module','module'=>'module','description'=>'Church membership data - individuals, households and groups, together with email and sms facilities and reporting','setting_value'=>'yes'],
             ['setting_key'=>'district_bishop','module'=>'mcsa','description'=>'District Bishop name','setting_value'=>'Bishop'],
@@ -729,7 +729,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->bind(
             'Bishopm\Connexion\Repositories\SocietiesRepository',
             function () {
-                $repository = new \Bishopm\Connexion\Repositories\SocietiesRepository(new \Bishopm\Connexion\Models\Society());
+                $repository = new \Bishopm\Connexion\Repositories\SocietiesRepository('societies');
                 return $repository;
             }
         );        

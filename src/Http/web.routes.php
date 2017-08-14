@@ -100,6 +100,8 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 
 	Route::post('admin/search',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@search','as'=>'admin.search']);
 
+	Route::get('admin/mcsa/register',['uses'=>'Bishopm\Connexion\Http\Controllers\McsaController@register','as'=>'admin.mcsa.register']);
+
 	// Dashboard
 	Route::get('admin',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
 	Route::get('home',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);

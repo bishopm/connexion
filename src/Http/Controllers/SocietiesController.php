@@ -4,7 +4,6 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
-use Bishopm\Connexion\Repositories\SocietiesMcsaRepository;
 use Bishopm\Connexion\Models\Society;
 use Bishopm\Connexion\Models\Setting;
 use App\Http\Controllers\Controller;
@@ -23,20 +22,32 @@ class SocietiesController extends Controller {
 
     private $society,$setting;
 
-	public function __construct(SocietiesRepository $society, SettingsRepository $setting)
+	public function __construct(SettingsRepository $setting, SocietiesRepository $society)
     {
         $this->client = new Client();
         $this->setting=$setting;
-        $this->api_url = $this->setting->getkey('church_api_url');
-        $this->circuits = json_decode($this->client->request('GET', $this->api_url . '/circuits')->getBody()->getContents());
         $this->society = $society;
+        if (filter_var($this->setting->getkey('church_api_url'), FILTER_VALIDATE_URL)) { 
+            $this->api_url = $this->setting->getkey('church_api_url');   
+            $this->circuits = self::circuits();
+        } else {
+            $this->api_url="";
+        }
+    }
+
+    public function circuits(){
+        return json_decode($this->client->request('GET', $this->api_url . '/circuits')->getBody()->getContents());
     }
 
 	public function index()
 	{
-        $circuits = $this->circuits;
-        $societies = json_decode($this->client->request('GET', $this->api_url . '/societies/164')->getBody()->getContents());
-   		return view('connexion::societies.index',compact('societies','circuits'));
+        if ($this->api_url){
+            $circuits = $this->circuits;
+            $societies = $this->society->all();
+            return view('connexion::societies.index',compact('societies','circuits'));
+        } else {
+            return redirect()->route('admin.settings.index')->withNotice('A valid url needs to be set to use the API');
+        }
 	}
 
 	public function edit(Society $society)
