@@ -50,8 +50,9 @@ class SocietiesController extends Controller {
         }
 	}
 
-	public function edit(Society $society)
+    public function edit($id)
     {
+        $society=$this->society->find($id);
         return view('connexion::societies.edit', compact('society'));
     }
 
@@ -60,10 +61,10 @@ class SocietiesController extends Controller {
         return view('connexion::societies.create');
     }
 
-	public function show($society)
+	public function show($id)
 	{
-        $data['society']=$this->society->find($society);
-        return view('connexion::societies.show',$data);
+        $society=$this->society->find($id);
+        return view('connexion::societies.show',compact('society'));
 	}
 
     public function store(CreateSocietyRequest $request)

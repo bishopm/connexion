@@ -28,7 +28,9 @@ abstract class McsaBaseRepository implements BaseRepository
      */
     public function find($id)
     {
-        return $this->model->find($id);
+        $url = $this->api_url . '/' . $this->model . '/' . $id;
+        $res = $this->client->request('GET', $url);
+        return json_decode($res->getBody()->getContents());
     }
 
     /**
