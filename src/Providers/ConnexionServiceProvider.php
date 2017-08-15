@@ -50,6 +50,19 @@ class ConnexionServiceProvider extends ServiceProvider
         config(['laravel-medialibrary.defaultFilesystem'=>'public']);
         config(['auth.providers.users.model'=>'Bishopm\Connexion\Models\User']);
         config(['queue.default'=>'database']);
+        $allmods=array('bookshop_module'=>['module'=>'module','description'=>'Manage a small bookshop','setting_value'=>'no'],
+            'core_module'=>['module'=>'module','description'=>'Church membership data - individuals, households and groups, together with email and sms facilities and reporting','setting_value'=>'yes'],
+            'mcsa_module'=>['module'=>'module','description'=>'Circuit preachers module','setting_value'=>'no'],
+            'todo_module'=>['module'=>'module','description'=>'Task and project management module','setting_value'=>'no'],
+            'website_module'=>['module'=>'module','description'=>'Backend module to create a website, including blog, slides, group resources, sermon audio','setting_value'=>'no'],
+            'worship_module'=>['module'=>'module','description'=>'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage','setting_value'=>'no']
+        );
+        foreach ($allmods as $key=>$thismod){
+            $sett=Setting::where('setting_key',$key)->first();
+            if (!count($sett)){
+                $ss=Setting::create(['setting_key'=>$key,'setting_value'=>$thismod['setting_value'],'description'=>$thismod['description'],'module'=>'module']);
+            } 
+        }
         $finset=array();
         if (Schema::hasTable('settings')){
             $finset=$settings->makearray();
@@ -76,7 +89,6 @@ class ConnexionServiceProvider extends ServiceProvider
             foreach ($modules as $module){
                 $mods[$module['setting_key']]=$module['setting_value'];
             }
-
             $event->menu->add('CHURCH ADMIN');
             $event->menu->add([
                 'text' => 'Members',
@@ -485,7 +497,6 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'birthday_group','module'=>'core','description'=>'Group whose members receive birthday emails each week','setting_value'=>'Birthday group'],
             ['setting_key'=>'bookshop','module'=>'bookshop','description'=>'Bookshop group','setting_value'=>'Bookshop group'],
             ['setting_key'=>'bookshop_manager','module'=>'bookshop','description'=>'Individual who will receive a copy of book orders in addition to the main church email address','setting_value'=>'Bookshop manager'],
-            ['setting_key'=>'bookshop_module','module'=>'module','description'=>'Manage a small bookshop','setting_value'=>'no'],
             ['setting_key'=>'church_address','module'=>'website','description'=>'Church physical address','setting_value'=>'Church address'],
             ['setting_key'=>'church_api_url','module'=>'mcsa','description'=>'API for centralised church data','setting_value'=>'Church API'],
             ['setting_key'=>'church_api_token','module'=>'mcsa','description'=>'Token for centralised church data API','setting_value'=>''],
@@ -493,7 +504,6 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'church_phone','module'=>'website','description'=>'Church office phone number','setting_value'=>'Office phone number'],
             ['setting_key'=>'circuit','module'=>'mcsa','description'=>'Circuit','setting_value'=>''],
             ['setting_key'=>'circuit_preachers','module'=>'core','description'=>'Collects names of preachers and circuit ministers and includes the quarterly preaching plan','setting_value'=>'no'],
-            ['setting_key'=>'core_module','module'=>'module','description'=>'Church membership data - individuals, households and groups, together with email and sms facilities and reporting','setting_value'=>'yes'],
             ['setting_key'=>'district_bishop','module'=>'mcsa','description'=>'District Bishop name','setting_value'=>'Bishop'],
             ['setting_key'=>'facebook_page','module'=>'website','description'=>'Church Facebook page url','setting_value'=>'Facebook page'],
             ['setting_key'=>'filtered_tasks','module'=>'todo','description'=>'Filter tasks','setting_value'=>'Next actions'],
@@ -511,7 +521,6 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'mail_password','module'=>'core','description'=>'Email settings: email account password','setting_value'=>'email password'],
             ['setting_key'=>'mail_port','module'=>'core','description'=>'Email settings: port number','setting_value'=>'email port'],
             ['setting_key'=>'mail_username','module'=>'core','description'=>'Email settings: email account username','setting_value'=>'email username'],
-            ['setting_key'=>'mcsa_module','module'=>'module','description'=>'Circuit preachers module','setting_value'=>'no'],
             ['setting_key'=>'pastoral_group','module'=>'core','description'=>'Pastoral team group','setting_value'=>'Pastoral group'],
             ['setting_key'=>'presiding_bishop','module'=>'mcsa','description'=>'Presiding Bishop name','setting_value'=>'Presiding Bishop'],
             ['setting_key'=>'qr_code','module'=>'website','description'=>'URL of QR code image','setting_value'=>'QR code url'],
@@ -526,12 +535,9 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'sms_username','module'=>'core','description'=>'SMS username','setting_value'=>'SMS username'],
             ['setting_key'=>'society_name','module'=>'core','description'=>'Name of society (must set up societies first)','setting_value'=>'Society name'],
             ['setting_key'=>'superintendent','module'=>'mcsa','description'=>'Superintendent name','setting_value'=>'Superintendent'],
-            ['setting_key'=>'todo_module','module'=>'module','description'=>'Task and project management module with an optional connection to the Toodledo web interface and mobile apps','setting_value'=>'no'],
             ['setting_key'=>'twitter_profile','module'=>'website','description'=>'Church Twitter profile','setting_value'=>'Twitter profile'],
-            ['setting_key'=>'website_module','module'=>'module','description'=>'Backend module to create a website, including blog, slides, group resources, sermon audio','setting_value'=>'no'],
             ['setting_key'=>'website_theme','module'=>'website','description'=>'Website theme','setting_value'=>'Website theme'],
             ['setting_key'=>'worship_administrator','module'=>'worship','description'=>'Individual who receives set emails and prepares the PC for services','setting_value'=>'Worship administrator'],
-            ['setting_key'=>'worship_module','module'=>'module','description'=>'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage','setting_value'=>'no'],
             ['setting_key'=>'youtube_page','module'=>'website','description'=>'Church Youtube page','setting_value'=>'Youtube page']
         );
         $existing=array_flatten(Setting::select('setting_key')->get()->toArray());
