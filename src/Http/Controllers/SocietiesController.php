@@ -4,7 +4,6 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
-use Bishopm\Connexion\Models\Society;
 use Bishopm\Connexion\Models\Setting;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSocietyRequest;
@@ -76,9 +75,9 @@ class SocietiesController extends Controller {
             ->withSuccess('New society added');
     }
 	
-    public function update(Society $society, UpdateSocietyRequest $request)
+    public function update($id, UpdateSocietyRequest $request)
     {
-        $this->society->update($society, $request->all());
+        $this->society->update($id, $request->all());
         return redirect()->route('admin.societies.index')->withSuccess('Society has been updated');
     }
 

@@ -38,8 +38,8 @@ abstract class McsaBaseRepository implements BaseRepository
      */
     public function all()
     {
-        $url = $this->api_url . '/' . $this->model . 's';
-        $res = $this->client->request('GET', $this->api_url . '/circuits');
+        $url = $this->api_url . '/' . $this->model;
+        $res = $this->client->request('GET', $url);
         return $res->getBody()->getContents();
     }
 
@@ -62,11 +62,11 @@ abstract class McsaBaseRepository implements BaseRepository
     /**
      * @inheritdoc
      */
-    public function update($model, $data)
+    public function update($id,$data)
     {
-        $model->update($data);
-
-        return $model;
+        $url = $this->api_url . '/' . $this->model . '/' . $id;
+        $res = $this->client->request('PUT', $url,['json' => $data]);
+        return $res->getBody()->getContents();
     }
 
     /**

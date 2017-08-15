@@ -32,7 +32,7 @@
                                 @forelse ($settings as $setting)
                                     <tr>
                                         <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{strtoupper(str_replace('_',' ',$setting->setting_key))}}</a></td>
-                                        <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->setting_value}}</a></td>
+                                        <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{substr($setting->setting_value,0,40)}}</a></td>
                                         <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->description}}</a></td>
                                         <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->module}}</a></td>
                                     </tr>
