@@ -38,4 +38,5 @@ class McsaController extends Controller {
         $promise->wait();
         //return view('connexion::mcsa.register');
     }
+    
 }

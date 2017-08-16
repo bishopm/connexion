@@ -6,6 +6,7 @@ use Bishopm\Connexion\Repositories\BaseRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Setting;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client;
 
 /**
@@ -19,6 +20,7 @@ abstract class McsaBaseRepository implements BaseRepository
     public function __construct($model)
     {
         $this->api_url = Setting::where('setting_key','church_api_url')->first()->setting_value;
+        $this->token = Setting::where('setting_key','church_api_token')->first()->setting_value;
         $this->client = new Client();
         $this->model = $model;
     }
@@ -65,8 +67,14 @@ abstract class McsaBaseRepository implements BaseRepository
     public function update($id,$data)
     {
         $url = $this->api_url . '/' . $this->model . '/' . $id;
-        $res = $this->client->request('POST', $url, ['form_params' => $data]);
-        $res->getBody()->getContents();
+        try {
+            $res = $this->client->request('POST', $url, ['form_params' => $data, 'query' => ['token' => $this->token]]);
+            return $res->getBody()->getContents();
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            return json_decode($responseBodyAsString);
+        }
     }
 
     /**
