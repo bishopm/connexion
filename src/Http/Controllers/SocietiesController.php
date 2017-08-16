@@ -78,10 +78,10 @@ class SocietiesController extends Controller {
     public function update($id, UpdateSocietyRequest $request)
     {
         $message=$this->society->update($id, $request->all());
-        if (!$message){
-            return redirect()->route('admin.societies.index')->withSuccess('Society has been updated');
-        } elseif ($message->error){
+        if (isset($message->error)){
             return redirect()->route('admin.societies.index')->withNotice('Error: ' . $message->error);
+        } else {
+            return redirect()->route('admin.societies.index')->withSuccess('Society has been updated');
         }
 
     }
