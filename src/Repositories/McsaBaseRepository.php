@@ -65,8 +65,8 @@ abstract class McsaBaseRepository implements BaseRepository
     public function update($id,$data)
     {
         $url = $this->api_url . '/' . $this->model . '/' . $id;
-        $res = $this->client->request('PUT', $url,['json' => $data]);
-        return $res->getBody()->getContents();
+        $res = $this->client->request('POST', $url, ['form_params' => $data]);
+        $res->getBody()->getContents();
     }
 
     /**
