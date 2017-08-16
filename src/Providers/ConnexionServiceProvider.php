@@ -572,6 +572,13 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'Bishopm\Connexion\Repositories\CircuitsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\CircuitsRepository('circuits');
+                return $repository;
+            }
+        );        
+        $this->app->bind(
             'Bishopm\Connexion\Repositories\CommentsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\CommentsRepository(new \Actuallymab\LaravelComment\Models\Comment());

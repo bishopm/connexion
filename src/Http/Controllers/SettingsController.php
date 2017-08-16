@@ -4,6 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
+use Bishopm\Connexion\Repositories\CircuitsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\RostersRepository;
 use Bishopm\Connexion\Repositories\FoldersRepository;
@@ -24,12 +25,13 @@ class SettingsController extends Controller {
      * @return Response
      */
 
-    private $setting,$societies,$groups,$folders;
+    private $setting,$societies,$groups,$folders,$circuits;
 
-    public function __construct(SettingsRepository $setting, SocietiesRepository $societies, GroupsRepository $groups, RostersRepository $rosters, FoldersRepository $folders)
+    public function __construct(SettingsRepository $setting, CircuitsRepository $circuits, SocietiesRepository $societies, GroupsRepository $groups, RostersRepository $rosters, FoldersRepository $folders)
     {
         $this->setting = $setting;
         $this->societies = $societies;
+        $this->circuits = $circuits;
         $this->groups = $groups;
         $this->folders = $folders;
         $this->rosters = $rosters;
@@ -149,7 +151,7 @@ class SettingsController extends Controller {
                 $count++;
             }
         } elseif ($setting->setting_key=="circuit"){
-            $circuits=$this->societies->circuits();
+            $circuits=json_decode($this->circuits->all());
             $count=0;
             foreach ($circuits as $circuit){
                 $dropdown[$count][0]=$circuit->id;
