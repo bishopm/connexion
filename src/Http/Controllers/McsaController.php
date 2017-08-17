@@ -33,15 +33,14 @@ class McsaController extends Controller {
         $data['app_url']=url('/');
         $promise = $this->client->requestAsync('POST', $this->api_url . '/register',['json' => $data]);
         $promise->then(function ($response) {
-            
+            if ($response->getBody()=="Already taken"){
+                return redirect()->route('admin.societies.index')->withNotice('Error: ');
+            } else {
+                echo $response->getBody();
+            }
+            echo $response->getBody();
         });
         $promise->wait();
-        if ($response->getBody()=="Already taken"){
-            return redirect()->route('admin.societies.index')->withNotice('Error: ');
-        } else {
-            echo $response->getBody();
-        }
-        echo $response->getBody();
     }
     
 }
