@@ -53,7 +53,7 @@ class SetitemsController extends Controller
     public function getmessage($set)
     {
         $admin_id=$this->setting->getkey('worship_administrator');
-        $admin=User::where('name',$admin_id)->first()->individual->firstname;
+        $admin=User::find($admin_id)->individual->firstname;
         $fullset=Set::find($set);
         $msg="Hi " . $admin . "\n\nHere are the songs for the " . $fullset->service->servicetime . " service on " . $fullset->servicedate . ":\n\n";
         $setitems=Setitem::with('song')->where('set_id','=',$set)->orderBy('itemorder')->get();

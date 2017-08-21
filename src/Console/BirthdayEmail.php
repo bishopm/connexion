@@ -83,7 +83,7 @@ class BirthdayEmail extends Command
         $setting=Setting::where('setting_key','birthday_group')->first()->setting_value;
         $churchname=Setting::where('setting_key','site_name')->first()->setting_value;
         $churchemail=Setting::where('setting_key','church_email')->first()->setting_value;
-        $group=Group::with('individuals')->where('groupname',$setting)->first();
+        $group=Group::with('individuals')->find($setting);
         foreach ($group->individuals as $recip){
             $data['recipient']=$recip->firstname;
             $data['subject']="Birthday email from " . $churchname;

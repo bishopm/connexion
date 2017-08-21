@@ -63,7 +63,7 @@ class MonthlyBookshopEmail extends Command
         $setting=Setting::where('setting_key','bookshop')->first()->setting_value;
         if ($setting){
             $churchemail=Setting::where('setting_key','church_email')->first()->setting_value;
-            $group=Group::with('individuals')->where('groupname',$setting)->first();
+            $group=Group::with('individuals')->find($setting);
             if ($group){
                 foreach ($group->individuals as $recip){
                     $data['recipient']=$recip->firstname;

@@ -27,6 +27,7 @@ class SocietiesController extends Controller {
         $this->setting=$setting;
         $this->society = $society;
         $this->circuit = $this->setting->getkey('circuit');
+        $this->check=$this->society->check();
         if (filter_var($this->setting->getkey('church_api_url'), FILTER_VALIDATE_URL)) { 
             $this->api_url = $this->setting->getkey('church_api_url');   
             $this->circuits = self::circuits();
@@ -41,12 +42,17 @@ class SocietiesController extends Controller {
 
 	public function index()
 	{
-        if (($this->api_url) and ($this->circuit)){
-            $circuits = $this->circuits;
-            $societies = $this->society->all();
-            return view('connexion::societies.index',compact('societies','circuits'));
+        if ($this->check->circuit->id == $this->circuit){
+            if (($this->api_url) and ($this->circuit)){
+                $circuits = $this->circuits;
+                $check=$this->check;
+                $societies = $this->society->all();
+                return view('connexion::societies.index',compact('societies','circuits','check'));
+            } else {
+                return redirect()->route('admin.settings.index')->withNotice('A circuit must be specified and a valid API url needs to be set');
+            }
         } else {
-            return redirect()->route('admin.settings.index')->withNotice('A circuit must be specified and a valid API url needs to be set');
+            return redirect()->route('admin.settings.index')->withNotice('Make sure you have the right circuit set');
         }
 	}
 

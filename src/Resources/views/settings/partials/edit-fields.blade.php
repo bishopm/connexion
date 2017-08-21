@@ -3,10 +3,10 @@
 	{{ Form::label('Setting value')}}
 	<select class='form-control' name='setting_value' id='setting_value'>
 		@foreach ($dropdown as $val)
-			@if ($setting->setting_value==$val[1])
-				<option selected>{{$val[1]}}</option>
+			@if ($setting->setting_value==$val[0])
+				<option selected value="{{$val[0]}}">{{$val[1]}}</option>
 			@else
-				<option>{{$val[1]}}</option>
+				<option value="{{$val[0]}}">{{$val[1]}}</option>
 			@endif
 		@endforeach
 	</select>

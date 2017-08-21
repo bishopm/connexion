@@ -8,6 +8,7 @@ use Bishopm\Connexion\Repositories\CircuitsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\RostersRepository;
 use Bishopm\Connexion\Repositories\FoldersRepository;
+use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Models\Setting;
 use Bishopm\Connexion\Models\User;
 use Spatie\Activitylog\Models\Activity;
@@ -25,9 +26,9 @@ class SettingsController extends Controller {
      * @return Response
      */
 
-    private $setting,$societies,$groups,$folders,$circuits;
+    private $setting,$societies,$groups,$folders,$circuits,$users;
 
-    public function __construct(SettingsRepository $setting, CircuitsRepository $circuits, SocietiesRepository $societies, GroupsRepository $groups, RostersRepository $rosters, FoldersRepository $folders)
+    public function __construct(SettingsRepository $setting, CircuitsRepository $circuits, SocietiesRepository $societies, GroupsRepository $groups, RostersRepository $rosters, FoldersRepository $folders, UsersRepository $users)
     {
         $this->setting = $setting;
         $this->societies = $societies;
@@ -35,6 +36,7 @@ class SettingsController extends Controller {
         $this->groups = $groups;
         $this->folders = $folders;
         $this->rosters = $rosters;
+        $this->users=  $users;
     }
 
     public function index()
@@ -66,7 +68,7 @@ class SettingsController extends Controller {
     public function edit(Setting $setting)
     {
         if ($setting->setting_key=="society_name"){
-            $vals=$this->societies->dropdown();
+            $vals=$this->societies->all();
             $dropdown=array();
             foreach ($vals as $val){
                 $dum[0]=$val->id;
@@ -93,7 +95,7 @@ class SettingsController extends Controller {
             $users=User::orderBy('name')->get();
             $count=0;
             foreach ($users as $user){
-                $dropdown[$count][0]=$user->name;
+                $dropdown[$count][0]=$user->id;
                 $dropdown[$count][1]=$user->name;
                 $count++;
             }
@@ -133,7 +135,7 @@ class SettingsController extends Controller {
             $users=User::orderBy('name')->get();
             $count=0;
             foreach ($users as $user){
-                $dropdown[$count][0]=$user->name;
+                $dropdown[$count][0]=$user->id;
                 $dropdown[$count][1]=$user->name;
                 $count++;
             }
@@ -146,7 +148,7 @@ class SettingsController extends Controller {
             $users=User::orderBy('name')->get();
             $count=0;
             foreach ($users as $user){
-                $dropdown[$count][0]=$user->name;
+                $dropdown[$count][0]=$user->id;
                 $dropdown[$count][1]=$user->name;
                 $count++;
             }
@@ -162,6 +164,22 @@ class SettingsController extends Controller {
             $dropdown='';
         }
         return view('connexion::settings.edit', compact('setting','dropdown'));
+    }
+
+    private function settinglabel($setting){
+        if (in_array($setting->setting_key,["birthday_group","bookshop","pastoral_group"])){
+            $setting->label=$this->groups->find($setting->setting_value)->groupname;
+        } elseif (in_array($setting->setting_key,["circuit"])){
+            $setting->label=$this->circuits->find($setting->setting_value)->circuit;
+        } elseif (in_array($setting->setting_key,["society_name"])){
+            $setting->label=$this->societies->find($setting->setting_value)->society;
+        } elseif (in_array($setting->setting_key,["bookshop_manager","giving_administrator","worship_administrator"])){
+            $user=$this->users->find($setting->setting_value);
+            $setting->label=$user->individual->firstname . " " . $user->individual->surname;
+        } else {
+            $setting->label=$setting->setting_value;
+        }
+        return $setting->save();
     }
 
     public function userlogs(){
@@ -213,7 +231,7 @@ class SettingsController extends Controller {
     
     public function update(Setting $setting, UpdateSettingRequest $request)
     {
-        $this->setting->update($setting, $request->all());
+        self::settinglabel($this->setting->update($setting, $request->all()));
         return redirect()->route('admin.settings.index')->withSuccess('Setting has been updated');
     }
 

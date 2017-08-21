@@ -19,6 +19,11 @@ class UsersRepository extends EloquentBaseRepository
         return $this->model->with('individual')->onlyTrashed()->orderBy('name', 'DESC')->get();
     }
 
+    public function find($id)
+    {
+        return $this->model->with('individual')->find($id);
+    }
+
     public function activate($id)
     {
         $user=$this->model->withTrashed()->where('id',$id)->first();

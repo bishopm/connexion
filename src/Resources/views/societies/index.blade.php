@@ -13,7 +13,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-6"><h4>Societies</h4></div>
+                            <div class="col-md-6"><h4>Societies <small>{{$check->circuit->circuit}}</small></h4></div>
                             <div class="col-md-6">
                                 <a style="margin-left:10px;" href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#settingsModal">Settings</a>
                                 @if ($setting['church_api_token'])

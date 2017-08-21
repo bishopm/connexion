@@ -56,7 +56,7 @@ class HouseholdsController extends Controller {
 	{
         $pastoralgroup=$this->setting->getkey('pastoral_group');
         if ((isset($pastoralgroup->setting_value)) and ($pastoralgroup<>'')){
-            $group=$this->groups->findByName($pastoralgroup);
+            $group=$this->groups->find($pastoralgroup);
             foreach ($group->individuals as $indiv){
                 $dum['id']=$indiv->id;
                 $dum['firstname']=$indiv->firstname;

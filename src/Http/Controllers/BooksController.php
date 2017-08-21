@@ -117,8 +117,7 @@ class BooksController extends Controller {
         $data->sender=$request->input('email');
         $data->emailmessage=$request->input('message') . "<br><br>" . $request->input('name');
         $officeemail=$this->setting->getkey('church_email');
-        $bookshopuser=$this->setting->getkey('bookshop_manager');
-        $manager=User::where('name',$bookshopuser)->first();
+        $manager=User::find($this->setting->getkey('bookshop_manager'))->first();
         Mail::to($officeemail)->cc($data->sender)->bcc($manager->individual->email)->send(new GenericMail($data));
         return redirect()->route('webbooks')->withSuccess('Thank you! Your order has been emailed to us');
     }
