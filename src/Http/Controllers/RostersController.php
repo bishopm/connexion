@@ -190,7 +190,7 @@ class RostersController extends Controller {
 				foreach ($grp as $kk=>$sc){
 					foreach ($sc as $kkk=>$vv){
 						$pdf->setxy($x,$y2);
-						$pdf->cell(25,0,$this->individual->getName($vv->individual_id),0,0,'C');
+						$pdf->cell(25,0,utf8_decode($this->individual->getName($vv->individual_id)),0,0,'C');
 						$y2=$y2+3.5;
 					}
 					if (count($sc)<count($subcats)){
