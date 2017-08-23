@@ -42,7 +42,6 @@
                                         @endif
                                         </td>
                                         <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">{{$preacher->status}}</a></td>
-
                                     </tr>
                                 @empty
                                     <tr><td>No preachers have been added yet</td></tr>

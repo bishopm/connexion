@@ -25,6 +25,20 @@ abstract class McsaBaseRepository implements BaseRepository
         $this->model = $model;
     }
 
+    public function check()
+    {
+        $token=Setting::where('setting_key','church_api_token')->first()->setting_value;
+        if (!filter_var($this->api_url, FILTER_VALIDATE_URL)){
+            return "No valid url";
+        } elseif (!$token){
+            return "No token";
+        } else {
+            $url = $this->api_url . '/check?token=' . $token;
+            $res = $this->client->request('GET', $url);
+            return json_decode($res->getBody()->getContents());
+        } 
+    }
+
     /**
      * @inheritdoc
      */

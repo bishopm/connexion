@@ -15,11 +15,4 @@ class SocietiesRepository extends McsaBaseRepository
         return json_decode($res->getBody()->getContents());
     }
 
-    public function check()
-    {
-        $url = $this->api_url . '/check?token=' . Setting::where('setting_key','church_api_token')->first()->setting_value;
-        $res = $this->client->request('GET', $url);
-        return json_decode($res->getBody()->getContents());
-    }
-
 }
