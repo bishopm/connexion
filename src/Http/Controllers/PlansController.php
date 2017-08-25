@@ -2,19 +2,30 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException, Bishopm\Connexion\Models\Individual;
-use Illuminate\Http\Request, Bishopm\Connexion\Models\Plan, Bishopm\Connexion\Models\Society, Bishopm\Connexion\Models\Meeting, Auth;
-use Bishopm\Connexion\Models\Preacher, Bishopm\Connexion\Models\Service, Bishopm\Connexion\Libraries\Fpdf\Fpdf;
-use Bishopm\Connexion\Http\Requests\PlansRequest, Helpers, Redirect, Bishopm\Connexion\Models\Weekday;
-use App\Http\Controllers\Controller, Bishopm\Connexion\Repositories\SettingsRepository;
+use Illuminate\Http\Request, Bishopm\Connexion\Models\Plan, Auth;
+use Bishopm\Connexion\Models\Service, Bishopm\Connexion\Libraries\Fpdf\Fpdf;
+use Bishopm\Connexion\Http\Requests\PlansRequest, Helpers, Redirect;
+use App\Http\Controllers\Controller;
+use Bishopm\Connexion\Repositories\SettingsRepository, Bishopm\Connexion\Repositories\WeekdaysRepository;
+use Bishopm\Connexion\Repositories\MeetingsRepository, Bishopm\Connexion\Repositories\SocietiesRepository;
+use Bishopm\Connexion\Repositories\PreachersRepository, Bishopm\Connexion\Repositories\PlansRepository;
+use Bishopm\Connexion\Repositories\ServicesRepository;
 
 class PlansController extends Controller
 {
 
-    private $settings;
+    private $settings, $weekdays, $meetings, $societies, $preachers, $plans, $services;
 
-    public function __construct(SettingsRepository $settings)
+    public function __construct(SettingsRepository $settings, WeekdaysRepository $weekdays, MeetingsRepository $meetings, SocietiesRepository $societies,
+        PreachersRepository $preachers, PlansRepository $plans, ServicesRepository $services)
     {
         $this->settings=$settings->makearray();
+        $this->weekdays=$weekdays;
+        $this->meetings=$meetings;
+        $this->societies=$societies;
+        $this->preachers=$preachers;
+        $this->plans=$plans;
+        $this->services=$services;
     }
 
     /**
@@ -118,17 +129,17 @@ class PlansController extends Controller
         $firstSunday=date("d M Y",mktime(0, 0, 0, $m1, 8-$firstDay, $y1));
         $lastSunday=strtotime($firstSunday);
         $lastDay=mktime(23,59,59,$m3,cal_days_in_month(CAL_GREGORIAN, $m3, $y3),$y3);
-        $extras=Weekday::where('servicedate','>=',$firstDateTime)->where('servicedate','<=',$lastDay)->orderBy('servicedate')->get()->toArray();
-        $data['meetings']=Meeting::where('meetingdatetime','<',$lastDay)->where('meetingdatetime','>',$firstDateTime)->orderBy('meetingdatetime')->get();
+        $extras=$this->weekdays->valueBetween('servicedate',$firstDateTime,$lastDay);
+        $data['meetings']=$this->meetings->valueBetween('meetingdatetime',$firstDateTime,$lastDay);
         $dum['dt']=$lastSunday;
         $dum['yy']=intval(date("Y",$lastSunday));
         $dum['mm']=intval(date("n",$lastSunday));
         $dum['dd']=intval(date("j",$lastSunday));
         $sundays[]=$dum;
-        $data['societies']=Society::orderBy('society')->with('services')->get();
-        $data['preachers']=Preacher::where('status','=','Local preacher')->orWhere('status','=','On trial preacher')->orderBy('surname')->orderBy('firstname')->get();
-        $data['ministers']=Preacher::where('status','=','Minister')->orWhere('status','=','Superintendent')->get();
-        $data['guests']=Preacher::where('status','=','Guest')->get();
+        $data['societies']=$this->societies->all();
+        $data['preachers']=$this->preachers->sqlQuery("SELECT * from preachers where status='Local preacher' or status='On trial preacher' ORDER BY surname,firstname");
+        $data['ministers']=$this->preachers->sqlQuery("SELECT * from preachers where status='Minister' or status='Superintendent' ORDER BY surname,firstname");
+        $data['guests']=$this->preachers->sqlQuery("SELECT * from preachers where status='Guest' ORDER BY surname,firstname");
         while (date($lastSunday+604800<=$lastDay)) {
           $lastSunday=$lastSunday+604800;
           $dum['dt']=$lastSunday;
@@ -140,11 +151,11 @@ class PlansController extends Controller
         if (count($extras)){
           $xco=0;
           for ($q = 0; $q < count($sundays); $q++){
-            if (($xco<count($extras)) and ($extras[$xco]['servicedate']<$sundays[$q]['dt'])){
-              $dum['dt']=$extras[$xco]['servicedate'];
-              $dum['yy']=intval(date("Y",$extras[$xco]['servicedate']));
-              $dum['mm']=intval(date("n",$extras[$xco]['servicedate']));
-              $dum['dd']=intval(date("j",$extras[$xco]['servicedate']));
+            if (($xco<count($extras)) and ($extras[$xco]->servicedate < $sundays[$q]['dt'])){
+              $dum['dt']=$extras[$xco]->servicedate;
+              $dum['yy']=intval(date("Y",$extras[$xco]->servicedate));
+              $dum['mm']=intval(date("n",$extras[$xco]->servicedate));
+              $dum['dd']=intval(date("j",$extras[$xco]->servicedate));
               $data['sundays'][]=$dum;
               $xco++;
               $q=$q-1;
@@ -155,10 +166,11 @@ class PlansController extends Controller
         } else {
           $data['sundays']=$sundays;
         }
-        $pm1=Plan::where('planyear','=',$y1)->where('planmonth','=',$m1)->get();
+        $pm1=$this->plans->sqlQuery("SELECT * from plans where planyear = '" . $y1 . "' and planmonth ='" . $m1 . "'");
         foreach ($pm1 as $p1){
-            $soc=Society::find($p1->society_id)->society;
-            $ser=Service::find($p1->service_id)->servicetime;
+            $soc=$this->societies->find($p1->society_id)->society;
+            $ser=$this->services->find($p1->service_id);
+            dd($ser);
             if ($p1->preacher->status=="Minister"){
               $p1typ="M_";
             } elseif ($p1->preacher->status=="Guest"){
@@ -181,7 +193,7 @@ class PlansController extends Controller
               @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['trial']=$p1->trialservice;
             }
         }
-        $pm2=Plan::where('planyear','=',$y2)->where('planmonth','=',$m2)->get();
+        $pm2=$this->plans->sqlQuery("SELECT * from plans where planyear = '" . $y2 . "' and planmonth ='" . $m2 . "'");
         foreach ($pm2 as $p2){
             $soc=Society::find($p2->society_id)->society;
             $ser=Service::find($p2->service_id)->servicetime;

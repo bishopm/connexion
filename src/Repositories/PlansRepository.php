@@ -1,7 +1,10 @@
 <?php namespace Bishopm\Connexion\Repositories;
 
-use Bishopm\Connexion\Repositories\EloquentBaseRepository;
+use Bishopm\Connexion\Repositories\McsaBaseRepository;
+use Bishopm\Connexion\Repositories\SettingsRepository;
+use Bishopm\Connexion\Models\Setting;
 
-class PlansRepository extends EloquentBaseRepository
+class PlansRepository extends McsaBaseRepository
 {
+
 }

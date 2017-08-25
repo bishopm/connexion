@@ -22,15 +22,15 @@ abstract class McsaBaseRepository implements BaseRepository
         $this->api_url = Setting::where('setting_key','church_api_url')->first()->setting_value;
         $this->token = Setting::where('setting_key','church_api_token')->first()->setting_value;
         $this->client = new Client();
+        $this->circuit=Setting::where('setting_key','circuit')->first()->setting_value;
         $this->model = $model;
     }
 
     public function check()
     {
-        $token=Setting::where('setting_key','church_api_token')->first()->setting_value;
         if (!filter_var($this->api_url, FILTER_VALIDATE_URL)){
             return "No valid url";
-        } elseif (!$token){
+        } elseif (!$this->token){
             return "No token";
         } else {
             $url = $this->api_url . '/check?token=' . $token;
@@ -44,19 +44,32 @@ abstract class McsaBaseRepository implements BaseRepository
      */
     public function find($id)
     {
-        $url = $this->api_url . '/' . $this->model . '/' . $id;
+        $url = $this->api_url . '/' . $this->model . '/' . $id . '?token=' . $this->token;
         $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->getContents());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function all()
     {
-        $url = $this->api_url . '/' . $this->model;
+        $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '?token=' . $this->token;
         $res = $this->client->request('GET', $url);
-        return $res->getBody()->getContents();
+        return json_decode($res->getBody()->getContents());
+    }
+
+    public function valueBetween($field,$low,$high)
+    {
+        $data['sql']="SELECT * from " . $this->model . " where " . $field . " >= '" . $low . "' and " . $field . " <= '" . $high . "' order by " . $field;
+        $url = $this->api_url . '/circuits/' . $this->circuit . '/query?token=' . $this->token;
+        $res = $this->client->request('POST', $url, ['form_params' => $data]);
+        return json_decode($res->getBody()->getContents());
+    }
+
+    public function sqlQuery($query)
+    {
+        $data['sql']=$query;
+        $url = $this->api_url . '/circuits/' . $this->circuit . '/query?token=' . $this->token;
+        $res = $this->client->request('POST', $url, ['form_params' => $data]);
+        return json_decode($res->getBody()->getContents());
     }
 
     /**

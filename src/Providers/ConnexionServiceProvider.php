@@ -623,7 +623,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->bind(
             'Bishopm\Connexion\Repositories\MeetingsRepository',
             function () {
-                $repository = new \Bishopm\Connexion\Repositories\MeetingsRepository(new \Bishopm\Connexion\Models\Meeting());
+                $repository = new \Bishopm\Connexion\Repositories\MeetingsRepository('meetings');
                 return $repository;
             }
         );
@@ -665,7 +665,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->bind(
             'Bishopm\Connexion\Repositories\PlansRepository',
             function () {
-                $repository = new \Bishopm\Connexion\Repositories\PlansRepository(new \Bishopm\Connexion\Models\Plan());
+                $repository = new \Bishopm\Connexion\Repositories\PlansRepository('plans');
                 return $repository;
             }
         );
@@ -679,7 +679,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->bind(
             'Bishopm\Connexion\Repositories\PreachersRepository',
             function () {
-                $repository = new \Bishopm\Connexion\Repositories\PreachersRepository(new \Bishopm\Connexion\Models\Preacher());
+                $repository = new \Bishopm\Connexion\Repositories\PreachersRepository('preachers');
                 return $repository;
             }
         );        
@@ -714,7 +714,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->bind(
             'Bishopm\Connexion\Repositories\ServicesRepository',
             function () {
-                $repository = new \Bishopm\Connexion\Repositories\ServicesRepository(new \Bishopm\Connexion\Models\Service());
+                $repository = new \Bishopm\Connexion\Repositories\ServicesRepository('services');
                 return $repository;
             }
         );
@@ -784,7 +784,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->bind(
             'Bishopm\Connexion\Repositories\WeekdaysRepository',
             function () {
-                $repository = new \Bishopm\Connexion\Repositories\WeekdaysRepository(new \Bishopm\Connexion\Models\Weekday());
+                $repository = new \Bishopm\Connexion\Repositories\WeekdaysRepository('weekdays');
                 return $repository;
             }
         );
