@@ -62,14 +62,14 @@ select.form-control.pplan {
           @endforeach
         </tr>
     @endif
-    @foreach ($soc->services as $ser)
-      <tr><th class="text-right">{{$soc->society}}</th><td>{{$ser->servicetime}}</td>
+    @foreach ($soc['services'] as $ser)
+      <tr><th class="text-right">{{$soc['society']}}</th><td>{{$ser['servicetime']}}</td>
       @foreach ($sundays as $sun)
         <td>
-          <select class="form-control pplan" name="t_{{$soc->id}}_{{$ser->id}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option></option>
+          <select class="form-control pplan" name="t_{{$soc['id']}}_{{$ser['id']}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option></option>
             <optgroup label="Special services">
               @foreach ($tags as $tag)
-                @if ((isset($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['tname'])) and ($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['tname']==$tag))
+                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['tname'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['tname']==$tag))
                   <option selected value="{{$tag}}">{{$tag}}</option>
                 @else
                   <option value="{{$tag}}">{{$tag}}</option>
@@ -78,46 +78,46 @@ select.form-control.pplan {
             </optgroup>
             <optgroup label="Trial service markers">
               @foreach ($ministers as $minister)
-                @if ((isset($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial'])) and ($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial']==$minister->id))
-                  <option selected value="{{$minister->id}}">{{substr($minister->firstname,0,1)}} {{$minister->surname}}</option>
+                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']==$minister['id']))
+                  <option selected value="{{$minister['id']}}">{{substr($minister['firstname'],0,1)}} {{$minister['surname']}}</option>
                 @else
-                  <option value="{{$minister->id}}">{{substr($minister->firstname,0,1)}} {{$minister->surname}}</option>
+                  <option value="{{$minister['id']}}">{{substr($minister['firstname'],0,1)}} {{$minister['surname']}}</option>
                 @endif
               @endforeach
               @foreach ($preachers as $preacher)
-                @if ((isset($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial'])) and ($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial']==$preacher->id))
-                  <option selected value="{{$preacher->id}}">{{substr($preacher->firstname,0,1)}} {{$preacher->surname}}</option>
+                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']==$preacher['id']))
+                  <option selected value="{{$preacher['id']}}">{{substr($preacher['firstname'],0,1)}} {{$preacher['surname']}}</option>
                 @else
-                  <option value="{{$preacher->id}}">{{substr($preacher->firstname,0,1)}} {{$preacher->surname}}</option>
+                  <option value="{{$preacher['id']}}">{{substr($preacher['firstname'],0,1)}} {{$preacher['surname']}}</option>
                 @endif
               @endforeach
             </optgroup>
           </select>
-          <select class="form-control pplan" name="p_{{$soc->id}}_{{$ser->id}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option></option>
+          <select class="form-control pplan" name="p_{{$soc['id']}}_{{$ser['id']}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option></option>
             <optgroup label="Ministers">
               @foreach ($ministers as $minister)
-                @if ((isset($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['preacher'])) and ($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['preacher']=="M_" . $minister->id))
-                  <option selected value="M_{{$minister->id}}">{{substr($minister->firstname,0,1)}} {{$minister->surname}}</option>
+                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['preacher'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['preacher']=="M_" . $minister['id']))
+                  <option selected value="M_{{$minister['id']}}">{{substr($minister['firstname'],0,1)}} {{$minister['surname']}}</option>
                 @else
-                  <option value="M_{{$minister->id}}">{{substr($minister->firstname,0,1)}} {{$minister->surname}}</option>
+                  <option value="M_{{$minister['id']}}">{{substr($minister['firstname'],0,1)}} {{$minister['surname']}}</option>
                 @endif
               @endforeach
             </optgroup>
             <optgroup label="Preachers">
               @foreach ($preachers as $preacher)
-                @if ((isset($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['preacher'])) and ($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['preacher']=="P_" . $preacher->id))
-                  <option selected value="P_{{$preacher->id}}">{{substr($preacher->firstname,0,1)}} {{$preacher->surname}}</option>
+                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['preacher'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['preacher']=="P_" . $preacher['id']))
+                  <option selected value="P_{{$preacher['id']}}">{{substr($preacher['firstname'],0,1)}} {{$preacher['surname']}}</option>
                 @else
-                  <option value="P_{{$preacher->id}}">{{substr($preacher->firstname,0,1)}} {{$preacher->surname}}</option>
+                  <option value="P_{{$preacher['id']}}">{{substr($preacher['firstname'],0,1)}} {{$preacher['surname']}}</option>
                 @endif
               @endforeach
             </optgroup>
             <optgroup label="Guests">
               @foreach ($guests as $guest)
-                @if ((isset($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['preacher'])) and ($fin[$soc->society][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['preacher']=="G_" . $guest->id))
-                  <option selected value="G_{{$guest->id}}">{{substr($guest->firstname,0,1)}} {{$guest->surname}}</option>
+                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['preacher'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['preacher']=="G_" . $guest['id']))
+                  <option selected value="G_{{$guest['id']}}">{{substr($guest['firstname'],0,1)}} {{$guest['surname']}}</option>
                 @else
-                  <option value="G_{{$guest->id}}">{{substr($guest->firstname,0,1)}} {{$guest->surname}}</option>
+                  <option value="G_{{$guest['id']}}">{{substr($guest['firstname'],0,1)}} {{$guest['surname']}}</option>
                 @endif
               @endforeach
             </optgroup>

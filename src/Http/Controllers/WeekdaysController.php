@@ -23,9 +23,8 @@ class WeekdaysController extends Controller {
         $this->weekday = $weekday;
     }
 
-    public function index($query)
+    public function index()
 	{
-        dd($query);
         $weekdays = $this->weekday->all();
    		return view('connexion::weekdays.index',compact('weekdays'));
 	}

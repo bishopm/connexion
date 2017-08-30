@@ -88,196 +88,28 @@ class PlansController extends Controller
      */
     public function show($yy,$qq,$aa)
     {
-        if ($qq=="current"){
-          $one=range(2,4);
-          $two=range(5,7);
-          $three=range(8,10);
-          $four=range(11,12);
-          $m=intval(date('n'));
-          $y=intval(date('Y'));
-          if (in_array($m,$one)){
-            $qq=1;
-          } elseif (in_array($m,$two)){
-            $qq=2;
-          } elseif (in_array($m,$three)){
-            $qq=3;
-          } elseif (in_array($m,$four)){
-            $qq=4;
-          } elseif ($m==1){
-            $yy=$yy-1;
-            $qq=4;
-          }
+      $data=$this->plans->show($yy,$qq);
+      if ($aa=="edit"){
+        return view('connexion::plans.edit',$data);
+      } else {
+        $data['pb']=$this->settings['presiding_bishop'];
+        if (!$data['pb']){
+          return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please enter the name of the Presiding Bishop');
         }
-        $fin=array();
-        $fm=2;
-        $m1=$qq*3-3+$fm;
-        $y1=$yy;
-        $m2=$qq*3-2+$fm;
-        $y2=$yy;
-        $m3=$qq*3-1+$fm;
-        $y3=$yy;
-        if ($m2>12){
-            $m2=$m2-12;
-            $y2=$y2+1;
+        $data['gs']=$this->settings['general_secretary'];
+        if (!$data['gs']){
+          return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please enter the name of the General Secretary');
         }
-        if ($m3>12){
-            $m3=$m3-12;
-            $y3=$y3+1;
+        $data['db']=$this->settings['district_bishop'];
+        if (!$data['db']){
+          return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please enter the name of the District Bishop');
         }
-        $firstDateTime=mktime(0, 0, 0, $m1, 1, $y1);
-        $firstDay=date("N", $firstDateTime);
-        $firstSunday=date("d M Y",mktime(0, 0, 0, $m1, 8-$firstDay, $y1));
-        $lastSunday=strtotime($firstSunday);
-        $lastDay=mktime(23,59,59,$m3,cal_days_in_month(CAL_GREGORIAN, $m3, $y3),$y3);
-        $extras=$this->weekdays->valueBetween('servicedate',$firstDateTime,$lastDay);
-        $data['meetings']=$this->meetings->valueBetween('meetingdatetime',$firstDateTime,$lastDay);
-        $dum['dt']=$lastSunday;
-        $dum['yy']=intval(date("Y",$lastSunday));
-        $dum['mm']=intval(date("n",$lastSunday));
-        $dum['dd']=intval(date("j",$lastSunday));
-        $sundays[]=$dum;
-        $data['societies']=$this->societies->all();
-        $data['preachers']=$this->preachers->sqlQuery("SELECT * from preachers where status='Local preacher' or status='On trial preacher' ORDER BY surname,firstname");
-        $data['ministers']=$this->preachers->sqlQuery("SELECT * from preachers where status='Minister' or status='Superintendent' ORDER BY surname,firstname");
-        $data['guests']=$this->preachers->sqlQuery("SELECT * from preachers where status='Guest' ORDER BY surname,firstname");
-        while (date($lastSunday+604800<=$lastDay)) {
-          $lastSunday=$lastSunday+604800;
-          $dum['dt']=$lastSunday;
-          $dum['yy']=intval(date("Y",$lastSunday));
-          $dum['mm']=intval(date("n",$lastSunday));
-          $dum['dd']=intval(date("j",$lastSunday));
-          $sundays[]=$dum;
+        $data['super']=$this->settings['superintendent'];
+        if (!$data['super']){
+          return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please specify who the Circuit Superintendent is');
         }
-        if (count($extras)){
-          $xco=0;
-          for ($q = 0; $q < count($sundays); $q++){
-            if (($xco<count($extras)) and ($extras[$xco]->servicedate < $sundays[$q]['dt'])){
-              $dum['dt']=$extras[$xco]->servicedate;
-              $dum['yy']=intval(date("Y",$extras[$xco]->servicedate));
-              $dum['mm']=intval(date("n",$extras[$xco]->servicedate));
-              $dum['dd']=intval(date("j",$extras[$xco]->servicedate));
-              $data['sundays'][]=$dum;
-              $xco++;
-              $q=$q-1;
-            } else {
-              $data['sundays'][]=$sundays[$q];
-            }
-          }
-        } else {
-          $data['sundays']=$sundays;
-        }
-        $pm1=$this->plans->sqlQuery("SELECT * from plans where planyear = '" . $y1 . "' and planmonth ='" . $m1 . "'");
-        foreach ($pm1 as $p1){
-            $soc=$this->societies->find($p1->society_id)->society;
-            $ser=$this->services->find($p1->service_id);
-            dd($ser);
-            if ($p1->preacher->status=="Minister"){
-              $p1typ="M_";
-            } elseif ($p1->preacher->status=="Guest"){
-              $p1typ="G_";
-            } else {
-              $p1typ="P_";
-            }
-            if ($p1->preacher_id){
-              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['preacher']=$p1typ . $p1->preacher->id;
-              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['pname']=substr($p1->preacher->firstname,0,1) . " " . $p1->preacher->surname;
-            } else {
-              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['preacher']="";
-            }
-            if ($p1->servicetype){
-              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['tname']=$p1->servicetype;
-            } else {
-              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['tag']="";
-            }
-            if ($p1->trialservice){
-              @$data['fin'][$soc][$p1->planyear][$p1->planmonth][$p1->planday][$ser]['trial']=$p1->trialservice;
-            }
-        }
-        $pm2=$this->plans->sqlQuery("SELECT * from plans where planyear = '" . $y2 . "' and planmonth ='" . $m2 . "'");
-        foreach ($pm2 as $p2){
-            $soc=Society::find($p2->society_id)->society;
-            $ser=Service::find($p2->service_id)->servicetime;
-            if ($p2->preacher->status=="Minister"){
-              $p2typ="M_";
-            } elseif ($p2->preacher->status=="Guest"){
-              $p2typ="G_";
-            } else {
-              $p2typ="P_";
-            }
-            if ($p2->preacher_id){
-              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['preacher']=$p2typ . $p2->preacher->id;
-              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['pname']=substr($p2->preacher->firstname,0,1) . " " . $p2->preacher->surname;
-            } else {
-              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['preacher']="";
-            }
-            if ($p2->servicetype){
-              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['tname']=$p2->servicetype;
-            } else {
-              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['tag']="";
-            }
-            if ($p2->trialservice){
-              @$data['fin'][$soc][$p2->planyear][$p2->planmonth][$p2->planday][$ser]['trial']=$p2->trialservice;
-            }
-        }
-
-        $pm3=Plan::where('planyear','=',$y3)->where('planmonth','=',$m3)->get();
-        foreach ($pm3 as $p3){
-            $soc=Society::find($p3->society_id)->society;
-            $ser=Service::find($p3->service_id)->servicetime;
-            if ($p3->preacher->status=="Minister"){
-              $p3typ="M_";
-            } elseif ($p3->preacher->status=="Guest"){
-              $p3typ="G_";
-            } else {
-              $p3typ="P_";
-            }
-            if ($p3->preacher_id){
-              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['preacher']=$p3typ . $p3->preacher->id;
-              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['pname']=substr($p3->preacher->firstname,0,1) . " " . $p3->preacher->surname;
-            } else {
-              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['preacher']="";
-            }
-            if ($p3->servicetype){
-              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['tname']=$p3->servicetype;
-            } else {
-              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['tag']="";
-            }
-            if ($p3->trialservice){
-              @$data['fin'][$soc][$p3->planyear][$p3->planmonth][$p3->planday][$ser]['trial']=$p3->trialservice;
-            }
-        }
-        $data['tags']=array('ASM','COM','COV','RHONA','WA','WG','WM','YMG','YOUTH');
-        if ($qq==1){
-          $data['prev']="plan/" . strval($yy-1) . "/4";
-        } else {
-          $data['prev']="plan/$yy/" . strval($qq-1);
-        }
-        if ($qq==4){
-          $data['next']="plan/" . strval($yy+1) . "/1";
-        } else {
-          $data['next']="plan/$yy/" . strval($qq+1);
-        }
-        if ($aa=="edit"){
-          return view('connexion::plans.edit',$data);
-        } else {
-          $data['pb']=$this->settings['presiding_bishop'];
-          if (!$data['pb']){
-            return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please enter the name of the Presiding Bishop');
-          }
-          $data['gs']=$this->settings['general_secretary'];
-          if (!$data['gs']){
-            return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please enter the name of the General Secretary');
-          }
-          $data['db']=$this->settings['district_bishop'];
-          if (!$data['db']){
-            return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please enter the name of the District Bishop');
-          }
-          $data['super']=$this->settings['superintendent'];
-          if (!$data['super']){
-            return view('connexion::shared.errors')->with('errormessage','Before you can view the plan, please specify who the Circuit Superintendent is');
-          }
-          $this->report($data);
-        }
+        $this->report($data);
+      }
     }
 
     public function report($dat){      

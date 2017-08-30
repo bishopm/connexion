@@ -33,7 +33,7 @@ abstract class McsaBaseRepository implements BaseRepository
         } elseif (!$this->token){
             return "No token";
         } else {
-            $url = $this->api_url . '/check?token=' . $token;
+            $url = $this->api_url . '/check?token=' . $this->token;
             $res = $this->client->request('GET', $url);
             return json_decode($res->getBody()->getContents());
         } 
