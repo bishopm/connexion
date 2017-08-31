@@ -25,7 +25,7 @@
         "spatie/laravel-menu": "2.*",
         "league/oauth2-client": "^1.4",
         "plank/laravel-mediable": "^2.3",
-        "cartalyst/tags": "4.*",
+        "cartalyst/tags": "5.*",
         "actuallymab/laravel-comment": "0.3.*",
         "jrean/laravel-user-verification": "4.1.9",
         "felixkiss/uniquewith-validator": "3.*",
