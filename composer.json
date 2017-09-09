@@ -26,17 +26,17 @@
         "league/oauth2-client": "^1.4",
         "plank/laravel-mediable": "^2.3",
         "cartalyst/tags": "5.*",
-        "actuallymab/laravel-comment": "0.3.*",
-        "jrean/laravel-user-verification": "4.1.9",
+        "actuallymab/laravel-comment": "0.4.*",
+        "jrean/laravel-user-verification": "5.*",
         "felixkiss/uniquewith-validator": "3.*",
         "lithiumdev/laravel-tagcloud": "1.*",
         "guzzlehttp/guzzle": "6.*",
-        "roumen/feed": "~2.10",
+        "roumen/feed": "~2.*",
         "spatie/laravel-activitylog": "2.*",
         "spatie/laravel-analytics": "3.*",
-        "tymon/jwt-auth": "0.5.*",
+        "tymon/jwt-auth": "1.*",
         "barryvdh/laravel-cors": "0.9.*",
-        "consoletvs/charts": "4.*"
+        "consoletvs/charts": "5.*"
     },
     "require-dev": {
         "phpunit/phpunit" : "~6.0",        
