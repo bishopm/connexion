@@ -17,7 +17,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
      "url": "https://github.com/bishopm/connexion"
    }
 ],
-"require-dev": {
+"require": {
    ...
    "bishopm/connexion": "dev-master"
 },
