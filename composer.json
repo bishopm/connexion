@@ -31,10 +31,10 @@
         "felixkiss/uniquewith-validator": "3.*",
         "lithiumdev/laravel-tagcloud": "1.*",
         "guzzlehttp/guzzle": "6.*",
-        "roumen/feed": "2.*@dev",
+        "roumen/feed": "2.*",
         "spatie/laravel-activitylog": "2.*",
         "spatie/laravel-analytics": "3.*",
-        "tymon/jwt-auth": "1.*",
+        "tymon/jwt-auth": "1.*@dev",
         "barryvdh/laravel-cors": "0.9.*",
         "consoletvs/charts": "5.*"
     },
