@@ -31,7 +31,7 @@
         "felixkiss/uniquewith-validator": "3.*",
         "lithiumdev/laravel-tagcloud": "1.*",
         "guzzlehttp/guzzle": "6.*",
-        "roumen/feed": "2.*",
+        "roumen/feed": "2.*@dev",
         "spatie/laravel-activitylog": "2.*",
         "spatie/laravel-analytics": "3.*",
         "tymon/jwt-auth": "1.*",
