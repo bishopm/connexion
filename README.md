@@ -23,9 +23,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 },
 ```
 4. Run *composer update* in the project folder, which will pull in the package and its dependencies
-5. Add the package service provider to config/app.php (in the providers section): 
-`Bishopm\Connexion\Providers\ConnexionServiceProvider::class,`
-6. Add your database credentials to .env
-7. In the project folder, run
+5. Add your database credentials to .env
+6. In the project folder, run
 `php artisan connexion:install`
 follow the prompts to create your first admin user, and you're good to go!
