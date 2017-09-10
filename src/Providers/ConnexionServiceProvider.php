@@ -66,342 +66,342 @@ class ConnexionServiceProvider extends ServiceProvider
                 } 
             }    
             $finset=$settings->makearray();
-        }
-        view()->share('setting', $finset);
-        if ($settings->getkey('mail_host')<>"Invalid"){
-            config(['mail.host'=>$settings->getkey('mail_host')]);
-            config(['mail.port'=>$settings->getkey('mail_port')]);
-            config(['mail.username'=>$settings->getkey('mail_username')]);
-            config(['mail.password'=>$settings->getkey('mail_password')]);
-            //config(['mail.encryption'=>$settings->getkey('mail_encryption')]);
-        }
-        if (($settings->getkey('site_name'))<>"Invalid"){
-            config(['app.name'=>$settings->getkey('site_name')]);
-        }
-        config(['mail.from.address'=>$settings->getkey('church_email')]);
-        config(['mail.from.name'=>$settings->getkey('site_name')]);
-        config(['user-verification.email.view'=>'connexion::emails.newuser']);
-        config(['user-verification.email.type'=>'markdown']);
-        config(['app.name'=>$settings->getkey('site_name')]);
-        $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
-            $event->menu->menu=array();
-            $modules=Setting::where('module','=','module')->get()->toArray();
-            foreach ($modules as $module){
-                $mods[$module['setting_key']]=$module['setting_value'];
+            view()->share('setting', $finset);
+            if ($settings->getkey('mail_host')<>"Invalid"){
+                config(['mail.host'=>$settings->getkey('mail_host')]);
+                config(['mail.port'=>$settings->getkey('mail_port')]);
+                config(['mail.username'=>$settings->getkey('mail_username')]);
+                config(['mail.password'=>$settings->getkey('mail_password')]);
+                //config(['mail.encryption'=>$settings->getkey('mail_encryption')]);
             }
-            $event->menu->add('CHURCH ADMIN');
-            $event->menu->add([
-                'text' => 'Members',
-                'icon' => 'book',
-                'can' => 'edit-backend',
-                'submenu' => [
-                    [
-                        'text' => 'Households',
-                        'url'  => 'admin/households',
-                        'icon' => 'child',
-                        'can' =>  'edit-backend'
-                    ],
-                    [
-                        'text' => 'Groups',
-                        'url'  => 'admin/groups',
-                        'icon' => 'users',
-                        'can' =>  'edit-backend'
-                    ],
-                    [
-                        'text' => 'Messages',
-                        'url'  => 'admin/messages/create',
-                        'icon' => 'envelope-o',
-                        'can' =>  'edit-backend'
-                    ],
-                    [
-                        'text' => 'Events',
-                        'url'  => 'admin/events',
-                        'icon' => 'calendar-check-o',
-                        'can' =>  'edit-backend'
-                    ],
-                    [
-                        'text' => 'Rosters',
-                        'url'  => 'admin/rosters',
-                        'icon' => 'calendar',
-                        'can' =>  'edit-backend'
-                    ],
-                    [
-                        'text' => 'Statistics',
-                        'url'  => 'admin/statistics',
-                        'icon' => 'line-chart',
-                        'can' =>  'edit-backend',
-                        'active' => []
-                    ],
-                    [
-                        'text' => 'Giving',
-                        'url'  => 'admin/payments',
-                        'icon' => 'gift',
-                        'can' =>  'admin-giving'
-                    ]
-                ]
-            ]);
-            if ($mods['mcsa_module']=="yes"){
+            if (($settings->getkey('site_name'))<>"Invalid"){
+                config(['app.name'=>$settings->getkey('site_name')]);
+            }
+            config(['mail.from.address'=>$settings->getkey('church_email')]);
+            config(['mail.from.name'=>$settings->getkey('site_name')]);
+            config(['user-verification.email.view'=>'connexion::emails.newuser']);
+            config(['user-verification.email.type'=>'markdown']);
+            config(['app.name'=>$settings->getkey('site_name')]);
+            $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
+                $event->menu->menu=array();
+                $modules=Setting::where('module','=','module')->get()->toArray();
+                foreach ($modules as $module){
+                    $mods[$module['setting_key']]=$module['setting_value'];
+                }
+                $event->menu->add('CHURCH ADMIN');
                 $event->menu->add([
-                    'text' => 'Circuit',
-                    'icon' => 'comments',
+                    'text' => 'Members',
+                    'icon' => 'book',
                     'can' => 'edit-backend',
                     'submenu' => [
                         [
-                            'text' => 'Preachers',
-                            'url'  => 'admin/preachers',
+                            'text' => 'Households',
+                            'url'  => 'admin/households',
                             'icon' => 'child',
                             'can' =>  'edit-backend'
                         ],
                         [
-                            'text' => 'Societies',
-                            'url'  => 'admin/societies',
+                            'text' => 'Groups',
+                            'url'  => 'admin/groups',
+                            'icon' => 'users',
+                            'can' =>  'edit-backend'
+                        ],
+                        [
+                            'text' => 'Messages',
+                            'url'  => 'admin/messages/create',
                             'icon' => 'envelope-o',
                             'can' =>  'edit-backend'
                         ],
                         [
-                            'text' => 'Plan',
-                            'url'  => 'admin/plan/' . date('Y') . '/current/edit',
+                            'text' => 'Events',
+                            'url'  => 'admin/events',
+                            'icon' => 'calendar-check-o',
+                            'can' =>  'edit-backend'
+                        ],
+                        [
+                            'text' => 'Rosters',
+                            'url'  => 'admin/rosters',
                             'icon' => 'calendar',
                             'can' =>  'edit-backend'
                         ],
                         [
-                            'text' => 'Meetings',
-                            'url'  => 'admin/meetings',
-                            'icon' => 'group',
-                            'can' =>  'edit-backend'
+                            'text' => 'Statistics',
+                            'url'  => 'admin/statistics',
+                            'icon' => 'line-chart',
+                            'can' =>  'edit-backend',
+                            'active' => []
                         ],
                         [
-                            'text' => 'Special services',
-                            'url'  => 'admin/weekdays',
-                            'icon' => 'tree',
-                            'can' =>  'edit-backend'
+                            'text' => 'Giving',
+                            'url'  => 'admin/payments',
+                            'icon' => 'gift',
+                            'can' =>  'admin-giving'
                         ]
                     ]
                 ]);
-            }
-            if ($mods['todo_module']=="yes"){
-                $event->menu->add([
-                    'text' => 'Todo',
-                    'icon' => 'list-ol',
-                    'can' => 'edit-backend',
-                    'submenu' => [
-                        [
-                            'text' => 'Tasks',
-                            'url'  => 'admin/actions',
-                            'icon' => 'check-square-o',
-                            'can' =>  'edit-backend'
-                        ],
-                        [
-                            'text' => 'Folders',
-                            'url'  => 'admin/folders',
-                            'icon' => 'folder-open-o',
-                            'can' =>  'admin-backend'
-                        ],
-                        [
-                            'text' => 'Projects',
-                            'url'  => 'admin/projects',
-                            'icon' => 'tasks',
-                            'can' =>  'edit-backend'
+                if ($mods['mcsa_module']=="yes"){
+                    $event->menu->add([
+                        'text' => 'Circuit',
+                        'icon' => 'comments',
+                        'can' => 'edit-backend',
+                        'submenu' => [
+                            [
+                                'text' => 'Preachers',
+                                'url'  => 'admin/preachers',
+                                'icon' => 'child',
+                                'can' =>  'edit-backend'
+                            ],
+                            [
+                                'text' => 'Societies',
+                                'url'  => 'admin/societies',
+                                'icon' => 'envelope-o',
+                                'can' =>  'edit-backend'
+                            ],
+                            [
+                                'text' => 'Plan',
+                                'url'  => 'admin/plan/' . date('Y') . '/current/edit',
+                                'icon' => 'calendar',
+                                'can' =>  'edit-backend'
+                            ],
+                            [
+                                'text' => 'Meetings',
+                                'url'  => 'admin/meetings',
+                                'icon' => 'group',
+                                'can' =>  'edit-backend'
+                            ],
+                            [
+                                'text' => 'Special services',
+                                'url'  => 'admin/weekdays',
+                                'icon' => 'tree',
+                                'can' =>  'edit-backend'
+                            ]
                         ]
-                    ]
-                ]);
-            }
-            if ($mods['worship_module']=="yes"){
-                $event->menu->add([
-                    'text' => 'Worship',
-                    'icon' => 'music',
-                    'can' => 'view-worship',
-                    'url' => 'admin/worship'
-                ]);
-            }
-            if ($mods['website_module']=="yes"){
-                $event->menu->add('WEBSITE');
-                $event->menu->add([
-                    'text' => 'Blog',
-                    'url' => 'admin/blogs',
-                    'icon' => 'pencil-square-o',
-                    'can' =>  'edit-backend'
-                ],         
-                [
-                    'text' => 'Sermons',
-                    'url' => 'admin/series',
-                    'icon' => 'microphone',
-                    'can' =>  'edit-backend'
-                ],
-                [
-                    'text' => 'Resources',
-                    'icon' => 'thumbs-up',
-                    'can' => 'edit-backend',
-                    'submenu' => [
-                        [
-                            'text' => 'Courses',
-                            'url' => 'admin/courses',
-                            'icon' => 'graduation-cap',
-                            'can' =>  'edit-backend'
-                        ],              
-                        [
-                            'text' => 'Lectionary',
-                            'url' => 'admin/readings',
-                            'icon' => 'bookmark',
-                            'can' =>  'edit-backend'
+                    ]);
+                }
+                if ($mods['todo_module']=="yes"){
+                    $event->menu->add([
+                        'text' => 'Todo',
+                        'icon' => 'list-ol',
+                        'can' => 'edit-backend',
+                        'submenu' => [
+                            [
+                                'text' => 'Tasks',
+                                'url'  => 'admin/actions',
+                                'icon' => 'check-square-o',
+                                'can' =>  'edit-backend'
+                            ],
+                            [
+                                'text' => 'Folders',
+                                'url'  => 'admin/folders',
+                                'icon' => 'folder-open-o',
+                                'can' =>  'admin-backend'
+                            ],
+                            [
+                                'text' => 'Projects',
+                                'url'  => 'admin/projects',
+                                'icon' => 'tasks',
+                                'can' =>  'edit-backend'
+                            ]
                         ]
-                    ]
-                ],
-                [
-                    'text' => 'Site structure',
-                    'icon' => 'sitemap',
-                    'can' => 'admin-backend',
-                    'submenu' => [
-                        [
-                            'text' => 'Menus',
-                            'url'  => 'admin/menus',
-                            'icon' => 'bars',
-                            'can' =>  'admin-backend'
-                        ],            
-                        [
-                            'text' => 'Pages',
-                            'url' => 'admin/pages',
-                            'icon' => 'file',
-                            'can' =>  'admin-backend'
-                        ],
-                        [
-                            'text' => 'Slideshows',
-                            'url' => 'admin/slideshows',
-                            'icon' => 'video-camera',
-                            'can' =>  'admin-backend'
-                        ]
-                    ]
-                ],
-                [
-                    'text' => 'View website',
-                    'url' => route('homepage'),
-                    'icon' => 'globe',
-                    'can' =>  'view-backend',
-                    'target' => '_blank',
-                    'active' => []
-                ]
-            );
-            }
-            if ($mods['bookshop_module']=="yes"){
-                $event->menu->add([
-                    'header' => 'BOOKSHOP',
-                    'can' => 'edit-bookshop'
-                ]);
-                $event->menu->add([
-                    'text' => 'Books',
-                    'url' => 'admin/books',
-                    'icon' => 'book',
-                    'can' =>  'edit-bookshop'
-                ],
-                [
-                    'text' => 'Suppliers',
-                    'url' => 'admin/suppliers',
-                    'icon' => 'archive',
-                    'can' =>  'edit-bookshop'
-                ],
-                [
-                    'text' => 'Transactions',
-                    'url' => 'admin/transactions',
-                    'icon' => 'shopping-cart',
-                    'can' =>  'edit-bookshop'
-                ]);
-            }
-            $event->menu->add([
-                'header' => 'ADMINISTRATION',
-                'can' => 'admin-backend'
-            ]);
-            $event->menu->add([
-                'text' => 'User administration',
-                'icon' => 'user',
-                'can' =>  'admin-backend',
-                'submenu' => [
-                    [
-                        'text' => 'Roles',
-                        'url'  => 'admin/roles',
-                        'icon' => 'eye',
-                        'can' =>  'admin-backend'
-                    ],
-                    [
-                        'text' => 'Users',
-                        'url' => 'admin/users',
-                        'icon' => 'user',
-                        'can' =>  'admin-backend'
-                    ],
-                    [
-                        'text' => 'Activate new users',
-                        'url' => 'admin/users/activate',
-                        'icon' => 'plug',
-                        'can' =>  'admin-backend'
-                    ]
-                ]
-            ]);
-            $event->menu->add([
-                'text' => 'General administration',
-                'icon' => 'cog',
-                'can' =>  'admin-backend',
-                'submenu' => [
-                    [
-                        'text' => 'Google Analytics',
-                        'url' => 'admin/analytics',
-                        'icon' => 'area-chart',
-                        'can' =>  'admin-backend'
-                    ],
-                    [
-                        'text' => 'User logs',
-                        'url' => 'admin/logs',
+                    ]);
+                }
+                if ($mods['worship_module']=="yes"){
+                    $event->menu->add([
+                        'text' => 'Worship',
+                        'icon' => 'music',
+                        'can' => 'view-worship',
+                        'url' => 'admin/worship'
+                    ]);
+                }
+                if ($mods['website_module']=="yes"){
+                    $event->menu->add('WEBSITE');
+                    $event->menu->add([
+                        'text' => 'Blog',
+                        'url' => 'admin/blogs',
                         'icon' => 'pencil-square-o',
-                        'can' =>  'admin-backend'
+                        'can' =>  'edit-backend'
+                    ],         
+                    [
+                        'text' => 'Sermons',
+                        'url' => 'admin/series',
+                        'icon' => 'microphone',
+                        'can' =>  'edit-backend'
                     ],
                     [
-                        'text' => 'System settings',
-                        'url' =>  'admin/settings',
-                        'icon' => 'cogs',
-                        'can' =>  'admin-backend'
+                        'text' => 'Resources',
+                        'icon' => 'thumbs-up',
+                        'can' => 'edit-backend',
+                        'submenu' => [
+                            [
+                                'text' => 'Courses',
+                                'url' => 'admin/courses',
+                                'icon' => 'graduation-cap',
+                                'can' =>  'edit-backend'
+                            ],              
+                            [
+                                'text' => 'Lectionary',
+                                'url' => 'admin/readings',
+                                'icon' => 'bookmark',
+                                'can' =>  'edit-backend'
+                            ]
+                        ]
+                    ],
+                    [
+                        'text' => 'Site structure',
+                        'icon' => 'sitemap',
+                        'can' => 'admin-backend',
+                        'submenu' => [
+                            [
+                                'text' => 'Menus',
+                                'url'  => 'admin/menus',
+                                'icon' => 'bars',
+                                'can' =>  'admin-backend'
+                            ],            
+                            [
+                                'text' => 'Pages',
+                                'url' => 'admin/pages',
+                                'icon' => 'file',
+                                'can' =>  'admin-backend'
+                            ],
+                            [
+                                'text' => 'Slideshows',
+                                'url' => 'admin/slideshows',
+                                'icon' => 'video-camera',
+                                'can' =>  'admin-backend'
+                            ]
+                        ]
+                    ],
+                    [
+                        'text' => 'View website',
+                        'url' => route('homepage'),
+                        'icon' => 'globe',
+                        'can' =>  'view-backend',
+                        'target' => '_blank',
+                        'active' => []
                     ]
-                ]
-            ]);
-        });
-        Form::component('bsText', 'connexion::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
-        Form::component('bsPassword', 'connexion::components.password', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
-        Form::component('bsTextarea', 'connexion::components.textarea', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
-        Form::component('bsThumbnail', 'connexion::components.thumbnail', ['source', 'width' => '100', 'label' => '']);
-        Form::component('bsImgpreview', 'connexion::components.imgpreview', ['source', 'width' => '200', 'label' => '']);
-        Form::component('bsHidden', 'connexion::components.hidden', ['name', 'value' => null]);
-        Form::component('bsSelect', 'connexion::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
-        Form::component('pgHeader', 'connexion::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
-        Form::component('pgButtons', 'connexion::components.pgButtons', ['actionLabel', 'cancelRoute']);
-        Form::component('bsFile', 'connexion::components.file', ['name', 'attributes' => []]);
-        config(['adminlte.title' => $settings->getkey('site_name')]);
-        config(['adminlte.logo' => $settings->getkey('site_logo')]);
-        config(['adminlte.logo_mini' => $settings->getkey('site_logo_mini')]);
-        config(['adminlte.plugins.datatables' => false]);
-        config(['adminlte.dashboard_url' => 'admin']);
-        config(['adminlte.filters' => [
-            \JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
-            \JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
-            \JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
-            \JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
-            \JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class]]);
-        //config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
-        //config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
-        config(['analytics.service_account_credentials_json' => public_path('vendor/bishopm/service_account_credentials.json')]);
-        config(['analytics.view_id' => $settings->getkey('google_analytics_view_id')]);
-        config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
-        config(['jwt.ttl' => 525600]);
-        config(['jwt.refresh_ttl' => 525600]);
-        view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
-        view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
-        view()->composer('connexion::site.*', \Bishopm\Connexion\Composers\SlideComposer::class);
-        view()->composer('connexion::posts.*', \Bishopm\Connexion\Composers\SlideComposer::class);
-        view()->composer('connexion::templates.webpage_no_sidebar', \Bishopm\Connexion\Composers\SlideComposer::class);
-        view()->composer('connexion::templates.sidebar_right', \Bishopm\Connexion\Composers\SlideComposer::class);
-        view()->composer('connexion::templates.map_page', \Bishopm\Connexion\Composers\SlideComposer::class);
+                );
+                }
+                if ($mods['bookshop_module']=="yes"){
+                    $event->menu->add([
+                        'header' => 'BOOKSHOP',
+                        'can' => 'edit-bookshop'
+                    ]);
+                    $event->menu->add([
+                        'text' => 'Books',
+                        'url' => 'admin/books',
+                        'icon' => 'book',
+                        'can' =>  'edit-bookshop'
+                    ],
+                    [
+                        'text' => 'Suppliers',
+                        'url' => 'admin/suppliers',
+                        'icon' => 'archive',
+                        'can' =>  'edit-bookshop'
+                    ],
+                    [
+                        'text' => 'Transactions',
+                        'url' => 'admin/transactions',
+                        'icon' => 'shopping-cart',
+                        'can' =>  'edit-bookshop'
+                    ]);
+                }
+                $event->menu->add([
+                    'header' => 'ADMINISTRATION',
+                    'can' => 'admin-backend'
+                ]);
+                $event->menu->add([
+                    'text' => 'User administration',
+                    'icon' => 'user',
+                    'can' =>  'admin-backend',
+                    'submenu' => [
+                        [
+                            'text' => 'Roles',
+                            'url'  => 'admin/roles',
+                            'icon' => 'eye',
+                            'can' =>  'admin-backend'
+                        ],
+                        [
+                            'text' => 'Users',
+                            'url' => 'admin/users',
+                            'icon' => 'user',
+                            'can' =>  'admin-backend'
+                        ],
+                        [
+                            'text' => 'Activate new users',
+                            'url' => 'admin/users/activate',
+                            'icon' => 'plug',
+                            'can' =>  'admin-backend'
+                        ]
+                    ]
+                ]);
+                $event->menu->add([
+                    'text' => 'General administration',
+                    'icon' => 'cog',
+                    'can' =>  'admin-backend',
+                    'submenu' => [
+                        [
+                            'text' => 'Google Analytics',
+                            'url' => 'admin/analytics',
+                            'icon' => 'area-chart',
+                            'can' =>  'admin-backend'
+                        ],
+                        [
+                            'text' => 'User logs',
+                            'url' => 'admin/logs',
+                            'icon' => 'pencil-square-o',
+                            'can' =>  'admin-backend'
+                        ],
+                        [
+                            'text' => 'System settings',
+                            'url' =>  'admin/settings',
+                            'icon' => 'cogs',
+                            'can' =>  'admin-backend'
+                        ]
+                    ]
+                ]);
+            });
+            Form::component('bsText', 'connexion::components.text', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+            Form::component('bsPassword', 'connexion::components.password', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+            Form::component('bsTextarea', 'connexion::components.textarea', ['name', 'label' => '', 'placeholder' => '', 'value' => null, 'attributes' => []]);
+            Form::component('bsThumbnail', 'connexion::components.thumbnail', ['source', 'width' => '100', 'label' => '']);
+            Form::component('bsImgpreview', 'connexion::components.imgpreview', ['source', 'width' => '200', 'label' => '']);
+            Form::component('bsHidden', 'connexion::components.hidden', ['name', 'value' => null]);
+            Form::component('bsSelect', 'connexion::components.select', ['name', 'label' => '', 'options' => [], 'value' => null, 'attributes' => []]);
+            Form::component('pgHeader', 'connexion::components.pgHeader', ['pgtitle', 'prevtitle', 'prevroute']);
+            Form::component('pgButtons', 'connexion::components.pgButtons', ['actionLabel', 'cancelRoute']);
+            Form::component('bsFile', 'connexion::components.file', ['name', 'attributes' => []]);
+            config(['adminlte.title' => $settings->getkey('site_name')]);
+            config(['adminlte.logo' => $settings->getkey('site_logo')]);
+            config(['adminlte.logo_mini' => $settings->getkey('site_logo_mini')]);
+            config(['adminlte.plugins.datatables' => false]);
+            config(['adminlte.dashboard_url' => 'admin']);
+            config(['adminlte.filters' => [
+                \JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
+                \JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
+                \JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
+                \JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
+                \JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class]]);
+            //config(['laravel-google-calendar.client_secret_json' => public_path('vendor/bishopm/client_secret.json')]);
+            //config(['laravel-google-calendar.calendar_id'=>'umhlalimethodist@gmail.com']);
+            config(['analytics.service_account_credentials_json' => public_path('vendor/bishopm/service_account_credentials.json')]);
+            config(['analytics.view_id' => $settings->getkey('google_analytics_view_id')]);
+            config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
+            config(['jwt.ttl' => 525600]);
+            config(['jwt.refresh_ttl' => 525600]);
+            view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
+            view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
+            view()->composer('connexion::site.*', \Bishopm\Connexion\Composers\SlideComposer::class);
+            view()->composer('connexion::posts.*', \Bishopm\Connexion\Composers\SlideComposer::class);
+            view()->composer('connexion::templates.webpage_no_sidebar', \Bishopm\Connexion\Composers\SlideComposer::class);
+            view()->composer('connexion::templates.sidebar_right', \Bishopm\Connexion\Composers\SlideComposer::class);
+            view()->composer('connexion::templates.map_page', \Bishopm\Connexion\Composers\SlideComposer::class);
 
-        // Send errors to slack channel
-        $monolog = Log::getMonolog();
-        if (!\App::environment('local')) {
-            $slackHandler = new SlackWebhookHandler($settings->getkey('slack_webhook'), $settings->getkey('admin_slack_username'), 'App Alerts', false, 'warning', true, true, Logger::ERROR);            
-            $monolog->pushHandler($slackHandler);
+            // Send errors to slack channel
+            $monolog = Log::getMonolog();
+            if (!\App::environment('local')) {
+                $slackHandler = new SlackWebhookHandler($settings->getkey('slack_webhook'), $settings->getkey('admin_slack_username'), 'App Alerts', false, 'warning', true, true, Logger::ERROR);            
+                $monolog->pushHandler($slackHandler);
+            }
         }
     }
 
