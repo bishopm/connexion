@@ -23,7 +23,7 @@ class StatisticsController extends Controller {
 
 	private $statistic, $setting;
 
-	public function __construct(StatisticsRepository $statistic, SettingsRepository)
+	public function __construct(StatisticsRepository $statistic, SettingsRepository $setting)
     {
         $this->statistic = $statistic;
         $this->setting = $setting;
