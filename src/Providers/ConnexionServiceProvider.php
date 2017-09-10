@@ -429,7 +429,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Roumen\Feed\FeedServiceProvider');
         $this->app->register('Spatie\Activitylog\ActivitylogServiceProvider');
         $this->app->register('Spatie\Analytics\AnalyticsServiceProvider');
-        $this->app->register('Tymon\JWTAuth\Providers\JWTAuthServiceProvider');
+        $this->app->register('Tymon\JWTAuth\Providers\LaravelServiceProvider');
         $this->app->register('Barryvdh\Cors\ServiceProvider');
         $this->app->register('ConsoleTVs\Charts\ChartsServiceProvider');
         AliasLoader::getInstance()->alias("Charts", 'ConsoleTVs\Charts\Facades\Charts');
