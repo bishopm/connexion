@@ -35,7 +35,6 @@ class ConnexionServiceProvider extends ServiceProvider
     public function boot(Dispatcher $events, SettingsRepository $settings)
     {
         $this->settings=$settings;
-        $this->initialiseSettings();
         Schema::defaultStringLength(255);
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/api.routes.php';            
@@ -50,21 +49,22 @@ class ConnexionServiceProvider extends ServiceProvider
         config(['laravel-medialibrary.defaultFilesystem'=>'public']);
         config(['auth.providers.users.model'=>'Bishopm\Connexion\Models\User']);
         config(['queue.default'=>'database']);
-        $allmods=array('bookshop_module'=>['module'=>'module','description'=>'Manage a small bookshop','setting_value'=>'no'],
-            'core_module'=>['module'=>'module','description'=>'Church membership data - individuals, households and groups, together with email and sms facilities and reporting','setting_value'=>'yes'],
-            'mcsa_module'=>['module'=>'module','description'=>'Circuit preachers module','setting_value'=>'no'],
-            'todo_module'=>['module'=>'module','description'=>'Task and project management module','setting_value'=>'no'],
-            'website_module'=>['module'=>'module','description'=>'Backend module to create a website, including blog, slides, group resources, sermon audio','setting_value'=>'no'],
-            'worship_module'=>['module'=>'module','description'=>'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage','setting_value'=>'no']
-        );
-        foreach ($allmods as $key=>$thismod){
-            $sett=Setting::where('setting_key',$key)->first();
-            if (!count($sett)){
-                $ss=Setting::create(['setting_key'=>$key,'setting_value'=>$thismod['setting_value'],'description'=>$thismod['description'],'module'=>'module']);
-            } 
-        }
         $finset=array();
         if (Schema::hasTable('settings')){
+            $this->initialiseSettings();
+            $allmods=array('bookshop_module'=>['module'=>'module','description'=>'Manage a small bookshop','setting_value'=>'no'],
+                'core_module'=>['module'=>'module','description'=>'Church membership data - individuals, households and groups, together with email and sms facilities and reporting','setting_value'=>'yes'],
+                'mcsa_module'=>['module'=>'module','description'=>'Circuit preachers module','setting_value'=>'no'],
+                'todo_module'=>['module'=>'module','description'=>'Task and project management module','setting_value'=>'no'],
+                'website_module'=>['module'=>'module','description'=>'Backend module to create a website, including blog, slides, group resources, sermon audio','setting_value'=>'no'],
+                'worship_module'=>['module'=>'module','description'=>'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage','setting_value'=>'no']
+            );
+            foreach ($allmods as $key=>$thismod){
+                $sett=Setting::where('setting_key',$key)->first();
+                if (!count($sett)){
+                    $ss=Setting::create(['setting_key'=>$key,'setting_value'=>$thismod['setting_value'],'description'=>$thismod['description'],'module'=>'module']);
+                } 
+            }    
             $finset=$settings->makearray();
         }
         view()->share('setting', $finset);
