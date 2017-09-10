@@ -16,7 +16,7 @@ class InstallConnexionCommand extends Command
 
     public function handle()
     {
-        $this->call('vendor:publish --all');
+        $this->call('vendor:publish', ['--all' => true]);
         $this->info('Setting up database tables - this may take a minute...');
         $this->call('migrate');
         $users=User::all();
