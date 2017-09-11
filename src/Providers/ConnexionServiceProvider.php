@@ -413,7 +413,7 @@ class ConnexionServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands($this->commands);
-        $this->app->register('Bishopm\Connexion\Providers\EventServiceProvider');
+        /*$this->app->register('Bishopm\Connexion\Providers\EventServiceProvider');
         $this->app->register('Bishopm\Connexion\Providers\ScheduleServiceProvider');
         $this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
@@ -442,7 +442,7 @@ class ConnexionServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
         AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');
         AliasLoader::getInstance()->alias("Feed",'Roumen\Feed\Feed');
-        AliasLoader::getInstance()->alias("Analytics",'Spatie\Analytics\AnalyticsFacade');
+        AliasLoader::getInstance()->alias("Analytics",'Spatie\Analytics\AnalyticsFacade');*/
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
         $this->app['router']->aliasMiddleware('handlecors', 'Barryvdh\Cors\HandleCors');
         $this->app['router']->aliasMiddleware('jwt.auth', 'Tymon\JWTAuth\Middleware\GetUserFromToken');
