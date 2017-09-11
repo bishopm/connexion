@@ -135,6 +135,7 @@ class WebController extends Controller
             $comments=Comment::orderBy('created_at','DESC')->get()->take(10);
             $data['users']=$this->users->mostRecent(10);
             $forum=Post::orderBy('created_at','DESC')->get()->take(10);
+            $contribs=array();
             foreach ($comments as $comment){
                 $contribs[strtotime($comment->created_at)]=$comment;
             }
