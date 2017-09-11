@@ -109,25 +109,25 @@ class InstallConnexionCommand extends Command
             'id' => 1,
             'name' => 'Administrator',
             'slug' => 'administrator',
-            'permissions' => '{\"edit-backend\": true, \"edit-worship\": true, \"view-backend\": true, \"view-worship\": true, \"admin-backend\": true, \"edit-bookshop\": true, \"edit-comments\": true}'
+            'permissions' => '{"edit-backend": true, "edit-worship": true, "view-backend": true, "view-worship": true, "admin-backend": true, "edit-bookshop": true, "edit-comments": true}'
         ]);
         DB::table('roles')->insert([
             'id' => 2,
             'name' => 'Manager',
             'slug' => 'manager',
-            'permissions' => '{\"edit-backend\": true, \"edit-comment\": true, \"edit-worship\": true, \"view-backend\": true, \"view-worship\": true, \"edit-bookshop\": true}'
+            'permissions' => '{"edit-backend": true, "edit-comment": true, "edit-worship": true, "view-backend": true, "view-worship": true, "edit-bookshop": true}'
         ]);            
         DB::table('roles')->insert([
             'id' => 3,
             'name' => 'Webuser',
             'slug' => 'web-user',
-            'permissions' => '{\"edit-comments\": true}'
+            'permissions' => '{"edit-comments": true}'
         ]);
         DB::table('roles')->insert([
             'id' => 4,
             'name' => 'Worship team',
             'slug' => 'worship-team',
-            'permissions' => '{\"edit-worship\": true, \"view-worship\": true}'
+            'permissions' => '{"edit-worship": true, "view-worship": true}'
         ]);
         DB::table('role_user')->insert([
             'user_id' => 1,
