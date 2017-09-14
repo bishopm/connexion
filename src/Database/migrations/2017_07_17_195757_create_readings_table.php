@@ -26,18 +26,6 @@ class CreateReadingsTable extends Migration
         });
     }
 
-    CREATE TABLE `readings` (
-        `id` int(11) NOT NULL,
-        `readingdate` date NOT NULL,
-        `description` varchar(100) DEFAULT NULL,
-        `readings` varchar(255) DEFAULT NULL,
-        `reading1` text NOT NULL,
-        `reading2` text NOT NULL,
-        `reading3` text NOT NULL,
-        `reading4` text NOT NULL,
-        `copyright` text NOT NULL
-      )
-
     /**
      * Reverse the migrations.
      *
