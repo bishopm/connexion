@@ -33,6 +33,6 @@ class CreateReadingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('statistics');
+        Schema::drop('readings');
     }
 }
