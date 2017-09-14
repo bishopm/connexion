@@ -26,7 +26,7 @@ class SongsController extends Controller
     public function index()
     {
         $roster=$this->setting->getkey('worship_roster');
-        if ($roster){
+        if ($roster<>"Please add a value for this setting"){
             $today=date("Y-m-d");
             $nextweek=date("Y-m-d",time()+60*60*24*7);
             $roster_id=Roster::where('rostername',$roster)->first()->id;
@@ -40,6 +40,8 @@ class SongsController extends Controller
                     $data['roster'][$member->rosterdate][$indiv][]=$group;
                 }
             }
+        } else {
+            $data['roster']=array();
         }
         $data['lets']=array('1'=>'A','2'=>'B','3'=>'C','4'=>'D','5'=>'E','6'=>'F','7'=>'G','8'=>'H','9'=>'I','10'=>'J','11'=>'K','12'=>'L','13'=>'M','14'=>'N','15'=>'O','16'=>'P','17'=>'Q','18'=>'R','19'=>'S','20'=>'T','21'=>'U','22'=>'V','23'=>'W','24'=>'X','25'=>'Y','26'=>'Z');
         $data['songs']=Song::orderBy('title')->get();
@@ -74,7 +76,6 @@ class SongsController extends Controller
                 }
             }
         }
-        //dd($newest);
         krsort($newest);
         $newestsets=reset($newest);
         if ($newestsets){

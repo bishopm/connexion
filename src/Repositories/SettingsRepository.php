@@ -35,10 +35,14 @@ class SettingsRepository extends EloquentBaseRepository
     }
 
     public function makearray(){
-        $societies=new SocietiesRepository('societies');
+        if ($this->model->getkey('mcsa_module')=='yes'){
+            $societies=new SocietiesRepository('societies');
+        } else {
+            $societies="";
+        }
     	foreach ($this->model->all()->toArray() as $setting){
     		$fin[$setting['setting_key']]=$setting['setting_value'];
-            if (($setting['setting_key']=="society_name") and ($setting['setting_value']<>'')){
+            if (($setting['setting_key']=="society_name") and ($setting['setting_value']<>'') and ($societies<>"")){
                 $soc=$societies->find($setting['setting_value']);
                 if ((isset($soc->services)) and (count($soc->services))){
                     foreach ($soc->services as $serv){
