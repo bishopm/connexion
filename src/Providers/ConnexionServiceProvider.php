@@ -34,10 +34,6 @@ class ConnexionServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events, SettingsRepository $settings)
     {
-        $this->package('bishopm/connexion', 'connexion');
-        $this->app->booted(function () {
-            include __DIR__.'/../../web.routes.php';
-        });
         $this->settings=$settings;
         Schema::defaultStringLength(255);
         if (! $this->app->routesAreCached()) {
