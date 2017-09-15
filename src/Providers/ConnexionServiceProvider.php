@@ -55,9 +55,9 @@ class ConnexionServiceProvider extends ServiceProvider
             $allmods=array('bookshop_module'=>['module'=>'module','description'=>'Manage a small bookshop','setting_value'=>'no'],
                 'core_module'=>['module'=>'module','description'=>'Church membership data - individuals, households and groups, together with email and sms facilities and reporting','setting_value'=>'yes'],
                 'mcsa_module'=>['module'=>'module','description'=>'Circuit preachers module','setting_value'=>'no'],
-                'todo_module'=>['module'=>'module','description'=>'Task and project management module','setting_value'=>'no'],
-                'website_module'=>['module'=>'module','description'=>'Backend module to create a website, including blog, slides, group resources, sermon audio','setting_value'=>'no'],
-                'worship_module'=>['module'=>'module','description'=>'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage','setting_value'=>'no']
+                'todo_module'=>['module'=>'module','description'=>'Task and project management module','setting_value'=>'yes'],
+                'website_module'=>['module'=>'module','description'=>'Backend module to create a website, including blog, slides, group resources, sermon audio','setting_value'=>'yes'],
+                'worship_module'=>['module'=>'module','description'=>'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage','setting_value'=>'yes']
             );
             foreach ($allmods as $key=>$thismod){
                 $sett=Setting::where('setting_key',$key)->first();
