@@ -525,7 +525,7 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'presiding_bishop','module'=>'mcsa','description'=>'Presiding Bishop name','setting_value'=>'Presiding Bishop'],
             ['setting_key'=>'qr_code','module'=>'website','description'=>'URL of QR code image','setting_value'=>'QR code url'],
             ['setting_key'=>'site_abbreviation','module'=>'core','description'=>'Church name abbreviated','setting_value'=>'Abbreviated church name'],
-            ['setting_key'=>'site_description','module'=>'website','description'=>'UL','setting_value'=>'Slogan or vision statement'],
+            ['setting_key'=>'site_description','module'=>'website','description'=>'Site description','setting_value'=>'Slogan or vision statement'],
             ['setting_key'=>'site_logo','module'=>'core','description'=>'Text logo in menu bar','setting_value'=>'<b>C</b>onnexion'],
             ['setting_key'=>'site_logo_mini','module'=>'core','description'=>'Text logo when sidebar is collapsed','setting_value'=>'<b>C</b>x'],
             ['setting_key'=>'site_name','module'=>'core','description'=>'Church name','setting_value'=>'Church name'],
