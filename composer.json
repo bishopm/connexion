@@ -64,16 +64,6 @@
             "php artisan migrate"
         ]
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        },
-        "laravel": {
-            "providers": [
-                "Bishopm\\Connexion\\Providers\\ConnexionServiceProvider"
-            ]
-        }
-    },
     "config": {
         "sort-packages": true
     }
