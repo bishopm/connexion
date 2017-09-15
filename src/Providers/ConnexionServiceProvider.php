@@ -536,7 +536,7 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'society_name','module'=>'core','description'=>'Name of society (must set up societies first)','setting_value'=>'Society name'],
             ['setting_key'=>'superintendent','module'=>'mcsa','description'=>'Superintendent name','setting_value'=>'Superintendent'],
             ['setting_key'=>'twitter_profile','module'=>'website','description'=>'Church Twitter profile','setting_value'=>'Twitter profile'],
-            ['setting_key'=>'website_theme','module'=>'website','description'=>'umhlali','setting_value'=>'Website theme'],
+            ['setting_key'=>'website_theme','module'=>'website','description'=>'Website theme','setting_value'=>'umhlali'],
             ['setting_key'=>'worship_administrator','module'=>'worship','description'=>'Individual who receives set emails and prepares the PC for services','setting_value'=>'Worship administrator'],
             ['setting_key'=>'youtube_page','module'=>'website','description'=>'Church Youtube page','setting_value'=>'Youtube page']
         );
