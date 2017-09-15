@@ -24,6 +24,7 @@ abstract class McsaBaseRepository implements BaseRepository
         $this->client = new Client();
         $this->circuit=Setting::where('setting_key','circuit')->first()->setting_value;
         $this->model = $model;
+        $this->checked = self::check();
     }
 
     public function check()
@@ -51,9 +52,13 @@ abstract class McsaBaseRepository implements BaseRepository
 
     public function all()
     {
-        $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '?token=' . $this->token;
-        $res = $this->client->request('GET', $url);
-        return json_decode($res->getBody()->getContents());
+        if (substr($this->checked,0,3)=="No "){
+            return $this->checked;
+        } else {
+            $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '?token=' . $this->token;
+            $res = $this->client->request('GET', $url);
+            return json_decode($res->getBody()->getContents());
+        }
     }
 
     public function valueBetween($field,$low,$high)

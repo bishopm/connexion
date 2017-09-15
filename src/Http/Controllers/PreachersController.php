@@ -30,7 +30,11 @@ class PreachersController extends Controller {
 	public function index()
 	{
         $preachers = $this->preacher->all();
-   		return view('connexion::preachers.index',compact('preachers'));
+        if (gettype($preachers)=="string"){
+            return redirect()->route('admin.settings.index')->with('notice','Please ensure that the API url is correctly specified');
+        } else {
+            return view('connexion::preachers.index',compact('preachers'));
+        }
 	}
 
 	public function edit(Preacher $preacher)
