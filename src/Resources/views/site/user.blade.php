@@ -9,9 +9,9 @@
 	  	@if ($user)
 		  <div class="col-md-3 centre-xs">
 		  	@if ($user->individual->image)
-                <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/public/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
+                <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
             @else
-                <img class="img-responsive img-circle img-thumbnail" src="{{asset('public/vendor/bishopm/images/profile.png')}}">
+                <img class="img-responsive img-circle img-thumbnail" src="{{asset('/vendor/bishopm/images/profile.png')}}">
             @endif
 		  </div>
 		  <div class="col-md-3">

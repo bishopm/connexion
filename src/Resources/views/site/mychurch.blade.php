@@ -3,7 +3,7 @@
 @section('title','Meet the community')
 
 @section('css')
-  <link href="{{ asset('/public/vendor/bishopm/css/isotope.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/css/isotope.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')
@@ -25,9 +25,9 @@
                 <div class="col-xs-4 col-sm-3 col-md-2 element-item {{$user->status}}" data-name="{{strtolower($user->individual->surname)}}{{strtolower($user->individual->firstname)}}">
                     <a href="{{url('/')}}/users/{{$user->individual->slug}}">
                         @if ($user->individual->image)
-                            <img class="img-responsive img-circle" src="{{url('/')}}/public/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
+                            <img class="img-responsive img-circle" src="{{url('/')}}/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
                         @else
-                            <img class="img-responsive img-circle img-thumbnail" src="{{asset('public/vendor/bishopm/images/profile.png')}}">
+                            <img class="img-responsive img-circle img-thumbnail" src="{{asset('/vendor/bishopm/images/profile.png')}}">
                         @endif
                         <p class="text-center item-desc" style="min-height: 58px;">{{$user->individual->firstname}} {{$user->individual->surname}}</p>
                     </a>
@@ -43,7 +43,7 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('public/vendor/bishopm/js/isotope.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/vendor/bishopm/js/isotope.min.js') }}" type="text/javascript"></script>
 <script language="javascript">
     $(window).on('load', function() {
         var qsRegex;

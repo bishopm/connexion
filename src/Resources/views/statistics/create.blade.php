@@ -1,9 +1,9 @@
 @extends('connexion::templates.backend')
 
 @section('css')
-  <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
-  <link href="{{ asset('/public/vendor/bishopm/icheck/blue.css') }}" rel="stylesheet" type="text/css" />
-  <link href="{{ asset('/public/vendor/bishopm/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/icheck/blue.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
@@ -29,10 +29,10 @@
 @stop
 
 @section('js')
-<script src="{{ asset('public/vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/vendor/bishopm/icheck/icheck.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/vendor/bishopm/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/vendor/bishopm/icheck/icheck.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/vendor/bishopm/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
         $('.selectize').selectize({

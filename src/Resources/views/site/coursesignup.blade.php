@@ -4,7 +4,7 @@
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />
-  <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')  
@@ -12,7 +12,7 @@
       <h3>{{$course->title}}
       </h3>
         <div class="row">
-          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{url('/')}}/public/storage/courses/{{$course->image}}"></div>
+          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{url('/')}}/storage/courses/{{$course->image}}"></div>
           <div class="col-md-3">
           {!!$course->description!!}
           </div>
@@ -40,7 +40,7 @@
 @stop
 
 @section('js')
-    <script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('.selectize').selectize({

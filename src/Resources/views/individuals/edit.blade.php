@@ -2,9 +2,9 @@
 
 @section('css')
     <meta id="token" name="token" value="{{ csrf_token() }}" />
-    <link rel="stylesheet" href="{{asset('/public/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
-    <link href="{{ asset('/public/vendor/bishopm/icheck/grey.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/public/vendor/bishopm/css/croppie.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
+    <link href="{{ asset('/vendor/bishopm/icheck/grey.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/vendor/bishopm/css/croppie.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
@@ -33,9 +33,9 @@
 @stop
 
 @section('js')
-<script src="{{asset('/public/vendor/bishopm/js/bootstrap-datepicker.min.js')}}"></script>
-<script src="{{ asset('public/vendor/bishopm/icheck/icheck.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/vendor/bishopm/js/croppie.js') }}" type="text/javascript"></script>
+<script src="{{asset('/vendor/bishopm/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{ asset('/vendor/bishopm/icheck/icheck.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/vendor/bishopm/js/croppie.js') }}" type="text/javascript"></script>
 <script>
     $.ajaxSetup({
         headers: {

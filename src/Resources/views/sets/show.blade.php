@@ -1,7 +1,7 @@
 @extends('connexion::worship.page')
 
 @section('css')
-  <link rel="stylesheet" href="{{url('/')}}/public/vendor/bishopm/css/nestable.css">
+  <link rel="stylesheet" href="{{url('/')}}/vendor/bishopm/css/nestable.css">
 @stop
 
 @section('content')
@@ -45,7 +45,7 @@
 @stop
 @section('js')
     @include('connexion::worship.partials.scripts')
-    <script src="{{ asset('public/vendor/bishopm/js/jquery.nestable.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/vendor/bishopm/js/jquery.nestable.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('#newitem').selectize({

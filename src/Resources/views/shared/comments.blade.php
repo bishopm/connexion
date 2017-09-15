@@ -6,9 +6,9 @@
 				<div class="col-xs-3 col-sm-2">
 					<a href="{{route('webuser',$comment->commented->individual->slug)}}">
 					@if ($comment->commented->individual->image)
-		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/public/storage/individuals/{{$comment->commented->individual->id}}/{{$comment->commented->individual->image}}">
+		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$comment->commented->individual->id}}/{{$comment->commented->individual->image}}">
 		            @else
-		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('public/vendor/bishopm/images/profile.png')}}">
+		                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('/vendor/bishopm/images/profile.png')}}">
 		            @endif
 		            </a>
 		            <div><i>{{date("j M",strtotime($comment->created_at))}}</i></div>
@@ -31,9 +31,9 @@
 		<div class="col-xs-3 col-sm-2">
 			<a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}">
 			@if (Auth::user()->individual->image)
-                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/public/storage/individuals/{{Auth::user()->individual->id}}/{{Auth::user()->individual->image}}">
+                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{Auth::user()->individual->id}}/{{Auth::user()->individual->image}}">
             @else
-                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('public/vendor/bishopm/images/profile.png')}}">
+                <img width="50px" class="img-responsive img-circle img-thumbnail" src="{{asset('/vendor/bishopm/images/profile.png')}}">
             @endif
             </a><br>
             @if (isset($rating))

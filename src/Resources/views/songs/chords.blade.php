@@ -69,7 +69,7 @@
                 <div class="tab-pane active" id="k0">
                     @if (array_key_exists("A",$chords))
                         @foreach ($chords['A'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @else
                         No chords in this key
@@ -78,12 +78,12 @@
                 <div class="tab-pane" id="k1">
                     @if (array_key_exists("A#",$chords))
                         @foreach ($chords['A#'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @endif
                     @if (array_key_exists("Bb",$chords))
                         @foreach ($chords['Bb'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @elseif (!array_key_exists("A#",$chords))
                         No chords in this key
@@ -92,7 +92,7 @@
                 <div class="tab-pane" id="k2">
                     @if (array_key_exists("B",$chords))
                         @foreach ($chords['B'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @else
                         No chords in this key
@@ -101,7 +101,7 @@
                 <div class="tab-pane" id="k3">
                     @if (array_key_exists("C",$chords))
                         @foreach ($chords['C'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @else
                         No chords in this key
@@ -110,12 +110,12 @@
                 <div class="tab-pane" id="k4">
                     @if (array_key_exists("C#",$chords))
                         @foreach ($chords['C#'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @endif
                     @if (array_key_exists("Db",$chords))
                         @foreach ($chords['Db'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @elseif (!array_key_exists("C#",$chords))
                         No chords in this key
@@ -124,7 +124,7 @@
                 <div class="tab-pane" id="k5">
                     @if (array_key_exists("D",$chords))
                         @foreach ($chords['D'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @else
                         No chords in this key
@@ -133,12 +133,12 @@
                 <div class="tab-pane" id="k6">
                     @if (array_key_exists("D#",$chords))
                         @foreach ($chords['D#'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @endif
                     @if (array_key_exists("Eb",$chords))
                         @foreach ($chords['Eb'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @elseif (!array_key_exists("D#",$chords))
                         No chords in this key
@@ -147,7 +147,7 @@
                 <div class="tab-pane" id="k7">
                     @if (array_key_exists("E",$chords))
                         @foreach ($chords['E'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @else
                         No chords in this key
@@ -156,7 +156,7 @@
                 <div class="tab-pane" id="k8">
                     @if (array_key_exists("F",$chords))
                         @foreach ($chords['F'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @else
                         No chords in this key
@@ -165,12 +165,12 @@
                 <div class="tab-pane" id="k9">
                     @if (array_key_exists("F#",$chords))
                         @foreach ($chords['F#'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @endif
                     @if (array_key_exists("Gb",$chords))
                         @foreach ($chords['Gb'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @elseif (!array_key_exists("F#",$chords))
                         No chords in this key
@@ -179,7 +179,7 @@
                 <div class="tab-pane" id="k10">
                     @if (array_key_exists("G",$chords))
                         @foreach ($chords['G'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @else
                         No chords in this key
@@ -188,12 +188,12 @@
                 <div class="tab-pane" id="k11">
                     @if (array_key_exists("G#",$chords))
                         @foreach ($chords['G#'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @endif
                     @if (array_key_exists("Ab",$chords))
                         @foreach ($chords['Ab'] as $tc)
-                            <img width="60" src="{{url('/') . '/public/images/chords/' . $tc }}">
+                            <img width="60" src="{{url('/') . '/images/chords/' . $tc }}">
                         @endforeach
                     @elseif (!array_key_exists("G#",$chords))
                         No chords in this key
