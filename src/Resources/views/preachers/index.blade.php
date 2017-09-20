@@ -13,7 +13,13 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Preachers</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.preachers.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new preacher</a></div>
+                            <div class="col-md-6">
+                                @if ($preachers=="No token")
+                                    <a href="{{route('admin.mcsa.register')}}" class="btn btn-primary pull-right">Connect to MCSA database</a>
+                                @else
+                                    <a href="{{route('admin.preachers.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new preacher</a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -33,19 +39,21 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                @forelse ($preachers as $preacher)
-                                    <tr>
-                                        <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">{{$preacher->firstname}} {{$preacher->surname}}</a></td>
-                                        <td>
-                                        @if (($preacher->status<>"Minister") and ($preacher->status<>"Guest"))
-                                            <a href="{{route('admin.preachers.edit',$preacher->id)}}">{{$preacher->society->society}}</a>
-                                        @endif
-                                        </td>
-                                        <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">{{$preacher->status}}</a></td>
-                                    </tr>
-                                @empty
-                                    <tr><td>No preachers have been added yet</td></tr>
-                                @endforelse
+                                @if(is_array($preachers))
+                                    @forelse ($preachers as $preacher)
+                                        <tr>
+                                            <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">{{$preacher->firstname}} {{$preacher->surname}}</a></td>
+                                            <td>
+                                            @if (($preacher->status<>"Minister") and ($preacher->status<>"Guest"))
+                                                <a href="{{route('admin.preachers.edit',$preacher->id)}}">{{$preacher->society->society}}</a>
+                                            @endif
+                                            </td>
+                                            <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">{{$preacher->status}}</a></td>
+                                        </tr>
+                                    @empty
+                                        <tr><td>No preachers have been added yet</td></tr>
+                                    @endforelse
+                                @endif
                             </tbody>
                         </table>
                     </div>

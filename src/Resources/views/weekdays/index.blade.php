@@ -13,7 +13,13 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Midweek services</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.weekdays.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new service</a></div>
+                            <div class="col-md-6">
+                                @if ($weekdays=="No token")
+                                    <a href="{{route('admin.mcsa.register')}}" class="btn btn-primary pull-right">Connect to MCSA database</a>
+                                @else
+                                    <a href="{{route('admin.weekdays.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new service</a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -31,14 +37,16 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                @forelse ($weekdays as $weekday)
-                                    <tr>
-                                        <td><a href="{{route('admin.weekdays.edit',$weekday->id)}}">{{date("d F Y",$weekday->servicedate)}}</a></td>
-                                        <td><a href="{{route('admin.weekdays.edit',$weekday->id)}}">{{$weekday->description}}</a></td>
-                                    </tr>
-                                @empty
-                                    <tr><td>No midweek services have been added yet</td></tr>
-                                @endforelse
+                                @if (is_array($weekdays))
+                                    @forelse ($weekdays as $weekday)
+                                        <tr>
+                                            <td><a href="{{route('admin.weekdays.edit',$weekday->id)}}">{{date("d F Y",$weekday->servicedate)}}</a></td>
+                                            <td><a href="{{route('admin.weekdays.edit',$weekday->id)}}">{{$weekday->description}}</a></td>
+                                        </tr>
+                                    @empty
+                                        <tr><td>No midweek services have been added yet</td></tr>
+                                    @endforelse
+                                @endif
                             </tbody>
                         </table>
                     </div>

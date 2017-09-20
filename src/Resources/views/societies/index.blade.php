@@ -41,22 +41,24 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                @forelse ($societies as $society)
-                                    <tr>
-                                        <td><a href="{{route('admin.societies.show',$society->id)}}">{{$society->society}}</a></td>
-                                        <td>{{count($society->services)}}
-                                        <td>
-                                            <div class="btn-group">
-                                                @if ($setting['church_api_token'])
-                                                    <a href="{{ route('admin.societies.edit', [$society->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                                    <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.societies.destroy', [$society->id]) }}" data-action-entity="Society: {{$society->society}}"><i class="fa fa-trash"></i></button>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr><td>No societies have been added yet</td></tr>
-                                @endforelse
+                                @if(is_array($societies))
+                                    @forelse ($societies as $society)
+                                        <tr>
+                                            <td><a href="{{route('admin.societies.show',$society->id)}}">{{$society->society}}</a></td>
+                                            <td>{{count($society->services)}}
+                                            <td>
+                                                <div class="btn-group">
+                                                    @if ($setting['church_api_token'])
+                                                        <a href="{{ route('admin.societies.edit', [$society->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.societies.destroy', [$society->id]) }}" data-action-entity="Society: {{$society->society}}"><i class="fa fa-trash"></i></button>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr><td>No societies have been added yet</td></tr>
+                                    @endforelse
+                                @endif
                             </tbody>
                         </table>
                     </div>

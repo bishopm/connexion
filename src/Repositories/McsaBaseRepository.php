@@ -50,9 +50,16 @@ abstract class McsaBaseRepository implements BaseRepository
         return json_decode($res->getBody()->getContents());
     }
 
+    public function findforcircuit($circuit,$id)
+    {
+        $url = $this->api_url . '/circuits/' . $circuit . '/' . $this->model . '/' . $id . '?token=' . $this->token;
+        $res = $this->client->request('GET', $url);
+        return json_decode($res->getBody()->getContents());
+    }
+
     public function all()
     {
-        if (substr($this->checked,0,3)=="No "){
+        if (gettype($this->checked)=="String"){
             return $this->checked;
         } else {
             $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '?token=' . $this->token;

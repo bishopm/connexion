@@ -12,4 +12,6 @@ class PlansRepository extends McsaBaseRepository
         $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->getContents(),TRUE);
     }
+
+    
 }

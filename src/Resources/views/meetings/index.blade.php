@@ -13,7 +13,13 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Meetings</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.meetings.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new meeting</a></div>
+                            <div class="col-md-6">
+                                @if ($meetings=="No token")
+                                    <a href="{{route('admin.mcsa.register')}}" class="btn btn-primary pull-right">Connect to MCSA database</a>
+                                @else
+                                    <a href="{{route('admin.meetings.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new meeting</a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -29,15 +35,17 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                @forelse ($meetings as $meeting)
-                                    <tr>
-                                        <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{date("d-M-Y h:i",$meeting->meetingdatetime)}}</a></td>
-                                        <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{$meeting->description}}</a></td>
-                                        <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{$meeting->society->society}}</a></td>
-                                    </tr>
-                                @empty
-                                    <tr><td>No meetings have been added yet</td></tr>
-                                @endforelse
+                                @if (is_array($meetings))
+                                    @forelse ($meetings as $meeting)
+                                        <tr>
+                                            <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{date("d-M-Y h:i",$meeting->meetingdatetime)}}</a></td>
+                                            <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{$meeting->description}}</a></td>
+                                            <td><a href="{{route('admin.meetings.edit',$meeting->id)}}">{{$meeting->society->society}}</a></td>
+                                        </tr>
+                                    @empty
+                                        <tr><td>No meetings have been added yet</td></tr>
+                                    @endforelse
+                                @endif
                             </tbody>
                         </table>
                     </div>

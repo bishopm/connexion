@@ -30,7 +30,7 @@ class PreachersController extends Controller {
 	public function index()
 	{
         $preachers = $this->preacher->all();
-        if (gettype($preachers)=="string"){
+        if ($preachers=="No valid url"){
             return redirect()->route('admin.settings.index')->with('notice','Please ensure that the API url is correctly specified');
         } else {
             return view('connexion::preachers.index',compact('preachers'));

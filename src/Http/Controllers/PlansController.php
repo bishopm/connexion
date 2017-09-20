@@ -2,8 +2,8 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException, Bishopm\Connexion\Models\Individual;
-use Illuminate\Http\Request, Bishopm\Connexion\Models\Plan, Auth;
-use Bishopm\Connexion\Models\Service, Bishopm\Connexion\Libraries\Fpdf\Fpdf;
+use Illuminate\Http\Request, Auth;
+use Bishopm\Connexion\Libraries\Fpdf\Fpdf;
 use Bishopm\Connexion\Http\Requests\PlansRequest, Helpers, Redirect;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Repositories\SettingsRepository, Bishopm\Connexion\Repositories\WeekdaysRepository;
@@ -120,7 +120,7 @@ class PlansController extends Controller
       $pdf->SetFont('Arial','',9);
       $num_ser=0;
       foreach ($dat['societies'] as $s1){
-        foreach ($s1->services as $se1){
+        foreach ($s1['services'] as $se1){
           $num_ser++;
         }
       }
@@ -143,31 +143,31 @@ class PlansController extends Controller
       $pdf->Image($logopath,5,5,0,21);
       $pdf->SetFillColor(0,0,0);
       $pdf->SetFont('Arial','B',14);
-      $pdf->text($left_side+$soc_width,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($this->settings['circuit_name']) . " CIRCUIT " . $this->settings['circuit_number']);
+      $pdf->text($left_side+$soc_width,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($dat['circuit']['circuit']) . " CIRCUIT " . $dat['circuit']['circuitnumber']);
       $pdf->text($left_side+$soc_width,17,"PREACHING PLAN: " . strtoupper(date("F Y",$dat['sundays'][0]['dt'])) . " - " . strtoupper(date("F Y",$dat['sundays'][count($dat['sundays'])-1]['dt'])));
 	    foreach ($dat['societies'] as $soc){
         $firstserv=true;
-        foreach ($soc->services as $ser){
+        foreach ($soc['services'] as $ser){
           if ($firstserv){
             $y=$y+$y_add;
             $pdf->SetFont('Arial','B',8);
-            $pdf->rect($left_side,$y-2,($pg_width-2*$left_side),$y_add+($y_add)*(count($soc->services)-1)-(3*(count($soc->services)-1)),'D');
+            $pdf->rect($left_side,$y-2,($pg_width-2*$left_side),$y_add+($y_add)*(count($soc['services'])-1)-(3*(count($soc['services'])-1)),'D');
             $pdf->setxy($left_side,$y);
-            if (count($soc->services)==1){
+            if (count($soc['services'])==1){
               $pdf->setxy($left_side,$y);
             } else {
-              $pdf->setxy($left_side,$y+(($y_add-3)*(count($soc->services)-1)/2));
+              $pdf->setxy($left_side,$y+(($y_add-3)*(count($soc['services'])-1)/2));
             }
             $font_size = 8;
             $decrement_step = 0.1;
             $pdf->SetFont('Arial','B',$font_size);
-            while($pdf->GetStringWidth($soc->society) > $soc_width-2) {
+            while($pdf->GetStringWidth($soc['society']) > $soc_width-2) {
               $pdf->SetFontSize($font_size -= $decrement_step);
             }
-            $pdf->cell($soc_width,$y_add-3,$soc->society,0,0,'R');
+            $pdf->cell($soc_width,$y_add-3,$soc['society'],0,0,'R');
             $pdf->SetFont('Arial','B',8);
             $pdf->setxy($left_side+$soc_width,$y);
-            $pdf->cell(12,$y_add-3,$ser->servicetime,0,0,'C');
+            $pdf->cell(12,$y_add-3,$ser['servicetime'],0,0,'C');
             $pdf->SetFillColor(0,0,0);
             $pdf->SetTextColor(0,0,0);
             $pdf->SetDrawColor(0,0,0);
@@ -175,7 +175,7 @@ class PlansController extends Controller
             $y=$y+$y_add-3;
             $pdf->SetFont('Arial','B',8);
             $pdf->setxy($left_side+$soc_width,$y);
-            $pdf->cell(12,$y_add-3,$ser->servicetime,0,0,'C');
+            $pdf->cell(12,$y_add-3,$ser['servicetime'],0,0,'C');
             $pdf->SetFillColor(0,0,0);
             $pdf->SetTextColor(0,0,0);
           }
@@ -188,7 +188,7 @@ class PlansController extends Controller
                 $pdf->setxy($x,$header+2);
                 $pdf->cell($x_add,$y_add-6,date("j M",$sun['dt']),0,0,'C');
               } else {
-                $wd=Weekday::where('servicedate','=',$sun['dt'])->first();
+                $wd=$this->weekdays->findfordate($dat['circuit']['id'],$sun['dt']);
                 $pdf->setxy($x,$header+4);
                 $pdf->SetFont('Arial','',7);
                 $pdf->cell($x_add,$y_add-6,$wd->description,0,0,'C');
@@ -197,17 +197,17 @@ class PlansController extends Controller
                 $pdf->cell($x_add,$y_add-6,date("j M",$sun['dt']),0,0,'C');
               }
             }
-            if (isset($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['tname'])){
+            if (isset($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['tname'])){
               $tagadd=1;
               $pdf->setxy($x,$y-2);
               $pdf->SetFont('Arial','B',7.5);
-              $pdf->cell($x_add,$y_add-2,$dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['tname'],0,0,'C');
+              $pdf->cell($x_add,$y_add-2,$dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['tname'],0,0,'C');
             } else {
               $tagadd=0;
             }
-            if (isset($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['pname'])){
+            if (isset($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['pname'])){
               $pdf->setxy($x,$y+$tagadd);
-              $pname=utf8_decode($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['pname']);
+              $pname=utf8_decode($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['pname']);
               $font_size = 8;
               $decrement_step = 0.1;
               $pdf->SetFont('Arial','',$font_size);
@@ -216,9 +216,9 @@ class PlansController extends Controller
               }
               $pdf->cell($x_add,$y_add-3,$pname,0,0,'C');
             }
-            if (isset($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial'])){
+            if (isset($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial'])){
               $pdf->setxy($x,$y+$tagadd+2.5);
-              $trial=Preacher::find($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser->servicetime]['trial']);
+              $trial=$this->preachers->findforcircuit($dat['circuit']['id'],$dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']);
               $tname="[" . utf8_decode(substr($trial->firstname,0,1) . " " . $trial->surname) . "]";
               $pdf->SetFont('Arial','',6.5);
               $pdf->cell($x_add,$y_add-3,$tname,0,0,'C');
@@ -238,29 +238,29 @@ class PlansController extends Controller
       $pdf->Image($logopath,10,5,0,21);
       $pdf->SetFillColor(0,0,0);
       $pdf->SetFont('Arial','B',14);
-      $pdf->text($left_side+$soc_width+8,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($this->settings['circuit_name']) . " CIRCUIT " . $this->settings['circuit_number']);
+      $pdf->text($left_side+$soc_width+8,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($dat['circuit']['circuit']) . " CIRCUIT " . $dat['circuit']['circuitnumber']);
       $pdf->text($left_side+$soc_width+8,17,"PREACHING PLAN: " . strtoupper(date("F Y",$dat['sundays'][0]['dt'])) . " - " . strtoupper(date("F Y",$dat['sundays'][count($dat['sundays'])-1]['dt'])));
       $pfin=array();
       foreach($dat['preachers'] as $preacher1){
         $dum=array();
-        $thissoc=Society::find($preacher1->society_id)->society;
-        $dum['name']=$preacher1->title . " " . $preacher1->firstname . " " . $preacher1->surname;
-        if ($preacher1->emeritus){
+        $thissoc=$this->societies->find($preacher1['society_id'])->society;
+        $dum['name']=$preacher1['title'] . " " . $preacher1['firstname'] . " " . $preacher1['surname'];
+        if ($preacher1['status']=="Emeritus preacher"){
           $dum['name'] = $dum['name'] . "*";
         }
-        $dum['soc']=$preacher1->society_id;
-        $dum['cellphone']=$preacher1->phone;
-        $dum['fullplan']=$preacher1->fullplan;
-        $dum['status']=$preacher1->status;
+        $dum['soc']=$preacher1['society_id'];
+        $dum['cellphone']=$preacher1['phone'];
+        $dum['fullplan']=$preacher1['fullplan'];
+        $dum['status']=$preacher1['status'];
         if ($dum['fullplan']=="Trial"){
-            $vdum['9999' . $preacher1->surname . $preacher1->firstname]=$dum;
+            $vdum['9999' . $preacher1['surname'] . $preacher1['firstname']]=$dum;
         } else {
-            $vdum[$preacher1->fullplan . $preacher1->surname . $preacher1->firstname]=$dum;
+            $vdum[$preacher1['fullplan'] . $preacher1['surname'] . $preacher1['firstname']]=$dum;
         }
       }
       ksort($vdum);
       foreach ($vdum as $vd){
-        $thissoc=Society::find($vd['soc'])->society;
+        $thissoc=$this->societies->find($vd['soc'])->society;
       	$pfin[$thissoc][]=$vd;
       }
       $cols=4;
@@ -282,7 +282,7 @@ class PlansController extends Controller
       $y=$y+4;
       $pdf->SetFont('Arial','',8);
       foreach ($dat['ministers'] as $min){
-          $pdf->text($left_side+$spacer,$y,$min->title . " " . substr($min->firstname,0,1) . " " . $min->surname . " (" . $min->phone . ")");
+          $pdf->text($left_side+$spacer,$y,$min['title'] . " " . substr($min['firstname'],0,1) . " " . $min['surname'] . " (" . $min['phone'] . ")");
           $y=$y+4;
       }
       $y=$y+2;
@@ -341,7 +341,7 @@ class PlansController extends Controller
           $pdf->text($x,$y,$meeting['description']);
           $pdf->SetFont('Arial','',8);
           $y=$y+4;
-          $msoc=Society::find($meeting['society_id'])->society;
+          $msoc=$this->societies->find($meeting['society_id'])->society;
           $pdf->text($x,$y,date("d M Y H:i",$meeting['meetingdatetime']) . " (" . $msoc . ")");
           $y=$y+4;
         }
@@ -389,7 +389,7 @@ class PlansController extends Controller
             $y=30;
           }
           $pre['name']=utf8_decode($pre['name']);
-          if (($pre['status']=="Local preacher") or ($pre['status']=="On trial preacher")){
+          if (($pre['status']=="Local preacher") or ($pre['status']=="On trial preacher") or ($pre['status']=="Emeritus preacher")){
             $pdf->text($x+2,$y,$pre['fullplan']);
             $pdf->text($x+10,$y,$pre['name'] . " (" . $pre['cellphone'] . ")");
             $y=$y+4;
