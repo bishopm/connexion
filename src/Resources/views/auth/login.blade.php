@@ -1,8 +1,8 @@
 @extends('adminlte::master')
 
 @section('adminlte_css')
-    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/plugins/iCheck/square/blue.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/vendor/adminlte/css/auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('/vendor/adminlte/plugins/iCheck/square/blue.css') }}">
+    <link rel="stylesheet" href="{{ asset('/vendor/adminlte/css/auth.css') }}">
     @yield('css')
 @stop
 
@@ -23,7 +23,7 @@
 @stop
 
 @section('adminlte_js')
-    <script src="{{ asset('public/vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ asset('/vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
     <script>
         @include('connexion::shared.login-modal-script')
         $(function () {

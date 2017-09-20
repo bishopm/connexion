@@ -1,7 +1,7 @@
 @extends('connexion::worship.page')
 
 @section('css')
-    <link href="{{ asset('/public/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />    
+    <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />    
 @stop
 
 @section('content')
@@ -52,7 +52,7 @@
                 <div>
                 @foreach ($chords as $chord)
                     @if (isset($chord['id']))
-                        <a href="{{url('/')}}/admin/worship/chords/{{$chord['id']}}/edit"><img width="45" src="{{url('/')}}/public/storage/chords/{{$chord['id']}}.png"></a>
+                        <a href="{{url('/')}}/admin/worship/chords/{{$chord['id']}}/edit"><img width="45" src="{{url('/')}}/storage/chords/{{$chord['id']}}.png"></a>
                     @else
                         <a href="{{url('/')}}/admin/worship/chords/create/{{str_replace('/','_',str_replace('#','^',$chord))}}">{{$chord}}</a>
                     @endif
@@ -238,7 +238,7 @@ var vm1 = new Vue({
   }
 });
 </script>
-<script src="{{ asset('public/vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
 
     $( document ).ready(function() {

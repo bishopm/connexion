@@ -1,7 +1,7 @@
 @extends('connexion::templates.frontend')
 
 @section('title',$event->groupname)
-@section('page_image',url('/') . '/public/storage/events/' . $event->image)
+@section('page_image',url('/') . '/storage/events/' . $event->image)
 @section('page_description', strip_tags($event->description))
 
 @section('content')
@@ -17,7 +17,7 @@
 				</h3>
 				<h4>{{date("d M Y H:i",$event->eventdatetime)}}</h4>
 				@if ($event->image)
-					<img class="pull-right" src="{{url('/')}}/public/storage/events/{{$event->image}}">
+					<img class="pull-right" src="{{url('/')}}/storage/events/{{$event->image}}">
 				@endif
 				{{$event->description}}
 			</div>
@@ -59,7 +59,7 @@
 @section('js')
 @parent
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{$setting['google_api']}}"></script>
-<script src="{{url('/')}}/public/vendor/bishopm/js/gmap.js" type="text/javascript"></script>
+<script src="{{url('/')}}/vendor/bishopm/js/gmap.js" type="text/javascript"></script>
 <script type="text/javascript">
 (function ($) {
 	jQuery(window).on('load', function() {

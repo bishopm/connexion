@@ -4,7 +4,7 @@
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />
-  <link href="{{ asset('/public/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')  
@@ -15,7 +15,7 @@
       @endif
       </h3>
         <div class="row">
-          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{url('/')}}/public/storage/courses/{{$course->image}}"></div>
+          <div class="col-md-3"><img class="img-responsive" width="250px" src="{{url('/')}}/storage/courses/{{$course->image}}"></div>
           <div class="col-md-9">
           {!!$course->description!!}
           </div>
@@ -30,7 +30,7 @@
 
 @section('js')
 @if (Auth::check())
-  <script src="{{url('/')}}/public/vendor/bishopm/rater/rater.min.js" type="text/javascript"></script>
+  <script src="{{url('/')}}/vendor/bishopm/rater/rater.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     $( document ).ready(function() {
       var options = {

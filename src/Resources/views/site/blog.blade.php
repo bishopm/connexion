@@ -1,12 +1,12 @@
 @extends('connexion::templates.frontend')
 
 @section('title',$blog->title)
-@section('page_image',url('/') . '/public/storage/individuals/' . $blog->individual->id . '/' . $blog->individual->image)
+@section('page_image',url('/') . '/storage/individuals/' . $blog->individual->id . '/' . $blog->individual->image)
 @section('page_description', strip_tags($blog->body))
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />
-  <link href="{{ asset('/public/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')

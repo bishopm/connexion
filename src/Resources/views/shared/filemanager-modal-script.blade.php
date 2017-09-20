@@ -71,7 +71,7 @@ $( document ).ready(function() {
         modal.find('form').attr('action', actionTarget);
         $('.fmgr').on('click',function(e){
         	$('#image').val(e.target.innerHTML);
-            setupImage("{{url('/')}}" + "/public/storage/{{$folder}}/" + e.target.innerHTML);
+            setupImage("{{url('/')}}" + "/storage/{{$folder}}/" + e.target.innerHTML);
         	$('#modal-filemanager').modal('hide');
         });
     });
@@ -86,7 +86,7 @@ $( document ).ready(function() {
             processData: false,
             success: function (result) {
                 $('#image').val(result);
-                setupImage("{{url('/')}}" + "/public/storage/{{$folder}}/" + result);
+                setupImage("{{url('/')}}" + "/storage/{{$folder}}/" + result);
                 $('#modal-filemanager').modal('hide');
             }
         });                            
@@ -94,6 +94,6 @@ $( document ).ready(function() {
     if ($('#image').val()==''){
         setupImage($('#image').val());
     } else {
-        setupImage("{{url('/')}}" + "/public/storage/{{$folder}}/" + $('#image').val());
+        setupImage("{{url('/')}}" + "/storage/{{$folder}}/" + $('#image').val());
     }
 });

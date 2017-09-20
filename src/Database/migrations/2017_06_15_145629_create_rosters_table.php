@@ -16,9 +16,9 @@ class CreateRostersTable extends Migration
             $table->increments('id');
             $table->string('rostername');
             $table->string('message');
-            $table->string('extrainfo');
-            $table->string('multichoice');
-            $table->string('subcategories');
+            $table->string('extrainfo')->nullable();
+            $table->string('multichoice')->nullable();
+            $table->string('subcategories')->nullable();
             $table->integer('dayofweek');
             $table->softDeletes();
             $table->timestamps();

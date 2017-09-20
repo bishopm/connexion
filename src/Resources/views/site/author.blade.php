@@ -26,9 +26,9 @@
                       <tr>
                           <td><a href="{{route('webbook',$cc->slug)}}">
                             @if ($cc->image)
-                              <img width="50px" class="img-responsive" src="{{url('/')}}/public/storage/books/{{$cc->image}}">
+                              <img width="50px" class="img-responsive" src="{{url('/')}}/storage/books/{{$cc->image}}">
                             @else
-                              <img width="50px" class="img-responsive" src="{{url('/')}}/public/vendor/bishopm/images/book.png">
+                              <img width="50px" class="img-responsive" src="{{url('/')}}/vendor/bishopm/images/book.png">
                             @endif
                           </a></td>
                           <td><a href="{{route('webbook',$cc->slug)}}">{{$cc->title}}</a></td>

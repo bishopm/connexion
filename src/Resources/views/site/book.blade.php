@@ -1,12 +1,12 @@
 @extends('connexion::templates.frontend')
 
 @section('title',$book->title)
-@section('page_image',url('/') . '/public/storage/books/' . $book->image)
+@section('page_image',url('/') . '/storage/books/' . $book->image)
 @section('page_description', strip_tags($book->description))
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />
-  <link href="{{ asset('/public/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')  
@@ -24,9 +24,9 @@
         <div class="row">
           <div class="col-md-3">
             @if ($book->image)
-                <img width="250px" class="img-responsive" src="{{url('/')}}/public/storage/books/{{$book->image}}">
+                <img width="250px" class="img-responsive" src="{{url('/')}}/storage/books/{{$book->image}}">
             @else
-                <img width="250px" class="img-responsive" src="{{url('/')}}/public/vendor/bishopm/images/book.png">
+                <img width="250px" class="img-responsive" src="{{url('/')}}/vendor/bishopm/images/book.png">
             @endif
             <ul class="top10 list-unstyled">
             <li>
@@ -57,7 +57,7 @@
 
 @section('js')
 @if (Auth::check())
-  <script src="{{url('/')}}/public/vendor/bishopm/rater/rater.min.js" type="text/javascript"></script>
+  <script src="{{url('/')}}/vendor/bishopm/rater/rater.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     $( document ).ready(function() {
       var options = {

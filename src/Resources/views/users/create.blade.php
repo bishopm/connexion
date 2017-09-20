@@ -1,9 +1,9 @@
 @extends('connexion::templates.backend')
 
 @section('css')
-    <link rel="stylesheet" href="{{asset('/public/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
-    <link href="{{ asset('/public/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('public/plugins/colorpicker/bootstrap-colorpicker.min.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
+    <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/plugins/colorpicker/bootstrap-colorpicker.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')
@@ -43,7 +43,7 @@
 @stop
 
 @section('js')
-<script src="{{ asset('public/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
         $('.input-individual').selectize({
@@ -61,5 +61,5 @@
       $(".colorpicker").colorpicker();
     });    
 </script>
-<script src="{{ asset('/public/colorpicker/bootstrap-colorpicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/colorpicker/bootstrap-colorpicker.min.js') }}" type="text/javascript"></script>
 @stop 
