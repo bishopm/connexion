@@ -69,9 +69,9 @@ class PreachersController extends Controller {
             ->withSuccess('New preacher added');
     }
 	
-    public function update(Preacher $preacher, UpdatePreacherRequest $request)
+    public function update($id, UpdatePreacherRequest $request)
     {
-        $this->preacher->update($preacher, $request->except('image'));
+        $this->preacher->update($id, $request->except('image'));
         return redirect()->route('admin.preachers.index')->withSuccess('Preacher has been updated');
     }
 
