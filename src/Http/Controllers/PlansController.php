@@ -143,7 +143,7 @@ class PlansController extends Controller
       $pdf->Image($logopath,5,5,0,21);
       $pdf->SetFillColor(0,0,0);
       $pdf->SetFont('Arial','B',14);
-      $pdf->text($left_side+$soc_width,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($dat['circuit']['circuit']) . " CIRCUIT " . $dat['circuit']['circuitnumber']);
+      $pdf->text($left_side+$soc_width,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($dat['circuit']['circuit']) . " " . $dat['circuit']['circuitnumber']);
       $pdf->text($left_side+$soc_width,17,"PREACHING PLAN: " . strtoupper(date("F Y",$dat['sundays'][0]['dt'])) . " - " . strtoupper(date("F Y",$dat['sundays'][count($dat['sundays'])-1]['dt'])));
 	    foreach ($dat['societies'] as $soc){
         $firstserv=true;
@@ -218,7 +218,7 @@ class PlansController extends Controller
             }
             if (isset($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial'])){
               $pdf->setxy($x,$y+$tagadd+2.5);
-              $trial=$this->preachers->findforcircuit($dat['circuit']['id'],$dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']);
+              $trial=$this->preachers->findforcircuit($dat['fin'][$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']);
               $tname="[" . utf8_decode(substr($trial->firstname,0,1) . " " . $trial->surname) . "]";
               $pdf->SetFont('Arial','',6.5);
               $pdf->cell($x_add,$y_add-3,$tname,0,0,'C');
@@ -238,7 +238,7 @@ class PlansController extends Controller
       $pdf->Image($logopath,10,5,0,21);
       $pdf->SetFillColor(0,0,0);
       $pdf->SetFont('Arial','B',14);
-      $pdf->text($left_side+$soc_width+8,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($dat['circuit']['circuit']) . " CIRCUIT " . $dat['circuit']['circuitnumber']);
+      $pdf->text($left_side+$soc_width+8,10,"THE METHODIST CHURCH OF SOUTHERN AFRICA: " . strtoupper($dat['circuit']['circuit']) . " " . $dat['circuit']['circuitnumber']);
       $pdf->text($left_side+$soc_width+8,17,"PREACHING PLAN: " . strtoupper(date("F Y",$dat['sundays'][0]['dt'])) . " - " . strtoupper(date("F Y",$dat['sundays'][count($dat['sundays'])-1]['dt'])));
       $pfin=array();
       foreach($dat['preachers'] as $preacher1){
@@ -423,42 +423,9 @@ class PlansController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PlansRequest $request, $id)
+    public function update($circuit,$box,$val)
     {
-      foreach ($request->all() as $key=>$val){
-        if (substr($key,0,2)=="p_"){
-          $tagname="t_" . substr($key,2);
-          $tag=$request->input($tagname);
-          if (!$tag){
-            $tag=null;
-          }
-          if ($val){
-            $pid=substr($val,2);
-          } else {
-            $pid=null;
-          }
-          $kk=array(explode('_',$key));
-          $plan=Plan::where('society_id','=',$kk[0][1])->where('service_id','=',$kk[0][2])->where('planyear','=',$kk[0][3])->where('planmonth','=',$kk[0][4])->where('planday','=',$kk[0][5])->first();
-          if (count($plan)){
-            if (is_numeric($tag)){
-              $plan->trialservice=intval($tag);
-            } else {
-              $plan->servicetype=$tag;
-            }
-            $plan->preacher_id=$pid;
-            if (($tag==null) and ($pid==null)){
-              $plan->delete();
-            } else {
-              $plan->save();
-            }
-          } else {
-            if ($pid){
-              $newplan=Plan::create(array('society_id'=>$kk[0][1], 'service_id'=>$kk[0][2], 'planyear'=>$kk[0][3], 'planmonth'=>$kk[0][4], 'planday'=>$kk[0][5], 'preacher_id'=>$pid, 'servicetype'=>$tag));
-            }
-          }
-        }
-      }
-      return Redirect::back()->withSuccess('Plan details have been updated');
+      $this->plans->updateplan($circuit,$box,$val);
     }
 
     /**

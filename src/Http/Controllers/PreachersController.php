@@ -5,7 +5,6 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Repositories\PreachersRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
-use Bishopm\Connexion\Models\Preacher;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreatePreacherRequest;
 use Bishopm\Connexion\Http\Requests\UpdatePreacherRequest;
@@ -37,11 +36,11 @@ class PreachersController extends Controller {
         }
 	}
 
-	public function edit(Preacher $preacher)
+	public function edit($id)
     {
-        $data['individuals'] = $this->individuals->all();
+        //$data['individuals'] = $this->individuals->all();
         $data['societies'] = $this->societies->all();
-        $data['preacher'] = $preacher;
+        $data['preacher']=$this->preacher->findforcircuit($id);
         return view('connexion::preachers.edit', $data);
     }
 
@@ -56,9 +55,9 @@ class PreachersController extends Controller {
         }
     }
 
-	public function show(Preacher $preacher)
+	public function show($id)
 	{
-        $data['preacher']=$preacher;
+        $data['preacher']=$this->preacher->find($id);
         return view('connexion::preachers.show',$data);
 	}
 

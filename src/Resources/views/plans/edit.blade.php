@@ -30,7 +30,6 @@ select.form-control.pplan {
                   <a href="{{url('/')}}/admin/{{$next}}/edit" title="Next quarter" class="btn btn-primary btn-sm"><span class="fa fa-angle-double-right"></span></a>&nbsp;
               </span>
               <span class="btn-group-xs">
-                  <button title="Save plan data" class="btn btn-sm btn-primary" type="submit"><span class="fa fa-save"></span></button>
                   <a href="view" title="View a PDF version of the plan" class="btn btn-sm btn-primary"><span class="fa fa-file-pdf-o"></span></a>
               </span>
           </span>
@@ -52,7 +51,6 @@ select.form-control.pplan {
                       <a href="{{url('/')}}/admin/{{$next}}/edit" title="Next quarter" class="btn btn-primary btn-sm"><span class="fa fa-angle-double-right"></span></a>&nbsp;
                   </span>
                   <span class="btn-group-xs">
-                      <button title="Save plan data" class="btn btn-sm btn-primary" type="submit"><span class="fa fa-save"></span></button>
                       <a href="view" title="View a PDF version of the plan" class="btn btn-sm btn-primary"><span class="fa fa-file-pdf-o"></span></a>
                   </span>
               </span>
@@ -66,7 +64,7 @@ select.form-control.pplan {
       <tr><th class="text-right">{{$soc['society']}}</th><td>{{$ser['servicetime']}}</td>
       @foreach ($sundays as $sun)
         <td>
-          <select class="form-control pplan" name="t_{{$soc['id']}}_{{$ser['id']}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option></option>
+          <select onchange="updateplan('t_{{$soc['id']}}_{{$ser['id']}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}');" class="form-control pplan" id="t_{{$soc['id']}}_{{$ser['id']}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option value="blank"></option>
             <optgroup label="Special services">
               @foreach ($tags as $tag)
                 @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['tname'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['tname']==$tag))
@@ -93,7 +91,7 @@ select.form-control.pplan {
               @endforeach
             </optgroup>
           </select>
-          <select class="form-control pplan" name="p_{{$soc['id']}}_{{$ser['id']}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option></option>
+          <select onchange="updateplan('p_{{$soc['id']}}_{{$ser['id']}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}');" class="form-control pplan" id="p_{{$soc['id']}}_{{$ser['id']}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option value="blank"></option>
             <optgroup label="Ministers">
               @foreach ($ministers as $minister)
                 @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['preacher'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['preacher']=="M_" . $minister['id']))
@@ -137,5 +135,14 @@ select.form-control.pplan {
 {!! Form::close() !!}
 @stop
 @section('js')
-
+<script language="javascript">
+  function updateplan(box){
+    val=$('#'+box).val();
+    circuit={{$setting['circuit']}};
+    $.ajax({
+      type : 'GET',
+      url : '{{url('/')}}/admin/plan/update/' + circuit + '/' + box + '/' + val,
+    });
+  }
+</script>
 @stop

@@ -50,9 +50,9 @@ abstract class McsaBaseRepository implements BaseRepository
         return json_decode($res->getBody()->getContents());
     }
 
-    public function findforcircuit($circuit,$id)
+    public function findforcircuit($id)
     {
-        $url = $this->api_url . '/circuits/' . $circuit . '/' . $this->model . '/' . $id . '?token=' . $this->token;
+        $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '/' . $id . '?token=' . $this->token;
         $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->getContents());
     }

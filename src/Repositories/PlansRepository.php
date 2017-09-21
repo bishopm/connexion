@@ -13,5 +13,12 @@ class PlansRepository extends McsaBaseRepository
         return json_decode($res->getBody()->getContents(),TRUE);
     }
 
+    public function updateplan($circuit,$box,$val)
+    {       
+        $url = $this->api_url . '/circuits/' . $circuit . '/planupdate/' . $box . '/' . $val . '?token=' . $this->token;
+        $res = $this->client->request('GET', $url);
+        return json_decode($res->getBody()->getContents(),TRUE);
+    }
+
     
 }

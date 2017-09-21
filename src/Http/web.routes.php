@@ -416,7 +416,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 
 	// Plan
 	Route::get('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@show');
-	Route::post('admin/plan/{yy}/{qq}/{aa}','Bishopm\Connexion\Http\Controllers\PlansController@update');
+	Route::get('admin/plan/update/{circuit}/{box}/{val}','Bishopm\Connexion\Http\Controllers\PlansController@update');
 	Route::get('admin/plan','Bishopm\Connexion\Http\Controllers\PlansController@index');
 
 	// Preachers
