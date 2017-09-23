@@ -10,7 +10,7 @@
 @stop
 
 @section('content')
-    @include('connexion::shared.errors')    
+    @include('connexion::shared.errors')  
     {!! Form::open(['route' => array('admin.weekdays.update',$weekday->id), 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">

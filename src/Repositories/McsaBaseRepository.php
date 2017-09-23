@@ -45,14 +45,11 @@ abstract class McsaBaseRepository implements BaseRepository
      */
     public function find($id)
     {
-        $url = $this->api_url . '/' . $this->model . '/' . $id . '?token=' . $this->token;
-        $res = $this->client->request('GET', $url);
-        return json_decode($res->getBody()->getContents());
-    }
-
-    public function findforcircuit($id)
-    {
-        $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '/' . $id . '?token=' . $this->token;
+        if ($this->model<>"circuits"){
+            $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '/' . $id . '?token=' . $this->token;
+        } else {
+            $url = $this->api_url . '/' . $this->model . '/' . $id . '?token=' . $this->token;
+        }
         $res = $this->client->request('GET', $url);
         return json_decode($res->getBody()->getContents());
     }
@@ -97,7 +94,15 @@ abstract class McsaBaseRepository implements BaseRepository
      */
     public function create($data)
     {
-        return $this->model->create($data);
+        $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '?token=' . $this->token;
+        try {
+            $res = $this->client->request('POST', $url, ['form_params' => $data]);
+            return $res->getBody()->getContents();
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            return json_decode($responseBodyAsString);
+        }
     }
 
     /**
@@ -105,9 +110,9 @@ abstract class McsaBaseRepository implements BaseRepository
      */
     public function update($id,$data)
     {
-        $url = $this->api_url . '/' . $this->model . '/' . $id . '?token=' . $this->token;
+        $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '/' . $id . '?token=' . $this->token;
         try {
-            $res = $this->client->request('POST', $url, ['form_params' => $data]);
+            $res = $this->client->request('PUT', $url, ['form_params' => $data]);
             return $res->getBody()->getContents();
         } catch (ClientException $e) {
             $response = $e->getResponse();

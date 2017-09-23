@@ -40,7 +40,7 @@ class PreachersController extends Controller {
     {
         //$data['individuals'] = $this->individuals->all();
         $data['societies'] = $this->societies->all();
-        $data['preacher']=$this->preacher->findforcircuit($id);
+        $data['preacher']=$this->preacher->find($id);
         return view('connexion::preachers.edit', $data);
     }
 

@@ -3,7 +3,6 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\WeekdaysRepository;
-use Bishopm\Connexion\Models\Weekday;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateWeekdayRequest;
 use Bishopm\Connexion\Http\Requests\UpdateWeekdayRequest;
@@ -29,8 +28,9 @@ class WeekdaysController extends Controller {
    		return view('connexion::weekdays.index',compact('weekdays'));
 	}
 
-	public function edit(Weekday $weekday)
+	public function edit($id)
     {
+        $weekday=$this->weekday->find($id);
         return view('connexion::weekdays.edit', compact('weekday'));
     }
 
@@ -55,7 +55,7 @@ class WeekdaysController extends Controller {
             ->withSuccess('New weekday added');
     }
 	
-    public function update(Weekday $weekday, UpdateWeekdayRequest $request)
+    public function update($weekday, UpdateWeekdayRequest $request)
     {
         $data=$request->all();
         $data['servicedate']=strtotime($data['servicedate']);

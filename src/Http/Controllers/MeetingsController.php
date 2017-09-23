@@ -4,7 +4,6 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\MeetingsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
-use Bishopm\Connexion\Models\Meeting;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateMeetingRequest;
 use Bishopm\Connexion\Http\Requests\UpdateMeetingRequest;
@@ -31,9 +30,10 @@ class MeetingsController extends Controller {
    		return view('connexion::meetings.index',compact('meetings'));
 	}
 
-	public function edit(Meeting $meeting)
+	public function edit($meeting)
     {
         $societies = $this->societies->all();
+        $meeting=$this->meeting->find($meeting);
         return view('connexion::meetings.edit', compact('meeting','societies'));
     }
 
@@ -59,7 +59,7 @@ class MeetingsController extends Controller {
             ->withSuccess('New meeting added');
     }
 	
-    public function update(Meeting $meeting, UpdateMeetingRequest $request)
+    public function update($meeting, UpdateMeetingRequest $request)
     {
         $data=$request->all();
         $data['meetingdatetime']=strtotime($data['meetingdatetime']);
