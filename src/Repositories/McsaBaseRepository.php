@@ -59,7 +59,11 @@ abstract class McsaBaseRepository implements BaseRepository
         if (gettype($this->checked)=="String"){
             return $this->checked;
         } else {
-            $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '?token=' . $this->token;
+            if ($this->model=="circuits"){
+                $url = $this->api_url . '/circuits/';
+            } else {
+                $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '?token=' . $this->token;
+            }
             $res = $this->client->request('GET', $url);
             return json_decode($res->getBody()->getContents());
         }

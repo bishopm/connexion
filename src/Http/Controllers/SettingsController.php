@@ -153,7 +153,7 @@ class SettingsController extends Controller {
                 $count++;
             }
         } elseif ($setting->setting_key=="circuit"){
-            $circuits=json_decode($this->circuits->all());
+            $circuits=$this->circuits->all();
             $count=0;
             foreach ($circuits as $circuit){
                 $dropdown[$count][0]=$circuit->id;
