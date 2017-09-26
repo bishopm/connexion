@@ -6,7 +6,7 @@
 
 @section('content')
     @include('connexion::shared.errors')    
-    {!! Form::open(['route' => array('admin.services.update',$society,$service->id), 'method' => 'put']) !!}
+    {!! Form::open(['route' => array('admin.services.update',$society,$service), 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 

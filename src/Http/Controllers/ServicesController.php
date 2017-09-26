@@ -3,7 +3,6 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\ServicesRepository;
-use Bishopm\Connexion\Models\Service;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateServiceRequest;
 use Bishopm\Connexion\Http\Requests\UpdateServiceRequest;
@@ -29,8 +28,9 @@ class ServicesController extends Controller {
    		return view('connexion::services.index',compact('services'));
 	}
 
-	public function edit($society,Service $service)
+	public function edit($society,$serv)
     {
+        $service = $this->service->find($serv);
         return view('connexion::services.edit', compact('service','society'));
     }
 
@@ -39,7 +39,7 @@ class ServicesController extends Controller {
         return view('connexion::services.create',compact('society'));
     }
 
-	public function show(Service $service)
+	public function show($service)
 	{
         $data['service']=$service;
         return view('connexion::services.show',$data);
@@ -54,7 +54,7 @@ class ServicesController extends Controller {
             ->withSuccess('New service added');
     }
 	
-    public function update($society, Service $service, UpdateServiceRequest $request)
+    public function update($society, $service, UpdateServiceRequest $request)
     {
         $request->request->add(['society_id' => $society]);
         $this->service->update($service, $request->all());
