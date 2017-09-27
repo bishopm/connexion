@@ -71,9 +71,8 @@ class SocietiesController extends Controller {
 
     public function store(CreateSocietyRequest $request)
     {
-        $soc=$this->society->create($request->all());
-
-        return redirect()->route('admin.societies.show',$soc->id)
+        $this->society->create($request->all());
+        return redirect()->route('admin.societies.index')
             ->withSuccess('New society added');
     }
 	
