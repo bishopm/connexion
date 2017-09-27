@@ -12,7 +12,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-6"><h4>Sets <small>{{$society}}</small></h4></div>
+                            <div class="col-md-6"><h4>Sets</h4></div>
                             <div class="col-md-6"><a href="{{route('admin.sets.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new set</a></div>
                         </div>
                     </div>

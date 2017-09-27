@@ -24,18 +24,11 @@ class SetsController extends Controller
 
     public function index()
     {
-        $soc=$this->setting->getkey('society_name');
-        $society=Society::where('society',$soc)->first();
-        if ($society){
-            $data['society']=$society->society;
-        } else {
-            return redirect()->route('admin.societies.create')->with('notice','At least one society must be added before adding a set');
-        }
-        $sets=Set::with('service')->orderBy('servicedate')->get();
+        $sets=Set::orderBy('servicedate')->get();
         if (count($sets)){
             foreach ($sets as $set){
-                $finsets[strtotime($set->servicedate)][$set->service->servicetime]=$set->id;
-                $services[]=$set->service->servicetime;
+                $finsets[strtotime($set->servicedate)][$set->servicetime]=$set->id;
+                $services[]=$set->servicetime;
                 $servicedates[]=strtotime($set->servicedate);
             }
             foreach (array_unique($servicedates) as $sd){
@@ -63,10 +56,8 @@ class SetsController extends Controller
      */
     public function create()
     {
-        $soc=$this->setting->getkey('society_name');
-        $data['society']=Society::where('society',$soc)->first();
         $data['sunday']=date("Y-m-d",strtotime("next Sunday"));
-        $data['services']=Service::where('society_id','=',$data['society']->id)->orderBy('servicetime')->get();
+        $data['services']=explode(',',$this->setting->getkey('worship_services'));
         if (!count($data['services'])){
             return redirect()->route('admin.societies.index')->with('notice','At least one service must be added before adding a set. Click a society below to add a new service');
         }

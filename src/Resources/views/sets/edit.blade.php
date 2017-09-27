@@ -14,9 +14,9 @@
                         <select name="service_id" class="selectize">
                           @foreach ($services as $service)
                             @if ($service->id==$set->service_id)
-                                <option selected value="{{$service->id}}">{{$service->servicetime}} ({{$society}})</option>
+                                <option selected value="{{$service->id}}">{{$service->servicetime}})</option>
                             @else
-                                <option value="{{$service->id}}">{{$service->servicetime}} ({{$society}})</option>
+                                <option value="{{$service->id}}">{{$service->servicetime}})</option>
                             @endif
                           @endforeach
                         </select>

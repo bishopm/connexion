@@ -8,7 +8,7 @@
 <div id="setpage" class="box box-default">
     <div class="box-header">
         @include('connexion::shared.errors')
-        <h3 class="box-title">{{$set->servicedate}} <span class="small">{{$set->service->society->society}} {{$set->service->servicetime}}</span></h3>
+        <h3 class="box-title">{{$set->servicedate}} <span class="small">{{$set->servicetime}}</span></h3>
     </div>
     <div class="box-body">
         <div class="row">
