@@ -9,7 +9,7 @@ class UpdateSetRequest extends FormRequest
     public function rules()
     {
         return [
-            'service_id'    => 'required',
+            'servicetime'    => 'required',
             'servicedate'   =>  'required'
         ];
     }

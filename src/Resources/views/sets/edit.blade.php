@@ -10,7 +10,7 @@
                 <div class="box-body">
                     @include('connexion::sets.partials.edit-fields')
                     <div class="form-group">
-                        <label for="service_id" class="control-label">Service</label>
+                        <label for="servicetime" class="control-label">Service</label>
                         <select name="service_id" class="selectize">
                           @foreach ($services as $service)
                             @if ($service->id==$set->service_id)

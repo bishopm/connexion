@@ -18,7 +18,7 @@
                     @include('connexion::sets.partials.create-fields')
                     <div class="form-group">
                         <label for="service_id" class="control-label">Service</label>
-                        <select name="service_id" class="selectize">
+                        <select name="servicetime" class="selectize">
                             <option></option>
                             @foreach ($services as $service)
                                <option value="{{$service}}">{{$service}}</option>

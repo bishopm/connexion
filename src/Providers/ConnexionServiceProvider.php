@@ -537,7 +537,7 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'superintendent','module'=>'mcsa','description'=>'Superintendent name','setting_value'=>'Superintendent'],
             ['setting_key'=>'twitter_profile','module'=>'website','description'=>'Church Twitter profile','setting_value'=>'Twitter profile'],
             ['setting_key'=>'website_theme','module'=>'website','description'=>'Website theme','setting_value'=>'umhlali'],
-            ['setting_key'=>'worship_services','module'=>'worship','description'=>'Service times when music sets are used - comma separated list'],
+            ['setting_key'=>'worship_services','module'=>'worship','description'=>'Service times when music sets are used - comma separated list','setting_value'=>'09h00,18h00'],
             ['setting_key'=>'worship_administrator','module'=>'worship','description'=>'Individual who receives set emails and prepares the PC for services','setting_value'=>'Worship administrator'],
             ['setting_key'=>'youtube_page','module'=>'website','description'=>'Church Youtube page','setting_value'=>'Youtube page']
         );

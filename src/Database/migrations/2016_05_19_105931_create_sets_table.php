@@ -15,7 +15,7 @@ class CreateSetsTable extends Migration
         Schema::create('sets', function(Blueprint $table) {
             $table->increments('id');
             $table->string('servicedate');
-            $table->integer('service_id');
+            $table->string('servicetime');
             $table->softDeletes();
             $table->nullableTimestamps();
         });
