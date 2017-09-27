@@ -377,13 +377,13 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 
 	// Statistics
 	Route::get('admin/statistics',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@index','as'=>'admin.statistics.index']);
-	Route::get('admin/societies/{society}/statistics/create',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@create','as'=>'admin.statistics.create']);
-	Route::get('admin/societies/{society}/statistics/graph/{year?}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@showgraph','as'=>'admin.statistics.graph']);
-	Route::get('admin/societies/{society}/statistics/historygraph/{service}/{years?}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@showhistory','as'=>'admin.statistics.historygraph']);
-	Route::get('admin/societies/{society}/services/{service}/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@show','as'=>'admin.statistics.show']);
+	Route::get('admin/statistics/create',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@create','as'=>'admin.statistics.create']);
+	Route::get('admin/statistics/graph/{year?}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@showgraph','as'=>'admin.statistics.graph']);
+	Route::get('admin/statistics/historygraph/{service}/{years?}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@showhistory','as'=>'admin.statistics.historygraph']);
+	Route::get('admin/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@show','as'=>'admin.statistics.show']);
 	Route::get('admin/statistics/{statistic}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@edit','as'=>'admin.statistics.edit']);
-	Route::put('admin/societies/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@update','as'=>'admin.statistics.update']);
-	Route::post('admin/societies/statistics',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@store','as'=>'admin.statistics.store']);
+	Route::put('admin/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@update','as'=>'admin.statistics.update']);
+	Route::post('admin/statistics',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@store','as'=>'admin.statistics.store']);
     Route::delete('admin/statistics/{statistic}',['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@destroy','as'=>'admin.statistics.destroy']);
 
 	// Suppliers

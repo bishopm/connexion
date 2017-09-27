@@ -1,12 +1,12 @@
 {{ Form::bsText('statdate','Service date','Service date',$statistic->statdate) }}
 <div class="form-group">
     <label for="service_id" class="control-label">Service</label>
-    <select name="service_id" class="selectize">
+    <select name="servicetime" class="selectize">
       @foreach ($services as $service)
-      	@if ($service->id==$statistic->service_id)
-	        <option selected value="{{$service->id}}">{{$service->servicetime}}</option>
+      	@if ($service==$statistic->servicetime)
+	        <option selected value="{{$service}}">{{$service}}</option>
 	    @else
-			<option value="{{$service->id}}">{{$service->servicetime}}</option>
+			    <option value="{{$service}}">{{$service}}</option>
 	    @endif
       @endforeach
     </select>

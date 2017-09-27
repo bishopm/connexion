@@ -11,7 +11,7 @@ class CreateStatisticRequest extends FormRequest
         return [
             'statdate' => 'required',
             'attendance' => 'integer|required',
-            'service_id' => 'integer|required'
+            'servicetime' => 'required'
         ];
     }
 

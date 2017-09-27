@@ -15,7 +15,7 @@ class CreateStatisticsTable extends Migration
         Schema::create('statistics', function(Blueprint $table) {
             $table->increments('id');
             $table->date('statdate');
-            $table->integer('service_id');
+            $table->string('servicetime');
             $table->unique(array('statdate', 'service_id'));
             $table->integer('attendance');
             $table->integer('included')->nullable();

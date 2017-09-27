@@ -6,8 +6,6 @@ use Bishopm\Connexion\Repositories\StatisticsRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Statistic;
 use Bishopm\Connexion\Models\Setting;
-use Bishopm\Connexion\Models\Society;
-use Bishopm\Connexion\Models\Service;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateStatisticRequest;
 use Bishopm\Connexion\Http\Requests\UpdateStatisticRequest;
@@ -27,25 +25,19 @@ class StatisticsController extends Controller {
     {
         $this->statistic = $statistic;
         $this->setting = $setting;
+        $this->servicetimes = explode(',',$this->setting->getkey('worship_services'));
     }
 
 	public function index()
 	{
-        $socname=$this->setting->getkey('society_name');
-        $society=Society::with('services')->where('society',$socname)->first();
-        $soc=$society->id;
-        $services=$society->services;
-        $statistics=array();
-        if (count($services)){
-            foreach ($services as $service){
-                foreach ($service->statistics as $stat){
-                    $statistics[$stat->statdate][$service->servicetime]['attendance']=$stat->attendance;
-                    $statistics[$stat->statdate][$service->servicetime]['id']=$stat->id;
-                }
-                $servicetimes[]=$service->servicetime;
+        $servicetimes=$this->servicetimes;
+        $stats=Statistic::orderBy('statdate')->get();
+        if (count($stats)){
+            foreach ($stats as $stat){
+                $statistics[$stat->statdate][$stat->servicetime]['attendance']=$stat->attendance;
+                $statistics[$stat->statdate][$stat->servicetime]['id']=$stat->id;
             }
-            asort($servicetimes);
-            return view('connexion::statistics.index',compact('statistics','servicetimes','soc','society'));
+            return view('connexion::statistics.index',compact('statistics','servicetimes'));
         } else {
             return redirect()->route('admin.societies.show',$soc)->with('notice','You need to add a service before recording statistics');
         }
@@ -53,10 +45,7 @@ class StatisticsController extends Controller {
 
 	public function edit($id)
     {
-        $socname=$this->setting->getkey('society_name');
-        $society=Society::with('services')->where('society',$socname)->first();
-        $soc=$society->id;
-        $services=$society->services;
+        $services=$this->servicetimes;
         $statistic=$this->statistic->find($id);
         return view('connexion::statistics.edit', compact('statistic','services'));
     }

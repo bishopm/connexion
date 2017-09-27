@@ -13,15 +13,15 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6">
-                                <h4>Statistics <small>{{$society->society}}
-                                @foreach ($society->services as $service)
-                                    <a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/historygraph/{{$service->id}}" style="margin-left:5px;" class="btn btn-xs btn-primary">History: {{$service->servicetime}}</a>
+                                <h4>Worship Service Statistics
+                                @foreach ($servicetimes as $service)
+                                    <a href="{{url('/')}}/admin/statistics/historygraph/{{$service}}" style="margin-left:5px;" class="btn btn-xs btn-primary">History: {{$service}}</a>
                                 @endforeach
                                 </small></h4>
                             </div>
                             <div class="col-md-6">
-                                <a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/create" style="margin-left:5px;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add figure</a>
-                                <a href="{{url('/')}}/admin/societies/{{$soc}}/statistics/graph" class="btn btn-primary pull-right"><i class="fa fa-line-chart"></i> Current graph</a>
+                                <a href="{{url('/')}}/admin/statistics/create" style="margin-left:5px;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add figure</a>
+                                <a href="{{url('/')}}/admin/statistics/graph" class="btn btn-primary pull-right"><i class="fa fa-line-chart"></i> Current graph</a>
                             </div>
                         </div>
                     </div>
