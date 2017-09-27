@@ -12,7 +12,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-12"><h4>{{$service->society->society}}: {{$service->servicetime}} service</h4></div>
+                            <div class="col-md-12"><h4>{{$service}} service</h4></div>
                         </div>
                     </div>
                     <div class="panel-body">

@@ -76,11 +76,10 @@ class StatisticsController extends Controller {
         return redirect()->route('admin.statistics.index')->withSuccess('Statistic has been updated');
     }
 
-    public function showhistory($society,$service,$years=3){
-        $ss=Service::find($service);
+    public function showhistory($service,$years=3){
         $lastyear=date('Y');
         $firstyear=$lastyear-$years+1;
-        $stats=Statistic::where('service_id',$service)->where('included',1)->where('statdate','>=',$firstyear . '-01-01')->where('statdate','<=',$lastyear . '-12-31')->orderBy('statdate')->get();
+        $stats=Statistic::where('servicetime',$service)->where('included',1)->where('statdate','>=',$firstyear . '-01-01')->where('statdate','<=',$lastyear . '-12-31')->orderBy('statdate')->get();
         $fin=array();
         $wrk=array();
         foreach ($stats as $stat){
@@ -115,16 +114,16 @@ class StatisticsController extends Controller {
         }
         $data['chart']->template("material")    
             ->labels(range(0,$maxi));
-        $data['service']=$ss;
+        $data['service']=$service;
         return view('connexion::statistics.history', $data);
     }
 
-    public function showgraph($society,$year=""){
+    public function showgraph($year=""){
         if (!$year){
             $year=date('Y');
         }
-        $services=array_flatten(Service::where('society_id',$society)->select('id')->get()->toArray());
-        $data=Statistic::whereIn('service_id',$services)->where('included',1)->where('statdate','>=',$year . '-01-01')->where('statdate','<=',$year . '-12-31')->get();
+        $services=$this->servicetimes;
+        $data=Statistic::whereIn('servicetime',$services)->where('included',1)->where('statdate','>=',$year . '-01-01')->where('statdate','<=',$year . '-12-31')->get();
         $working=array();
         $allyears=array();
         $fin=array();
@@ -132,13 +131,13 @@ class StatisticsController extends Controller {
         foreach ($data as $stat){
             $allyears[]=date('Y',strtotime($stat->statdate));
             $weeks[]=strtotime($stat->statdate);
-            if (!array_key_exists($stat->service->servicetime,$working)){
-                $working[$stat->service->servicetime]['total']=0;
-                $working[$stat->service->servicetime]['count']=0;
+            if (!array_key_exists($stat->servicetime,$working)){
+                $working[$stat->servicetime]['total']=0;
+                $working[$stat->servicetime]['count']=0;
             }
-            $working[$stat->service->servicetime]['total']=$working[$stat->service->servicetime]['total']+$stat->attendance;
-            $working[$stat->service->servicetime]['count']=$working[$stat->service->servicetime]['count']+1;
-            $fin[$stat->service->servicetime][strtotime($stat->statdate)]=$stat->attendance;
+            $working[$stat->servicetime]['total']=$working[$stat->servicetime]['total']+$stat->attendance;
+            $working[$stat->servicetime]['count']=$working[$stat->servicetime]['count']+1;
+            $fin[$stat->servicetime][strtotime($stat->statdate)]=$stat->attendance;
         }
         foreach ($working as $kkk=>$aaa){
             $averages[$kkk]['avg']=intval($aaa['total']/$aaa['count'],0);
@@ -169,7 +168,7 @@ class StatisticsController extends Controller {
         }
         $data['chart']->template("material")    
             ->labels($labels);
-        $alldat=Statistic::whereIn('service_id',$services)->get();
+        $alldat=Statistic::whereIn('servicetime',$services)->get();
         foreach ($alldat as $ad){
             $allyears[]=date('Y',strtotime($ad->statdate));
         }
@@ -188,7 +187,6 @@ class StatisticsController extends Controller {
             $data['nextyr']="";
         }
         $data['thisyr']=$year;
-        $data['society']=$society;
         return view('connexion::statistics.graph', $data);
     }
 
