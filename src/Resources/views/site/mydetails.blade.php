@@ -67,7 +67,7 @@
 			    				@endif
 			    			</div>
 			    			@if (isset($indiv->servicetime))
-				    			<div class="col-md-12"><b>Service: </b> {{$indiv->service->society->society}} {{$indiv->servicetime}}</div>
+				    			<div class="col-md-12"><b>Service: </b> {{$indiv->servicetime}}</div>
 				    		@endif
 			    		</div>
 			    		<div class="row top20">
