@@ -66,8 +66,8 @@
 			    					No planned giving number <button data-toggle="modal" data-target="#modal-giving">Allocate me a PG number</button>
 			    				@endif
 			    			</div>
-			    			@if (isset($indiv->service_id))
-				    			<div class="col-md-12"><b>Service: </b> {{$indiv->service->society->society}} {{$indiv->service->servicetime}}</div>
+			    			@if (isset($indiv->servicetime))
+				    			<div class="col-md-12"><b>Service: </b> {{$indiv->service->society->society}} {{$indiv->servicetime}}</div>
 				    		@endif
 			    		</div>
 			    		<div class="row top20">
