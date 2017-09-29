@@ -12,7 +12,7 @@ class SettingsRepository extends EloquentBaseRepository
 
     public function activemodules(){
         $modules=$this->model->where('module','=','module')->where('setting_value','=','yes')->get();
-        $fin=array();
+        $fin=array('core');
         foreach ($modules as $module){
             $fin[]=str_replace('_module','',$module->setting_key);
         }
