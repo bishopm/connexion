@@ -53,8 +53,8 @@
             <div class="form-group">
                 <label>Which service do you usually attend?</label>
                 <select name="service_id" class="form-control" id="service_id">
-                    @foreach ($society->services as $service)
-                        <option value="{{$service->id}}">{{$service->servicetime}}</option>
+                    @foreach ($services as $service)
+                        <option value="{{$service}}">{{$service}}</option>
                     @endforeach
                 </select>
             </div>

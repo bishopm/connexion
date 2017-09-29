@@ -6,7 +6,6 @@ use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Setting;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Individual;
-use Bishopm\Connexion\Models\Society;
 use Bishopm\Connexion\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -68,8 +67,7 @@ class RegisterController extends Controller
             'name' => 'required|unique:users',
             'email' => 'required|email',
             'individual_id' => 'required|integer',
-            'password' => 'required|min:6|confirmed',
-            'service_id' => 'integer'
+            'password' => 'required|min:6|confirmed'
         ]);
     }
 
@@ -82,7 +80,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $indiv=Individual::find($data['individual_id']);
-        $indiv->service_id=$data['service_id'];
+        $indiv->servicetime=$data['service_id'];
         $indiv->save();
         return User::create([
             'name' => $data['name'],
@@ -96,9 +94,8 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $individuals=array();
-        $socname=$this->setting->getkey('society_name');
-        $society=Society::with('services')->where('society',$socname)->first();
-        return view('connexion::auth.register',compact('individuals','society'));
+        $services=explode(',',$this->setting->getkey('worship_services'));
+        return view('connexion::auth.register',compact('individuals','services'));
     }
 
     /**
