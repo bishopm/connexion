@@ -30,7 +30,7 @@ class CreateIndividualsTable extends Migration
             $table->string('social')->nullable();
             $table->string('slug')->nullable();
             $table->integer('publish')->nullable();
-            $table->integer('service_id')->nullable();
+            $table->string('servicetime')->nullable();
             $table->string('leadership')->nullable();
             $table->string('slack')->nullable();
             $table->text('notes')->nullable();

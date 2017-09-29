@@ -13,7 +13,7 @@
     <div class="button-group filter-button-group">
         <button data-filter="*" class="btn btn-primary">All</button>
             @foreach ($services as $service)
-                <button class="btn btn-primary" data-filter=".{{$service->servicetime}}">{{$service->servicetime}}</button>
+                <button class="btn btn-primary" data-filter=".{{$service}}">{{$service}}</button>
             @endforeach
         <button class="btn btn-primary" data-filter=".staff">Staff</button>
         <input type="text" class="quicksearch" style="line-height: 30px; margin-top: 10px;" placeholder=" Search" />

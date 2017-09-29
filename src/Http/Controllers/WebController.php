@@ -25,7 +25,6 @@ use Bishopm\Connexion\Models\Group;
 use Bishopm\Connexion\Models\Book;
 use Bishopm\Connexion\Models\Blog;
 use Bishopm\Connexion\Models\Post;
-use Bishopm\Connexion\Models\Society;
 use Bishopm\Connexion\Models\Sermon;
 use Bishopm\Connexion\Models\Specialday;
 use Bishopm\Connexion\Models\Household;
@@ -413,12 +412,8 @@ class WebController extends Controller
     {
         $individual = $this->individual->findBySlug($slug);
         if ($individual){
-            if ($this->settingsarray['society_name']){
-                $society=Society::with('services')->where('society','=',$this->settingsarray['society_name'])->get();
-            } else {
-                $society=Society::with('services')->get();
-            }
-            return view('connexion::site.editprofile',compact('individual','society'));
+            $services=explode(',',$this->settingsarray['worship_services']);
+            return view('connexion::site.editprofile',compact('individual','services'));
         } else {
             abort(404);
         }
@@ -485,17 +480,13 @@ class WebController extends Controller
     public function mychurch()
     {
         $users=$this->users->allVerified();
-        $society=Society::where('society',$this->settingsarray['society_name'])->first();
-        $services=$society->services;
-        foreach ($services as $service){
-            $servicetimes[$service->id]=$service->servicetime;
-        }
+        $services=explode(',',$this->settingsarray['worship_services']);
         foreach ($users as $user){
             if (isset($user->individual)){
-                $user->status=$servicetimes[$user->individual->service_id];
+                $user->status=$user->individual->servicetime;
                 foreach ($user->individual->tags as $tag){
                     if (strtolower($tag->slug)=="minister"){
-                        $user->status="staff " . implode(' ',$servicetimes);
+                        $user->status="staff " . implode(' ',$services);
                     } elseif (strtolower($tag->slug)=="staff"){
                         $user->status="staff " . $user->status;
                     }
@@ -612,7 +603,7 @@ class WebController extends Controller
         $individual->surname=$request->input('surname');
         $individual->cellphone=$request->input('cellphone');
         $individual->email=$request->input('email');
-        $individual->service_id=$request->input('service_id');
+        $individual->servicetime=$request->input('servicetime');
         $individual->sex=$request->input('sex');
         $individual->household_id=$household->id;
         $individual->save();

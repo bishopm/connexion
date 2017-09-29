@@ -17,19 +17,17 @@
 		{{ Form::bsHidden('slug',$individual->slug) }} 
 		{{ Form::bsText('bio','Say a little about yourself (optional)','Brief bio',$individual->user->bio) }}
 	    <div class="form-group">
-			<label for="service_id" class="control-label">Which service do you usually attend?</label>
-			<select name="service_id" id="service_id" class="form-control">
-				@foreach ($society as $soc)
-					@foreach ($soc->services as $service)
-						@if ($individual->service_id==$service->id)
-							<option selected value="{{$service->id}}">
-						@else
-							<option value="{{$service->id}}">
-						@endif
-							{{$service->society->society}} {{$service->servicetime}}
-						</option>
-					@endforeach
-				@endforeach
+			<label for="servicetime" class="control-label">Which service do you usually attend?</label>
+			<select name="servicetime" id="servicetime" class="form-control">
+				@foreach ($services as $service)
+					@if ($individual->servicetime==$service)
+						<option selected value="{{$service}}">
+					@else
+						<option value="{{$service}}">
+					@endif
+						{{$service}}
+					</option>
+				@endforeach	
 			</select>
 		</div>
 		{{ Form::bsHidden('image',$individual->image) }}
