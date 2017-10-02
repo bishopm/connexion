@@ -50,9 +50,9 @@ class StatisticsController extends Controller {
         return view('connexion::statistics.edit', compact('statistic','services'));
     }
 
-    public function create($soc)
+    public function create()
     {
-        $services=Service::where('society_id',$soc)->get();
+        $services=$this->servicetimes;
         return view('connexion::statistics.create',compact('services'));
     }
 
