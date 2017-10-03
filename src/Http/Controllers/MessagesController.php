@@ -94,7 +94,8 @@ class MessagesController extends Controller {
                 }
             }
             if (null!==$individuals){
-                foreach ($individuals as $indi){
+                foreach ($individuals as $indiv){
+                    $indi=$this->individuals->find($indiv);
                     $recipients[$indi->household_id][$indi->id]['name']=$indi->fullname;
                     $recipients[$indi->household_id][$indi->id]['email']=$indi->email;
                     $recipients[$indi->household_id][$indi->id]['cellphone']=$indi->cellphone;

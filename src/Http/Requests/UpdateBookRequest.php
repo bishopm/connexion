@@ -10,7 +10,9 @@ class UpdateBookRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'description' => 'required|min:2'
+            'description' => 'required|min:2',
+            'costprice' => 'required|numeric|between:0,9999.99',
+            'saleprice' => 'required|numeric|between:0,9999.99'
         ];
     }
 

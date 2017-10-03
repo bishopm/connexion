@@ -19,6 +19,8 @@
     @endforeach
   </select>
 </div>
+{{ Form::bsText('saleprice','Sale price (number only - no currency symbol)','Sale price',$book->saleprice) }}
+{{ Form::bsText('costprice','Cost price (number only - no currency symbol)','Cost price',$book->costprice) }}
 {{ Form::bsTextarea('description','Description','Description',$book->description) }}
 {{ Form::bsHidden('image',$book->image) }}
 <div id="thumbdiv" style="margin-bottom:5px;"></div>
@@ -36,6 +38,4 @@
   </select>
 </div>
 {{ Form::bsText('sample','Sample (link to document)','Sample (link to document)',$book->sample) }}
-{{ Form::bsText('saleprice','Sale price','Sale price',$book->saleprice) }}
-{{ Form::bsText('costprice','Cost price','Cost price',$book->costprice) }}
 <label>Current Stock:</label> {{$book->stock}}
