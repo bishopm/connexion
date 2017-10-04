@@ -89,6 +89,9 @@ class PlansController extends Controller
     public function show($yy,$qq,$aa)
     {
       $data=$this->plans->show($yy,$qq);
+      if ($data=="Invalid"){
+        return redirect()->route('admin.settings.index')->with('notice','Please ensure that the API url and token are correctly specified');
+      } 
       if ($aa=="edit"){
         return view('connexion::plans.edit',$data);
       } else {

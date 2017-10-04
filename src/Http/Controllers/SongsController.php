@@ -25,12 +25,11 @@ class SongsController extends Controller
 
     public function index()
     {
-        $roster=$this->setting->getkey('worship_roster');
+        $roster_id=$this->setting->getkey('worship_roster');
         $services=explode(',',$this->setting->getkey('worship_services'));
-        if ($roster<>"Please add a value for this setting"){
+        if ($roster_id<>"Please add a value for this setting"){
             $today=date("Y-m-d");
             $nextweek=date("Y-m-d",time()+60*60*24*7);
-            $roster_id=Roster::where('rostername',$roster)->first()->id;
             $groups=DB::table('group_individual_roster')->where('roster_id','=',$roster_id)->where('rosterdate','<=',$nextweek)->where('rosterdate','>',$today)->get();
             foreach ($groups as $member){
                 $group=Group::find($member->group_id)->groupname;

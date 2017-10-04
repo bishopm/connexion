@@ -56,7 +56,7 @@ abstract class McsaBaseRepository implements BaseRepository
 
     public function all()
     {
-        if (gettype($this->checked)=="String"){
+        if (gettype($this->checked)=="string"){
             return $this->checked;
         } else {
             if ($this->model=="circuits"){
