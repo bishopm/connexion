@@ -35,12 +35,10 @@
 				{{ Form::bsSelect('sex','Sex',array('male','female')) }}
 				{{ Form::bsSelect('title','Title',array('Mr','Mrs','Ms','Dr','Rev')) }}
 				<div class="form-group">
-					<label for="service_id" class="control-label">Which service do you usually attend?</label>
-					<select name="service_id" id="service_id" class="form-control">
-						@foreach ($society as $soc)
-							@foreach ($soc->services as $service)
-								<option value="{{$service->id}}">{{$service->servicetime}} ({{$soc->society}})</option>
-							@endforeach
+					<label for="servicetime" class="control-label">Which service do you usually attend?</label>
+					<select name="servicetime" id="servicetime" class="form-control">
+						@foreach ($services as $service)
+							<option value="{{$service}}">{{$service}}</option>
 						@endforeach
 					</select>
 				</div>

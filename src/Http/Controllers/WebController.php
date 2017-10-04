@@ -586,12 +586,8 @@ class WebController extends Controller
     }
 
     public function registeruser(){
-        if ($this->settingsarray['society_name']){
-            $society=Society::with('services')->where('society','=',$this->settingsarray['society_name'])->get();
-        } else {
-            $society=Society::with('services')->get();
-        }
-        return view('connexion::site.registeruser',compact('society'));
+        $services=explode(',',$this->settingsarray['worship_services']);
+        return view('connexion::site.registeruser',compact('services'));
     }
 
     public function newuser(NewUserRequest $request){
