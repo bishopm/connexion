@@ -248,10 +248,12 @@ class WebController extends Controller
         $series = $this->series->findBySlug($seriesslug);
         if ($series){
             $sermon = $this->sermon->findBySlug($sermonslug);
-            if (isset($sermon->individual)){
-                $description="A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by " . $sermon->individual->firstname . " " . $sermon->individual->surname;
-            } else {
-                $description="A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by a guest preacher.";
+            if ($sermon){
+                if (isset($sermon->individual)){
+                    $description="A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by " . $sermon->individual->firstname . " " . $sermon->individual->surname;
+                } else {
+                    $description="A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by a guest preacher.";
+                }
             }
         } else {
             abort(404);
