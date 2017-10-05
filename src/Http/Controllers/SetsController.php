@@ -171,7 +171,7 @@ class SetsController extends Controller
 
     public function sendEmail(Request $request) {
         $admin_id=$this->setting->getkey('worship_administrator');
-        $admin=User::where('name',$admin_id)->first();
+        $admin=User::find($admin_id);
 		$message = nl2br($request->message);
         $sender=auth()->user();
         $admin->notify(new WorshipSetNotification($message));
