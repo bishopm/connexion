@@ -100,7 +100,7 @@ class UsersController extends Controller {
         if (null!==$request->input('profile')){
             $individual=$user->individual;
             $fname=$individual->id;
-            $individual->service_id=$request->input('service_id');
+            $individual->servicetime=$request->input('servicetime');
             $individual->image=$request->input('image');
             $individual->save();
             $user->bio=$request->input('bio');

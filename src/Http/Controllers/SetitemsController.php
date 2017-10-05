@@ -55,7 +55,7 @@ class SetitemsController extends Controller
         $admin_id=$this->setting->getkey('worship_administrator');
         $admin=User::find($admin_id)->individual->firstname;
         $fullset=Set::find($set);
-        $msg="Hi " . $admin . "\n\nHere are the songs for the " . $fullset->service->servicetime . " service on " . $fullset->servicedate . ":\n\n";
+        $msg="Hi " . $admin . "\n\nHere are the songs for the " . $fullset->servicetime . " service on " . $fullset->servicedate . ":\n\n";
         $setitems=Setitem::with('song')->where('set_id','=',$set)->orderBy('itemorder')->get();
         foreach ($setitems as $setitem){
             $msg.=$setitem->song->title . "\n";
