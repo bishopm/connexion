@@ -37,6 +37,19 @@
     <script src="{{ asset('/vendor/bishopm/js/moment.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/vendor/bishopm/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
+    <script language="javascript">
+        function neaten(event){
+            if(event.target){
+                //firefox, safari
+                myObj = document.getElementById(event.target.id);
+                myObj.value=myObj.value.replace(/^https?:\/\//, '');
+            } else {
+                //IE
+                myObj = document.getElementById(event.srcElement.id);
+                myObj.value=myObj.value.replace(/^https?:\/\//, '');
+            }
+        }
+    </script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('.selectize').selectize({

@@ -7,7 +7,8 @@
   <input class="form-control" data-slug="target" placeholder="Slug" name="slug" id="slug" type="text" value="{{$sermon->slug}}">
 </div>
 {{ Form::bsText('servicedate','Service date','Service date',$sermon->servicedate) }}
-{{ Form::bsText('mp3','Link to mp3','Link to mp3',$sermon->mp3) }}
+{!! Form::label('mp3','Link to mp3', array('class'=>'control-label')) !!}
+<input type="text" id="mp3" onchange="neaten(event);" name="mp3" class="form-control" value="{{$sermon->mp3}}">
 {{ Form::bsText('readings','Readings','Readings',$sermon->readings) }}
 <div class='form-group '>
   <label for="individual_id">Preacher</label>

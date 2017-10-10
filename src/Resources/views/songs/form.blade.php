@@ -95,7 +95,7 @@
         <div class="col-sm-6">
             {!! Form::label('audio','Audio', array('class'=>'control-label')) !!}
             @if (!$is_new)
-                <input type="text" v-model="formdata.audio" name="audio" class="form-control">
+                <input type="text" id="audio" onchange="neaten(event);" v-model="formdata.audio" name="audio" class="form-control">
             @else
                 <input type="text" id="audio" name="audio" onchange="neaten(event);" class="form-control">
             @endif
@@ -103,7 +103,7 @@
         <div class="col-sm-6">
             {!! Form::label('video','Video', array('class'=>'control-label')) !!}
             @if (!$is_new)
-                <input type="text" v-model="formdata.video" name="video" class="form-control">
+                <input type="text" id="video" onchange="neaten(event);" v-model="formdata.video" name="video" class="form-control">
             @else
                 <input type="text" id="video" name="video" onchange="neaten(event);" class="form-control">
             @endif
@@ -113,27 +113,25 @@
         <div class="col-sm-12">
             {!! Form::label('music','Sheet music', array('class'=>'control-label')) !!}
             @if (!$is_new)
-                <input type="text" v-model="formdata.music" name="music" class="form-control">
+                <input type="text" id="music" onchange="neaten(event);" v-model="formdata.music" name="music" class="form-control">
             @else
-                <input type="text" onchange="neaten(event);" name="music" class="form-control">
+                <input type="text" id="music" onchange="neaten(event);" name="music" class="form-control">
             @endif
         </div>
     </div>
-    @if ($is_new)
-        <script language="javascript">
-            function neaten(event){
-                if(event.target){
-                    //firefox, safari
-                    myObj = document.getElementById(event.target.id);
-                    myObj.value=myObj.value.replace(/^https?:\/\//, '');
-                } else {
-                    //IE
-                    myObj = document.getElementById(event.srcElement.id);
-                    myObj.value=myObj.value.replace(/^https?:\/\//, '');
-                }
+    <script language="javascript">
+        function neaten(event){
+            if(event.target){
+                //firefox, safari
+                myObj = document.getElementById(event.target.id);
+                myObj.value=myObj.value.replace(/^https?:\/\//, '');
+            } else {
+                //IE
+                myObj = document.getElementById(event.srcElement.id);
+                myObj.value=myObj.value.replace(/^https?:\/\//, '');
             }
-        </script>
-    @endif
+        }
+    </script>
     {!! Form::label('lyrics','Lyrics', array('class'=>'control-label')) !!}
     @if (!$is_new)
     <textarea class="form-control" rows="20" name="lyrics" cols="50" id="lyrics" v-model="formdata.lyrics"></textarea>

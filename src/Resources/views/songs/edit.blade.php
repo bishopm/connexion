@@ -39,7 +39,6 @@
               }
             });
             $('#musictype').on('change', function(event){
-                alert(event);
                 if (event.target.value=='liturgy'){
                     $('#lyrics').summernote();
                     $('#musicrow1').addClass('hidden');
