@@ -16,7 +16,7 @@ class CreateStatisticsTable extends Migration
             $table->increments('id');
             $table->date('statdate');
             $table->string('servicetime');
-            $table->unique(array('statdate', 'service_id'));
+            $table->unique(array('statdate', 'servicetime'));
             $table->integer('attendance');
             $table->integer('included')->nullable();
             $table->timestamps();
