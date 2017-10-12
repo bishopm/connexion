@@ -26,7 +26,7 @@ class GenericMail extends Mailable
      */
     public function build()
     {
-        if ($this->emaildata->file('attachment')){
+        if ($this->emaildata->hasFile('attachment')){
             return $this->subject($this->emaildata->subject)
                     ->from($this->emaildata->sender)
                     ->attach($this->emaildata->file('attachment'), array('as' => $this->emaildata->file('attachment')->getClientOriginalName(), 'mime' => $this->emaildata->file('attachment')->getMimeType()))

@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Bishopm\Connexion\Models\Book, Bishopm\Connexion\Models\Payment, Bishopm\Connexion\Models\Individual, Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Setting, DB;
 use Bishopm\Connexion\Mail\GivingMail;
-use Bishopm\Connexion\Mail\GenericMail;
+use Bishopm\Connexion\Mail\SimpleMail;
 use Illuminate\Support\Facades\Mail;
 
 class PlannedGivingReportEmail extends Command
@@ -36,6 +36,7 @@ class PlannedGivingReportEmail extends Command
         $lagtime=intval(Setting::where('setting_key','giving_lagtime')->first()->setting_value);
         //echo "You have a lag setting of " . $lagtime . " days\n";
         $effdate=strtotime($today)-$lagtime*86400;
+        //echo "Effdate: " . date("d M Y",$effdate) . "\n";
         $repyr=date('Y',$effdate);
         //echo "Your report year is " . $repyr . "\n";
         $reportnums=intval(Setting::where('setting_key','giving_reports')->first()->setting_value);
@@ -92,7 +93,7 @@ class PlannedGivingReportEmail extends Command
             $nodat->subject="Planned giving emails sent";
             $nodat->sender="info@umc.org.za";
             $nodat->emailmessage=$msg;
-            Mail::to($administrator)->send(new GenericMail($nodat));
+            Mail::to($administrator)->send(new SimpleMail($nodat));
             foreach ($givers as $giver){
                 $data[$giver->giving]['email'][]=$giver->email;
                 if (count($data[$giver->giving]['email'])==1){
@@ -133,7 +134,7 @@ class PlannedGivingReportEmail extends Command
                 $warndat->subject="Planned giving reminder";
                 $warndat->sender="info@umc.org.za";
                 $warndat->emailmessage=$msg;
-                Mail::to($administrator)->send(new GenericMail($warndat));
+                Mail::to($administrator)->send(new SimpleMail($warndat));
             } else {
                 //echo "Today is not a report date\n";
             }

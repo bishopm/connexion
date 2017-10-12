@@ -37,6 +37,8 @@ class SermonsController extends Controller {
         }
         $data['preachers'] = Individual::withTag('preacher')->get();
         $data['series'] = $series;
+        $sermon->mp3=str_replace("http://","",$sermon->mp3);
+        $sermon->mp3=str_replace("https://","",$sermon->mp3);
         $data['sermon'] = $sermon;
         return view('connexion::sermons.edit', $data);
     }
@@ -59,14 +61,22 @@ class SermonsController extends Controller {
     {
         $sermon=$this->sermon->create($request->except('tags'));
         $sermon->tag($request->tags);
+        if ($sermon->mp3){
+            $sermon->mp3 = "http://" . $sermon->mp3;
+            $sermon->save();
+        }
         return redirect()->route('admin.series.show',$request->series_id)
             ->withSuccess('New sermon added');
     }
 	
     public function update($series, Sermon $sermon, UpdateSermonRequest $request)
     {
-        $this->sermon->update($sermon,$request->except('tags'));
+        $sermon=$this->sermon->update($sermon,$request->except('tags'));
         $sermon->tag($request->tags);
+        if ($sermon->mp3){
+            $sermon->mp3 = "http://" . $sermon->mp3;
+            $sermon->save();
+        }
         return redirect()->route('admin.series.show',$series)->withSuccess('Sermon has been updated');
     }
 
