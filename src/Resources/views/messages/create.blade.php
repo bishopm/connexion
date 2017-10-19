@@ -43,7 +43,7 @@
                             {{ Form::bsText('sender','Sender','Sender',Auth::user()->email) }}
                         </div>
                         <div class="col-md-6">
-                            {{ Form::bsText('subject','Subject','Subject') }}
+                            {{ Form::bsText('subject','Subject','Subject','Message from ' . $setting['site_abbreviation']) }}
                         </div>                                                
                     </div>
                     <div class="row">
