@@ -4,7 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Illuminate\Database\Eloquent\ModelNotFoundException, Bishopm\Connexion\Models\Individual;
 use Illuminate\Http\Request, Auth;
 use Bishopm\Connexion\Libraries\Fpdf\Fpdf;
-use Bishopm\Connexion\Http\Requests\PlansRequest, Helpers, Redirect;
+use Bishopm\Connexion\Http\Requests\PlansRequest;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Repositories\SettingsRepository, Bishopm\Connexion\Repositories\WeekdaysRepository;
 use Bishopm\Connexion\Repositories\MeetingsRepository, Bishopm\Connexion\Repositories\SocietiesRepository;
@@ -289,51 +289,39 @@ class PlansController extends Controller
           $y=$y+4;
       }
       $y=$y+2;
-      /*
       $pdf->SetFont('Arial','',8);
-      $officers=explode(',',Helpers::getSetting('circuit_stewards'));
+      $officers=$this->settings['circuit_stewards'];
       $subhead="";
+      if ($officers){
+        $pdf->SetFont('Arial','B',11);
+        $pdf->text($left_side+$spacer,$y,"Circuit Stewards");
+        $pdf->SetFont('Arial','',8);
+        foreach (explode(',',$officers) as $officer){
+          $y=$y+4;
+          $pdf->text($left_side+$spacer,$y,$officer);
+        }
+      }
       $pdf->SetFont('Arial','B',11);
-      $pdf->text($left_side+$spacer,$y,"Circuit Stewards");
-      $pdf->SetFont('Arial','',8);
-      foreach ($officers as $officer){
+      $y=$y+6;
+      $treasurer=$this->settings['circuit_treasurer'];
+      if ($treasurer){
+        $pdf->text($left_side+$spacer,$y,"Circuit Treasurer");
+        $pdf->SetFont('Arial','',8);  
         $y=$y+4;
-        $fn=Individual::find($officer);
-        $pdf->text($left_side+$spacer,$y,$fn->title . " " . $fn->firstname . " " . $fn->surname . " (" . $fn->cellphone . ")");
+        $pdf->text($left_side+$spacer,$y,$treasurer);
+        $pdf->SetFont('Arial','B',11);
+        $y=$y+6;
       }
-      $pdf->SetFont('Arial','B',11);
-      $y=$y+6;
-      $pdf->text($left_side+$spacer,$y,"Circuit Treasurer");
-      $pdf->SetFont('Arial','',8);
-      $treasurer=Helpers::getSetting('treasurer');
-      $y=$y+4;
-      $fn=Individual::find($treasurer);
-      $pdf->text($left_side+$spacer,$y,$fn->title . " " . $fn->firstname . " " . $fn->surname . " (" . $fn->cellphone . ")");
-      $pdf->SetFont('Arial','B',11);
-      $y=$y+6;
-      $pdf->SetFont('Arial','B',11);
-      $pdf->text($left_side+$spacer,$y,"Circuit Office");
-      $circuitoffice=Society::find(Helpers::getSetting('circuit_office'));
-      $pdf->SetFont('Arial','',8);
-      $y=$y+4;
-      $pdf->text($left_side+$spacer,$y,$circuitoffice->society . " Methodist Church");
-      if ($circuitoffice->phone){
-          $y=$y+4;
-          $pdf->text($left_side+$spacer,$y,"Phone: " . $circuitoffice->phone);
-      }
-      if ($circuitoffice->email){
-          $y=$y+4;
-          $pdf->text($left_side+$spacer,$y,"Email: " . $circuitoffice->email);
-      }
-      $csecretary=Helpers::getSetting('circuit_secretary');
-      if ($csecretary){
-          $y=$y+4;
-          $pdf->SetFont('Arial','',8);
-          $fn=Individual::find($csecretary);
-          $pdf->text($left_side+$spacer,$y,"Secretary: " . $fn->title . " " . $fn->firstname . " " . $fn->surname);
+      $csecretary=$this->settings['circuit_secretary'];
+      if ($treasurer){
+        $pdf->text($left_side+$spacer,$y,"Circuit Secretary");
+        $pdf->SetFont('Arial','',8);  
+        $y=$y+4;
+        $pdf->text($left_side+$spacer,$y,$csecretary);
+        $pdf->SetFont('Arial','B',11);
+        $y=$y+6;
       }
       $y=$y+6;
-      */
       if (count($dat['meetings'])){
         $pdf->SetFont('Arial','B',11);
         $pdf->text($left_side+$spacer,$y,"Circuit Meetings");
@@ -356,20 +344,19 @@ class PlansController extends Controller
       $y=30;
       $pdf->SetFont('Arial','B',11);
       $pdf->text($x,$y,"Local Preachers");
-/*      $supervisor=Helpers::getSetting('supervisor_of_studies');
+      $supervisor=$this->settings['supervisor_of_studies'];
       if ($supervisor){
           $y=$y+4;
           $pdf->SetFont('Arial','',8);
-          $fn=Individual::find($supervisor);
-          $pdf->text($x,$y,"Supervisor of studies: " . $fn->title . " " . $fn->firstname . " " . $fn->surname);
+          $pdf->text($x,$y,"Supervisor of studies: " . $supervisor);
       }
-      $lpsec=Helpers::getSetting('local_preachers_secretary');
+      $lpsec=$this->settings['local_preachers_secretary'];
       if ($lpsec){
           $y=$y+4;
           $pdf->SetFont('Arial','',8);
           $fn=Individual::find($lpsec);
-          $pdf->text($x,$y,"Local Preachers Secretary: " . $fn->title . " " . $fn->firstname . " " . $fn->surname);
-      }*/
+          $pdf->text($x,$y,"Local Preachers Secretary: " . $lpsec);
+      }
       $y=$y+4;
       $ythresh=200;
       ksort($pfin);
