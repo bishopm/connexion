@@ -29,6 +29,7 @@ sudo chmod -R 777 bootstrap
 ```
 5. Run *composer update* in the project folder, which will pull in the package and its dependencies
 6. Add your database credentials to .env
-7. In the project folder, run
+7. Add Bishopm\Connexion\Providers\ConnexionServiceProvider::class at the bottom of the list of providers in config/app.php (We're not using Laravel's package auto-discovery at the moment because it creates problems with some of the package routes)
+8. In the project folder, run
 `php artisan connexion:install`
 follow the prompts to create your first admin user, and you're good to go!
