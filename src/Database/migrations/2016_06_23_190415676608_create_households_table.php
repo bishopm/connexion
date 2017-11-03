@@ -25,8 +25,8 @@ class CreateHouseholdsTable extends Migration
             $table->string('post3')->nullable();
             $table->string('homephone')->nullable();
             $table->integer('householdcell')->nullable();
-            $table->decimal('latitude',20,15);
-            $table->decimal('longitude',20,15);
+            $table->decimal('latitude',20,15)->default(0);
+            $table->decimal('longitude',20,15)->default(0);
             $table->softDeletes();
             $table->timestamps();
 		});

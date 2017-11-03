@@ -16,7 +16,7 @@ class CreateGchordsTable extends Migration
             $table->increments('id');
             $table->string('chordname');
             $table->string('fingering');
-            $table->string('barre');
+            $table->string('barre')->nullable();
             $table->softDeletes();
             $table->nullableTimestamps();
         });
