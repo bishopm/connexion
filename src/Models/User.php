@@ -9,8 +9,9 @@ use Bishopm\Connexion\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Bishopm\Connexion\Models\Setting;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     use CanComment;
@@ -72,6 +73,14 @@ class User extends Authenticatable
         return $this->roles()->where('slug', $roleSlug)->count() == 1;
     }
 
-
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
 }
