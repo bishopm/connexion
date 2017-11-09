@@ -8,6 +8,7 @@ use Bishopm\Connexion\Models\Role;
 use Bishopm\Connexion\Models\Household;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Http\Requests\CreateUserRequest;
 use Bishopm\Connexion\Http\Requests\UpdateUserRequest;
 use Bishopm\Connexion\Notifications\ProfileUpdated;
@@ -19,10 +20,11 @@ class UsersController extends Controller {
 
 	private $user,$individuals;
 
-	public function __construct(UsersRepository $user, IndividualsRepository $individuals)
+	public function __construct(UsersRepository $user, IndividualsRepository $individuals, SettingsRepository $settings)
     {
         $this->user = $user;
         $this->individuals = $individuals;
+        $this->settingsarray=$this->settings->makearray();
     }
 
 	public function index()
