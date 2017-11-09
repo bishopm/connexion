@@ -13,14 +13,8 @@ sudo chmod -R 777 storage
 sudo chmod -R 777 bootstrap
 ```
 3. Check the Laravel installation is running properly before proceeding. 
-4. Add the connexion package to composer.json by adding a repositories section and requiring the package as follows (note the minimum-stability setting is just until tymon/jwt-auth reaches v 1.0.0 - at the moment it is a RC:
+4. Add the connexion package to composer.json (also, note the minimum-stability setting is just until tymon/jwt-auth reaches v 1.0.0 - at the moment it is a RC:
 ```
-"repositories": [
-   {
-     "type": "git",
-     "url": "https://github.com/bishopm/connexion"
-   }
-],
 "require": {
    ...
    "bishopm/connexion": "dev-master"
