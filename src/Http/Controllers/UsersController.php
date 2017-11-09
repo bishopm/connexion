@@ -13,7 +13,7 @@ use Bishopm\Connexion\Http\Requests\UpdateUserRequest;
 use Bishopm\Connexion\Notifications\ProfileUpdated;
 use Jrean\UserVerification\Traits\VerifiesUsers;
 use Jrean\UserVerification\Facades\UserVerification;
-use Auth;
+use Auth, JWTAuth;
 
 class UsersController extends Controller {
 
@@ -116,6 +116,28 @@ class UsersController extends Controller {
             return redirect()->route('admin.users.index')->withSuccess('User has been updated');
         }
     }
+
+    public function api_users()
+    {
+        $users=$this->user->allVerified();
+        $services=explode(',',$this->settingsarray['worship_services']);    
+        foreach ($users as $user){
+            if (isset($user->individual)){
+                $user->status=$user->individual->servicetime;
+                foreach ($user->individual->tags as $tag){
+                    if (strtolower($tag->slug)=="minister"){
+                        $user->status="staff " . implode(' ',$services);
+                    } elseif (strtolower($tag->slug)=="staff"){
+                        $user->status="staff " . $user->status;
+                    }
+                }
+            }
+        }
+        return $users;
+    }
+
+    
+
 
 }
  
