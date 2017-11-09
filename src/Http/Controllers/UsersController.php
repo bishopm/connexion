@@ -18,11 +18,12 @@ use Auth, JWTAuth;
 
 class UsersController extends Controller {
 
-	private $user,$individuals;
+	private $user,$individuals,$settings;
 
 	public function __construct(UsersRepository $user, IndividualsRepository $individuals, SettingsRepository $settings)
     {
         $this->user = $user;
+        $this->settings = $settings;
         $this->individuals = $individuals;
         $this->settingsarray=$this->settings->makearray();
     }
