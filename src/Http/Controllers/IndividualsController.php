@@ -159,6 +159,9 @@ class IndividualsController extends Controller {
     {
         $user = JWTAuth::parseToken()->toUser();
         $indiv=Individual::with('user','groups')->where('id',$user->individual_id)->first();
+        foreach ($indiv->groups as $group){
+            $indiv->{$group->grouptype}[]=$group;
+        }
         $indiv->avatar="http://umc.org.za/public/storage/individuals/" . $indiv->id . "/" . $indiv->image;
         return $indiv;
     }
