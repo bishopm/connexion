@@ -141,7 +141,7 @@ class UsersController extends Controller {
 
     public function api_user($id)
     {
-        $user=$this->user->findwithall($id);
+        $user=$this->user->find($id);
         return $user;
     }
 
