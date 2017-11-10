@@ -19,5 +19,6 @@ Route::middleware(['handlecors'])->group(function () {
 		Route::get('/api/taskcompleted/{id}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@togglecompleted','as' => 'api.taskcompleted']);
 		Route::get('/api/individual', ['uses' => 'Bishopm\Connexion\Http\Controllers\IndividualsController@api_individual','as' => 'api.individual']);	
 		Route::get('/api/users', ['uses' => 'Bishopm\Connexion\Http\Controllers\UsersController@api_users','as' => 'api.users']); 
+		Route::get('/api/users/{id}', ['uses' => 'Bishopm\Connexion\Http\Controllers\UsersController@api_user','as' => 'api.user']); 
 	});
 });
