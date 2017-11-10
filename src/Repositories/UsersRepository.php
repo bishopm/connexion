@@ -21,7 +21,7 @@ class UsersRepository extends EloquentBaseRepository
 
     public function find($id)
     {
-        return $this->model->with('individual')->find($id);
+        return $this->model->with('individual.groups')->find($id);
     }
 
     public function activate($id)
