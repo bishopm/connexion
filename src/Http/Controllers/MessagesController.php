@@ -2,11 +2,13 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller, Auth;
 use Bishopm\Connexion\Mail\GenericMail;
+use Bishopm\Connexion\Events\MessagePosted;
 use Illuminate\Support\Facades\Mail;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
+use Bishopm\Connexion\Repositories\MessagesRepository;
 use Bishopm\Connexion\Http\Requests\MessageRequest;
 use Bishopm\Connexion\Libraries\SMSfunctions, Bishopm\Connexion\Repositories\SettingsRepository;
 
@@ -17,15 +19,15 @@ class MessagesController extends Controller {
 	 *
 	 * @return Response
 	 */
-    private $groups, $individuals, $settings;
+    private $groups, $individuals, $settings, $messages;
 
-    public function __construct(GroupsRepository $groups, IndividualsRepository $individuals, SettingsRepository $settings)
+    public function __construct(GroupsRepository $groups, IndividualsRepository $individuals, SettingsRepository $settings, MessagesRepository $messages)
     {
         $this->groups = $groups;
         $this->individuals = $individuals;
         $this->settings = $settings;
+        $this->messages = $messages;
     }
-
 
 	public function create()
 	{
@@ -42,11 +44,16 @@ class MessagesController extends Controller {
     {
         $recipients=$this->getrecipients($request->groups,$request->individuals,$request->grouprec,$request->msgtype);
         if ($request->msgtype=="email"){
-            $results=$this->sendemail($request,$recipients);
+            //$results=$this->sendemail($request,$recipients);
             return view('connexion::messages.emailresults',compact('results'));
-        } elseif ($request->msgtype=="sms") {
-            $results=$this->sendsms($request->smsmessage,$recipients);
+        } elseif ($request->msgtype=="sms"){
+            //$results=$this->sendsms($request->smsmessage,$recipients);
             return view('connexion::messages.smsresults',compact('results'));
+        } elseif ($request->msgtype=="app"){
+            foreach ($recipients as $key=>$rec){
+                $message = $this->messages->create(['user_id'=>Auth::user()->id, 'receiver_id'=>$key, 'message'=>$request->emailmessage, 'viewed'=>0]);
+                event(new MessagePosted($message));
+            }
         }
     }
 

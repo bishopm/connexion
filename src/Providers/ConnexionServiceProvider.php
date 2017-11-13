@@ -74,6 +74,12 @@ class ConnexionServiceProvider extends ServiceProvider
                 config(['mail.password'=>$settings->getkey('mail_password')]);
                 //config(['mail.encryption'=>$settings->getkey('mail_encryption')]);
             }
+            config(['broadcasting.pusher.driver'=>'pusher']);
+            config(['broadcasting.pusher.key'=>$settings->getkey('pusher_app_key')]);
+            config(['broadcasting.pusher.secret'=>$settings->getkey('pusher_app_secret')]);
+            config(['broadcasting.pusher.app_id'=>$settings->getkey('pusher_app_id')]);
+            config(['broadcasting.pusher.options.cluster'=>$settings->getkey('pusher_cluster')]);
+            config(['broadcasting.pusher.options.encrypted'=>'true']);
             if (($settings->getkey('site_name'))<>"Invalid"){
                 config(['app.name'=>$settings->getkey('site_name')]);
             }
@@ -644,6 +650,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\MenuitemsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\MenuitemsRepository(new \Bishopm\Connexion\Models\Menuitem());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\MessagesRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\MessagesRepository(new \Bishopm\Connexion\Models\Message());
                 return $repository;
             }
         );

@@ -24,6 +24,7 @@
                                 <div>
                                     <input type="radio" class="msgtype" name="msgtype" value="email" checked> Email
                                     &nbsp;<input type="radio" class="msgtype" name="msgtype" value="sms"> SMS ({{$credits}} credits available)
+                                    &nbsp;<input type="radio" class="msgtype" name="msgtype" value="app"> App message
                                 </div>
                             </div>
                         </div>
@@ -70,7 +71,7 @@
                                 </select>
                             </div>
                         </div>                      
-                        <div class="col-md-12">
+                        <div class="col-md-12" id="attachrow">
                             {!! Form::label('attachment','Attachment', array('class'=>'control-label')) !!}
                         	{!! Form::file('attachment', null, array('class'=>'form-control')) !!}
                         </div>
@@ -116,12 +117,19 @@
             $('.msgtype').on('ifChecked', function(event){
                 if (event.target.value=='sms'){
                     $('#emailrow1').addClass('hidden');
-                    $('#emailrow2').addClass('hidden');                 
+                    $('#emailrow2').addClass('hidden');              
+                    $('#attachrow').addClass('hidden');
                     $('#smsrow1').removeClass('hidden');
                 } else if (event.target.value=='email') {
                     $('#emailrow1').removeClass('hidden');
                     $('#emailrow2').removeClass('hidden');
                     $('#smsrow1').addClass('hidden');
+                    $('#attachrow').removeClass('hidden');
+                } else if (event.target.value=='app') {
+                    $('#emailrow1').addClass('hidden');
+                    $('#emailrow2').removeClass('hidden');                 
+                    $('#smsrow1').addClass('hidden');
+                    $('#attachrow').addClass('hidden');
                 }
             });
             $('.msgtype').iCheck({
