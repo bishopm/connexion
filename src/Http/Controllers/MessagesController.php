@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller, Auth;
 use Bishopm\Connexion\Mail\GenericMail;
 use Bishopm\Connexion\Events\MessagePosted;
 use Illuminate\Support\Facades\Mail;
+use Pusher\Pusher;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\MessagesRepository;
@@ -27,6 +28,13 @@ class MessagesController extends Controller {
         $this->individuals = $individuals;
         $this->settings = $settings;
         $this->messages = $messages;
+        $this->settingsarray=$this->settings->makearray();
+        $this->pusher = new Pusher( 
+            $this->settingsarray['pusher_app_key'],
+            $this->settingsarray['pusher_app_secret'],
+            $this->settingsarray['pusher_app_id'],
+            array( 'cluster' => $this->settingsarray['pusher_cluster'], 'encrypted' => false ) 
+        );
     }
 
 	public function create()
@@ -50,11 +58,20 @@ class MessagesController extends Controller {
             //$results=$this->sendsms($request->smsmessage,$recipients);
             return view('connexion::messages.smsresults',compact('results'));
         } elseif ($request->msgtype=="app"){
+            $sender=Auth::user()->id;
             foreach ($recipients as $key=>$rec){
-                $message = $this->messages->create(['user_id'=>Auth::user()->id, 'receiver_id'=>$key, 'message'=>$request->emailmessage, 'viewed'=>0]);
-                event(new MessagePosted($message));
+                $msg = $this->sendmessage($sender,$key,$request->emailmessage);
             }
         }
+    }
+
+    public function sendmessage($sender,$receiver,$message){
+        $this->messages->create(['user_id'=>$sender, 'receiver_id'=>$receiver, 'message'=>$message, 'viewed'=>0]);
+        $this->pusher->trigger('my_channel', 'my_event', $message);
+    }
+
+    public function api_usermessages($id){
+        return $this->messages->userMessages($id);
     }
 
     protected function getrecipients($groups,$individuals,$grouprec,$msgtype)
