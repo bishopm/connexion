@@ -13,6 +13,7 @@ use Bishopm\Connexion\Http\Requests\UpdateBlogRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use Bishopm\Connexion\Notifications\NewBlogPost;
 use Bishopm\Connexion\Notifications\NewBlogComment;
+use Carbon\Carbon;
 use MediaUploader;
 
 class BlogsController extends Controller {
@@ -121,6 +122,11 @@ class BlogsController extends Controller {
         $author->notify(new NewBlogComment($message));
     }
 
+    public function apiaddcomment(Blog $blog, $request)
+    {
+
+    }
+
     public function apiblog($id){
         if ($id=="current"){
             $blog=Blog::with('individual')->where('status','published')->orderBy('created_at','DESC')->first();
@@ -132,6 +138,7 @@ class BlogsController extends Controller {
             $author=$this->user->find($comment->commented_id);
             $comment->author = $author->individual->firstname . " " . $author->individual->surname;
             $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->individual_id . "/" . $author->individual->image;
+            $comment->ago = Carbon::parse($comment->created_at)->diffForHumans();
         }
         $data['comments']=$blog->comments;
         $data['title']=$blog->title;
