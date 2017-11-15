@@ -8,6 +8,7 @@ use Bishopm\Connexion\Models\Individual;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSeriesRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSeriesRequest;
+use Carbon\Carbon;
 
 class SeriesController extends Controller {
 
@@ -66,6 +67,7 @@ class SeriesController extends Controller {
             $series=$this->series->findwithsermons($id);
             $series->image="http://umc.org.za/public/storage/series/" . $series->image;
             $series->starting=date("F Y",strtotime($series->created_at));
+            $series->ago=Carbon::parse($series->created_at)->diffForHumans();
             foreach ($series->sermons as $sermon){
                 $preacher=Individual::find($sermon->individual_id);
                 $sermon->servicedate=date("j F Y",strtotime($sermon->servicedate));
@@ -79,6 +81,7 @@ class SeriesController extends Controller {
             $series = $this->series->allwithsermons();
             foreach ($series as $seri){
                 $seri->image="http://umc.org.za/public/storage/series/" . $seri->image;
+                $seri->ago=Carbon::parse($seri->created_at)->diffForHumans();
                 foreach ($seri->sermons as $sermon){
                     $preacher=Individual::find($sermon->individual_id);
                     $sermon->servicedate=date("j F Y",strtotime($sermon->servicedate));
