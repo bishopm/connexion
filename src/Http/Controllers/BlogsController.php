@@ -122,10 +122,10 @@ class BlogsController extends Controller {
         $author->notify(new NewBlogComment($message));
     }
 
-    public function apiaddcomment(Blog $blog, $request)
+    public function apiaddcomment($blog, $request)
     {
+        $blog=$this->blog->find($blog);
         $user=$this->user->find($request->user_id);
-        $author=$blog->individual->user;
         $user->comment($blog, $request->newcomment);
     }
 
