@@ -15,6 +15,7 @@ use Bishopm\Connexion\Notifications\NewBlogPost;
 use Bishopm\Connexion\Notifications\NewBlogComment;
 use Carbon\Carbon;
 use MediaUploader;
+use Illuminate\Http\Request;
 
 class BlogsController extends Controller {
 
@@ -122,7 +123,7 @@ class BlogsController extends Controller {
         $author->notify(new NewBlogComment($message));
     }
 
-    public function apiaddcomment($blog, $request)
+    public function apiaddcomment($blog, Request $request)
     {
         $blog=$this->blog->find($blog);
         $user=$this->user->find($request->user_id);
