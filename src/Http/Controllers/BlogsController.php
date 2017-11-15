@@ -124,7 +124,9 @@ class BlogsController extends Controller {
 
     public function apiaddcomment(Blog $blog, $request)
     {
-
+        $user=$this->user->find($request->user_id);
+        $author=$blog->individual->user;
+        $user->comment($blog, $request->newcomment);
     }
 
     public function apiblog($id){
@@ -146,6 +148,7 @@ class BlogsController extends Controller {
         $data['author']=$blog->individual->firstname . " " . $blog->individual->surname;
         $data['pubDate']=date("j F Y",strtotime($blog->created_at));
         $data['tags']=$blog->tags;
+        $data['id']=$blog->id;
         return $data;
     }
 
