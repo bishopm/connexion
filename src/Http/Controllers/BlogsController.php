@@ -127,7 +127,7 @@ class BlogsController extends Controller {
     {
         $blog=$this->blog->find($blog);
         $user=$this->user->find($request->user_id);
-        $user->comment($blog, $request->newcomment);
+        $user->comment($blog, $request->comment);
     }
 
     public function apiblog($id){
