@@ -16,6 +16,7 @@ use Bishopm\Connexion\Http\Requests\UpdateBookRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use Bishopm\Connexion\Mail\GenericMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 
 class BooksController extends Controller {
 
@@ -145,6 +146,13 @@ class BooksController extends Controller {
             $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->individual_id . "/" . $author->individual->image;
         }
         return $book;
+    }
+
+    public function apiaddcomment($book, Request $request)
+    {
+        $book=$this->book->find($book);
+        $user=$this->user->find($request->user_id);
+        $user->comment($book, $request->comment);
     }
 
 }

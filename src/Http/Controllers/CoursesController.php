@@ -87,4 +87,11 @@ class CoursesController extends Controller {
         $user->comment($course, $request->newcomment, $request->rating);
     }
 
+    public function apiaddcomment($course, Request $request)
+    {
+        $course=$this->course->find($course);
+        $user=$this->user->find($request->user_id);
+        $user->comment($course, $request->comment);
+    }
+
 }

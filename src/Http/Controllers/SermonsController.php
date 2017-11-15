@@ -11,6 +11,7 @@ use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use Bishopm\Connexion\Http\Requests\CreateSermonRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSermonRequest;
 use Bishopm\Connexion\Notifications\NewSermonComment;
+use Illuminate\Http\Request;
 
 class SermonsController extends Controller {
 
@@ -102,6 +103,13 @@ class SermonsController extends Controller {
         }
         return $sermon;
     }
+
+    public function apiaddcomment($sermon, Request $request)
+    {
+        $sermon=$this->sermon->find($sermon);
+        $user=$this->user->find($request->user_id);
+        $user->comment($sermon, $request->comment);
+    }    
 
     public function addtag($sermon, $tag)
     {
