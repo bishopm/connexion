@@ -19,4 +19,5 @@ class Book extends Model implements TaggableInterface
 	public function supplier(){
         return $this->belongsTo('Bishopm\Connexion\Models\Supplier');
     }
+
 }

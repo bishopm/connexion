@@ -22,4 +22,5 @@ class Sermon extends Model implements TaggableInterface
     public function individual(){
         return $this->belongsTo('Bishopm\Connexion\Models\Individual');
     }
+
 }

@@ -7,11 +7,11 @@ class SeriesRepository extends EloquentBaseRepository
 {
     public function findwithsermons($id)
     {
-        $series = $this->model->with('sermons.comments.users.individuals')->where('id',$id)->first();
+        $series = $this->model->with('sermons.comments')->where('id',$id)->first();
         foreach ($series->sermons as $sermon){
             foreach ($sermon->comments as $comment){
-                $author=$comment->user->individual->firstname . " " . $comment->user->individual->surname;
-                $comment->image = "http://umc.org.za/storage/individuals/" . $comment->user->individual_id . "/" . $comment->user->individual->image;
+                $author=$comment->commented->individual->firstname . " " . $comment->commented->individual->surname;
+                $comment->image = "http://umc.org.za/storage/individuals/" . $comment->commented->individual_id . "/" . $comment->commented->individual->image;
             }
         }
         return $series;
