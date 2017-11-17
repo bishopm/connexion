@@ -26,7 +26,7 @@ class UsersRepository extends EloquentBaseRepository
 
     public function findWithContent($id)
     {
-        $user = $this->model->with('individual.groups','individual.sermons','individual.blogs','individual.comments')->find($id);
+        $user = $this->model->with('individual.groups','individual.sermons','individual.blogs')->find($id);
     }
 
     public function activate($id)
