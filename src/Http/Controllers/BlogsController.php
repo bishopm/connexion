@@ -143,6 +143,10 @@ class BlogsController extends Controller {
             $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->individual_id . "/" . $author->individual->image;
             $comment->ago = Carbon::parse($comment->created_at)->diffForHumans();
         }
+        $data['user']='';
+        if ($blog->individual->user){
+            $data['user']=$blog->individual->user->id;
+        }
         $data['comments']=$blog->comments;
         $data['title']=$blog->title;
         $data['body']=$blog->body;
