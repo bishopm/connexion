@@ -172,5 +172,4 @@ class BlogsController extends Controller {
         }
         return $blogs;
     }
-
 }

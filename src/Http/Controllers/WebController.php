@@ -863,4 +863,11 @@ class WebController extends Controller
         }
     }
 
+    public function apitag($tag){
+        $data['blogs'] = Blog::withTag($tag)->get();
+        $data['sermons'] = Sermon::withTag($tag)->get();
+        $data['books'] = Book::withTag($tag)->get();
+        return $data;
+    }
+
 }
