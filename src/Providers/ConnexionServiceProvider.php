@@ -428,7 +428,7 @@ class ConnexionServiceProvider extends ServiceProvider
         //$this->app->register('Plank\Mediable\MediableServiceProvider');
         //$this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
         //$this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
-        //$this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
+        $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
         //$this->app->register('Felixkiss\UniqueWithValidator\ServiceProvider');
         //$this->app->register('Jrean\UserVerification\UserVerificationServiceProvider');
         $this->app->register('LithiumDev\TagCloud\ServiceProvider');
