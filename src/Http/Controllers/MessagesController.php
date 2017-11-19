@@ -73,10 +73,8 @@ class MessagesController extends Controller {
     }
 
     public function api_usermessages($id){
-        $messages = DB::select('SELECT m1.* FROM messages m1 LEFT JOIN messages m2 ON (m1.user_id = m2.user_id AND m1.created_at < m2.created_at) WHERE m2.created_at IS NULL and m1.user_id = ?', [$id]);
+        $messages = DB::select('SELECT m1.*, individuals.* FROM users,individuals,messages m1 LEFT JOIN messages m2 ON (m1.user_id = m2.user_id AND m1.created_at < m2.created_at) WHERE m1.user_id=users.id and users.individual_id=individuals.id and m2.created_at IS NULL and m1.receiver_id = ?', [$id]);
         foreach ($messages as $message){
-            $message->sender = $message->user->individual->firstname . " " . $message->user->individual->surname;
-            $message->senderpic = url('/') . "/storage/individuals/" . $message->user->individual_id . "/" . $message->user->individual->image;
             $message->ago = Carbon::parse($message->created_at)->diffForHumans();
         }
         return $messages;
