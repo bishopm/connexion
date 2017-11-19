@@ -7,6 +7,7 @@ use Bishopm\Connexion\Mail\GenericMail;
 use Bishopm\Connexion\Events\MessagePosted;
 use Illuminate\Support\Facades\Mail;
 use Pusher\Pusher;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
@@ -72,7 +73,12 @@ class MessagesController extends Controller {
     }
 
     public function api_usermessages($id){
-        $messages = DB::select('SELECT m1.* FROM messages m1 LEFT JOIN messages m2 ON (m1.user_id = m2.user_id AND m1.created_at < m2.created_at) WHERE m2.created_at IS NULL');
+        $messages = DB::select('SELECT m1.* FROM messages m1 LEFT JOIN messages m2 ON (m1.user_id = m2.user_id AND m1.created_at < m2.created_at) WHERE m2.created_at IS NULL and m1.user_id = ?', [$id]);
+        foreach ($messages as $message){
+            $message->sender = $message->user->individual->firstname . " " . $message->user->individual->surname;
+            $message->senderpic = url('/') . "/storage/individuals/" . $message->user->individual_id . "/" . $message->user->individual->image;
+            $message->ago = Carbon::parse($message->created_at)->diffForHumans();
+        }
         return $messages;
     }
 
