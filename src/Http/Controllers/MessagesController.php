@@ -7,6 +7,7 @@ use Bishopm\Connexion\Mail\GenericMail;
 use Bishopm\Connexion\Events\MessagePosted;
 use Illuminate\Support\Facades\Mail;
 use Pusher\Pusher;
+use Illuminate\Support\Facades\DB;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\MessagesRepository;
@@ -71,7 +72,8 @@ class MessagesController extends Controller {
     }
 
     public function api_usermessages($id){
-        return $this->messages->userMessages($id);
+        $messages = DB::select('SELECT m1.* FROM messages m1 LEFT JOIN messages m2 ON (m1.user_id = m2.user_id AND m1.created_at < m2.created_at) WHERE m2.created_at IS NULL');
+        return $messages;
     }
 
     protected function getrecipients($groups,$individuals,$grouprec,$msgtype)

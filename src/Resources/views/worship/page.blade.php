@@ -11,7 +11,7 @@
     <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />          
 @stop
 
-@section('body_class', 'skin-' . config('adminlte.skin', 'blue') . ' sidebar-mini fixed')
+@section('body_class', 'skin-' . config('adminlte.skin', 'blue') . ' sidebar-mini boxed')
 
 @section('body')
     <div class="wrapper">
