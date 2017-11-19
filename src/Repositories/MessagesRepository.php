@@ -5,10 +5,16 @@ use Carbon\Carbon;
 
 class MessagesRepository extends EloquentBaseRepository
 {
-    public function userMessages($id)
+    public function thread($user,$id)
     {
-        $messages = $this->model->where('receiver_id','=',$id)->orderBy('created_at')->get();
-        foreach ($messages as $message){
+        $messages = $this->model->with('users.individual')->where(function ($query) {
+            $query->where('receiver_id', $id)
+                ->where('user_id', $user);
+        })->orWhere(function($query) {
+            $query->where('receiver_id', $user)
+                ->where('user_id', $id);	
+        })->orderBy('created_at);
+        foreach ($messages as $message) {
             $message->sender = $message->user->individual->firstname . " " . $message->user->individual->surname;
             $message->senderpic = url('/') . "/storage/individuals/" . $message->user->individual_id . "/" . $message->user->individual->image;
             $message->ago = Carbon::parse($message->created_at)->diffForHumans();

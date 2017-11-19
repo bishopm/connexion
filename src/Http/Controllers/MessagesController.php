@@ -80,6 +80,10 @@ class MessagesController extends Controller {
         return $messages;
     }
 
+    public function api_messagethread($user,$id){
+        return $this->messages->thread($user,$id);
+    }
+
     protected function getrecipients($groups,$individuals,$grouprec,$msgtype)
     {
         $recipients=array();
