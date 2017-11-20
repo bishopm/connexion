@@ -42,7 +42,7 @@ class GroupsRepository extends EloquentBaseRepository
 
 	public function find($id)
     {
-        return $this->model->with('individuals','individuals.users')->find($id);
+        return $this->model->with('individuals','individuals.user')->find($id);
     }
 
     public function findByName($name)
