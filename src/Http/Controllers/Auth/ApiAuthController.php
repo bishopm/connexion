@@ -19,7 +19,7 @@ class ApiAuthController extends Controller
         $fullname=$user->individual->firstname . " " . $user->individual->surname;
         $indiv_id=$user->individual_id;
         $user_id=$user->id;
-        $permissions=$user->roles->permissions;
+        $permissions=$user->roles[0]->permissions;
         //Log::info('API login attempt: ' . json_encode($credentials));
 
         try {
