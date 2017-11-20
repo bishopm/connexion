@@ -8,12 +8,13 @@ class MessagesRepository extends EloquentBaseRepository
     public function thread($user,$id)
     {
         $messages = $this->model->with('users.individual')
-        ->where(function ($query)
+        ->where(function ($query) use ($user,$id)
         {
             $query->where('receiver_id', $id)
                   ->where('user_id', $user);
         })
-        ->orWhere(function($query) {
+        ->orWhere(function($query) use ($user,$id)
+        {
             $query->where('receiver_id', $user)
                   ->where('user_id', $id);
         })->orderBy('created_at')->get();
