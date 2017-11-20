@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateHouseholdRequest;
 use Bishopm\Connexion\Http\Requests\UpdateHouseholdRequest;
 use Bishopm\Connexion\Models\Setting;
+use Illuminate\Http\Request;
 
 class HouseholdsController extends Controller {
 
