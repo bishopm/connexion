@@ -14,6 +14,7 @@ use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\MessagesRepository;
 use Bishopm\Connexion\Http\Requests\MessageRequest;
 use Bishopm\Connexion\Libraries\SMSfunctions, Bishopm\Connexion\Repositories\SettingsRepository;
+use Illuminate\Http\Request;
 
 class MessagesController extends Controller {
 
@@ -82,6 +83,11 @@ class MessagesController extends Controller {
 
     public function api_messagethread($user,$id){
         return $this->messages->thread($user,$id);
+    }
+
+    public function apisendmessage(Request $request){
+        $this->messages->create(['user_id'=>$request->user_id, 'receiver_id'=>$request->receiver_id, 'message'=>$request->message, 'viewed'=>0]);
+        $this->pusher->trigger('my_channel', 'my_event', $request->message);
     }
 
     protected function getrecipients($groups,$individuals,$grouprec,$msgtype)
