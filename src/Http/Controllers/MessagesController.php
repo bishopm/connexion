@@ -73,7 +73,7 @@ class MessagesController extends Controller {
     }
 
     public function api_usermessages($id){
-        $messages = DB::select('SELECT m1.*, individuals.*, m1.created_at as m1c FROM users,individuals,messages m1 LEFT JOIN messages m2 ON (m1.user_id = m2.user_id AND m1.created_at < m2.created_at) WHERE m1.user_id=users.id and users.individual_id=individuals.id and m2.created_at IS NULL and m1.receiver_id = ? order by m1.created_at', [$id]);
+        $messages = DB::select('SELECT m1.*, individuals.*, m1.created_at as m1c FROM users,individuals,messages m1 LEFT JOIN messages m2 ON (m1.user_id = m2.user_id AND m1.created_at < m2.created_at) WHERE m1.user_id=users.id and users.individual_id=individuals.id and m2.created_at IS NULL and m1.receiver_id = ? order by m1.created_at DESC', [$id]);
         foreach ($messages as $message){
             $message->ago = Carbon::parse($message->m1c)->diffForHumans();
         }
