@@ -17,7 +17,7 @@ class MessagesRepository extends EloquentBaseRepository
         {
             $query->where('receiver_id', $user)
                   ->where('user_id', $id);
-        })->orderBy('created_at')->get();
+        })->orderBy('created_at','DESC')->get();
         foreach ($messages as $message) {
             $message->sender = $message->user->individual->firstname . " " . $message->user->individual->surname;
             $message->senderpic = url('/') . "/storage/individuals/" . $message->user->individual_id . "/" . $message->user->individual->image;
