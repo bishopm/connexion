@@ -125,7 +125,6 @@ class UsersController extends Controller {
         $users=$this->user->allVerified();
         $services=explode(',',$this->settingsarray['worship_services']);    
         foreach ($users as $user){
-            $user->userid = $user->id;
             if (isset($user->individual)){
                 $user->status=$user->individual->servicetime;
                 foreach ($user->individual->tags as $tag){
