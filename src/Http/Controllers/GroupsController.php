@@ -31,7 +31,17 @@ class GroupsController extends Controller {
 	{
         $groups = $this->group->all();
    		return view('connexion::groups.index',compact('groups'));
-	}
+    }
+    
+    public function api_groups()
+    {
+        return $this->group->all();
+    }
+
+    public function api_group($id)
+    {
+        return $this->group->find($id);
+    }
 
 	public function edit(Group $group)
     {

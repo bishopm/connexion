@@ -18,6 +18,8 @@ Route::middleware(['handlecors'])->group(function () {
 		Route::post('/api/book/{book}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@apiaddcomment','as' => 'bookapi.add.comment']);
 		Route::post('/api/blog/{blog}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@apiaddcomment','as' => 'blogapi.add.comment']);
 		Route::post('/api/course/{course}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\CoursesController@apiaddcomment','as' => 'courseapi.add.comment']);
+		Route::get('/api/groups', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@api_groups','as' => 'api.groups']);	
+		Route::get('/api/group/{group}', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@api_group','as' => 'api.group']);			
 		Route::post('/api/sermon/{sermon}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@apiaddcomment','as' => 'sermonapi.add.comment']);
 		Route::get('/api/taskapi', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@taskapi','as' => 'api.taskapi']);
 		Route::get('/api/taskcompleted/{id}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@togglecompleted','as' => 'api.taskcompleted']);
