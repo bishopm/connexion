@@ -38,7 +38,7 @@ class UsersRepository extends EloquentBaseRepository
 
     public function allVerified()
     {
-        return $this->model->where('verified',1)->orderBy('surname','firstname')->get();
+        return $this->model->where('verified',1)->orderBy('name')->get();
     }
 
 }
