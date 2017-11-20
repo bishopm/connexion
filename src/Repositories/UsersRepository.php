@@ -41,7 +41,7 @@ class UsersRepository extends EloquentBaseRepository
         return $this->model
             ->where('verified',1)
             ->join('individuals', 'individuals.id', '=', 'users.individual_id')
-            ->orderBy('individuals.surname')->orderBy('individuals.firstname')
+            ->orderBy('individuals.surname')
             ->get();
     }
 
