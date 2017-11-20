@@ -14,6 +14,11 @@ class GroupsRepository extends EloquentBaseRepository
         return $this->model->where('publish',1)->where('grouptype','fellowship')->orderBy('groupname', 'ASC')->get();
     }
 
+    public function nonadmin()
+    {
+        return $this->model->where('publish',1)->where('grouptype','<>','admin')->orderBy('groupname', 'ASC')->get();
+    }
+
     public function event()
     {
         return $this->model->where('publish',1)->where('grouptype','event')->orderBy('groupname', 'ASC')->get();

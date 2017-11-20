@@ -35,7 +35,7 @@ class GroupsController extends Controller {
     
     public function api_groups()
     {
-        return $this->group->all();
+        return $this->group->nonadmin();
     }
 
     public function api_group($id)
