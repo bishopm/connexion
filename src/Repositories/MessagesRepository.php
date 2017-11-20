@@ -7,7 +7,7 @@ class MessagesRepository extends EloquentBaseRepository
 {
     public function thread($user,$id)
     {
-        $messages = $this->model->with('users.individual')
+        $messages = $this->model->with('user.individual')
         ->where(function ($query) use ($user,$id)
         {
             $query->where('receiver_id', $id)
