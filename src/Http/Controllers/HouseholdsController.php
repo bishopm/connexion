@@ -113,6 +113,18 @@ class HouseholdsController extends Controller {
         }
     }
 
+    public function api_households(Request $request)
+    {
+        $q=$request->search;
+        $individuals=Individual::with('household')->where('surname','like','%' . $q . '%')->orwhere('firstname','like','%' . $q . '%')->orderBy('surname')->orderBy('firstname')->get();
+        return $individuals;
+    }
+
+    public function api_household($id)
+    {
+        return $this->household->find($id);
+    }
+
     public function destroy($id)
     {
         $household=$this->household->find($id);
