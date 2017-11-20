@@ -15,10 +15,11 @@ class ApiAuthController extends Controller
     {
         // grab credentials from the request
         $credentials = $request->only('name', 'password');
-        $user=User::where('name',$request->input('name'))->first();
+        $user=User::with('roles')->where('name',$request->input('name'))->first();
         $fullname=$user->individual->firstname . " " . $user->individual->surname;
         $indiv_id=$user->individual_id;
         $user_id=$user->id;
+        $permissions=$user->roles->permissions;
         //Log::info('API login attempt: ' . json_encode($credentials));
 
         try {
@@ -32,7 +33,7 @@ class ApiAuthController extends Controller
         }
 
         // all good so return the token
-        return response()->json(compact('token','fullname','indiv_id','user_id'));
+        return response()->json(compact('token','fullname','indiv_id','user_id','permissions'));
     }
 
 }
