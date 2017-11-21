@@ -35,11 +35,11 @@ class UsersRepository extends EloquentBaseRepository
         $user->groups=$user->individual->groups->sortBy('created_at');
         $user->sermons=$user->individual->sermons->sortBy('created_at');
         foreach ($user->sermons as $sermon){
-            $sermon->sdate = format("j M Y",strtotime($sermon->created_at));
+            $sermon->sdate = date("j M Y",strtotime($sermon->created_at));
         }
         $user->blogs=$user->individual->blogs->sortBy('created_at');
         foreach ($user->blogs as $blog){
-            $blog->bdate = format("j M Y",strtotime($blog->created_at));
+            $blog->bdate = date("j M Y",strtotime($blog->created_at));
         }
         return $user;
     }
