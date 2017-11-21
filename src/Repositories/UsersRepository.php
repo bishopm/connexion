@@ -33,7 +33,7 @@ class UsersRepository extends EloquentBaseRepository
     {
         $user = $this->model->with('individual.groups','individual.sermons','individual.blogs')->find($id);
         $user->groups=$user->individual->groups->sortBy('groups.groupname');
-        $user->sermons=$user->individual->sermons->sortBy('sermons.created_at','DESC');
+        $user->sermons=$user->individual->sermons->sortByDesc('sermons.created_at');
         foreach ($user->sermons as $sermon){
             $sermon->sdate = date("j M Y",strtotime($sermon->created_at));
         }
