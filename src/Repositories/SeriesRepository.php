@@ -20,6 +20,6 @@ class SeriesRepository extends EloquentBaseRepository
 
 	public function allwithsermons()
     {
-        return $this->model->has('sermons')->get();
+        return $this->model->has('sermons')->orderBy('created_at','DESC')->get();
     }
 }
