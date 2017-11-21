@@ -32,12 +32,12 @@ class UsersRepository extends EloquentBaseRepository
     public function findForApi($id)
     {
         $user = $this->model->with('individual.groups','individual.sermons','individual.blogs')->find($id);
-        $user->groups=$user->individual->groups()->sortBy('groups.groupname')->get();
-        $user->sermons=$user->individual->sermons()->sortByDesc('sermons.servicedate')->get();
+        $user->groups=$user->individual->groups()->orderBy('groupname')->get();
+        $user->sermons=$user->individual->sermons()->orderBy('servicedate','DESC')->get();
         foreach ($user->sermons as $sermon){
             $sermon->sdate = date("j M Y",strtotime($sermon->created_at));
         }
-        $user->blogs=$user->individual->blogs()->sortByDesc('created_at')->get();
+        $user->blogs=$user->individual->blogs()->orderBy('created_at','DESC')->get();
         foreach ($user->blogs as $blog){
             $blog->bdate = date("j M Y",strtotime($blog->created_at));
         }
