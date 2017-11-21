@@ -26,7 +26,22 @@ class UsersRepository extends EloquentBaseRepository
 
     public function findWithContent($id)
     {
-        return $this->model->with('individual.groups','individual.sermons','individual.blogs','roles')->find($id);
+        return $this->model->with('individual.groups','individual.sermons','individual.blogs')->find($id);
+    }
+
+    public function findForApi($id)
+    {
+        $user = $this->model->with('individual.groups','individual.sermons','individual.blogs')->find($id);
+        $user->groups=$user->individual->groups->sortBy('created_at');
+        $user->sermons=$user->individual->sermons->sortBy('created_at');
+        foreach ($user->sermons as $sermon){
+            $sermon->sdate = format("j M Y",strtotime($sermon->created_at));
+        }
+        $user->blogs=$user->individual->blogs->sortBy('created_at');
+        foreach ($user->blogs as $blog){
+            $blog->bdate = format("j M Y",strtotime($blog->created_at));
+        }
+        return $user;
     }
 
     public function activate($id)
