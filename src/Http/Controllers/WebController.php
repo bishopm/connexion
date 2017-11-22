@@ -868,7 +868,7 @@ class WebController extends Controller
         foreach ($comments as $comment){
             $comment->title = $comment->commentable->title;
             $comment->user = $comment->commented->individual->firstname . ' ' . $comment->commented->individual->surname;
-            $comment->model = substr(strrchr($commentable_type, "\\"), 1);
+            $comment->model = substr(strrchr($comment->commentable_type, "\\"), 1);
         }
         return $comments;
     }
