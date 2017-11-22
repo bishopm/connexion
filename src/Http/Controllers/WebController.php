@@ -864,7 +864,13 @@ class WebController extends Controller
     }
 
     public function api_comments(){
-        return Comment::orderBy('created_at','DESC')->get()->take(10);
+        $comments = Comment::orderBy('created_at','DESC')->get()->take(10);
+        foreach ($comments as $comment){
+            $comment->title = $comment->commentable->title;
+            $comment->user = $comment->commented->individual->firstname . ' ' . $comment->commented->individual->surname;
+            $comment->model = substr(strrchr($commentable_type, "\\"), 1);
+        }
+        return $comments;
     }
 
     public function apitag($tag){
