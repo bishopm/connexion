@@ -94,4 +94,12 @@ class CoursesController extends Controller {
         $user->comment($course, $request->comment);
     }
 
+    public function api_courses(){
+        return $this->course->allForApi();
+    }
+
+    public function api_course($id){
+        return $this->course->find($id);
+    }
+
 }

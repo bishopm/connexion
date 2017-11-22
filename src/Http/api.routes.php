@@ -9,6 +9,10 @@ Route::middleware(['handlecors'])->group(function () {
 	Route::get('/api/books', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@apibooks','as' => 'api.books']);
 	Route::get('/api/books/{book}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@apibook','as' => 'api.books.show']);
 
+	// Courses
+	Route::get('/api/courses', ['uses' => 'Bishopm\Connexion\Http\Controllers\CoursesController@api_courses','as' => 'api.courses']);
+	Route::get('/api/courses/{course}', ['uses' => 'Bishopm\Connexion\Http\Controllers\CoursesController@api_course','as' => 'api.course']);
+
 	// Sermons
 	Route::get('/api/sermons/{sermon?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@sermonapi','as' => 'api.sermons']);
 	Route::get('/api/series/{series?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SeriesController@seriesapi','as' => 'api.series']);
