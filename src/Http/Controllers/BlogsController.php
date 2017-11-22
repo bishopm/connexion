@@ -163,7 +163,6 @@ class BlogsController extends Controller {
         $allblogs=Blog::with('individual')->where('status','published')->orderBy('created_at','DESC')->get();
         foreach ($allblogs as $blog){
             $dum['title']=$blog->title;
-            $dum['body']=$blog->body;
             $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
             $dum['pubDate']=date("d M Y",strtotime($blog->created_at));
             $dum['id']=$blog->id;
