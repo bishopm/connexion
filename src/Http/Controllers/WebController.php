@@ -863,6 +863,10 @@ class WebController extends Controller
         }
     }
 
+    public function api_comments(){
+        return Comment::orderBy('created_at','DESC')->get()->take(10);
+    }
+
     public function apitag($tag){
         $data['blogs'] = Blog::withTag($tag)->get();
         $data['sermons'] = Sermon::withTag($tag)->get();

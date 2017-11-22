@@ -17,6 +17,7 @@ Route::middleware(['handlecors'])->group(function () {
 	Route::group(['middleware' => ['jwt.auth','handlecors']], function () {
 		Route::post('/api/book/{book}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\BooksController@apiaddcomment','as' => 'bookapi.add.comment']);
 		Route::post('/api/blog/{blog}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@apiaddcomment','as' => 'blogapi.add.comment']);
+		Route::get('/api/comments', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@api_comments','as' => 'api.comments']);	
 		Route::post('/api/course/{course}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\CoursesController@apiaddcomment','as' => 'courseapi.add.comment']);
 		Route::get('/api/groups', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@api_groups','as' => 'api.groups']);	
 		Route::get('/api/group/{group}', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@api_group','as' => 'api.group']);			
