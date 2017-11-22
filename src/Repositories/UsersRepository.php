@@ -36,6 +36,8 @@ class UsersRepository extends EloquentBaseRepository
         $user->sermons=$user->individual->sermons()->orderBy('servicedate','DESC')->get();
         foreach ($user->sermons as $sermon){
             $sermon->sdate = date("j M Y",strtotime($sermon->created_at));
+            $sermon->image = $sermon->series->image;
+            $series->seriestitle = $sermon->series->title;
         }
         $user->blogs=$user->individual->blogs()->orderBy('created_at','DESC')->get();
         foreach ($user->blogs as $blog){
