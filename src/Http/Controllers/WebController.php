@@ -869,7 +869,7 @@ class WebController extends Controller
         foreach ($comments as $comment){
             $comment->title = $comment->commentable->title;
             $comment->user = $comment->commented->individual->firstname . ' ' . $comment->commented->individual->surname;
-            $comment->model = substr(strrchr($comment->commentable_type, "\\"), 1);
+            $comment->model = strtolower(substr(strrchr($comment->commentable_type, "\\"), 1));
             $comment->ago = Carbon::parse($comment->created_at)->diffForHumans();
         }
         return $comments;
