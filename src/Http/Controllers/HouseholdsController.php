@@ -123,7 +123,7 @@ class HouseholdsController extends Controller {
 
     public function api_household($id)
     {
-        return $this->household->find($id);
+        return $this->household->findForApi($id);
     }
 
     public function destroy($id)

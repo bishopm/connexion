@@ -13,4 +13,9 @@ class HouseholdsRepository extends EloquentBaseRepository
     {
         return $this->model->with('individuals')->find($id);
     }
+
+    public function findForApi($id)
+    {
+        return $this->model->with('individuals','individuals.users')->find($id);
+    }
 }
