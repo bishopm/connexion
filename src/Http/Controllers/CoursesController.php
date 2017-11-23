@@ -12,6 +12,7 @@ use Bishopm\Connexion\Http\Requests\CreateCourseRequest;
 use Bishopm\Connexion\Http\Requests\UpdateCourseRequest;
 use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CoursesController extends Controller {
 
@@ -104,6 +105,7 @@ class CoursesController extends Controller {
             $author=$this->user->find($comment->commented_id);
             $comment->author = $author->individual->firstname . " " . $author->individual->surname;
             $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->individual_id . "/" . $author->individual->image;
+            $comment->ago = Carbon::parse($comment->created_at)->diffForHumans();
         }
         return $course;
     }

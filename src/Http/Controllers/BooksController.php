@@ -17,6 +17,7 @@ use Bishopm\Connexion\Http\Requests\CreateCommentRequest;
 use Bishopm\Connexion\Mail\GenericMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class BooksController extends Controller {
 
@@ -144,6 +145,7 @@ class BooksController extends Controller {
             $author=$this->user->find($comment->commented_id);
             $comment->author = $author->individual->firstname . " " . $author->individual->surname;
             $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->individual_id . "/" . $author->individual->image;
+            $comment->ago = Carbon::parse($comment->created_at)->diffForHumans();
         }
         return $book;
     }

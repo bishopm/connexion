@@ -12,6 +12,7 @@ use Bishopm\Connexion\Http\Requests\CreateSermonRequest;
 use Bishopm\Connexion\Http\Requests\UpdateSermonRequest;
 use Bishopm\Connexion\Notifications\NewSermonComment;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class SermonsController extends Controller {
 
@@ -100,6 +101,7 @@ class SermonsController extends Controller {
             $author=$this->user->find($comment->commented_id);
             $comment->author = $author->individual->firstname . " " . $author->individual->surname;
             $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->individual_id . "/" . $author->individual->image;
+            $comment->ago = Carbon::parse($comment->created_at)->diffForHumans();
         }
         return $sermon;
     }
