@@ -23,15 +23,17 @@ class ProjectsRepository extends EloquentBaseRepository
 
     public function findForApi($id){
         $project = $this->model->with('actions','actions.individual')->where('id',$id)->first();
-        $project->completed=array();
-        $project->todo=array();
+        $completed=array();
+        $todo=array();
         foreach ($project->actions as $action){
             if ($action->completed){
-                $project->completed[]=$action;
+                $completed[]=$action;
             } else {
-                $project->todo[]=$action;
+                $todo[]=$action;
             }
         }
+        $project->completed=$completed;
+        $project->todo=$todo;
         return $project;
     }
 }
