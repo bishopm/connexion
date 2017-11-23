@@ -65,4 +65,15 @@ class ProjectsController extends Controller {
         return redirect()->route('admin.projects.index')->withSuccess('Project has been updated');
     }
 
+    public function api_projects()
+    {
+        return $this->project->allForApi();
+    }
+
+    public function api_project($id)
+    {
+        return $this->project->find($id);
+    }
+
+
 }

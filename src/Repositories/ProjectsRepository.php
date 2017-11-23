@@ -16,4 +16,8 @@ class ProjectsRepository extends EloquentBaseRepository
     public function findbyuid($uid){
         return $this->model->where('user_id','=',$uid)->get();
     }
+
+    public function allForApi(){
+        return $this->model->with('actions','individual')->get();
+    }
 }
