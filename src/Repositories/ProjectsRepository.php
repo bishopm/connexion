@@ -1,6 +1,7 @@
 <?php namespace Bishopm\Connexion\Repositories;
 
 use Bishopm\Connexion\Repositories\EloquentBaseRepository;
+use Carbon\Carbon
 
 class ProjectsRepository extends EloquentBaseRepository
 {
@@ -27,6 +28,7 @@ class ProjectsRepository extends EloquentBaseRepository
         $todo=array();
         foreach ($project->actions as $action){
             if ($action->completed){
+                $action->ago=Carbon::parse($action->completed)->diffForHumans();
                 $completed[]=$action;
             } else {
                 $todo[]=$action;
