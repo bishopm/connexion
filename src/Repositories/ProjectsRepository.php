@@ -1,7 +1,7 @@
 <?php namespace Bishopm\Connexion\Repositories;
 
 use Bishopm\Connexion\Repositories\EloquentBaseRepository;
-use Carbon\Carbon
+use Carbon\Carbon;
 
 class ProjectsRepository extends EloquentBaseRepository
 {
