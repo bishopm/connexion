@@ -99,7 +99,7 @@ class CoursesController extends Controller {
     }
 
     public function api_course($id){
-        return $this->course->find($id);
+        return $this->course->findForApi($id);
     }
 
 }

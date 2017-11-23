@@ -11,4 +11,8 @@ class CoursesRepository extends EloquentBaseRepository
     public function allForApi(){
         return $this->model->OrderBy('title')->get();
     }
+
+    public function findForApi($id){
+        return $this->model::with('comments')->where('id',$id)->first();
+    }
 }
