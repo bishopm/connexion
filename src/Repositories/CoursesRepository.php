@@ -13,6 +13,12 @@ class CoursesRepository extends EloquentBaseRepository
     }
 
     public function findForApi($id){
-        return $this->model::with('comments')->where('id',$id)->first();
+        $course = $this->model::with('comments')->where('id',$id)->first();
+        foreach ($course->comments as $comment){
+            $author=$this->user->find($comment->commented_id);
+            $comment->author = $author->individual->firstname . " " . $author->individual->surname;
+            $comment->image = "http://umc.org.za/public/storage/individuals/" . $author->individual_id . "/" . $author->individual->image;
+        }
+        return $course;
     }
 }
