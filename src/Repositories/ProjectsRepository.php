@@ -28,7 +28,7 @@ class ProjectsRepository extends EloquentBaseRepository
         $todo=array();
         foreach ($project->actions as $action){
             if ($action->completed){
-                $action->ago=Carbon::parse($action->completed)->diffForHumans();
+                $action->ago=Carbon::parse(date("Y-m-d H:i",$action->completed))->diffForHumans();
                 $completed[]=$action;
             } else {
                 $todo[]=$action;
