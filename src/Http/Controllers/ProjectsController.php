@@ -72,7 +72,7 @@ class ProjectsController extends Controller {
 
     public function api_project($id)
     {
-        return $this->project->find($id);
+        return $this->project->findForApi($id);
     }
 
 
