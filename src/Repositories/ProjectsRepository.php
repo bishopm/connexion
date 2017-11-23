@@ -22,6 +22,6 @@ class ProjectsRepository extends EloquentBaseRepository
     }
 
     public function findForApi($id){
-        return $this->model->with('actions','individual')->where('id',$id)->first();
+        return $this->model->with('actions','actions.individual')->where('id',$id)->first();
     }
 }
