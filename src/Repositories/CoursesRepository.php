@@ -9,6 +9,6 @@ class CoursesRepository extends EloquentBaseRepository
     }
 
     public function allForApi(){
-        return $this->model->orderBy('title')->get();
+        return $this->model->OrderBy('title')->get();
     }
 }
