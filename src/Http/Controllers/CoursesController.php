@@ -99,7 +99,7 @@ class CoursesController extends Controller {
     }
 
     public function api_course($id){
-        $course = $this->model::with('comments')->where('id',$id)->first();
+        $course = Course::with('comments')->where('id',$id)->first();
         foreach ($course->comments as $comment){
             $author=$this->user->find($comment->commented_id);
             $comment->author = $author->individual->firstname . " " . $author->individual->surname;
