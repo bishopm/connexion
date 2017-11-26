@@ -5,12 +5,17 @@ namespace Bishopm\Connexion\Http\Controllers\Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Log;
 use Bishopm\Connexion\Models\User;
 
 class ApiAuthController extends Controller
 {
+
+    use SendsPasswordResetEmails;
+    
     public function login(Request $request)
     {
         // grab credentials from the request
