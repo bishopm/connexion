@@ -15,7 +15,7 @@ class ApiAuthController extends Controller
 {
 
     use SendsPasswordResetEmails;
-    
+
     public function login(Request $request)
     {
         // grab credentials from the request
@@ -52,10 +52,7 @@ class ApiAuthController extends Controller
             // to send the link, we will examine the response then see the message we
             // need to show to the user. Finally, we'll send out a proper response.
             $response = $this->broker()->sendResetLink($arr);
-
-            return $response == Password::RESET_LINK_SENT
-                    ? $this->sendResetLinkResponse($response)
-                    : $this->sendResetLinkFailedResponse($request, $response);
+            return "ok";
         } else {
             return "Sorry! This is not a valid username";
         }
