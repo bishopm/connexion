@@ -26,7 +26,7 @@ class ActionsRepository extends EloquentBaseRepository
   }
 
   public function projectindivs(){
-    return $this->model->with('individual')->groupBy('individual_id')->get();
+    return $this->model->with('individual')->select('individual_id')->distinct()->get();
 }
 
 }
