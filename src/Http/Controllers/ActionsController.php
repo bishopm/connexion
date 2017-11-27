@@ -158,6 +158,6 @@ class ActionsController extends Controller
     }
 
     public function api_newtask(Request $request){
-        return $this->action->create($request);        
+        return $this->action->create($request->all());        
     }
 }
