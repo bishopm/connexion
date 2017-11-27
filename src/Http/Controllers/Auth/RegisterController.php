@@ -122,8 +122,12 @@ class RegisterController extends Controller
             $admin->notify(new NewUserRegistration($message));
             UserVerification::generate($user);
             UserVerification::send($user, 'Welcome!');
-            return $this->registered($request, $user)
+            if ($request->has('api')){
+                return "ok";
+            } else {
+                return $this->registered($request, $user)
                             ?: redirect($this->redirectPath());
+            }
         }
     }
 
