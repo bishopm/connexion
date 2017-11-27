@@ -44,7 +44,7 @@ Route::middleware(['handlecors'])->group(function () {
 		Route::get('/api/messages/{user}/{receiver}', ['uses' => 'Bishopm\Connexion\Http\Controllers\MessagesController@api_messagethread','as' => 'api.messagethread']); 
 		Route::get('/api/messages/{user}', ['uses' => 'Bishopm\Connexion\Http\Controllers\MessagesController@api_usermessages','as' => 'api.usermessages']); 
 		Route::get('/api/project/{project}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ProjectsController@api_project','as' => 'api.project']);
-		Route::get('/api/projects/{indiv}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ProjectsController@api_projects','as' => 'api.projects']);
+		Route::get('/api/projects/{indiv?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ProjectsController@api_projects','as' => 'api.projects']);
 		Route::post('/api/sendmessage', ['uses' => 'Bishopm\Connexion\Http\Controllers\MessagesController@apisendmessage','as' => 'messageapi.send.comment']);
 		Route::get('/api/subject/{tagname}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@apitag','as' => 'api.tag']); 
 		Route::get('/api/users', ['uses' => 'Bishopm\Connexion\Http\Controllers\UsersController@api_users','as' => 'api.users']); 

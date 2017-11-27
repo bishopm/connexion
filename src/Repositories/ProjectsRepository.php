@@ -18,6 +18,10 @@ class ProjectsRepository extends EloquentBaseRepository
         return $this->model->where('user_id','=',$uid)->get();
     }
 
+    public function all(){
+        return $this->model->OrderBy('description')->get();
+    }
+
     public function allForApi($indiv){
         return $this->model->where('individual_id',$indiv)->OrderBy('description')->get();
     }
