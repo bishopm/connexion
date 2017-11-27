@@ -59,4 +59,8 @@ class FoldersController extends Controller {
         return redirect()->route('admin.folders.index')->withSuccess('Folder has been updated');
     }
 
+    public function api_folders(){
+        return $this->folders->all();
+    }
+
 }

@@ -32,6 +32,7 @@ Route::middleware(['handlecors'])->group(function () {
 		Route::post('/api/blog/{blog}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@apiaddcomment','as' => 'blogapi.add.comment']);
 		Route::get('/api/comments', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@api_comments','as' => 'api.comments']);	
 		Route::post('/api/course/{course}/addcomment', ['uses' => 'Bishopm\Connexion\Http\Controllers\CoursesController@apiaddcomment','as' => 'courseapi.add.comment']);
+		Route::get('/api/folders', ['uses' => 'Bishopm\Connexion\Http\Controllers\FoldersController@api_folders','as' => 'api.folders']);
 		Route::get('/api/groups', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@api_groups','as' => 'api.groups']);	
 		Route::get('/api/group/{group}', ['uses' => 'Bishopm\Connexion\Http\Controllers\GroupsController@api_group','as' => 'api.group']);			
 		Route::post('/api/households', ['uses' => 'Bishopm\Connexion\Http\Controllers\HouseholdsController@api_households','as' => 'api.households']);
