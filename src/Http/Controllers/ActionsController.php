@@ -151,4 +151,8 @@ class ActionsController extends Controller
             return "Task not found";
         }
     }
+
+    public function api_projectindivs(){
+        return $this->action->projectindivs();
+    }
 }

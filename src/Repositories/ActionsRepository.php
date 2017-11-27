@@ -25,4 +25,8 @@ class ActionsRepository extends EloquentBaseRepository
       return $this->model->where('individual_id',$id)->where('folder_id',$folder)->whereNull('completed')->get();
   }
 
+  public function projectindivs(){
+    return $this->model->with('individual')->groupBy('individual_id')->get();
+}
+
 }
