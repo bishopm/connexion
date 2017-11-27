@@ -22,6 +22,11 @@ class ProjectsRepository extends EloquentBaseRepository
         return $this->model->OrderBy('description')->get();
     }
 
+    public function projectindivs(){
+        return $this->model->with(['actions.individual' => function($query){
+            $query->groupBy('individuals.id');}])->get();
+    }
+
     public function allForApi($indiv){
         return $this->model->where('individual_id',$indiv)->OrderBy('description')->get();
     }
