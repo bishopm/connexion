@@ -60,7 +60,7 @@ class FoldersController extends Controller {
     }
 
     public function api_folders(){
-        return $this->folders->all();
+        return $this->folder->all();
     }
 
 }
