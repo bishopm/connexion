@@ -1,11 +1,16 @@
 <?php
 
 Route::middleware(['handlecors'])->group(function () {
+	
+	// Authentication
 	Route::post('/api/login',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ApiAuthController@login','as'=>'api.login']);
 	Route::post('/api/password/email',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ApiAuthController@sendResetLinkEmail','as'=>'api.sendResetLinkEmail']);
 	Route::get('/api/newuser/checkname/{username}',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@checkname','as'=>'api.checkname']);
 	Route::get('/api/getusername/{email}',['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@getusername','as'=>'api.getusername']);
 	Route::post('/api/checkmail',['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'api.checkmail']);
+	Route::post('/api/register',['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@register','as'=>'api.register']);
+
+	// Blogs
 	Route::get('/api/blogs', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@apiblogs','as' => 'api.blog']);
 	Route::get('/api/blog/{blog}', ['uses' => 'Bishopm\Connexion\Http\Controllers\BlogsController@apiblog','as' => 'api.currentblog']);
 
