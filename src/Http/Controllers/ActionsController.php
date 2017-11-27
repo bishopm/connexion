@@ -12,6 +12,7 @@ use Bishopm\Connexion\Http\Requests\CreateActionRequest;
 use Bishopm\Connexion\Http\Requests\UpdateActionRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Http\Request;
 
 class ActionsController extends Controller
 {
@@ -154,5 +155,9 @@ class ActionsController extends Controller
 
     public function api_projectindivs(){
         return $this->action->projectindivs();
+    }
+
+    public function api_newtask(Request $request){
+        return $this->action->create($request);        
     }
 }
