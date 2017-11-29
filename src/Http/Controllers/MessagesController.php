@@ -82,7 +82,7 @@ class MessagesController extends Controller {
                 $newmsg++;
             }
         }
-        $messages->newmsg=$newmsg;
+        $messages['newmsg']=$newmsg;
         return $messages;
     }
 
