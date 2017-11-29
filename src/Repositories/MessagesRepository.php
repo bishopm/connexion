@@ -2,6 +2,7 @@
 
 use Bishopm\Connexion\Repositories\EloquentBaseRepository;
 use Carbon\Carbon;
+use Bishopm\Connexion\Models\Message;
 
 class MessagesRepository extends EloquentBaseRepository
 {
@@ -21,7 +22,11 @@ class MessagesRepository extends EloquentBaseRepository
         foreach ($messages as $message) {
             $message->sender = $message->user->individual->firstname . " " . $message->user->individual->surname;
             $message->senderpic = url('/') . "/storage/individuals/" . $message->user->individual_id . "/" . $message->user->individual->image;
+            $message->viewed = 1;
             $message->ago = Carbon::parse($message->created_at)->diffForHumans();
+            $markasviewed = Message::find($message->id);
+            $markasviewed->viewed=1;
+            $markasviewed->save();
         }
         return $messages;
     }
