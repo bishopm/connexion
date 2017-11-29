@@ -70,7 +70,7 @@ class MessagesController extends Controller {
 
     public function sendmessage($sender,$receiver,$message){
         $this->messages->create(['user_id'=>$sender, 'receiver_id'=>$receiver, 'message'=>$message, 'viewed'=>0]);
-        $this->pusher->trigger('my_channel', 'my_event', $message);
+        $this->pusher->trigger('messages', 'new_message', $message);
     }
 
     public function api_usermessages($id){
@@ -92,7 +92,7 @@ class MessagesController extends Controller {
 
     public function apisendmessage(Request $request){
         $this->messages->create(['user_id'=>$request->user_id, 'receiver_id'=>$request->receiver_id, 'message'=>$request->message, 'viewed'=>0]);
-        $this->pusher->trigger('my_channel', 'my_event', $request->message);
+        $this->pusher->trigger('messages', 'new_message', $request->message);
     }
 
     protected function getrecipients($groups,$individuals,$grouprec,$msgtype)
