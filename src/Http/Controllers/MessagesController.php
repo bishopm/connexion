@@ -91,8 +91,8 @@ class MessagesController extends Controller {
     }
 
     public function apisendmessage(Request $request){
-        $this->messages->create(['user_id'=>$request->user_id, 'receiver_id'=>$request->receiver_id, 'message'=>$request->message, 'viewed'=>0]);
-        $this->pusher->trigger('messages', 'new_message', $request->message);
+        $message = $this->messages->create(['user_id'=>$request->user_id, 'receiver_id'=>$request->receiver_id, 'message'=>$request->message, 'viewed'=>0]);
+        $this->pusher->trigger('messages', 'new_message', $message);
     }
 
     protected function getrecipients($groups,$individuals,$grouprec,$msgtype)
