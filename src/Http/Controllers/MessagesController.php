@@ -36,7 +36,7 @@ class MessagesController extends Controller {
             $this->settingsarray['pusher_app_key'],
             $this->settingsarray['pusher_app_secret'],
             $this->settingsarray['pusher_app_id'],
-            array( 'cluster' => $this->settingsarray['pusher_cluster'], 'encrypted' => false ) 
+            array( 'cluster' => $this->settingsarray['pusher_cluster'], 'encrypted' => true ) 
         );
     }
 
