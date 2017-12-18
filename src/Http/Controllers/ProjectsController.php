@@ -10,29 +10,32 @@ use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateProjectRequest;
 use Bishopm\Connexion\Http\Requests\UpdateProjectRequest;
 
-class ProjectsController extends Controller {
+class ProjectsController extends Controller
+{
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
 
-	private $project, $individuals, $user;
+    private $project;
+    private $individuals;
+    private $user;
 
-	public function __construct(ProjectsRepository $project, IndividualsRepository $individuals)
+    public function __construct(ProjectsRepository $project, IndividualsRepository $individuals)
     {
         $this->project = $project;
         $this->individuals = $individuals;
     }
 
-	public function index()
-	{
+    public function index()
+    {
         $projects = $this->project->all();
-   		return view('connexion::projects.index',compact('projects'));
-	}
+        return view('connexion::projects.index', compact('projects'));
+    }
 
-	public function edit(Project $project)
+    public function edit(Project $project)
     {
         $data['project'] = $project;
         $data['individuals'] = $this->individuals->all();
@@ -42,32 +45,33 @@ class ProjectsController extends Controller {
     public function create()
     {
         $data['individuals'] = $this->individuals->all();
-        return view('connexion::projects.create',$data);
+        return view('connexion::projects.create', $data);
     }
 
-	public function show(Project $project)
-	{
+    public function show(Project $project)
+    {
         $data['project']=$project;
-        return view('connexion::projects.show',$data);
-	}
+        return view('connexion::projects.show', $data);
+    }
 
     public function store(CreateProjectRequest $request)
     {
-        $this->project->create($request->all());
-
+        $project=$this->project->create(['description' => $request->description,'reminders' => $request->reminders]);
+        $project->individuals()->sync($request->individual_id);
         return redirect()->route('admin.projects.index')
             ->withSuccess('New project added');
     }
-	
+    
     public function update(Project $project, UpdateProjectRequest $request)
     {
-        $this->project->update($project, $request->all());
+        $this->project->update($project, ['description' => $request->description,'reminders' => $request->reminders]);
+        $project->individuals()->sync($request->individual_id);
         return redirect()->route('admin.projects.index')->withSuccess('Project has been updated');
     }
 
-    public function api_projects($indiv="") 
+    public function api_projects($indiv="")
     {
-        if ($indiv){
+        if ($indiv) {
             return $this->project->allForApi($indiv);
         } else {
             return $this->project->all();
@@ -78,5 +82,4 @@ class ProjectsController extends Controller {
     {
         return $this->project->findForApi($id);
     }
-
 }

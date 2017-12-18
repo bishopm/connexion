@@ -17,11 +17,11 @@
                 <div class="box-body">
                     @include('connexion::projects.partials.edit-fields')
                     <div class="form-group">
-                        <label for="individual_id" class="control-label">Leader</label>
-                        <select name="individual_id" class="input-leader">
+                        <label for="individual_id" class="control-label">Team members</label>
+                        <select multiple name="individual_id[]" class="input-leader">
                           <option></option>
                           @foreach ($individuals as $indiv)
-                            @if ($indiv->id==$project->individual_id)
+                            @if ($project->individuals->contains($indiv->id))
                                 <option selected value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>
                             @else
                                 <option value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>

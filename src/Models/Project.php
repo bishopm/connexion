@@ -8,11 +8,13 @@ class Project extends Model
 {
     protected $guarded = array('id');
 
-    public function actions(){
+    public function actions()
+    {
         return $this->hasMany('Bishopm\Connexion\Models\Action');
     }
 
-	public function individual(){
-        return $this->belongsTo('Bishopm\Connexion\Models\Individual');
-    }   
+    public function individuals()
+    {
+        return $this->belongsToMany('Bishopm\Connexion\Models\Individual');
+    }
 }

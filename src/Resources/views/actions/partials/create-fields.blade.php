@@ -1,5 +1,4 @@
 {{ Form::bsText('description','Description','Description') }}
-{{ Form::bsHidden('user_id',Auth::user()->id) }}
 <div class='form-group '>
   <label for="folder_id">Status</label>
   <select id="folder_id" name="folder_id">
@@ -13,24 +12,11 @@
   <label for="individual_id">Assigned to</label>
   <select id="individual_id" name="individual_id">
     <option></option>
-    @foreach ($individuals as $indiv)
-      @if ($indiv->id == Auth::user()->individual_id)
+    @foreach ($project->individuals as $indiv)
+      @if ($project->individuals->contains($indiv->id))
         <option selected value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>
       @else
         <option value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>
-      @endif
-    @endforeach
-  </select>
-</div>
-<div class='form-group '>
-  <label for="project_id">Project</label>
-  <select id="project_id" name="project_id">
-    <option></option>
-    @foreach ($projects as $project)
-      @if ($project->id==$proj)
-        <option selected value="{{$project->id}}">{{$project->description}}</option>
-      @else
-        <option value="{{$project->id}}">{{$project->description}}</option>
       @endif
     @endforeach
   </select>
@@ -42,4 +28,6 @@
     <option value="{{$tag->name}}">{{$tag->name}}</option>
   @endforeach
   </select>
-</div> 
+</div>
+{{ Form::bsHidden('user_id',Auth::user()->id) }}
+{{ Form::bsHidden('project_id',$project->id) }}

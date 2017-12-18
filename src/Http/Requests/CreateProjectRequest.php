@@ -21,7 +21,7 @@ class CreateProjectRequest extends FormRequest
     public function messages()
     {
         return [
-            'description.required' => 'This field is really important'
+            'description.required' => 'Please include a project name'
         ];
     }
 }

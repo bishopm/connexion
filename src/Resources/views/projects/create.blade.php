@@ -17,8 +17,8 @@
                 <div class="box-body">
                     @include('connexion::projects.partials.create-fields')
                     <div class="form-group">
-                        <label for="individual_id" class="control-label">Leader</label>
-                        <select name="individual_id" class="input-leader">
+                        <label for="individual_id" class="control-label">Project members</label>
+                        <select multiple name="individual_id[]" class="input-leader">
                           @foreach ($individuals as $indiv)
                             @if ($indiv->id==Auth::user()->individual_id)
                                 <option selected value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>

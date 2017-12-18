@@ -21,13 +21,13 @@
                             <thead>
                                 <tr>
                                     <th>Description</th>
-                                    <th>Project leader</th>
+                                    <th>Team members</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Description</th>
-                                    <th>Project leader</th>
+                                    <th>Team members</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -35,8 +35,13 @@
                                     <tr>
                                         <td><a href="{{route('admin.projects.show',$project->id)}}">{{$project->description}}</a></td>
                                         <td><a href="{{route('admin.projects.show',$project->id)}}">
-                                            @if ($project->individual)
-                                                {{$project->individual->firstname}} {{$project->individual->surname}}
+                                            @if ($project->individuals)
+                                                @foreach ($project->individuals as $indiv)
+                                                    {{$indiv->firstname}} {{$indiv->surname}}
+                                                    @if (!$loop->last)
+                                                        ,
+                                                    @endif
+                                                @endforeach
                                             @else
                                                 No leader assigned
                                             @endif

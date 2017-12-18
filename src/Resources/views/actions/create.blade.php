@@ -5,12 +5,12 @@
 @stop
 
 @section('content_header')
-    {{ Form::pgHeader('Add task','Tasks',route('admin.actions.index')) }}
+    {{ Form::pgHeader($project->description . ': Add task','Tasks',route('admin.actions.index')) }}
 @stop
 
 @section('content')
     @include('connexion::shared.errors')
-    {!! Form::open(['route' => array('admin.actions.store'), 'method' => 'post']) !!}
+    {!! Form::open(['route' => array('admin.actions.store',$project->id), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
@@ -38,11 +38,6 @@
         $('#individual_id').selectize({
           plugins: ['remove_button'],
           openOnFocus: 0,
-          maxOptions: 30,
-        });
-        $('#project_id').selectize({
-          plugins: ['remove_button'],
-          openOnFocus: 1,
           maxOptions: 30,
         });
         $('.selectize').selectize({

@@ -5,7 +5,7 @@
 @stop
 
 @section('content_header')
-    {{ Form::pgHeader('Edit task','Tasks',route('admin.actions.index')) }}
+    {{ Form::pgHeader($project->description . ': Edit task','Tasks',route('admin.actions.index')) }}
 @stop
 
 @section('content')
@@ -38,11 +38,6 @@
         $('#individual_id').selectize({
           plugins: ['remove_button'],
           openOnFocus: 0,
-          maxOptions: 30,
-        });
-        $('#project_id').selectize({
-          plugins: ['remove_button'],
-          openOnFocus: 1,
           maxOptions: 30,
         });
         $('.selectize').selectize({

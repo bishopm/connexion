@@ -17,7 +17,7 @@
   <label for="individual_id">Assigned to</label>
   <select id="individual_id" name="individual_id">
     <option></option>
-    @foreach ($individuals as $indiv)
+    @foreach ($project->individuals as $indiv)
       @if ($indiv->id==$action->individual_id)
         <option selected value="{{$indiv->id}}">{{$indiv->firstname}} {{$indiv->surname}}</option>
       @else
@@ -26,19 +26,7 @@
     @endforeach
   </select>
 </div>
-<div class='form-group '>
-  <label for="project_id">Project</label>
-  <select id="project_id" name="project_id">
-    <option></option>
-    @foreach ($projects as $project)
-      @if ($project->id==$action->project_id)
-        <option selected value="{{$project->id}}">{{$project->description}}</option>
-      @else
-        <option value="{{$project->id}}">{{$project->description}}</option>
-      @endif
-    @endforeach
-  </select>
-</div>
+{{ Form::bsHidden('project_id',$action->project_id) }}
 <div class='form-group '>
   <label for="context">Context</label>
   <select name="context" class="selectize">

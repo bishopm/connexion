@@ -108,11 +108,11 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 
 	// Actions
 	Route::get('admin/actions',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@index','as'=>'admin.actions.index']);
-	Route::get('admin/actions/create/{project?}',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@create','as'=>'admin.actions.create']);
+	Route::get('admin/projects/{project}/actions/create',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@create','as'=>'admin.actions.create']);
 	Route::get('admin/actions/{action}',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@show','as'=>'admin.actions.show']);
 	Route::get('admin/actions/{action}/edit',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@edit','as'=>'admin.actions.edit']);
 	Route::put('admin/actions/{action}',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@update','as'=>'admin.actions.update']);
-	Route::post('admin/actions',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@store','as'=>'admin.actions.store']);
+	Route::post('admin/projects/{project}/actions',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@store','as'=>'admin.actions.store']);
     Route::delete('admin/actions/{action}',['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@destroy','as'=>'admin.actions.destroy']);
 	Route::get('admin/actions/addtag/{action}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@addtag','as' => 'admin.actions.addtag']);
     Route::get('admin/actions/removetag/{action}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@removetag','as' => 'admin.actions.removetag']);

@@ -2,7 +2,8 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use Auth, JWTAuth;
+use Auth;
+use JWTAuth;
 use Bishopm\Connexion\Models\Action;
 use Bishopm\Connexion\Repositories\ActionsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
@@ -19,7 +20,10 @@ class ActionsController extends Controller
     /**
      * @var ActionRepository
      */
-    private $action, $individuals, $projects, $folders;
+    private $action;
+    private $individuals;
+    private $projects;
+    private $folders;
 
     public function __construct(ActionsRepository $action, IndividualsRepository $individuals, ProjectsRepository $projects, FoldersRepository $folders)
     {
@@ -44,8 +48,8 @@ class ActionsController extends Controller
     {
         $user = JWTAuth::parseToken()->toUser();
         $tasks=$this->action->individualtasks($user->individual_id);
-        if (count($tasks)){
-            foreach ($tasks as $task){
+        if (count($tasks)) {
+            foreach ($tasks as $task) {
                 $task->project=$task->project->description;
                 $task->folder=$task->folder->folder;
                 $task->individual=$task->individual->firstname . " " . $task->individual->surname;
@@ -59,13 +63,12 @@ class ActionsController extends Controller
      *
      * @return Response
      */
-    public function create($proj=0)
+    public function create($id)
     {
-        $individuals=$this->individuals->dropdown();
+        $project=$this->projects->find($id);
         $folders=$this->folders->dropdown();
-        $projects=$this->projects->dropdown();
         $tags=Action::allTags()->get();
-        return view('connexion::actions.create',compact('individuals','projects','folders','tags','proj'));
+        return view('connexion::actions.create', compact('folders', 'tags', 'project'));
     }
 
     /**
@@ -74,11 +77,11 @@ class ActionsController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(CreateActionRequest $request)
+    public function store($project, CreateActionRequest $request)
     {
         $action=$this->action->create($request->except('context'));
         $action->tag($request->context);
-        return redirect()->route('admin.actions.index')
+        return redirect()->route('admin.projects.show', $project)
             ->withSuccess('Task has been created', ['name' => 'Tasks']);
     }
 
@@ -90,15 +93,14 @@ class ActionsController extends Controller
      */
     public function edit(Action $action)
     {
-        $individuals=$this->individuals->dropdown();
         $folders=$this->folders->dropdown();
-        $projects=$this->projects->dropdown();
+        $project=$this->projects->find($action->project_id);
         $tags=Action::allTags()->get();
         $atags=array();
-        foreach ($action->tags as $tag){
+        foreach ($action->tags as $tag) {
             $atags[]=$tag->name;
         }
-        return view('connexion::actions.edit', compact('action','individuals','projects','folders','tags','atags'));
+        return view('connexion::actions.edit', compact('action', 'project', 'folders', 'tags', 'atags'));
     }
 
     /**
@@ -111,8 +113,8 @@ class ActionsController extends Controller
     public function update(Action $action, UpdateActionRequest $request)
     {
         $this->action->update($action, $request->except('context'));
-
-        return redirect()->route('admin.actions.index')
+        $action->tag($request->context);
+        return redirect()->route('admin.projects.show', $action->project_id)
             ->withSuccess('Task has been updated', ['name' => 'Task']);
     }
 
@@ -142,9 +144,10 @@ class ActionsController extends Controller
         $task->untag($tag);
     }
 
-    public function togglecompleted($id){
+    public function togglecompleted($id)
+    {
         $task=Action::find($id);
-        if (count($task)){
+        if (count($task)) {
             $task->completed=time();
             $task->save();
             return "success!";
@@ -153,11 +156,13 @@ class ActionsController extends Controller
         }
     }
 
-    public function api_projectindivs(){
+    public function api_projectindivs()
+    {
         return $this->action->projectindivs();
     }
 
-    public function api_newtask(Request $request){
-        return $this->action->create($request->all());        
+    public function api_newtask(Request $request)
+    {
+        return $this->action->create($request->all());
     }
 }
