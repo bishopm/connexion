@@ -33,7 +33,11 @@ class ProjectsRepository extends EloquentBaseRepository
 
     public function allForApi($indiv)
     {
-        return $this->model->with('individuals')->where('individuals.id', $indiv)->OrderBy('description')->get();
+        return $this->model
+            ->join('individual_project', 'projects.id', '=', 'individual_project.project_id')
+            ->where('individual_project.individual_id', $indiv)
+            ->orderBy('projects.description')->select('projects.*')
+            ->get();
     }
 
     public function findForApi($id)
