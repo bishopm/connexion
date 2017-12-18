@@ -16,7 +16,7 @@ class CreateIndividualProjectTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('project_id');
-            $table->string('reminders');
+            $table->integer('individual_id');
             $table->softDeletes();
             $table->timestamps();
         });
