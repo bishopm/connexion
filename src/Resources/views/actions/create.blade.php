@@ -16,6 +16,7 @@
             <div class="box box-primary"> 
                 <div class="box-body">
                     @include('connexion::actions.partials.create-fields')
+                    {{ Form::bsHidden('project_id',$project->id) }}
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Create',route('admin.actions.index')) }}

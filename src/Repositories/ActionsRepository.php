@@ -20,7 +20,7 @@ class ActionsRepository extends EloquentBaseRepository
   public function individualtasks($id){
         return $this->model->where('individual_id',$id)->whereNull('completed')->get();
   }
-
+ 
   public function filteredactionsforuser($folder,$id){
       return $this->model->where('individual_id',$id)->where('folder_id',$folder)->whereNull('completed')->get();
   }

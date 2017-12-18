@@ -71,6 +71,15 @@ class ActionsController extends Controller
         return view('connexion::actions.create', compact('folders', 'tags', 'project'));
     }
 
+    public function generalcreate()
+    {
+        $projects=$this->projects->all();
+        $individuals=$this->individuals->all();
+        $folders=$this->folders->dropdown();
+        $tags=Action::allTags()->get();
+        return view('connexion::actions.gencreate', compact('folders', 'tags', 'projects','individuals'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -82,6 +91,14 @@ class ActionsController extends Controller
         $action=$this->action->create($request->except('context'));
         $action->tag($request->context);
         return redirect()->route('admin.projects.show', $project)
+            ->withSuccess('Task has been created', ['name' => 'Tasks']);
+    }
+
+    public function generalstore(CreateActionRequest $request)
+    {
+        $action=$this->action->create($request->except('context'));
+        $action->tag($request->context);
+        return redirect()->route('admin.projects.show', $action->project_id)
             ->withSuccess('Task has been created', ['name' => 'Tasks']);
     }
 

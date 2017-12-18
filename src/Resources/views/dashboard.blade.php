@@ -44,7 +44,7 @@
                     <h2 style="margin-top: -7px">To do 
                     @if (isset(Auth::user()->individual))
                       <small>{{Auth::user()->individual->firstname}}</small>
-                      <a href="{{route('admin.actions.create')}}" class="btn btn-default">Add task</a>
+                      <a href="{{route('admin.actions.general.create')}}" class="btn btn-default">Add task</a>
                     @endif
                     </h2>
                     <ul class="list-unstyled">

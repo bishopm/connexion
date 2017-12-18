@@ -30,4 +30,3 @@
   </select>
 </div>
 {{ Form::bsHidden('user_id',Auth::user()->id) }}
-{{ Form::bsHidden('project_id',$project->id) }}
