@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectIndividualTable extends Migration
+class CreateIndividualProjectTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateProjectIndividualTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_individual', function (Blueprint $table) {
+        Schema::create('individual_project', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('project_id');
@@ -29,6 +29,6 @@ class CreateProjectIndividualTable extends Migration
      */
     public function down()
     {
-        Schema::drop('project_individual');
+        Schema::drop('individual_project');
     }
 }
