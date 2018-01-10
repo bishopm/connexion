@@ -55,16 +55,18 @@ class StaffController extends Controller
         $leaveyear=array();
         $yrleave=array();
         $leavedates=array();
-        foreach ($staff->employee->leavedays as $leave) {
-            if (substr($leave->leavedate, 0, 4)==$thisyr) {
-                $leaveyear[$leave->leavetype][]=$leave->leavedate;
-                if (isset($leaveyear[$leave->leavetype]['total'])) {
-                    $leaveyear[$leave->leavetype]['total']=$leaveyear[$leave->leavetype]['total']+1;
-                } else {
-                    $leaveyear[$leave->leavetype]['total']=1;
+        if ($staff->employee) {
+            foreach ($staff->employee->leavedays as $leave) {
+                if (substr($leave->leavedate, 0, 4)==$thisyr) {
+                    $leaveyear[$leave->leavetype][]=$leave->leavedate;
+                    if (isset($leaveyear[$leave->leavetype]['total'])) {
+                        $leaveyear[$leave->leavetype]['total']=$leaveyear[$leave->leavetype]['total']+1;
+                    } else {
+                        $leaveyear[$leave->leavetype]['total']=1;
+                    }
+                    $leavedates[]=$leave->leavedate;
+                    $yrleave[]=$leave;
                 }
-                $leavedates[]=$leave->leavedate;
-                $yrleave[]=$leave;
             }
         }
         $leavedates=json_encode($leavedates);
