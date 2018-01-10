@@ -113,8 +113,8 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::get('admin/actions/{action}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@show','as'=>'admin.actions.show']);
     Route::get('admin/actions/{action}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@edit','as'=>'admin.actions.edit']);
     Route::put('admin/actions/{action}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@update','as'=>'admin.actions.update']);
-	Route::post('admin/projects/actions', ['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@generalstore','as'=>'admin.actions.general.store']);
-	Route::post('admin/projects/{project}/actions', ['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@store','as'=>'admin.actions.store']);
+    Route::post('admin/projects/actions', ['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@generalstore','as'=>'admin.actions.general.store']);
+    Route::post('admin/projects/{project}/actions', ['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@store','as'=>'admin.actions.store']);
     Route::delete('admin/actions/{action}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ActionsController@destroy','as'=>'admin.actions.destroy']);
     Route::get('admin/actions/addtag/{action}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@addtag','as' => 'admin.actions.addtag']);
     Route::get('admin/actions/removetag/{action}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@removetag','as' => 'admin.actions.removetag']);
@@ -376,6 +376,15 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     // Specialdays
     Route::get('admin/households/{household}/specialdays', ['uses' => 'Bishopm\Connexion\Http\Controllers\SpecialdaysController@index','as' => 'admin.specialdays.index']);
     Route::delete('admin/households/{household}/specialdays/{specialday}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SpecialdaysController@destroy','as' => 'admin.specialdays.destroy']);
+
+    // Staff
+    Route::get('admin/staff', ['uses'=>'Bishopm\Connexion\Http\Controllers\StaffController@index','as'=>'admin.staff.index']);
+    Route::get('admin/staff/create/{individual}', ['uses'=>'Bishopm\Connexion\Http\Controllers\StaffController@create','as'=>'admin.staff.create']);
+    Route::post('admin/staff', ['uses'=>'Bishopm\Connexion\Http\Controllers\StaffController@store','as'=>'admin.staff.store']);
+    Route::post('admin/staff/leave', ['uses'=>'Bishopm\Connexion\Http\Controllers\StaffController@addleave','as'=>'admin.staff.addleave']);
+    Route::get('admin/staff/{id}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\StaffController@edit','as'=>'admin.staff.edit']);
+    Route::put('admin/staff/{id}', ['uses'=>'Bishopm\Connexion\Http\Controllers\StaffController@update','as'=>'admin.staff.update']);
+    Route::get('admin/staff/{slug}/{year?}', ['uses'=>'Bishopm\Connexion\Http\Controllers\StaffController@show','as'=>'admin.staff.show']);
 
     // Statistics
     Route::get('admin/statistics', ['uses'=>'Bishopm\Connexion\Http\Controllers\StatisticsController@index','as'=>'admin.statistics.index']);

@@ -4,7 +4,8 @@ namespace Bishopm\Connexion\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
-use Form, Log;
+use Form;
+use Log;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -12,11 +13,11 @@ use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Setting;
 use Illuminate\Support\Facades\Gate;
-use Monolog\Handler\SlackWebhookHandler, Monolog\Logger;
+use Monolog\Handler\SlackWebhookHandler;
+use Monolog\Logger;
 
 class ConnexionServiceProvider extends ServiceProvider
 {
-
     private $settings;
 
     protected $commands = [
@@ -37,7 +38,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->settings=$settings;
         Schema::defaultStringLength(255);
         if (! $this->app->routesAreCached()) {
-            require __DIR__.'/../Http/api.routes.php';            
+            require __DIR__.'/../Http/api.routes.php';
             require __DIR__.'/../Http/web.routes.php';
         }
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'connexion');
@@ -50,24 +51,25 @@ class ConnexionServiceProvider extends ServiceProvider
         config(['auth.providers.users.model'=>'Bishopm\Connexion\Models\User']);
         config(['queue.default'=>'database']);
         $finset=array();
-        if (Schema::hasTable('settings')){
+        if (Schema::hasTable('settings')) {
             $this->initialiseSettings();
             $allmods=array('bookshop_module'=>['module'=>'module','description'=>'Manage a small bookshop','setting_value'=>'no'],
                 'core_module'=>['module'=>'module','description'=>'Church membership data - individuals, households and groups, together with email and sms facilities and reporting','setting_value'=>'yes'],
+                'hr_module'=>['module'=>'module','description'=>'Human resources module','setting_value'=>'no'],
                 'mcsa_module'=>['module'=>'module','description'=>'Circuit preachers module','setting_value'=>'no'],
                 'todo_module'=>['module'=>'module','description'=>'Task and project management module','setting_value'=>'yes'],
                 'website_module'=>['module'=>'module','description'=>'Backend module to create a website, including blog, slides, group resources, sermon audio','setting_value'=>'yes'],
                 'worship_module'=>['module'=>'module','description'=>'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage','setting_value'=>'yes']
             );
-            foreach ($allmods as $key=>$thismod){
-                $sett=Setting::where('setting_key',$key)->first();
-                if (!count($sett)){
+            foreach ($allmods as $key=>$thismod) {
+                $sett=Setting::where('setting_key', $key)->first();
+                if (!count($sett)) {
                     $ss=Setting::create(['setting_key'=>$key,'setting_value'=>$thismod['setting_value'],'description'=>$thismod['description'],'module'=>'module']);
-                } 
-            }    
+                }
+            }
             $finset=$settings->makearray();
             view()->share('setting', $finset);
-            if ($settings->getkey('mail_host')<>"Invalid"){
+            if ($settings->getkey('mail_host')<>"Invalid") {
                 config(['mail.host'=>$settings->getkey('mail_host')]);
                 config(['mail.port'=>$settings->getkey('mail_port')]);
                 config(['mail.username'=>$settings->getkey('mail_username')]);
@@ -80,7 +82,7 @@ class ConnexionServiceProvider extends ServiceProvider
             config(['broadcasting.pusher.app_id'=>$settings->getkey('pusher_app_id')]);
             config(['broadcasting.pusher.options.cluster'=>$settings->getkey('pusher_cluster')]);
             config(['broadcasting.pusher.options.encrypted'=>'true']);
-            if (($settings->getkey('site_name'))<>"Invalid"){
+            if (($settings->getkey('site_name'))<>"Invalid") {
                 config(['app.name'=>$settings->getkey('site_name')]);
             }
             config(['mail.from.address'=>$settings->getkey('church_email')]);
@@ -90,8 +92,8 @@ class ConnexionServiceProvider extends ServiceProvider
             config(['app.name'=>$settings->getkey('site_name')]);
             $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
                 $event->menu->menu=array();
-                $modules=Setting::where('module','=','module')->get()->toArray();
-                foreach ($modules as $module){
+                $modules=Setting::where('module', '=', 'module')->get()->toArray();
+                foreach ($modules as $module) {
                     $mods[$module['setting_key']]=$module['setting_value'];
                 }
                 $event->menu->add('CHURCH ADMIN');
@@ -145,7 +147,7 @@ class ConnexionServiceProvider extends ServiceProvider
                         ]
                     ]
                 ]);
-                if ($mods['mcsa_module']=="yes"){
+                if ($mods['mcsa_module']=="yes") {
                     $event->menu->add([
                         'text' => 'Circuit',
                         'icon' => 'comments',
@@ -184,7 +186,7 @@ class ConnexionServiceProvider extends ServiceProvider
                         ]
                     ]);
                 }
-                if ($mods['todo_module']=="yes"){
+                if ($mods['todo_module']=="yes") {
                     $event->menu->add([
                         'text' => 'Todo',
                         'icon' => 'list-ol',
@@ -211,7 +213,22 @@ class ConnexionServiceProvider extends ServiceProvider
                         ]
                     ]);
                 }
-                if ($mods['worship_module']=="yes"){
+                if ($mods['hr_module']=="yes") {
+                    $event->menu->add([
+                        'text' => 'Human resources',
+                        'icon' => 'female',
+                        'can' => 'edit-backend',
+                        'submenu' => [
+                            [
+                                'text' => 'Staff',
+                                'url'  => 'admin/staff',
+                                'icon' => 'user',
+                                'can' =>  'edit-backend'
+                            ]
+                        ]
+                    ]);
+                }
+                if ($mods['worship_module']=="yes") {
                     $event->menu->add([
                         'text' => 'Worship',
                         'icon' => 'music',
@@ -219,14 +236,15 @@ class ConnexionServiceProvider extends ServiceProvider
                         'url' => 'admin/worship'
                     ]);
                 }
-                if ($mods['website_module']=="yes"){
+                if ($mods['website_module']=="yes") {
                     $event->menu->add('WEBSITE');
-                    $event->menu->add([
+                    $event->menu->add(
+                        [
                         'text' => 'Blog',
                         'url' => 'admin/blogs',
                         'icon' => 'pencil-square-o',
                         'can' =>  'edit-backend'
-                    ],         
+                    ],
                     [
                         'text' => 'Sermons',
                         'url' => 'admin/series',
@@ -243,7 +261,7 @@ class ConnexionServiceProvider extends ServiceProvider
                                 'url' => 'admin/courses',
                                 'icon' => 'graduation-cap',
                                 'can' =>  'edit-backend'
-                            ],              
+                            ],
                             [
                                 'text' => 'Lectionary',
                                 'url' => 'admin/readings',
@@ -262,7 +280,7 @@ class ConnexionServiceProvider extends ServiceProvider
                                 'url'  => 'admin/menus',
                                 'icon' => 'bars',
                                 'can' =>  'admin-backend'
-                            ],            
+                            ],
                             [
                                 'text' => 'Pages',
                                 'url' => 'admin/pages',
@@ -287,12 +305,13 @@ class ConnexionServiceProvider extends ServiceProvider
                     ]
                 );
                 }
-                if ($mods['bookshop_module']=="yes"){
+                if ($mods['bookshop_module']=="yes") {
                     $event->menu->add([
                         'header' => 'BOOKSHOP',
                         'can' => 'edit-bookshop'
                     ]);
-                    $event->menu->add([
+                    $event->menu->add(
+                        [
                         'text' => 'Books',
                         'url' => 'admin/books',
                         'icon' => 'book',
@@ -309,7 +328,8 @@ class ConnexionServiceProvider extends ServiceProvider
                         'url' => 'admin/transactions',
                         'icon' => 'shopping-cart',
                         'can' =>  'edit-bookshop'
-                    ]);
+                    ]
+                    );
                 }
                 $event->menu->add([
                     'header' => 'ADMINISTRATION',
@@ -405,7 +425,7 @@ class ConnexionServiceProvider extends ServiceProvider
             // Send errors to slack channel
             $monolog = Log::getMonolog();
             if (!\App::environment('local')) {
-                $slackHandler = new SlackWebhookHandler($settings->getkey('slack_webhook'), $settings->getkey('admin_slack_username'), 'App Alerts', false, 'warning', true, true, Logger::ERROR);            
+                $slackHandler = new SlackWebhookHandler($settings->getkey('slack_webhook'), $settings->getkey('admin_slack_username'), 'App Alerts', false, 'warning', true, true, Logger::ERROR);
                 $monolog->pushHandler($slackHandler);
             }
         }
@@ -444,11 +464,11 @@ class ConnexionServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
         AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
         AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
-        AliasLoader::getInstance()->alias("Form",'Collective\Html\FormFacade');
-        AliasLoader::getInstance()->alias("HTML",'Collective\Html\HtmlFacade');
-        AliasLoader::getInstance()->alias("MediaUploader",'Plank\Mediable\MediaUploaderFacade');
-        AliasLoader::getInstance()->alias("Feed",'Roumen\Feed\Feed');
-        AliasLoader::getInstance()->alias("Analytics",'Spatie\Analytics\AnalyticsFacade');
+        AliasLoader::getInstance()->alias("Form", 'Collective\Html\FormFacade');
+        AliasLoader::getInstance()->alias("HTML", 'Collective\Html\HtmlFacade');
+        AliasLoader::getInstance()->alias("MediaUploader", 'Plank\Mediable\MediaUploaderFacade');
+        AliasLoader::getInstance()->alias("Feed", 'Roumen\Feed\Feed');
+        AliasLoader::getInstance()->alias("Analytics", 'Spatie\Analytics\AnalyticsFacade');
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
         $this->app['router']->aliasMiddleware('handlecors', 'Barryvdh\Cors\HandleCors');
         $this->app['router']->aliasMiddleware('jwt.auth', 'Tymon\JWTAuth\Middleware\GetUserFromToken');
@@ -553,8 +573,8 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'youtube_page','module'=>'website','description'=>'Church Youtube page','setting_value'=>'Youtube page']
         );
         $existing=array_flatten(Setting::select('setting_key')->get()->toArray());
-        foreach ($settings as $ss){
-            if (!in_array($ss['setting_key'],$existing)){
+        foreach ($settings as $ss) {
+            if (!in_array($ss['setting_key'], $existing)) {
                 $this->settings->create($ss);
             }
         }
@@ -589,7 +609,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 $repository = new \Bishopm\Connexion\Repositories\CircuitsRepository('circuits');
                 return $repository;
             }
-        );        
+        );
         $this->app->bind(
             'Bishopm\Connexion\Repositories\CommentsRepository',
             function () {
@@ -601,6 +621,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\CoursesRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\CoursesRepository(new \Bishopm\Connexion\Models\Course());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\EmployeesRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\EmployeesRepository(new \Bishopm\Connexion\Models\Employee());
                 return $repository;
             }
         );
@@ -701,7 +728,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 $repository = new \Bishopm\Connexion\Repositories\PreachersRepository('preachers');
                 return $repository;
             }
-        );        
+        );
         $this->app->bind(
             'Bishopm\Connexion\Repositories\ProjectsRepository',
             function () {
@@ -764,7 +791,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 $repository = new \Bishopm\Connexion\Repositories\SocietiesRepository('societies');
                 return $repository;
             }
-        );        
+        );
         $this->app->bind(
             'Bishopm\Connexion\Repositories\SpecialdaysRepository',
             function () {

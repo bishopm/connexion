@@ -7,7 +7,7 @@
 {{ Form::bsText('birthdate','Date of birth','Date of birth') }}
 {{ Form::bsSelect('sex','Sex',array('male','female')) }}
 {{ Form::bsSelect('title','Title',array('Mr','Mrs','Ms','Dr','Rev')) }}
-{{ Form::bsSelect('memberstatus','Membership status',array('Member','Non-member','Child')) }}
+{{ Form::bsSelect('memberstatus','Membership status',array('Member','Non-member','Child','Staff')) }}
 @if ((isset($media)) and ($media=="webpage"))
 	{{ Form::bsHidden('household_id',$household->id) }}
 @else

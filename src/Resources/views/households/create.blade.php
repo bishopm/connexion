@@ -31,8 +31,13 @@
                 $setting['home_longitude']=0;?>
                 Administrator, please set the <a href="{{url('/')}}/admin/settings">Home latitude and longitude settings</a><br><br>
             @endif
-            {{ Form::bsText('latitude','Latitude','Latitude',$setting['home_latitude']) }}
-            {{ Form::bsText('longitude','Longitude','Longitude',$setting['home_longitude']) }}
+            @if (($setting['home_latitude'] <> 'Church latitude') and ($setting['home_longitude'] <> 'Church longitude'))
+                {{ Form::bsText('latitude','Latitude','Latitude',$setting['home_latitude']) }}             
+                {{ Form::bsText('longitude','Longitude','Longitude',$setting['home_longitude']) }}
+            @else
+                {{ Form::bsText('latitude','Latitude','Latitude') }}
+                {{ Form::bsText('longitude','Longitude','Longitude') }}
+            @endif
             {{ Form::bsText('sortsurname','Sort by (Household Surname)','Sort by (Household Surname)') }}
         </div>
     </div>

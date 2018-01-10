@@ -12,7 +12,7 @@
 {{ Form::bsText('birthdate','Date of birth','Date of birth',$individual->birthdate) }}
 {{ Form::bsSelect('sex','Sex',array('male','female'),$individual->sex) }}
 {{ Form::bsSelect('title','Title',array('Mr','Mrs','Ms','Dr','Rev'),$individual->title) }}
-{{ Form::bsSelect('memberstatus','Membership status',array('Member','Non-member','Child'),$individual->memberstatus) }}
+{{ Form::bsSelect('memberstatus','Membership status',array('Member','Non-member','Child','Staff'),$individual->memberstatus) }}
 {{ Form::bsHidden('image',$individual->image) }}
 <div id="thumbdiv" style="margin-bottom:5px;"></div>
 <div id="filediv"></div>
