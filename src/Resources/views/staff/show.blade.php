@@ -18,7 +18,7 @@
           <div class="panel-heading">
             <div class="row">
               <div class="col-md-12">
-                <h4><a href="{{route('admin.individuals.edit',array($staff->household_id,$staff->id))}}">{{$staff->firstname}} {{$staff->surname}}</a></h4>
+                <h4><a href="{{route('admin.individuals.edit',array($staff->household_id,$staff->id))}}">{{$staff->firstname}} {{$staff->surname}} <small>Click to edit contact details</small></a></h4>
               </div>
             </div>
           </div>
@@ -35,74 +35,76 @@
                 <a href="{{route('admin.staff.create',$staff->id)}}">Add employee data</a>
               @endif
             </table>
-            <h3 class="text-center">Leave taken during {{$thisyr}} <a title="Record leave dates" href="#" class="btn btn-primary" data-toggle="modal" data-target="#leaveModal">+</a></h3>
-            <div class="row">
-              <div class="col-xs-2 text-bold text-center">Annual</div>
-              <div class="col-xs-2 text-bold text-center">Family</div>
-              <div class="col-xs-2 text-bold text-center">Sabbatical</div>
-              <div class="col-xs-2 text-bold text-center">Sick</div>
-              <div class="col-xs-2 text-bold text-center">Study</div>
-              <div class="col-xs-2 text-bold text-center">Unpaid</div>
-              <div class="col-xs-2 text-center">
-                @if (isset($leaveyear['annual']))
-                  {{$leaveyear['annual']['total']}}
-                @else
-                  -
-                @endif
+            @if ($staff->employee)
+              <h3 class="text-center">Leave taken during {{$thisyr}} <a title="Record leave dates" href="#" class="btn btn-primary" data-toggle="modal" data-target="#leaveModal">+</a></h3>
+              <div class="row">
+                <div class="col-xs-2 text-bold text-center">Annual</div>
+                <div class="col-xs-2 text-bold text-center">Family</div>
+                <div class="col-xs-2 text-bold text-center">Sabbatical</div>
+                <div class="col-xs-2 text-bold text-center">Sick</div>
+                <div class="col-xs-2 text-bold text-center">Study</div>
+                <div class="col-xs-2 text-bold text-center">Unpaid</div>
+                <div class="col-xs-2 text-center">
+                  @if (isset($leaveyear['annual']))
+                    {{$leaveyear['annual']['total']}}
+                  @else
+                    -
+                  @endif
+                </div>
+                <div class="col-xs-2 text-center">
+                  @if (isset($leaveyear['family']))
+                    {{$leaveyear['family']['total']}}
+                  @else
+                    -
+                  @endif
+                </div>
+                <div class="col-xs-2 text-center">
+                  @if (isset($leaveyear['sabbatical']))
+                    {{$leaveyear['sabbatical']['total']}}
+                  @else
+                    -
+                  @endif
+                </div>
+                <div class="col-xs-2 text-center">  
+                  @if (isset($leaveyear['sick']))
+                    {{$leaveyear['sick']['total']}}
+                  @else
+                    -
+                  @endif
+                </div>
+                <div class="col-xs-2 text-center">
+                  @if (isset($leaveyear['study']))
+                    {{$leaveyear['study']['total']}}
+                  @else
+                    -
+                  @endif
+                </div>
+                <div class="col-xs-2 text-center">
+                  @if (isset($leaveyear['unpaid']))
+                    {{$leaveyear['unpaid']['total']}}
+                  @else
+                    -
+                  @endif
+                </div>
               </div>
-              <div class="col-xs-2 text-center">
-                @if (isset($leaveyear['family']))
-                  {{$leaveyear['family']['total']}}
-                @else
-                  -
-                @endif
-              </div>
-              <div class="col-xs-2 text-center">
-                @if (isset($leaveyear['sabbatical']))
-                  {{$leaveyear['sabbatical']['total']}}
-                @else
-                  -
-                @endif
-              </div>
-              <div class="col-xs-2 text-center">  
-                @if (isset($leaveyear['sick']))
-                  {{$leaveyear['sick']['total']}}
-                @else
-                  -
-                @endif
-              </div>
-              <div class="col-xs-2 text-center">
-                @if (isset($leaveyear['study']))
-                  {{$leaveyear['study']['total']}}
-                @else
-                  -
-                @endif
-              </div>
-              <div class="col-xs-2 text-center">
-                @if (isset($leaveyear['unpaid']))
-                  {{$leaveyear['unpaid']['total']}}
-                @else
-                  -
-                @endif
-              </div>
-            </div>
-            <div><hr></div>
-            <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th>Date</th><th>Type</th><th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($yrleave as $ld)
+              <div><hr></div>
+              <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
+                <thead>
                   <tr>
-                    <td>{{$ld->leavedate}}</td>
-                    <td>{{$ld->leavetype}}</td>
-                    <td><a href="#" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></td>
+                    <th>Date</th><th>Type</th><th>Action</th>
                   </tr>
-                @endforeach
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  @foreach ($yrleave as $ld)
+                    <tr>
+                      <td>{{$ld->leavedate}}</td>
+                      <td>{{$ld->leavetype}}</td>
+                      <td><a href="#" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            @endif
           </div>
         </div>
       </div>
