@@ -188,7 +188,7 @@
 
 @section('adminlte_js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js"></script>
-    <script src="{{ asset('/vendor/adminlte/dist/js/app.min.js') }}"></script>
+    <script src="{{ asset('/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script type="text/javascript">
     $( document ).ready(function() {
         $('#songsearch').selectize({
