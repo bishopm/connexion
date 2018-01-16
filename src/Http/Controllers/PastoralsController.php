@@ -15,7 +15,9 @@ class PastoralsController extends Controller
     /**
      * @var PastoralRepository
      */
-    private $pastoral, $household, $individual;
+    private $pastoral;
+    private $household;
+    private $individual;
 
     public function __construct(PastoralsRepository $pastoral, HouseholdsRepository $household, IndividualsRepository $individual)
     {
@@ -30,7 +32,7 @@ class PastoralsController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request,Household $household)
+    public function store(Request $request, Household $household)
     {
         $pastoral = new Pastoral;
         $pastoral->pastoraldate=$request->pastoraldate;
@@ -43,22 +45,22 @@ class PastoralsController extends Controller
 
     public function index(Household $household)
     {
-      if (count($household->pastorals)){
-          foreach ($household->pastorals as $row){
-            $row->pastorname=$this->individual->find($row->individual_id)->firstname;
-            $data['rows'][]=$row;
-          }
-          $data['rowCount']=count($data['rows']);
-          if ($data['rowCount'] > 5) {
-            $data['rowCount']=5;
-          }
-          $data['current']=1;
-          $data['total']=count($data['rows']);
-      } else {
-          $data=array();
-          $data['rowCount']=0;
-      }
-      return $data;
+        if (count($household->pastorals)) {
+            foreach ($household->pastorals as $row) {
+                $row->pastorname=$this->individual->find($row->individual_id)->firstname;
+                $data['rows'][]=$row;
+            }
+            $data['rowCount']=count($data['rows']);
+            if ($data['rowCount'] > 5) {
+                $data['rowCount']=5;
+            }
+            $data['current']=1;
+            $data['total']=count($data['rows']);
+        } else {
+            $data=array();
+            $data['rowCount']=0;
+        }
+        return $data;
     }
 
     /**
@@ -81,12 +83,12 @@ class PastoralsController extends Controller
      */
     public function update(Request $request)
     {
-      $pastoral=$this->pastoral->find($request->id);
-      $pastoral->individual_id=$request->individual_id;
-      $pastoral->details=$request->details;
-      $pastoral->pastoraldate=$request->pastoraldate;
-      $pastoral->actiontype=$request->actiontype;
-      $pastoral->save();
+        $pastoral=$this->pastoral->find($request->id);
+        $pastoral->individual_id=$request->individual_id;
+        $pastoral->details=$request->details;
+        $pastoral->pastoraldate=$request->pastoraldate;
+        $pastoral->actiontype=$request->actiontype;
+        $pastoral->save();
     }
 
     /**

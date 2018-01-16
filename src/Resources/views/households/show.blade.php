@@ -329,6 +329,7 @@
             cache: false
           },
           labels: {
+            loading: "No pastoral contact has been recorded yet",
             noResults: "No pastoral contact has been recorded"
           },
           ajax: true,
@@ -355,6 +356,7 @@
             cache: false
           },
           labels: {
+            loading: "No anniversaries have been entered yet",
             noResults: "No anniversaries have been entered"
           },
           ajax: true,

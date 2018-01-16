@@ -49,7 +49,7 @@
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">{{ trans('adminlte::adminlte.toggle_navigation') }}</span>
                 </a>
             @endif
@@ -102,11 +102,11 @@
 
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar" id="sidebar">
-                <ul class="sidebar-menu">
-                    <li class="visible-xs"><a href="{{url('/')}}/admin/worship"><i class='fa fa-home'></i> Home </a></li>
-                    <li class="visible-xs"><a href="{{url('/')}}/admin/worship/chords"><i class='fa fa-music'></i> Guitar Chords </a></li>
-                    <li class="visible-xs"><a href="{{url('/')}}/admin/worship/songs/create"><i class='fa fa-plus-square'></i> Add a new song </a></li>
-                    <li class="visible-xs"><a href="{{url('/')}}/admin/worship/sets"><i class='fa fa-list-ol'></i> Worship sets </a></li>
+                <ul class="sidebar-menu data-widget="tree">
+                    <li class="visible-xs" style="margin-left:15px;"><a href="{{url('/')}}/admin/worship"><i class='fa fa-home'></i> Home </a></li>
+                    <li class="visible-xs" style="margin-left:15px;"><a href="{{url('/')}}/admin/worship/chords"><i class='fa fa-music'></i> Guitar Chords </a></li>
+                    <li class="visible-xs" style="margin-left:15px;"><a href="{{url('/')}}/admin/worship/songs/create"><i class='fa fa-plus-square'></i> Add a new song </a></li>
+                    <li class="visible-xs" style="margin-left:15px;"><a href="{{url('/')}}/admin/worship/sets"><i class='fa fa-list-ol'></i> Worship sets </a></li>
                     <form action="{{url('/')}}/admin/worship/search" id="searchform" method="get" v-on:submit.prevent="onSubmit" class="sidebar-form" role="form">
                     <div class="row">
                         <div class="col-xs-12">
