@@ -47,7 +47,7 @@ class RegisterController extends Controller
      * @return void
      */
 
-    private $setting;   
+    private $setting;
 
     public function __construct(SettingsRepository $setting)
     {
@@ -67,7 +67,7 @@ class RegisterController extends Controller
             'name' => 'required|unique:users',
             'email' => 'required|email',
             'individual_id' => 'required|integer',
-            'password' => 'required|min:6|confirmed'
+            'password' => 'required|min:4|confirmed'
         ]);
     }
 
@@ -94,8 +94,8 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $individuals=array();
-        $services=explode(',',$this->setting->getkey('worship_services'));
-        return view('connexion::auth.register',compact('individuals','services'));
+        $services=explode(',', $this->setting->getkey('worship_services'));
+        return view('connexion::auth.register', compact('individuals', 'services'));
     }
 
     /**
@@ -108,12 +108,12 @@ class RegisterController extends Controller
     {
         $siteabbr=$this->setting->getkey('site_abbreviation');
         $this->validator($request->all())->validate();
-        if ($request->individual_id==0){
+        if ($request->individual_id==0) {
             return back()->withErrors(array('This individual is already a registered user. Go back to the login page, where help is available if you have forgotten your username or password'));
         } else {
             $user = $this->create($request->all());
             event(new Registered($user));
-            $webrole=Role::where('slug','web-user')->first()->id;
+            $webrole=Role::where('slug', 'web-user')->first()->id;
             $user->roles()->attach($webrole);
             $this->guard()->login($user);
             $indiv=Individual::find($request->input('individual_id'));
@@ -122,7 +122,7 @@ class RegisterController extends Controller
             $admin->notify(new NewUserRegistration($message));
             UserVerification::generate($user);
             UserVerification::send($user, 'Welcome!');
-            if ($request->has('api')){
+            if ($request->has('api')) {
                 return "ok";
             } else {
                 return $this->registered($request, $user)
@@ -130,5 +130,4 @@ class RegisterController extends Controller
             }
         }
     }
-
 }
