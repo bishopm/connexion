@@ -55,10 +55,10 @@ class MessagesController extends Controller {
     {
         $recipients=$this->getrecipients($request->groups,$request->individuals,$request->grouprec,$request->msgtype);
         if ($request->msgtype=="email"){
-            //$results=$this->sendemail($request,$recipients);
+            $results=$this->sendemail($request,$recipients);
             return view('connexion::messages.emailresults',compact('results'));
         } elseif ($request->msgtype=="sms"){
-            //$results=$this->sendsms($request->smsmessage,$recipients);
+            $results=$this->sendsms($request->smsmessage,$recipients);
             return view('connexion::messages.smsresults',compact('results'));
         } elseif ($request->msgtype=="app"){
             $sender=Auth::user()->id;
