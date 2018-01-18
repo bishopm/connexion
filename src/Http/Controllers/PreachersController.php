@@ -63,7 +63,7 @@ class PreachersController extends Controller {
 
     public function store(CreatePreacherRequest $request)
     {
-        $this->preacher->create($request->except('image'));
+        $this->preacher->create($request->except('image','token'));
 
         return redirect()->route('admin.preachers.index')
             ->withSuccess('New preacher added');
@@ -71,7 +71,7 @@ class PreachersController extends Controller {
 	
     public function update($id, UpdatePreacherRequest $request)
     {
-        $this->preacher->update($id, $request->except('image'));
+        $this->preacher->update($id, $request->except('image','token'));
         return redirect()->route('admin.preachers.index')->withSuccess('Preacher has been updated');
     }
 
