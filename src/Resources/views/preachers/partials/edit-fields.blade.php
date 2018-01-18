@@ -18,3 +18,4 @@
     </select>
 </div>
 {{ Form::bsFile('image') }}
+{{ Form::bsHidden('circuit_id',$circuit) }}
