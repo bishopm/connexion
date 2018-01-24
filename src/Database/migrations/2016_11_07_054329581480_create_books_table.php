@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+
 class CreateBooksTable extends Migration
 {
     /**
@@ -18,7 +19,7 @@ class CreateBooksTable extends Migration
             $table->string('author');
             $table->string('image')->nullable();
             $table->string('sample')->nullable();
-            $table->integer('stock');
+            $table->integer('stock')->default(0);
             $table->decimal('saleprice');
             $table->decimal('costprice');
             $table->text('description');

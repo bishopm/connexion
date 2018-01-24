@@ -37,7 +37,13 @@
                             <tbody>
                                 @forelse ($users as $user)
                                     <tr>
-                                        <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->individual->firstname}} {{$user->individual->surname}}</a></td>
+                                        <td><a href="{{route('admin.users.edit',$user->id)}}">
+                                            @if($user->individual_id)
+                                                {{$user->individual->firstname}} {{$user->individual->surname}}
+                                            @else
+                                                {{$user->name}}
+                                            @endif
+                                        </a></td>
                                         <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->email}}</a></td>
                                         <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->roles()->first()->name}}</a></td>
                                         <td>@if ($user->verified)

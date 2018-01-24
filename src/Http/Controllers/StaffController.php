@@ -36,6 +36,7 @@ class StaffController extends Controller
     {
         $individuals = $this->individual->staff();
         $memberindivs = Individual::withTag('staff')->get();
+        $staffs = array();
         foreach ($individuals as $indiv) {
             $staffs[$indiv->surname . $indiv->firstname]=$indiv;
         }
