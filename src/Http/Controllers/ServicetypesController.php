@@ -60,12 +60,12 @@ class ServicetypesController extends Controller
         $this->servicetype->create($request->except('image', 'token'));
 
         return redirect()->route('admin.servicetypes.index')
-            ->withSuccess('New servicetype added');
+            ->withSuccess('New service type added');
     }
     
     public function update($id, UpdateServicetypeRequest $request)
     {
         $this->servicetype->update($id, $request->except('image', 'token'));
-        return redirect()->route('admin.servicetypes.index')->withSuccess('Servicetype has been updated');
+        return redirect()->route('admin.servicetypes.index')->withSuccess('Service type has been updated');
     }
 }

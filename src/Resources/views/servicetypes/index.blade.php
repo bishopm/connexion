@@ -27,11 +27,13 @@
                             <thead>
                                 <tr>
                                     <th>Service type</th>
+                                    <th>Description</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Service type</th>
+                                    <th>Description</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -39,6 +41,7 @@
                                     @forelse ($servicetypes as $servicetype)
                                         <tr>
                                             <td><a href="{{route('admin.servicetypes.edit',$servicetype->id)}}">{{$servicetype->tag}}</a></td>
+                                            <td><a href="{{route('admin.servicetypes.edit',$servicetype->id)}}">{{$servicetype->description}}</a></td>
                                         </tr>
                                     @empty
                                         <tr><td>No service types have been added yet</td></tr>
