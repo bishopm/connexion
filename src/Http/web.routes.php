@@ -439,6 +439,15 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::post('admin/preachers', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@store','as'=>'admin.preachers.store']);
     Route::delete('admin/preachers/{preacher}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@destroy','as'=>'admin.preachers.destroy']);
 
+    // Service types
+    Route::get('admin/servicetypes', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@index','as'=>'admin.servicetypes.index']);
+    Route::get('admin/servicetypes/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@create','as'=>'admin.servicetypes.create']);
+    Route::get('admin/servicetypes/{servicetype}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@show','as'=>'admin.servicetypes.show']);
+    Route::get('admin/servicetypes/{servicetype}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@edit','as'=>'admin.servicetypes.edit']);
+    Route::put('admin/servicetypes/{servicetype}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@update','as'=>'admin.servicetypes.update']);
+    Route::post('admin/servicetypes', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@store','as'=>'admin.servicetypes.store']);
+    Route::delete('admin/servicetypes/{servicetype}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@destroy','as'=>'admin.servicetypes.destroy']);
+
     // Societies
     Route::get('admin/societies', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@index','as'=>'admin.societies.index']);
     Route::get('admin/societies/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@create','as'=>'admin.societies.create']);

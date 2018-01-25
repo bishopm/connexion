@@ -178,7 +178,13 @@ class ConnexionServiceProvider extends ServiceProvider
                                 'can' =>  'edit-backend'
                             ],
                             [
-                                'text' => 'Special services',
+                                'text' => 'Service types',
+                                'url'  => 'admin/servicetypes',
+                                'icon' => 'tag',
+                                'can' =>  'edit-backend'
+                            ],
+                            [
+                                'text' => 'Weekday services',
                                 'url'  => 'admin/weekdays',
                                 'icon' => 'tree',
                                 'can' =>  'edit-backend'
@@ -761,6 +767,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\ServicesRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\ServicesRepository('services');
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\ServicetypesRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\ServicetypesRepository('tags');
                 return $repository;
             }
         );
