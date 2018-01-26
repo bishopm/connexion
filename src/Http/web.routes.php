@@ -432,6 +432,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 
     // Preachers
     Route::get('admin/preachers', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@index','as'=>'admin.preachers.index']);
+    Route::get('admin/preachers/meeting/{year?}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@meeting','as'=>'admin.preachers.meeting']);
     Route::get('admin/preachers/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@create','as'=>'admin.preachers.create']);
     Route::get('admin/preachers/{preacher}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@show','as'=>'admin.preachers.show']);
     Route::get('admin/preachers/{preacher}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@edit','as'=>'admin.preachers.edit']);
