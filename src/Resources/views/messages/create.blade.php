@@ -23,8 +23,12 @@
                                 <label for="msg-type" class="control-label">Message type</label>
                                 <div>
                                     <input type="radio" class="msgtype" name="msgtype" value="email" checked> Email
-                                    &nbsp;<input type="radio" class="msgtype" name="msgtype" value="sms"> SMS ({{$credits}} credits available)
                                     &nbsp;<input type="radio" class="msgtype" name="msgtype" value="app"> App message
+                                    @if (isset($credits))
+                                        &nbsp;<input type="radio" class="msgtype" name="msgtype" value="sms"> SMS ({{$credits}} credits available)
+                                    @else
+                                        &nbsp;<b>SMS not available - <a href="{{ route('admin.settings.index') }}">click here to change settings</a></b>
+                                    @endif
                                 </div>
                             </div>
                         </div>

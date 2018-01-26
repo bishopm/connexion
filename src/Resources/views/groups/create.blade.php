@@ -25,8 +25,13 @@
         <div class="col-md-6">
             <div id="map_canvas" style="height:350px;">
             </div>
-            {{ Form::bsText('latitude','Latitude','Latitude',$setting['home_latitude']) }}
-            {{ Form::bsText('longitude','Longitude','Longitude',$setting['home_longitude']) }}
+            @if (($setting['home_latitude'] <> 'Church latitude') and ($setting['home_longitude'] <> 'Church longitude'))
+                {{ Form::bsText('latitude','Latitude','Latitude',$setting['home_latitude']) }}             
+                {{ Form::bsText('longitude','Longitude','Longitude',$setting['home_longitude']) }}
+            @else
+                {{ Form::bsText('latitude','Latitude','Latitude') }}
+                {{ Form::bsText('longitude','Longitude','Longitude') }}
+            @endif
         </div>
     </div>
     {!! Form::close() !!}

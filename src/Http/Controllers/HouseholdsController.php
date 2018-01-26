@@ -59,7 +59,7 @@ class HouseholdsController extends Controller
     public function show(Household $household)
     {
         $pastoralgroup=$this->setting->getkey('pastoral_group');
-        if ((isset($pastoralgroup)) and ($pastoralgroup<>'')) {
+        if ((isset($pastoralgroup)) and ($pastoralgroup<>'Pastoral group')) {
             $group=$this->groups->find($pastoralgroup);
             foreach ($group->individuals as $indiv) {
                 $dum['id']=$indiv->id;
