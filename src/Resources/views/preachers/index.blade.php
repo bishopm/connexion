@@ -17,6 +17,7 @@
                                 @if ($preachers=="No token")
                                     <a href="{{route('admin.mcsa.register')}}" class="btn btn-primary pull-right">Connect to MCSA database</a>
                                 @else
+                                    <a style="margin-left:10px;" href="{{route('admin.preachers.meeting',date('Y'))}}" class="btn btn-primary pull-right"><i class="fa fa-group"></i> Meeting register</a>
                                     <a href="{{route('admin.preachers.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new preacher</a>
                                 @endif
                             </div>
