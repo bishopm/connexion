@@ -11,46 +11,49 @@ use Bishopm\Connexion\Http\Requests\UpdateSocietyRequest;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
-class SocietiesController extends Controller {
+class SocietiesController extends Controller
+{
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
 
-    private $society,$setting;
+    private $society;
+    private $setting;
 
-	public function __construct(SettingsRepository $setting, SocietiesRepository $society)
+    public function __construct(SettingsRepository $setting, SocietiesRepository $society)
     {
         $this->client = new Client();
         $this->setting=$setting;
         $this->society = $society;
         $this->circuit = $this->setting->getkey('circuit');
         $this->check=$this->society->check();
-        if ($this->check<>"No valid url"){
-            $this->api_url = $this->setting->getkey('church_api_url');   
+        if ($this->check<>"No valid url") {
+            $this->api_url = $this->setting->getkey('church_api_url');
             $this->circuits = self::circuits();
         } else {
             $this->api_url="";
         }
     }
 
-    public function circuits(){
+    public function circuits()
+    {
         return json_decode($this->client->request('GET', $this->api_url . '/circuits')->getBody()->getContents());
     }
 
-	public function index()
-	{    
-        if (($this->api_url) and ($this->circuit)){
+    public function index()
+    {
+        if (($this->api_url) and ($this->circuit)) {
             $circuits = $this->circuits;
             $check=$this->check;
             $societies = $this->society->all();
-            return view('connexion::societies.index',compact('societies','circuits','check'));
+            return view('connexion::societies.index', compact('societies', 'circuits', 'check'));
         } else {
             return redirect()->route('admin.settings.index')->withNotice('Make sure you have the right circuit and API url set');
         }
-	}
+    }
 
     public function edit($id)
     {
@@ -63,11 +66,11 @@ class SocietiesController extends Controller {
         return view('connexion::societies.create');
     }
 
-	public function show($id)
-	{
+    public function show($id)
+    {
         $society=$this->society->find($id);
-        return view('connexion::societies.show',compact('society'));
-	}
+        return view('connexion::societies.show', compact('society'));
+    }
 
     public function store(CreateSocietyRequest $request)
     {
@@ -75,16 +78,15 @@ class SocietiesController extends Controller {
         return redirect()->route('admin.societies.index')
             ->withSuccess('New society added');
     }
-	
+    
     public function update($id, UpdateSocietyRequest $request)
     {
         $message=$this->society->update($id, $request->all());
-        if (isset($message->error)){
+        if (isset($message->error)) {
             return redirect()->route('admin.societies.index')->withNotice('Error: ' . $message->error);
         } else {
             return redirect()->route('admin.societies.index')->withSuccess('Society has been updated');
         }
-
     }
 
     public function destroy(Society $society)
@@ -92,5 +94,4 @@ class SocietiesController extends Controller {
         $this->society->destroy($society);
         return view('connexion::societies.index')->withSuccess('The ' . $society->society . ' society has been deleted');
     }
-
 }

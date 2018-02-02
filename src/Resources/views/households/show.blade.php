@@ -68,9 +68,9 @@
                       <div class="row">
                         <div class="col-md-12">
                           @if ($individual->sex=="male")
-                            <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-male"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b></span></i></a>
+                            <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-male"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b> <i class="fa fa-fw fa-pencil"></i></span></a>
                           @elseif ($individual->sex=="female")
-                            <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-female"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b></span></i></a>
+                            <a title="Edit individual" href="{{route('admin.individuals.edit',array($household->id,$individual)) }}"><span class="btn btn-default"><i class="fa fa-fw fa-female"></i><b>{{$individual->title}} {{$individual->firstname}} {{$individual->surname}}</b> <i class="fa fa-fw fa-pencil"></i></span></a>
                           @endif
                         </div>
                         <div class="col-md-6">
