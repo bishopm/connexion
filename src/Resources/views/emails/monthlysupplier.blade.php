@@ -20,6 +20,21 @@ No sales recorded during this period.
 
 @endcomponent
 
+# Shrinkage
+
+@if (count ($data['shrinkage']))
+| Book | Cost price | Sale price | Units sold |
+| -----|-----------:| ----------:| ----------:|
+@foreach ($data['shrinkage'] as $shrinkage)
+|{{$shrinkage->book->title}}|{{$shrinkage->book->costprice}}|{{$shrinkage->book->saleprice}}|{{$shrinkage->units}}|
+@endforeach
+Total Cost of Missing books: R  {{number_format($data['shrinkagetotal'],2)}}
+@else
+No shrinkage recorded during this period.
+@endif
+
+@endcomponent
+
 # New stock
 @component('mail::table')
 

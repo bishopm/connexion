@@ -16,8 +16,13 @@ class Book extends Model implements TaggableInterface
     protected $canBeRated = true;
     protected $mustBeApproved = false;
 
-	public function supplier(){
+    public function supplier()
+    {
         return $this->belongsTo('Bishopm\Connexion\Models\Supplier');
     }
 
+    public function transactions()
+    {
+        return $this->hasMany('Bishopm\Connexion\Models\Transaction')->orderBy('transactiondate');
+    }
 }

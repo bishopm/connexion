@@ -12,26 +12,72 @@
 @stop
 
 @section('content')
-    @include('connexion::shared.errors')
-    {!! Form::open(['route' => array('admin.books.update',$book->id), 'method' => 'put', 'files'=>'true']) !!}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-primary"> 
-                <div class="box-body">
-                    @include('connexion::books.partials.edit-fields')
+    <div class="nav-tabs well">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active">
+                <a href="#editbook" data-toggle="tab">Edit book</a>
+            </li>
+            <li>
+                <a href="#transtab" data-toggle="tab">Transaction history</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane active" id="editbook">
+                @include('connexion::shared.errors')
+                {!! Form::open(['route' => array('admin.books.update',$book->id), 'method' => 'put', 'files'=>'true']) !!}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-primary"> 
+                            <div class="box-body">
+                                @include('connexion::books.partials.edit-fields')
+                            </div>
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-primary btn-flat">Update</button>
+                                <a class="btn btn-danger pull-right btn-flat" href="{{route('admin.books.index')}}"><i class="fa fa-times"></i> Cancel</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary btn-flat">Update</button>
-                    <a class="btn btn-danger pull-right btn-flat" href="{{route('admin.books.index')}}"><i class="fa fa-times"></i> Cancel</a>
+                {!! Form::close() !!}
+                @include('connexion::shared.filemanager-modal',['folder'=>'books'])
+            </div>
+            <div class="tab-pane" id="transtab">
+                <div class="panel-body">
+                    <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Date</th><th>Book</th><th>Amount</th><th>Quantity</th><th>Type</th><th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Date</th><th>Book</th><th>Amount</th><th>Quantity</th><th>Type</th><th>Notes</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @forelse ($transactions as $transaction)
+                                <tr>
+                                    <td>{{$transaction->transactiondate}}</td>
+                                    <td>{{$transaction->book->title}}</td>
+                                    <td>{{$transaction->unitamount}}</td>
+                                    <td>{{$transaction->units}}</td>
+                                    <td>{{$transaction->transactiontype}}</td>
+                                    <td>{{$transaction->details}}</td>
+                                </tr>
+                            @empty
+                                <tr><td>No transactions have been added yet</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                    <label>Current Stock:</label> {{$book->stock}}
                 </div>
             </div>
         </div>
     </div>
-    {!! Form::close() !!}
-    @include('connexion::shared.filemanager-modal',['folder'=>'books'])
 @stop
 
 @section('js')
+@parent
 <script src="{{ asset('/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/vendor/bishopm/summernote/summernote-cleaner.js') }}" type="text/javascript"></script>
@@ -47,6 +93,7 @@
             var slug = $("#title").val().toString().trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, "");
             $("#slug").val(slug);
         });
+        $('#indexTable').DataTable();
         $('#description').summernote({ 
               height: 250,
               toolbar: [

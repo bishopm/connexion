@@ -56,7 +56,8 @@ class BooksController extends Controller
             $btags[]=$tag->name;
         }
         $suppliers=$this->suppliers->all();
-        return view('connexion::books.edit', compact('book', 'tags', 'btags', 'suppliers'));
+        $transactions = $book->transactions;
+        return view('connexion::books.edit', compact('book', 'tags', 'btags', 'suppliers', 'transactions'));
     }
 
     public function create()

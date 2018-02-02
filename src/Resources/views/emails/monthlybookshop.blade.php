@@ -21,6 +21,24 @@ No sales recorded this month
 @endif
 @endforeach
 
+# Shrinkage
+
+@foreach ($data['shrinkage'] as $name1=>$supplier1)
+### {{$name1}}
+@if (count($supplier1))
+@component('mail::table')
+| Book | Cost price | Sale price | Units missing |
+| -----|-----------:| ----------:|-----------:|
+@foreach ($supplier1 as $shrinkage)
+|{{$shrinkage->book->title}}|{{$shrinkage->book->costprice}}|{{$shrinkage->book->saleprice}}|{{$shrinkage->units}}|
+@endforeach
+@endcomponent
+Cost of missing stock: R  {{number_format($data['shrinkagetotal'][$name1],2)}}
+@else
+No shrinkage recorded this month
+@endif
+@endforeach
+
 # New stock
 @foreach ($data['deliveries'] as $name2=>$supplier2)
 ### {{$name2}}
