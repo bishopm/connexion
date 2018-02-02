@@ -44,6 +44,7 @@ class MonthlyBookshopEmail extends Command
             $data['stockvalue'][$supplier->supplier]=0;
             $data['deliveries'][$supplier->supplier]=array();
             $data['sales'][$supplier->supplier]=array();
+            $data['shrinkage'][$supplier->supplier]=array();
         }
         $startdate=date("Y-m-d", mktime(0, 0, 0, date("m")-1, 1));
         $enddate=date("Y-m-d", mktime(0, 0, 0, date("m"), 0));

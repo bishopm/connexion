@@ -21,6 +21,7 @@ No sales recorded during this period.
 @endcomponent
 
 # Shrinkage
+@component('mail::table')
 
 @if (count ($data['shrinkage']))
 | Book | Cost price | Sale price | Units sold |

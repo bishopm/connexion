@@ -3,8 +3,11 @@
 namespace Bishopm\Connexion\Console;
 
 use Illuminate\Console\Command;
-use Bishopm\Connexion\Models\Book, Bishopm\Connexion\Models\Transaction, Bishopm\Connexion\Models\Supplier;
-use Bishopm\Connexion\Models\Setting, DB;
+use Bishopm\Connexion\Models\Book;
+use Bishopm\Connexion\Models\Transaction;
+use Bishopm\Connexion\Models\Supplier;
+use Bishopm\Connexion\Models\Setting;
+use DB;
 use Bishopm\Connexion\Mail\MonthlySupplierMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -42,12 +45,14 @@ class MonthlySupplierEmail extends Command
             $data[$supplier->id]['deliveries']=array();
             $data[$supplier->id]['sales']=array();
             $data[$supplier->id]['stock']=array();
+            $data[$supplier->id]['shrinkage']=array();
+            $data[$supplier->id]['shrinkagetotal']=0;
         }
         $startdate=date("Y-m-d", mktime(0, 0, 0, date("m")-1, 1));
         $enddate=date("Y-m-d", mktime(0, 0, 0, date("m"), 0));
-        $transactions=Transaction::with('book')->where('transactiondate','>=',$startdate)->where('transactiondate','<',$enddate)->get();
+        $transactions=Transaction::with('book')->where('transactiondate', '>=', $startdate)->where('transactiondate', '<', $enddate)->get();
         foreach ($transactions as $transaction) {
-            if (($transaction->transactiontype<>"Add stock") and ($transaction->transactiontype<>"Shrinkage")){
+            if (($transaction->transactiontype<>"Add stock") and ($transaction->transactiontype<>"Shrinkage")) {
                 $data[$transaction->book->supplier_id]['sales'][]=$transaction;
                 $data[$transaction->book->supplier_id]['salestotal']=$data[$transaction->book->supplier_id]['salestotal']+$transaction->unitamount*$transaction->units;
                 $data[$transaction->book->supplier_id]['costofsalestotal']=$data[$transaction->book->supplier_id]['costofsalestotal']+$transaction->units*$transaction->book->costprice;
@@ -55,15 +60,16 @@ class MonthlySupplierEmail extends Command
                 $data[$transaction->book->supplier_id]['deliveries'][]=$transaction;
             } else {
                 $data[$transaction->book->supplier_id]['shrinkage'][]=$transaction;
+                $data[$transaction->book->supplier_id]['shrinkagetotal']=$data[$transaction->book->supplier_id]['shrinkagetotal']+$transaction->units*$transaction->book->costprice;
             }
         }
-        $books=Book::where('stock','>',0)->orderBy('title','ASC')->get();
-        foreach ($books as $book){
+        $books=Book::where('stock', '>', 0)->orderBy('title', 'ASC')->get();
+        foreach ($books as $book) {
             $data[$book->supplier_id]['stock'][]=$book;
             $data[$book->supplier_id]['stockvalue']=$data[$book->supplier_id]['stockvalue']+$book->costprice;
         }
-        foreach ($data as $supplierdata){
-            if (($supplierdata['salestotal']) or ($supplierdata['stock'])){
+        foreach ($data as $supplierdata) {
+            if (($supplierdata['salestotal']) or ($supplierdata['stock'])) {
                 Mail::to($supplierdata['email'])->send(new MonthlySupplierMail($supplierdata));
             }
         }
