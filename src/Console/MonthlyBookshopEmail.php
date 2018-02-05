@@ -48,17 +48,29 @@ class MonthlyBookshopEmail extends Command
         }
         $startdate=date("Y-m-d", mktime(0, 0, 0, date("m")-1, 1));
         $enddate=date("Y-m-d", mktime(0, 0, 0, date("m"), 0));
-        $transactions=Transaction::with('book')->where('transactiondate', '>=', $startdate)->where('transactiondate', '<', $enddate)->get();
+        $transactions=Transaction::with('book')->where('transactiondate', '>=', $startdate)->where('transactiondate', '<=', $enddate)->get();
         foreach ($transactions as $transaction) {
-            if (($transaction->transactiontype<>"Add stock") and ($transaction->transactiontype<>"Shrinkage")) {
-                $data['sales'][$transaction->book->supplier->supplier][]=$transaction;
+            if ($transaction->transactiontype=="Shrinkage") {
+                $data['shrinkage'][$transaction->book->supplier->supplier][$transaction->book->id]['book']=$transaction->book;
+                if (!isset($data['shrinkage'][$transaction->book->supplier->supplier][$transaction->book->id]['units'])) {
+                    $data['shrinkage'][$transaction->book->supplier->supplier][$transaction->book->id]['units']=0;
+                }
+                $data['shrinkage'][$transaction->book->supplier->supplier][$transaction->book->id]['units']=$data['shrinkage'][$transaction->book->supplier->supplier][$transaction->book->id]['units']+$transaction->units;
+                $data['shrinkagetotal'][$transaction->book->supplier->supplier]=$data['shrinkagetotal'][$transaction->book->supplier->supplier]+$transaction->units*$transaction->book->costprice;
+            } elseif ($transaction->transactiontype=="Add stock") {
+                $data['deliveries'][$transaction->book->supplier->supplier][$transaction->book->id]['book']=$transaction->book;
+                if (!isset($data['deliveries'][$transaction->book->supplier->supplier][$transaction->book->id]['units'])) {
+                    $data['deliveries'][$transaction->book->supplier->supplier][$transaction->book->id]['units']=0;
+                }
+                $data['deliveries'][$transaction->book->supplier->supplier][$transaction->book->id]['units']=$data['deliveries'][$transaction->book->supplier->supplier][$transaction->book->id]['units']+$transaction->units;
+            } else {
+                $data['sales'][$transaction->book->supplier->supplier][$transaction->book->id]['book']=$transaction->book;
+                if (!isset($data['sales'][$transaction->book->supplier->supplier][$transaction->book->id]['units'])) {
+                    $data['sales'][$transaction->book->supplier->supplier][$transaction->book->id]['units']=0;
+                }
+                $data['sales'][$transaction->book->supplier->supplier][$transaction->book->id]['units']=$data['sales'][$transaction->book->supplier->supplier][$transaction->book->id]['units']+$transaction->units;
                 $data['salestotal'][$transaction->book->supplier->supplier]=$data['salestotal'][$transaction->book->supplier->supplier]+$transaction->unitamount*$transaction->units;
                 $data['costofsalestotal'][$transaction->book->supplier->supplier]=$data['costofsalestotal'][$transaction->book->supplier->supplier]+$transaction->units*$transaction->book->costprice;
-            } elseif ($transaction->transactiontype=="Add stock") {
-                $data['deliveries'][$transaction->book->supplier->supplier][]=$transaction;
-            } else {
-                $data['shrinkage'][$transaction->book->supplier->supplier][]=$transaction;
-                $data['shrinkagetotal'][$transaction->book->supplier->supplier]=$data['shrinkagetotal'][$transaction->book->supplier->supplier]+$transaction->units*$transaction->book->costprice;
             }
         }
         $books=Book::where('stock', '>', 0)->orderBy('title', 'ASC')->get();
