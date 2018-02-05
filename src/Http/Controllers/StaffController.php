@@ -37,14 +37,35 @@ class StaffController extends Controller
         $individuals = $this->individual->staff();
         $memberindivs = Individual::withTag('staff')->get();
         $staffs = array();
+        $thisyr=date("Y");
         foreach ($individuals as $indiv) {
+            $dum=array();
             $staffs[$indiv->surname . $indiv->firstname]=$indiv;
+            foreach ($indiv->employee->leavedays as $leave) {
+                if (!isset($dum[$leave->leavetype])) {
+                    $dum[$leave->leavetype]=0;
+                }
+                if (substr($leave->leavedate, 0, 4)==$thisyr) {
+                    $dum[$leave->leavetype]=$dum[$leave->leavetype]+1;
+                }
+            }
+            $staffs[$indiv->surname . $indiv->firstname]['leave']=$dum;
         }
         foreach ($memberindivs as $mindiv) {
+            $dum=array();
             $staffs[$mindiv->surname . $mindiv->firstname]=$mindiv;
+            foreach ($mindiv->employee->leavedays as $leave) {
+                if (!isset($dum[$leave->leavetype])) {
+                    $dum[$leave->leavetype]=0;
+                }
+                if (substr($leave->leavedate, 0, 4)==$thisyr) {
+                    $dum[$leave->leavetype]=$dum[$leave->leavetype]+1;
+                }
+            }
+            $staffs[$mindiv->surname . $mindiv->firstname]['leave']=$dum;
         }
         asort($staffs);
-        return view('connexion::staff.index', compact('staffs'));
+        return view('connexion::staff.index', compact('staffs', 'thisyr'));
     }
 
     public function show($slug, $thisyr="")
