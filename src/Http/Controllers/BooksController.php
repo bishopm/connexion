@@ -45,6 +45,17 @@ class BooksController extends Controller
     public function index()
     {
         $books = $this->book->all();
+        foreach ($books as $book) {
+            $stock=0;
+            foreach ($book->transactions as $transaction) {
+                if ($transaction->transactiontype=="Add stock") {
+                    $stock=$stock+$transaction->units;
+                } else {
+                    $stock=$stock-$transaction->units;
+                }
+            }
+            $book->stockcheck = $book->stock-$stock;
+        }
         return view('connexion::books.index', compact('books'));
     }
 

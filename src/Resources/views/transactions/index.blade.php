@@ -32,7 +32,13 @@
                                 @forelse ($transactions as $transaction)
                                     <tr>
                                         <td>{{$transaction->transactiondate}}</td>
-                                        <td>{{$transaction->book->title}}</td>
+                                        <td>
+                                            @if ($transaction->book)
+                                            <a href="{{route('admin.books.edit',$transaction->book_id)}}">{{$transaction->book->title}}</a>
+                                            @else
+                                                Book [{{$transaction->book_id}}] has been deleted
+                                            @endif
+                                        </td>
                                         <td>{{$transaction->unitamount}}</td>
                                         <td>{{$transaction->units}}</td>
                                         <td>{{$transaction->transactiontype}}</td>

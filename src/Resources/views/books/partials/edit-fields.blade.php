@@ -38,4 +38,9 @@
   </select>
 </div>
 {{ Form::bsText('sample','Sample (link to document)','Sample (link to document)',$book->sample) }}
-<label>Current Stock:</label> {{$book->stock}}
+@can('admin-backend')
+  {{ Form::bsText('stock','Current stock (use with care!)','Current stock',$book->stock) }}
+@endcan
+@cannot('admin-backend')
+  <label>Current Stock:</label> {{$book->stock}}
+@endcan

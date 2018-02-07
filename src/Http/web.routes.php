@@ -136,6 +136,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::get('admin/books', ['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@index','as'=>'admin.books.index']);
     Route::get('admin/books/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@create','as'=>'admin.books.create']);
     Route::get('admin/books/{book}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@edit','as'=>'admin.books.edit']);
+    Route::get('admin/books/{book}/addinitial/{stock}', ['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@addinitial','as'=>'admin.books.addinitial']);
     Route::put('admin/books/{book}', ['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@update','as'=>'admin.books.update']);
     Route::post('admin/books', ['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@store','as'=>'admin.books.store']);
     Route::delete('admin/books/{book}', ['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@destroy','as'=>'admin.books.destroy']);
