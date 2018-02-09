@@ -672,7 +672,7 @@ class WebController extends Controller
     public function search(Request $request)
     {
         $q=$request->input('q');
-        $individuals=Individual::with('household')->where('surname','like','%' . $q . '%')->orwhere('firstname','like','%' . $q . '%')->orderBy('surname')->orderBy('firstname')->get();
+        $individuals=Individual::with('household')->where('surname','like','%' . $q . '%')->orwhere('firstname','like','%' . $q . '%')->orwhere('cellphone','like','%' . $q . '%')->orderBy('surname')->orderBy('firstname')->get();
         $thislink="<table class=\"table table-responsive table-striped table-condensed\"><th>Name</th><th>Cellphone</th><th>Email</th></tr>";
         foreach ($individuals as $indiv){
             if ($indiv->household){
