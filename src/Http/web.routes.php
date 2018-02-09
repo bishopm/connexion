@@ -322,7 +322,8 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::delete('admin/societies/{society}/services/{service}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@destroy','as'=>'admin.services.destroy']);
 
     // Setitems
-    Route::get('admin/worship/addsetitem/{set}/{song}', 'Bishopm\Connexion\Http\Controllers\SetitemsController@additem');
+    Route::get('admin/worship/addsetitem/{set}/{song}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@index','as'=>'admin.services.index']);
+    Route::get('admin/worship/addsetitem/{set}/{song}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetitemsController@additem','as'=>'admin.setitems.add']);
     Route::get('admin/worship/getitems/{set}', 'Bishopm\Connexion\Http\Controllers\SetitemsController@getitems');
     Route::get('admin/worship/getmessage/{set}', 'Bishopm\Connexion\Http\Controllers\SetitemsController@getmessage');
     Route::post('admin/worship/reorderset/{set}', 'Bishopm\Connexion\Http\Controllers\SetitemsController@reorderset');

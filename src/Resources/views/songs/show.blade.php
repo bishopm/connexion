@@ -61,6 +61,16 @@
                 <br>
                 <song>
                     <div v-html="brlyrics"></div>
+                    <div class="well">
+                        <span class="btn btn-info disabled">Add to a recent set:</span>
+                        @foreach ($sets as $set)
+                            @if (!isset($set->status))
+                                <a href="{{route('admin.setitems.add',array($set->id,$song->id))}}" class="btn btn-primary">{{$set->servicetime}} {{$set->servicedate}}</a> 
+                            @else
+                                <a href="{{route('admin.setitems.add',array($set->id,$song->id))}}" class="btn disabled btn-primary">{{$set->servicetime}} {{$set->servicedate}}</a>
+                            @endif
+                        @endforeach
+                    </div>
                 </song>
                 <br>
             </div>

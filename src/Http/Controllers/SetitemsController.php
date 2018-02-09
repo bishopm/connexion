@@ -2,10 +2,21 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use Illuminate\Http\Request, Log, DB, Auth;
-use App\Http\Requests, View, Bishopm\Connexion\Http\Requests\SetsRequest;
-use App\Http\Controllers\Controller, Helpers, Bishopm\Connexion\Models\Song, Bishopm\Connexion\Models\Setitem, Bishopm\Connexion\Models\Set, Bishopm\Connexion\Models\Service;
-use Bishopm\Connexion\Models\Setting, Bishopm\Connexion\Models\User;
+use Illuminate\Http\Request;
+use Log;
+use DB;
+use Auth;
+use App\Http\Requests;
+use View;
+use Bishopm\Connexion\Http\Requests\SetsRequest;
+use App\Http\Controllers\Controller;
+use Helpers;
+use Bishopm\Connexion\Models\Song;
+use Bishopm\Connexion\Models\Setitem;
+use Bishopm\Connexion\Models\Set;
+use Bishopm\Connexion\Models\Service;
+use Bishopm\Connexion\Models\Setting;
+use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 
 class SetitemsController extends Controller
@@ -17,15 +28,15 @@ class SetitemsController extends Controller
      * @return Response
      */
 
-	private $setting;
+    private $setting;
 
-	public function __construct(SettingsRepository $setting)
+    public function __construct(SettingsRepository $setting)
     {
         $this->setting = $setting;
     }
 
 
-    public function additem($set,$song)
+    public function additem($set, $song)
     {
         $setitem=new Setitem;
         $setitem->set_id=$set;
@@ -35,14 +46,15 @@ class SetitemsController extends Controller
         $fin['id']=$setitem->id;
         $fin['title']=Song::find($song)->title;
         $fin['songid']=$song;
-        return $fin;
+        return redirect()->route('admin.songs.show', $song)
+            ->withSuccess('Added to set');
     }
 
     public function getitems($set)
     {
-        $setitems=Setitem::with('song')->where('set_id','=',$set)->orderBy('itemorder')->get();
+        $setitems=Setitem::with('song')->where('set_id', '=', $set)->orderBy('itemorder')->get();
         $fin=array();
-        foreach ($setitems as $setitem){
+        foreach ($setitems as $setitem) {
             $dum['title']=$setitem->song->title;
             $dum['id']=$setitem->id;
             $fin[]=$dum;
@@ -56,8 +68,8 @@ class SetitemsController extends Controller
         $admin=User::find($admin_id)->individual->firstname;
         $fullset=Set::find($set);
         $msg="Hi " . $admin . "\n\nHere are the songs for the " . $fullset->servicetime . " service on " . $fullset->servicedate . ":\n\n";
-        $setitems=Setitem::with('song')->where('set_id','=',$set)->orderBy('itemorder')->get();
-        foreach ($setitems as $setitem){
+        $setitems=Setitem::with('song')->where('set_id', '=', $set)->orderBy('itemorder')->get();
+        foreach ($setitems as $setitem) {
             $msg.=$setitem->song->title . "\n";
         }
         $msg.="\nThanks!\n\n";
@@ -69,7 +81,7 @@ class SetitemsController extends Controller
     {
         $items=json_decode($request->items);
         $loop=0;
-        foreach ($items as $item){
+        foreach ($items as $item) {
             $setitem=Setitem::find($item->id);
             $setitem->itemorder=$loop;
             $loop++;
@@ -88,13 +100,12 @@ class SetitemsController extends Controller
         $setitem=Setitem::find($id);
         $set=$setitem->set_id;
         $setitem->delete();
-        $setitems=Setitem::where('set_id','=',$set)->orderBy('itemorder')->get();
+        $setitems=Setitem::where('set_id', '=', $set)->orderBy('itemorder')->get();
         $loop=0;
-        foreach ($setitems as $item){
+        foreach ($setitems as $item) {
             $item->itemorder=$loop;
             $loop++;
-            $item->save();   
+            $item->save();
         }
     }
-
 }
