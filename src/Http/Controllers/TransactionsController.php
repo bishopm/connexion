@@ -65,14 +65,6 @@ class TransactionsController extends Controller
         return redirect()->route('admin.transactions.index')
             ->withSuccess('New transaction added');
     }
-
-    public function addinitial($book, $stock)
-    {
-        $bk=Book::find($book);
-        $transaction=$this->transaction->create(['transactiondate'=>'2017-06-01', 'details'=>'Initial stock', 'transactiontype'=>'Add stock','units'=>$stock, 'unitamount'=>$bk->saleprice, 'book_id'=>$bk->id]);
-        return redirect()->route('admin.books.index')
-            ->withSuccess('Initial stock added');
-    }
     
     public function update(Transaction $transaction, UpdateTransactionRequest $request)
     {

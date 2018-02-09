@@ -35,13 +35,7 @@
                                     <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->title}}</a></td>
                                     <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->author}}</a></td>
                                     <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->supplier->supplier}}</a></td>
-                                    <td>
-                                        <a href="{{route('admin.books.addinitial',array($book->id,$book->stockcheck))}}">{{$book->stock}} 
-                                            @if ($book->stockcheck<>0)
-                                                (Add initial stock of {{$book->stockcheck}})
-                                            @endif
-                                        </a>
-                                    </td>
+                                    <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->stock}}</a></td>
                                     <td><a href="{{route('admin.books.edit',$book->id)}}">{{$book->updated_at}}</a></td>
                                 </tr>
                             @empty
