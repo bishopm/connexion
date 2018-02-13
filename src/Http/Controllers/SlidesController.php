@@ -63,7 +63,7 @@ class SlidesController extends Controller
     public function destroy($id)
     {
         $slide=$this->slide->find($id);
-        $slideshow=$slide->slidehow_id;
+        $slideshow=$slide->slideshow_id;
         $slide->delete();
         return redirect()->route('admin.slideshows.show', $slideshow)->withSuccess('Slide has been deleted');
     }

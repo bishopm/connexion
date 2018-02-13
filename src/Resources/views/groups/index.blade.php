@@ -35,8 +35,9 @@
                                         <td><a href="{{route('admin.groups.show',$group->id)}}">{{count($group->individuals)}}</a></td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="{{ route('admin.groups.edit', [$group->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                                <button class="btn btn-danger btn-flat" data-toggle="modal" data-action-entity="Group" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.groups.destroy', [$group->id]) }}"><i class="fa fa-trash"></i></button>
+                                                <a title="Group report" href="{{ route('admin.groups.report', [$group->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-file"></i></a>
+                                                <a title="Edit group" href="{{ route('admin.groups.edit', [$group->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                                <button title="Delete group" class="btn btn-danger btn-flat" data-toggle="modal" data-action-entity="Group" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.groups.destroy', [$group->id]) }}"><i class="fa fa-trash"></i></button>
                                             </div>
                                         </td>
                                     </tr>

@@ -2,15 +2,17 @@
 ================================================== -->
 <div id="myCarousel" class="carousel slide carousel-fade hidden-xs">
   <!-- Indicators -->
-  <ol class="carousel-indicators">
-    @foreach ($slideshow->slides as $counter)
-      @if ($loop->first)
-        <li data-target="#myCarousel" data-slide-to="{{$loop->index}}" class="active"></li>
-      @else
-        <li data-target="#myCarousel" data-slide-to="{{$loop->index}}"></li>
-      @endif
-    @endforeach
-  </ol>
+  @if (count($slideshow->slides)>1)
+    <ol class="carousel-indicators">
+      @foreach ($slideshow->slides as $counter)
+        @if ($loop->first)
+          <li data-target="#myCarousel" data-slide-to="{{$loop->index}}" class="active"></li>
+        @else
+          <li data-target="#myCarousel" data-slide-to="{{$loop->index}}"></li>
+        @endif
+      @endforeach
+    </ol>
+  @endif
   <div class="carousel-inner">
     @foreach ($slideshow->slides as $slide)
       @if ($loop->first)
@@ -29,12 +31,14 @@
       </div>
     @endforeach
   </div>
-  <!-- Controls -->
-  <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-    <span class="icon-prev"></span>
-  </a>
-  <a class="right carousel-control" href="#myCarousel" data-slide="next">
-    <span class="icon-next"></span>
-  </a>  
+  @if (count($slideshow->slides)>1)
+    <!-- Controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="icon-prev"></span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="icon-next"></span>
+    </a>  
+  @endif
 </div>
 <!-- /.carousel -->

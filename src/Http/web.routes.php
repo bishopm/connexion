@@ -120,6 +120,15 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::get('admin/actions/removetag/{action}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@removetag','as' => 'admin.actions.removetag']);
     Route::get('admin/actions/togglecompleted/{action}', ['uses' => 'Bishopm\Connexion\Http\Controllers\ActionsController@togglecompleted','as' => 'admin.actions.togglecompleted']);
 
+    // Blocks
+    Route::get('admin/blocks', ['uses'=>'Bishopm\Connexion\Http\Controllers\BlocksController@index','as'=>'admin.blocks.index']);
+    Route::get('admin/blocks/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\BlocksController@create','as'=>'admin.blocks.create']);
+    Route::get('admin/blocks/{block}', ['uses'=>'Bishopm\Connexion\Http\Controllers\BlocksController@show','as'=>'admin.blocks.show']);
+    Route::get('admin/blocks/{block}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\BlocksController@edit','as'=>'admin.blocks.edit']);
+    Route::put('admin/blocks/{block}', ['uses'=>'Bishopm\Connexion\Http\Controllers\BlocksController@update','as'=>'admin.blocks.update']);
+    Route::post('admin/blocks', ['uses'=>'Bishopm\Connexion\Http\Controllers\BlocksController@store','as'=>'admin.blocks.store']);
+    Route::delete('admin/blocks/{block}', ['uses'=>'Bishopm\Connexion\Http\Controllers\BlocksController@destroy','as'=>'admin.blocks.destroy']);
+
     // Blogs
     Route::get('admin/blogs', ['uses'=>'Bishopm\Connexion\Http\Controllers\BlogsController@index','as'=>'admin.blogs.index']);
     Route::get('admin/blogs/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\BlogsController@create','as'=>'admin.blogs.create']);
@@ -183,6 +192,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::get('admin/groups', ['uses'=>'Bishopm\Connexion\Http\Controllers\GroupsController@index','as'=>'admin.groups.index']);
     Route::get('admin/groups/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\GroupsController@create','as'=>'admin.groups.create']);
     Route::get('admin/groups/{group}', ['uses'=>'Bishopm\Connexion\Http\Controllers\GroupsController@show','as'=>'admin.groups.show']);
+    Route::get('admin/groups/{group}/report', ['uses'=>'Bishopm\Connexion\Http\Controllers\GroupsController@report','as'=>'admin.groups.report']);
     Route::get('admin/groups/{group}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\GroupsController@edit','as'=>'admin.groups.edit']);
     Route::put('admin/groups/{group}', ['uses'=>'Bishopm\Connexion\Http\Controllers\GroupsController@update','as'=>'admin.groups.update']);
     Route::post('admin/groups', ['uses'=>'Bishopm\Connexion\Http\Controllers\GroupsController@store','as'=>'admin.groups.store']);

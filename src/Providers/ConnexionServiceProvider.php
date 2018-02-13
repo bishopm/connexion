@@ -63,7 +63,7 @@ class ConnexionServiceProvider extends ServiceProvider
             );
             foreach ($allmods as $key=>$thismod) {
                 $sett=Setting::where('setting_key', $key)->first();
-                if (!count($sett)) {
+                if (!$sett) {
                     $ss=Setting::create(['setting_key'=>$key,'setting_value'=>$thismod['setting_value'],'description'=>$thismod['description'],'module'=>'module']);
                 }
             }
@@ -281,6 +281,12 @@ class ConnexionServiceProvider extends ServiceProvider
                         'icon' => 'sitemap',
                         'can' => 'admin-backend',
                         'submenu' => [
+                            [
+                                'text' => 'Blocks',
+                                'url'  => 'admin/blocks',
+                                'icon' => 'th',
+                                'can' =>  'admin-backend'
+                            ],
                             [
                                 'text' => 'Menus',
                                 'url'  => 'admin/menus',
@@ -592,6 +598,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\ActionsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\ActionsRepository(new \Bishopm\Connexion\Models\Action());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\BlocksRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\BlocksRepository(new \Bishopm\Connexion\Models\Block());
                 return $repository;
             }
         );

@@ -20,6 +20,7 @@
           </div>
           <div class="col-md-6">
             <div class="col-md-12">
+              <a href="{{route('admin.groups.report',$group->id)}}" style="margin-left:10px;" class="btn btn-primary pull-right"><i class="fa fa-file"></i> Group report</a>
               <a href="{{route('admin.groups.edit',$group->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit group</a>
             </div>
           </div>

@@ -18,7 +18,8 @@ use Bishopm\Connexion\Http\Requests\UpdateSettingRequest;
 use Spatie\Analytics\Period;
 use Analytics;
 
-class SettingsController extends Controller {
+class SettingsController extends Controller
+{
 
     /**
      * Display a listing of the resource.
@@ -26,7 +27,12 @@ class SettingsController extends Controller {
      * @return Response
      */
 
-    private $setting,$societies,$groups,$folders,$circuits,$users;
+    private $setting;
+    private $societies;
+    private $groups;
+    private $folders;
+    private $circuits;
+    private $users;
 
     public function __construct(SettingsRepository $setting, CircuitsRepository $circuits, SocietiesRepository $societies, GroupsRepository $groups, RostersRepository $rosters, FoldersRepository $folders, UsersRepository $users)
     {
@@ -43,119 +49,124 @@ class SettingsController extends Controller {
     {
         $modules=$this->setting->activemodules();
         $settings = $this->setting->activesettings($modules);
-        return view('connexion::settings.index',compact('settings'));
+        return view('connexion::settings.index', compact('settings'));
     }
 
     public function modulesindex()
     {
         $modules = $this->setting->allmodules();
-        return view('connexion::settings.modules',compact('modules'));
+        return view('connexion::settings.modules', compact('modules'));
     }
 
     public function modulestoggle($module)
     {
         $modules = $this->setting->allmodules();
         $module = $this->setting->find($module);
-        if ($module->setting_value=="yes"){
+        if ($module->setting_value=="yes") {
             $module->setting_value="no";
         } else {
             $module->setting_value="yes";
         }
         $module->save();
         return redirect()->route('admin.modules.index');
-    }    
+    }
 
     public function edit(Setting $setting)
     {
-        if ($setting->setting_key=="society_name"){
+        if ($setting->setting_key=="society_name") {
             $vals=$this->societies->all();
             $dropdown=array();
-            foreach ($vals as $val){
+            foreach ($vals as $val) {
                 $dum[0]=$val->id;
                 $dum[1]=$val->society;
                 $dropdown[]=$dum;
             }
-        } elseif ($setting->setting_key=="filtered_tasks"){
+        } elseif ($setting->setting_key=="filtered_tasks") {
             $vals=$this->folders->dropdown();
             $dropdown=array();
-            foreach ($vals as $val){
+            foreach ($vals as $val) {
                 $dum[0]=$val->id;
                 $dum[1]=$val->folder;
                 $dropdown[]=$dum;
             }
-        } elseif ($setting->setting_key=="giving_reports"){
+        } elseif ($setting->setting_key=="giving_reports") {
             $vals=array('0','1','2','3','4','6','12');
             $dropdown=array();
-            foreach ($vals as $val){
+            foreach ($vals as $val) {
                 $dum[0]=$val;
                 $dum[1]=$val;
                 $dropdown[]=$dum;
             }
-        } elseif ($setting->setting_key=="giving_administrator"){
+        } elseif ($setting->setting_key=="giving_administrator") {
             $users=User::orderBy('name')->get();
             $count=0;
-            foreach ($users as $user){
+            foreach ($users as $user) {
                 $dropdown[$count][0]=$user->id;
                 $dropdown[$count][1]=$user->name;
                 $count++;
             }
-        } elseif ($setting->setting_key=="pastoral_group"){
+        } elseif ($setting->setting_key=="pastoral_group") {
             $vals=$this->groups->dropdown();
             $dropdown=array();
-            foreach ($vals as $val){
+            foreach ($vals as $val) {
                 $dum[0]=$val->id;
                 $dum[1]=$val->groupname;
                 $dropdown[]=$dum;
             }
-        } elseif ($setting->setting_key=="bookshop"){
+        } elseif ($setting->setting_key=="bookshop") {
             $vals=$this->groups->dropdown();
             $dropdown=array();
-            foreach ($vals as $val){
+            foreach ($vals as $val) {
                 $dum[0]=$val->id;
                 $dum[1]=$val->groupname;
                 $dropdown[]=$dum;
             }
-        } elseif ($setting->setting_key=="birthday_group"){
+        } elseif ($setting->setting_key=="birthday_group") {
             $vals=$this->groups->dropdown();
             $dropdown=array();
-            foreach ($vals as $val){
+            foreach ($vals as $val) {
                 $dum[0]=$val->id;
                 $dum[1]=$val->groupname;
                 $dropdown[]=$dum;
             }
-        } elseif ($setting->setting_key=="worship_roster"){
+        } elseif ($setting->setting_key=="worship_roster") {
             $vals=$this->rosters->dropdown();
             $dropdown=array();
-            foreach ($vals as $val){
+            foreach ($vals as $val) {
                 $dum[0]=$val->id;
                 $dum[1]=$val->rostername;
                 $dropdown[]=$dum;
-            }    
-        } elseif ($setting->setting_key=="bookshop_manager"){
+            }
+        } elseif ($setting->setting_key=="bookshop_manager") {
             $users=User::orderBy('name')->get();
             $count=0;
-            foreach ($users as $user){
+            foreach ($users as $user) {
                 $dropdown[$count][0]=$user->id;
                 $dropdown[$count][1]=$user->name;
                 $count++;
             }
-        } elseif ($setting->setting_key=="sms_provider"){
+        } elseif ($setting->setting_key=="website_theme") {
+            $dropdown[0][0]="green";
+            $dropdown[0][1]="green";
+            $dropdown[1][0]="navy";
+            $dropdown[1][1]="navy";
+        } elseif ($setting->setting_key=="sms_provider") {
             $dropdown[0][0]="bulksms";
             $dropdown[0][1]="bulksms";
             $dropdown[1][0]="smsfactory";
             $dropdown[1][1]="smsfactory";
-        } elseif ($setting->setting_key=="worship_administrator"){
+        } elseif ($setting->setting_key=="worship_administrator") {
             $users=User::orderBy('name')->get();
             $count=0;
-            foreach ($users as $user){
+            foreach ($users as $user) {
                 $dropdown[$count][0]=$user->id;
                 $dropdown[$count][1]=$user->name;
                 $count++;
             }
-        } elseif ($setting->setting_key=="circuit"){
+        } elseif ($setting->setting_key=="circuit") {
             $circuits=$this->circuits->all();
             $count=0;
-            foreach ($circuits as $circuit){
+            foreach ($circuits as $circuit) {
                 $dropdown[$count][0]=$circuit->id;
                 $dropdown[$count][1]=$circuit->circuitnumber . ' ' . $circuit->circuit;
                 $count++;
@@ -163,17 +174,18 @@ class SettingsController extends Controller {
         } else {
             $dropdown='';
         }
-        return view('connexion::settings.edit', compact('setting','dropdown'));
+        return view('connexion::settings.edit', compact('setting', 'dropdown'));
     }
 
-    private function settinglabel($setting){
-        if (in_array($setting->setting_key,["birthday_group","bookshop","pastoral_group"])){
+    private function settinglabel($setting)
+    {
+        if (in_array($setting->setting_key, ["birthday_group","bookshop","pastoral_group"])) {
             $setting->label=$this->groups->find($setting->setting_value)->groupname;
-        } elseif (in_array($setting->setting_key,["circuit"])){
+        } elseif (in_array($setting->setting_key, ["circuit"])) {
             $setting->label=$this->circuits->find($setting->setting_value)->circuit;
-        } elseif (in_array($setting->setting_key,["society_name"])){
+        } elseif (in_array($setting->setting_key, ["society_name"])) {
             $setting->label=$this->societies->find($setting->setting_value)->society;
-        } elseif (in_array($setting->setting_key,["bookshop_manager","giving_administrator","worship_administrator"])){
+        } elseif (in_array($setting->setting_key, ["bookshop_manager","giving_administrator","worship_administrator"])) {
             $user=$this->users->find($setting->setting_value);
             $setting->label=$user->individual->firstname . " " . $user->individual->surname;
         } else {
@@ -182,27 +194,28 @@ class SettingsController extends Controller {
         return $setting->save();
     }
 
-    public function userlogs(){
+    public function userlogs()
+    {
         $activities=Activity::all();
-        foreach ($activities as $activity){
+        foreach ($activities as $activity) {
             $user=User::find($activity->causer_id);
-            if ($user){
+            if ($user) {
                 $name=$user->individual->firstname . " " . $user->individual->surname;
             } else {
                 $name="System";
             }
-            if ($activity->subject_type){
+            if ($activity->subject_type) {
                 $obj=$activity->subject_type::find($activity->subject_id);
-                $object=substr($activity->subject_type,1+strrpos($activity->subject_type,'\\'));
+                $object=substr($activity->subject_type, 1+strrpos($activity->subject_type, '\\'));
                 $details=$name . " " . $activity->description . " " . strtolower($object) . " (";
-                if ($obj){
+                if ($obj) {
                     if ($object=="Group") {
                         $details.=$obj->groupname . ")";
-                    } elseif ($object=="Individual"){
+                    } elseif ($object=="Individual") {
                         $details.=$obj->firstname . " " . $obj->surname . ")";
-                    } elseif ($object=="Household"){
+                    } elseif ($object=="Household") {
                         $details.=$obj->addressee . ")";
-                    } elseif ($object=="Song"){
+                    } elseif ($object=="Song") {
                         $details.=$obj->title . ")";
                     }
                 } else {
@@ -213,7 +226,7 @@ class SettingsController extends Controller {
             }
             $activity->details=$details;
         }
-        return view('connexion::settings.userlogs',compact('activities'));
+        return view('connexion::settings.userlogs', compact('activities'));
     }
 
     public function create()
@@ -237,18 +250,17 @@ class SettingsController extends Controller {
 
     public function analytics()
     {
-        $anal=Analytics::fetchMostVisitedPages(Period::days(7),75);
+        $anal=Analytics::fetchMostVisitedPages(Period::days(7), 75);
         $analytics=array();
-        foreach ($anal as $ana){
+        foreach ($anal as $ana) {
             $url=$ana['url'];
-            if (array_key_exists($url, $analytics)){
+            if (array_key_exists($url, $analytics)) {
                 $analytics[$url]=$analytics[$url]+$ana['pageViews'];
             } else {
                 $analytics[$url]=$ana['pageViews'];
             }
         }
         arsort($analytics);
-        return view('connexion::settings.analytics', compact('analytics'));   
+        return view('connexion::settings.analytics', compact('analytics'));
     }
-
 }
