@@ -87,6 +87,9 @@ class ConnexionServiceProvider extends ServiceProvider
             }
             config(['mail.from.address'=>$settings->getkey('church_email')]);
             config(['mail.from.name'=>$settings->getkey('site_name')]);
+            config(['mail.markdown.theme'=>$settings->getkey('website_theme')]);
+            $themecss= __DIR__ . '/../Assets/themes/' . $settings->getkey('website_theme') . '/' . $settings->getkey('website_theme') . '.css';
+            config(['mail.markdown.paths'=>[ $themecss ]]);
             config(['user-verification.email.view'=>'connexion::emails.newuser']);
             config(['user-verification.email.type'=>'markdown']);
             config(['app.name'=>$settings->getkey('site_name')]);

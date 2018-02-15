@@ -14,6 +14,8 @@ class GenericMail extends Mailable
      */
     public $emaildata;
 
+    protected $theme = 'green';
+
     public function __construct($emaildata)
     {
         $this->emaildata=$emaildata;
@@ -26,7 +28,7 @@ class GenericMail extends Mailable
      */
     public function build()
     {
-        if ($this->emaildata->hasFile('attachment')){
+        if ($this->emaildata->hasFile('attachment')) {
             return $this->subject($this->emaildata->subject)
                     ->from($this->emaildata->sender)
                     ->attach($this->emaildata->file('attachment'), array('as' => $this->emaildata->file('attachment')->getClientOriginalName(), 'mime' => $this->emaildata->file('attachment')->getMimeType()))
@@ -34,7 +36,7 @@ class GenericMail extends Mailable
         } else {
             return $this->subject($this->emaildata->subject)
                     ->from($this->emaildata->sender)
-                    ->markdown('connexion::emails.generic');   
+                    ->markdown('connexion::emails.generic');
         }
     }
 }
