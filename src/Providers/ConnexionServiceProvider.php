@@ -540,6 +540,7 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'church_api_token','module'=>'mcsa','description'=>'Token for centralised church data API','setting_value'=>''],
             ['setting_key'=>'church_email','module'=>'website','description'=>'Church email address','setting_value'=>'Email address'],
             ['setting_key'=>'church_phone','module'=>'website','description'=>'Church office phone number','setting_value'=>'Office phone number'],
+            ['setting_key'=>'church_mission','module'=>'website','description'=>'Church mission statement','setting_value'=>'Church mission statement'],
             ['setting_key'=>'circuit','module'=>'mcsa','description'=>'Circuit','setting_value'=>''],
             ['setting_key'=>'circuit_preachers','module'=>'core','description'=>'Collects names of preachers and circuit ministers and includes the quarterly preaching plan','setting_value'=>'no'],
             ['setting_key'=>'circuit_secretary','module'=>'mcsa','description'=>'Circuit Secretary','setting_value'=>''],

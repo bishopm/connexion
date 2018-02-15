@@ -4,6 +4,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Group;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Libraries\Fpdf\Fpdf;
@@ -22,11 +23,13 @@ class GroupsController extends Controller
      */
 
     private $group;
+    private $setting;
 
-    public function __construct(GroupsRepository $group, IndividualsRepository $individuals)
+    public function __construct(GroupsRepository $group, IndividualsRepository $individuals, SettingsRepository $setting)
     {
         $this->group = $group;
         $this->individuals= $individuals;
+        $this->setting = $setting;
     }
 
     public function index()
@@ -53,29 +56,68 @@ class GroupsController extends Controller
 
     public function report(Group $group)
     {
+        $pg=1;
         $pdf = new Fpdf;
         $pdf->AddPage('P');
-        $logopath=base_path() . '/public/storage/chords/';
+        $logopath=base_path() . '/public/vendor/bishopm/images/';
         $pdf->SetAutoPageBreak(true, 0);
         $pdf->SetFont('Helvetica', 'B', 14);
-        $pdf->text(20, 16, $group->groupname);
-        $pdf->line(20, 27, 200, 27);
+        $pdf->Image($logopath . 'logo.png', 20, 10, 40);
+        $pdf->setxy(75, 14);
+        $pdf->cell(120, 0, $group->groupname, 0, 0, 'R');
+        $pdf->SetFont('Helvetica', 'I', 9);
+        $pdf->setxy(75, 19);
+        $pdf->cell(120, 0, date("j F Y"), 0, 0, 'R');
+        $pdf->SetFont('Helvetica', '', 9);
+        $pdf->setxy(75, 24);
+        $pdf->cell(120, 0, 'Page: ' . $pg, 0, 0, 'R');
+        $pdf->setxy(75, 28);
+        $pdf->cell(120, 0, 'For corrections, email us: ' . $this->setting->getkey('church_email'), 0, 0, 'R');
+        $pdf->line(20, 35, 193, 35);
         $pdf->SetFont('Helvetica', 'B', 10);
-        $pdf->text(20, 25, "Name");
-        $pdf->text(100, 25, "Phone");
-        $pdf->text(150, 25, "Birthday");
-        $y=33;
-        $pdf->SetFont('Helvetica', '', 10);
+        $pdf->text(20, 40, "Name");
+        $pdf->text(100, 40, "Phone");
+        $pdf->text(165, 40, "Birthday");
+        $pdf->line(20, 42, 193, 42);
+        $y=48;
         foreach ($group->individuals as $indiv) {
+            if ($y>=265) {
+                $pg++;
+                $pdf->AddPage('P');
+                $pdf->SetFont('Helvetica', 'B', 14);
+                $pdf->Image($logopath . 'logo.png', 20, 10, 40);
+                $pdf->setxy(75, 14);
+                $pdf->cell(120, 0, $group->groupname, 0, 0, 'R');
+                $pdf->SetFont('Helvetica', 'I', 9);
+                $pdf->setxy(75, 19);
+                $pdf->cell(120, 0, date("j F Y"), 0, 0, 'R');
+                $pdf->setxy(75, 24);
+                $pdf->SetFont('Helvetica', '', 9);
+                $pdf->cell(120, 0, 'Page: ' . $pg, 0, 0, 'R');
+                $pdf->setxy(75, 28);
+                $pdf->cell(120, 0, 'For corrections, email us: ' . $this->setting->getkey('church_email'), 0, 0, 'R');
+                $pdf->line(20, 35, 193, 35);
+                $pdf->SetFont('Helvetica', 'B', 10);
+                $pdf->text(20, 40, "Name");
+                $pdf->text(100, 40, "Phone");
+                $pdf->text(165, 40, "Birthday");
+                $pdf->line(20, 42, 193, 42);
+                $y=48;
+            }
+            $pdf->SetFont('Helvetica', '', 10);
             $pdf->text(20, $y, $indiv->surname . ', ' . $indiv->firstname);
             if ($indiv->cellphone) {
                 $pdf->text(100, $y, $indiv->cellphone);
             } elseif ($indiv->homephone) {
                 $pdf->text(100, $y, $indiv->homephone);
             }
-            $pdf->text(150, $y, date("j F", strtotime($indiv->birthdate)));
+            $pdf->text(165, $y, date("j F", strtotime($indiv->birthdate)));
             $y=$y+6;
         }
+        $pdf->line(20, 280, 195, 280);
+        $pdf->setxy(20, 285);
+        $pdf->SetFont('Helvetica', 'I', 10);
+        $pdf->cell(185, 0, $this->setting->getkey('church_mission'), 0, 0, 'C');
         $pdf->Output();
         exit;
     }
