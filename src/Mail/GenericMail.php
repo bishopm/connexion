@@ -3,6 +3,7 @@
 namespace Bishopm\Connexion\Mail;
 
 use Illuminate\Mail\Mailable;
+use Bishopm\Connexion\Models\Setting;
 
 class GenericMail extends Mailable
 {
