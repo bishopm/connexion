@@ -19,6 +19,8 @@ class GenericMail extends Mailable
 
     public function __construct($emaildata)
     {
+        $emaildata->header=Setting::where('setting_key', 'site_name')->first()->setting_value;
+        $emaildata->footer=Setting::where('setting_key', 'church_mission')->first()->setting_value;
         $this->emaildata=$emaildata;
     }
 

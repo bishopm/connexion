@@ -36,8 +36,12 @@
                             <div class="form-group">
                                 <label for="groups" class="control-label">Groups</label>
                                 <select multiple name="groups[]" id="groups">
-                                @foreach ($groups as $group)
-                                    <option value="{{$group->id}}">{{$group->groupname}}</option>
+                                @foreach ($groups as $grp)
+                                    @if (($group>0) and ($group==$grp->id))
+                                        <option selected value="{{$grp->id}}">{{$grp->groupname}}</option>
+                                    @else
+                                        <option value="{{$grp->id}}">{{$grp->groupname}}</option>
+                                    @endif
                                 @endforeach
                                 </select>
                             </div>

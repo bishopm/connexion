@@ -236,7 +236,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::delete('admin/menus/{menu}/menuitems/{menuitem}', ['uses'=>'Bishopm\Connexion\Http\Controllers\MenuitemsController@destroy','as'=>'admin.menuitems.destroy']);
 
     // Messages
-    Route::get('admin/messages/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\MessagesController@create','as'=>'admin.messages.create']);
+    Route::get('admin/messages/create/{group?}', ['uses'=>'Bishopm\Connexion\Http\Controllers\MessagesController@create','as'=>'admin.messages.create']);
     Route::post('admin/messages', ['uses'=>'Bishopm\Connexion\Http\Controllers\MessagesController@store','as'=>'admin.messages.store']);
 
     // Modules
@@ -513,5 +513,15 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
         Route::delete('admin/users/{user}', ['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@destroy','as'=>'admin.users.destroy']);
     });
 });
+
+/*Route::get('/generic', function () {
+    $generic = new Illuminate\Http\Request();
+    $generic->subject="subject";
+    $generic->sender="bob@gmail.com";
+    $generic->header="header";
+    $generic->footer="footer";
+    $generic->emailmessage="<i>message</i>";
+    return new Bishopm\Connexion\Mail\GenericMail($generic);
+});*/
 
 Route::any('{uri}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@uri','as' => 'page','middleware' => ['web']])->where('uri', '.*');

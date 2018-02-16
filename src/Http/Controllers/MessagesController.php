@@ -46,8 +46,9 @@ class MessagesController extends Controller
         );
     }
 
-    public function create()
+    public function create($group=0)
     {
+        $data['group']=$group;
         $data['groups']=$this->groups->all();
         $data['individuals']=$this->individuals->all();
         $settings=$this->settings->makearray();
