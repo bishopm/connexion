@@ -514,7 +514,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     });
 });
 
-/*Route::get('/generic', function () {
+Route::get('/generic', function () {
     $generic = new Illuminate\Http\Request();
     $generic->subject="subject";
     $generic->sender="bob@gmail.com";
@@ -522,6 +522,6 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     $generic->footer="footer";
     $generic->emailmessage="<i>message</i>";
     return new Bishopm\Connexion\Mail\GenericMail($generic);
-});*/
+});
 
 Route::any('{uri}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@uri','as' => 'page','middleware' => ['web']])->where('uri', '.*');
