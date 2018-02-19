@@ -435,12 +435,12 @@ class ConnexionServiceProvider extends ServiceProvider
             view()->composer('connexion::templates.sidebar_right', \Bishopm\Connexion\Composers\SlideComposer::class);
             view()->composer('connexion::templates.map_page', \Bishopm\Connexion\Composers\SlideComposer::class);
 
-            // Send errors to slack channel
+            /*// Send errors to slack channel
             $monolog = Log::getMonolog();
             if (!\App::environment('local')) {
                 $slackHandler = new SlackWebhookHandler($settings->getkey('slack_webhook'), $settings->getkey('admin_slack_username'), 'App Alerts', false, 'warning', true, true, Logger::ERROR);
                 $monolog->pushHandler($slackHandler);
-            }
+            }*/
         }
     }
 
