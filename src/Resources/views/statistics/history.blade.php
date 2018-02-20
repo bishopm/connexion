@@ -1,9 +1,5 @@
 @extends('connexion::templates.backend')
 
-@section('css')
-    {!! Charts::assets() !!}
-@stop
-
 @section('content')
     <div class="container-fluid spark-screen">
         @include('connexion::shared.errors') 
@@ -17,11 +13,13 @@
                     </div>
                     <div class="panel-body">
                         <center>
-                            {!! $chart->render() !!}
+                            {!! $chart->container() !!}
                         </center>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+     {!! $chart->script() !!}
 @endsection

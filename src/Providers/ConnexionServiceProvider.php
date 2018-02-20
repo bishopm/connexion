@@ -454,23 +454,8 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->commands($this->commands);
         $this->app->register('Bishopm\Connexion\Providers\EventServiceProvider');
         $this->app->register('Bishopm\Connexion\Providers\ScheduleServiceProvider');
-        //$this->app->register('JeroenNoten\LaravelAdminLte\ServiceProvider');
-        //$this->app->register('Collective\Html\HtmlServiceProvider');
-        //$this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
-        //$this->app->register('Cartalyst\Tags\TagsServiceProvider');
-        //$this->app->register('Plank\Mediable\MediableServiceProvider');
-        //$this->app->register('Spatie\Menu\Laravel\MenuServiceProvider');
-        //$this->app->register('Spatie\GoogleCalendar\GoogleCalendarServiceProvider');
         $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
-        //$this->app->register('Felixkiss\UniqueWithValidator\ServiceProvider');
-        //$this->app->register('Jrean\UserVerification\UserVerificationServiceProvider');
         $this->app->register('LithiumDev\TagCloud\ServiceProvider');
-        //$this->app->register('Roumen\Feed\FeedServiceProvider');
-        //$this->app->register('Spatie\Activitylog\ActivitylogServiceProvider');
-        //$this->app->register('Spatie\Analytics\AnalyticsServiceProvider');
-        //$this->app->register('Tymon\JWTAuth\Providers\LaravelServiceProvider');
-        //$this->app->register('Barryvdh\Cors\ServiceProvider');
-        //$this->app->register('ConsoleTVs\Charts\ChartsServiceProvider');
         AliasLoader::getInstance()->alias("Charts", 'ConsoleTVs\Charts\Facades\Charts');
         AliasLoader::getInstance()->alias("JWTFactory", 'Tymon\JWTAuth\Facades\JWTFactory');
         AliasLoader::getInstance()->alias("JWTAuth", 'Tymon\JWTAuth\Facades\JWTAuth');
@@ -485,7 +470,6 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
         $this->app['router']->aliasMiddleware('handlecors', 'Barryvdh\Cors\HandleCors');
         $this->app['router']->aliasMiddleware('jwt.auth', 'Tymon\JWTAuth\Middleware\GetUserFromToken');
-        //$this->app['router']->pushMiddlewareToGroup('api','Barryvdh\Cors\HandleCors');
         $this->registerBindings();
         $this->registerUserPolicies();
     }
