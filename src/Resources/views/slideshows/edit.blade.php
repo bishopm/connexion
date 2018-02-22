@@ -6,7 +6,7 @@
 @stop
 
 @section('content_header')
-    {{ Form::pgHeader('Edit slideshow','Slideshows',route('admin.slideshows.show')) }}
+    {{ Form::pgHeader('Edit slideshow','Slideshows',route('admin.slideshows.show',$slideshow->id)) }}
 @stop
 
 @section('content')

@@ -2,8 +2,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h3 class="modal-title" id="delete-confirmation-title">Login to {{$setting['site_abbreviation']}}</h3>
+                <h5 class="modal-title">Login to {{$setting['site_abbreviation']}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 @include('connexion::shared.loginform')

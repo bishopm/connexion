@@ -1,76 +1,70 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!doctype html>
+<html lang="en">
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title_prefix', $setting['site_name']) | @yield('title')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="{{$setting['site_description']}}"/>
     <meta name="keywords" content="Church,Ballito,Umhlali,Salt Rock,Methodist,Christian,UMC,KZN,God,education,high school,pre-school" />
     <meta property="og:image" content="@yield('page_image')" />
     <meta property="og:description" content="@yield('page_description')" />
     <meta property="og:title" content="@yield('title')" />
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="{{ asset('/vendor/bishopm/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ asset('/vendor/bishopm/themes/' . $setting['website_theme'] . '/style.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    @yield('css')
-
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-</head>
-<body>
-    <div class="navbar-wrapper">
-      <div class="navbar navbar-inverse navbar-static-top" style="padding-left:20px; padding-right:20px;">
-        <div class="navbar-header">
-        <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <a class="navbar-brand" href="{{url('/')}}">{!!$setting['site_logo']!!}</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          {!!$webmenu!!}
-          <ul class="nav navbar-nav navbar-right">
-            @if(Auth::check())
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                  @if (Auth::user()->individual)
-                    {{Auth::user()->individual->firstname}} 
-                  @else
-                    {{Auth::user()->name}} 
-                  @endif
-                  <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  @if (Auth::user()->can('view-backend'))
-                    <li><a href="{{url('/')}}/admin"><i class="fa fa-fw fa-cogs"></i> Backend</a></li>
-                  @endif
-                  @if (Auth::user()->individual)
-                    <li><a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}"><i class="fa fa-fw fa-info-circle"></i> My user profile</a></li>
-                  @endif
-                  <li><a href="{{url('/')}}/my-church"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation'] or 'church'}}</a></li>
-                  @if (Auth::user()->individual)
-                    <li><a href="{{url('/')}}/my-details"><i class="fa fa-fw fa-user"></i> My details</a></li>
-                    <li><a href="{{url('/')}}/forum"><i class="fa fa-fw fa-comments-o"></i> User forum</a></li>
-                  @endif
-                  @if (Auth::user()->can('view-worship'))
-                    <li><a href="{{url('/')}}/admin/worship"><i class="fa fa-fw fa-music"></i> Worship</a></li>
-                  @endif
-                  <li role="separator" class="divider"></li>
-                  <li>
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                    <form id="logout-form" action="{{url('/')}}/logout" method="POST" style="display: none;"><input type="hidden" name="_token" value="{{csrf_token()}}"></form>
-                  </li>
-                </ul>
-              </li>
-            @else
-              <li><a href="#" title="User login" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-sign-in"></i> Login / Register</a></li>
-            @endif
-          </ul>
-        </div>
+    @yield('css')
+    <title>@yield('title_prefix', $setting['site_name']) | @yield('title')</title>
+    <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{{url('/')}}">{!!$setting['site_logo']!!}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {!!$webmenu!!}
+        <ul class="navbar-nav ml-auto">
+          @if(Auth::check())
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                @if (Auth::user()->individual)
+                  {{Auth::user()->individual->firstname}} 
+                @else
+                  {{Auth::user()->name}} 
+                @endif
+                <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                @if (Auth::user()->can('view-backend'))
+                  <li><a href="{{url('/')}}/admin"><i class="fa fa-fw fa-cogs"></i> Backend</a></li>
+                @endif
+                @if (Auth::user()->individual)
+                  <li><a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}"><i class="fa fa-fw fa-info-circle"></i> My user profile</a></li>
+                @endif
+                <li><a href="{{url('/')}}/my-church"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation'] or 'church'}}</a></li>
+                @if (Auth::user()->individual)
+                  <li><a href="{{url('/')}}/my-details"><i class="fa fa-fw fa-user"></i> My details</a></li>
+                  <li><a href="{{url('/')}}/forum"><i class="fa fa-fw fa-comments-o"></i> User forum</a></li>
+                @endif
+                @if (Auth::user()->can('view-worship'))
+                  <li><a href="{{url('/')}}/admin/worship"><i class="fa fa-fw fa-music"></i> Worship</a></li>
+                @endif
+                <li role="separator" class="divider"></li>
+                <li>
+                  <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                  <form id="logout-form" action="{{url('/')}}/logout" method="POST" style="display: none;"><input type="hidden" name="_token" value="{{csrf_token()}}"></form>
+                </li>
+              </ul>
+            </li>
+          @else
+            <li><a href="#" title="User login" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-sign-in"></i> Login / Register</a></li>
+          @endif
+        </ul>
       </div>
-    </div><!-- /navbar wrapper -->
+    </nav>
+
     @if ((isset($slideshow)) and ($slideshow->slideshow=="back"))
       @include('connexion::shared.carousel-back')
     @elseif ((isset($slideshow)) and ($slideshow->slideshow=="front"))
