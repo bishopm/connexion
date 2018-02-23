@@ -461,9 +461,9 @@ class ConnexionServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias("JWTAuth", 'Tymon\JWTAuth\Facades\JWTAuth');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
         AliasLoader::getInstance()->alias("GoogleCalendar", 'Spatie\GoogleCalendar\GoogleCalendarFacade');
-        AliasLoader::getInstance()->alias("Menu", 'Spatie\Menu\Laravel\MenuFacade');
         AliasLoader::getInstance()->alias("Form", 'Collective\Html\FormFacade');
         AliasLoader::getInstance()->alias("HTML", 'Collective\Html\HtmlFacade');
+        AliasLoader::getInstance()->alias("Menu", 'Nwidart\Menus\Facades\Menu');
         AliasLoader::getInstance()->alias("MediaUploader", 'Plank\Mediable\MediaUploaderFacade');
         AliasLoader::getInstance()->alias("Feed", 'Roumen\Feed\Feed');
         AliasLoader::getInstance()->alias("Analytics", 'Spatie\Analytics\AnalyticsFacade');
