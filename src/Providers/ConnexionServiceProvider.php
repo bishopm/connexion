@@ -555,6 +555,7 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'pastoral_group','module'=>'core','description'=>'Pastoral team group','setting_value'=>'Pastoral group'],
             ['setting_key'=>'presiding_bishop','module'=>'mcsa','description'=>'Presiding Bishop name','setting_value'=>'Presiding Bishop'],
             ['setting_key'=>'qr_code','module'=>'website','description'=>'URL of QR code image','setting_value'=>'QR code url'],
+            ['setting_key'=>'searchengine_keywords','module'=>'website','description'=>'Search engine keywords for meta tags','setting_value'=>'Search engine keywords'],
             ['setting_key'=>'site_abbreviation','module'=>'core','description'=>'Church name abbreviated','setting_value'=>'Abbreviated church name'],
             ['setting_key'=>'site_description','module'=>'website','description'=>'Site description','setting_value'=>'Slogan or vision statement'],
             ['setting_key'=>'site_logo','module'=>'core','description'=>'Text logo in menu bar','setting_value'=>'<b>C</b>onnexion'],
@@ -568,7 +569,7 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'superintendent','module'=>'mcsa','description'=>'Superintendent name','setting_value'=>'Superintendent'],
             ['setting_key'=>'supervisor_of_studies','module'=>'mcsa','description'=>'Supervisor of studies','setting_value'=>''],
             ['setting_key'=>'twitter_profile','module'=>'website','description'=>'Church Twitter profile','setting_value'=>'Twitter profile'],
-            ['setting_key'=>'website_theme','module'=>'website','description'=>'Website theme','setting_value'=>'umhlali'],
+            ['setting_key'=>'website_theme','module'=>'website','description'=>'Website theme','setting_value'=>'navy'],
             ['setting_key'=>'worship_services','module'=>'worship','description'=>'Service times when music sets are used - comma separated list','setting_value'=>'09h00,18h00'],
             ['setting_key'=>'worship_administrator','module'=>'worship','description'=>'Individual who receives set emails and prepares the PC for services','setting_value'=>'Worship administrator'],
             ['setting_key'=>'youtube_page','module'=>'website','description'=>'Church Youtube page','setting_value'=>'Youtube page']

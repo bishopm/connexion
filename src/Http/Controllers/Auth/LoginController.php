@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 
 class LoginController extends Controller
 {
@@ -22,6 +23,8 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    private $setting;
+
     protected $redirectTo = '/admin';
 
     /**
@@ -29,9 +32,10 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(SettingsRepository $setting)
     {
         $this->middleware('guest', ['except' => 'logout']);
+        $this->setting = $setting;
     }
 
     public function redirectTo()
@@ -41,7 +45,8 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return view('connexion::auth.login');
+        $churchname = $this->setting->getkey('site_name');
+        return view('connexion::auth.login', compact('churchname'));
     }
 
     public function logout(Request $request)
@@ -63,5 +68,5 @@ class LoginController extends Controller
     protected function getFailedLoginMessage()
     {
         return 'YourCustomMessage';
-    } 
+    }
 }

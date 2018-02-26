@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="{{$setting['site_description']}}"/>
-    <meta name="keywords" content="Church,Ballito,Umhlali,Salt Rock,Methodist,Christian,UMC,KZN,God,education,high school,pre-school" />
+    <meta name="keywords" content="{{$setting['searchengine_keywords']}}" />
     <meta property="og:image" content="@yield('page_image')" />
     <meta property="og:description" content="@yield('page_description')" />
     <meta property="og:title" content="@yield('title')" />

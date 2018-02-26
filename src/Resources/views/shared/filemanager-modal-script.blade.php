@@ -55,6 +55,9 @@ $( document ).ready(function() {
                     setupImage(fname + '?timestamp=' + new Date().getTime());
                     $('#image').val(fileonly);
                     $('#modal-filemanager').modal('hide');              
+                },
+                error : function(error) {
+                    console.log(error);
                 }
             });    
         });
