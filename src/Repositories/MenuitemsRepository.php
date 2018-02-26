@@ -1,8 +1,7 @@
 <?php namespace Bishopm\Connexion\Repositories;
 
 use Bishopm\Connexion\Repositories\EloquentBaseRepository;
-use Spatie\Menu\Laravel\Menu;
-use Spatie\Menu\Laravel\Link;
+use Menu;
 
 class MenuitemsRepository extends EloquentBaseRepository
 {
@@ -53,30 +52,31 @@ class MenuitemsRepository extends EloquentBaseRepository
 
     public function makeMenu($id)
     {
-        $items=$this->model->where('menu_id', $id)->where('parent_id', 0)->orderBy('position', 'ASC')->get();
-        $mainmenu =Menu::new()->addClass('navbar-nav');
-        foreach ($items as $item) {
-            $children = $this->model->where('parent_id', $item->id)->orderBy('position', 'ASC')->get();
-            if (!count($children)) {
-                if ($item->url) {
-                    $mainmenu->link(url(strtolower($item->url)), $item->title);
-                } else {
-                    $mainmenu->link('#', $item->title);
-                }
-            } else {
-                $childlink=Link::to('', $item->title . ' <span class="caret"></span>')->addClass('dropdown-toggle')->setAttributes(['data-toggle' => 'dropdown', 'role' => 'button']);
-                $childmenu=Menu::new()->addClass('dropdown-menu');
-                foreach ($children as $child) {
-                    if ($child->url) {
-                        $childmenu->link(url(strtolower($child->url)), $child->title);
+        $this->items=$this->model->where('menu_id', $id)->where('parent_id', 0)->orderBy('position', 'ASC')->get();
+        Menu::create('mainmenu', function ($menu) {
+            $menu->setPresenter(\Bishopm\Connexion\Presenters\Bootstrap4Presenter::class);
+            foreach ($this->items as $item) {
+                $this->children = $this->model->where('parent_id', $item->id)->orderBy('position', 'ASC')->get();
+                if (!count($this->children)) {
+                    if ($item->url) {
+                        $menu->url(url(strtolower($item->url)), $item->title);
                     } else {
-                        $childmenu->link('#', $child->title);
+                        $menu->url('#', $item->title);
                     }
+                } else {
+                    $menu->dropdown($item->title, function ($sub) {
+                        foreach ($this->children as $child) {
+                            if ($child->url) {
+                                $sub->url(url(strtolower($child->url)), $child->title);
+                            } else {
+                                $sub->url('#', $child->title);
+                            }
+                        }
+                    });
                 }
-                $mainmenu->submenu($childlink, $childmenu);
             }
-        }
-        return $mainmenu;
+        });
+        return Menu::get('mainmenu');
     }
 
     public function makeFooter($id)

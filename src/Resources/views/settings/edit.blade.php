@@ -1,5 +1,11 @@
 @extends('connexion::templates.backend')
 
+@section('css')
+@if (strpos($setting->setting_key, 'colour')!==false)
+    <link href="{{ asset('/vendor/bishopm/colorpicker/bootstrap-colorpicker.min.css') }}" rel="stylesheet" type="text/css" />
+@endif
+@stop
+
 @section('content_header')
 {{ Form::pgHeader('Edit setting','Settings',route('admin.settings.index')) }}
 @endsection
@@ -22,3 +28,14 @@
     </div>
     {!! Form::close() !!}
 @stop
+
+@section('js')
+@if (strpos($setting->setting_key, 'colour')!==false)
+<script src="{{ asset('/vendor/bishopm/colorpicker/bootstrap-colorpicker.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+      $("#cp").colorpicker();
+    });    
+</script>
+@endif
+@endsection

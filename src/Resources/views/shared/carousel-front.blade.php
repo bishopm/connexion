@@ -1,5 +1,4 @@
-<div id="myCarousel" class="carousel slide carousel-fade hidden-xs-up" data-ride="carousel">
-  <!-- Indicators -->
+<div id="myCarousel" class="carousel slide carousel-fade hidden-xs-up mb-3" data-ride="carousel">
   @if (count($slideshow->slides)>1)
     <ol class="carousel-indicators">
       @foreach ($slideshow->slides as $counter)

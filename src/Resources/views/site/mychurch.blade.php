@@ -18,18 +18,18 @@
         <button class="btn btn-primary" data-filter=".staff">Staff</button>
         <input type="text" class="quicksearch" style="line-height: 30px; margin-top: 10px;" placeholder=" Search" />
     </div>
-    <div class="row">
-        <div class="grid top20">
+    <div class="flex-row">
+        <div class="grid mt-2">
             @foreach ($users as $user)
                 @if (isset($user->individual))
-                <div class="col-xs-4 col-sm-3 col-md-2 element-item {{$user->status}}" data-name="{{strtolower($user->individual->surname)}}{{strtolower($user->individual->firstname)}}">
+                <div class="col-3 element-item {{$user->status}}" data-name="{{strtolower($user->individual->surname)}}{{strtolower($user->individual->firstname)}}">
                     <a href="{{url('/')}}/users/{{$user->individual->slug}}">
                         @if ($user->individual->image)
-                            <img class="img-responsive img-circle" src="{{url('/')}}/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
+                            <img class="img-fluid img-circle" src="{{url('/')}}/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
                         @else
-                            <img class="img-responsive img-circle img-thumbnail" src="{{asset('/vendor/bishopm/images/profile.png')}}">
+                            <img class="img-fluid img-circle img-thumbnail" src="{{url('/')}}/vendor/bishopm/themes/{{$setting['website_theme']}}/images/profile.png">
                         @endif
-                        <p class="text-center item-desc" style="min-height: 58px;">{{$user->individual->firstname}} {{$user->individual->surname}}</p>
+                        <p class="item-desc" style="min-height: 58px;">{{$user->individual->firstname}} {{$user->individual->surname}}</p>
                     </a>
                 </div>
                 @endif

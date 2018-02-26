@@ -1,7 +1,7 @@
 @extends('connexion::templates.frontend')
 
 @section('css')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
 @stop
 
 @section('content')
@@ -10,15 +10,15 @@
 		@if ((Auth::check()) and (isset($individual)))
 			<h3>My planned giving</h3>
 	        <div class="col-md-12">
-	            <div class="panel panel-default">
+	            <div class="card card-default">
 	            	@if ($individual->giving)
-		                <div class="panel-heading">
+		                <div class="card-heading">
 		                    <div class="row">
 		                        <div class="col-md-6"><h4>Payments received from PG{{$individual->giving}}</h4></div>
 		                    </div>
 		                </div>
-		                <div class="panel-body">
-		                    <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
+		                <div class="card-body w-100">
+		                    <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" cellspacing="0">
 		                        <thead>
 		                            <tr>
 		                                <th>Date</th><th>Amount</th>
@@ -54,8 +54,8 @@
 @endsection
 
 @section('js')
-<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 <script language="javascript">
 $(document).ready(function() {
     $('#indexTable').DataTable();

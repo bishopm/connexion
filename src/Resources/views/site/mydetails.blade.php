@@ -8,7 +8,7 @@
 <div class="container">
 	<div class="row">
 	  @if ((Auth::check()) and (isset($household)))
-		  <div class="col-md-12">
+		  <div class="col-md-12 mt-2">
 			  <h3>My details <small>{{$household->addressee}}</small></h3>
 		  </div>
 		  <div class="col-md-6">
@@ -22,22 +22,22 @@
 			<div>{{$household->post3}}</div>
 			<div><b>Home phone: </b>{{$household->homephone}}</div>
 			<div><b>SMS'es go to: </b>{{$household->cellmember}}</div>
-			<div class="top20"><b>Anniversaries</b>&nbsp;&nbsp;<a href="{{url('/')}}/my-details/add-anniversary" class="btn btn-primary btn-xs">Add an anniversary</a></div>
+			<div class="mt-3"><b>Anniversaries</b>&nbsp;&nbsp;<a href="{{url('/')}}/my-details/add-anniversary" class="btn btn-primary btn-xs">Add an anniversary</a></div>
 			@foreach ($household->specialdays as $ann)
 				<div>{{date("d M Y",strtotime($ann->anniversarydate))}} - {{$ann->details}} ({{$ann->anniversarytype}}) <a class="btn btn-default btn-xs" href="{{url('/')}}/my-details/edit-anniversary/{{$ann->id}}">Edit</a></div>
 			@endforeach
 		  </div>
 		  <div class="col-md-6">
-			  <ul class="nav nav-tabs" role="tablist">
+			  <ul class="nav nav-pills">
 			  	@foreach ($household->individuals as $tabname)
 			  		@if ($loop->first)
-				    	<li role="presentation" class="active">
+				    	<li role="presentation" class="nav-item"><a class="nav-link active" 
 				    @else
-						<li role="presentation">
+						<li role="presentation" class="nav-item"><a class="nav-link" 
 				    @endif
-				    <a href="#{{$tabname->id}}" aria-controls="home" role="tab" data-toggle="tab">{{$tabname->firstname}}</a></li>
+				    href="#{{$tabname->id}}" aria-controls="home" role="tab" data-toggle="tab">{{$tabname->firstname}}</a></li>
 			    @endforeach
-			    <li><a href="{{url('/')}}/my-details/add-individual" title="Add new individual to this household">+</a></li>
+			    <li><a class="nav-link" href="{{url('/')}}/my-details/add-individual" title="Add new individual to this household">+</a></li>
 			  </ul>
 			  <!-- Tab panes -->
 			  <div class="tab-content">
@@ -48,7 +48,7 @@
 				    	@else
 							class="tab-pane" id="{{$indiv->id}}">
 				    	@endif
-				    	<div class="row top20">
+				    	<div class="row mt-4">
 			    			<div class="col-md-12"><b>{{$indiv->title}} {{$indiv->firstname}} {{$indiv->surname}}</b>&nbsp;&nbsp;<a href="{{url('/')}}/my-details/edit/{{$indiv->slug}}" class="btn btn-primary btn-xs">Edit {{$indiv->firstname}}</a></div>
 			    			<div class="col-md-12"><i class="fa fa-fw fa-mobile"></i> {{$indiv->cellphone}}</div>
 			    			<div class="col-md-12"><i class="fa fa-fw fa-envelope-o"></i> {{$indiv->email}}</div>
@@ -70,7 +70,7 @@
 				    			<div class="col-md-12"><b>Service: </b> {{$indiv->servicetime}}</div>
 				    		@endif
 			    		</div>
-			    		<div class="row top20">
+			    		<div class="row mt-3">
 			    			<div class="col-md-12">
 				    			<b>Groups: </b>
 				    			@foreach ($indiv->groups as $group)

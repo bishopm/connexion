@@ -10,6 +10,11 @@
 			@endif
 		@endforeach
 	</select>
+@elseif (strpos($setting->setting_key, 'colour')!==false)
+<div class="input-group colorpicker-component" id="cp">
+	<span class="input-group-addon"><i></i></span>
+	<input type="text" class="form-control" name="setting_value" type="text" id="setting_value" value="#080808">
+</div>
 @else
 	{{ Form::bsText('setting_value','Setting value','Setting value',$setting->setting_value) }}
 @endif

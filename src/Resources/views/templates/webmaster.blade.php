@@ -9,8 +9,14 @@
     <meta property="og:image" content="@yield('page_image')" />
     <meta property="og:description" content="@yield('page_description')" />
     <meta property="og:title" content="@yield('title')" />
-    <link rel="stylesheet" href="{{ asset('/vendor/bishopm/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('/vendor/bishopm/themes/' . $setting['website_theme'] . '/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('/vendor/bishopm/css/bootstrap.css')}}">
+    <style media="screen" type="text/css">
+    :root {
+      --primary: {{$setting['colour_primary']}};
+      --secondary: {{$setting['colour_secondary']}};
+      --tertiary: {{$setting['colour_tertiary']}};
+    }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -19,47 +25,47 @@
     @yield('css')
     <title>@yield('title_prefix', $setting['site_name']) | @yield('title')</title>
     <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <a class="navbar-brand" href="{{url('/')}}">{!!$setting['site_logo']!!}</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         {!!$webmenu!!}
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav">
           @if(Auth::check())
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 @if (Auth::user()->individual)
                   {{Auth::user()->individual->firstname}} 
                 @else
                   {{Auth::user()->name}} 
                 @endif
-                <span class="caret"></span></a>
-              <ul class="dropdown-menu">
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
                 @if (Auth::user()->can('view-backend'))
-                  <li><a href="{{url('/')}}/admin"><i class="fa fa-fw fa-cogs"></i> Backend</a></li>
+                  <a class="dropdown-item" href="{{url('/')}}/admin"><i class="fa fa-fw fa-cogs"></i> Backend</a>
                 @endif
                 @if (Auth::user()->individual)
-                  <li><a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}"><i class="fa fa-fw fa-info-circle"></i> My user profile</a></li>
+                  <a class="dropdown-item" href="{{url('/')}}/users/{{Auth::user()->individual->slug}}"><i class="fa fa-fw fa-info-circle"></i> My user profile</a>
                 @endif
-                <li><a href="{{url('/')}}/my-church"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation'] or 'church'}}</a></li>
+                <a class="dropdown-item" href="{{url('/')}}/my-church"><i class="fa fa-fw fa-group"></i> My {{$setting['site_abbreviation'] or 'church'}}</a>
                 @if (Auth::user()->individual)
-                  <li><a href="{{url('/')}}/my-details"><i class="fa fa-fw fa-user"></i> My details</a></li>
-                  <li><a href="{{url('/')}}/forum"><i class="fa fa-fw fa-comments-o"></i> User forum</a></li>
+                  <a class="dropdown-item" href="{{url('/')}}/my-details"><i class="fa fa-fw fa-user"></i> My details</a>
+                  <a class="dropdown-item" href="{{url('/')}}/forum"><i class="fa fa-fw fa-comments-o"></i> User forum</a>
                 @endif
                 @if (Auth::user()->can('view-worship'))
-                  <li><a href="{{url('/')}}/admin/worship"><i class="fa fa-fw fa-music"></i> Worship</a></li>
+                  <a class="dropdown-item" href="{{url('/')}}/admin/worship"><i class="fa fa-fw fa-music"></i> Worship</a>
                 @endif
-                <li role="separator" class="divider"></li>
-                <li>
-                  <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                  <form id="logout-form" action="{{url('/')}}/logout" method="POST" style="display: none;"><input type="hidden" name="_token" value="{{csrf_token()}}"></form>
-                </li>
-              </ul>
+                <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                <form id="logout-form" action="{{url('/')}}/logout" method="POST" style="display: none;"><input type="hidden" name="_token" value="{{csrf_token()}}"></form>
+              </div>
             </li>
           @else
-            <li><a href="#" title="User login" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-sign-in"></i> Login / Register</a></li>
+            <li class="nav-item">
+              <a class="dropdown-item" href="#" title="User login" data-toggle="modal" data-target="#modal-login" data-action-target="{{ route('login') }}"><i class="fa fa-sign-in"></i> Login / Register</a>
+            </li>
           @endif
         </ul>
       </div>
@@ -76,7 +82,7 @@
     @include('connexion::shared.login-modal') 
 </body>
 <!-- FOOTER -->
-<footer>
+<footer class="mt-3">
   <div class="footer text-center">
     <div class="row">
       @foreach ($webfooter as $kk=>$wf)
@@ -90,16 +96,16 @@
       @endforeach
     </div>
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-4 col-sm-12">
         <i class="fa fa-phone"></i> {{$setting['church_phone']}} | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }}
       </div>
-      <div class="col-xs-12">
+      <div class="col-4 col-sm-12">
         {{$setting['church_address']}} |
          <a href="{{$setting['facebook_page']}}" title="Facebook page" target="_blank"><i class="fa fa-facebook"></i></a>&nbsp;
         <a href="{{$setting['twitter_profile']}}" title="Twitter profile" target="_blank"><i class="fa fa-twitter"></i></a>&nbsp;
         <a href="{{$setting['youtube_page']}}" title="Youtube channel" target="_blank"><i class="fa fa-youtube"></i></a>
       </div>
-      <div class="col-xs-12">
+      <div class="col-4 col-sm-12">
         {{$setting['service_times'] or ''}}
       </div>
     </div>
