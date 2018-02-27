@@ -33,18 +33,25 @@ class BlocksController extends Controller
     public function edit(Block $block)
     {
         $data['block'] = $block;
+        $data['block']->code=stripslashes($data['block']->code);
         return view('connexion::blocks.edit', $data);
     }
 
     public function create()
     {
-        return view('connexion::blocks.create');
+        $files=scandir(base_path() . '/public/vendor/bishopm/blocks');
+        $data['files']=array();
+        foreach ($files as $file) {
+            if (strpos($file, '.blade.php')!==false) {
+                $data['files'][]=str_replace('.blade.php', '', $file);
+            }
+        }
+        return view('connexion::blocks.create', $data);
     }
 
     public function store(CreateBlockRequest $request)
     {
         $this->block->create($request->all());
-
         return redirect()->route('admin.blocks.index')
             ->withSuccess('New block added');
     }

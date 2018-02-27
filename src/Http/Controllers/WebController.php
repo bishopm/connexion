@@ -21,6 +21,7 @@ use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\CoursesRepository;
 use Bishopm\Connexion\Repositories\BooksRepository;
 use Bishopm\Connexion\Repositories\PaymentsRepository;
+use Bishopm\Connexion\Repositories\BlocksRepository;
 use Bishopm\Connexion\Models\Group;
 use Bishopm\Connexion\Models\Book;
 use Bishopm\Connexion\Models\Blog;
@@ -68,10 +69,12 @@ class WebController extends Controller
     private $books;
     
     private $blogs;
+
+    private $blocks;
     
     private $payments;
 
-    public function __construct(PagesRepository $page, SlideshowsRepository $slideshow, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household, BooksRepository $books, BlogsRepository $blogs, PaymentsRepository $payments)
+    public function __construct(PagesRepository $page, SlideshowsRepository $slideshow, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household, BooksRepository $books, BlogsRepository $blogs, PaymentsRepository $payments, BlocksRepository $blocks)
     {
         $this->page = $page;
         $this->group = $group;
@@ -86,6 +89,7 @@ class WebController extends Controller
         $this->household = $household;
         $this->blogs = $blogs;
         $this->payments = $payments;
+        $this->blocks = $blocks;
         $this->settingsarray=$this->settings->makearray();
     }
 
@@ -148,6 +152,7 @@ class WebController extends Controller
         $rightnow=time();
         $data['events']=Group::where('grouptype', 'event')->with('individuals')->where('publish', 1)->where('eventdatetime', '>', $rightnow)->get();
         $data['usercount']=User::where('verified', '1')->count();
+        $data['blocks']=$this->blocks->homepage();
         $data['cals']=array();
         if (count($data['events'])) {
             $data['blogs']=$blogs->mostRecent(1);

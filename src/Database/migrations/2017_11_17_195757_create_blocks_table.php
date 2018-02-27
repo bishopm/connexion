@@ -14,10 +14,12 @@ class CreateBlocksTable extends Migration
     {
         Schema::create('blocks', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('description');
             $table->integer('column');
             $table->integer('width');
             $table->integer('order');
-            $table->text('code');
+            $table->string('filename');
+            $table->boolean('active');
             $table->timestamps();
         });
     }

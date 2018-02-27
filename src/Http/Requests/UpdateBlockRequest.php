@@ -12,7 +12,7 @@ class UpdateBlockRequest extends FormRequest
             'description' => 'required',
             'column' => 'required',
             'width' => 'required',
-            'code' => 'required'
+            'filename' => 'required'
         ];
     }
 

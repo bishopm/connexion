@@ -34,7 +34,7 @@
 <script src="{{ asset('/vendor/bishopm/colorpicker/bootstrap-colorpicker.min.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
-      $("#cp").colorpicker();
+      $("#cp").colorpicker({ color: '{{$setting->setting_value or 000000}}' });
     });    
 </script>
 @endif

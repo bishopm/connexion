@@ -533,7 +533,7 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'circuit_treasurer','module'=>'mcsa','description'=>'Circuit Treasurer','setting_value'=>''],
             ['setting_key'=>'colour_primary','module'=>'website','description'=>'Primary website colour','setting_value'=>'blue'],
             ['setting_key'=>'colour_secondary','module'=>'website','description'=>'Secondary website colour (darker)','setting_value'=>'navy'],
-            ['setting_key'=>'colour_tertiary','module'=>'website','description'=>'Teriary website colour (lighter)','setting_value'=>'lightblue'],
+            ['setting_key'=>'colour_tertiary','module'=>'website','description'=>'Tertiary website colour (lighter)','setting_value'=>'lightblue'],
             ['setting_key'=>'district_bishop','module'=>'mcsa','description'=>'District Bishop name','setting_value'=>'Bishop'],
             ['setting_key'=>'facebook_page','module'=>'website','description'=>'Church Facebook page url','setting_value'=>'Facebook page'],
             ['setting_key'=>'filtered_tasks','module'=>'todo','description'=>'Filter tasks','setting_value'=>'Next actions'],
