@@ -9425,3 +9425,9 @@ body {
 .bg-primary .dropdown-menu {
     background-color: var(--primary);
 }
+
+.code
+{  
+   font-family:"Courier New", Times, serif;  
+   font-size: 10px;   
+}

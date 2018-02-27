@@ -8,14 +8,13 @@
 
 @section('content')
 <div class="container top30">
-  <!-- Three columns of text below the carousel -->
   <div class="row">
     @foreach ($blocks as $block)
       <div class="col-md-{{$block->width}} text-center" style="z-index: 1;">
-        {!!$block->code!!}
+        @include('vendor/bishopm/blocks/' . $block->filename)
       </div>
     @endforeach
-  </div><!-- /.row -->
+  </div>
 </div>
 @endsection
 

@@ -417,6 +417,9 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::post('admin/suppliers', ['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@store','as'=>'admin.suppliers.store']);
     Route::delete('admin/suppliers/{supplier}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SuppliersController@destroy','as'=>'admin.suppliers.destroy']);
 
+    // Templates
+    Route::get('admin/templates', ['uses'=>'Bishopm\Connexion\Http\Controllers\TemplatesController@index','as'=>'admin.templates.index']);
+
     // Transactions
     Route::get('admin/transactions', ['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@index','as'=>'admin.transactions.index']);
     Route::get('admin/transactions/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@create','as'=>'admin.transactions.create']);

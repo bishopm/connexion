@@ -44,6 +44,8 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'connexion');
         $this->publishes([
         __DIR__.'/../Resources/views/errors' => base_path('resources/views/errors'),
+        __DIR__.'/../Resources/views/blocks/templates' => resource_path('views/vendor/bishopm/blocks'),
+        __DIR__.'/../Resources/views/templates' => resource_path('views/vendor/bishopm/pages'),
         ]);
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->publishes([__DIR__.'/../Assets' => public_path('vendor/bishopm'),], 'public');
@@ -304,6 +306,12 @@ class ConnexionServiceProvider extends ServiceProvider
                                 'text' => 'Slideshows',
                                 'url' => 'admin/slideshows',
                                 'icon' => 'video-camera',
+                                'can' =>  'admin-backend'
+                            ],
+                            [
+                                'text' => 'Templates',
+                                'url' => 'admin/templates',
+                                'icon' => 'archive',
                                 'can' =>  'admin-backend'
                             ]
                         ]
