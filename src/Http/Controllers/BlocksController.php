@@ -33,7 +33,7 @@ class BlocksController extends Controller
     public function edit(Block $block)
     {
         $data['block'] = $block;
-        $files=scandir(base_path() . '/public/vendor/bishopm/blocks');
+        $files=scandir(base_path() . '/resources/views/vendor/bishopm/blocks');
         foreach ($files as $file) {
             if (strpos($file, '.blade.php')!==false) {
                 $data['files'][]=str_replace('.blade.php', '', $file);
@@ -44,7 +44,7 @@ class BlocksController extends Controller
 
     public function create()
     {
-        $files=scandir(base_path() . '/public/vendor/bishopm/blocks');
+        $files=scandir(base_path() . '/resources/views/vendor/bishopm/blocks');
         $data['files']=array();
         foreach ($files as $file) {
             if (strpos($file, '.blade.php')!==false) {
