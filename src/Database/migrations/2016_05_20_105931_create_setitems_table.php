@@ -12,11 +12,12 @@ class CreateSetitemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('setitems', function(Blueprint $table) {
+        Schema::create('setitems', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('itemorder');
             $table->integer('set_id');
             $table->integer('song_id');
+            $table->string('description')->nullable();
             $table->softDeletes();
             $table->nullableTimestamps();
         });

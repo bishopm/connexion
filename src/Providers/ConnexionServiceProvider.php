@@ -574,6 +574,7 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'sms_provider','module'=>'core','description'=>'Choose either bulksms or smsfactory','setting_value'=>'SMS provider'],
             ['setting_key'=>'sms_username','module'=>'core','description'=>'SMS username','setting_value'=>'SMS username'],
             ['setting_key'=>'society_name','module'=>'core','description'=>'Name of society (must set up societies first)','setting_value'=>'Society name'],
+            ['setting_key'=>'sunday_roster','module'=>'core','description'=>'Roster for Sunday service teams','setting_value'=>'Sunday serving teams roster'],
             ['setting_key'=>'superintendent','module'=>'mcsa','description'=>'Superintendent name','setting_value'=>'Superintendent'],
             ['setting_key'=>'supervisor_of_studies','module'=>'mcsa','description'=>'Supervisor of studies','setting_value'=>''],
             ['setting_key'=>'twitter_profile','module'=>'website','description'=>'Church Twitter profile','setting_value'=>'Twitter profile'],

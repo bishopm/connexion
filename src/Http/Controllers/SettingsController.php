@@ -11,6 +11,7 @@ use Bishopm\Connexion\Repositories\FoldersRepository;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Models\Setting;
 use Bishopm\Connexion\Models\User;
+use Bishopm\Connexion\Models\Roster;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateSettingRequest;
@@ -105,6 +106,14 @@ class SettingsController extends Controller
                 $dropdown[$count][1]=$user->name;
                 $count++;
             }
+        } elseif ($setting->setting_key=="sunday_roster") {
+            $rosters=Roster::orderBy('rostername')->get();
+            $count=0;
+            foreach ($rosters as $roster) {
+                $dropdown[$count][0]=$roster->id;
+                $dropdown[$count][1]=$roster->rostername;
+                $count++;
+            }
         } elseif ($setting->setting_key=="pastoral_group") {
             $vals=$this->groups->dropdown();
             $dropdown=array();
@@ -188,6 +197,9 @@ class SettingsController extends Controller
         } elseif (in_array($setting->setting_key, ["bookshop_manager","giving_administrator","worship_administrator"])) {
             $user=$this->users->find($setting->setting_value);
             $setting->label=$user->individual->firstname . " " . $user->individual->surname;
+        } elseif ($setting->setting_key=="sunday_roster") {
+            $roster=Roster::find($setting->setting_value);
+            $setting->label=$roster->rostername;
         } else {
             $setting->label=$setting->setting_value;
         }

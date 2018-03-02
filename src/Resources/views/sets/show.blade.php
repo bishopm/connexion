@@ -13,7 +13,7 @@
     <div class="box-body">
         <div class="row">
             <div class="col-sm-6">
-                <select class="selectize" id="newitem">
+                <select class="selectize" id="newitem" placeholder="Choose song or liturgy">
                     <option></option>
                     @foreach ($songs as $song)
                         <option value="{{$song->id}}">{{$song->title}}</option>
@@ -35,6 +35,8 @@
                         <div class="col-sm-12">&nbsp;</div>
                         <div class="col-sm-12">
                             <button href="#" class="btn btn-default" type="submit">Send email</button>
+                            <a href="#" class="btn btn-default" data-toggle="modal" data-target="#modal-setitem">Add order of service items</a> 
+                            <a href="{{route('admin.sets.order',$set->id)}}" class="btn btn-default">Preview order of service</a>
                         </div>
                     </form>
                 </div>
@@ -42,11 +44,14 @@
         </div>
     </div>
 </div>
+@include('connexion::shared.setitem-modal')
+
 @stop
 @section('js')
     @include('connexion::worship.partials.scripts')
     <script src="{{ asset('/vendor/bishopm/js/jquery.nestable.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
+        @include('connexion::shared.setitem-modal-script')
         $( document ).ready(function() {
             $('#newitem').selectize({
               plugins: ['remove_button'],
@@ -109,3 +114,4 @@
         };
     </script>
 @stop
+

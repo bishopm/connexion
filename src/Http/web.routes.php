@@ -334,6 +334,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     // Setitems
     Route::get('admin/worship/addsetitem/{set}/{song}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@index','as'=>'admin.services.index']);
     Route::get('admin/worship/addsetitem/{set}/{song}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetitemsController@additem','as'=>'admin.setitems.add']);
+    Route::post('admin/worship/addorderitem/', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetitemsController@addorderitem','as'=>'admin.orderitems.add']);
     Route::get('admin/worship/getitems/{set}', 'Bishopm\Connexion\Http\Controllers\SetitemsController@getitems');
     Route::get('admin/worship/getmessage/{set}', 'Bishopm\Connexion\Http\Controllers\SetitemsController@getmessage');
     Route::post('admin/worship/reorderset/{set}', 'Bishopm\Connexion\Http\Controllers\SetitemsController@reorderset');
@@ -344,6 +345,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::get('admin/worship/sets/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@create','as'=>'admin.sets.create']);
     Route::post('admin/worship/sets', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@store','as'=>'admin.sets.store']);
     Route::get('admin/worship/sets/{set}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@edit','as'=>'admin.sets.edit']);
+    Route::get('admin/worship/sets/{set}/order', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@order','as'=>'admin.sets.order']);
     Route::get('admin/worship/sets/{set}/{mode?}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@show','as'=>'admin.sets.show']);
     Route::get('admin/worship/setsapi/{set}', 'Bishopm\Connexion\Http\Controllers\SetsController@showapi');
     Route::put('admin/worship/sets/{set}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@update','as'=>'admin.sets.update']);
