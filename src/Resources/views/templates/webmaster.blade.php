@@ -82,11 +82,11 @@
     @include('connexion::shared.login-modal') 
 </body>
 <!-- FOOTER -->
-<footer class="mt-3">
-  <div class="footer text-center">
-    <div class="row">
+<footer class="footer">
+  <div class="container text-center">
+    <div class="row mt-3">
       @foreach ($webfooter as $kk=>$wf)
-        <div class="col-md-3"><h4>{{$kk}}</h4>
+        <div class="col-sm-3"><h4>{{$kk}}</h4>
           <ul class="list-unstyled">
             @foreach ($wf as $wi)
                 <li>{!!$wi!!}</li>
@@ -96,16 +96,20 @@
       @endforeach
     </div>
     <div class="row">
-      <div class="col-4 col-sm-12">
+      <div class="col-sm-12">
         <i class="fa fa-phone"></i> {{$setting['church_phone']}} | <i class="fa fa-envelope-o"></i> {{ HTML::mailto($setting['church_email']) }}
       </div>
-      <div class="col-4 col-sm-12">
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
         {{$setting['church_address']}} |
          <a href="{{$setting['facebook_page']}}" title="Facebook page" target="_blank"><i class="fa fa-facebook"></i></a>&nbsp;
         <a href="{{$setting['twitter_profile']}}" title="Twitter profile" target="_blank"><i class="fa fa-twitter"></i></a>&nbsp;
         <a href="{{$setting['youtube_page']}}" title="Youtube channel" target="_blank"><i class="fa fa-youtube"></i></a>
       </div>
-      <div class="col-4 col-sm-12">
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
         {{$setting['service_times'] or ''}}
       </div>
     </div>
