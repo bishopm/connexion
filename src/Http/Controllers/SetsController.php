@@ -156,17 +156,19 @@ class SetsController extends Controller
     public function order($id)
     {
         $roster=Roster::find($this->setting->getkey('sunday_roster'));
-        $services=explode(',', $roster->subcategories);
         $set=Set::find($id);
-        if (in_array($set->servicetime, $services)) {
-            $readersgroup=Group::where('groupname', '=', 'Readers ' . $set->servicetime)->first();
-            $readerid=DB::table('group_individual_roster')->where('group_id', $readersgroup->id)->where('roster_id', $roster->id)->where('rosterdate', $set->servicedate)->first();
-            $reader=Individual::find($readerid->individual_id);
-            $readername=$reader->firstname . " " . $reader->surname;
-            $stewardsgroup=Group::where('groupname', '=', 'Society Stewards')->first();
-            $stewardid=DB::table('group_individual_roster')->where('group_id', $stewardsgroup->id)->where('roster_id', $roster->id)->where('rosterdate', $set->servicedate)->first();
-            $steward=Individual::find($stewardid->individual_id);
-            $stewardname=$steward->firstname . " " . $steward->surname;
+        if (count($roster)) {
+            $services=explode(',', $roster->subcategories);
+            if (in_array($set->servicetime, $services)) {
+                $readersgroup=Group::where('groupname', '=', 'Readers ' . $set->servicetime)->first();
+                $readerid=DB::table('group_individual_roster')->where('group_id', $readersgroup->id)->where('roster_id', $roster->id)->where('rosterdate', $set->servicedate)->first();
+                $reader=Individual::find($readerid->individual_id);
+                $readername=$reader->firstname . " " . $reader->surname;
+                $stewardsgroup=Group::where('groupname', '=', 'Society Stewards')->first();
+                $stewardid=DB::table('group_individual_roster')->where('group_id', $stewardsgroup->id)->where('roster_id', $roster->id)->where('rosterdate', $set->servicedate)->first();
+                $steward=Individual::find($stewardid->individual_id);
+                $stewardname=$steward->firstname . " " . $steward->surname;
+            }
         }
         $items=Setitem::where('set_id', '=', $id)->orderBy('itemorder')->get();
         $pdf = new Fpdf();
@@ -179,16 +181,18 @@ class SetsController extends Controller
             $pdf->SetFont('Arial', '', 9);
             $pdf->Image($logopath, 10+$x, 10, 0, 21);
             $pdf->SetFont('Arial', 'B', 14);
+            $pdf->setxy(55+$x, 24);
+            $pdf->cell(82, 0, date("j M Y", strtotime($set->servicedate)), 0, 0, 'R');
             $pdf->setxy(55+$x, 30);
-            $pdf->cell(82, 0, date("j M Y", strtotime($set->servicedate)) . " (" . $set->servicetime . " service)", 0, 0, 'R');
+            $pdf->cell(82, 0, $set->servicetime . " service", 0, 0, 'R');
             $pdf->line(10+$x, 35, 135+$x, 35);
-            $pdf->SetFont('Arial', '', 13);
+            $pdf->SetFont('Arial', '', 12);
             foreach ($items as $item) {
                 if ($item->itemtype=='song') {
                     $title=Song::find($item->song_id)->title;
-                    $pdf->SetFont('Arial', 'B', 13);
+                    $pdf->SetFont('Arial', 'B', 12);
                     $pdf->text(10+$x, $y, $title);
-                    $pdf->SetFont('Arial', '', 13);
+                    $pdf->SetFont('Arial', '', 12);
                 } else {
                     $title=$item->description;
                     if ($item->itemtype=="reading") {
@@ -208,7 +212,7 @@ class SetsController extends Controller
                     }
                     $pdf->text(10+$x, $y, $title);
                 }
-                $y=$y+9;
+                $y=$y+8;
             }
         }
         $pdf->Output();
