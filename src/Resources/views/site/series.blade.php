@@ -3,16 +3,16 @@
 @section('title','Sermon series: ' . $series->title)
 
 @section('content')
-<div class="container">
+<div class="container mt-3">
 	<div class="row">
-	  	<h3>{{$series->title}}</h3>
-	  	<div class="col-md-6">
+		<div class="col-sm-12"><h3>{{$series->title}}</h3></div>
+	  	<div class="col-sm-6">
 	    	<img src="{{url('/')}}/storage/series/{{$series->image}}">
 		</div>
-		<div class="col-md-6">
+		<div class="col-sm-6">
 			<p>{{$series->description}}</p>
-		  	<table class="table table-responsive table-striped">
-			    @forelse ($series->sermons as $sermon)
+		  	<table class="table table-striped">
+			    @forelse ($series->publishedsermons as $sermon)
 			     	<tr>
 			     		<td>
 			     			{{$sermon->servicedate}}

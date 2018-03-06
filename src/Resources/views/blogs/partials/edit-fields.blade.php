@@ -36,7 +36,6 @@
   {{ Form::bsSelect('status','Status',array('Draft'),$blog->status) }}
 @endcan
 
-
 {{ Form::bsText('created_at','Publication date','Publication date', $blog->created_at) }}
 @if (!count($media))
   {{ Form::bsFile('image') }}

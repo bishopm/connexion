@@ -28,7 +28,7 @@
             @else
                 <img width="250px" class="img-responsive" src="{{url('/')}}/vendor/bishopm/images/book.png">
             @endif
-            <ul class="top10 list-unstyled">
+            <ul class="mt-2 list-unstyled">
             <li>
               Price: R{{$book->saleprice}} 
               <button class="btn btn-primary btn-flat btn-xs" data-toggle="modal" data-target="#modal-message"><i class="fa fa-login"></i>Buy this book</button>
@@ -40,7 +40,7 @@
             @endif 
             </ul>
             @foreach ($book->tags as $tag)
-              <a class="label label-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
+              <a class="badge badge-primary" href="{{url('/')}}/subject/{{$tag->name}}">{{$tag->name}}</a></b>&nbsp;
             @endforeach
           </div>
           <div class="col-md-9">

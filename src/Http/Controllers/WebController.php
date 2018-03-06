@@ -100,6 +100,9 @@ class WebController extends Controller
      */
     public function dashboard(ActionsRepository $actions)
     {
+        if (App::isDownForMaintenance()) {
+            die("We're currently down for maintenance.");
+        }
         $user=Auth::user();
         if ($this->settingsarray['filtered_tasks']) {
             $data['actions']=$actions->filteredactionsforuser($this->settingsarray['filtered_tasks'], $user->individual_id);

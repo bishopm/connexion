@@ -6,12 +6,12 @@
 <div class="container">
     <div class="col-md-12">
         <h3>{!!$title!!}</h3>
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-pills" role="tablist">
             @foreach ($readings as $reading)
                 @if ($loop->first)
-                    <li role="presentation" class="active"><a href="#{{$loop->index}}" role="tab" data-toggle="tab">{{$reading['reading']}}</a></li>
+                    <li role="presentation"><a href="#{{$loop->index}}" class="nav-link active" role="tab" data-toggle="tab">{{$reading['reading']}}</a></li>
                 @else
-                    <li role="presentation"><a href="#{{$loop->index}}" role="tab" data-toggle="tab">{{$reading['reading']}}</a></li>
+                    <li role="presentation"><a href="#{{$loop->index}}" class="nav-link" role="tab" data-toggle="tab">{{$reading['reading']}}</a></li>
                 @endif
             @endforeach
         </ul>

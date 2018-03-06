@@ -13,7 +13,7 @@
 @section('content')
 <div class="container">
 	<div class="row">
-		<div class="col-md-4 text-center">
+		<div class="col-md-4 mx-auto">
 			<a title="View sermon series: {{$sermon->series->title}}" href="{{url('/')}}/sermons/{{$sermon->series->slug}}"><img class="top17" src="{{url('/')}}/storage/series/{{$sermon->series->image}}"></a>
     	    <audio class="center-block" controls="" width="250px" preload="none" height="30px" src="{{$sermon->mp3}}"></audio>
           <div class="col-xs-12">{{date("j M", strtotime($sermon->servicedate))}}: {{$sermon->title}}</div>
@@ -25,7 +25,7 @@
           @endif
           <div class="col-xs-12">
             @foreach ($sermon->tags as $tag)
-              <span class="label label-default"><a href="{{url('/')}}/subject/{{$tag->slug}}">{{$tag->name}}</a></span> 
+              <span class="badge badge-primary"><a href="{{url('/')}}/subject/{{$tag->slug}}">{{$tag->name}}</a></span> 
             @endforeach
           </div>
     	</div>
