@@ -27,6 +27,11 @@
     @endif
   </select>
 </div>
+@can('admin-backend')
+  {{ Form::bsSelect('status','Status',array('Draft','Published'),$sermon->status) }}
+@else
+  {{ Form::bsSelect('status','Status',array('Draft'),$sermon->status) }}
+@endcan
 <div class='form-group '>
   <label for="tags">Tags</label>
   <select name="tags[]" class="input-tags" multiple>

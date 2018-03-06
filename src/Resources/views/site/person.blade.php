@@ -35,7 +35,7 @@
   		@if (count($person->sermons))
 	    	<div class="col-md-6">
 	    		<h4 class="text-center">Sermons</h4>
-		    	<table id="sermonTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
+		    	<table id="sermonTable" class="table table-striped table-hover table-condensed" width="100%" cellspacing="0">
 		            <thead>
 		                <tr>
 		                	<th>Date</th>
@@ -67,7 +67,7 @@
 	    @if (count($person->blogs))
 		    <div class="col-md-6">
 		    	<h4 class="text-center">Blogs</h4>
-		    	<table id="blogTable" class="table table-responsive table-condensed" width="100%" cellspacing="0">
+		    	<table id="blogTable" class="table table-condensed" width="100%" cellspacing="0">
 		            <thead>
 		                <tr>
 		                	<th>Date</th>

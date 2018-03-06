@@ -7,9 +7,9 @@ class SeriesRepository extends EloquentBaseRepository
 {
     public function findwithsermons($id)
     {
-        $series = $this->model->with('sermons.comments')->where('id',$id)->first();
-        foreach ($series->sermons as $sermon){
-            foreach ($sermon->comments as $comment){
+        $series = $this->model->with('sermons.comments')->where('id', $id)->first();
+        foreach ($series->sermons as $sermon) {
+            foreach ($sermon->comments as $comment) {
                 $author=$comment->commented->individual->firstname . " " . $comment->commented->individual->surname;
                 $comment->image = "http://umc.org.za/storage/individuals/" . $comment->commented->individual_id . "/" . $comment->commented->individual->image;
             }
@@ -17,9 +17,8 @@ class SeriesRepository extends EloquentBaseRepository
         return $series;
     }
 
-
-	public function allwithsermons()
+    public function allwithsermons()
     {
-        return $this->model->has('sermons')->orderBy('created_at','DESC')->get();
+        return $this->model->has('sermons')->orderBy('created_at', 'DESC')->get();
     }
 }

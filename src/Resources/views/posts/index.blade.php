@@ -6,18 +6,18 @@
 
 @section('content')
 @include('connexion::shared.errors') 
-    <div class="container-fluid spark-screen top30">
+    <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+                <div class="card">
+                    <div class="card-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>User forum</h4></div>
-                            <div class="col-md-6"><a href="{{route('posts.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new post</a></div>
+                            <div class="col-md-6"><a href="{{route('posts.create')}}" class="btn btn-primary float-right"><i class="fa fa-pencil"></i> Add a new post</a></div>
                         </div>
                     </div>
-                    <div class="panel-body">
-                        <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
+                    <div class="card-body">
+                        <table id="indexTable" class="table table-striped table-hover table-condensed" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>Date</th>

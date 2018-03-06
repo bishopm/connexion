@@ -18,7 +18,12 @@
     @endforeach
     <option value="0">Guest preacher</option>
   </select>
-</div> 
+</div>
+@can('admin-backend')
+  {{ Form::bsSelect('status','Status',array('Draft','Published')) }}
+@else
+  {{ Form::bsSelect('status','Status',array('Draft')) }}
+@endcan
 <div class='form-group '>
   <label for="tags">Tags</label>
   <select name="tags[]" class="input-tags" multiple>
