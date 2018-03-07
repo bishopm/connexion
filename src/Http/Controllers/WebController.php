@@ -100,9 +100,6 @@ class WebController extends Controller
      */
     public function dashboard(ActionsRepository $actions)
     {
-        if (App::isDownForMaintenance()) {
-            die("We're currently down for maintenance.");
-        }
         $user=Auth::user();
         if ($this->settingsarray['filtered_tasks']) {
             $data['actions']=$actions->filteredactionsforuser($this->settingsarray['filtered_tasks'], $user->individual_id);
@@ -405,6 +402,7 @@ class WebController extends Controller
 
     public function webuser($slug)
     {
+        $theme=$this->settingsarray['website_theme'];
         $individual = $this->individual->findBySlug($slug);
         if ($individual) {
             $user = $this->users->getuserbyindiv($individual->id);
@@ -429,7 +427,7 @@ class WebController extends Controller
                 } else {
                     $comments="";
                 }
-                return view('connexion::site.user', compact('user', 'staff', 'comments'));
+                return view('connexion::site.user', compact('user', 'staff', 'comments', 'theme'));
             } else {
                 abort(404);
             }

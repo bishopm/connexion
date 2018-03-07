@@ -11,7 +11,7 @@
 		  	@if ($user->individual->image)
                 <img class="img-responsive img-circle img-thumbnail" src="{{url('/')}}/storage/individuals/{{$user->individual->id}}/{{$user->individual->image}}">
             @else
-                <img class="img-responsive img-circle img-thumbnail" src="{{asset('/vendor/bishopm/images/profile.png')}}">
+                <img class="img-responsive img-circle img-thumbnail" src="{{asset('/vendor/bishopm/themes/' . $theme . '/images/profile.png')}}">
             @endif
 		  </div>
 		  <div class="col-md-3">
