@@ -71,23 +71,25 @@ class SongsController extends Controller
                 $arecents[$recent->servicetime]=array();
             }
             foreach ($recent->setitems as $si) {
-                if (array_key_exists($si->song_id, $arecents[$recent->servicetime])) {
-                    if ($si->song->musictype<>'liturgy') {
-                        $arecents[$recent->servicetime][$si->song_id]['count']++;
+                if (isset($si->song)) {
+                    if (array_key_exists($si->song_id, $arecents[$recent->servicetime])) {
+                        if ($si->song->musictype<>'liturgy') {
+                            $arecents[$recent->servicetime][$si->song_id]['count']++;
+                        }
+                    } else {
+                        if ($si->song->musictype<>'liturgy') {
+                            $arecents[$recent->servicetime][$si->song_id]['count']=1;
+                            $arecents[$recent->servicetime][$si->song_id]['title']=$si->song->title;
+                            $arecents[$recent->servicetime][$si->song_id]['musictype']=$si->song->musictype;
+                            $arecents[$recent->servicetime][$si->song_id]['id']=$si->song_id;
+                        }
                     }
-                } else {
-                    if ($si->song->musictype<>'liturgy') {
-                        $arecents[$recent->servicetime][$si->song_id]['count']=1;
-                        $arecents[$recent->servicetime][$si->song_id]['title']=$si->song->title;
-                        $arecents[$recent->servicetime][$si->song_id]['musictype']=$si->song->musictype;
-                        $arecents[$recent->servicetime][$si->song_id]['id']=$si->song_id;
+                    $newest[strtotime($recent->servicedate)][$recent->servicetime][$si->song_id]['title']=$si->song->title;
+                    $newest[strtotime($recent->servicedate)][$recent->servicetime][$si->song_id]['musictype']=$si->song->musictype;
+                    $newest[strtotime($recent->servicedate)][$recent->servicetime][$si->song_id]['id']=$si->song_id;
+                    if (strtotime($recent->servicedate)>$mostrecentset) {
+                        $mostrecentset=strtotime($recent->servicedate);
                     }
-                }
-                $newest[strtotime($recent->servicedate)][$recent->servicetime][$si->song_id]['title']=$si->song->title;
-                $newest[strtotime($recent->servicedate)][$recent->servicetime][$si->song_id]['musictype']=$si->song->musictype;
-                $newest[strtotime($recent->servicedate)][$recent->servicetime][$si->song_id]['id']=$si->song_id;
-                if (strtotime($recent->servicedate)>$mostrecentset) {
-                    $mostrecentset=strtotime($recent->servicedate);
                 }
             }
         }
