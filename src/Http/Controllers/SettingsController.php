@@ -159,6 +159,8 @@ class SettingsController extends Controller
             $dropdown[0][1]="green";
             $dropdown[1][0]="navy";
             $dropdown[1][1]="navy";
+            $dropdown[2][0]="red";
+            $dropdown[2][1]="red";
         } elseif ($setting->setting_key=="sms_provider") {
             $dropdown[0][0]="bulksms";
             $dropdown[0][1]="bulksms";
