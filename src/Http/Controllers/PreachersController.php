@@ -36,8 +36,8 @@ class PreachersController extends Controller
     public function index()
     {
         $preachers = $this->preacher->all();
-        if ($preachers=="No valid url") {
-            return redirect()->route('admin.settings.index')->with('notice', 'Please ensure that the API url is correctly specified');
+        if (($preachers=="No valid url") or ($this->settings->getkey('circuit')=='')) {
+            return redirect()->route('admin.settings.index')->with('notice', 'Please ensure that the circuit and API url are correctly specified');
         } else {
             return view('connexion::preachers.index', compact('preachers'));
         }

@@ -19,25 +19,25 @@ abstract class McsaBaseRepository implements BaseRepository
 
     public function __construct($model)
     {
-        $this->api_url = Setting::where('setting_key','church_api_url')->first()->setting_value;
-        $this->token = Setting::where('setting_key','church_api_token')->first()->setting_value;
+        $this->api_url = Setting::where('setting_key', 'church_api_url')->first()->setting_value;
+        $this->token = Setting::where('setting_key', 'church_api_token')->first()->setting_value;
         $this->client = new Client();
-        $this->circuit=Setting::where('setting_key','circuit')->first()->setting_value;
+        $this->circuit=Setting::where('setting_key', 'circuit')->first()->setting_value;
         $this->model = $model;
         $this->checked = self::check();
     }
 
     public function check()
     {
-        if (!filter_var($this->api_url, FILTER_VALIDATE_URL)){
+        if (!filter_var($this->api_url, FILTER_VALIDATE_URL)) {
             return "No valid url";
-        } elseif (!$this->token){
+        } elseif (!$this->token) {
             return "No token";
         } else {
             $url = $this->api_url . '/check?token=' . $this->token;
             $res = $this->client->request('GET', $url);
             return json_decode($res->getBody()->getContents());
-        } 
+        }
     }
 
     /**
@@ -45,7 +45,7 @@ abstract class McsaBaseRepository implements BaseRepository
      */
     public function find($id)
     {
-        if ($this->model<>"circuits"){
+        if ($this->model<>"circuits") {
             $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '/' . $id . '?token=' . $this->token;
         } else {
             $url = $this->api_url . '/' . $this->model . '/' . $id . '?token=' . $this->token;
@@ -56,10 +56,10 @@ abstract class McsaBaseRepository implements BaseRepository
 
     public function all()
     {
-        if (gettype($this->checked)=="string"){
+        if (($this->model<>"circuits") and (gettype($this->checked)=="string")) {
             return $this->checked;
         } else {
-            if ($this->model=="circuits"){
+            if ($this->model=="circuits") {
                 $url = $this->api_url . '/circuits/';
             } else {
                 $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '?token=' . $this->token;
@@ -69,7 +69,7 @@ abstract class McsaBaseRepository implements BaseRepository
         }
     }
 
-    public function valueBetween($field,$low,$high)
+    public function valueBetween($field, $low, $high)
     {
         $data['sql']="SELECT * from " . $this->model . " where " . $field . " >= '" . $low . "' and " . $field . " <= '" . $high . "' order by " . $field;
         $url = $this->api_url . '/circuits/' . $this->circuit . '/query?token=' . $this->token;
@@ -112,7 +112,7 @@ abstract class McsaBaseRepository implements BaseRepository
     /**
      * @inheritdoc
      */
-    public function update($id,$data)
+    public function update($id, $data)
     {
         $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '/' . $id . '?token=' . $this->token;
         try {
@@ -189,5 +189,4 @@ abstract class McsaBaseRepository implements BaseRepository
         $query = $this->model->query();
         return $query->whereIn("id", $ids)->get();
     }
-
 }

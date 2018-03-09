@@ -177,10 +177,14 @@ class SettingsController extends Controller
         } elseif ($setting->setting_key=="circuit") {
             $circuits=$this->circuits->all();
             $count=0;
-            foreach ($circuits as $circuit) {
-                $dropdown[$count][0]=$circuit->id;
-                $dropdown[$count][1]=$circuit->circuitnumber . ' ' . $circuit->circuit;
-                $count++;
+            if (count($circuits)>1) {
+                foreach ($circuits as $circuit) {
+                    $dropdown[$count][0]=$circuit->id;
+                    $dropdown[$count][1]=$circuit->circuitnumber . ' ' . $circuit->circuit;
+                    $count++;
+                }
+            } else {
+                $dropdown='';
             }
         } else {
             $dropdown='';
