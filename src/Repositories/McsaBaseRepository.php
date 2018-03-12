@@ -69,6 +69,26 @@ abstract class McsaBaseRepository implements BaseRepository
         }
     }
 
+    public function settings()
+    {
+        $url = $url = $this->api_url . '/circuits/' . $this->circuit . '/settings?token=' . $this->token;
+        $res = $this->client->request('GET', $url);
+        return json_decode($res->getBody()->getContents());
+    }
+
+    public function setting($id)
+    {
+        $url = $this->api_url . '/circuits/' . $this->circuit . '/settings/' . $id . '?token=' . $this->token;
+        $res = $this->client->request('GET', $url);
+        return json_decode($res->getBody()->getContents());
+    }
+
+    public function updatesetting($id, $data)
+    {
+        $this->model="settings";
+        $this->update($id, $data);
+    }
+
     public function valueBetween($field, $low, $high)
     {
         $data['sql']="SELECT * from " . $this->model . " where " . $field . " >= '" . $low . "' and " . $field . " <= '" . $high . "' order by " . $field;

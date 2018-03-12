@@ -50,6 +50,11 @@ class SettingsController extends Controller
     {
         $modules=$this->setting->activemodules();
         $settings = $this->setting->activesettings($modules);
+        foreach ($this->circuits->settings() as $cs) {
+            $cs->label=$cs->setting_value;
+            $cs->module="churchnet";
+            $settings->add($cs);
+        }
         return view('connexion::settings.index', compact('settings'));
     }
 
@@ -70,6 +75,12 @@ class SettingsController extends Controller
         }
         $module->save();
         return redirect()->route('admin.modules.index');
+    }
+
+    public function extedit($id)
+    {
+        $setting = $this->circuits->setting($id);
+        return view('connexion::settings.extedit', compact('setting'));
     }
 
     public function edit(Setting $setting)
@@ -263,6 +274,12 @@ class SettingsController extends Controller
     public function update(Setting $setting, UpdateSettingRequest $request)
     {
         self::settinglabel($this->setting->update($setting, $request->all()));
+        return redirect()->route('admin.settings.index')->withSuccess('Setting has been updated');
+    }
+
+    public function extupdate(Setting $setting, UpdateSettingRequest $request)
+    {
+        $this->circuits->updatesetting($setting->id, $request->all());
         return redirect()->route('admin.settings.index')->withSuccess('Setting has been updated');
     }
 

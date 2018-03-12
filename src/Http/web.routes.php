@@ -502,7 +502,9 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
         Route::get('admin/settings/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@create','as'=>'admin.settings.create']);
         Route::get('admin/settings/{setting}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@show','as'=>'admin.settings.show']);
         Route::get('admin/settings/{setting}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@edit','as'=>'admin.settings.edit']);
+        Route::get('admin/settings/{setting}/extedit', ['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@extedit','as'=>'admin.settings.extedit']);
         Route::put('admin/settings/{setting}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@update','as'=>'admin.settings.update']);
+        Route::put('admin/settings/ext/{setting}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@extupdate','as'=>'admin.settings.extupdate']);
         Route::post('admin/settings', ['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@store','as'=>'admin.settings.store']);
         Route::delete('admin/settings/{setting}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@destroy','as'=>'admin.settings.destroy']);
         Route::get('admin/analytics', ['uses'=>'Bishopm\Connexion\Http\Controllers\SettingsController@analytics','as'=>'admin.settings.analytics']);

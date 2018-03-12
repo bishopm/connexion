@@ -31,10 +31,17 @@
                             <tbody>
                                 @forelse ($settings as $setting)
                                     <tr>
+                                    @if ($setting->module<>'churchnet')
                                         <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{strtoupper(str_replace('_',' ',$setting->setting_key))}}</a></td>
                                         <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{substr($setting->label,0,40)}}</a></td>
                                         <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->description}}</a></td>
                                         <td><a href="{{route('admin.settings.edit',$setting->id)}}">{{$setting->module}}</a></td>
+                                    @else
+                                        <td><a href="{{route('admin.settings.extedit',$setting->id)}}">{{strtoupper(str_replace('_',' ',$setting->setting_key))}}</a></td>
+                                        <td><a href="{{route('admin.settings.extedit',$setting->id)}}">{{substr($setting->label,0,40)}}</a></td>
+                                        <td><a href="{{route('admin.settings.extedit',$setting->id)}}">{{$setting->description}}</a></td>
+                                        <td><a href="{{route('admin.settings.extedit',$setting->id)}}">{{$setting->module}}</a></td>
+                                    @endif
                                     </tr>
                                 @empty
                                     <tr><td>No settings have been added yet</td></tr>
