@@ -4,5 +4,4 @@ use Bishopm\Connexion\Repositories\McsaBaseRepository;
 
 class SocietiesRepository extends McsaBaseRepository
 {
-
 }

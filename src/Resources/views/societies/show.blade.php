@@ -25,6 +25,11 @@
                <div id="map_canvas" class="top10" style="height:250px;"></div>
               </div>
               <div class="col-md-6">
+                <ul class="list-unstyled">
+                  <li><b>Address:</b> {{$society->address}}</li>
+                  <li><b>Phone / email:</b> {{$society->contact}}</li>
+                  <li><b>Website:</b> {{$society->website}}</li>
+                </ul>
                 <h4>Sunday services</h4>
                 <ul class="list-unstyled">
                   @forelse ($society->services as $service)
