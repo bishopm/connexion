@@ -57,9 +57,11 @@ class SettingsRepository extends EloquentBaseRepository
                 }
             }
         }
-        $circuits=new SocietiesRepository('circuits');
-        foreach ($circuits->settings() as $cs) {
-            $fin[$cs->setting_key]=$cs->setting_value;
+        if ($fin['mcsa_module']=="yes") {
+            $circuits=new SocietiesRepository('circuits');
+            foreach ($circuits->settings() as $cs) {
+                $fin[$cs->setting_key]=$cs->setting_value;
+            }
         }
         return $fin;
     }

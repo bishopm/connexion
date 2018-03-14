@@ -50,10 +50,12 @@ class SettingsController extends Controller
     {
         $modules=$this->setting->activemodules();
         $settings = $this->setting->activesettings($modules);
-        foreach ($this->circuits->settings() as $cs) {
-            $cs->label=$cs->setting_value;
-            $cs->module="churchnet";
-            $settings->add($cs);
+        if (in_array('mcsa', $modules)) {
+            foreach ($this->circuits->settings() as $cs) {
+                $cs->label=$cs->setting_value;
+                $cs->module="churchnet";
+                $settings->add($cs);
+            }
         }
         return view('connexion::settings.index', compact('settings'));
     }
