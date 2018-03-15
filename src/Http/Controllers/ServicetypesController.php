@@ -68,4 +68,10 @@ class ServicetypesController extends Controller
         $this->servicetype->update($id, $request->except('image', 'token'));
         return redirect()->route('admin.servicetypes.index')->withSuccess('Service type has been updated');
     }
+
+    public function destroy($servicetype)
+    {
+        $this->servicetype->destroy($servicetype);
+        return redirect()->route('admin.servicetypes.index')->withSuccess('Service type has been deleted');
+    }
 }

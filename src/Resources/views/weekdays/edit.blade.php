@@ -6,7 +6,7 @@
 @stop
 
 @section('content_header')
-    {{ Form::pgHeader('Add midweek service','Midweek services',route('admin.weekdays.index')) }}
+    {{ Form::pgHeader('Edit midweek service','Midweek services',route('admin.weekdays.index')) }}
 @stop
 
 @section('content')
@@ -20,11 +20,13 @@
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.weekdays.index')) }}
+                    <button type="button" class="btn btn-danger btn-flat pull-right" data-action-entity="{{$weekday->description}}" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.weekdays.destroy', [$weekday->id]) }}">Delete</button>
                 </div>
             </div>
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.delete-modal')
 @stop
 
 @section('js')
@@ -37,5 +39,6 @@
                 format: 'YYYY-MM-DD'
             });
         });
+        @include('connexion::shared.delete-modal-script')
     </script>
 @stop

@@ -19,10 +19,12 @@
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.servicetypes.index')) }}
+                    <button type="button" class="btn btn-danger btn-flat pull-right" data-action-entity="{{$servicetype->description}}" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.servicetypes.destroy', [$servicetype->id]) }}">Delete</button>
                 </div>
             </div>
         </div>
     </div>
+    @include('connexion::shared.delete-modal')
     {!! Form::close() !!}
 @stop
 
@@ -36,5 +38,6 @@
           maxOptions: 30,
         });
     });
+    @include('connexion::shared.delete-modal-script')
 </script>
 @stop

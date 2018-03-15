@@ -20,11 +20,13 @@
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.meetings.index')) }}
+                    <button type="button" class="btn btn-danger btn-flat pull-right" data-action-entity="{{$meeting->description}}" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.meetings.destroy', [$meeting->id]) }}">Delete</button>
                 </div>
             </div>
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.delete-modal')
 @stop
 
 @section('js')
@@ -40,6 +42,7 @@
             $('#meetingdatetime').datetimepicker({
                 format: 'YYYY-MM-DD HH:mm'
             });
+            @include('connexion::shared.delete-modal-script')
         });
     </script>
 @stop
