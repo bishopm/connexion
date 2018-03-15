@@ -329,6 +329,7 @@ class SongsController extends Controller
                 $song->lyrics=$this->convert($request->lyrics);
             }
             $song->lyrics=preg_replace("/[\r\n]+/", "\n", $song->lyrics);
+            $song->words=preg_replace('/\[[^\[\]]*\]/', '', $song->lyrics);
             $song->audio=str_replace("dropbox.com", "dl.dropboxusercontent.com", $song->audio);
             $song->music=str_replace("www.", "", $song->music);
             $song->music=str_replace("dropbox.com", "dl.dropboxusercontent.com", $song->music);
@@ -359,7 +360,7 @@ class SongsController extends Controller
         if (isset($request->transpose)) {
             $song->lyrics=$this->_transposeLyrics($request->lyrics, strtolower($request->transpose));
         }
-        //$song->lyrics=preg_replace('/\[[^\[\]]*\]/', '', $song->lyrics);
+        $song->words=preg_replace('/\[[^\[\]]*\]/', '', $song->lyrics);
         $song->audio=str_replace("dropbox.com", "dl.dropboxusercontent.com", $song->audio);
         $song->music=str_replace("www.", "", $song->music);
         $song->music=str_replace("dropbox.com", "dl.dropboxusercontent.com", $song->music);
