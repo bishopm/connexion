@@ -89,7 +89,6 @@ class PreachersController extends Controller
 
     public function edit($id)
     {
-        //$data['individuals'] = $this->individuals->all();
         $data['circuit'] = $this->settings->getkey('circuit');
         $data['societies'] = $this->societies->all();
         $data['preacher']=$this->preacher->find($id);
@@ -125,6 +124,11 @@ class PreachersController extends Controller
     public function update($id, UpdatePreacherRequest $request)
     {
         $this->preacher->update($id, $request->except('image', 'token'));
-        return redirect()->route('admin.preachers.index')->withSuccess('Preacher has been updated');
+        if ($request->deletion_type<>"") {
+            $this->preacher->destroy($id);
+            return redirect()->route('admin.preachers.index')->withSuccess('Preacher has been deleted');
+        } else {
+            return redirect()->route('admin.preachers.index')->withSuccess('Preacher has been updated');
+        }
     }
 }

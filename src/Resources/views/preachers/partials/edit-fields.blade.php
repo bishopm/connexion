@@ -19,3 +19,17 @@
 </div>
 {{ Form::bsFile('image') }}
 {{ Form::bsHidden('circuit_id',$circuit) }}
+<div class="form-group" id="deletetype" style="display:none;">
+  <label for="Deletion_type" class="control-label">Why is this preacher being deleted?</label>
+  <select name="deletion_type" id="deletion_type" class="selectize">
+    <option value=""></option>
+    <option value="deceased">Deceased</option>
+    <option value="transferred">Transferred</option>
+    <option value="resigned">Resigned</option>
+    <option value="discontinued">Discontinued</option>
+  </select>
+</div>
+<div class="form-group" id="deletenotes" style="display:none;">
+  <label for="Deletion_notes" class="control-label">Notes regarding removal of preacher's name</label>
+  <input class="form-control" id="deletion_notes" placeholder="Notes" name="deletion_notes" type="text">
+</div>

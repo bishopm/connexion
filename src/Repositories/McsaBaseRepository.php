@@ -71,9 +71,13 @@ abstract class McsaBaseRepository implements BaseRepository
 
     public function settings()
     {
-        $url = $url = $this->api_url . '/circuits/' . $this->circuit . '/settings?token=' . $this->token;
-        $res = $this->client->request('GET', $url);
-        return json_decode($res->getBody()->getContents());
+        if ($this->checked<>"No token") {
+            $url = $url = $this->api_url . '/circuits/' . $this->circuit . '/settings?token=' . $this->token;
+            $res = $this->client->request('GET', $url);
+            return json_decode($res->getBody()->getContents());
+        } else {
+            return array();
+        }
     }
 
     public function setting($id)
@@ -148,9 +152,17 @@ abstract class McsaBaseRepository implements BaseRepository
     /**
      * @inheritdoc
      */
-    public function destroy($model)
+    public function destroy($id)
     {
-        return $model->delete();
+        $url = $this->api_url . '/circuits/' . $this->circuit . '/' . $this->model . '/' . $id . '?token=' . $this->token;
+        try {
+            $res = $this->client->request('DELETE', $url);
+            return $res->getBody()->getContents();
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            return json_decode($responseBodyAsString);
+        }
     }
 
 

@@ -85,9 +85,9 @@ class SocietiesController extends Controller
         return redirect()->route('admin.societies.index')->withSuccess('Society has been updated');
     }
 
-    public function destroy(Society $society)
+    public function destroy($society)
     {
         $this->society->destroy($society);
-        return view('connexion::societies.index')->withSuccess('The ' . $society->society . ' society has been deleted');
+        return redirect()->route('admin.societies.index')->withSuccess('Society has been deleted');
     }
 }

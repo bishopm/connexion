@@ -19,6 +19,7 @@
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.preachers.index')) }}
+                    <a onclick="deleteboxes();" class="btn btn-danger btn-flat pull-right"><i class="fa fa-trash"></i>Delete preacher</a>
                 </div>
             </div>
         </div>
@@ -36,5 +37,10 @@
           maxOptions: 30,
         });
     });
+
+    function deleteboxes() {
+        $('#deletetype').show();
+        $('#deletenotes').show();
+    }
 </script>
 @stop
