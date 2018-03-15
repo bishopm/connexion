@@ -82,12 +82,11 @@ class SocietiesController extends Controller
     public function update($id, UpdateSocietyRequest $request)
     {
         $this->society->update($id, $request->all());
-        return redirect()->route('admin.societies.index')->withSuccess('Society has been updated');
-    }
-
-    public function destroy($society)
-    {
-        $this->society->destroy($society);
-        return redirect()->route('admin.societies.index')->withSuccess('Society has been deleted');
+        if ($request->deletion_type<>"") {
+            $this->society->destroy($id);
+            return redirect()->route('admin.societies.index')->withSuccess('Society has been deleted');
+        } else {
+            return redirect()->route('admin.societies.index')->withSuccess('Society has been updated');
+        }
     }
 }

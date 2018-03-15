@@ -37,7 +37,6 @@
           maxOptions: 30,
         });
     });
-
     function deleteboxes() {
         $('#deletetype').show();
         $('#deletenotes').show();

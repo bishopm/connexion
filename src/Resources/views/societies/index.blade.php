@@ -30,14 +30,14 @@
                                 <tr>
                                     <th>Society</th>
                                     <th>Services</th>
-                                    <th></th>
+                                    <th>Edit</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Society</th>
                                     <th>Services</th>
-                                    <th></th>
+                                    <th>Edit</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -50,7 +50,6 @@
                                                 <div class="btn-group">
                                                     @if ($setting['church_api_token'])
                                                         <a href="{{ route('admin.societies.edit', [$society->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.societies.destroy', [$society->id]) }}" data-action-entity="Society: {{$society->society}}"><i class="fa fa-trash"></i></button>
                                                     @endif
                                                 </div>
                                             </td>
@@ -71,7 +70,6 @@
 @section('js')
 @parent
 <script language="javascript">
-@include('connexion::shared.delete-modal-script') 
 $(document).ready(function() {
         $('#indexTable').DataTable();
     } );
