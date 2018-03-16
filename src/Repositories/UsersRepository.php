@@ -4,14 +4,14 @@ use Bishopm\Connexion\Repositories\EloquentBaseRepository;
 
 class UsersRepository extends EloquentBaseRepository
 {
-
-	public function getuserbyindiv($individual_id){
-        return $this->model->where('individual_id','=',$individual_id)->with('comments')->first();
+    public function getuserbyindiv($individual_id)
+    {
+        return $this->model->where('individual_id', '=', $individual_id)->with('comments')->first();
     }
 
     public function mostRecent($num=1)
     {
-        return $this->model->with('individual')->where('verified',1)->orderBy('created_at', 'DESC')->get()->take($num);
+        return $this->model->with('individual')->where('verified', 1)->orderBy('created_at', 'DESC')->get()->take($num);
     }
 
     public function inactive()
@@ -24,30 +24,35 @@ class UsersRepository extends EloquentBaseRepository
         return $this->model->with('individual.groups')->find($id);
     }
 
+    public function unverified()
+    {
+        return $this->model->where('verified', '=', 0)->get();
+    }
+
     public function findWithContent($id)
     {
-        return $this->model->with('individual.groups','individual.sermons','individual.blogs')->find($id);
+        return $this->model->with('individual.groups', 'individual.sermons', 'individual.blogs')->find($id);
     }
 
     public function findForApi($id)
     {
-        $user = $this->model->with('individual.groups','individual.sermons','individual.blogs')->find($id);
+        $user = $this->model->with('individual.groups', 'individual.sermons', 'individual.blogs')->find($id);
         $user->groups=$user->individual->groups()->orderBy('groupname')->get();
-        $user->sermons=$user->individual->sermons()->orderBy('servicedate','DESC')->get();
-        foreach ($user->sermons as $sermon){
-            $sermon->sdate = date("j M Y",strtotime($sermon->created_at));
+        $user->sermons=$user->individual->sermons()->orderBy('servicedate', 'DESC')->get();
+        foreach ($user->sermons as $sermon) {
+            $sermon->sdate = date("j M Y", strtotime($sermon->created_at));
             $sermon->series = $sermon->series;
         }
-        $user->blogs=$user->individual->blogs()->orderBy('created_at','DESC')->get();
-        foreach ($user->blogs as $blog){
-            $blog->bdate = date("j M Y",strtotime($blog->created_at));
+        $user->blogs=$user->individual->blogs()->orderBy('created_at', 'DESC')->get();
+        foreach ($user->blogs as $blog) {
+            $blog->bdate = date("j M Y", strtotime($blog->created_at));
         }
         return $user;
     }
 
     public function activate($id)
     {
-        $user=$this->model->withTrashed()->where('id',$id)->first();
+        $user=$this->model->withTrashed()->where('id', $id)->first();
         $user->restore();
         return $user;
     }
@@ -55,10 +60,9 @@ class UsersRepository extends EloquentBaseRepository
     public function allVerified()
     {
         return $this->model
-            ->where('verified',1)
+            ->where('verified', 1)
             ->join('individuals', 'individuals.id', '=', 'users.individual_id')
-            ->orderBy('individuals.surname')->select('individuals.*','users.*','users.id as userid')
+            ->orderBy('individuals.surname')->select('individuals.*', 'users.*', 'users.id as userid')
             ->get();
     }
-
 }

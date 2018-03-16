@@ -378,6 +378,12 @@ class ConnexionServiceProvider extends ServiceProvider
                             'url' => 'admin/users/activate',
                             'icon' => 'plug',
                             'can' =>  'admin-backend'
+                        ],
+                        [
+                            'text' => 'Verify users',
+                            'url' => 'admin/users/verify',
+                            'icon' => 'check',
+                            'can' =>  'admin-backend'
                         ]
                     ]
                 ]);

@@ -511,6 +511,8 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 
         // Users
         Route::get('admin/users', ['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@index','as'=>'admin.users.index']);
+        Route::get('admin/users/verify', ['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@verify','as'=>'admin.users.verify']);
+        Route::get('admin/users/verify/{user}', ['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@verified','as'=>'admin.users.verified']);
         Route::get('admin/users/activate', ['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@activate','as'=>'admin.users.activate']);
         Route::get('admin/users/activate/{user}', ['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@activateuser','as'=>'admin.users.activateuser']);
         Route::get('admin/users/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\UsersController@create','as'=>'admin.users.create']);

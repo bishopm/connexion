@@ -56,11 +56,13 @@
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Update',route('admin.users.show',$user->id)) }}
+                    <button type="button" class="btn btn-danger btn-flat pull-right" data-action-entity="{{$user->name}}" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.users.destroy', [$user->id]) }}">Delete</button>
                 </div>
             </div>
         </div>
     </div>
     {!! Form::close() !!}
+    @include('connexion::shared.delete-modal')
 @stop
 
 @section('js')
@@ -82,5 +84,6 @@
     $(function () {
       $(".colorpicker").colorpicker();
     });    
+    @include('connexion::shared.delete-modal-script')
 </script>
 @stop

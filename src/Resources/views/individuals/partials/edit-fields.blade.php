@@ -22,4 +22,15 @@
 	{{ Form::bsText('giving','Planned Giving','Planned Giving',$individual->giving) }}
 @endcan
 @endif
-{{ Form::bsHidden('household_id',$individual->household_id) }}
+@can('admin-backend')
+    <div class="form-group">
+        <label for="Household (use with care!)" class="control-label">Household (use With Care!)</label>
+        <select class="form-control" id="household_id" name="household_id">
+            @foreach ($households as $key=>$household)
+                <option value="{{$key}}">{{$household}}</option>
+            @endforeach
+        </select>
+    </div>
+@elsecannot('admin-backend')
+    {{ Form::bsHidden('household_id',$individual->household_id) }}
+@endcan
