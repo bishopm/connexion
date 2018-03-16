@@ -27,7 +27,11 @@
         <label for="Household (use with care!)" class="control-label">Household (use With Care!)</label>
         <select class="form-control" id="household_id" name="household_id">
             @foreach ($households as $key=>$household)
-                <option value="{{$key}}">{{$household}}</option>
+                @if ($key==$individual->household_id)
+                    <option selected value="{{$key}}">{{$household}}</option>
+                @else
+                    <option value="{{$key}}">{{$household}}</option>
+                @endif
             @endforeach
         </select>
     </div>
