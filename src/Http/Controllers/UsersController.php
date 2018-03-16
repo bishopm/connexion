@@ -165,7 +165,7 @@ class UsersController extends Controller
 
     public function destroy($id)
     {
-        $this->user->find($id)->delete();
+        $this->user->find($id)->forceDelete();
         return redirect()->route('admin.users.index')->withSuccess('User has been deleted');
     }
 }
