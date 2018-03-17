@@ -148,9 +148,11 @@
                         </div>
                     </div>
                     </form>
-                    <li class="songtitles" v-for="song in songs">
-                        <a v-bind:class="song.musictype" :href="song.url">@{{ song.title }}</a>
-                    </li>
+                    <ul class="list-unstyled" style="margin-left:10px; margin-right:10px;">
+                        <li v-for="song in songs">
+                            <a v-bind:class="song.musictype" :href="song.url">@{{ song.title }}</a>
+                        </li>
+                    </ul>
                 </ul><!-- /.sidebar-menu -->
             </section>
             <!-- /.sidebar -->
