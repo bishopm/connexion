@@ -12,7 +12,7 @@
                     @endif
                     {{$blog->title}}</a><a href="{{url('/')}}/blog/{{$blog->slug}}">
                     <div class="small"><b>{{date("d M Y",strtotime($blog->created_at))}}</b> {{$blog->individual->firstname}} {{$blog->individual->surname}}</div>
-                    <div id="highlighted" class="text-justify">{!!substr($blog->body, 0, strpos($blog->body, ' ', 400))!!}</div>
+                    <div id="highlighted" class="text-justify">{!!substr(str_replace('</p>',' ',str_replace('<p>','',$blog->body)), 0, strpos($blog->body, ' ', 500))!!}</div>
                     </a>
                 </div>
                 </div>

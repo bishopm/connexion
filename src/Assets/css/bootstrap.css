@@ -9373,11 +9373,11 @@
   
 .highlight {
   background-color:var(--tertiary);
-  height: 9.8em; 
+  height: 10.2em; 
   overflow: hidden; 
   line-height: 1.2em;
-  padding-top: 0.2em;
-  padding-bottom: 0.2em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
   padding-left: 0.4em;
   padding-right: 0.4em;
 }
