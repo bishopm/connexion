@@ -12,15 +12,15 @@
                     @endif
                     {{$blog->title}}</a><a href="{{url('/')}}/blog/{{$blog->slug}}">
                     <div class="small"><b>{{date("d M Y",strtotime($blog->created_at))}}</b> {{$blog->individual->firstname}} {{$blog->individual->surname}}</div>
-                    <div class="text-justify">{!!substr($blog->body, 0, strpos($blog->body, ' ', 400))!!}</div>
+                    <div id="highlighted" class="text-justify">{!!substr($blog->body, 0, strpos($blog->body, ' ', 400))!!}</div>
                     </a>
                 </div>
                 </div>
             @else
                 @if ($loop->index==1)
-                    <div class="col-xs-12 top10" style="padding-left:26px;">
+                    <div class="col-xs-12 mt-2" style="padding-left:26px;">
                 @else
-                    <div class="col-xs-12 top5" style="padding-left:26px;">
+                    <div class="col-xs-12" style="padding-left:26px;">
                 @endif
                 {{date("d M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
             @endif

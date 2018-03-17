@@ -19,6 +19,7 @@
 @endsection
 
 @section('js')
+<script src="{{ asset('/vendor/bishopm/js/clamp.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/vendor/bishopm/mediaelement/build/mediaelement.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/vendor/bishopm/mediaelement/build/mediaelementplayer.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
@@ -31,6 +32,8 @@
       $('audio').mediaelementplayer({
         features: ['playpause','tracks','progress','volume'],
       });
+      var highlighted = document.getElementById("highlighted");
+      $clamp(highlighted, {clamp: 7});
     });
   })(jQuery);
 </script>

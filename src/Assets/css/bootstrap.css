@@ -9370,20 +9370,18 @@
     color:var(--secondary);
     text-decoration: none;
 }
-
-.highlight {
-    display: inline-block;
-    background-color:var(--tertiary);
-    padding:10px;
-    height:136px; 
-    line-height: 95%;
-    font-size:95%;
-    overflow : hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-}
   
+.highlight {
+  background-color:var(--tertiary);
+  height: 9.8em; 
+  overflow: hidden; 
+  line-height: 1.2em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+}
+
 .highlight a {
     color:black;
     text-decoration: none;
