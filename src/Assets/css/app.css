@@ -1,3 +1,7 @@
+html { 
+    overflow-x: hidden !important; 
+}
+
 .sidebar-menu > li.songtitles > a.hymn {
     color:lightyellow;
 }

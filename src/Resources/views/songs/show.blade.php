@@ -146,7 +146,7 @@
                 </div>
              </div>
             <div v-if="videosource" class="tab-pane" id="k4">
-                <iframe id="ytplayer" type="text/html" width="640" height="390" :src="formdata.video"
+                <iframe id="ytplayer" type="text/html" width="640" height="390" :src="'https://' + formdata.video"
                   frameborder="0"/>
                 </iframe>
             </div>
