@@ -57,7 +57,18 @@ class SongsController extends Controller
             }
         }
         $data['lets']=array('1'=>'A','2'=>'B','3'=>'C','4'=>'D','5'=>'E','6'=>'F','7'=>'G','8'=>'H','9'=>'I','10'=>'J','11'=>'K','12'=>'L','13'=>'M','14'=>'N','15'=>'O','16'=>'P','17'=>'Q','18'=>'R','19'=>'S','20'=>'T','21'=>'U','22'=>'V','23'=>'W','24'=>'X','25'=>'Y','26'=>'Z');
-        $data['songs']=Song::orderBy('title')->get();
+        $data['songs']=Song::where('musictype', '<>', 'liturgy')->orderBy('title')->get();
+        $liturgies=Song::where('musictype', '=', 'liturgy')->orderBy('title')->get();
+        foreach ($liturgies as $liturgy) {
+            if (count($liturgy->tags)) {
+                foreach ($liturgy->tags as $tag) {
+                    $data['tags'][str_replace(' ', '-', $tag->name)][]=$liturgy;
+                }
+            } else {
+                $data['tags']['notag'][]=$liturgy;
+            }
+        }
+        ksort($data['tags']);
         $data['songcount']=count($data['songs']);
         $lasthree=date("Y-m-d", strtotime("-4 month"));
         $recents=Set::with(['setitems' => function ($query) {

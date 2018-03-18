@@ -194,11 +194,9 @@
     <script type="text/javascript">
     $( document ).ready(function() {
         $('#songsearch').selectize({
-              plugins: ['remove_button'],
-              openOnFocus: 0,
-              maxOptions: 5,
-              placeholder: 'Search by tag...',
-              dropdownParent: null
+          plugins: ['remove_button'],
+          openOnFocus: 0,
+          dropdownParent: "body"
         });
         $('#songs').prop('checked', true);
         $('#hymns').prop('checked', true);
