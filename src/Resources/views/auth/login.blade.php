@@ -15,7 +15,6 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">{{ trans('adminlte::adminlte.login_message') }}</p>
             @include('connexion::shared.loginform')
         </div>
         <!-- /.login-box-body -->

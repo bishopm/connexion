@@ -1,19 +1,32 @@
 <div class="form-group" id="emaildiv" style="display:none;">
     <div class="row">
-        <div class="col-6">
+        <div class="col-sm-6">
             <label for="emailbox">Your email address</label>
             <input id="emailbox" class="form-control" placeholder="Enter your email address">
         </div>
-        <div class="col-6">
+        <div class="col-sm-6">
             <label for="usernamebox">Recognise your username?</label>        
             <select id="usernamebox" class="form-control"></select>
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="form-group">
+        <div class="col-sm-12">Login using your social networks: &nbsp;&nbsp;
+            <span class="pull-right float-right">
+                <a href="{{ url('login/facebook') }}" class="btn btn-facebook"><i class="fa fa-facebook"></i></a> 
+                <a href="{{ url('login/google') }}" class="btn btn-google"><i class="fa fa-google-plus"></i></a>
+            </span>
+        </div>
+    </div>
+</div>
+<hr>
 <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post">
     {!! csrf_field() !!}
     <div class="row">
-        <div class="col-12">
+        <div class="col-sm-12">or your username and password</div>
+        <br><br>
+        <div class="col-sm-12">
             <div class="form-group has-feedback {{ $errors->has('name') ? 'has-error' : '' }}">
                 <input id="name" name="name" class="form-control" value="{{ old('name') }}"
                     placeholder="Username">
@@ -26,7 +39,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-sm-12">
             <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
                 <input type="password" name="password" class="form-control"
                     placeholder="{{ trans('adminlte::adminlte.password') }}">
@@ -39,7 +52,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-8">
+        <div class="col-sm-8">
             <div class="checkbox icheck">
                 <label>
                     <input type="checkbox" name="remember"> {{ trans('adminlte::adminlte.remember_me') }}
@@ -47,7 +60,7 @@
             </div>
         </div>
         <!-- /.col -->
-        <div class="col-4">
+        <div class="col-sm-4">
             <button type="submit"
                     class="btn btn-primary btn-block btn-flat">{{ trans('adminlte::adminlte.sign_in') }}
             </button>
@@ -58,7 +71,7 @@
 <div class="auth-links">
     @if (config('adminlte.register_url', 'register'))
         <div class="row">
-            <div class="col-10 col-offset-1">
+            <div class="col-sm-12">
                 <a href="{{ url(config('adminlte.register_url', 'register')) }}" class="text-center">
                     Register as a user
                 </a>
@@ -66,14 +79,14 @@
         </div>
     @endif
     <div class="row">
-        <div class="col-10 col-offset-1">
+        <div class="col-sm-12">
             <a href="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}" class="text-center">
                 I forgot my password
             </a>
         </div>
     </div>
     <div class="row">
-        <div class="col-10 col-offset-1">
+        <div class="col-sm-12">
             <a href="#" onclick="usernametell();" class="text-center">I forgot my username</a>
         </div>
     </div>

@@ -441,6 +441,12 @@ class ConnexionServiceProvider extends ServiceProvider
             config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
             config(['jwt.ttl' => 525600]);
             config(['jwt.refresh_ttl' => 525600]);
+            config(['services.facebook.client_id'=> $settings->getkey('facebook_clientId')]);
+            config(['services.facebook.client_secret'=> $settings->getkey('facebook_clientSecret')]);
+            config(['services.facebook.redirect'=> $settings->getkey('facebook_redirect')]);
+            config(['services.google.client_id'=> $settings->getkey('google_clientId')]);
+            config(['services.google.client_secret'=> $settings->getkey('google_clientSecret')]);
+            config(['services.google.redirect'=> $settings->getkey('google_redirect')]);
             view()->composer('connexion::templates.*', \Bishopm\Connexion\Composers\MenuComposer::class);
             view()->composer('connexion::worship.page', \Bishopm\Connexion\Composers\SongComposer::class);
             view()->composer('connexion::site.*', \Bishopm\Connexion\Composers\SlideComposer::class);
@@ -471,6 +477,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
         $this->app->register('LithiumDev\TagCloud\ServiceProvider');
         AliasLoader::getInstance()->alias("Charts", 'ConsoleTVs\Charts\Facades\Charts');
+        AliasLoader::getInstance()->alias("Socialite", 'Laravel\Socialite\Facades\Socialite');
         AliasLoader::getInstance()->alias("JWTFactory", 'Tymon\JWTAuth\Facades\JWTFactory');
         AliasLoader::getInstance()->alias("JWTAuth", 'Tymon\JWTAuth\Facades\JWTAuth');
         AliasLoader::getInstance()->alias("UserVerification", 'Jrean\UserVerification\Facades\UserVerification');
@@ -545,6 +552,9 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'colour_secondary','module'=>'website','description'=>'Secondary website colour (darker)','setting_value'=>'navy'],
             ['setting_key'=>'colour_tertiary','module'=>'website','description'=>'Tertiary website colour (lighter)','setting_value'=>'lightblue'],
             ['setting_key'=>'facebook_page','module'=>'website','description'=>'Church Facebook page url','setting_value'=>'Facebook page'],
+            ['setting_key'=>'facebook_clientId','module'=>'core','description'=>'Facebook Client ID','setting_value'=>'Facebook Client ID'],
+            ['setting_key'=>'facebook_clientSecret','module'=>'core','description'=>'Facebook Client Secret','setting_value'=>'Facebook Client Secret'],
+            ['setting_key'=>'facebook_redirect','module'=>'website','description'=>'Facebook Redirect url','setting_value'=>'Facebook Redirect url'],
             ['setting_key'=>'filtered_tasks','module'=>'todo','description'=>'Filter tasks','setting_value'=>'Next actions'],
             ['setting_key'=>'giving_administrator','module'=>'core','description'=>'Person who has exclusive access to planned giving details','setting_value'=>'Giving administrator'],
             ['setting_key'=>'giving_lagtime','module'=>'core','description'=>'Number of days before reports go out that administrator gets a warning email','setting_value'=>'Lag time in days'],
@@ -552,6 +562,9 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'google_analytics_view_id','module'=>'core','description'=>'View ID for Google Analytics API','setting_value'=>'Google analytics API'],
             ['setting_key'=>'google_api','module'=>'core','description'=>'Google API for maps','setting_value'=>'Google maps API'],
             ['setting_key'=>'google_calendar','module'=>'core','description'=>'Church Google calendar','setting_value'=>'Google calendar ID'],
+            ['setting_key'=>'google_clientId','module'=>'core','description'=>'Google Client ID','setting_value'=>'Google Client ID'],
+            ['setting_key'=>'google_clientSecret','module'=>'core','description'=>'Google Client Secret','setting_value'=>'Google Client Secret'],
+            ['setting_key'=>'google_redirect','module'=>'website','description'=>'Google Redirect url','setting_value'=>'Google Redirect url'],
             ['setting_key'=>'home_latitude','module'=>'core','description'=>'Church location: latitude','setting_value'=>'Church latitude'],
             ['setting_key'=>'home_longitude','module'=>'core','description'=>'Church location: longitude','setting_value'=>'Church longitude'],
             ['setting_key'=>'mail_encryption','module'=>'core','description'=>'Email settings: email account encryption (or leave as null)','setting_value'=>''],

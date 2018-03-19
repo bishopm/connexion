@@ -37,13 +37,16 @@
         <p class="login-box-msg"><b>Register as a new user</b></p>
         <form action="{{ url('/register') }}" id="registerform" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            @if ($provider)
+                <input type="hidden" name="{{$provider}}_id" value="{{$provider_id}}">
+            @endif
             <div class="form-group has-feedback">
                 <input class="form-control" placeholder="Choose a unique username eg:johnwesley" id="name" name="name" autocomplete="off" value="{{ old('name') }}"/>
                 <div id="errmess" style="display:none;"><i class="fa fa-times"></i> Username is required and must be unique</div>
                 <div id="okmess" style="display:none;"><i class="fa fa-check"></i> This username is available</div>
             </div>
             <div class="form-group has-feedback">
-                <input type="email" class="form-control" placeholder="Email" id="email" name="email"/>
+                <input type="email" class="form-control" placeholder="Email" id="email" name="email" value="{{$email}}"/>
                 <span class="fa fa-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -113,7 +116,7 @@
                 email=e.target.value;
                 $(".selectize")[0].selectize.clearOptions();
                 if (email){
-                    $.post('checkmail', { "email": email}, 
+                    $.post('{{url('/')}}/checkmail', { "email": email}, 
                     function(data){
                         var selectize = $(".selectize")[0].selectize;
                         if (data!=="No data"){

@@ -5,6 +5,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/feed/{service?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@feed','as' => 'feed']);
     Route::get('login', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
     Route::post('login', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@login','as'=>'login']);
+    // Social login
+    Route::get('/login/{social}', 'Bishopm\Connexion\Http\Controllers\Auth\LoginController@socialLogin')->where('social', 'facebook|google');
+    Route::get('/login/{social}/callback', 'Bishopm\Connexion\Http\Controllers\Auth\LoginController@handleProviderCallback')->where('social', 'facebook|google');
+
     Route::post('password/email', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail','as'=>'sendResetLinkEmail']);
     Route::get('password/reset', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm','as'=>'showLinkRequestForm']);
     Route::post('password/reset', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ResetPasswordController@reset','as'=>'password.reset']);

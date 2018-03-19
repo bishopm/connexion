@@ -4,9 +4,12 @@ namespace Bishopm\Connexion\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
+use Socialite;
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Bishopm\Connexion\Repositories\SettingsRepository;
+use Bishopm\Connexion\Models\User;
 
 class LoginController extends Controller
 {
@@ -68,5 +71,31 @@ class LoginController extends Controller
     protected function getFailedLoginMessage()
     {
         return 'YourCustomMessage';
+    }
+
+
+    public function socialLogin($social)
+    {
+        return Socialite::driver($social)->redirect();
+    }
+ 
+    public function handleProviderCallback($social)
+    {
+        $userSocial = Socialite::driver($social)->user();
+        if ($social=="facebook") {
+            $user = User::where(['facebook_id' => $userSocial->getId()])->first();
+            $provider_id=$userSocial->getId();
+        } else {
+            $user = User::where(['google_id' => $userSocial->id])->first();
+            $provider_id=$userSocial->id;
+        }
+        if ($user) {
+            Auth::login($user);
+            return redirect('/');
+        } else {
+            $individuals=array();
+            $services=explode(',', $this->setting->getkey('worship_services'));
+            return view('connexion::auth.register', ['name' => $userSocial->getName(), 'email' => $userSocial->getEmail(), 'individuals'=>$individuals, 'services'=>$services, 'provider'=>$social, 'provider_id'=>$provider_id]);
+        }
     }
 }

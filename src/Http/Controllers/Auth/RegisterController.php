@@ -16,6 +16,7 @@ use Jrean\UserVerification\Facades\UserVerification;
 use Bishopm\Connexion\Notifications\NewUserRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -93,9 +94,11 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $individuals=array();
-        $services=explode(',', $this->setting->getkey('worship_services'));
-        return view('connexion::auth.register', compact('individuals', 'services'));
+        $data['individuals']=array();
+        $data['email']="";
+        $data['services']=explode(',', $this->setting->getkey('worship_services'));
+        $data['provider']="";
+        return view('connexion::auth.register', $data);
     }
 
     /**
@@ -107,10 +110,24 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $siteabbr=$this->setting->getkey('site_abbreviation');
-        $this->validator($request->all())->validate();
-        if ($request->individual_id==0) {
-            return back()->withErrors(array('This individual is already a registered user. Go back to the login page, where help is available if you have forgotten your username or password'));
+        if ($request->individual_id < 0) {
+            $indiv=Individual::find($request->individual_id*-1);
+            $user=User::where('individual_id', $indiv->id)->first();
+            if (isset($request->facebook_id)) {
+                $user->facebook_id=$request->facebook_id;
+                $user->save();
+                Auth::login($user);
+                return redirect('/')->withInfo('User ' . $user->name . ' may now log in using Facebook');
+            } elseif (isset($request->google_id)) {
+                $user->google_id=$request->google_id;
+                $user->save();
+                Auth::login($user);
+                return redirect('/')->withInfo('User ' . $user->name . ' may now log in using Google');
+            } else {
+                return back()->withErrors(array('This individual is already a registered user. Go back to the login page, where help is available if you have forgotten your username or password'));
+            }
         } else {
+            $this->validator($request->all())->validate();
             $user = $this->create($request->all());
             event(new Registered($user));
             $webrole=Role::where('slug', 'web-user')->first()->id;

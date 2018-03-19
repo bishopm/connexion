@@ -139,7 +139,7 @@ class IndividualsController extends Controller
             foreach ($individuals as $indiv) {
                 if ($indiv->user) {
                     $indiv->firstname=$indiv->firstname . " (already registered)";
-                    $indiv->id=0;
+                    $indiv->id=$indiv->id*-1;
                 }
                 $family[]=$indiv;
             }

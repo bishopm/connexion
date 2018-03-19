@@ -13,11 +13,11 @@ class AddColumnsToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function($table) {
+        Schema::table('users', function ($table) {
             $table->dropColumn('password');
             $table->integer('individual_id')->nullable();
-            $table->string('google_calendar')->nullable();
-            $table->string('calendar_colour')->nullable();
+            $table->string('facebook_id')->nullable();
+            $table->string('google_id')->nullable();
             $table->string('slack_username')->nullable();
             $table->string('notification_channel')->nullable();
             $table->string('allow_messages')->nullable();
@@ -25,7 +25,7 @@ class AddColumnsToUsers extends Migration
             $table->dropUnique(['email']);
             $table->softDeletes();
         });
-        Schema::table('users', function($table) {
+        Schema::table('users', function ($table) {
             $table->string('password')->nullable();
         });
     }
@@ -37,10 +37,10 @@ class AddColumnsToUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function($table) {
+        Schema::table('users', function ($table) {
             $table->dropColumn('individual_id');
-            $table->dropColumn('google_calendar');
-            $table->dropColumn('calendar_colour');
+            $table->dropColumn('facebook_id');
+            $table->dropColumn('google_id');
             $table->dropColumn('slack_username');
             $table->dropColumn('notification_channel');
             $table->dropColumn('bio');
