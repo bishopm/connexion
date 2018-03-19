@@ -20,6 +20,7 @@
         "illuminate/support": "5.6.*",
         "jeroennoten/laravel-adminlte":"1.*",
         "laravelcollective/html": "5.6.*",
+        "laravel/socialite": "3.*",
         "cviebrock/eloquent-sluggable":"^4.5",
         "nwidart/laravel-menus": "2.*",
         "league/oauth2-client": "^1.4",

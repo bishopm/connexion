@@ -65,7 +65,7 @@ class SongsController extends Controller
                     $data['tags'][str_replace(' ', '-', $tag->name)][]=$liturgy;
                 }
             } else {
-                $data['tags']['notag'][]=$liturgy;
+                $data['tags']['no-category'][]=$liturgy;
             }
         }
         ksort($data['tags']);
