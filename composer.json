@@ -35,6 +35,7 @@
         "roumen/feed": "2.*",
         "spatie/laravel-activitylog": "2.*",
         "spatie/laravel-analytics": "3.*",
+        "spatie/laravel-permission": "2.*",
         "tymon/jwt-auth": "1.*",
         "barryvdh/laravel-cors": "0.11.*",
         "consoletvs/charts": "6.*",
