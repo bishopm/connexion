@@ -5,6 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Models\Roster;
 use Bishopm\Connexion\Models\Group;
 use Bishopm\Connexion\Models\Society;
+use Bishopm\Connexion\Models\Role;
 use View;
 use DB;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
@@ -46,6 +47,10 @@ class RostersController extends Controller
      */
     public function create()
     {
+        $roles = Role::all();
+        foreach ($roles as $role) {
+            $data['roles'][$role->id]=$role->name;
+        }
         $data['groups'] = Group::all();
         return View::make('connexion::rosters.create', $data);
     }
@@ -75,7 +80,6 @@ class RostersController extends Controller
         }
         return Redirect::route('admin.rosters.index', $roster->id)->with('okmessage', 'New roster has been added');
     }
-
 
     /**
      * Display the specified resource.
@@ -227,6 +231,10 @@ class RostersController extends Controller
      */
     public function edit($id)
     {
+        $roles = Role::all();
+        foreach ($roles as $role) {
+            $data['roles'][$role->id]=$role->name;
+        }
         $data['roster'] = Roster::with(array('group' => function ($query) {
             $query->orderBy('groupname', 'asc');
         }))->find($id);

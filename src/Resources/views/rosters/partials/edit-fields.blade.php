@@ -74,3 +74,14 @@
 		@endif
 	@endforeach
 </select>
+{!! Form::label('role_label','Access for specific role', array('class'=>'control-label','title'=>'Specify any other role who may access this roster')) !!}
+<select name="role_id" data-placeholder="Choose a role or leave blank..." class="selectize">
+<option value=""></option>
+@foreach ($roles as $key=>$role)
+  @if ((isset($roster->role_id)) and ($roster->role_id == $key))
+	<option selected value="{{$key}}">{{$role}}</option>
+  @else
+  	<option value="{{$key}}">{{$role}}</option>
+  @endif
+@endforeach
+</select>

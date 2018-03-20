@@ -45,7 +45,13 @@
                                             @endif
                                         </a></td>
                                         <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->email}}</a></td>
-                                        <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->roles()->first()->name}}</a></td>
+                                        <td>
+                                            <a href="{{route('admin.users.edit',$user->id)}}">
+                                                @if (count($user->roles()->first()))
+                                                    {{$user->roles()->first()->name}}
+                                                @endif
+                                            </a>
+                                        </td>
                                         <td>@if ($user->verified)
                                                 <i class="fa fa-check"></i>
                                             @else

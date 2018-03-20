@@ -8,6 +8,7 @@
             <ul class="nav nav-pills">
                 <li class="active"><a href="#s" data-toggle="tab">Songs</a></li>
                 <li><a href="#l" data-toggle="tab">Liturgy</a></li>
+                <li><a href="#r" data-toggle="tab">Roster</a></li>
             </ul>
         </div>
         <div class="tab-content">
@@ -15,7 +16,7 @@
                 <div class="box-body">
                     @foreach($songs as $song)
                         <?php
-                            $initlet=substr($song->title,0,1);
+                            $initlet=substr($song->title, 0, 1);
                             $pagedhouse[$initlet][]="<a class=\"" . $song->musictype . "\" title=\"View song\" href=\"" . url('/') . "/admin/worship/songs/" . $song->id . "\">" . $song->title . "</a>";
                         ?>
                     @endforeach
@@ -173,6 +174,15 @@
                             </div>
                         @endforeach
                     </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="r">
+                <div class="box-body">
+                    @if ($rosteredit)
+                        <a href="{{route('admin.rosters.index')}}">Edit roster</a>
+                    @else
+                        Can't edit
+                    @endif
                 </div>
             </div>
         </div>

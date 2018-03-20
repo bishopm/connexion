@@ -83,13 +83,21 @@ class RegisterController extends Controller
         $indiv=Individual::find($data['individual_id']);
         $indiv->servicetime=$data['service_id'];
         $indiv->save();
-        return User::create([
+        $user= User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'individual_id' => $data['individual_id'],
             'password' => bcrypt($data['password']),
             'allow_messages' => 'Yes'
         ]);
+        if (isset($data['facebook_id'])) {
+            $user->facebook_id=$data['facebook_id'];
+            $user->save();
+        } elseif (isset($data['google_id'])) {
+            $user->facebook_id=$data['google_id'];
+            $user->save();
+        }
+        return $user;
     }
 
     public function showRegistrationForm()
@@ -127,7 +135,7 @@ class RegisterController extends Controller
                 return back()->withErrors(array('This individual is already a registered user. Go back to the login page, where help is available if you have forgotten your username or password'));
             }
         } else {
-            $this->validator($request->all())->validate();
+            //$this->validator($request->all())->validate();
             $user = $this->create($request->all());
             event(new Registered($user));
             $webrole=Role::where('slug', 'web-user')->first()->id;

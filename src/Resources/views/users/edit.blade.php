@@ -3,7 +3,6 @@
 @section('css')
     <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
     <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/vendor/bishopm/colorpicker/bootstrap-colorpicker.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content_header')
@@ -67,7 +66,6 @@
 
 @section('js')
 <script src="{{ asset('/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('/vendor/bishopm/colorpicker/bootstrap-colorpicker.min.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
         $('.input-individual').selectize({
@@ -81,9 +79,6 @@
           maxOptions: 30,
         });
     });
-    $(function () {
-      $(".colorpicker").colorpicker();
-    });    
     @include('connexion::shared.delete-modal-script')
 </script>
 @stop

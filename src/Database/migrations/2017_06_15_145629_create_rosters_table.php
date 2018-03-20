@@ -12,7 +12,7 @@ class CreateRostersTable extends Migration
      */
     public function up()
     {
-        Schema::create('rosters', function(Blueprint $table) {
+        Schema::create('rosters', function (Blueprint $table) {
             $table->increments('id');
             $table->string('rostername');
             $table->string('message');
@@ -20,6 +20,7 @@ class CreateRostersTable extends Migration
             $table->string('multichoice')->nullable();
             $table->string('subcategories')->nullable();
             $table->integer('dayofweek');
+            $table->integer('role_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

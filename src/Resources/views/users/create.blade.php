@@ -3,7 +3,6 @@
 @section('css')
     <link rel="stylesheet" href="{{asset('/vendor/bishopm/css/bootstrap-datepicker.min.css')}}">
     <link href="{{ asset('/vendor/bishopm/css/selectize.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/plugins/colorpicker/bootstrap-colorpicker.min.css') }}" rel="stylesheet" type="text/css" />
 @stop
 
 @section('content')
@@ -57,9 +56,5 @@
           maxOptions: 30,
         });
     });
-    $(function () {
-      $(".colorpicker").colorpicker();
-    });    
 </script>
-<script src="{{ asset('/colorpicker/bootstrap-colorpicker.min.js') }}" type="text/javascript"></script>
 @stop 
