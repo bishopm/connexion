@@ -5,7 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use App\Http\Controllers\Controller;
 use MediaUploader;
 use Bishopm\Connexion\Models\User;
-use Bishopm\Connexion\Models\Role;
+use Spatie\Permission\Models\Role;
 use Bishopm\Connexion\Models\Household;
 use Bishopm\Connexion\Repositories\UsersRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
@@ -62,8 +62,7 @@ class UsersController extends Controller
     public function activateuser($id)
     {
         $user=$this->user->activate($id);
-        $webrole=Role::where('slug', 'web-user')->first()->id;
-        $user->roles()->attach($webrole);
+        $user->assignRole('user');
         $hid=$user->individual->household_id;
         $household=Household::withTrashed()->where('id', $hid)->first();
         $household->restore();
@@ -111,7 +110,7 @@ class UsersController extends Controller
             $user->password = bcrypt($request->input('password'));
         }
         $user->save();
-        $user->roles()->attach($request->role_id);
+        $user->syncRoles($request->role_id);
         return redirect()->route('admin.users.index')
             ->withSuccess('New user added');
     }
@@ -132,8 +131,7 @@ class UsersController extends Controller
         } else {
             $user->fill($request->except('role_id', 'profile'));
             $user->save();
-            $user->roles()->detach();
-            $user->roles()->attach($request->role_id);
+            $user->syncRoles($request->role_id);
             //$user->notify(new ProfileUpdated($user));
             return redirect()->route('admin.users.index')->withSuccess('User has been updated');
         }

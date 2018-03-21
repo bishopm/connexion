@@ -5,9 +5,10 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Models\Roster;
 use Bishopm\Connexion\Models\Group;
 use Bishopm\Connexion\Models\Society;
-use Bishopm\Connexion\Models\Role;
+use Spatie\Permission\Models\Role;
 use View;
 use DB;
+use Auth;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Http\Requests\CreateRosterRequest;
@@ -36,7 +37,18 @@ class RostersController extends Controller
      */
     public function index()
     {
-        $data['rosters'] = Roster::orderBy('rostername')->get();
+        $user=Auth::user();
+        if ($user->hasPermissionTo('edit-backend')) {
+            $data['rosters'] = Roster::orderBy('rostername')->get();
+        } elseif ($user->hasPermissionTo('edit-roster')) {
+            $rosters = Roster::orderBy('rostername')->get();
+            foreach ($rosters as $roster) {
+                $users=explode(',', $roster->users);
+                if (in_array($user->id, $users)) {
+                    $data['rosters'][]=$roster;
+                }
+            }
+        }
         return View::make('connexion::rosters.index', $data);
     }
 
@@ -47,9 +59,10 @@ class RostersController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
-        foreach ($roles as $role) {
-            $data['roles'][$role->id]=$role->name;
+        $role = Role::findByName('Roster editor');
+        $users = $role->users;
+        foreach ($users as $user) {
+            $data['users'][$user->id]=$user->individual->firstname . " " . $user->individual->surname;
         }
         $data['groups'] = Group::all();
         return View::make('connexion::rosters.create', $data);
@@ -89,11 +102,7 @@ class RostersController extends Controller
      */
     public function show($id)
     {
-        $data['roster'] = Roster::with(array('group' => function ($query) {
-            $query->orderBy('groupname', 'asc');
-        }))->find($id);
-        $data['groups'] = Group::orderBy('groupname')->get();
-        return View::make('connexion::rosters.show', $data);
+        return "Shouldn't be showing";
     }
 
     private function _get_week_dates($yy, $mm, $dd)
@@ -231,13 +240,15 @@ class RostersController extends Controller
      */
     public function edit($id)
     {
-        $roles = Role::all();
-        foreach ($roles as $role) {
-            $data['roles'][$role->id]=$role->name;
+        $role = Role::findByName('Roster editor');
+        $users = $role->users;
+        foreach ($users as $user) {
+            $data['users'][$user->id]=$user->individual->firstname . " " . $user->individual->surname;
         }
         $data['roster'] = Roster::with(array('group' => function ($query) {
             $query->orderBy('groupname', 'asc');
         }))->find($id);
+        $data['usersarr']=explode(',', $data['roster']->users);
         if (count($data['roster']->group)<>0) {
             foreach ($data['roster']->group as $group) {
                 $rostergroup[]=$group->id;
@@ -276,7 +287,12 @@ class RostersController extends Controller
     public function update($id, UpdateRosterRequest $request)
     {
         $roster = Roster::find($id);
-        $roster->fill($request->except('groups', 'extrainfo', 'multichoice'));
+        $roster->fill($request->except('groups', 'extrainfo', 'multichoice', 'users'));
+        if (count($request->users)) {
+            $roster->users=implode(',', $request->input('users'));
+        } else {
+            $roster->users="";
+        }
         if (count($request->extrainfo)) {
             $roster->extrainfo=implode(",", $request->extrainfo);
         } else {
@@ -413,75 +429,89 @@ class RostersController extends Controller
     public function details($id, $year, $month)
     {
         $data['roster'] = Roster::with('group')->find($id);
-        $extrainfo = explode(",", $data['roster']->extrainfo);
-        $data['extragroups']=Group::whereIn('id', $extrainfo)->get();
-        $data['multigroups'] = explode(",", $data['roster']->multichoice);
-        $subcat=explode(",", $data['roster']->subcategories);
-        if ($subcat[0]<>"") {
-            $subcat[]="#!@";
-            foreach ($data['roster']->group as $thisgroup) {
-                $shortened=false;
-                foreach ($subcat as $thisubcat) {
-                    if (strpos($thisgroup->groupname, $thisubcat)) {
-                        $key=trim(str_replace($thisubcat, "", $thisgroup->groupname));
-                        $shortgroups[$key][$thisubcat]=$thisgroup->id;
-                        $shortened=true;
+        $user=Auth::user();
+        $carryon=false;
+        if ($user->hasPermissionTo('edit-backend')) {
+            $carryon=true;
+        } elseif ($user->hasPermissionTo('edit-roster')) {
+            $users=explode(',', $data['roster']->users);
+            if (in_array($user->id, $users)) {
+                $carryon="true";
+            }
+        }
+        if ($carryon) {
+            $extrainfo = explode(",", $data['roster']->extrainfo);
+            $data['extragroups']=Group::whereIn('id', $extrainfo)->get();
+            $data['multigroups'] = explode(",", $data['roster']->multichoice);
+            $subcat=explode(",", $data['roster']->subcategories);
+            if ($subcat[0]<>"") {
+                $subcat[]="#!@";
+                foreach ($data['roster']->group as $thisgroup) {
+                    $shortened=false;
+                    foreach ($subcat as $thisubcat) {
+                        if (strpos($thisgroup->groupname, $thisubcat)) {
+                            $key=trim(str_replace($thisubcat, "", $thisgroup->groupname));
+                            $shortgroups[$key][$thisubcat]=$thisgroup->id;
+                            $shortened=true;
+                        }
+                    }
+                    if (!$shortened) {
+                        $key=trim($thisgroup->groupname);
+                        $shortgroups["_" . $key]['#!@']=$thisgroup->id;
                     }
                 }
-                if (!$shortened) {
-                    $key=trim($thisgroup->groupname);
-                    $shortgroups["_" . $key]['#!@']=$thisgroup->id;
+            } else {
+                foreach ($data['roster']->group as $thisgroup) {
+                    $shortgroups[$thisgroup->groupname]['#!@']=$thisgroup->id;
+                }
+                $subcat[0]="#!@";
+            }
+            ksort($shortgroups);
+            $firstinmonth=$data['roster']->dayofweek-date_format(date_create($year . "-" . $month . '-01'), 'N')+1;
+            if ($firstinmonth>7) {
+                $firstinmonth=$firstinmonth-7;
+            } elseif ($firstinmonth<1) {
+                $firstinmonth=$firstinmonth+7;
+            }
+            $dates[]=date_format(date_create($year . "-" . $month . '-' . $firstinmonth), 'Y-m-d');
+            for ($i=1;$i<5;$i++) {
+                $testdate=strtotime('+1 week', strtotime($dates[$i-1]));
+                if (date("m", $testdate)==$month) {
+                    $dates[]=date("Y-m-d", $testdate);
+                } else {
+                    break;
                 }
             }
-        } else {
-            foreach ($data['roster']->group as $thisgroup) {
-                $shortgroups[$thisgroup->groupname]['#!@']=$thisgroup->id;
-            }
-            $subcat[0]="#!@";
-        }
-        ksort($shortgroups);
-        $firstinmonth=$data['roster']->dayofweek-date_format(date_create($year . "-" . $month . '-01'), 'N')+1;
-        if ($firstinmonth>7) {
-            $firstinmonth=$firstinmonth-7;
-        } elseif ($firstinmonth<1) {
-            $firstinmonth=$firstinmonth+7;
-        }
-        $dates[]=date_format(date_create($year . "-" . $month . '-' . $firstinmonth), 'Y-m-d');
-        for ($i=1;$i<5;$i++) {
-            $testdate=strtotime('+1 week', strtotime($dates[$i-1]));
-            if (date("m", $testdate)==$month) {
-                $dates[]=date("Y-m-d", $testdate);
-            } else {
-                break;
-            }
-        }
-        $selnum=array('1','2');
-        foreach ($dates as $tdate) {
-            foreach ($shortgroups as $skey=>$sgrp) {
-                foreach ($subcat as $thiscat) {
-                    foreach ($selnum as $seln) {
-                        if (array_key_exists($thiscat, $sgrp)) {
-                            $individ = DB::table('group_individual_roster')->where('rosterdate', '=', $tdate)->where('roster_id', '=', $id)->where('group_id', '=', $sgrp[$thiscat])->where('selection', '=', $seln)->get();
-                            $data['weeks'][$tdate][$thiscat][$skey][$seln]['group_id']=$sgrp[$thiscat];
-                            if (isset($individ[0]->individual_id)) {
-                                $data['weeks'][$tdate][$thiscat][$skey][$seln]['individual_id']=$individ[0]->individual_id;
+            $selnum=array('1','2');
+            foreach ($dates as $tdate) {
+                foreach ($shortgroups as $skey=>$sgrp) {
+                    foreach ($subcat as $thiscat) {
+                        foreach ($selnum as $seln) {
+                            if (array_key_exists($thiscat, $sgrp)) {
+                                $individ = DB::table('group_individual_roster')->where('rosterdate', '=', $tdate)->where('roster_id', '=', $id)->where('group_id', '=', $sgrp[$thiscat])->where('selection', '=', $seln)->get();
+                                $data['weeks'][$tdate][$thiscat][$skey][$seln]['group_id']=$sgrp[$thiscat];
+                                if (isset($individ[0]->individual_id)) {
+                                    $data['weeks'][$tdate][$thiscat][$skey][$seln]['individual_id']=$individ[0]->individual_id;
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        $data['groupheadings']=array_keys($shortgroups);
-        $data['rosterdetails'] = Roster::with('rosterdetails_group', 'rosterdetails_individual')->find($id);
-        foreach ($data['roster']->group as $grp) {
-            $data['groupmembers'][$grp->id][0]="";
-            foreach ($grp->individuals as $ind) {
-                $data['groupmembers'][$grp->id][$ind->id]=$ind->firstname . " " . $ind->surname;
+            $data['groupheadings']=array_keys($shortgroups);
+            $data['rosterdetails'] = Roster::with('rosterdetails_group', 'rosterdetails_individual')->find($id);
+            foreach ($data['roster']->group as $grp) {
+                $data['groupmembers'][$grp->id][0]="";
+                foreach ($grp->individuals as $ind) {
+                    $data['groupmembers'][$grp->id][$ind->id]=$ind->firstname . " " . $ind->surname;
+                }
             }
+            $data['rosteryear']=$year;
+            $data['rostermonth']=$month;
+            $data['months']=array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
+            return View::make('connexion::rosters.details', $data);
+        } else {
+            return "Sorry, you have permission to edit some rosters, but not this roster!";
         }
-        $data['rosteryear']=$year;
-        $data['rostermonth']=$month;
-        $data['months']=array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
-        return View::make('connexion::rosters.details', $data);
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Bishopm\Connexion\Models\Setting;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -17,6 +18,7 @@ class User extends Authenticatable implements JWTSubject
     use CanComment;
     use SoftDeletes;
     use CausesActivity;
+    use HasRoles;
 
     protected $dates = ['deleted_at'];
     protected $guarded = array('id');
@@ -24,7 +26,8 @@ class User extends Authenticatable implements JWTSubject
         'password', 'remember_token',
     ];
 
-    public function individual(){
+    public function individual()
+    {
         return $this->belongsTo('Bishopm\Connexion\Models\Individual');
     }
 
@@ -35,42 +38,15 @@ class User extends Authenticatable implements JWTSubject
 
     public function routeNotificationForSlack()
     {
-        $setting=Setting::where('setting_key','slack_webhook')->first();
-        if ($setting){
+        $setting=Setting::where('setting_key', 'slack_webhook')->first();
+        if ($setting) {
             return $setting->setting_value;
         }
-    }
-
-    public function roles()
-    {
-        return $this->belongsToMany('Bishopm\Connexion\Models\Role', 'role_user');
     }
 
     public function posts()
     {
         return $this->hasMany('Bishopm\Connexion\Models\Post');
-    }
-
-    /**
-     * Checks if User has access to $permissions.
-     */
-    public function hasAccess(array $permissions) : bool
-    {
-        // check if the permission is available in any role
-        foreach ($this->roles as $role) {
-            if($role->hasAccess($permissions)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Checks if the user belongs to role.
-     */
-    public function inRole(string $roleSlug)
-    {
-        return $this->roles()->where('slug', $roleSlug)->count() == 1;
     }
 
     public function getJWTIdentifier()
@@ -82,5 +58,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
 }

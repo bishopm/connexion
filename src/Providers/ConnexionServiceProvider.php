@@ -103,7 +103,7 @@ class ConnexionServiceProvider extends ServiceProvider
                 $event->menu->add([
                     'text' => 'Members',
                     'icon' => 'book',
-                    'can' => 'edit-backend',
+                    'can' => 'edit-roster',
                     'submenu' => [
                         [
                             'text' => 'Households',
@@ -133,7 +133,7 @@ class ConnexionServiceProvider extends ServiceProvider
                             'text' => 'Rosters',
                             'url'  => 'admin/rosters',
                             'icon' => 'calendar',
-                            'can' =>  'edit-backend'
+                            'can' =>  'edit-roster'
                         ],
                         [
                             'text' => 'Statistics',
@@ -362,6 +362,12 @@ class ConnexionServiceProvider extends ServiceProvider
                     'can' =>  'admin-backend',
                     'submenu' => [
                         [
+                            'text' => 'Permissions',
+                            'url'  => 'admin/permissions',
+                            'icon' => 'key',
+                            'can' =>  'admin-backend'
+                        ],
+                        [
                             'text' => 'Roles',
                             'url'  => 'admin/roles',
                             'icon' => 'eye',
@@ -491,45 +497,9 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('isverified', 'Bishopm\Connexion\Middleware\IsVerified');
         $this->app['router']->aliasMiddleware('handlecors', 'Barryvdh\Cors\HandleCors');
         $this->app['router']->aliasMiddleware('jwt.auth', 'Tymon\JWTAuth\Middleware\GetUserFromToken');
+        $this->app['router']->aliasMiddleware('role', 'Spatie\Permission\Middlewares\RoleMiddleware');
+        $this->app['router']->aliasMiddleware('permission', 'Spatie\Permission\Middlewares\PermissionMiddleware');
         $this->registerBindings();
-        $this->registerUserPolicies();
-    }
-
-    public function registerUserPolicies()
-    {
-        Gate::define('admin-backend', function ($user) {
-            return $user->hasAccess(['admin-backend']);
-        });
-        Gate::define('edit-backend', function ($user) {
-            return $user->hasAccess(['edit-backend']);
-        });
-        Gate::define('view-backend', function ($user) {
-            return $user->hasAccess(['view-backend']);
-        });
-        Gate::define('edit-comments', function ($user) {
-            return $user->hasAccess(['edit-comments']);
-        });
-        Gate::define('edit-worship', function ($user) {
-            return $user->hasAccess(['edit-worship']);
-        });
-        Gate::define('view-worship', function ($user) {
-            return $user->hasAccess(['view-worship']);
-        });
-        Gate::define('edit-bookshop', function ($user) {
-            return $user->hasAccess(['edit-bookshop']);
-        });
-        Gate::define('admin-giving', function ($user) {
-            return $user->hasAccess(['admin-giving']);
-        });
-        Gate::define('manager-role', function ($user) {
-            return $user->inRole('manager');
-        });
-        Gate::define('administrator-role', function ($user) {
-            return $user->inRole('administrator');
-        });
-        Gate::define('bookshop-manager-role', function ($user) {
-            return $user->inRole('bookshop-manager');
-        });
     }
 
     private function initialiseSettings()

@@ -14,23 +14,6 @@
             <div class="box box-primary"> 
                 <div class="box-body">
                     @include('connexion::users.partials.create-fields')
-                    <div class="form-group">
-                        <label for="individual_id" class="control-label">Linked to which individual (if any)</label>
-                        <select name="individual_id" class="input-individual">
-                          <option value="0"></option>
-                          @foreach ($individuals as $individual)
-                            <option value="{{$individual->id}}">{{$individual->firstname}} {{$individual->surname}}</option>
-                          @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="role_id" class="control-label">Role</label>
-                        <select name="role_id" class="input-role">
-                          @foreach ($roles as $role)
-                            <option value="{{$role->id}}">{{$role->name}}</option>
-                          @endforeach
-                        </select>
-                    </div>
                 </div>
                 <div class="box-footer">
                     {{Form::pgButtons('Create',route('admin.users.index')) }}

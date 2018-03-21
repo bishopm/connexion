@@ -2,8 +2,8 @@
 
 namespace Bishopm\Connexion\Http\Controllers;
 
-use Bishopm\Connexion\Models\Role;
-use Bishopm\Connexion\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Controller;
 use Bishopm\Connexion\Http\Requests\CreateRoleRequest;
 use Bishopm\Connexion\Http\Requests\UpdateRoleRequest;
@@ -25,13 +25,13 @@ class RolesController extends Controller
 
     public function edit(Role $role)
     {
-        $permissions=array('edit-backend','edit-comments','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop','admin-giving');
+        $permissions=Permission::all();
         return view('connexion::roles.edit', compact('role', 'permissions'));
     }
 
     public function create()
     {
-        $permissions=array('edit-backend','edit-comments','edit-worship','view-backend','view-worship','admin-backend','edit-bookshop','admin-giving');
+        $permissions=Permission::all();
         return view('connexion::roles.create', compact('permissions'));
     }
 
@@ -39,13 +39,9 @@ class RolesController extends Controller
     {
         $role=new Role();
         $role->name=$request->input('name');
-        $role->slug = $request->input('slug');
-        $perms=array();
-        foreach ($request->input('permissions') as $perm) {
-            $perms[$perm]=true;
-        }
-        $role->permissions=$perms;
+        $perms=Permission::wherein('id', $request->input('permissions'))->get();
         $role->save();
+        $role->syncPermissions($perms);
         return redirect()->route('admin.roles.index')
             ->withSuccess('New role added');
     }
@@ -53,23 +49,9 @@ class RolesController extends Controller
     public function update(Role $role, UpdateRoleRequest $request)
     {
         $role->name=$request->input('name');
-        $role->slug = $request->input('slug');
-        $perms=array();
-        foreach ($request->input('permissions') as $perm) {
-            $perms[$perm]=true;
-        }
-        $role->permissions=$perms;
+        $perms=Permission::wherein('id', $request->input('permissions'))->get();
+        $role->syncPermissions($perms);
         $role->save();
         return redirect()->route('admin.roles.index')->withSuccess('Role has been updated');
-    }
-
-    public function addpermission(Role $role, $permissionid)
-    {
-        $role->permissions()->attach($permissionid);
-    }
-
-    public function removepermission(Role $role, $permissionid)
-    {
-        $role->permissions()->detach($permissionid);
     }
 }

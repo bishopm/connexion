@@ -43,6 +43,8 @@ use Bishopm\Connexion\Http\Requests\NewUserRequest;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class WebController extends Controller
 {
@@ -106,49 +108,11 @@ class WebController extends Controller
         } else {
             $data['actions']=$actions->individualtasks($user->individual_id);
         }
-        $dum['googleCalendarId']=$this->settingsarray['google_calendar'];
-        $dum['color']='red';
-        //$pcals=Event::get(null,null,[],$user->google_calendar);
-        /*foreach ($pcals as $pcal){
-            $pdum['title']=$pcal->summary;
-            $pdum['start']=$pcal->start->dateTime;
-            $pdum['description']=$pcal->location . ": " . $pcal->description;
-            if (strlen($pdum['description'])<3){
-                $pdum['description']="";
-            }
-            if (!$pdum['start']){
-                $pdum['start']=$pcal->start->date;
-                $pdum['stime']="";
-            } else {
-                $pdum['stime']=date("G:i",strtotime($pdum['start']));
-            }
-            $pdum['color']=$user->calendar_colour;
-            $data['pcals'][]=$pdum;
-        }
-        $data['cals'][]=$dum;*/
-        $data['pcals']=array();
-        $data['cals']=array();
         return view('connexion::dashboard', $data);
     }
 
     public function home(SermonsRepository $sermon, BlogsRepository $blogs)
     {
-        /*$cals=Event::get(null,null,[],$this->settingsarray['google_calendar'])->take(3);
-        foreach ($cals as $cal){
-            $cdum['title']=$cal->summary;
-            $cdum['start']=$cal->start->dateTime;
-            $cdum['description']=$cal->location . ": " . $cal->description;
-            if (strlen($cdum['description'])<3){
-                $cdum['description']="";
-            }
-            if (!$cdum['start']){
-                $cdum['start']=$cal->start->date;
-                $cdum['stime']="";
-            } else {
-                $cdum['stime']=date("G:i",strtotime($cdum['start']));
-            }
-            $data['cals'][]=$cdum;
-        }*/
         $rightnow=time();
         $data['events']=Group::where('grouptype', 'event')->with('individuals')->where('publish', 1)->where('eventdatetime', '>', $rightnow)->get();
         $data['usercount']=User::where('verified', '1')->count();

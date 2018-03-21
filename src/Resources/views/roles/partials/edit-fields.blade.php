@@ -1,14 +1,13 @@
 {{ Form::bsText('name','Role name','Role name',$role->name) }}
-{{ Form::bsText('slug','Slug','Slug',$role->slug) }}
 <div class="form-group">
     <label for="permissions" class="control-label">Permissions</label>
-    <select multiple name="permissions[]" class="selectize">
-    	@foreach ($permissions as $perm)
-    		@if (array_key_exists($perm, $role->permissions))
-	      		<option selected value="{{$perm}}">{{$perm}}</option>
-	      	@else
-				<option value="{{$perm}}">{{$perm}}</option>
-	      	@endif
-      	@endforeach
-    </select>
+	<select class="selectize" placeholder="Add or remove role permissions" id="permissions" name="permissions[]" multiple>
+		@foreach ($permissions as $permission)
+			@if ($role->permissions->contains('name',$permission->name))
+				<option selected value="{{$permission->id}}">{{$permission->name}}</option>
+			@else
+				<option value="{{$permission->id}}">{{$permission->name}}</option>
+			@endif
+		@endforeach
+	</select>
 </div>

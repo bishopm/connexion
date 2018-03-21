@@ -74,14 +74,14 @@
 		@endif
 	@endforeach
 </select>
-{!! Form::label('role_label','Access for specific role', array('class'=>'control-label','title'=>'Specify any other role who may access this roster')) !!}
-<select name="role_id" data-placeholder="Choose a role or leave blank..." class="selectize">
+{!! Form::label('users_label','Access for specific non-admin users', array('class'=>'control-label','title'=>'Specify any other user who may access this roster')) !!}
+<select name="users[]" data-placeholder="Choose a user or leave blank..." class="selectize" multiple>
 <option value=""></option>
-@foreach ($roles as $key=>$role)
-  @if ((isset($roster->role_id)) and ($roster->role_id == $key))
-	<option selected value="{{$key}}">{{$role}}</option>
-  @else
-  	<option value="{{$key}}">{{$role}}</option>
-  @endif
+@foreach ($users as $key=>$user)
+	@if ((isset($roster->users)) and (in_array($key,$usersarr)))
+  		<option selected value="{{$key}}">{{$user}}</option>
+	@else
+		<option value="{{$key}}">{{$user}}</option>
+	@endif
 @endforeach
 </select>
