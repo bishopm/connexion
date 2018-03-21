@@ -20,7 +20,6 @@ class CreateRostersTable extends Migration
             $table->string('multichoice')->nullable();
             $table->string('subcategories')->nullable();
             $table->integer('dayofweek');
-            $table->integer('role_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

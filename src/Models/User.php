@@ -58,4 +58,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function rosters()
+    {
+        return $this->belongsToMany('Bishopm\Connexion\Models\Roster');
+    }
 }

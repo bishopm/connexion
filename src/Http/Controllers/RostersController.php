@@ -5,7 +5,7 @@ namespace Bishopm\Connexion\Http\Controllers;
 use Bishopm\Connexion\Models\Roster;
 use Bishopm\Connexion\Models\Group;
 use Bishopm\Connexion\Models\Society;
-use Spatie\Permission\Models\Role;
+use Bishopm\Connexion\Models\User;
 use View;
 use DB;
 use Auth;
@@ -43,8 +43,7 @@ class RostersController extends Controller
         } elseif ($user->hasPermissionTo('edit-roster')) {
             $rosters = Roster::orderBy('rostername')->get();
             foreach ($rosters as $roster) {
-                $users=explode(',', $roster->users);
-                if (in_array($user->id, $users)) {
+                if ($roster->users->contains($user->id)) {
                     $data['rosters'][]=$roster;
                 }
             }
@@ -59,8 +58,7 @@ class RostersController extends Controller
      */
     public function create()
     {
-        $role = Role::findByName('Roster editor');
-        $users = $role->users;
+        $users = User::all();
         foreach ($users as $user) {
             $data['users'][$user->id]=$user->individual->firstname . " " . $user->individual->surname;
         }
@@ -75,7 +73,7 @@ class RostersController extends Controller
      */
     public function store(CreateRosterRequest $request)
     {
-        $roster=Roster::create($request->except('groups', 'extrainfo', 'multichoice'));
+        $roster=Roster::create($request->except('groups', 'extrainfo', 'multichoice', 'users'));
         if (count($request->extrainfo)) {
             $roster->extrainfo=implode(",", $request->extrainfo);
         } else {
@@ -87,6 +85,7 @@ class RostersController extends Controller
             $roster->multichoice="";
         }
         $roster->save();
+        $roster->users()->sync($request->users);
         if ($request->groups<>"") {
             $newgroups = array_map('intval', $request->groups);
             $roster->group()->sync($newgroups);
@@ -240,15 +239,13 @@ class RostersController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::findByName('Roster editor');
-        $users = $role->users;
+        $users=User::all();
         foreach ($users as $user) {
             $data['users'][$user->id]=$user->individual->firstname . " " . $user->individual->surname;
         }
         $data['roster'] = Roster::with(array('group' => function ($query) {
             $query->orderBy('groupname', 'asc');
         }))->find($id);
-        $data['usersarr']=explode(',', $data['roster']->users);
         if (count($data['roster']->group)<>0) {
             foreach ($data['roster']->group as $group) {
                 $rostergroup[]=$group->id;
@@ -288,11 +285,7 @@ class RostersController extends Controller
     {
         $roster = Roster::find($id);
         $roster->fill($request->except('groups', 'extrainfo', 'multichoice', 'users'));
-        if (count($request->users)) {
-            $roster->users=implode(',', $request->input('users'));
-        } else {
-            $roster->users="";
-        }
+        $roster->users()->sync($request->input('users'));
         if (count($request->extrainfo)) {
             $roster->extrainfo=implode(",", $request->extrainfo);
         } else {
@@ -434,8 +427,7 @@ class RostersController extends Controller
         if ($user->hasPermissionTo('edit-backend')) {
             $carryon=true;
         } elseif ($user->hasPermissionTo('edit-roster')) {
-            $users=explode(',', $data['roster']->users);
-            if (in_array($user->id, $users)) {
+            if ($data['roster']->users->contains($user->id)) {
                 $carryon="true";
             }
         }

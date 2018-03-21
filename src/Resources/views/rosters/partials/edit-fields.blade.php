@@ -78,7 +78,7 @@
 <select name="users[]" data-placeholder="Choose a user or leave blank..." class="selectize" multiple>
 <option value=""></option>
 @foreach ($users as $key=>$user)
-	@if ((isset($roster->users)) and (in_array($key,$usersarr)))
+	@if ((isset($roster->users)) and ($roster->users->contains($key)))
   		<option selected value="{{$key}}">{{$user}}</option>
 	@else
 		<option value="{{$key}}">{{$user}}</option>
