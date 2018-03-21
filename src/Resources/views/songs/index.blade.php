@@ -178,11 +178,7 @@
             </div>
             <div class="tab-pane" id="r">
                 <div class="box-body">
-                    @if ($rosteredit)
-                        <a href="{{route('admin.rosters.index')}}">Edit roster</a>
-                    @else
-                        Can't edit
-                    @endif
+                    Roster stuff will go here
                 </div>
             </div>
         </div>

@@ -39,14 +39,7 @@ class SongsController extends Controller
 
     public function index()
     {
-        $user_role=Auth::user()->roles->first()->id;
         $roster_id=$this->setting->getkey('worship_roster');
-        $roster=Roster::find($roster_id);
-        if (($roster->role_id==$user_role) or ($user_role==1)) {
-            $data['rosteredit']=true;
-        } else {
-            $data['rosteredit']=false;
-        }
         $services=explode(',', $this->setting->getkey('worship_services'));
         $data['roster']=array();
         if ($roster_id<>"Please add a value for this setting") {

@@ -146,7 +146,10 @@ class RostersController extends Controller
         $subcats=explode(",", $roster->subcategories);
         $weeks=self::_get_week_dates($yy, $mm, $roster->dayofweek);
         $churchname=$this->settings->getkey('site_name');
-        $x=25;
+        $x=15;
+        if (count($subcats)) {
+            $x=$x+10;
+        }
         $pdf->SetAutoPageBreak(0, 0);
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->SetTitle($churchname . " - " . $roster->rostername);
@@ -191,7 +194,7 @@ class RostersController extends Controller
                 foreach ($wk as $hh=>$vv) {
                     $pdf->setxy($x, $y-21);
                     $pdf->multicell(25, 4, $hh, 0, 'C');
-                    $x=$x+32;
+                    $x=$x+30;
                 }
             }
             $pdf->SetTextColor(0, 0, 0);
@@ -199,7 +202,10 @@ class RostersController extends Controller
             $pdf->setxy(10, $y-6);
             $pdf->rect(10, $y-8, 275, 33);
             $pdf->cell(0, 0, date("j F Y", strtotime($kk)), 0, 0, 'C');
-            $x=25;
+            $x=15;
+            if (count($subcats)) {
+                $x=$x+10;
+            }
             $veryfirst=true;
             foreach ($wk as $grp) {
                 $y3=$y-2;
@@ -223,7 +229,7 @@ class RostersController extends Controller
                         $y2=$y2+3.5*(count($subcats)-count($sc));
                     }
                 }
-                $x=$x+32;
+                $x=$x+30;
             }
             $y=7+$y+10*count($subcats);
         }
