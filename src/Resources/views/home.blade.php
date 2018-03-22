@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<div class="container top30">
+<div class="container">
   <div class="row">
     @foreach ($blocks as $block)
       <div class="col-md-{{$block->width}} text-center" style="z-index: 1;">
