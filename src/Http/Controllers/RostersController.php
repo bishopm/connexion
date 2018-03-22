@@ -37,10 +37,11 @@ class RostersController extends Controller
      */
     public function index()
     {
-        $user=Auth::user();
-        if ($user->hasPermissionTo('edit-backend')) {
+        $data['user']=Auth::user();
+        if ($data['user']->hasPermissionTo('edit-backend')) {
             $data['rosters'] = Roster::orderBy('rostername')->get();
-        } elseif ($user->hasPermissionTo('edit-roster')) {
+        } elseif ($data['user']->hasPermissionTo('edit-roster')) {
+            $data['rosters']=array();
             $rosters = Roster::orderBy('rostername')->get();
             foreach ($rosters as $roster) {
                 if ($roster->users->contains($user->id)) {

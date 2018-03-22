@@ -167,7 +167,12 @@
                 @if (count($roster))
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Worship team roster for the next month</h3>
+                            <h3 class="panel-title">
+                                Worship team roster for the next month
+                                @if ($roster->users()->contains('id',$user->id))
+                                    {{Auth::user()->individual->firstname}}
+                                @endif
+                            </h3>
                         </div>
                         <div class="panel-body">
                             @foreach ($roster as $rdate=>$rost)
