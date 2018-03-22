@@ -147,7 +147,7 @@ class RostersController extends Controller
         $weeks=self::_get_week_dates($yy, $mm, $roster->dayofweek);
         $churchname=$this->settings->getkey('site_name');
         $x=15;
-        if (count($subcats)) {
+        if ($subcats[0]<>"") {
             $x=$x+10;
         }
         $pdf->SetAutoPageBreak(0, 0);
@@ -203,7 +203,7 @@ class RostersController extends Controller
             $pdf->rect(10, $y-8, 275, 33);
             $pdf->cell(0, 0, date("j F Y", strtotime($kk)), 0, 0, 'C');
             $x=15;
-            if (count($subcats)) {
+            if ($subcats[0]<>"") {
                 $x=$x+10;
             }
             $veryfirst=true;

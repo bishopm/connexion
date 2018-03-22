@@ -327,8 +327,8 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::post('admin/readings', ['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@store','as'=>'admin.readings.store']);
     Route::delete('admin/readings/{reading}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ReadingsController@destroy','as'=>'admin.readings.destroy']);
 
+    // Rosters
     Route::group(['middleware' => ['web','can:edit-roster']], function () {
-        // Rosters
         Route::get('admin/rosters', ['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@index','as'=>'admin.rosters.index']);
         Route::group(['middleware' => ['web','can:edit-backend']], function () {
             Route::get('admin/rosters/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@create','as'=>'admin.rosters.create']);
@@ -339,10 +339,10 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
             Route::delete('admin/rosters/{group}', ['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@destroy','as'=>'admin.rosters.destroy']);
             Route::post('admin/rosters/{rosters}/sms/{send}', 'Bishopm\Connexion\Http\Controllers\RostersController@sms');
         });
-        Route::get('/admin/rosters/{roster}/report/{year}/{month}', ['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@report','as'=>'admin.rosters.report']);
         Route::get('admin/rosters/{rosters}/{year}/{month}', 'Bishopm\Connexion\Http\Controllers\RostersController@details');
         Route::post('admin/rosters/{rosters}/revise', ['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@revise','as'=>'admin.rosters.revise']);
     });
+    Route::get('/admin/rosters/{roster}/report/{year}/{month}', ['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@report','as'=>'admin.rosters.report']);
 
     // Series
     Route::get('admin/series', ['uses'=>'Bishopm\Connexion\Http\Controllers\SeriesController@index','as'=>'admin.series.index']);
