@@ -339,7 +339,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
             Route::delete('admin/rosters/{group}', ['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@destroy','as'=>'admin.rosters.destroy']);
             Route::post('admin/rosters/{rosters}/sms/{send}', 'Bishopm\Connexion\Http\Controllers\RostersController@sms');
         });
-        Route::get('admin/rosters/{rosters}/{year}/{month}', 'Bishopm\Connexion\Http\Controllers\RostersController@details');
+        Route::get('admin/rosters/{rosters}/{year}/{month}', ['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@details','as'=>'admin.rosters.details']);
         Route::post('admin/rosters/{rosters}/revise', ['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@revise','as'=>'admin.rosters.revise']);
     });
     Route::get('/admin/rosters/{roster}/report/{year}/{month}', ['uses'=>'Bishopm\Connexion\Http\Controllers\RostersController@report','as'=>'admin.rosters.report']);

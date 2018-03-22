@@ -163,14 +163,13 @@
                 </ul>
             </div>
             <div class="box-body">
-
                 @if (count($roster))
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 Worship team roster for the next month
-                                @if ($roster->users()->contains('id',$user->id))
-                                    {{Auth::user()->individual->firstname}}
+                                @if ($fullroster->users->contains($user->id))
+                                    <br><b>{{$user->individual->firstname}}, you can edit the roster <a href="{{route('admin.rosters.index')}}">here</a></b>
                                 @endif
                             </h3>
                         </div>

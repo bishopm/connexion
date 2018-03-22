@@ -40,6 +40,8 @@ class SongsController extends Controller
     public function index()
     {
         $data['roster_id']=$this->setting->getkey('worship_roster');
+        $data['fullroster']=Roster::find($data['roster_id']);
+        $data['user']=Auth::user();
         $services=explode(',', $this->setting->getkey('worship_services'));
         $data['roster']=array();
         if ($data['roster_id']<>"Please add a value for this setting") {
