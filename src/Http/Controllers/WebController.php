@@ -144,9 +144,9 @@ class WebController extends Controller
         return view('connexion::home', $data);
     }
 
-    public function webblog($slug, BlogsRepository $blogs)
+    public function webblog($yr, $mth, $slug, BlogsRepository $blogs)
     {
-        $blog = $blogs->findBySlug($slug);
+        $blog = $blogs->findByDateSlug($yr, $mth, $slug);
         if ($blog) {
             $comments = $blog->comments()->paginate(5);
             $media=$blog->getMedia('image')->first();
@@ -242,7 +242,7 @@ class WebController extends Controller
     {
         $series = $this->series->findBySlug($seriesslug);
         if ($series) {
-            $sermon = $this->sermon->findBySlug($sermonslug);
+            $sermon = $this->sermon->findBySeriesAndSlug($series->id, $sermonslug);
             if ($sermon) {
                 if (isset($sermon->individual)) {
                     $description="A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by " . $sermon->individual->firstname . " " . $sermon->individual->surname;

@@ -6,11 +6,11 @@
             @if ($loop->first)
                 <div class="col-xs-12">
                 <div class="highlight">
-                    <a id="highlightlink" href="{{url('/')}}/blog/{{$blog->slug}}">
+                    <a id="highlightlink" href="{{url('/')}}/blog/{{date("Y",strtotime($blog->created_at))}}/{{date("m",strtotime($blog->created_at))}}/{{$blog->slug}}">
                     @if (count($blog->getMedia('image')))
                         <img height="80px" style="float:right;margin-left:7px;" src="{{$blog->getMedia('image')->first()->getUrl()}}">
                     @endif
-                    {{$blog->title}}</a><a href="{{url('/')}}/blog/{{$blog->slug}}">
+                    {{$blog->title}}</a><a href="{{url('/')}}/blog/{{date("Y",strtotime($blog->created_at))}}/{{date("m",strtotime($blog->created_at))}}/{{$blog->slug}}">
                     <div class="small"><b>{{date("d M Y",strtotime($blog->created_at))}}</b> {{$blog->individual->firstname}} {{$blog->individual->surname}}</div>
                     <div id="highlighted" class="text-justify">{!!substr(str_replace('</p>',' ',str_replace('<p>','',$blog->body)), 0, strpos($blog->body, ' ', 500))!!}</div>
                     </a>
@@ -22,7 +22,7 @@
                 @else
                     <div class="col-xs-12" style="padding-left:26px;">
                 @endif
-                {{date("d M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a></div>
+                {{date("d M", strtotime($blog->created_at))}}&nbsp;<a href="{{url('/')}}/blog/{{date("Y",strtotime($blog->created_at))}}/{{date("m",strtotime($blog->created_at))}}/{{$blog->slug}}">{{$blog->title}}</a></div>
             @endif
         @endforeach
         <div class="col-xs-12 top10">

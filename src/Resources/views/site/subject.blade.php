@@ -13,7 +13,7 @@
 			    <h4>Blog posts (News/Article)</h4>
 			    <ul class="list-unstyled">
 				    @foreach ($blogs as $blog)
-				    	<li>{{date("Y-m-d",strtotime($blog->created_at))}} <a href="{{url('/')}}/blog/{{$blog->slug}}">{{$blog->title}}</a> <a href="{{url('/')}}/people/{{$blog->individual->slug}}"><i>{{$blog->individual->firstname}} {{$blog->individual->surname}}</i></a></li>
+				    	<li>{{date("Y-m-d",strtotime($blog->created_at))}} <a href="{{url('/')}}/blog/{{date("Y",strtotime($blog->created_at))}}/{{date("m",strtotime($blog->created_at))}}/{{$blog->slug}}">{{$blog->title}}</a> <a href="{{url('/')}}/people/{{$blog->individual->slug}}"><i>{{$blog->individual->firstname}} {{$blog->individual->surname}}</i></a></li>
 				    @endforeach
 				</ul>
 			</div>

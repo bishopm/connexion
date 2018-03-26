@@ -31,7 +31,7 @@
                       {{$sermon->servicedate}}
                     </div>                  
                     <div class="col-md-3">
-                      {{$sermon->readings}}
+                      {{$sermon->status}}
                     </div>  
                     <div class="col-md-3">
                       @if ($sermon->individual)

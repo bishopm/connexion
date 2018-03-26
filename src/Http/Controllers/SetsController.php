@@ -162,12 +162,16 @@ class SetsController extends Controller
             if (in_array($set->servicetime, $services)) {
                 $readersgroup=Group::where('groupname', '=', 'Readers ' . $set->servicetime)->first();
                 $readerid=DB::table('group_individual_roster')->where('group_id', $readersgroup->id)->where('roster_id', $roster->id)->where('rosterdate', $set->servicedate)->first();
-                $reader=Individual::find($readerid->individual_id);
-                $readername=$reader->firstname . " " . $reader->surname;
+                if ($readerid) {
+                    $reader=Individual::find($readerid->individual_id);
+                    $readername=$reader->firstname . " " . $reader->surname;
+                }
                 $stewardsgroup=Group::where('groupname', '=', 'Society Stewards')->first();
                 $stewardid=DB::table('group_individual_roster')->where('group_id', $stewardsgroup->id)->where('roster_id', $roster->id)->where('rosterdate', $set->servicedate)->first();
-                $steward=Individual::find($stewardid->individual_id);
-                $stewardname=$steward->firstname . " " . $steward->surname;
+                if ($stewardid) {
+                    $steward=Individual::find($stewardid->individual_id);
+                    $stewardname=$steward->firstname . " " . $steward->surname;
+                }
             }
         }
         $items=Setitem::where('set_id', '=', $id)->orderBy('itemorder')->get();
