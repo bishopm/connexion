@@ -14,9 +14,13 @@ class BlogsRepository extends EloquentBaseRepository
         return $this->model->with('individual')->where('status', 'published')->orderBy('created_at', 'DESC')->get();
     }
 
-    public function findByDateSlug($yr, $mth, $slug)
+    public function findByDateSlug($yr, $mth='', $slug='')
     {
         $testdate=$yr . '-' . $mth . '-%';
-        return $this->model->where('created_at', 'like', $testdate)->where('slug', $slug)->first();
+        $blog=$this->model->where('created_at', 'like', $testdate)->where('slug', $slug)->first();
+        if (count($blog)==0) {
+            $blog=$this->model->where('slug', $yr)->first();
+        }
+        return $blog;
     }
 }

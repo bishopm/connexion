@@ -144,7 +144,7 @@ class WebController extends Controller
         return view('connexion::home', $data);
     }
 
-    public function webblog($yr, $mth, $slug, BlogsRepository $blogs)
+    public function webblog($yr, $mth='', $slug='', BlogsRepository $blogs)
     {
         $blog = $blogs->findByDateSlug($yr, $mth, $slug);
         if ($blog) {
