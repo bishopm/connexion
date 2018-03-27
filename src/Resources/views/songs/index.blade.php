@@ -60,25 +60,32 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Recently added <small>Total songs: {{$songcount}}</small></h3>
+                                <ul class="nav nav-pills">
+                                    <li class="active"><a href="#rs" data-toggle="tab">New songs</a></li>
+                                    <li><a href="#rh" data-toggle="tab">New hymns</a></li>
+                                    <li><a href="#rl" data-toggle="tab">New liturgy</a></li>
+                                </ul>
                             </div>
                             <div class="panel-body">
-                                @forelse ($newest as $new)
-                                    <div class="col-sm-4">
-                                        <?php /*$ago=round((strtotime("now") - strtotime($new->created_at))/86400);
-                                        if ($ago>1) {
-                                            $ago=$ago . " days ago";
-                                        } elseif ($ago==1) {
-                                            $ago=$ago . " day ago";
-                                        } else {
-                                            $ago="<1 day ago";
-                                        }*/
-                                        ?>
-                                        <a class="{{$new->musictype}}" href="{{url('/')}}/admin/worship/songs/{{$new['id']}}">{{$new->title}}</a>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="ns">
+                                        @forelse ($newest as $new)
+                                            <div class="col-sm-4">
+                                                <?php /*$ago=round((strtotime("now") - strtotime($new->created_at))/86400);
+                                                if ($ago>1) {
+                                                    $ago=$ago . " days ago";
+                                                } elseif ($ago==1) {
+                                                    $ago=$ago . " day ago";
+                                                } else {
+                                                    $ago="<1 day ago";
+                                                }*/
+                                                ?>
+                                                <a class="{{$new->musictype}}" href="{{url('/')}}/admin/worship/songs/{{$new['id']}}">{{$new->title}}</a>
+                                            </div>
+                                        @empty
+                                            No songs have been added yet
+                                        @endforelse
                                     </div>
-                                @empty
-                                    No songs have been added yet
-                                @endforelse
                             </div>
                         </div>
                         <div class="panel panel-default">
