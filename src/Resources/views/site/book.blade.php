@@ -6,7 +6,7 @@
 
 @section('css')
   <meta id="token" name="token" value="{{ csrf_token() }}" />
-  <link href="{{ asset('/vendor/bishopm/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.css" rel="stylesheet">
 @stop
 
 @section('content')  

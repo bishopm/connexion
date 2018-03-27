@@ -9441,3 +9441,5 @@ body {
   background-color: #db3236;
   border-color: rgba(0,0,0,0.2);
 }
+
+.popover { top: auto; left: auto }

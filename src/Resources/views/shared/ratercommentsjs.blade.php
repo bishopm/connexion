@@ -1,11 +1,11 @@
 @if ((Auth::check()) and (isset(Auth::user()->individual)))
   <?php
-  if (Auth::user()->individual->image){
-    $imgsrc=url('/') . "/storage/individuals/" . Auth::user()->individual->id . "/" . Auth::user()->individual->image;
+  if (Auth::user()->individual->image) {
+      $imgsrc=url('/') . "/storage/individuals/" . Auth::user()->individual->id . "/" . Auth::user()->individual->image;
   } else {
-    $imgsrc=asset('/vendor/bishopm/images/profile.png');
+      $imgsrc=asset('/vendor/bishopm/images/profile.png');
   }?>
-  <script src="{{ asset('/vendor/bishopm/summernote/summernote.min.js') }}" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.js"></script>
   <script type="text/javascript">
       $.ajaxSetup({
           headers: {

@@ -1,7 +1,7 @@
 @extends('connexion::worship.page')
 
 @section('css')
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.css" rel="stylesheet"> 
 @stop
 
 @section('content')
@@ -248,7 +248,7 @@ var vm1 = new Vue({
   }
 });
 </script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.js"></script>
 <script type="text/javascript">
 
     $( document ).ready(function() {
