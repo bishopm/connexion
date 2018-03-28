@@ -61,31 +61,41 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <ul class="nav nav-pills">
-                                    <li class="active"><a href="#rs" data-toggle="tab">New songs</a></li>
-                                    <li><a href="#rh" data-toggle="tab">New hymns</a></li>
-                                    <li><a href="#rl" data-toggle="tab">New liturgy</a></li>
+                                    <li class="active"><a href="#ns" data-toggle="tab">New songs</a></li>
+                                    <li><a href="#nh" data-toggle="tab">New hymns</a></li>
+                                    <li><a href="#nl" data-toggle="tab">New liturgy</a></li>
                                 </ul>
                             </div>
                             <div class="panel-body">
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="ns">
-                                        @forelse ($newest as $new)
+                                        @forelse ($newests as $new)
                                             <div class="col-sm-4">
-                                                <?php /*$ago=round((strtotime("now") - strtotime($new->created_at))/86400);
-                                                if ($ago>1) {
-                                                    $ago=$ago . " days ago";
-                                                } elseif ($ago==1) {
-                                                    $ago=$ago . " day ago";
-                                                } else {
-                                                    $ago="<1 day ago";
-                                                }*/
-                                                ?>
-                                                <a class="{{$new->musictype}}" href="{{url('/')}}/admin/worship/songs/{{$new['id']}}">{{$new->title}}</a>
+                                                <a href="{{url('/')}}/admin/worship/songs/{{$new['id']}}">{{$new->title}}</a>
                                             </div>
                                         @empty
                                             No songs have been added yet
                                         @endforelse
                                     </div>
+                                    <div class="tab-pane" id="nh">
+                                        @forelse ($newesth as $newh)
+                                            <div class="col-sm-4">
+                                                <a href="{{url('/')}}/admin/worship/songs/{{$newh['id']}}">{{$newh->title}}</a>
+                                            </div>
+                                        @empty
+                                            No hymns have been added yet
+                                        @endforelse
+                                    </div>
+                                    <div class="tab-pane" id="nl">
+                                        @forelse ($newestl as $newl)
+                                            <div class="col-sm-4">
+                                                <a href="{{url('/')}}/admin/worship/songs/{{$newl['id']}}">{{$newl->title}}</a>
+                                            </div>
+                                        @empty
+                                            No liturgies have been added yet
+                                        @endforelse
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="panel panel-default">

@@ -122,7 +122,9 @@ class SongsController extends Controller
             $data['recents'][$key][]=array_splice($arecent, 0, 25);
         }
         $data['mostrecentset']=date("d F Y", $mostrecentset);
-        $data['newest']=Song::orderBy('created_at', 'DESC')->get()->take(9);
+        $data['newests']=Song::where('musictype', 'contemporary')->orderBy('created_at', 'DESC')->get()->take(9);
+        $data['newesth']=Song::where('musictype', 'hymn')->orderBy('created_at', 'DESC')->get()->take(9);
+        $data['newestl']=Song::where('musictype', 'liturgy')->orderBy('created_at', 'DESC')->get()->take(9);
         $data['users']=User::orderBy('name', 'DESC')->get();
         return View::make('connexion::songs.index', $data);
     }
