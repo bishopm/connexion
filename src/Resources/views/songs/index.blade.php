@@ -71,7 +71,7 @@
                                     <div class="tab-pane active" id="ns">
                                         @forelse ($newests as $new)
                                             <div class="col-sm-4">
-                                                <a href="{{url('/')}}/admin/worship/songs/{{$new['id']}}">{{$new->title}}</a>
+                                                <a class="contemporary" href="{{url('/')}}/admin/worship/songs/{{$new['id']}}">{{$new->title}}</a>
                                             </div>
                                         @empty
                                             No songs have been added yet
@@ -80,7 +80,7 @@
                                     <div class="tab-pane" id="nh">
                                         @forelse ($newesth as $newh)
                                             <div class="col-sm-4">
-                                                <a href="{{url('/')}}/admin/worship/songs/{{$newh['id']}}">{{$newh->title}}</a>
+                                                <a class="hymn" href="{{url('/')}}/admin/worship/songs/{{$newh['id']}}">{{$newh->title}}</a>
                                             </div>
                                         @empty
                                             No hymns have been added yet
@@ -89,7 +89,7 @@
                                     <div class="tab-pane" id="nl">
                                         @forelse ($newestl as $newl)
                                             <div class="col-sm-4">
-                                                <a href="{{url('/')}}/admin/worship/songs/{{$newl['id']}}">{{$newl->title}}</a>
+                                                <a class="archive" href="{{url('/')}}/admin/worship/songs/{{$newl['id']}}">{{$newl->title}}</a>
                                             </div>
                                         @empty
                                             No liturgies have been added yet
