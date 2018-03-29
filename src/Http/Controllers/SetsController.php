@@ -180,7 +180,6 @@ class SetsController extends Controller
         for ($i = 0; $i <= 1; $i++) {
             $y=45;
             $x=153*$i;
-            //$pdf->line(150, 10, 150, 200);
             $logopath=base_path() . '/public/vendor/bishopm/images/logo.png';
             $pdf->SetFont('Arial', '', 9);
             $pdf->Image($logopath, 10+$x, 10, 0, 21);
@@ -193,8 +192,13 @@ class SetsController extends Controller
             $pdf->SetFont('Arial', '', 12);
             foreach ($items as $item) {
                 if ($item->itemtype=='song') {
-                    $title=Song::find($item->song_id)->title;
-                    $pdf->SetFont('Arial', 'B', 12);
+                    $song=Song::find($item->song_id);
+                    $title=$song->title;
+                    if ($song->musictype=="liturgy") {
+                        $pdf->SetFont('Arial', 'I', 12);
+                    } else {
+                        $pdf->SetFont('Arial', 'B', 12);
+                    }
                     $pdf->text(10+$x, $y, $title);
                     $pdf->SetFont('Arial', '', 12);
                 } else {
