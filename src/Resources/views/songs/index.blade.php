@@ -5,8 +5,8 @@
     <div class="box-header">
         @include('connexion::shared.errors')
         <ul class="nav nav-pills">
-            <li class="active"><a href="#s" data-toggle="tab">Songs</a></li>
-            <li><a href="#l" data-toggle="tab">Liturgy</a></li>
+            <li class="active"><a href="#s" data-toggle="tab">Songs ({{$songcount}})</a></li>
+            <li><a href="#l" data-toggle="tab">Liturgy ({{$liturgycount}})</a></li>
             <li><a href="#r" data-toggle="tab">Roster</a></li>
         </ul>
     </div>

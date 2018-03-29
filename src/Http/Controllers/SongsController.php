@@ -71,6 +71,7 @@ class SongsController extends Controller
             }
         }
         ksort($data['tags']);
+        $data['liturgycount']=count($liturgies);
         $data['songcount']=count($data['songs']);
         $lasthree=date("Y-m-d", strtotime("-4 month"));
         $recents=Set::with(['setitems' => function ($query) {
