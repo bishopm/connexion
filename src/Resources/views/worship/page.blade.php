@@ -193,7 +193,7 @@
     <script src="{{ asset('/vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script type="text/javascript">
     $( document ).ready(function() {
-        $('#songsearch').selectize({
+          $('#songsearch').selectize({
           plugins: ['remove_button'],
           openOnFocus: 0,
           dropdownParent: "body"

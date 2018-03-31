@@ -44,7 +44,7 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">Most recent sets: 
                                 @foreach ($mostrecentsets as $mrs)
-                                    <a style="color:#3c8dbc" href="{{route('admin.sets.show',$mrs->id)}}">[{{$mrs->servicetime}} {{date("d M",strtotime($mrs->servicedate))}}]</a> 
+                                    <span class="label label-default"><a href="{{route('admin.sets.show',$mrs->id)}}">{{$mrs->servicetime}} {{date("d M",strtotime($mrs->servicedate))}}</a></span>
                                 @endforeach
                                 </h3>
                             </div>

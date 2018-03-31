@@ -39,6 +39,12 @@
                   ({{$song->key}} | {{$song->tempo}})
                 @endif
                 </small></h2>
+                @if (count($song->tags))
+                    @foreach ($song->tags as $tag)
+                        <a href="#" onclick="searchtag('{{$tag->name}}')"><span class="label label-primary">{{$tag->name}}</span></a>
+                    @endforeach
+                    <br>
+                @endif
                 @if ($song->audio)
                     <audio preload="none" controls="" width="250px" height="30px" src="http://{{$song->audio}}"></audio>
                     <script>
@@ -292,5 +298,9 @@ var vm1 = new Vue({
           $('button[name=transpose]').addClass('hidden');
         }
     });
+
+    function searchtag(tagname) {
+        $('#songsearch')[0].selectize.setValue(tagname);
+    }
 </script>
 @stop
