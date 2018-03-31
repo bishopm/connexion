@@ -42,7 +42,11 @@
                         <br>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Most recent sets ({{$mostrecentset}})</h3>
+                                <h3 class="panel-title">Most recent sets: 
+                                @foreach ($mostrecentsets as $mrs)
+                                    <a style="color:#3c8dbc" href="{{route('admin.sets.show',$mrs->id)}}">[{{$mrs->servicetime}} {{date("d M",strtotime($mrs->servicedate))}}]</a> 
+                                @endforeach
+                                </h3>
                             </div>
                             <div class="panel-body">
                                 @forelse ($newestsets as $kset=>$newset)
