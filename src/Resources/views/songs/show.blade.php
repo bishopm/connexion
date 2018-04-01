@@ -40,10 +40,11 @@
                 @endif
                 </small></h2>
                 @if (count($song->tags))
-                    @foreach ($song->tags as $tag)
-                        <a href="#" onclick="searchtag('{{$tag->name}}')"><span class="label label-primary">{{$tag->name}}</span></a>
-                    @endforeach
-                    <br>
+                    <div style="padding-bottom:10px;">
+                        @foreach ($song->tags as $tag)
+                            <a href="#" onclick="searchtag('{{$tag->name}}')"><span class="label label-primary">{{$tag->name}}</span></a>
+                        @endforeach
+                    </div>
                 @endif
                 @if ($song->audio)
                     <audio preload="none" controls="" width="250px" height="30px" src="http://{{$song->audio}}"></audio>
