@@ -17,6 +17,7 @@
                                 <option>sabbatical</option>
                                 <option>sick</option>
                                 <option>study</option>                                
+                                <option>unknown</option>                                                                
                                 <option>unpaid</option>
                             </select>
                         </div>

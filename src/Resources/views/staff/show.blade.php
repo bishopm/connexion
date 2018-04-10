@@ -43,7 +43,8 @@
                 <div class="col-xs-2 text-bold text-center">Sabbatical</div>
                 <div class="col-xs-2 text-bold text-center">Sick</div>
                 <div class="col-xs-2 text-bold text-center">Study</div>
-                <div class="col-xs-2 text-bold text-center">Unpaid</div>
+                <div class="col-xs-1 text-bold text-center">Unknown</div>
+                <div class="col-xs-1 text-bold text-center">Unpaid</div>
                 <div class="col-xs-2 text-center">
                   @if (isset($leaveyear['annual']))
                     {{$leaveyear['annual']['total']}}
@@ -79,13 +80,20 @@
                     -
                   @endif
                 </div>
-                <div class="col-xs-2 text-center">
+                <div class="col-xs-1 text-center">
+                  @if (isset($leaveyear['unknown']))
+                    {{$leaveyear['unknown']['total']}}
+                  @else
+                    -
+                  @endif
+                </div>
+                <div class="col-xs-1 text-center">
                   @if (isset($leaveyear['unpaid']))
                     {{$leaveyear['unpaid']['total']}}
                   @else
                     -
                   @endif
-                </div>
+                </div>                
               </div>
               <div><hr></div>
               <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
