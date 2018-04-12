@@ -44,4 +44,19 @@
   @endforeach
   </select>
 </div>
-{{ Form::bsHidden('series_id',$series) }}
+@can('admin-backend')
+  <div class='form-group '>
+    <label for="series_id">Series</label>
+    <select name="series_id" class="input-tags">
+    @foreach ($allseries as $thisseries)
+      @if ($thisseries->id == $series)
+          <option selected value="{{$thisseries->id}}">{{$thisseries->title}} ({{date("M Y",strtotime($thisseries->created_at))}})</option>
+      @else
+          <option value="{{$thisseries->id}}">{{$thisseries->title}} ({{date("M Y",strtotime($thisseries->created_at))}})</option>
+      @endif
+    @endforeach
+    </select>
+  </div>
+@else
+  {{ Form::bsHidden('series_id',$series) }}
+@endcan
