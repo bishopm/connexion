@@ -27,7 +27,7 @@
 		{{$comments->links()}}
 	</div>
 	<hr>
-	<div class="row">
+	<div class="row mb-5">
 		<div class="col-xs-3 col-sm-2">
 			<a href="{{url('/')}}/users/{{Auth::user()->individual->slug}}">
 			@if (Auth::user()->individual->image)

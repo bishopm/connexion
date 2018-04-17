@@ -715,7 +715,7 @@ class WebController extends Controller
                 }
                 $dum['title']=$blog->title;
                 $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
-                $dum['link']=url('/blog/' . $blog->slug);
+                $dum['link']=url('/blog/' . date("Y", strtotime($blog->created_at)) . '/' . date("m", strtotime($blog->created_at)) . '/' . $blog->slug);
                 $dum['pubdate']=$blog->created_at;
                 $dum['summary']="A new blog post has been published on our site.";
                 if ($service=="default") {
