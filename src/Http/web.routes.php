@@ -13,40 +13,41 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('password/reset', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm','as'=>'showLinkRequestForm']);
     Route::post('password/reset', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ResetPasswordController@reset','as'=>'password.reset']);
     Route::get('password/reset/{token}', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ResetPasswordController@showResetForm','as'=>'showResetForm']);
-
-    Route::get('/', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@home','as' => 'homepage']);
-    Route::get('/blog/{year}/{month?}/{slug?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webblog','as' => 'webblog']);
-    Route::get('/blog', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webblogs','as' => 'webblogs']);
-    Route::get('/people/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webperson','as' => 'webperson']);
-    Route::get('/subject/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websubject','as' => 'websubject']);
-    Route::get('/sermons/{series}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webseries','as' => 'webseries']);
-    Route::get('/sermons/{series}/{sermon}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermon','as' => 'websermon']);
-    Route::get('/sermons', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermons','as' => 'websermons']);
-    Route::get('/course/{course}', ['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@show','as'=>'webresource']);
-    Route::get('/coming-up/{event}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webevent','as'=>'webevent']);
-    Route::get('/coming-up', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@comingup','as'=>'comingup']);
-    Route::get('/course/{course}/sign-up', ['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@signup','as'=>'coursesignup']);
-    Route::get('/event/{course}/sign-up', ['uses'=>'Bishopm\Connexion\Http\Controllers\EventsController@showsignup','as'=>'eventsignup']);
-    Route::post('/admin/events/{event}/signup', ['uses' => 'Bishopm\Connexion\Http\Controllers\EventsController@signup','as' => 'admin.events.signup']);
-    Route::get('courses', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webcourses','as'=>'webcourses']);
-    Route::get('book/{book}', ['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@show','as'=>'webbook']);
-    Route::get('books', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webbooks','as'=>'webbooks']);
-    Route::get('/author/{author}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webauthor','as' => 'webauthor']);
-    Route::get('register', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@showRegistrationForm','as'=>'registrationform']);
-    Route::post('register', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@register','as'=>'admin.register']);
-    Route::post('checkmail', ['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);
-    Route::get('preachingplan', 'Bishopm\Connexion\Http\Controllers\PlansController@currentplan');
-    Route::get('admin/newuser/checkname/{username}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@checkname','as'=>'admin.checkname']);
-    Route::post('admin/newuser', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@newuser','as'=>'admin.newuser']);
-    Route::get('admin/getusername/{email}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@getusername','as'=>'admin.getusername']);
-    Route::get('/groups/{category}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroupcategory','as' => 'webgroupcategory']);
-    Route::get('/groups', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@weballgroups','as' => 'weballgroups']);
-    Route::get('/group/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroup','as' => 'webgroup']);
-    Route::get('/lectionary', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@lectionary','as' => 'lectionary']);
-    Route::get('/my-church', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
-    Route::get('/my-details', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mydetails','as' => 'mydetails']);
-    Route::get('/my-giving', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mygiving','as' => 'mygiving']);
-    Route::get('/register-user', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@registeruser','as' => 'registeruser']);
+    if (in_array('website', Setting::activemodules())) {
+        Route::get('/', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@home','as' => 'homepage']);
+        Route::get('/blog/{year}/{month?}/{slug?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webblog','as' => 'webblog']);
+        Route::get('/blog', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webblogs','as' => 'webblogs']);
+        Route::get('/people/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webperson','as' => 'webperson']);
+        Route::get('/subject/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websubject','as' => 'websubject']);
+        Route::get('/sermons/{series}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webseries','as' => 'webseries']);
+        Route::get('/sermons/{series}/{sermon}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermon','as' => 'websermon']);
+        Route::get('/sermons', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@websermons','as' => 'websermons']);
+        Route::get('/course/{course}', ['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@show','as'=>'webresource']);
+        Route::get('/coming-up/{event}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webevent','as'=>'webevent']);
+        Route::get('/coming-up', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@comingup','as'=>'comingup']);
+        Route::get('/course/{course}/sign-up', ['uses'=>'Bishopm\Connexion\Http\Controllers\CoursesController@signup','as'=>'coursesignup']);
+        Route::get('/event/{course}/sign-up', ['uses'=>'Bishopm\Connexion\Http\Controllers\EventsController@showsignup','as'=>'eventsignup']);
+        Route::post('/admin/events/{event}/signup', ['uses' => 'Bishopm\Connexion\Http\Controllers\EventsController@signup','as' => 'admin.events.signup']);
+        Route::get('courses', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webcourses','as'=>'webcourses']);
+        Route::get('book/{book}', ['uses'=>'Bishopm\Connexion\Http\Controllers\BooksController@show','as'=>'webbook']);
+        Route::get('books', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@webbooks','as'=>'webbooks']);
+        Route::get('/author/{author}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webauthor','as' => 'webauthor']);
+        Route::get('register', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@showRegistrationForm','as'=>'registrationform']);
+        Route::post('register', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@register','as'=>'admin.register']);
+        Route::post('checkmail', ['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);
+        Route::get('preachingplan', 'Bishopm\Connexion\Http\Controllers\PlansController@currentplan');
+        Route::get('admin/newuser/checkname/{username}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@checkname','as'=>'admin.checkname']);
+        Route::post('admin/newuser', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@newuser','as'=>'admin.newuser']);
+        Route::get('admin/getusername/{email}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@getusername','as'=>'admin.getusername']);
+        Route::get('/groups/{category}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroupcategory','as' => 'webgroupcategory']);
+        Route::get('/groups', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@weballgroups','as' => 'weballgroups']);
+        Route::get('/group/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webgroup','as' => 'webgroup']);
+        Route::get('/lectionary', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@lectionary','as' => 'lectionary']);
+        Route::get('/my-church', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mychurch','as' => 'mychurch']);
+        Route::get('/my-details', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mydetails','as' => 'mydetails']);
+        Route::get('/my-giving', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@mygiving','as' => 'mygiving']);
+        Route::get('/register-user', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@registeruser','as' => 'registeruser']);
+    }
     Route::group(['middleware' => ['web','isverified','can:edit-comments']], function () {
         //Webuser routes
         Route::post('/comments', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@deletecomment','as' => 'deletecomment']);
@@ -545,4 +546,6 @@ Route::get('/generic', function () {
     return new Bishopm\Connexion\Mail\GenericMail($generic);
 });
 
-Route::any('{uri}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@uri','as' => 'page','middleware' => ['web']])->where('uri', '.*');
+if (in_array('website', Setting::activemodules())) {
+    Route::any('{uri}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@uri','as' => 'page','middleware' => ['web']])->where('uri', '.*');
+}

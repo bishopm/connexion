@@ -482,6 +482,10 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Bishopm\Connexion\Providers\ScheduleServiceProvider');
         $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
         $this->app->register('LithiumDev\TagCloud\ServiceProvider');
+        $this->app->bind('setting', function () {
+            return new \Bishopm\Connexion\Repositories\SettingsRepository(new \Bishopm\Connexion\Models\Setting());
+        });
+        AliasLoader::getInstance()->alias("Setting", 'Bishopm\Connexion\Models\Facades\Setting');
         AliasLoader::getInstance()->alias("Charts", 'ConsoleTVs\Charts\Facades\Charts');
         AliasLoader::getInstance()->alias("Socialite", 'Laravel\Socialite\Facades\Socialite');
         AliasLoader::getInstance()->alias("JWTFactory", 'Tymon\JWTAuth\Facades\JWTFactory');
