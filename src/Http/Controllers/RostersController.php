@@ -44,7 +44,7 @@ class RostersController extends Controller
             $data['rosters']=array();
             $rosters = Roster::orderBy('rostername')->get();
             foreach ($rosters as $roster) {
-                if ($roster->users->contains($user->id)) {
+                if ($roster->users->contains($data['user']->id)) {
                     $data['rosters'][]=$roster;
                 }
             }
