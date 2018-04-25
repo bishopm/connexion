@@ -25,37 +25,44 @@ class Group extends Model
         ];
     }
 
-    public function individuals(){
-		  return $this->belongsToMany('Bishopm\Connexion\Models\Individual')->whereNull('group_individual.deleted_at')->withTimestamps()->orderBy('surname')->orderBy('firstname');
+    public function scopePublished($query)
+    {
+        return $query->where('publish', '=', '1');
     }
 
-    public function pastmembers(){
+    public function individuals()
+    {
+        return $this->belongsToMany('Bishopm\Connexion\Models\Individual')->whereNull('group_individual.deleted_at')->withTimestamps()->orderBy('surname')->orderBy('firstname');
+    }
+
+    public function pastmembers()
+    {
         return $this->belongsToMany('Bishopm\Connexion\Models\Individual')->whereNotNull('group_individual.deleted_at')->withTimestamps()->withPivot('deleted_at');
     }
 
-/*
-    public function statistic(){
-		  return $this->belongsToMany('App\Models\Statistic');
-    }
+    /*
+        public function statistic(){
+              return $this->belongsToMany('App\Models\Statistic');
+        }
 
-    public function society(){
-		  return $this->belongsTo('App\Models\Society');
-    }
+        public function society(){
+              return $this->belongsTo('App\Models\Society');
+        }
 
-    public function selectbox(){
-    	return array($this->groupname,$this->id);
-    }
+        public function selectbox(){
+            return array($this->groupname,$this->id);
+        }
 
-    public function roster(){
-		return $this->belongsToMany('App\Models\Roster');
-    }
+        public function roster(){
+            return $this->belongsToMany('App\Models\Roster');
+        }
 
-    public function rosterdetails_roster(){
-		return $this->belongsToMany('App\Models\Roster','group_individual_roster');
-    }
+        public function rosterdetails_roster(){
+            return $this->belongsToMany('App\Models\Roster','group_individual_roster');
+        }
 
-    public function rosterdetails_individual(){
-		return $this->belongsToMany('App\Models\Individual','group_individual_roster');
-    }
-*/
+        public function rosterdetails_individual(){
+            return $this->belongsToMany('App\Models\Individual','group_individual_roster');
+        }
+    */
 }
