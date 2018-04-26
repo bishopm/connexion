@@ -96,6 +96,27 @@ class PlansController extends Controller
         }
     }
 
+    public function nextplan($status="view")
+    {
+        $one=range(2, 4);
+        $two=range(5, 7);
+        $three=range(8, 10);
+        $four=range(11, 12);
+        $m=intval(date('n', strtotime("+3 months")));
+        $y=intval(date('Y', strtotime("+3 months")));
+        if (in_array($m, $one)) {
+            $this->show($y, 1, $status);
+        } elseif (in_array($m, $two)) {
+            $this->show($y, 2, $status);
+        } elseif (in_array($m, $three)) {
+            $this->show($y, 3, $status);
+        } elseif (in_array($m, $four)) {
+            $this->show($y, 4, $status);
+        } elseif ($m==1) {
+            $this->show($y-1, 4, $status);
+        }
+    }
+
     /**
      * Display the specified resource.
      *

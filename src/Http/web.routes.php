@@ -36,6 +36,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('register', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@register','as'=>'admin.register']);
         Route::post('checkmail', ['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);
         Route::get('preachingplan', 'Bishopm\Connexion\Http\Controllers\PlansController@currentplan');
+        Route::get('nextpreachingplan', 'Bishopm\Connexion\Http\Controllers\PlansController@nextplan');
         Route::get('admin/newuser/checkname/{username}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@checkname','as'=>'admin.checkname']);
         Route::post('admin/newuser', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@newuser','as'=>'admin.newuser']);
         Route::get('admin/getusername/{email}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@getusername','as'=>'admin.getusername']);
