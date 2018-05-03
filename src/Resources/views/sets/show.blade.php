@@ -36,7 +36,8 @@
                         <div class="col-sm-12">
                             <button href="#" class="btn btn-default" type="submit">Send email</button>
                             <a href="#" class="btn btn-default" data-toggle="modal" data-target="#modal-setitem">Add order of service items</a> 
-                            <a target="_blank" href="{{route('admin.sets.order',$set->id)}}" class="btn btn-default">Preview order of service</a>
+                            <a target="_blank" href="{{route('admin.sets.order',$set->id)}}" class="btn btn-default">Order of service</a>
+                            <a target="_blank" href="{{route('admin.sets.duplicate',$set->id)}}" class="btn btn-default">Duplicate this set</a>
                         </div>
                     </form>
                 </div>

@@ -80,6 +80,14 @@ class SetsController extends Controller
         return view('connexion::sets.create', $data);
     }
 
+    public function duplicate($id)
+    {
+        $data['sunday']=date("Y-m-d", strtotime("next Sunday"));
+        $data['services']=explode(',', $this->setting->getkey('worship_services'));
+        $data['duplicate']=$id;
+        return view('connexion::sets.duplicate', $data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -95,6 +103,21 @@ class SetsController extends Controller
             $set=Set::create($request->all());
         }
         return redirect()->route('admin.sets.index')->withSuccess('New set added');
+    }
+
+    public function duplicatestore(CreateSetRequest $request)
+    {
+        $checkset=Set::where('servicedate', '=', $request->servicedate)->where('servicetime', '=', $request->servicetime)->first();
+        $duplicateset=Set::with('setitems')->find($request->duplicate)->toArray();
+        if (count($checkset)) {
+            $set=$checkset;
+        } else {
+            $set=Set::create($request->except('duplicate'));
+        }
+        foreach ($duplicateset['setitems'] as $setitem) {
+            $set->setitems()->create($setitem);
+        }
+        return redirect()->route('admin.sets.index')->withSuccess('Set has been duplicated');
     }
 
     /**

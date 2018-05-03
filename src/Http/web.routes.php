@@ -113,6 +113,8 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::get('admin/worship/sets', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@index','as'=>'admin.sets.index']);
     Route::get('admin/worship/sets/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@create','as'=>'admin.sets.create']);
     Route::post('admin/worship/sets', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@store','as'=>'admin.sets.store']);
+    Route::post('admin/worship/sets/duplicate', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@duplicatestore','as'=>'admin.sets.duplicatestore']);
+    Route::get('admin/worship/sets/{set}/duplicate', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@duplicate','as'=>'admin.sets.duplicate']);
     Route::get('admin/worship/sets/{set}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@edit','as'=>'admin.sets.edit']);
     Route::get('admin/worship/sets/{set}/order', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@order','as'=>'admin.sets.order']);
     Route::get('admin/worship/sets/{set}/{mode?}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SetsController@show','as'=>'admin.sets.show']);
