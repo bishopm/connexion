@@ -201,7 +201,7 @@ class RostersController extends Controller
             $pdf->SetTextColor(0, 0, 0);
             $pdf->SetFont('Arial', 'B', 9);
             $pdf->setxy(10, $y-6);
-            $pdf->rect(10, $y-8, 275, 33);
+            $pdf->rect(10, $y-8, 275, 9 + 8 * count($subcats));
             $pdf->cell(0, 0, date("j F Y", strtotime($kk)), 0, 0, 'C');
             $x=15;
             if ($subcats[0]<>"") {
