@@ -236,6 +236,8 @@ class SetsController extends Controller
                         if (isset($stewardname)) {
                             $title.=": " . $stewardname;
                         }
+                    } elseif ($item->itemtype=="sermon") {
+                        $title="Sermon: " . $title;
                     } elseif ($item->description=="") {
                         $title=ucfirst($item->itemtype);
                     } else {
