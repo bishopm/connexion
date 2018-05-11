@@ -132,7 +132,7 @@
             }
         }
     </script>
-    {!! Form::label('lyrics','Lyrics', array('class'=>'control-label')) !!}
+    {!! Form::label('lyrics','Lyrics (Verse headings: {V1} Chords: [F#m])', array('class'=>'control-label')) !!}
     @if (!$is_new)
     <textarea class="form-control" rows="20" name="lyrics" cols="50" id="lyrics" v-model="formdata.lyrics"></textarea>
     @else
