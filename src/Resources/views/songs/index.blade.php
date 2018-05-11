@@ -64,6 +64,9 @@
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">
+                                Looking for new songs to add? Try <a href="http://www.worshiptogether.com" target="_blank">www.worshiptogether.com</a> or <a href="http://www.worshipcentral.org" target="_blank">worshipcentral.org</a>. For liturgy, try: <a href="http://https://re-worship.blogspot.com" target="_blank">re-worship.blogspot.com</a>
+                            </div>
+                            <div class="panel-heading">
                                 <ul class="nav nav-pills">
                                     <li class="active"><a href="#ns" data-toggle="tab">New songs</a></li>
                                     <li><a href="#nh" data-toggle="tab">New hymns</a></li>
