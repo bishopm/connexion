@@ -79,7 +79,7 @@
                     <div class="box-body">
                       @foreach ($group->pastmembers as $indiv)
                         @if (!$loop->last)
-                          {{$indiv->firstname}} {{$indiv->surname}}, 
+                          {{$indiv->firstname}} {{$indiv->surname}} ({{substr($indiv->pivot->created_at,0,10)}} - {{substr($indiv->pivot->deleted_at,0,10)}}), 
                         @else
                           {{$indiv->firstname}} {{$indiv->surname}}.
                         @endif
