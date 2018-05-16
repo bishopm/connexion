@@ -56,7 +56,6 @@ class BirthdayEmail extends Command
         $days=array($mon,$tue,$wed,$thu,$fri,$sat,$sun);
         //DB::enableQueryLog();
         $birthdays=Individual::join('households', 'household_id', '=', 'households.id')->select('individuals.id', 'homephone', 'householdcell', 'cellphone', 'firstname', 'surname', DB::raw('substr(birthdate, 6, 5) as bd'))->wherein(DB::raw('substr(birthdate, 6, 5)'), $days)->whereNull('individuals.deleted_at')->orderBy(DB::raw('substr(birthdate, 6, 5)'))->get();
-        dd($birthdays);
         //Log::debug(DB::getQueryLog());
         foreach ($birthdays as $bday) {
             $msg=$msg . "*" . date("D d M", strtotime($thisyr . "-" . $bday->bd)) . "* **" . $bday->firstname . " " . $bday->surname . ":**";
