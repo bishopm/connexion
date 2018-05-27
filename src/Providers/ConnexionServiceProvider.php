@@ -35,7 +35,9 @@ class ConnexionServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events, SettingsRepository $settings)
     {
-        $this->settings=$settings;
+        if (Schema::hasTable('settings')) {
+            $this->settings=$settings;
+        }
         Schema::defaultStringLength(255);
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/api.routes.php';
