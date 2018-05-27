@@ -38,7 +38,7 @@
                                 @forelse ($users as $user)
                                     <tr>
                                         <td><a href="{{route('admin.users.edit',$user->id)}}">
-                                            @if($user->individual_id)
+                                            @if (($user->individual_id) and ($user->individual))
                                                 {{$user->individual->firstname}} {{$user->individual->surname}}
                                             @else
                                                 {{$user->name}}
