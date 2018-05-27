@@ -10,7 +10,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Events\Dispatcher;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
-use Bishopm\Connexion\Repositories\SettingsRepository;
 use Bishopm\Connexion\Models\Setting;
 use Illuminate\Support\Facades\Gate;
 use Monolog\Handler\SlackWebhookHandler;
@@ -18,8 +17,6 @@ use Monolog\Logger;
 
 class ConnexionServiceProvider extends ServiceProvider
 {
-    private $settings;
-
     protected $commands = [
         'Bishopm\Connexion\Console\InstallConnexionCommand',
         'Bishopm\Connexion\Console\BirthdayEmail',
@@ -33,11 +30,8 @@ class ConnexionServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Dispatcher $events, SettingsRepository $settings)
+    public function boot(Dispatcher $events)
     {
-        if (Schema::hasTable('settings')) {
-            $this->settings=$settings;
-        }
         Schema::defaultStringLength(255);
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/api.routes.php';
@@ -484,10 +478,12 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->register('Bishopm\Connexion\Providers\ScheduleServiceProvider');
         $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
         $this->app->register('LithiumDev\TagCloud\ServiceProvider');
-        $this->app->bind('setting', function () {
-            return new \Bishopm\Connexion\Repositories\SettingsRepository(new \Bishopm\Connexion\Models\Setting());
-        });
-        AliasLoader::getInstance()->alias("Setting", 'Bishopm\Connexion\Models\Facades\Setting');
+        if (Schema::hasTable('settings')) {
+            $this->app->bind('setting', function () {
+                return new \Bishopm\Connexion\Repositories\SettingsRepository(new \Bishopm\Connexion\Models\Setting());
+            });
+            AliasLoader::getInstance()->alias("Setting", 'Bishopm\Connexion\Models\Facades\Setting');
+        }
         AliasLoader::getInstance()->alias("Charts", 'ConsoleTVs\Charts\Facades\Charts');
         AliasLoader::getInstance()->alias("Socialite", 'Laravel\Socialite\Facades\Socialite');
         AliasLoader::getInstance()->alias("JWTFactory", 'Tymon\JWTAuth\Facades\JWTFactory');
@@ -571,7 +567,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $existing=array_flatten(Setting::select('setting_key')->get()->toArray());
         foreach ($settings as $ss) {
             if (!in_array($ss['setting_key'], $existing)) {
-                $this->settings->create($ss);
+                Setting::create($ss);
             }
         }
     }
@@ -774,13 +770,15 @@ class ConnexionServiceProvider extends ServiceProvider
                 return $repository;
             }
         );
-        $this->app->bind(
-            'Bishopm\Connexion\Repositories\SettingsRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\SettingsRepository(new \Bishopm\Connexion\Models\Setting());
-                return $repository;
-            }
-        );
+        if (Schema::hasTable('settings')) {
+            $this->app->bind(
+                'Bishopm\Connexion\Repositories\SettingsRepository',
+                function () {
+                    $repository = new \Bishopm\Connexion\Repositories\SettingsRepository(new \Bishopm\Connexion\Models\Setting());
+                    return $repository;
+                }
+            );
+        }
         $this->app->bind(
             'Bishopm\Connexion\Repositories\SlidesRepository',
             function () {

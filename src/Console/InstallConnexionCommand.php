@@ -20,15 +20,15 @@ class InstallConnexionCommand extends Command
         $this->info('Setting up database tables - this may take a minute...');
         $this->call('migrate');
         $users=User::all();
-        if (count($users)){
+        if (count($users)) {
             $this->info('This command may only be run on a blank installation. Exiting ...');
         } else {
-            $newuser=New User;
-            $newhousehold=New Household;
-            $newindiv=New Individual;
+            $newuser=new User;
+            $newhousehold=new Household;
+            $newindiv=new Individual;
             $this->info('We will now set up an admin user, who will also be included in the membership database');
             $newindiv->title=$this->choice('What is the title of the admin user?', ['Mr', 'Ms','Mrs']);
-            if ($newindiv->title=="Mr"){
+            if ($newindiv->title=="Mr") {
                 $newindiv->sex="male";
             } else {
                 $newindiv->sex="female";
@@ -116,7 +116,7 @@ class InstallConnexionCommand extends Command
             'name' => 'Manager',
             'slug' => 'manager',
             'permissions' => '{"edit-backend": true, "edit-comment": true, "edit-worship": true, "view-backend": true, "view-worship": true, "edit-bookshop": true}'
-        ]);            
+        ]);
         DB::table('roles')->insert([
             'id' => 3,
             'name' => 'Webuser',

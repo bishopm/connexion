@@ -13,7 +13,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('password/reset', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm','as'=>'showLinkRequestForm']);
     Route::post('password/reset', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ResetPasswordController@reset','as'=>'password.reset']);
     Route::get('password/reset/{token}', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\ResetPasswordController@showResetForm','as'=>'showResetForm']);
-    if (in_array('website', Setting::activemodules())) {
+    if ((\Illuminate\Support\Facades\Schema::hasTable('settings')) and (in_array('website', Setting::activemodules()))) {
         Route::get('/', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@home','as' => 'homepage']);
         Route::get('/blog/{year}/{month?}/{slug?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webblog','as' => 'webblog']);
         Route::get('/blog', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@webblogs','as' => 'webblogs']);
@@ -549,6 +549,6 @@ Route::get('/generic', function () {
     return new Bishopm\Connexion\Mail\GenericMail($generic);
 });
 
-if (in_array('website', Setting::activemodules())) {
+if ((\Illuminate\Support\Facades\Schema::hasTable('settings')) and (in_array('website', Setting::activemodules()))) {
     Route::any('{uri}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@uri','as' => 'page','middleware' => ['web']])->where('uri', '.*');
 }
