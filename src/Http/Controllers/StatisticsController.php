@@ -41,7 +41,7 @@ class StatisticsController extends Controller
             }
             return view('connexion::statistics.index', compact('statistics', 'servicetimes'));
         } else {
-            return redirect()->route('admin.societies.show', $soc)->with('notice', 'You need to add a service before recording statistics');
+            return redirect()->route('dashboard')->with('notice', 'You need to add a service before recording statistics');
         }
     }
 

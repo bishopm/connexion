@@ -13,6 +13,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
+                        @include('connexion::shared.errors')
                         <div class="col-md-8">
                             <form id="searchform" action="#" method="get" class="">
                                 <div class="input-group">
