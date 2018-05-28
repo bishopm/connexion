@@ -14,6 +14,7 @@ use Bishopm\Connexion\Models\Setting;
 use Illuminate\Support\Facades\Gate;
 use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Logger;
+use Bishopm\Connexion\Repositories\SettingsRepository;
 
 class ConnexionServiceProvider extends ServiceProvider
 {
@@ -66,6 +67,7 @@ class ConnexionServiceProvider extends ServiceProvider
                     $ss=Setting::create(['setting_key'=>$key,'setting_value'=>$thismod['setting_value'],'description'=>$thismod['description'],'module'=>'module']);
                 }
             }
+            $settings=new SettingsRepository(new Setting);
             $finset=$settings->makearray();
             view()->share('setting', $finset);
             if ($settings->getkey('mail_host')<>"Invalid") {

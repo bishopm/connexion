@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Household;
 use Bishopm\Connexion\Models\Individual;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
 
 class InstallConnexionCommand extends Command
@@ -50,13 +52,13 @@ class InstallConnexionCommand extends Command
             $newuser->verified=1;
             $newuser->individual_id=$newindiv->id;
             $newuser->save();
-            $this->seeder();
+            $this->call('cache:forget', ['key' => 'spatie.permission.cache']);
+            $this->seeder($newuser);
             $this->call('storage:link');
-            $this->call('cache:clear');
         }
     }
 
-    protected function seeder()
+    protected function seeder($newuser)
     {
         DB::table('menus')->insert([
             'menu' => 'main',
@@ -105,33 +107,48 @@ class InstallConnexionCommand extends Command
             'url' => 'sermons',
             'target' => '_self'
         ]);
-        DB::table('roles')->insert([
-            'id' => 1,
-            'name' => 'Administrator',
-            'slug' => 'administrator',
-            'permissions' => '{"edit-backend": true, "edit-worship": true, "view-backend": true, "view-worship": true, "admin-backend": true, "edit-bookshop": true, "edit-comments": true}'
-        ]);
-        DB::table('roles')->insert([
-            'id' => 2,
-            'name' => 'Manager',
-            'slug' => 'manager',
-            'permissions' => '{"edit-backend": true, "edit-comment": true, "edit-worship": true, "view-backend": true, "view-worship": true, "edit-bookshop": true}'
-        ]);
-        DB::table('roles')->insert([
-            'id' => 3,
-            'name' => 'Webuser',
-            'slug' => 'web-user',
-            'permissions' => '{"edit-comments": true}'
-        ]);
-        DB::table('roles')->insert([
-            'id' => 4,
-            'name' => 'Worship team',
-            'slug' => 'worship-team',
-            'permissions' => '{"edit-worship": true, "view-worship": true}'
-        ]);
-        DB::table('role_user')->insert([
-            'user_id' => 1,
-            'role_id' => 1
-        ]);
+        $p1=Permission::create(['name' => 'admin-backend']);
+        $p2=Permission::create(['name' => 'edit-backend']);
+        $p3=Permission::create(['name' => 'edit-comments']);
+        $p4=Permission::create(['name' => 'view-backend']);
+        $p5=Permission::create(['name' => 'admin-giving']);
+        $p6=Permission::create(['name' => 'edit-bookshop']);
+        $p7=Permission::create(['name' => 'edit-roster']);
+        $p8=Permission::create(['name' => 'edit-worship']);
+        $p9=Permission::create(['name' => 'view-worship']);
+        $role = Role::create(['name' => 'Administrator']);
+        $role->givePermissionTo($p1);
+        $role->givePermissionTo($p2);
+        $role->givePermissionTo($p3);
+        $role->givePermissionTo($p4);
+        $role->givePermissionTo($p6);
+        $role->givePermissionTo($p7);
+        $role->givePermissionTo($p8);
+        $role->givePermissionTo($p9);
+        $role2 = Role::create(['name' => 'User']);
+        $role2->givePermissionTo($p3);
+        $role3 = Role::create(['name' => 'Bookshop manager']);
+        $role3->givePermissionTo($p6);
+        $role4 = Role::create(['name' => 'Giving administrator']);
+        $role4->givePermissionTo($p5);
+        $role5 = Role::create(['name' => 'Roster editor']);
+        $role5->givePermissionTo($p7);
+        $role6 = Role::create(['name' => 'Manager']);
+        $role6->givePermissionTo($p2);
+        $role6->givePermissionTo($p3);
+        $role6->givePermissionTo($p4);
+        $role6->givePermissionTo($p6);
+        $role6->givePermissionTo($p7);
+        $role6->givePermissionTo($p8);
+        $role6->givePermissionTo($p9);
+        $role7 = Role::create(['name' => 'Worship team']);
+        $role7->givePermissionTo($p4);
+        $role7->givePermissionTo($p8);
+        $role7->givePermissionTo($p9);
+        $role8 = Role::create(['name' => 'Pastoral staff']);
+        $role8->givePermissionTo($p2);
+        $role8->givePermissionTo($p4);
+        $role8->givePermissionTo($p7);
+        $newuser->assignRole('Administrator');
     }
 }
