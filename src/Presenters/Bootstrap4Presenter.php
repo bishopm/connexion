@@ -27,7 +27,7 @@ class Bootstrap4Presenter extends Presenter
      */
     public function getMenuWithoutDropdownWrapper($item)
     {
-        return '<li' . $this->getActiveState($item) . '><a href="' . $item->getUrl() . '" ' . $item->getAttributes() . '>' . $item->getIcon() . ' ' . $item->title . '</a></li>' . PHP_EOL;
+        return '<li class="nav-item"' . $this->getActiveState($item) . '><a class="nav-link" href="' . $item->getUrl() . '" ' . $item->getAttributes() . '>' . $item->getIcon() . ' ' . $item->title . '</a></li>' . PHP_EOL;
     }
 
     /**
