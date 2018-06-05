@@ -66,11 +66,11 @@ select.form-control.pplan {
         <td>
           <select onchange="updateplan('t_{{$soc['id']}}_{{$ser['id']}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}');" class="form-control pplan" id="t_{{$soc['id']}}_{{$ser['id']}}_{{$sun['yy']}}_{{$sun['mm']}}_{{$sun['dd']}}"><option value="blank"></option>
             <optgroup label="Special services">
-              @foreach ($tags as $tag)
-                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['tname'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['tname']==$tag))
-                  <option selected value="{{$tag}}">{{$tag}}</option>
+              @foreach ($labels as $label)
+                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['tname'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['tname']==$label))
+                  <option selected value="{{$label}}">{{$label}}</option>
                 @else
-                  <option value="{{$tag}}">{{$tag}}</option>
+                  <option value="{{$label}}">{{$label}}</option>
                 @endif
               @endforeach
             </optgroup>
