@@ -97,7 +97,7 @@ class SetsController extends Controller
     public function store(CreateSetRequest $request)
     {
         $checkset=Set::where('servicedate', '=', $request->servicedate)->where('servicetime', '=', $request->servicetime)->first();
-        if (count($checkset)) {
+        if (($checkset) and (count($checkset))) {
             $set=$checkset;
         } else {
             $set=Set::create($request->all());
