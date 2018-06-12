@@ -450,6 +450,16 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::post('admin/meetings', ['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@store','as'=>'admin.meetings.store']);
     Route::delete('admin/meetings/{meeting}', ['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@destroy','as'=>'admin.meetings.destroy']);
 
+    // Persons
+    Route::get('admin/persons', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@index','as'=>'admin.persons.index']);
+    Route::get('admin/persons/meeting/{year?}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@meeting','as'=>'admin.persons.meeting']);
+    Route::get('admin/persons/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@create','as'=>'admin.persons.create']);
+    Route::get('admin/persons/{person}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@show','as'=>'admin.persons.show']);
+    Route::get('admin/persons/{person}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@edit','as'=>'admin.persons.edit']);
+    Route::put('admin/persons/{person}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@update','as'=>'admin.persons.update']);
+    Route::post('admin/persons', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@store','as'=>'admin.persons.store']);
+    Route::delete('admin/persons/{person}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@destroy','as'=>'admin.persons.destroy']);
+
     // Plan
     Route::get('admin/plan/{yy}/{qq}/{aa}', 'Bishopm\Connexion\Http\Controllers\PlansController@show');
     Route::get('admin/plan/update/{circuit}/{box}/{val}', 'Bishopm\Connexion\Http\Controllers\PlansController@update');

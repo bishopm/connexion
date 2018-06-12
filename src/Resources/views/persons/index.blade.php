@@ -12,13 +12,12 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-6"><h4>Preachers</h4></div>
+                            <div class="col-md-6"><h4>Leaders</h4></div>
                             <div class="col-md-6">
-                                @if ($preachers=="No token")
+                                @if ($persons=="No token")
                                     <a href="{{route('admin.mcsa.register')}}" class="btn btn-primary pull-right">Connect to MCSA database</a>
                                 @else
-                                    <a style="margin-left:10px;" href="{{route('admin.preachers.meeting',date('Y'))}}" class="btn btn-primary pull-right"><i class="fa fa-group"></i> Meeting register</a>
-                                    <a href="{{route('admin.preachers.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new preacher</a>
+                                    <a href="{{route('admin.persons.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new leader</a>
                                 @endif
                             </div>
                         </div>
@@ -27,29 +26,29 @@
                         <table id="indexTable" class="table table-striped table-hover table-condensed table-responsive" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Preacher</th>
-                                    <th>Status</th>
+                                    <th>Leader</th>
+                                    <th>Role</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Preacher</th>
-                                    <th>Status</th>
+                                    <th>Leader</th>
+                                    <th>Role</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                @if(is_array($preachers))
-                                    @forelse ($preachers as $preacher)
+                                @if(is_array($persons))
+                                    @forelse ($persons as $person)
                                         <tr>
-                                            <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">{{$preacher->surname}}, {{$preacher->firstname}}</a></td>
-                                            <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">
-                                            @foreach ($preacher->roles as $role)
-                                                {{$role->role}}
+                                            <td><a href="{{route('admin.persons.edit',$person->id)}}">{{$person->surname}}, {{$person->firstname}}</a></td>
+                                            <td><a href="{{route('admin.persons.edit',$person->id)}}">
+                                            @foreach ($person->positions as $position)
+                                                {{$position->position}}@if (!$loop->last), @endif
                                             @endforeach
                                             </a></td>
                                         </tr>
                                     @empty
-                                        <tr><td>No preachers have been added yet</td></tr>
+                                        <tr><td>No persons have been added yet</td></tr>
                                     @endforelse
                                 @endif
                             </tbody>

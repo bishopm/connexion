@@ -286,13 +286,13 @@ class PlansController extends Controller
             $dum=array();
             $thissoc=$this->societies->find($preacher1['society_id'])->society;
             $dum['name']=$preacher1['title'] . " " . $preacher1['firstname'] . " " . $preacher1['surname'];
-            if ($preacher1['status']=="Emeritus preacher") {
+            if ($preacher1['role']=="Emeritus preacher") {
                 $dum['name'] = $dum['name'] . "*";
             }
             $dum['soc']=$preacher1['society_id'];
             $dum['cellphone']=$preacher1['phone'];
             $dum['fullplan']=$preacher1['fullplan'];
-            $dum['status']=$preacher1['status'];
+            $dum['role']=$preacher1['role'];
             if ($dum['fullplan']=="Trial") {
                 $vdum['9999' . $preacher1['surname'] . $preacher1['firstname']]=$dum;
             } else {
@@ -428,7 +428,7 @@ class PlansController extends Controller
                     $y=30;
                 }
                 $pre['name']=utf8_decode($pre['name']);
-                if (($pre['status']=="Local preacher") or ($pre['status']=="On trial preacher") or ($pre['status']=="Emeritus preacher")) {
+                if (($pre['role']=="Local preacher") or ($pre['role']=="On trial preacher") or ($pre['role']=="Emeritus preacher")) {
                     $pdf->text($x+2, $y, $pre['fullplan']);
                     $pdf->text($x+10, $y, $pre['name'] . " (" . $pre['cellphone'] . ")");
                     $y=$y+4;

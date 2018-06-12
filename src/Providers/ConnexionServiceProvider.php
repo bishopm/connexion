@@ -161,6 +161,12 @@ class ConnexionServiceProvider extends ServiceProvider
                                 'can' =>  'edit-backend'
                             ],
                             [
+                                'text' => 'Leaders',
+                                'url'  => 'admin/persons',
+                                'icon' => 'user',
+                                'can' =>  'edit-backend'
+                            ],
+                            [
                                 'text' => 'Societies',
                                 'url'  => 'admin/societies',
                                 'icon' => 'envelope-o',
@@ -706,6 +712,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\PaymentsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\PaymentsRepository(new \Bishopm\Connexion\Models\Payment());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\PersonsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\PersonsRepository('persons');
                 return $repository;
             }
         );
