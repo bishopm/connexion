@@ -16,6 +16,19 @@
       @endforeach
     </select>
 </div>
+<div class="form-group">
+    <label for="positions" class="control-label">Role</label>
+    <select name="positions[]" multiple class="positions-input">
+      <option></option>
+      @foreach ($positions as $position)
+        @if (in_array($position->id,$pos))
+          <option selected value="{{$position->id}}">{{$position->position}}</option>
+        @else
+          <option value="{{$position->id}}">{{$position->position}}</option>
+        @endif
+      @endforeach
+    </select>
+</div>
 {{ Form::bsFile('image') }}
 {{ Form::bsHidden('circuit_id',$circuit) }}
 <div class="form-group" id="deletetype" style="display:none;">

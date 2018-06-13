@@ -37,6 +37,19 @@
           maxOptions: 30,
         });
     });
+    $( document ).ready(function() {
+        $('.positions-input').selectize({
+            plugins: ['remove_button'],
+            openOnFocus: 0,
+            maxOptions: 30,
+            onItemAdd: function(value,$item) {
+            $.ajax({ url: "{{url('/')}}/admin/persons/{{$preacher->id}}/addposition/" + value })
+            },
+            onItemRemove: function(value,$item) {
+            $.ajax({ url: "{{url('/')}}/admin/persons/{{$preacher->id}}/removeposition/" + value })
+            }
+        });
+    });
     function deleteboxes() {
         $('#deletetype').show();
         $('#deletenotes').show();

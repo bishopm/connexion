@@ -730,6 +730,13 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
+            'Bishopm\Connexion\Repositories\PositionsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\PositionsRepository('positions');
+                return $repository;
+            }
+        );
+        $this->app->bind(
             'Bishopm\Connexion\Repositories\PostsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\PostsRepository(new \Bishopm\Connexion\Models\Post());

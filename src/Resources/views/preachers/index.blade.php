@@ -43,8 +43,8 @@
                                         <tr>
                                             <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">{{$preacher->surname}}, {{$preacher->firstname}}</a></td>
                                             <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">
-                                            @foreach ($preacher->roles as $role)
-                                                {{$role->role}}
+                                            @foreach ($preacher->positions as $position)
+                                                {{$position->position}}
                                             @endforeach
                                             </a></td>
                                         </tr>
