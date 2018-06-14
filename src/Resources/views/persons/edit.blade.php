@@ -44,7 +44,7 @@
     $( document ).ready(function() {
         $('.position-input').selectize({
             plugins: ['remove_button'],
-            openOnFocus: 0,
+            openOnFocus: 1,
             maxOptions: 30,
             onItemAdd: function(value,$item) {
               $.ajax({ url: "{{url('/')}}/admin/persons/{{$person->id}}/addposition/" + value })

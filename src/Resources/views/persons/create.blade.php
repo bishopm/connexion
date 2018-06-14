@@ -5,20 +5,20 @@
 @stop
 
 @section('content_header')
-    {{ Form::pgHeader('Add preacher','Preachers',route('admin.preachers.index')) }}
+    {{ Form::pgHeader('Add a leader','Leaders',route('admin.persons.index')) }}
 @stop
 
 @section('content')
     @include('connexion::shared.errors')    
-    {!! Form::open(['route' => array('admin.preachers.store'), 'method' => 'post']) !!}
+    {!! Form::open(['route' => array('admin.persons.store'), 'method' => 'post']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary"> 
                 <div class="box-body">
-                    @include('connexion::preachers.partials.create-fields')
+                    @include('connexion::persons.partials.create-fields')
                 </div>
                 <div class="box-footer">
-                    {{Form::pgButtons('Create',route('admin.preachers.index')) }}
+                    {{Form::pgButtons('Create',route('admin.persons.index')) }}
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
     $( document ).ready(function() {
         $('.selectize').selectize({
           plugins: ['remove_button'],
-          openOnFocus: 0,
+          openOnFocus: 1,
           maxOptions: 30,
         });
     });

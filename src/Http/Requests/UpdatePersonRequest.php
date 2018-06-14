@@ -4,11 +4,16 @@ namespace Bishopm\Connexion\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePreacherRequest extends FormRequest
+class UpdatePersonRequest extends FormRequest
 {
     public function rules()
     {
         return [
+            'firstname' => 'required',
+            'surname' => 'required|min:2',
+            'title' => 'required',
+            'society_id' => 'required',
+            'phone' => 'nullable|numeric'
         ];
     }
 

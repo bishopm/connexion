@@ -52,9 +52,9 @@ class SongsController extends Controller
                 $group=Group::find($member->group_id)->groupname;
                 $indiv=Individual::find($member->individual_id)->firstname . ' ' . Individual::find($member->individual_id)->surname;
                 if ($group=="Preachers") {
-                    $data['roster'][$member->rosterdate][$indiv][]="Preacher";
+                    $data['roster'][strtotime($member->rosterdate)][$indiv][]="Preacher";
                 } else {
-                    $data['roster'][$member->rosterdate][$indiv][]=$group;
+                    $data['roster'][strtotime($member->rosterdate)][$indiv][]=$group;
                 }
             }
         }

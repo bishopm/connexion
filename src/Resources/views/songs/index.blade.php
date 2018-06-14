@@ -200,7 +200,7 @@
                         <div class="panel-body">
                             @foreach ($roster as $rdate=>$rost)
                                 <div class="col-sm-12">
-                                    <h4>{{date("l, d F Y",strtotime($rdate))}}</h4>
+                                    <h4>{{date("l, d F Y",$rdate)}}</h4>
                                 </div>
                                 @foreach ($rost as $indiv=>$groups)
                                     <div class="col-sm-3">
