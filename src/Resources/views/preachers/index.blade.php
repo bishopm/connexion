@@ -44,7 +44,7 @@
                                             <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">{{$preacher->surname}}, {{$preacher->firstname}}</a></td>
                                             <td><a href="{{route('admin.preachers.edit',$preacher->id)}}">
                                             @foreach ($preacher->positions as $position)
-                                                {{$position->position}}
+                                                {{$position->position}}@if (!$loop->last), @endif
                                             @endforeach
                                             </a></td>
                                         </tr>
