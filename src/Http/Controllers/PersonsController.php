@@ -3,6 +3,7 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\PersonsRepository;
+use Bishopm\Connexion\Repositories\PositionsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
@@ -21,13 +22,15 @@ class PersonsController extends Controller
      */
 
     private $person;
+    private $positions;
     private $individuals;
     private $societies;
     private $settings;
 
-    public function __construct(PersonsRepository $person, IndividualsRepository $individuals, SocietiesRepository $societies, SettingsRepository $settings)
+    public function __construct(PersonsRepository $person, IndividualsRepository $individuals, SocietiesRepository $societies, SettingsRepository $settings, PositionsRepository $positions)
     {
         $this->person = $person;
+        $this->positions = $positions;
         $this->individuals = $individuals;
         $this->societies = $societies;
         $this->settings = $settings;
@@ -93,10 +96,11 @@ class PersonsController extends Controller
         $data['societies'] = $this->societies->all();
         $persondata=$this->person->find($id);
         $data['person']=$persondata->person;
+        $data['selpos']=array();
         foreach ($data['person']->positions as $pos) {
             $data['selpos'][]=$pos->id;
         }
-        $data['positions']=$persondata->positions;
+        $data['positions']=$this->positions->all();
         return view('connexion::persons.edit', $data);
     }
 
@@ -105,6 +109,7 @@ class PersonsController extends Controller
         $data['individuals'] = $this->individuals->all();
         $data['societies'] = $this->societies->all();
         $data['circuit'] = $this->settings->getkey('circuit');
+        $data['positions']=$this->positions->all();
         if (count($data['societies'])) {
             return view('connexion::persons.create', $data);
         } else {
@@ -121,7 +126,6 @@ class PersonsController extends Controller
     public function store(CreatePersonRequest $request)
     {
         $this->person->create($request->except('image', 'token'));
-
         return redirect()->route('admin.persons.index')
             ->withSuccess('New person added');
     }

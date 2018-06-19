@@ -1,7 +1,12 @@
 {{ Form::bsText('firstname','First name','First name') }}
 {{ Form::bsText('surname','Surname','Surname') }}
 {{ Form::bsSelect('title','Title',array('Mr','Mrs','Ms','Dr','Rev')) }}
-{{ Form::bsSelect('status','Status',array('Local preacher','On trial preacher','Guest','Minister','Supernumerary minister','Emeritus preacher')) }}
+<label for="positions" class="control-label">Role/s</label>
+<select multiple class="selectize" name="positions[]">
+  @foreach ($positions as $position)
+    <option value="{{$position->id}}">{{$position->position}}</option>
+  @endforeach
+</select>
 {{ Form::bsText('fullplan','Year first on full plan (or Trial)','Year first on full plan (or Trial)') }}
 {{ Form::bsText('phone','Cellphone','Cellphone') }}
 <div class="form-group">

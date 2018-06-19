@@ -107,6 +107,7 @@ class PreachersController extends Controller
         $data['individuals'] = $this->individuals->all();
         $data['societies'] = $this->societies->all();
         $data['circuit'] = $this->settings->getkey('circuit');
+        $data['positions']=$this->positions->all();
         if (count($data['societies'])) {
             return view('connexion::preachers.create', $data);
         } else {
@@ -123,7 +124,6 @@ class PreachersController extends Controller
     public function store(CreatePreacherRequest $request)
     {
         $this->preacher->create($request->except('image', 'token'));
-
         return redirect()->route('admin.preachers.index')
             ->withSuccess('New preacher added');
     }

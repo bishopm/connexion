@@ -15,6 +15,7 @@ use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\PreachersRepository;
 use Bishopm\Connexion\Repositories\PlansRepository;
 use Bishopm\Connexion\Repositories\ServicesRepository;
+use Bishopm\Connexion\Repositories\PositionsRepository;
 
 class PlansController extends Controller
 {
@@ -25,8 +26,11 @@ class PlansController extends Controller
     private $preachers;
     private $plans;
     private $services;
+    private $positions;
+
 
     public function __construct(
+        PositionsRepository $positions,
         SettingsRepository $settings,
         WeekdaysRepository $weekdays,
         MeetingsRepository $meetings,
@@ -35,6 +39,7 @@ class PlansController extends Controller
         PlansRepository $plans,
         ServicesRepository $services
     ) {
+        $this->positions=$positions;
         $this->settings=$settings->makearray();
         $this->weekdays=$weekdays;
         $this->meetings=$meetings;
@@ -286,13 +291,13 @@ class PlansController extends Controller
             $dum=array();
             $thissoc=$this->societies->find($preacher1['society_id'])->society;
             $dum['name']=$preacher1['title'] . " " . $preacher1['firstname'] . " " . $preacher1['surname'];
-            if ($preacher1['role']=="Emeritus preacher") {
+            if ($preacher1['position']=="Emeritus preacher") {
                 $dum['name'] = $dum['name'] . "*";
             }
             $dum['soc']=$preacher1['society_id'];
             $dum['cellphone']=$preacher1['phone'];
             $dum['fullplan']=$preacher1['fullplan'];
-            $dum['role']=$preacher1['role'];
+            $dum['position']=$preacher1['position'];
             if ($dum['fullplan']=="Trial") {
                 $vdum['9999' . $preacher1['surname'] . $preacher1['firstname']]=$dum;
             } else {
@@ -339,20 +344,20 @@ class PlansController extends Controller
         }
         $y=$y+2;
         $pdf->SetFont('Arial', '', 8);
-        $officers=$this->settings['circuit_stewards'];
+        $officers=$this->positions->identify('Circuit steward');
         $subhead="";
         if ($officers) {
             $pdf->SetFont('Arial', 'B', 11);
             $pdf->text($left_side+$spacer, $y, "Circuit Stewards");
             $pdf->SetFont('Arial', '', 8);
-            foreach (explode(',', $officers) as $officer) {
+            foreach ($officers as $officer) {
                 $y=$y+4;
                 $pdf->text($left_side+$spacer, $y, $officer);
             }
         }
         $pdf->SetFont('Arial', 'B', 11);
         $y=$y+6;
-        $treasurer=$this->settings['circuit_treasurer'];
+        $treasurer=$this->positions->identify('Circuit treasurer')[0];
         if ($treasurer) {
             $pdf->text($left_side+$spacer, $y, "Circuit Treasurer");
             $pdf->SetFont('Arial', '', 8);
@@ -361,7 +366,7 @@ class PlansController extends Controller
             $pdf->SetFont('Arial', 'B', 11);
             $y=$y+6;
         }
-        $csecretary=$this->settings['circuit_secretary'];
+        $csecretary=$this->positions->identify('Circuit secretary')[0];
         if ($csecretary) {
             $pdf->text($left_side+$spacer, $y, "Circuit Secretary");
             $pdf->SetFont('Arial', '', 8);
@@ -393,17 +398,16 @@ class PlansController extends Controller
         $y=30;
         $pdf->SetFont('Arial', 'B', 11);
         $pdf->text($x, $y, "Local Preachers");
-        $supervisor=$this->settings['supervisor_of_studies'];
+        $supervisor=$this->positions->identify('Circuit supervisor of studies')[0];
         if ($supervisor) {
             $y=$y+4;
             $pdf->SetFont('Arial', '', 8);
             $pdf->text($x, $y, "Supervisor of studies: " . $supervisor);
         }
-        $lpsec=$this->settings['local_preachers_secretary'];
+        $lpsec=$this->positions->identify('Local preachers secretary')[0];
         if ($lpsec) {
             $y=$y+4;
             $pdf->SetFont('Arial', '', 8);
-            $fn=Individual::find($lpsec);
             $pdf->text($x, $y, "Local Preachers Secretary: " . $lpsec);
         }
         $y=$y+4;
@@ -428,7 +432,7 @@ class PlansController extends Controller
                     $y=30;
                 }
                 $pre['name']=utf8_decode($pre['name']);
-                if (($pre['role']=="Local preacher") or ($pre['role']=="On trial preacher") or ($pre['role']=="Emeritus preacher")) {
+                if (($pre['position']=="Local preacher") or ($pre['position']=="On trial preacher") or ($pre['position']=="Emeritus preacher")) {
                     $pdf->text($x+2, $y, $pre['fullplan']);
                     $pdf->text($x+10, $y, $pre['name'] . " (" . $pre['cellphone'] . ")");
                     $y=$y+4;

@@ -1,8 +1,6 @@
 {{ Form::bsText('firstname','First name','First name') }}
 {{ Form::bsText('surname','Surname','Surname') }}
 {{ Form::bsSelect('title','Title',array('Mr','Mrs','Ms','Dr','Rev')) }}
-{{ Form::bsSelect('status','Status',array('Local preacher','On trial preacher','Guest','Minister','Superintendent','Supernumerary','Emeritus preacher')) }}
-{{ Form::bsText('fullplan','Year first on full plan (or Trial)','Year first on full plan (or Trial)') }}
 {{ Form::bsText('phone','Cellphone','Cellphone') }}
 <div class="form-group">
     <label for="individual_id" class="control-label">Link to {{$setting['site_abbreviation']}} Member</label>
@@ -22,5 +20,11 @@
       @endforeach
     </select>
 </div>
+<label for="positions" class="control-label">Role/s</label>
+<select multiple class="selectize" name="positions[]">
+  @foreach ($positions as $position)
+    <option value="{{$position->id}}">{{$position->position}}</option>
+  @endforeach
+</select>
 {{ Form::bsFile('image') }}
 {{ Form::bsHidden('circuit_id',$circuit) }}
