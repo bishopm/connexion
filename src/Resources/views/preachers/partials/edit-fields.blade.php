@@ -17,8 +17,8 @@
     </select>
 </div>
 <div class="form-group">
-    <label for="positions" class="control-label">Role</label>
-    <select name="positions[]" multiple class="positions-input">
+    <label for="positions" class="control-label">Role/s</label>
+    <select name="positions[]" multiple class="selectize">
       <option></option>
       @foreach ($positions as $position)
         @if (in_array($position->id,$pos))

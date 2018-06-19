@@ -93,7 +93,7 @@ class PersonsController extends Controller
         $data['societies'] = $this->societies->all();
         $persondata=$this->person->find($id);
         $data['person']=$persondata->person;
-        foreach ($data['person']->positions as $pos){
+        foreach ($data['person']->positions as $pos) {
             $data['selpos'][]=$pos->id;
         }
         $data['positions']=$persondata->positions;
@@ -128,7 +128,7 @@ class PersonsController extends Controller
     
     public function update($id, UpdatePersonRequest $request)
     {
-        $this->person->update($id, $request->except('image', 'token'));
+        $this->person->update($id, $request->all());
         if ($request->deletion_type<>"") {
             $this->person->destroy($id);
             return redirect()->route('admin.persons.index')->withSuccess('Person has been deleted');
