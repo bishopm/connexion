@@ -132,7 +132,7 @@ class PersonsController extends Controller
     
     public function update($id, UpdatePersonRequest $request)
     {
-        $this->person->update($id, $request->except('image', 'token'));
+        $this->person->update($id, $request->all());
         if ($request->deletion_type<>"") {
             $this->person->destroy($id);
             return redirect()->route('admin.persons.index')->withSuccess('Person has been deleted');
