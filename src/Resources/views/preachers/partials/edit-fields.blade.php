@@ -1,7 +1,7 @@
 {{ Form::bsText('firstname','First name','First name',$preacher->firstname) }}
 {{ Form::bsText('surname','Surname','Surname',$preacher->surname) }}
 {{ Form::bsSelect('title','Title',array('Mr','Mrs','Ms','Dr','Rev'),$preacher->title) }}
-{{ Form::bsText('fullplan','Year first on full plan (or Trial)','Year first on full plan (or Trial)',$preacher->preacher->fullplan) }}
+{{ Form::bsText('fullplan','Year first on full plan (or Trial)','Year first on full plan (or Trial)',$preacher->fullplan) }}
 {{ Form::bsText('phone','Cellphone','Cellphone',$preacher->phone) }}
 <div class="form-group">
     <label for="society_id" class="control-label">Society</label>

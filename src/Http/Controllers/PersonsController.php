@@ -3,7 +3,6 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\PersonsRepository;
-use Bishopm\Connexion\Repositories\PositionsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
@@ -22,15 +21,13 @@ class PersonsController extends Controller
      */
 
     private $person;
-    private $positions;
     private $individuals;
     private $societies;
     private $settings;
 
-    public function __construct(PersonsRepository $person, IndividualsRepository $individuals, SocietiesRepository $societies, SettingsRepository $settings, PositionsRepository $positions)
+    public function __construct(PersonsRepository $person, IndividualsRepository $individuals, SocietiesRepository $societies, SettingsRepository $settings)
     {
         $this->person = $person;
-        $this->positions = $positions;
         $this->individuals = $individuals;
         $this->societies = $societies;
         $this->settings = $settings;

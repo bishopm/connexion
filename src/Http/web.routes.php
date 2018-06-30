@@ -493,6 +493,9 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::post('admin/societies', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@store','as'=>'admin.societies.store']);
     Route::delete('admin/societies/{society}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@destroy','as'=>'admin.societies.destroy']);
 
+    // Tags
+    Route::get('admin/tags', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@tags','as'=>'admin.tags.index']);
+
     // Weekdays
     Route::get('admin/weekdays', ['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@index','as'=>'admin.weekdays.index']);
     Route::get('admin/weekdays/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@create','as'=>'admin.weekdays.create']);

@@ -15,7 +15,7 @@ use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\PreachersRepository;
 use Bishopm\Connexion\Repositories\PlansRepository;
 use Bishopm\Connexion\Repositories\ServicesRepository;
-use Bishopm\Connexion\Repositories\PositionsRepository;
+use Bishopm\Connexion\Repositories\TagsRepository;
 
 class PlansController extends Controller
 {
@@ -26,20 +26,18 @@ class PlansController extends Controller
     private $preachers;
     private $plans;
     private $services;
-    private $positions;
-
+    private $tags;
 
     public function __construct(
-        PositionsRepository $positions,
         SettingsRepository $settings,
         WeekdaysRepository $weekdays,
         MeetingsRepository $meetings,
         SocietiesRepository $societies,
         PreachersRepository $preachers,
         PlansRepository $plans,
-        ServicesRepository $services
+        ServicesRepository $services,
+        TagsRepository $tags
     ) {
-        $this->positions=$positions;
         $this->settings=$settings->makearray();
         $this->weekdays=$weekdays;
         $this->meetings=$meetings;
@@ -47,6 +45,7 @@ class PlansController extends Controller
         $this->preachers=$preachers;
         $this->plans=$plans;
         $this->services=$services;
+        $this->tags=$tags;
     }
 
     /**
@@ -130,6 +129,7 @@ class PlansController extends Controller
      */
     public function show($yy, $qq, $aa)
     {
+        dd($this->tags->all());
         $data=$this->plans->show($yy, $qq);
         if ($data=="Invalid") {
             return redirect()->route('admin.settings.index')->with('notice', 'Please ensure that the API url and token are correctly specified');
@@ -148,10 +148,6 @@ class PlansController extends Controller
             $data['db']=$this->settings['district_bishop'];
             if (!$data['db']) {
                 return view('connexion::shared.errors')->with('errormessage', 'Before you can view the plan, please enter the name of the District Bishop');
-            }
-            $data['super']=$this->settings['superintendent'];
-            if (!$data['super']) {
-                return view('connexion::shared.errors')->with('errormessage', 'Before you can view the plan, please specify who the Circuit Superintendent is');
             }
             $this->report($data);
         }

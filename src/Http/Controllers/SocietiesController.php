@@ -43,6 +43,11 @@ class SocietiesController extends Controller
         return json_decode($this->client->request('GET', $this->api_url . '/circuits')->getBody()->getContents());
     }
 
+    public function tags()
+    {
+        return json_decode($this->client->request('GET', $this->api_url . '/tags')->getBody()->getContents());
+    }
+
     public function index()
     {
         if (($this->api_url) and ($this->circuit)) {

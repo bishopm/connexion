@@ -730,13 +730,6 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Bishopm\Connexion\Repositories\PositionsRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\PositionsRepository('positions');
-                return $repository;
-            }
-        );
-        $this->app->bind(
             'Bishopm\Connexion\Repositories\PostsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\PostsRepository(new \Bishopm\Connexion\Models\Post());
@@ -840,6 +833,13 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\SuppliersRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\SuppliersRepository(new \Bishopm\Connexion\Models\Supplier());
+                return $repository;
+            }
+        );
+        $this->app->bind(
+            'Bishopm\Connexion\Repositories\TagsRepository',
+            function () {
+                $repository = new \Bishopm\Connexion\Repositories\TagsRepository('tags');
                 return $repository;
             }
         );

@@ -3,7 +3,6 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\PreachersRepository;
-use Bishopm\Connexion\Repositories\PositionsRepository;
 use Bishopm\Connexion\Repositories\IndividualsRepository;
 use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\SettingsRepository;
@@ -25,15 +24,13 @@ class PreachersController extends Controller
     private $individuals;
     private $societies;
     private $settings;
-    private $positions;
 
-    public function __construct(PreachersRepository $preacher, IndividualsRepository $individuals, SocietiesRepository $societies, SettingsRepository $settings, PositionsRepository $positions)
+    public function __construct(PreachersRepository $preacher, IndividualsRepository $individuals, SocietiesRepository $societies, SettingsRepository $settings)
     {
         $this->preacher = $preacher;
         $this->individuals = $individuals;
         $this->societies = $societies;
         $this->settings = $settings;
-        $this->positions = $positions;
     }
 
     public function index()
@@ -95,9 +92,8 @@ class PreachersController extends Controller
         $data['circuit'] = $this->settings->getkey('circuit');
         $data['societies'] = $this->societies->all();
         $data['preacher']=$this->preacher->find($id);
-        $data['positions']=$this->positions->all();
-        foreach ($data['preacher']->positions as $pos) {
-            $data['pos'][]=$pos->id;
+        foreach ($data['preacher']->tags as $tag) {
+            $data['pos'][]=$tag->id;
         }
         return view('connexion::preachers.edit', $data);
     }
