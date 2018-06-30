@@ -45,7 +45,8 @@ class SocietiesController extends Controller
 
     public function tags()
     {
-        return json_decode($this->client->request('GET', $this->api_url . '/tags')->getBody()->getContents());
+        dd('pp');
+        return json_decode($this->client->request('GET', $this->api_url . '/positions')->getBody()->getContents());
     }
 
     public function index()

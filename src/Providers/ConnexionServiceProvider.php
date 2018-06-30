@@ -837,9 +837,9 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Bishopm\Connexion\Repositories\TagsRepository',
+            'Bishopm\Connexion\Repositories\PositionsRepository',
             function () {
-                $repository = new \Bishopm\Connexion\Repositories\TagsRepository('tags');
+                $repository = new \Bishopm\Connexion\Repositories\PositionsRepository('positions');
                 return $repository;
             }
         );

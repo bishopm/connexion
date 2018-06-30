@@ -15,7 +15,7 @@ use Bishopm\Connexion\Repositories\SocietiesRepository;
 use Bishopm\Connexion\Repositories\PreachersRepository;
 use Bishopm\Connexion\Repositories\PlansRepository;
 use Bishopm\Connexion\Repositories\ServicesRepository;
-use Bishopm\Connexion\Repositories\TagsRepository;
+use Bishopm\Connexion\Repositories\PositionsRepository;
 
 class PlansController extends Controller
 {
@@ -26,7 +26,7 @@ class PlansController extends Controller
     private $preachers;
     private $plans;
     private $services;
-    private $tags;
+    private $positions;
 
     public function __construct(
         SettingsRepository $settings,
@@ -36,7 +36,7 @@ class PlansController extends Controller
         PreachersRepository $preachers,
         PlansRepository $plans,
         ServicesRepository $services,
-        TagsRepository $tags
+        PositionsRepository $positions
     ) {
         $this->settings=$settings->makearray();
         $this->weekdays=$weekdays;
@@ -45,7 +45,7 @@ class PlansController extends Controller
         $this->preachers=$preachers;
         $this->plans=$plans;
         $this->services=$services;
-        $this->tags=$tags;
+        $this->positions=$positions;
     }
 
     /**
@@ -129,7 +129,7 @@ class PlansController extends Controller
      */
     public function show($yy, $qq, $aa)
     {
-        dd($this->tags->all());
+        dd($this->positions->all());
         $data=$this->plans->show($yy, $qq);
         if ($data=="Invalid") {
             return redirect()->route('admin.settings.index')->with('notice', 'Please ensure that the API url and token are correctly specified');
