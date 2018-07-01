@@ -21,7 +21,7 @@
                 <h4>{{$household->addressee}}</h4>
               </div>
               <div class="col-md-6">
-                <a href="{{route('admin.households.edit',$household->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit household</a>
+                <a href="{{route('admin.households.edit',$household->id)}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Edit household</a><a href="{{route('admin.households.report', $household->id)}}" style="margin-right:10px;" class="btn btn-primary pull-right"><i class="fa fa-list"></i> PDF</a>
               </div>
             </div>
           </div> <!-- Box header -->

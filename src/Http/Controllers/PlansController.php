@@ -129,7 +129,6 @@ class PlansController extends Controller
      */
     public function show($yy, $qq, $aa)
     {
-        dd($this->positions->all());
         $data=$this->plans->show($yy, $qq);
         if ($data=="Invalid") {
             return redirect()->route('admin.settings.index')->with('notice', 'Please ensure that the API url and token are correctly specified');
@@ -287,13 +286,18 @@ class PlansController extends Controller
             $dum=array();
             $thissoc=$this->societies->find($preacher1['society_id'])->society;
             $dum['name']=$preacher1['title'] . " " . $preacher1['firstname'] . " " . $preacher1['surname'];
-            if ($preacher1['position']=="Emeritus preacher") {
+            if ($this->checktag($preacher1, "Emeritus preacher")) {
                 $dum['name'] = $dum['name'] . "*";
+                $dum['position'] = "Emeritus preacher";
             }
             $dum['soc']=$preacher1['society_id'];
             $dum['cellphone']=$preacher1['phone'];
             $dum['fullplan']=$preacher1['fullplan'];
-            $dum['position']=$preacher1['position'];
+            if ($this->checktag($preacher1, "Local preacher")) {
+                $dum['position']="Local preacher";
+            } elseif ($this->checktag($preacher1, "Local preacher on trial")) {
+                $dum['position']="Local preacher on trial";
+            }
             if ($dum['fullplan']=="Trial") {
                 $vdum['9999' . $preacher1['surname'] . $preacher1['firstname']]=$dum;
             } else {
@@ -316,15 +320,18 @@ class PlansController extends Controller
         $pdf->text($left_side+$spacer, $y, "General Secretary: " . $dat['gs']);
         $y=$y+4;
         $pdf->text($left_side+$spacer, $y, "District Bishop: " . $dat['db']);
-        $y=$y+4;
-        $pdf->text($left_side+$spacer, $y, "Superintendent: " . $dat['super']);
         $y=$y+6;
         $pdf->SetFont('Arial', 'B', 11);
         $pdf->text($left_side+$spacer, $y, "Circuit Ministers");
         $y=$y+4;
         $pdf->SetFont('Arial', '', 8);
         foreach ($dat['ministers'] as $min) {
-            $pdf->text($left_side+$spacer, $y, $min['title'] . " " . substr($min['firstname'], 0, 1) . " " . $min['surname'] . " (" . $min['phone'] . ")");
+            if ($this->checktag($min, "Superintendent")) {
+                $super=" [Supt]";
+            } else {
+                $super="";
+            }
+            $pdf->text($left_side+$spacer, $y, $min['title'] . " " . substr($min['firstname'], 0, 1) . " " . $min['surname'] . " (" . $min['phone'] . ")" . $super);
             $y=$y+4;
         }
         if (isset($dat['supernumeraries'])) {
@@ -340,7 +347,7 @@ class PlansController extends Controller
         }
         $y=$y+2;
         $pdf->SetFont('Arial', '', 8);
-        $officers=$this->positions->identify('Circuit steward');
+        $officers=$this->positions->identify('Circuit steward', 'leader');
         $subhead="";
         if ($officers) {
             $pdf->SetFont('Arial', 'B', 11);
@@ -348,26 +355,26 @@ class PlansController extends Controller
             $pdf->SetFont('Arial', '', 8);
             foreach ($officers as $officer) {
                 $y=$y+4;
-                $pdf->text($left_side+$spacer, $y, $officer);
+                $pdf->text($left_side+$spacer, $y, $officer->title . ' ' . substr($officer->firstname, 0, 1) . ' ' . $officer->surname . ' (' . $officer->phone . ')');
             }
         }
         $pdf->SetFont('Arial', 'B', 11);
         $y=$y+6;
-        $treasurer=$this->positions->identify('Circuit treasurer')[0];
+        $treasurer=$this->positions->identify('Circuit treasurer', 'leader')[0];
         if ($treasurer) {
             $pdf->text($left_side+$spacer, $y, "Circuit Treasurer");
             $pdf->SetFont('Arial', '', 8);
             $y=$y+4;
-            $pdf->text($left_side+$spacer, $y, $treasurer);
+            $pdf->text($left_side+$spacer, $y, $treasurer->title . ' ' . substr($treasurer->firstname, 0, 1) . ' ' . $treasurer->surname . ' (' . $treasurer->phone . ')');
             $pdf->SetFont('Arial', 'B', 11);
             $y=$y+6;
         }
-        $csecretary=$this->positions->identify('Circuit secretary')[0];
+        $csecretary=$this->positions->identify('Circuit secretary', 'leader')[0];
         if ($csecretary) {
             $pdf->text($left_side+$spacer, $y, "Circuit Secretary");
             $pdf->SetFont('Arial', '', 8);
             $y=$y+4;
-            $pdf->text($left_side+$spacer, $y, $csecretary);
+            $pdf->text($left_side+$spacer, $y, $csecretary->title . ' ' . substr($csecretary->firstname, 0, 1) . ' ' . $csecretary->surname . ' (' . $csecretary->phone . ')');
             $pdf->SetFont('Arial', 'B', 11);
             $y=$y+6;
         }
@@ -388,23 +395,22 @@ class PlansController extends Controller
             }
         }
         $y=$y+2;
-
         $col++;
         $x=$left_side+$spacer+($col-1)*$col_width;
         $y=30;
         $pdf->SetFont('Arial', 'B', 11);
         $pdf->text($x, $y, "Local Preachers");
-        $supervisor=$this->positions->identify('Circuit supervisor of studies')[0];
+        $supervisor=$this->positions->identify('Circuit supervisor of studies', 'preacher')[0];
         if ($supervisor) {
             $y=$y+4;
             $pdf->SetFont('Arial', '', 8);
-            $pdf->text($x, $y, "Supervisor of studies: " . $supervisor);
+            $pdf->text($x, $y, "Supervisor of studies: " . $supervisor->title . ' ' . substr($supervisor->firstname, 0, 1) . ' ' . $supervisor->surname);
         }
-        $lpsec=$this->positions->identify('Local preachers secretary')[0];
+        $lpsec=$this->positions->identify('Local preachers secretary', 'preacher')[0];
         if ($lpsec) {
             $y=$y+4;
             $pdf->SetFont('Arial', '', 8);
-            $pdf->text($x, $y, "Local Preachers Secretary: " . $lpsec);
+            $pdf->text($x, $y, "Local Preachers Secretary: " . $lpsec->title . ' ' . substr($lpsec->firstname, 0, 1) . ' ' . $lpsec->surname);
         }
         $y=$y+4;
         $ythresh=200;
@@ -428,8 +434,12 @@ class PlansController extends Controller
                     $y=30;
                 }
                 $pre['name']=utf8_decode($pre['name']);
-                if (($pre['position']=="Local preacher") or ($pre['position']=="On trial preacher") or ($pre['position']=="Emeritus preacher")) {
-                    $pdf->text($x+2, $y, $pre['fullplan']);
+                if (($pre['position']=="Local preacher") or ($pre['position']=="Local preacher on trial") or ($pre['position']=="Emeritus preacher")) {
+                    if ($pre['position']=="Local preacher on trial") {
+                        $pdf->text($x+2, $y, 'Trial');
+                    } else {
+                        $pdf->text($x+2, $y, $pre['fullplan']);
+                    }
                     $pdf->text($x+10, $y, $pre['name'] . " (" . $pre['cellphone'] . ")");
                     $y=$y+4;
                 }
@@ -440,6 +450,23 @@ class PlansController extends Controller
         $pdf->text($x+2, $y, "* Emeritus");
         $pdf->Output();
         exit;
+    }
+
+    public function checktag($record, $tagname)
+    {
+        $flag=false;
+        foreach ($record['tags'] as $tag) {
+            if ($tag['name']['en']==$tagname) {
+                $flag=true;
+            }
+        }
+        return $flag;
+    }
+
+    public function getfortag($tagname)
+    {
+        $people = $this->positions->identify($tagname);
+        dd($people);
     }
 
     /**

@@ -242,6 +242,7 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
 
     // Households
     Route::get('admin/households', ['uses'=>'Bishopm\Connexion\Http\Controllers\HouseholdsController@index','as'=>'admin.households.index']);
+    Route::get('admin/households/report/{individual?}', ['uses'=>'Bishopm\Connexion\Http\Controllers\HouseholdsController@report','as'=>'admin.households.report']);
     Route::get('admin/households/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\HouseholdsController@create','as'=>'admin.households.create']);
     Route::get('admin/households/{household}', ['uses'=>'Bishopm\Connexion\Http\Controllers\HouseholdsController@show','as'=>'admin.households.show']);
     Route::get('admin/households/{household}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\HouseholdsController@edit','as'=>'admin.households.edit']);

@@ -13,7 +13,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-6"><h4>Households</h4></div>
-                            <div class="col-md-6"><a href="{{route('admin.households.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new household</a></div>
+                            <div class="col-md-6"><a href="{{route('admin.households.create')}}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Add a new household</a><a href="{{route('admin.households.report')}}" style="margin-right:10px;" class="btn btn-primary pull-right"><i class="fa fa-list"></i> All households PDF</a></div>
                         </div>
                     </div>
                     <div class="panel-body">
