@@ -93,7 +93,7 @@ class PreachersController extends Controller
         $data['societies'] = $this->societies->all();
         $data['preacher']=$this->preacher->find($id);
         foreach ($data['preacher']->tags as $tag) {
-            $data['pos'][]=$tag->id;
+            $data['pos'][]=$tag->tag_id;
         }
         return view('connexion::preachers.edit', $data);
     }
