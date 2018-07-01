@@ -456,7 +456,7 @@ class PlansController extends Controller
     {
         $flag=false;
         foreach ($record['tags'] as $tag) {
-            if ($tag['name']['en']==$tagname) {
+            if ($tag['name']==$tagname) {
                 $flag=true;
             }
         }
