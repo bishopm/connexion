@@ -76,21 +76,21 @@ select.form-control.pplan {
             </optgroup>
             <optgroup label="Trial service markers">
               @foreach ($ministers as $minister)
-                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']==$minister['person_id']))
+                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']==$minister['id']))
                   <option selected value="{{$minister['id']}}">{{substr($minister['firstname'],0,1)}} {{$minister['surname']}}</option>
                 @else
                   <option value="{{$minister['id']}}">{{substr($minister['firstname'],0,1)}} {{$minister['surname']}}</option>
                 @endif
               @endforeach
               @foreach ($supernumeraries as $super)
-                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']==$super['person_id']))
+                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']==$super['id']))
                   <option selected value="{{$super['id']}}">{{substr($super['firstname'],0,1)}} {{$super['surname']}}</option>
                 @else
                   <option value="{{$super['id']}}">{{substr($super['firstname'],0,1)}} {{$super['surname']}}</option>
                 @endif
               @endforeach
               @foreach ($preachers as $preacher)
-                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']==$preacher['person_id']))
+                @if ((isset($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial'])) and ($fin[$soc['society']][$sun['yy']][$sun['mm']][$sun['dd']][$ser['servicetime']]['trial']==$preacher['id']))
                   <option selected value="{{$preacher['id']}}">{{substr($preacher['firstname'],0,1)}} {{$preacher['surname']}}</option>
                 @else
                   <option value="{{$preacher['id']}}">{{substr($preacher['firstname'],0,1)}} {{$preacher['surname']}}</option>
