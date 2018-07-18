@@ -218,7 +218,7 @@ class HouseholdsController extends Controller
             if (count($household->specialdays)) {
                 $wtxt="";
                 foreach ($household->specialdays as $specialday) {
-                    if ($specialday->anniversarytype=="Wedding") {
+                    if (($specialday->anniversarytype=="Wedding") or ($specialday->anniversarytype=="wedding")) {
                         $wtxt.=date("j F Y", strtotime($specialday->anniversarydate)) . ": " . $specialday->details . " ";
                     }
                 }
