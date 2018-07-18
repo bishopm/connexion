@@ -144,9 +144,31 @@ class HouseholdsController extends Controller
     {
         if ($id == 0) {
             $households = Household::with('individuals')->orderBy('sortsurname')->get();
+            $dum=new \stdClass();
+            $dum->addressee="";
+            $dum->addr1="";
+            $dum->addr2="";
+            $dum->addr3="";
+            $dum->homephone="";
+            $dum->householdcell="";
+            $dum->specialdays=array();
+            $dumindiv = new \stdClass();
+            $dumindiv->firstname="";
+            $dumindiv->surname="";
+            $dumindiv->email="";
+            $dumindiv->cellphone="";
+            $dumindiv->title="";
+            $dumindiv->sex="";
+            $dumindiv->birthdate="";
+            $dumindiv->memberstatus="";
+            $dum->individuals[]=$dumindiv;
+            $dum->individuals[]=$dumindiv;
+            $dum->individuals[]=$dumindiv;
+            $dum->individuals[]=$dumindiv;
         } else {
             $households = Household::with('individuals')->where('id', $id)->orderBy('sortsurname')->get();
         }
+        $households->push($dum);
         $pdf = new Fpdf();
         $pdf->SetAutoPageBreak(true, 0);
         $logopath=base_path() . '/public/vendor/bishopm/images/mcsa.jpg';
@@ -183,22 +205,33 @@ class HouseholdsController extends Controller
             $hc="";
             if ($household->householdcell) {
                 $hhc=Individual::find($household->householdcell);
-                if (count($hhc)) {
+                if ((isset($hhc)) and (isset($hhc->firstname))) {
                     $hc=$hhc->firstname;
                 }
             }
             $pdf->text(141, 60, utf8_decode($hc));
             $pdf->RoundedRect(137, 54, 62, 9, 2, '1234', 'D');
-            // $pdf->cell($x_add, $y_add-6, date("j M", $sun['dt']), 0, 0, 'C');
-            $y=68;
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->text(10, 68, "Anniversary");
+            $pdf->SetFont('Arial', '', 12);
+            $y=30;
+            if (count($household->specialdays)) {
+                $wtxt="";
+                foreach ($household->specialdays as $specialday) {
+                    if ($specialday->anniversarytype=="Wedding") {
+                        $wtxt.=date("j F Y", strtotime($specialday->anniversarydate)) . ": " . $specialday->details . " ";
+                    }
+                }
+                $pdf->text(50, 68, $wtxt);
+            }
             foreach ($household->individuals as $indiv) {
-                $this->indivblock($indiv, $y, $pdf);
-                if ($y>220) {
+                if ($y>240) {
                     $pdf->AddPage('P');
                     $y=10;
                 } else {
-                    $y=$y+45;
+                    $y=$y+43;
                 }
+                $this->indivblock($indiv, $y, $pdf);
             }
         }
         $pdf->Output();
