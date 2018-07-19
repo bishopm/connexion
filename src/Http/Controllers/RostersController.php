@@ -188,10 +188,11 @@ class RostersController extends Controller
         foreach ($data as $kk=>$wk) {
             // DISPLAY TOP HEADINGS
             if ($first) {
+                $pdf->SetFillColor(220, 220, 220);
                 $pdf->rect(10, 11, 275, 10, 'F');
                 $first=false;
                 $pdf->SetFont('Arial', 'B', 9);
-                $pdf->SetTextColor(255, 255, 255);
+                $pdf->SetTextColor(0, 0, 0);
                 foreach ($wk as $hh=>$vv) {
                     $pdf->setxy($x, $y-21);
                     $pdf->multicell(25, 4, $hh, 0, 'C');
