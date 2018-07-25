@@ -149,19 +149,32 @@ class StatisticsController extends Controller
             $working[$stat->servicetime]['count']=$working[$stat->servicetime]['count']+1;
             $fin[$stat->servicetime][strtotime($stat->statdate)]=$stat->attendance;
         }
+        $avgtot=0;
         foreach ($working as $kkk=>$aaa) {
-            $averages[$kkk]['avg']=intval($aaa['total']/$aaa['count'], 0);
+            $averages[$kkk]['avg']=intval(round($aaa['total']/$aaa['count'], 0));
+            $avgtot = $avgtot + $aaa['total']/$aaa['count'];
         }
+        $avgtot=intval(round($avgtot), 0);
         ksort($fin);
         asort($weeks);
         $allweeks=array_unique($weeks);
+        $totals=array();
         foreach ($allweeks as $wk) {
             foreach ($fin as $kk=>$ff) {
                 if (!array_key_exists($wk, $ff)) {
                     $fin[$kk][$wk]=$averages[$kk]['avg'];
+                    $ff[$wk]=$averages[$kk]['avg'];
+                }
+                if (!array_key_exists($wk, $totals)) {
+                    $totals[$wk]=$ff[$wk];
+                } else {
+                    $totals[$wk]=$totals[$wk]+$ff[$wk];
                 }
             }
             $labels[]=date('j M', $wk);
+        }
+        if (count($fin)>1) {
+            $fin['total']=$totals;
         }
         $datum=array();
         foreach ($fin as $key=>$final) {
@@ -173,7 +186,11 @@ class StatisticsController extends Controller
         $data['chart'] = new ChurchattendanceChart;
         $data['chart']->title("Service attendance: " . $year);
         foreach ($datum as $k=>$f) {
-            $data['chart']->dataset($k . " (" . $averages[$k]['avg'] . ")", 'line', $f);
+            if ($k!=="total") {
+                $data['chart']->dataset($k . " (" . $averages[$k]['avg'] . ")", 'line', $f);
+            } else {
+                $data['chart']->dataset("Total (" . $avgtot . ")", 'line', $f);
+            }
         }
         $data['chart']->labels($labels);
         $alldat=Statistic::whereIn('servicetime', $services)->get();
