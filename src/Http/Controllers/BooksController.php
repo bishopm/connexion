@@ -89,7 +89,7 @@ class BooksController extends Controller
     {
         $book=$this->book->create($request->except('files', 'tags'));
         $book->tag($request->tags);
-        $unitamount = $book->saleprice * $request->stock;
+        $unitamount = $book->saleprice;
         $today = date('Y-m-d');
         $transaction = Transaction::create(['transactiondate' => $today, 'transactiontype' => 'Add stock', 'units' => $book->stock, 'book_id' => $book->id, 'unitamount' => $unitamount ]);
         return redirect()->route('admin.books.index')
