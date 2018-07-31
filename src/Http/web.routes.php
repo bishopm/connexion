@@ -3,6 +3,7 @@
 Route::group(['middleware' => ['web']], function () {
     // Authentication for guests
     Route::get('/feed/{service?}', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@feed','as' => 'feed']);
+    Route::get('/journeyfeed', ['uses' => 'Bishopm\Connexion\Http\Controllers\WebController@journeyfeed','as' => 'journeyfeed']);
     Route::get('login', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@showLoginForm','as'=>'showlogin']);
     Route::post('login', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\LoginController@login','as'=>'login']);
     // Social login
