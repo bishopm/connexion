@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "illuminate/support": "5.6.*",
+        "illuminate/support": "5.7.*",
         "jeroennoten/laravel-adminlte":"1.*",
         "laravelcollective/html": "5.6.*",
         "laravel/socialite": "3.*",
