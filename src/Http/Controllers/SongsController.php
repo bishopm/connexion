@@ -449,7 +449,7 @@ class SongsController extends Controller
         if ($chords<>"") {
             foreach ($chords as $chord) {
                 $tc=Gchord::where('chordname', '=', $chord)->first();
-                if (count($tc)) {
+                if ($tc) {
                     $data['chords'][]=$tc;
                 } else {
                     $data['chords'][]=$chord;
