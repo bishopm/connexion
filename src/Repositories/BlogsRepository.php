@@ -18,7 +18,7 @@ class BlogsRepository extends EloquentBaseRepository
     {
         $testdate=$yr . '-' . $mth . '-%';
         $blog=$this->model->where('created_at', 'like', $testdate)->where('slug', $slug)->first();
-        if (count($blog)==0) {
+        if (!$blog) {
             $blog=$this->model->where('slug', $yr)->first();
         }
         return $blog;

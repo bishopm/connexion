@@ -18,7 +18,7 @@
 		  	@foreach ($blog->tags as $tag)
 		  		<a class="badge badge-primary" href="{{url('/')}}/subject/{{$tag->slug}}">{{$tag->name}}</a></b>&nbsp;
 		  	@endforeach
-		  	@if (count($media))
+		  	@if ($media)
 		  		<img style="float:left; margin-right:15px;" src="{{$blog->getMedia('image')->first()->getUrl()}}">
 			@endif
 			{!!$blog->body!!}

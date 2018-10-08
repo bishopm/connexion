@@ -37,7 +37,7 @@
 @endcan
 
 {{ Form::bsText('created_at','Publication date','Publication date', $blog->created_at) }}
-@if (!count($media))
+@if (!$media)
   {{ Form::bsFile('image') }}
 @else
   <div id="thumbdiv">
