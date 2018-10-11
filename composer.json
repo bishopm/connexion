@@ -26,7 +26,7 @@
         "nwidart/laravel-menus": "3.*",
         "league/oauth2-client": "^1.4",
         "plank/laravel-mediable": "^2.3",
-        "cartalyst/tags": "6.*",
+        "cartalyst/tags": "7.*",
         "actuallymab/laravel-comment": "0.6.*",
         "jrean/laravel-user-verification": "7.*",
         "felixkiss/uniquewith-validator": "3.*",
