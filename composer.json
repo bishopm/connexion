@@ -32,7 +32,7 @@
         "felixkiss/uniquewith-validator": "3.*",
         "lithiumdev/laravel-tagcloud": "1.*",
         "guzzlehttp/guzzle": "6.*",
-        "roumen/feed": "2.*",
+        "laravelium/feed": "3.*",
         "spatie/laravel-activitylog": "2.*",
         "spatie/laravel-analytics": "3.*",
         "spatie/laravel-permission": "2.*",
