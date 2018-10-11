@@ -28,7 +28,7 @@
         "plank/laravel-mediable": "^2.3",
         "cartalyst/tags": "6.*",
         "actuallymab/laravel-comment": "0.6.*",
-        "jrean/laravel-user-verification": "6.*",
+        "jrean/laravel-user-verification": "7.*",
         "felixkiss/uniquewith-validator": "3.*",
         "lithiumdev/laravel-tagcloud": "1.*",
         "guzzlehttp/guzzle": "6.*",
