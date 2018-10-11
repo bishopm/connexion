@@ -17,9 +17,9 @@
         }
     ],
     "require": {
-        "illuminate/support": "5.6.*",
+        "illuminate/support": "5.*",
         "jeroennoten/laravel-adminlte":"1.*",
-        "laravelcollective/html": "5.6.*",
+        "laravelcollective/html": "5.*",
         "laravel/socialite": "3.*",
         "laracasts/flash": "3.*",
         "cviebrock/eloquent-sluggable":"^4.5",
