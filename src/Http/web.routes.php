@@ -36,8 +36,6 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('register', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@showRegistrationForm','as'=>'registrationform']);
         Route::post('register', ['uses'=>'Bishopm\Connexion\Http\Controllers\Auth\RegisterController@register','as'=>'admin.register']);
         Route::post('checkmail', ['uses'=>'Bishopm\Connexion\Http\Controllers\IndividualsController@checkEmail','as'=>'checkmail']);
-        Route::get('preachingplan', 'Bishopm\Connexion\Http\Controllers\PlansController@currentplan');
-        Route::get('nextpreachingplan', 'Bishopm\Connexion\Http\Controllers\PlansController@nextplan');
         Route::get('admin/newuser/checkname/{username}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@checkname','as'=>'admin.checkname']);
         Route::post('admin/newuser', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@newuser','as'=>'admin.newuser']);
         Route::get('admin/getusername/{email}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@getusername','as'=>'admin.getusername']);
@@ -143,8 +141,6 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     //Images
     Route::post('admin/addimage', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@addimage','as'=>'admin.addimage']);
     Route::post('admin/search', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@search','as'=>'admin.search']);
-    Route::get('admin/mcsa/register', ['uses'=>'Bishopm\Connexion\Http\Controllers\McsaController@register','as'=>'admin.mcsa.register']);
-
     // Dashboard
     Route::get('admin', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
     Route::get('home', ['uses'=>'Bishopm\Connexion\Http\Controllers\WebController@dashboard','as'=>'dashboard']);
@@ -370,15 +366,6 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::get('admin/sermons/addtag/{sermon}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@addtag','as' => 'admin.sermons.addtag']);
     Route::get('admin/sermons/removetag/{sermon}/{tag}', ['uses' => 'Bishopm\Connexion\Http\Controllers\SermonsController@removetag','as' => 'admin.sermons.removetag']);
 
-    // Services
-    Route::get('admin/societies/{society}/services', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@index','as'=>'admin.services.index']);
-    Route::get('admin/societies/{society}/services/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@create','as'=>'admin.services.create']);
-    Route::get('admin/societies/{society}/services/{service}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@show','as'=>'admin.services.show']);
-    Route::get('admin/societies/{society}/services/{service}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@edit','as'=>'admin.services.edit']);
-    Route::put('admin/societies/{society}/services/{service}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@update','as'=>'admin.services.update']);
-    Route::post('admin/societies/{society}/services', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@store','as'=>'admin.services.store']);
-    Route::delete('admin/societies/{society}/services/{service}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicesController@destroy','as'=>'admin.services.destroy']);
-
     // Slides
     Route::get('admin/slides', ['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@index','as'=>'admin.slides.index']);
     Route::get('admin/slideshows/{slideshow}/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\SlidesController@create','as'=>'admin.slides.create']);
@@ -442,70 +429,6 @@ Route::group(['middleware' => ['web','isverified','can:view-backend']], function
     Route::put('admin/transactions/{transaction}', ['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@update','as'=>'admin.transactions.update']);
     Route::post('admin/transactions', ['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@store','as'=>'admin.transactions.store']);
     Route::delete('admin/transactions/{transaction}', ['uses'=>'Bishopm\Connexion\Http\Controllers\TransactionsController@destroy','as'=>'admin.transactions.destroy']);
-
-    // Meetings
-    Route::get('admin/meetings', ['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@index','as'=>'admin.meetings.index']);
-    Route::get('admin/meetings/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@create','as'=>'admin.meetings.create']);
-    Route::get('admin/meetings/{meeting}', ['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@show','as'=>'admin.meetings.show']);
-    Route::get('admin/meetings/{meeting}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@edit','as'=>'admin.meetings.edit']);
-    Route::put('admin/meetings/{meeting}', ['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@update','as'=>'admin.meetings.update']);
-    Route::post('admin/meetings', ['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@store','as'=>'admin.meetings.store']);
-    Route::delete('admin/meetings/{meeting}', ['uses'=>'Bishopm\Connexion\Http\Controllers\MeetingsController@destroy','as'=>'admin.meetings.destroy']);
-
-    // Persons
-    Route::get('admin/persons', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@index','as'=>'admin.persons.index']);
-    Route::get('admin/persons/meeting/{year?}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@meeting','as'=>'admin.persons.meeting']);
-    Route::get('admin/persons/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@create','as'=>'admin.persons.create']);
-    Route::get('admin/persons/{person}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@show','as'=>'admin.persons.show']);
-    Route::get('admin/persons/{person}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@edit','as'=>'admin.persons.edit']);
-    Route::put('admin/persons/{person}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@update','as'=>'admin.persons.update']);
-    Route::post('admin/persons', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@store','as'=>'admin.persons.store']);
-    Route::delete('admin/persons/{person}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PersonsController@destroy','as'=>'admin.persons.destroy']);
-
-    // Plan
-    Route::get('admin/plan/{yy}/{qq}/{aa}', 'Bishopm\Connexion\Http\Controllers\PlansController@show');
-    Route::get('admin/plan/update/{circuit}/{box}/{val}', 'Bishopm\Connexion\Http\Controllers\PlansController@update');
-    Route::get('admin/plan', 'Bishopm\Connexion\Http\Controllers\PlansController@index');
-
-    // Preachers
-    Route::get('admin/preachers', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@index','as'=>'admin.preachers.index']);
-    Route::get('admin/preachers/meeting/{year?}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@meeting','as'=>'admin.preachers.meeting']);
-    Route::get('admin/preachers/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@create','as'=>'admin.preachers.create']);
-    Route::get('admin/preachers/{preacher}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@show','as'=>'admin.preachers.show']);
-    Route::get('admin/preachers/{preacher}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@edit','as'=>'admin.preachers.edit']);
-    Route::put('admin/preachers/{preacher}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@update','as'=>'admin.preachers.update']);
-    Route::post('admin/preachers', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@store','as'=>'admin.preachers.store']);
-    Route::delete('admin/preachers/{preacher}', ['uses'=>'Bishopm\Connexion\Http\Controllers\PreachersController@destroy','as'=>'admin.preachers.destroy']);
-
-    // Service types
-    Route::get('admin/servicetypes', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@index','as'=>'admin.servicetypes.index']);
-    Route::get('admin/servicetypes/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@create','as'=>'admin.servicetypes.create']);
-    Route::get('admin/servicetypes/{servicetype}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@show','as'=>'admin.servicetypes.show']);
-    Route::get('admin/servicetypes/{servicetype}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@edit','as'=>'admin.servicetypes.edit']);
-    Route::put('admin/servicetypes/{servicetype}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@update','as'=>'admin.servicetypes.update']);
-    Route::post('admin/servicetypes', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@store','as'=>'admin.servicetypes.store']);
-    Route::delete('admin/servicetypes/{servicetype}', ['uses'=>'Bishopm\Connexion\Http\Controllers\ServicetypesController@destroy','as'=>'admin.servicetypes.destroy']);
-
-    // Societies
-    Route::get('admin/societies', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@index','as'=>'admin.societies.index']);
-    Route::get('admin/societies/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@create','as'=>'admin.societies.create']);
-    Route::get('admin/societies/{society}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@show','as'=>'admin.societies.show']);
-    Route::get('admin/societies/{society}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@edit','as'=>'admin.societies.edit']);
-    Route::put('admin/societies/{society}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@update','as'=>'admin.societies.update']);
-    Route::post('admin/societies', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@store','as'=>'admin.societies.store']);
-    Route::delete('admin/societies/{society}', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@destroy','as'=>'admin.societies.destroy']);
-
-    // Tags
-    Route::get('admin/positions', ['uses'=>'Bishopm\Connexion\Http\Controllers\SocietiesController@tags','as'=>'admin.tags.index']);
-
-    // Weekdays
-    Route::get('admin/weekdays', ['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@index','as'=>'admin.weekdays.index']);
-    Route::get('admin/weekdays/create', ['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@create','as'=>'admin.weekdays.create']);
-    Route::get('admin/weekdays/{weekday}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@show','as'=>'admin.weekdays.show']);
-    Route::get('admin/weekdays/{weekday}/edit', ['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@edit','as'=>'admin.weekdays.edit']);
-    Route::put('admin/weekdays/{weekday}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@update','as'=>'admin.weekdays.update']);
-    Route::post('admin/weekdays', ['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@store','as'=>'admin.weekdays.store']);
-    Route::delete('admin/weekdays/{weekday}', ['uses'=>'Bishopm\Connexion\Http\Controllers\WeekdaysController@destroy','as'=>'admin.weekdays.destroy']);
 
     Route::group(['middleware' => ['web','can:admin-backend']], function () {
 

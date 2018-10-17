@@ -56,7 +56,6 @@ class ConnexionServiceProvider extends ServiceProvider
             $allmods=array('bookshop_module'=>['module'=>'module','description'=>'Manage a small bookshop','setting_value'=>'no'],
                 'core_module'=>['module'=>'module','description'=>'Church membership data - individuals, households and groups, together with email and sms facilities and reporting','setting_value'=>'yes'],
                 'hr_module'=>['module'=>'module','description'=>'Human resources module','setting_value'=>'no'],
-                'mcsa_module'=>['module'=>'module','description'=>'Circuit preachers module','setting_value'=>'no'],
                 'todo_module'=>['module'=>'module','description'=>'Task and project management module','setting_value'=>'yes'],
                 'website_module'=>['module'=>'module','description'=>'Backend module to create a website, including blog, slides, group resources, sermon audio','setting_value'=>'yes'],
                 'worship_module'=>['module'=>'module','description'=>'Stores liturgy and songs (with guitar chords), creates service sets and tracks song / liturgy usage','setting_value'=>'yes']
@@ -148,57 +147,6 @@ class ConnexionServiceProvider extends ServiceProvider
                         ]
                     ]
                 ]);
-                if ($mods['mcsa_module']=="yes") {
-                    $event->menu->add([
-                        'text' => 'Circuit',
-                        'icon' => 'comments',
-                        'can' => 'edit-backend',
-                        'submenu' => [
-                            [
-                                'text' => 'Preachers',
-                                'url'  => 'admin/preachers',
-                                'icon' => 'child',
-                                'can' =>  'edit-backend'
-                            ],
-                            [
-                                'text' => 'Leaders',
-                                'url'  => 'admin/persons',
-                                'icon' => 'user',
-                                'can' =>  'edit-backend'
-                            ],
-                            [
-                                'text' => 'Societies',
-                                'url'  => 'admin/societies',
-                                'icon' => 'envelope-o',
-                                'can' =>  'edit-backend'
-                            ],
-                            [
-                                'text' => 'Plan',
-                                'url'  => 'admin/plan/' . date('Y') . '/current/edit',
-                                'icon' => 'calendar',
-                                'can' =>  'edit-backend'
-                            ],
-                            [
-                                'text' => 'Meetings',
-                                'url'  => 'admin/meetings',
-                                'icon' => 'group',
-                                'can' =>  'edit-backend'
-                            ],
-                            [
-                                'text' => 'Service types',
-                                'url'  => 'admin/servicetypes',
-                                'icon' => 'tag',
-                                'can' =>  'edit-backend'
-                            ],
-                            [
-                                'text' => 'Weekday services',
-                                'url'  => 'admin/weekdays',
-                                'icon' => 'tree',
-                                'can' =>  'edit-backend'
-                            ]
-                        ]
-                    ]);
-                }
                 if ($mods['todo_module']=="yes") {
                     $event->menu->add([
                         'text' => 'Todo',
@@ -527,7 +475,6 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'church_email','module'=>'website','description'=>'Church email address','setting_value'=>'Email address'],
             ['setting_key'=>'church_phone','module'=>'website','description'=>'Church office phone number','setting_value'=>'Office phone number'],
             ['setting_key'=>'church_mission','module'=>'website','description'=>'Church mission statement','setting_value'=>'Church mission statement'],
-            ['setting_key'=>'circuit','module'=>'mcsa','description'=>'Circuit','setting_value'=>''],
             ['setting_key'=>'colour_primary','module'=>'website','description'=>'Primary website colour','setting_value'=>'blue'],
             ['setting_key'=>'colour_secondary','module'=>'website','description'=>'Secondary website colour (darker)','setting_value'=>'navy'],
             ['setting_key'=>'colour_tertiary','module'=>'website','description'=>'Tertiary website colour (lighter)','setting_value'=>'lightblue'],
@@ -555,6 +502,7 @@ class ConnexionServiceProvider extends ServiceProvider
             ['setting_key'=>'pastoral_group','module'=>'core','description'=>'Pastoral team group','setting_value'=>'Pastoral group'],
             ['setting_key'=>'qr_code','module'=>'website','description'=>'URL of QR code image','setting_value'=>'QR code url'],
             ['setting_key'=>'searchengine_keywords','module'=>'website','description'=>'Search engine keywords for meta tags','setting_value'=>'Search engine keywords'],
+            ['setting_key'=>'service_times','module'=>'website','description'=>'Service times','setting_value'=>'Service times'],
             ['setting_key'=>'site_abbreviation','module'=>'core','description'=>'Church name abbreviated','setting_value'=>'Abbreviated church name'],
             ['setting_key'=>'site_description','module'=>'website','description'=>'Site description','setting_value'=>'Slogan or vision statement'],
             ['setting_key'=>'site_logo','module'=>'core','description'=>'Text logo in menu bar','setting_value'=>'<b>C</b>onnexion'],

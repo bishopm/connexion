@@ -3,8 +3,6 @@
 namespace Bishopm\Connexion\Http\Controllers;
 
 use Bishopm\Connexion\Repositories\SettingsRepository;
-use Bishopm\Connexion\Repositories\SocietiesRepository;
-use Bishopm\Connexion\Repositories\CircuitsRepository;
 use Bishopm\Connexion\Repositories\GroupsRepository;
 use Bishopm\Connexion\Repositories\RostersRepository;
 use Bishopm\Connexion\Repositories\FoldersRepository;
@@ -32,14 +30,11 @@ class SettingsController extends Controller
     private $societies;
     private $groups;
     private $folders;
-    private $circuits;
     private $users;
 
-    public function __construct(SettingsRepository $setting, CircuitsRepository $circuits, SocietiesRepository $societies, GroupsRepository $groups, RostersRepository $rosters, FoldersRepository $folders, UsersRepository $users)
+    public function __construct(SettingsRepository $setting, GroupsRepository $groups, RostersRepository $rosters, FoldersRepository $folders, UsersRepository $users)
     {
         $this->setting = $setting;
-        $this->societies = $societies;
-        $this->circuits = $circuits;
         $this->groups = $groups;
         $this->folders = $folders;
         $this->rosters = $rosters;
