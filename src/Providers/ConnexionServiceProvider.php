@@ -611,13 +611,6 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Bishopm\Connexion\Repositories\CircuitsRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\CircuitsRepository('circuits');
-                return $repository;
-            }
-        );
-        $this->app->bind(
             'Bishopm\Connexion\Repositories\CommentsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\CommentsRepository(new \Actuallymab\LaravelComment\Models\Comment());
@@ -667,13 +660,6 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Bishopm\Connexion\Repositories\MeetingsRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\MeetingsRepository('meetings');
-                return $repository;
-            }
-        );
-        $this->app->bind(
             'Bishopm\Connexion\Repositories\MenusRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\MenusRepository(new \Bishopm\Connexion\Models\Menu());
@@ -716,30 +702,9 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Bishopm\Connexion\Repositories\PersonsRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\PersonsRepository('persons');
-                return $repository;
-            }
-        );
-        $this->app->bind(
-            'Bishopm\Connexion\Repositories\PlansRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\PlansRepository('plans');
-                return $repository;
-            }
-        );
-        $this->app->bind(
             'Bishopm\Connexion\Repositories\PostsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\PostsRepository(new \Bishopm\Connexion\Models\Post());
-                return $repository;
-            }
-        );
-        $this->app->bind(
-            'Bishopm\Connexion\Repositories\PreachersRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\PreachersRepository('preachers');
                 return $repository;
             }
         );
@@ -771,20 +736,6 @@ class ConnexionServiceProvider extends ServiceProvider
                 return $repository;
             }
         );
-        $this->app->bind(
-            'Bishopm\Connexion\Repositories\ServicesRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\ServicesRepository('services');
-                return $repository;
-            }
-        );
-        $this->app->bind(
-            'Bishopm\Connexion\Repositories\ServicetypesRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\ServicetypesRepository('tags');
-                return $repository;
-            }
-        );
         if (Schema::hasTable('settings')) {
             $this->app->bind(
                 'Bishopm\Connexion\Repositories\SettingsRepository',
@@ -805,13 +756,6 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\SlideshowsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\SlideshowsRepository(new \Bishopm\Connexion\Models\Slideshow());
-                return $repository;
-            }
-        );
-        $this->app->bind(
-            'Bishopm\Connexion\Repositories\SocietiesRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\SocietiesRepository('societies');
                 return $repository;
             }
         );
@@ -837,13 +781,6 @@ class ConnexionServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Bishopm\Connexion\Repositories\PositionsRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\PositionsRepository('positions');
-                return $repository;
-            }
-        );
-        $this->app->bind(
             'Bishopm\Connexion\Repositories\TransactionsRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\TransactionsRepository(new \Bishopm\Connexion\Models\Transaction());
@@ -854,13 +791,6 @@ class ConnexionServiceProvider extends ServiceProvider
             'Bishopm\Connexion\Repositories\UsersRepository',
             function () {
                 $repository = new \Bishopm\Connexion\Repositories\UsersRepository(new \Bishopm\Connexion\Models\User());
-                return $repository;
-            }
-        );
-        $this->app->bind(
-            'Bishopm\Connexion\Repositories\WeekdaysRepository',
-            function () {
-                $repository = new \Bishopm\Connexion\Repositories\WeekdaysRepository('weekdays');
                 return $repository;
             }
         );
