@@ -44,7 +44,7 @@ $( document ).ready(function() {
         $uploadCrop.croppie('result', 'base64').then(function(base64) {
             $.ajax({ 
                 type: "POST", 
-                url: "{{url('/')}}/admin/updateimage/{{$folder}}{{$entity or ''}}",
+                url: "{{url('/')}}/admin/updateimage/{{$folder}}{{$entity ?? ''}}",
                 dataType: 'text',
                 data: {
                     base64data : base64,
