@@ -110,7 +110,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        {{$setting['service_times'] or ''}}
+        {{$setting['service_times'] ?? ''}}
       </div>
     </div>
   </div>
