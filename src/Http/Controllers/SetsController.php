@@ -109,7 +109,7 @@ class SetsController extends Controller
     {
         $checkset=Set::where('servicedate', '=', $request->servicedate)->where('servicetime', '=', $request->servicetime)->first();
         $duplicateset=Set::with('setitems')->find($request->duplicate)->toArray();
-        if (count($checkset)) {
+        if ($checkset) {
             $set=$checkset;
         } else {
             $set=Set::create($request->except('duplicate'));
