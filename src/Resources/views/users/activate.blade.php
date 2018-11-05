@@ -37,9 +37,9 @@
                                 @forelse ($users as $user)
                                     <tr>
                                         <td><a href="{{url('/')}}/admin/users/activate/{{$user->id}}"><i class="fa fa-plug"></i> Activate</a></td>
-                                        <td>{{$user->individual->title}} {{$user->individual->firstname}} {{$user->individual->surname}}</td>
-                                        <td>{{$user->individual->cellphone}}</td>
-                                        <td>{{$user->email}}</td>
+                                        <td>{{$user->individual->title ?? ''}} {{$user->individual->firstname ?? ''}} {{$user->individual->surname ?? ''}}</td>
+                                        <td>{{$user->individual->cellphone ?? ''}}</td>
+                                        <td>{{$user->email ?? ''}}</td>
                                     </tr>
                                 @empty
                                     <tr><td>There are currently no inactive users</td></tr>

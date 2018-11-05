@@ -47,7 +47,7 @@
                                         <td><a href="{{route('admin.users.edit',$user->id)}}">{{$user->email}}</a></td>
                                         <td>
                                             <a href="{{route('admin.users.edit',$user->id)}}">
-                                                @if (count($user->roles()->first()))
+                                                @if ($user->roles()->first())
                                                     @foreach ($user->roles as $role)
                                                         @if (!$loop->last)
                                                             {{$role->name}}, 
