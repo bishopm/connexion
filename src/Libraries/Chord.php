@@ -225,7 +225,7 @@ class Chord
 		}
 
 		//draw barre chords
-		if(count($this->barre))
+		if($this->barre)
 		{
 			$x1 = 0;
 			$x2 = 0;
