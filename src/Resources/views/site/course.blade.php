@@ -10,7 +10,7 @@
 @section('content')  
     <div class="container">
       <h3>{{$course->title}}
-      @if (count($course->group))
+      @if ($course->group)
         <small><a class="btn btn-xs btn-primary" href="{{url('/')}}/course/{{$course->slug}}/sign-up">Click here to sign up</a></small>
       @endif
       </h3>
