@@ -21,6 +21,7 @@
         "jeroennoten/laravel-adminlte":"1.*",
         "laravelcollective/html": "5.*",
         "laravel/socialite": "3.*",
+        "laravel/telescope": "0.1.*",
         "laracasts/flash": "3.*",
         "cviebrock/eloquent-sluggable":"^4.5",
         "nwidart/laravel-menus": "3.*",
