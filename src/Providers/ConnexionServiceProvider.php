@@ -97,56 +97,6 @@ class ConnexionServiceProvider extends ServiceProvider
                     $mods[$module['setting_key']]=$module['setting_value'];
                 }
                 $event->menu->add('CHURCH ADMIN');
-                $event->menu->add([
-                    'text' => 'Members',
-                    'icon' => 'book',
-                    'can' => 'edit-roster',
-                    'submenu' => [
-                        [
-                            'text' => 'Households',
-                            'url'  => 'admin/households',
-                            'icon' => 'child',
-                            'can' =>  'edit-backend'
-                        ],
-                        [
-                            'text' => 'Groups',
-                            'url'  => 'admin/groups',
-                            'icon' => 'users',
-                            'can' =>  'edit-backend'
-                        ],
-                        [
-                            'text' => 'Messages',
-                            'url'  => 'admin/messages/create',
-                            'icon' => 'envelope-o',
-                            'can' =>  'edit-backend'
-                        ],
-                        [
-                            'text' => 'Events',
-                            'url'  => 'admin/events',
-                            'icon' => 'calendar-check-o',
-                            'can' =>  'edit-backend'
-                        ],
-                        [
-                            'text' => 'Rosters',
-                            'url'  => 'admin/rosters',
-                            'icon' => 'calendar',
-                            'can' =>  'edit-roster'
-                        ],
-                        [
-                            'text' => 'Statistics',
-                            'url'  => 'admin/statistics',
-                            'icon' => 'line-chart',
-                            'can' =>  'edit-backend',
-                            'active' => []
-                        ],
-                        [
-                            'text' => 'Giving',
-                            'url'  => 'admin/payments',
-                            'icon' => 'gift',
-                            'can' =>  'admin-giving'
-                        ]
-                    ]
-                ]);
                 if ($mods['todo_module']=="yes") {
                     $event->menu->add([
                         'text' => 'Todo',
