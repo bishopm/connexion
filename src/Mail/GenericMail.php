@@ -28,13 +28,13 @@ class GenericMail extends Mailable
     public function build()
     {
         if (isset($this->emaildata['attachment'])) {
-            return $this->subject($this->emaildata->subject)
-                    ->from($this->emaildata->sender)
+            return $this->subject($this->emaildata['subject'])
+                    ->from($this->emaildata['sender'])
                     ->attachData($this->emaildata['attachment']['dataurl'], $this->emaildata['attachment']['name'], ['mime' => $this->emaildata['attachment']['type'], 'Content-Disposition' => 'attachment'])
                     ->markdown('connexion::emails.generic');
         } else {
-            return $this->subject($this->emaildata->subject)
-                    ->from($this->emaildata->sender)
+            return $this->subject($this->emaildata['subject'])
+                    ->from($this->emaildata['sender'])
                     ->markdown('connexion::emails.generic');
         }
     }
