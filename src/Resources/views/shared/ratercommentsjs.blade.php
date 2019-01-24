@@ -5,7 +5,7 @@
   } else {
       $imgsrc=asset('/vendor/bishopm/images/profile.png');
   }?>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.js"></script>
   <script type="text/javascript">
       $.ajaxSetup({
           headers: {

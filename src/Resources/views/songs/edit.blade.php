@@ -23,7 +23,7 @@
 @section('js')
     @include('connexion::worship.partials.scripts')
     <script src="{{ asset('/vendor/bishopm/js/selectize.min.js') }}" type="text/javascript"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.js"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
             $('.input-tags').selectize({
