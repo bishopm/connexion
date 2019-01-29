@@ -39,10 +39,10 @@ class SongsController extends Controller
 
     public function index(Request $request)
     {
-        $songs = Song::whereIn('musictype',$request->musictype)->where(function($query) use ($request){
-            $query->where('title','like','%' . $request->search . '%');
-            $query->orWhere('words','like','%' . $request->search . '%');
-            $query->orWhere('author','like','%' . $request->search . '%');
+        $songs = Song::whereIn('musictype', $request->musictype)->where(function ($query) use ($request) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+            $query->orWhere('words', 'like', '%' . $request->search . '%');
+            $query->orWhere('author', 'like', '%' . $request->search . '%');
         })->orderBy('title')->get();
         return $songs;
     }
@@ -50,32 +50,31 @@ class SongsController extends Controller
     public function show($id)
     {
         $song = Song::find($id);
-        $newlyrics = str_replace("[","<span data-chord='",$song->lyrics);
-        $newlyrics = str_replace("{","<span data-heading='",$newlyrics);
-        $newlyrics = str_replace("}","'> </span>",$newlyrics);
-        $newlyrics = str_replace("}","'> </span>",$newlyrics);
+        $newlyrics = str_replace("[", "<span data-chord='", $song->lyrics);
+        $newlyrics = str_replace("{", "<span data-heading='", $newlyrics);
+        $newlyrics = str_replace("}", "'> </span>", $newlyrics);
+        $newlyrics = str_replace("}", "'> </span>", $newlyrics);
         $i=0;
         do {
-            if (substr($newlyrics, $i, 1)==']'){
-                $newlyrics = substr_replace($newlyrics,"'>" . substr($newlyrics, $i+1, 1) . "</span>", $i, 2);
+            if (substr($newlyrics, $i, 1)==']') {
+                $newlyrics = substr_replace($newlyrics, "'>" . substr($newlyrics, $i+1, 1) . "</span>", $i, 2);
                 $i++;
             } else {
                 $i++;
             }
         } while ($i < strlen($newlyrics));
         $newlyrics = str_replace(array("\r\n", "\r", "\n"), "<br>", $newlyrics);
-        $newlyrics = str_replace("<br><br>","<br>",$newlyrics);
+        $newlyrics = str_replace("<br><br>", "<br>", $newlyrics);
         $song->music=$newlyrics;
         $history=Setitem::with('set')->where('song_id', '=', $id)->get();
+        $allh=array();
         foreach ($history as $sitem) {
             $allh[$sitem->set->servicetime][]=$sitem->set->servicedate;
         }
-        foreach ($allh as $kk=>$ss){
+        foreach ($allh as $kk=>$ss) {
             rsort($allh[$kk]);
         }
         $song->history = $allh;
         return $song;
     }
-
-
 }
