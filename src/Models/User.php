@@ -2,7 +2,7 @@
 
 namespace Bishopm\Connexion\Models;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notifiable; 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Actuallymab\LaravelComment\CanComment;
 use Bishopm\Connexion\Notifications\ResetPasswordNotification;

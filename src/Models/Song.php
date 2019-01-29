@@ -36,4 +36,9 @@ class Song extends Model implements TaggableInterface
     {
         return $query->orWhere('words', 'like', '%' . $filter . '%');
     }
+
+    public function scopeMusictype($query,$filter)
+    {
+        return $query->whereIn('musictype', $filter);
+    }
 }

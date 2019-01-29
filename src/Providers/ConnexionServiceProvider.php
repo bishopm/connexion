@@ -20,10 +20,8 @@ class ConnexionServiceProvider extends ServiceProvider
 {
     protected $commands = [
         'Bishopm\Connexion\Console\InstallConnexionCommand',
-        'Bishopm\Connexion\Console\BirthdayEmail',
         'Bishopm\Connexion\Console\MonthlySupplierEmail',
-        'Bishopm\Connexion\Console\MonthlyBookshopEmail',
-        'Bishopm\Connexion\Console\PlannedGivingReportEmail',
+        'Bishopm\Connexion\Console\MonthlyBookshopEmail'
     ];
 
     /**
@@ -36,6 +34,7 @@ class ConnexionServiceProvider extends ServiceProvider
         Schema::defaultStringLength(255);
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../Http/api.routes.php';
+            require __DIR__.'/../Http/worshipapi.routes.php';
             require __DIR__.'/../Http/web.routes.php';
         }
         $this->loadViewsFrom(__DIR__.'/../Resources/views', 'connexion');
@@ -349,6 +348,8 @@ class ConnexionServiceProvider extends ServiceProvider
             config(['mediable.on_duplicate' => 'Plank\Mediable\MediaUploader::ON_DUPLICATE_REPLACE']);
             config(['jwt.ttl' => 525600]);
             config(['jwt.refresh_ttl' => 525600]);
+            config(['auth.providers.users.model'=>'Bishopm\Connexion\Models\User']);
+            config(['jwt.user' => 'Bishopm\Connexion\Models\User']);
             config(['services.facebook.client_id'=> $settings->getkey('facebook_clientId')]);
             config(['services.facebook.client_secret'=> $settings->getkey('facebook_clientSecret')]);
             config(['services.facebook.redirect'=> $settings->getkey('facebook_redirect')]);

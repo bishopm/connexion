@@ -41,6 +41,23 @@ class ApiAuthController extends Controller
         return response()->json(compact('token','fullname','indiv_id','user_id','permissions'));
     }
 
+    public function worshiplogin(Request $request)
+    {
+        $user=User::where('phone', $request->phone)->where('phonetoken', $request->phonetoken)->first();
+        if (!$user) {
+            return "No such user";
+        } else {
+            try {
+                if (!$token=JWTAuth::fromUser($user)) {
+                    return response()->json(['error' => 'invalid_credentials'], 401);
+                }
+            } catch (JWTException $e) {
+                return response()->json(['error' => 'could_not_create_token'], 500);
+            }
+            return response()->json(compact('token'));
+        }
+    }
+
     public function sendResetLinkEmail(Request $request)
     {
         $this->validate($request, ['name' => 'required']);
