@@ -50,22 +50,6 @@ class SongsController extends Controller
     public function show($id)
     {
         $song = Song::find($id);
-        $newlyrics = str_replace("[", "<span data-chord='", $song->lyrics);
-        $newlyrics = str_replace("{", "<span data-heading='", $newlyrics);
-        $newlyrics = str_replace("}", "'> </span>", $newlyrics);
-        $newlyrics = str_replace("}", "'> </span>", $newlyrics);
-        $i=0;
-        do {
-            if (substr($newlyrics, $i, 1)==']') {
-                $newlyrics = substr_replace($newlyrics, "'>" . substr($newlyrics, $i+1, 1) . "</span>", $i, 2);
-                $i++;
-            } else {
-                $i++;
-            }
-        } while ($i < strlen($newlyrics));
-        $newlyrics = str_replace(array("\r\n", "\r", "\n"), "<br>", $newlyrics);
-        $newlyrics = str_replace("<br><br>", "<br>", $newlyrics);
-        $song->music=$newlyrics;
         $history=Setitem::with('set')->where('song_id', '=', $id)->get();
         $allh=array();
         foreach ($history as $sitem) {
