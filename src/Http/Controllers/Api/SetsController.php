@@ -18,12 +18,12 @@ class SetsController extends Controller
 
     public function index()
     {
-        $sets = Set::orderBy('servicedate','DESC')->orderBy('servicetime','ASC')->get();
+        $sets = Set::orderBy('servicedate', 'DESC')->orderBy('servicetime', 'ASC')->get();
         $data=array();
         $data['times']=array();
         foreach ($sets as $set) {
             $data['sets'][$set->servicedate][$set->servicetime] = $set->id;
-            if (!in_array($set->servicetime,$data['times'])) {
+            if (!in_array($set->servicetime, $data['times'])) {
                 $data['times'][]=$set->servicetime;
             }
         }
@@ -38,7 +38,22 @@ class SetsController extends Controller
 
     public function find($id)
     {
-        return Set::with('setitems.song')->find($id);
+        $data['songs'] = Song::orderBy('title')->get();
+        $data['set'] = Set::with('setitems.song')->find($id);
+        return $data;
     }
 
+    public function addItem(Request $request)
+    {
+        $setitem = Setitem::create($request->all());
+        $data['id'] = $setitem->id;
+        $data['title'] = Song::find($request->song_id)->title;
+        return $data;
+    }
+
+    public function removeItem(Request $request)
+    {
+        $setitem = Setitem::find($request->id)->delete();
+        return "deleted set item";
+    }
 }
