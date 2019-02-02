@@ -21,13 +21,18 @@ class SetsController extends Controller
         $sets = Set::orderBy('servicedate', 'DESC')->orderBy('servicetime', 'ASC')->get();
         $data=array();
         $data['times']=array();
+        $data['dates']=array();
         foreach ($sets as $set) {
             $data['sets'][$set->servicedate][$set->servicetime] = $set->id;
             if (!in_array($set->servicetime, $data['times'])) {
                 $data['times'][]=$set->servicetime;
             }
+            if (!in_array($set->servicedate, $data['dates'])) {
+                $data['dates'][]=$set->servicedate;
+            }
         }
         sort($data['times']);
+        rsort($data['dates']);
         return $data;
     }
 
@@ -46,14 +51,21 @@ class SetsController extends Controller
     public function addItem(Request $request)
     {
         $setitem = Setitem::create($request->all());
-        $data['id'] = $setitem->id;
-        $data['title'] = Song::find($request->song_id)->title;
-        return $data;
+        return Setitem::with('song')->find($setitem->id);
     }
 
     public function removeItem(Request $request)
     {
         $setitem = Setitem::find($request->id)->delete();
         return "deleted set item";
+    }
+
+    public function reorder(Request $request)
+    {
+        foreach ($request->setitems as $ndx=>$setitem) {
+            $upd = Setitem::where('id', $setitem['id'])
+            ->update(['itemorder' => $ndx]);
+        }
+        return "order updated";
     }
 }

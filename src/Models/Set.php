@@ -10,7 +10,7 @@ class Set extends Model
 
     public function setitems()
     {
-        return $this->hasMany('Bishopm\Connexion\Models\Setitem');
+        return $this->hasMany('Bishopm\Connexion\Models\Setitem')->orderBy('itemorder');
     }
 
     public function scopeFourrecent($query, $id)

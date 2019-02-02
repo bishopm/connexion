@@ -4,7 +4,6 @@ namespace Bishopm\Connexion\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Bishopm\Connexion\Models\Gchord;
-use App\Http\Requests;
 use Bishopm\Connexion\Models\User;
 use Bishopm\Connexion\Models\Song;
 use Auth;
@@ -14,13 +13,6 @@ use View;
 use Redirect;
 use DB;
 use App\Http\Controllers\Controller;
-use Bishopm\Connexion\Http\Requests\SongsRequest;
-use Bishopm\Connexion\Libraries\Fpdf\Fpdf;
-use Bishopm\Connexion\Models\Roster;
-use Bishopm\Connexion\Models\Setting;
-use Bishopm\Connexion\Models\Individual;
-use Bishopm\Connexion\Models\Group;
-use Bishopm\Connexion\Repositories\SettingsRepository;
 
 class SongsController extends Controller
 {
@@ -29,13 +21,6 @@ class SongsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    private $setting;
-
-    public function __construct(SettingsRepository $setting)
-    {
-        $this->setting = $setting;
-    }
 
     public function index(Request $request)
     {
@@ -47,6 +32,11 @@ class SongsController extends Controller
         return $songs;
     }
 
+    public function allsongs()
+    {
+        return Song::orderBy('title')->get();
+    }
+
     public function show($id)
     {
         $song = Song::find($id);
@@ -55,10 +45,23 @@ class SongsController extends Controller
         foreach ($history as $sitem) {
             $allh[$sitem->set->servicetime][]=$sitem->set->servicedate;
         }
+        ksort($allh);
         foreach ($allh as $kk=>$ss) {
             rsort($allh[$kk]);
-        }
+        }   
         $song->history = $allh;
         return $song;
+    }
+
+    public function update(Request $request)
+    {
+        $song = Song::find($request->song['id']);
+        $song->lyrics = $request->song['lyrics'];
+        $song->title = $request->song['title'];
+        $song->author = $request->song['author'];
+        $song->musictype = $request->song['musictype'];
+        $song->audio = $request->song['audio'];
+        $song->save();
+        return "Song updated";
     }
 }
