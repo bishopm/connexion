@@ -820,7 +820,7 @@ class WebController extends Controller
             foreach ($blogs as $blog) {
                 // set item's title, author, url, pubdate, description and content
                 if ($blog->individual->image) {
-                    $imgurl=url('/') . "/public/storage/individuals/" . $blog->individual_id . "/" . $blog->individual->image;
+                    $imgurl=url('/') . "/storage/individuals/" . $blog->individual_id . "/" . $blog->individual->image;
                 } else {
                     $imgurl=$feed->logo;
                 }
@@ -850,6 +850,8 @@ class WebController extends Controller
                 $dum['link']=$seriesimage;
                 $dum['pubdate']=$sermon->servicedate . " 12:00:00";
                 $dum['summary']="sermon";
+                unset($sermon->individual);
+                $sermon->preacher = $preacher;
                 $dum['content']=$sermon;
                 $feeddata[]=$dum;
             }

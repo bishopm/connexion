@@ -37,6 +37,14 @@ class SongsController extends Controller
         return Song::orderBy('title')->get();
     }
 
+    public function news()
+    {
+        $data['contemporary'] = Song::where('musictype','contemporary')->orderBy('created_at','DESC')->select('title','id','author','created_at')->take(10)->get();
+        $data['hymns'] = Song::where('musictype','hymn')->orderBy('created_at','DESC')->select('title','id','author','created_at')->take(10)->get();
+        $data['liturgy'] = Song::where('musictype','liturgy')->orderBy('created_at','DESC')->select('title','id','author','created_at')->take(10)->get();
+        return $data;
+    }
+
     public function show($id)
     {
         $song = Song::find($id);

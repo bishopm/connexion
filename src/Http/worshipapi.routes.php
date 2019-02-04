@@ -10,6 +10,7 @@ Route::middleware(['handlecors'])->group(function () {
         Route::post('/api/setitems/remove', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SetsController@removeitem','as' => 'worshipapi.sets.removeitem']);
         Route::post('/api/setitems/add', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SetsController@additem','as' => 'worshipapi.sets.additem']);
         // SONGS
+        Route::get('/api/news', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@news','as' => 'worshipapi.songs.news']);
         Route::get('/api/songs', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@allsongs','as' => 'worshipapi.songs.allsongs']);
         Route::post('/api/songs', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@index','as' => 'worshipapi.songs.index']);
         Route::get('/api/songs/{song}', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@show','as' => 'worshipapi.songs.show']);
