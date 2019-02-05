@@ -835,7 +835,7 @@ class WebController extends Controller
             foreach ($sermons as $sermon) {
                 // set item's title, author, url, pubdate, description and content
                 if ($sermon->series->image) {
-                    $seriesimage=url('/') . "/public/storage/series/" . $sermon->series->image;
+                    $seriesimage=url('/') . "/storage/series/" . $sermon->series->image;
                 } else {
                     $seriesimage=$feed->logo;
                 }
