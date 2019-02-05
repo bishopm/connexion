@@ -801,7 +801,7 @@ class WebController extends Controller
     {
         $feed = App::make("feed");
         $feed->setCache(0, $this->settingsarray['site_abbreviation'] . 'JourneyFeed');
-        $lastweek = date('Y-m-d',strtotime("-1 week"));
+        $lastweek = date('Y-m-d', strtotime("-1 week"));
         if (!$feed->isCached()) {
             // creating rss feed with last weeks posts
             $blogs = Blog::where('status', 'Published')->where('created_at', '>', $lastweek)->orderBy('created_at', 'desc')->get();
@@ -841,6 +841,8 @@ class WebController extends Controller
                 }
                 if ($sermon->individual) {
                     $preacher=$sermon->individual->firstname . " " . $sermon->individual->surname;
+                    $fname = $sermon->individual->firstname;
+                    $sname = $sermon->individual->surname;
                 } else {
                     $preacher="guest preacher";
                 }
@@ -850,7 +852,16 @@ class WebController extends Controller
                 $dum['link']=$seriesimage;
                 $dum['pubdate']=$sermon->servicedate . " 12:00:00";
                 $dum['summary']="sermon";
-                unset($sermon->individual);
+                unset($sermon->individual->cellphone);
+                unset($sermon->individual->giving);
+                unset($sermon->individual->email);
+                unset($sermon->individual->notes);
+                unset($sermon->individual->birthdate);
+                unset($sermon->individual->sex);
+                unset($sermon->individual->memberstatus);
+                unset($sermon->individual->servicetime);
+                unset($sermon->individual->image);
+                unset($sermon->individual->leadership);
                 $sermon->preacher = $preacher;
                 $dum['content']=$sermon;
                 $feeddata[]=$dum;
