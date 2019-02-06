@@ -15,5 +15,7 @@ Route::middleware(['handlecors'])->group(function () {
         Route::post('/api/songs', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@index','as' => 'worshipapi.songs.index']);
         Route::get('/api/songs/{song}', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@show','as' => 'worshipapi.songs.show']);
         Route::post('/api/songs/update', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@update','as' => 'worshipapi.songs.update']);
+        // USERS
+        Route::post('/api/users/byphone', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\UsersController@byphone','as' => 'worshipapi.users.byphone']);
     });
 });
