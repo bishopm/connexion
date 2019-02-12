@@ -65,6 +65,7 @@ class SongsController extends Controller
     {
         $song = Song::find($request->song['id']);
         $song->lyrics = $request->song['lyrics'];
+        $song->key = $request->song['key'];
         $song->title = $request->song['title'];
         $song->author = $request->song['author'];
         $song->musictype = $request->song['musictype'];
