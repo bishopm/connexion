@@ -690,8 +690,8 @@ class WebController extends Controller
         // check if there is cached feed and build new only if is not
         if (!$feed->isCached()) {
             // creating rss feed with our most recent 20 posts
-            $blogs = Blog::where('status', 'Published')->where('created_at', '>', '2016-02-13')->orderBy('created_at', 'desc')->take(20)->get();
-            $sermons = Sermon::where('servicedate', '>', '2016-02-13')->where('status', 'Published')->orderBy('servicedate', 'desc')->orderBy('created_at', 'desc')->take(20)->get();
+            $blogs = Blog::where('status', 'Published')->where('created_at', '>', '2019-02-10')->orderBy('created_at', 'desc')->take(20)->get();
+            $sermons = Sermon::where('servicedate', '>', '2019-02-10')->where('status', 'Published')->orderBy('servicedate', 'desc')->orderBy('created_at', 'desc')->take(20)->get();
             $events = Group::where('grouptype', 'event')->where('publish', 1)->orderBy('created_at', 'desc')->take(20)->get();
             $books = Book::where('sample', '<>', '')->orderBy('created_at', 'desc')->take(20)->get();
 
