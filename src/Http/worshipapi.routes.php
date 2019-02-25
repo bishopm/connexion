@@ -9,8 +9,13 @@ Route::middleware(['handlecors'])->group(function () {
         Route::post('/api/setitems/reorder', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SetsController@reorder','as' => 'worshipapi.sets.reorder']);
         Route::post('/api/setitems/remove', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SetsController@removeitem','as' => 'worshipapi.sets.removeitem']);
         Route::post('/api/setitems/add', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SetsController@additem','as' => 'worshipapi.sets.additem']);
+        // TAGS
+        Route::post('/api/songs/tags', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@tagstore','as' => 'worshipapi.songs.tagstore']);
+        Route::get('/api/songs/tags', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@tags','as' => 'worshipapi.songs.tags']);
+        Route::get('/api/songs/tags/{slug}', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@tag','as' => 'worshipapi.songs.tag']);
         // SONGS
         Route::get('/api/news', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@news','as' => 'worshipapi.songs.news']);
+        Route::post('/api/songs/store', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@store','as' => 'worshipapi.songs.store']);
         Route::get('/api/songs', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@allsongs','as' => 'worshipapi.songs.allsongs']);
         Route::post('/api/songs', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@index','as' => 'worshipapi.songs.index']);
         Route::get('/api/songs/{song}', ['uses' => 'Bishopm\Connexion\Http\Controllers\Api\SongsController@show','as' => 'worshipapi.songs.show']);
