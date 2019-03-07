@@ -29,6 +29,10 @@
                 },
                 "autoload": {
                     "classmap": [""]
+                },
+                "dist": {
+                    "url": "https://github.com/bishopm/laravel-menus/archive/master.zip",
+                    "type": "zip"
                 }
             }
         }
