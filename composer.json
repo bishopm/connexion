@@ -20,7 +20,7 @@
         {
             "type": "package",
             "package": {
-                "name": "nwidart/laravel-menus",
+                "name": "bishopm/laravel-menus",
                 "version": "dev-master",
                 "source": {
                     "url": "https://github.com/bishopm/laravel-menus.git",
@@ -44,7 +44,7 @@
         "laravel/socialite": "3.*",
         "laracasts/flash": "3.*",
         "cviebrock/eloquent-sluggable":"^4.5",
-        "nwidart/laravel-menus": "dev-master",
+        "bishopm/laravel-menus": "dev-master",
         "league/oauth2-client": "^1.4",
         "plank/laravel-mediable": "^2.3",
         "cartalyst/tags": "7.*",
