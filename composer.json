@@ -39,7 +39,7 @@
         "tymon/jwt-auth": "1.*",
         "barryvdh/laravel-cors": "0.11.*",
         "consoletvs/charts": "6.*",
-        "pusher/pusher-php-server": "3.*",
+        "laravel-notification-channels/webpush": "3.*",
         "laravel-notification-channels/facebook-poster": "1.*"
     },
     "require-dev": {
