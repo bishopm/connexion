@@ -27,7 +27,7 @@
         "league/oauth2-client": "^1.4",
         "plank/laravel-mediable": "^2.3",
         "cartalyst/tags": "7.*",
-        "actuallymab/laravel-comment": "0.6.*",
+        "beyondcode/laravel-comments": "1.*",
         "jrean/laravel-user-verification": "7.*",
         "felixkiss/uniquewith-validator": "3.*",
         "lithiumdev/laravel-tagcloud": "1.*",
