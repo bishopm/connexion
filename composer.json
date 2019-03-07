@@ -33,7 +33,7 @@
         "lithiumdev/laravel-tagcloud": "1.*",
         "guzzlehttp/guzzle": "6.*",
         "laravelium/feed": "3.*",
-        "spatie/laravel-activitylog": "2.*",
+        "spatie/laravel-activitylog": "3.*",
         "spatie/laravel-analytics": "3.*",
         "spatie/laravel-permission": "2.*",
         "tymon/jwt-auth": "1.*",
