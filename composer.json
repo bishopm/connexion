@@ -18,8 +18,19 @@
     ],
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/bishopm/laravel-menus"
+            "type": "package",
+            "package": {
+                "name": "nwidart/laravel-menus",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/bishopm/laravel-menus.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "autoload": {
+                    "classmap": [""]
+                }
+            }
         }
     ],
     "require": {
