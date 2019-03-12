@@ -16,27 +16,6 @@
             "role": "Developer"
         }
     ],
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "nwidart/laravel-menus",
-                "version": "dev-laravel58",
-                "source": {
-                    "url": "https://github.com/bishopm/laravel-menus.git",
-                    "type": "git",
-                    "reference": "laravel58"
-                },
-                "autoload": {
-                    "classmap": [""]
-                },
-                "dist": {
-                    "url": "https://github.com/bishopm/laravel-menus/archive/laravel58.zip",
-                    "type": "zip"
-                }
-            }
-        }
-    ],
     "require": {
         "illuminate/support": "5.*",
         "jeroennoten/laravel-adminlte":"1.*",
@@ -44,7 +23,7 @@
         "laravel/socialite": "3.*",
         "laracasts/flash": "3.*",
         "cviebrock/eloquent-sluggable":"^4.5",
-        "nwidart/laravel-menus": "dev-laravel58",
+        "nwidart/laravel-menus": "3.*",
         "league/oauth2-client": "^1.4",
         "plank/laravel-mediable": "^2.3",
         "cartalyst/tags": "7.*",
