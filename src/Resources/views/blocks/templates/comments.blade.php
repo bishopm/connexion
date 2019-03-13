@@ -57,10 +57,10 @@
     <p style="text-align:center;">
         @if ($setting['home_latitude'])
             <a href="{{url('/contact')}}">
-                <img style="width:100%; height:200px;" src="https://maps.googleapis.com/maps/api/staticmap?center={{$setting['home_latitude']}},{{$setting['home_longitude']}}&zoom=15&size=400x200&maptype=roadmap&markers=icon:http://maps.google.com/mapfiles/kml/pal2/icon11.png%7Ccolor:red%7C{{$setting['home_latitude']}},{{$setting['home_longitude']}}&key={{$setting['google_api']}}">
+                <img style="width:100%; height:200px;" src="https://staticmap.openstreetmap.de/staticmap.php?center={{$setting['home_latitude']}},{{$setting['home_longitude']}}&zoom=15&size=400x200&maptype=mapnik&markers={{$setting['home_latitude']}},{{$setting['home_longitude']}}">
             </a>
         @else
-            To include a Google Map, please add church co-ordinates in back-end
+            To include a map, please add church co-ordinates in back-end
         @endif
     </p>
     <ul class="list-unstyled top10">
