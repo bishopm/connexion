@@ -16,6 +16,12 @@
             "role": "Developer"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bishopm/laravel-menus"
+        }
+    ],
     "require": {
         "illuminate/support": "5.*",
         "jeroennoten/laravel-adminlte":"1.*",
@@ -23,7 +29,7 @@
         "laravel/socialite": "3.*",
         "laracasts/flash": "3.*",
         "cviebrock/eloquent-sluggable":"^4.5",
-        "nwidart/laravel-menus": "3.*",
+        "bishopm/laravel-menus": "dev-master",
         "league/oauth2-client": "^1.4",
         "plank/laravel-mediable": "^2.3",
         "cartalyst/tags": "7.*",
