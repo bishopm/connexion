@@ -31,7 +31,7 @@ use Bishopm\Connexion\Models\Specialday;
 use Bishopm\Connexion\Models\Household;
 use Bishopm\Connexion\Models\Individual;
 use Bishopm\Connexion\Models\User;
-use Actuallymab\LaravelComment\Models\Comment;
+use BeyondCode\Comments\Comment;
 use Spatie\GoogleCalendar\Event;
 use Auth;
 use Feed;

@@ -383,7 +383,6 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->commands($this->commands);
         $this->app->register('Bishopm\Connexion\Providers\EventServiceProvider');
         $this->app->register('Bishopm\Connexion\Providers\ScheduleServiceProvider');
-        $this->app->register('Actuallymab\LaravelComment\LaravelCommentServiceProvider');
         $this->app->register('LithiumDev\TagCloud\ServiceProvider');
         if (Schema::hasTable('settings')) {
             $this->app->bind('setting', function () {
@@ -512,7 +511,7 @@ class ConnexionServiceProvider extends ServiceProvider
         $this->app->bind(
             'Bishopm\Connexion\Repositories\CommentsRepository',
             function () {
-                $repository = new \Bishopm\Connexion\Repositories\CommentsRepository(new \Actuallymab\LaravelComment\Models\Comment());
+                $repository = new \Bishopm\Connexion\Repositories\CommentsRepository(new \BeyondCode\Comments\Comment());
                 return $repository;
             }
         );

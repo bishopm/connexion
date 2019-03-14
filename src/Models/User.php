@@ -4,7 +4,6 @@ namespace Bishopm\Connexion\Models;
 
 use Illuminate\Notifications\Notifiable; 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Actuallymab\LaravelComment\CanComment;
 use Bishopm\Connexion\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\CausesActivity;
@@ -15,7 +14,6 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-    use CanComment;
     use SoftDeletes;
     use CausesActivity;
     use HasRoles;

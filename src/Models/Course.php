@@ -3,11 +3,11 @@
 namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Actuallymab\LaravelComment\Commentable;
+use BeyondCode\Comments\Traits\HasComments;
 
 class Course extends Model
 {
-    use Commentable;
+    use HasComments;
     
     protected $guarded = array('id');
     protected $canBeRated = true;

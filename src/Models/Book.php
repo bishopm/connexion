@@ -3,14 +3,14 @@
 namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Actuallymab\LaravelComment\Commentable;
+use BeyondCode\Comments\Traits\HasComments;
 use Cartalyst\Tags\TaggableTrait;
 use Cartalyst\Tags\TaggableInterface;
 
 class Book extends Model implements TaggableInterface
 {
     use TaggableTrait;
-    use Commentable;
+    use HasComments;
     
     protected $guarded = array('id');
     protected $canBeRated = true;

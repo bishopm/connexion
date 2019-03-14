@@ -4,7 +4,7 @@ namespace Bishopm\Connexion\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Actuallymab\LaravelComment\Comment
+class Comment extends BeyondCode\Comments\Comment
 {
     
     protected $guarded = array('id');

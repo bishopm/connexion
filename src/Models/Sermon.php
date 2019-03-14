@@ -5,12 +5,12 @@ namespace Bishopm\Connexion\Models;
 use Illuminate\Database\Eloquent\Model;
 use Cartalyst\Tags\TaggableTrait;
 use Cartalyst\Tags\TaggableInterface;
-use Actuallymab\LaravelComment\Commentable;
+use BeyondCode\Comments\Traits\HasComments;
 
 class Sermon extends Model implements TaggableInterface
 {
     use TaggableTrait;
-    use Commentable;
+    use HasComments;
 
     protected $guarded = array('id');
 	protected $mustBeApproved = false;
