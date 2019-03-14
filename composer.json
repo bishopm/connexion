@@ -20,7 +20,7 @@
         {
             "type": "package",
             "package": {
-                "name": "VinceG/twitter-bootstrap-wizard",
+                "name": "bishopm/laravel-menus",
                 "version": "1.2",
                 "dist": {
                     "url": "https://github.com/bishopm/laravel-menus/archive/master.zip",
