@@ -48,6 +48,7 @@
         </small></p>
     @endif
 @else
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
     <img src="{{asset('/vendor/bishopm/themes/' . $setting['website_theme'] . '/images/contact.png')}}">
     <h4>Find us</h4>
     <ul class="list-unstyled top17">
@@ -55,10 +56,20 @@
         <li><b>Children and youth:</b> Sundays 08h30</li>
     </ul>
     <p style="text-align:center;">
-        @if ($setting['home_latitude'])
+        @if ($setting['home_latitude'] <> 'Church latitude')
             <a href="{{url('/contact')}}">
-                <img style="width:100%; height:200px;" src="https://staticmap.openstreetmap.de/staticmap.php?center={{$setting['home_latitude']}},{{$setting['home_longitude']}}&zoom=15&size=400x200&maptype=mapnik&markers={{$setting['home_latitude']}},{{$setting['home_longitude']}}">
+                <div id='map' style='height: 200px;'></div>
             </a>
+            <script>
+                var mymap = L.map('map').setView([{{$setting['home_latitude']}}, {{$setting['home_longitude']}}], 14);
+                L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 14,
+                    id: 'mapbox.streets',
+                    accessToken: 'pk.eyJ1IjoiYmlzaG9wbSIsImEiOiJjanNjenJ3MHMwcWRyM3lsbmdoaDU3ejI5In0.M1x6KVBqYxC2ro36_Ipz_w'
+                }).addTo(mymap);
+                var marker = L.marker([{{$setting['home_latitude']}}, {{$setting['home_longitude']}}]).addTo(mymap);
+            </script>
         @else
             To include a map, please add church co-ordinates in back-end
         @endif
