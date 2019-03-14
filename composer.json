@@ -29,7 +29,7 @@
         "laravel/socialite": "3.*",
         "laracasts/flash": "3.*",
         "cviebrock/eloquent-sluggable":"^4.5",
-        "nwidart/laravel-menus": "dev-master",
+        "nwidart/laravel-menus": "dev-laravel58",
         "league/oauth2-client": "^1.4",
         "plank/laravel-mediable": "^2.3",
         "cartalyst/tags": "7.*",
