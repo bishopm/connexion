@@ -26,4 +26,4 @@ sudo chmod -R 777 bootstrap
 7. Add Bishopm\Connexion\Providers\ConnexionServiceProvider::class at the bottom of the list of providers in config/app.php (We're not using Laravel's package auto-discovery at the moment because it creates problems with some of the package routes)
 8. In the project folder, run
 `php artisan connexion:install`
-follow the prompts to create your first admin user, and you're good to go!
+follow the prompts to create your first admin user, and you're good to go! 
