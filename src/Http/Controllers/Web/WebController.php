@@ -49,31 +49,31 @@ use Spatie\Permission\Models\Permission;
 class WebController extends Controller
 {
     private $page;
-    
+
     private $slideshow;
-    
+
     private $settings;
-    
+
     private $users;
-    
+
     private $series;
-    
+
     private $sermon;
-    
+
     private $individual;
-    
+
     private $courses;
-    
+
     private $group;
-    
+
     private $comments;
-    
+
     private $books;
-    
+
     private $blogs;
 
     private $blocks;
-    
+
     private $payments;
 
     public function __construct(PagesRepository $page, SlideshowsRepository $slideshow, SettingsRepository $settings, UsersRepository $users, SeriesRepository $series, SermonsRepository $sermon, IndividualsRepository $individual, CoursesRepository $courses, GroupsRepository $group, HouseholdsRepository $household, BooksRepository $books, BlogsRepository $blogs, PaymentsRepository $payments, BlocksRepository $blocks)
@@ -92,7 +92,7 @@ class WebController extends Controller
         $this->blogs = $blogs;
         $this->payments = $payments;
         $this->blocks = $blocks;
-        $this->settingsarray=$this->settings->makearray();
+        $this->settingsarray = $this->settings->makearray();
     }
 
     /**
@@ -102,54 +102,54 @@ class WebController extends Controller
      */
     public function dashboard(ActionsRepository $actions)
     {
-        $user=Auth::user();
+        $user = Auth::user();
         if ($this->settingsarray['filtered_tasks']) {
-            $data['actions']=$actions->filteredactionsforuser($this->settingsarray['filtered_tasks'], $user->individual_id);
+            $data['actions'] = $actions->filteredactionsforuser($this->settingsarray['filtered_tasks'], $user->individual_id);
         } else {
-            $data['actions']=$actions->individualtasks($user->individual_id);
+            $data['actions'] = $actions->individualtasks($user->individual_id);
         }
         return view('connexion::dashboard', $data);
     }
 
     public function home(SermonsRepository $sermon, BlogsRepository $blogs)
     {
-        $rightnow=time();
-        $data['events']=Group::where('grouptype', 'event')->with('individuals')->where('publish', 1)->where('eventdatetime', '>', $rightnow)->get();
-        $data['usercount']=User::where('verified', '1')->count();
-        $data['blocks']=$this->blocks->homepage();
-        $data['cals']=array();
+        $rightnow = time();
+        $data['events'] = Group::where('grouptype', 'event')->with('individuals')->where('publish', 1)->where('eventdatetime', '>', $rightnow)->get();
+        $data['usercount'] = User::where('verified', '1')->count();
+        $data['blocks'] = $this->blocks->homepage();
+        $data['cals'] = array();
         if (count($data['events'])) {
-            $data['blogs']=$blogs->mostRecent(1);
+            $data['blogs'] = $blogs->mostRecent(1);
         } else {
-            $data['blogs']=$blogs->mostRecent(6);
+            $data['blogs'] = $blogs->mostRecent(6);
         }
-        $data['sermon']=$sermon->mostRecent();
-        $data['slideshow']=$this->slideshow->byName('front');
+        $data['sermon'] = $sermon->mostRecent();
+        $data['slideshow'] = $this->slideshow->byName('front');
         if (Auth::user()) {
-            $comments=Comment::orderBy('created_at', 'DESC')->get()->take(10);
-            $data['users']=$this->users->mostRecent(10);
-            $forum=Post::orderBy('created_at', 'DESC')->get()->take(10);
-            $contribs=array();
+            $comments = Comment::orderBy('created_at', 'DESC')->get()->take(10);
+            $data['users'] = $this->users->mostRecent(10);
+            $forum = Post::orderBy('created_at', 'DESC')->get()->take(10);
+            $contribs = array();
             foreach ($comments as $comment) {
-                $contribs[strtotime($comment->created_at)]=$comment;
+                $contribs[strtotime($comment->created_at)] = $comment;
             }
             foreach ($forum as $foru) {
-                $contribs[strtotime($foru->created_at)]=$foru;
+                $contribs[strtotime($foru->created_at)] = $foru;
             }
             krsort($contribs);
-            $data['comments']=array_slice($contribs, 0, 10);
+            $data['comments'] = array_slice($contribs, 0, 10);
         } else {
-            $data['comments']=array();
+            $data['comments'] = array();
         }
         return view('connexion::home', $data);
     }
 
-    public function webblog($yr, $mth='', $slug='', BlogsRepository $blogs)
+    public function webblog($yr, $mth = '', $slug = '', BlogsRepository $blogs)
     {
         $blog = $blogs->findByDateSlug($yr, $mth, $slug);
         if ($blog) {
             $comments = $blog->comments()->paginate(5);
-            $media=$blog->getMedia('image')->first();
+            $media = $blog->getMedia('image')->first();
             $cloud = new TagCloud();
             foreach ($blogs->all() as $thisblog) {
                 foreach ($thisblog->tags as $tag) {
@@ -157,10 +157,10 @@ class WebController extends Controller
                     $cloud->addTag(array('tag' => $tag->name, 'url' => $tag->slug));
                 }
             }
-            $baseUrl=url('/');
+            $baseUrl = url('/');
             $cloud->setOrder('tag', 'ASC');
             $cloud->setHtmlizeTagFunction(function ($tag, $size) use ($baseUrl) {
-                $link = '<a href="'.$baseUrl.'/subject/'.$tag['url'].'">'.$tag['tag'].'</a>';
+                $link = '<a href="' . $baseUrl . '/subject/' . $tag['url'] . '">' . $tag['tag'] . '</a>';
                 return "<span class='tag size{$size}'>{$link}</span> ";
             });
             return view('connexion::site.blog', compact('blog', 'comments', 'media', 'cloud'));
@@ -179,9 +179,9 @@ class WebController extends Controller
                 $cloud->addTag(array('tag' => $tag->name, 'url' => $tag->slug));
             }
         }
-        $baseUrl=url('/');
+        $baseUrl = url('/');
         $cloud->setHtmlizeTagFunction(function ($tag, $size) use ($baseUrl) {
-            $link = '<a href="'.$baseUrl.'/subject/'.$tag['url'].'">'.$tag['tag'].'</a>';
+            $link = '<a href="' . $baseUrl . '/subject/' . $tag['url'] . '">' . $tag['tag'] . '</a>';
             return "<span class='tag size{$size}'>{$link}</span> ";
         });
         return view('connexion::site.blogs', compact('blogs', 'cloud'));
@@ -191,10 +191,10 @@ class WebController extends Controller
     {
         $person = $individual->findBySlug($slug);
         if ($person) {
-            $staff=false;
+            $staff = false;
             foreach ($person->tags as $tag) {
-                if ($tag->name=="staff") {
-                    $staff=true;
+                if ($tag->name == "staff") {
+                    $staff = true;
                 }
             }
             return view('connexion::site.person', compact('person', 'staff'));
@@ -205,7 +205,7 @@ class WebController extends Controller
 
     public function websubject($tag)
     {
-        $cols=0;
+        $cols = 0;
         $blogs = Blog::withTag($tag)->get();
         if (count($blogs)) {
             $cols++;
@@ -218,12 +218,12 @@ class WebController extends Controller
         if (count($books)) {
             $cols++;
         }
-        if ($cols<2) {
-            $colwidth=12;
-        } elseif ($cols<3) {
-            $colwidth=6;
+        if ($cols < 2) {
+            $colwidth = 12;
+        } elseif ($cols < 3) {
+            $colwidth = 6;
         } else {
-            $colwidth=4;
+            $colwidth = 4;
         }
         return view('connexion::site.subject', compact('blogs', 'sermons', 'tag', 'books', 'colwidth'));
     }
@@ -245,9 +245,9 @@ class WebController extends Controller
             $sermon = $this->sermon->findBySeriesAndSlug($series->id, $sermonslug);
             if ($sermon) {
                 if (isset($sermon->individual)) {
-                    $description="A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by " . $sermon->individual->firstname . " " . $sermon->individual->surname;
+                    $description = "A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by " . $sermon->individual->firstname . " " . $sermon->individual->surname;
                 } else {
-                    $description="A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by a guest preacher.";
+                    $description = "A sermon preached on " . date('j F Y', strtotime($sermon->servicedate)) . " by a guest preacher.";
                 }
             }
         } else {
@@ -271,16 +271,16 @@ class WebController extends Controller
     {
         $group = $this->group->findBySlug($slug);
         if ($group) {
-            $signup = $this->courses->getByAttributes(array('group_id'=>$group->id));
+            $signup = $this->courses->getByAttributes(array('group_id' => $group->id));
             $leader = $this->individual->find($group->leader);
             if ((count($signup)) and (Auth::check())) {
                 foreach ($group->individuals as $indiv) {
                     if ($indiv->id == Auth::user()->individual->id) {
-                        $signup=array();
+                        $signup = array();
                     }
                 }
             } else {
-                $signup=array();
+                $signup = array();
             }
             return view('connexion::site.group', compact('group', 'signup', 'leader'));
         } else {
@@ -292,7 +292,7 @@ class WebController extends Controller
     {
         $group = $this->group->findBySlug($slug);
         if ($group) {
-            if (Auth::user()->individual->id==$group->leader) {
+            if (Auth::user()->individual->id == $group->leader) {
                 $leader = $this->individual->find($group->leader);
                 $individuals = $this->individual->all();
                 $indivs = $this->individual->all();
@@ -310,17 +310,17 @@ class WebController extends Controller
         $data = $this->group->fellowship();
         foreach ($data as $group) {
             if ($group->subcategory) {
-                $groups[$group->subcategory][]=$group;
+                $groups[$group->subcategory][] = $group;
             } else {
-                $groups['ZZZZ'][]=$group;
+                $groups['ZZZZ'][] = $group;
             }
         }
         if (isset($groups)) {
             ksort($groups);
         } else {
-            $groups=array();
+            $groups = array();
         }
-        $blogs=Blog::withTag('home-groups, small-groups')->orderBy('created_at', 'DESC')->get()->take(10);
+        $blogs = Blog::withTag('home-groups, small-groups')->orderBy('created_at', 'DESC')->get()->take(10);
         return view('connexion::site.allgroups', compact('groups', 'blogs'));
     }
 
@@ -329,34 +329,34 @@ class WebController extends Controller
         $data = $this->group->futureevent();
         foreach ($data as $event) {
             if ($event->subcategory) {
-                $events[$event->subcategory][]=$event;
+                $events[$event->subcategory][] = $event;
             } else {
-                $events['ZZZZ'][]=$event;
+                $events['ZZZZ'][] = $event;
             }
         }
         if (isset($events)) {
             ksort($events);
         } else {
-            $events=array();
+            $events = array();
         }
-        $blogs=Blog::withTag('events')->orderBy('created_at', 'DESC')->get()->take(10);
+        $blogs = Blog::withTag('events')->orderBy('created_at', 'DESC')->get()->take(10);
         return view('connexion::site.comingup', compact('events', 'blogs'));
     }
 
     public function webevent($slug)
     {
-        $event=$this->group->findBySlug($slug);
+        $event = $this->group->findBySlug($slug);
         if ($event->payment) {
-            $payment=$this->settingsarray['qr_code'];
+            $payment = $this->settingsarray['qr_code'];
         } else {
-            $payment="";
+            $payment = "";
         }
         return view('connexion::site.event', compact('event', 'payment'));
     }
 
     public function webgroupcategory($category)
     {
-        $groups = $this->group->getByAttributes(array('grouptype'=>$category));
+        $groups = $this->group->getByAttributes(array('grouptype' => $category));
         if ($groups) {
             return view('connexion::site.groupcategory', compact('groups'));
         } else {
@@ -366,30 +366,30 @@ class WebController extends Controller
 
     public function webuser($slug)
     {
-        $theme=$this->settingsarray['website_theme'];
+        $theme = $this->settingsarray['website_theme'];
         $individual = $this->individual->findBySlug($slug);
         if ($individual) {
             $user = $this->users->getuserbyindiv($individual->id);
             if ($user) {
-                $staff=0;
+                $staff = 0;
                 if ($user) {
                     $comms = $user->comments()->paginate(10);
                     $posts = $user->posts;
-                    $comments=array();
+                    $comments = array();
                     foreach ($comms as $comm) {
-                        $comments[strtotime($comm->created_at)]=$comm;
+                        $comments[strtotime($comm->created_at)] = $comm;
                     }
                     foreach ($posts as $post) {
-                        $comments[strtotime($post->created_at)]=$post;
+                        $comments[strtotime($post->created_at)] = $post;
                     }
                     foreach ($individual->tags as $tag) {
-                        if ($tag->slug=="staff") {
-                            $staff=1;
+                        if ($tag->slug == "staff") {
+                            $staff = 1;
                         }
                     }
                     krsort($comments);
                 } else {
-                    $comments="";
+                    $comments = "";
                 }
                 return view('connexion::site.user', compact('user', 'staff', 'comments', 'theme'));
             } else {
@@ -411,7 +411,7 @@ class WebController extends Controller
     {
         $individual = $this->individual->findBySlug($slug);
         if ($individual) {
-            $services=explode(',', $this->settingsarray['worship_services']);
+            $services = explode(',', $this->settingsarray['worship_services']);
             return view('connexion::site.editprofile', compact('individual', 'services'));
         } else {
             abort(404);
@@ -420,10 +420,10 @@ class WebController extends Controller
 
     public function webuserhouseholdedit()
     {
-        $household=Auth::user()->individual->household;
+        $household = Auth::user()->individual->household;
         foreach ($household->individuals as $indiv) {
-            if (strlen($indiv->cellphone)==10) {
-                $cellphones[$indiv->id]['name']=$indiv->firstname;
+            if (strlen($indiv->cellphone) == 10) {
+                $cellphones[$indiv->id]['name'] = $indiv->firstname;
             }
         }
         return view('connexion::site.edithousehold', compact('household', 'cellphones'));
@@ -432,14 +432,14 @@ class WebController extends Controller
     public function webuserindividualedit($slug)
     {
         $individual = $this->individual->findBySlug($slug);
-        $media="webpage";
+        $media = "webpage";
         return view('connexion::site.editindividual', compact('individual', 'media'));
     }
 
     public function webuserindividualadd()
     {
-        $household=Auth::user()->individual->household;
-        $media="webpage";
+        $household = Auth::user()->individual->household;
+        $media = "webpage";
         return view('connexion::site.addindividual', compact('household', 'media'));
     }
 
@@ -471,23 +471,23 @@ class WebController extends Controller
 
     public function webauthor($author)
     {
-        $author=urldecode($author);
-        $books=Book::where('author', 'like', '%' . $author . '%')->get();
+        $author = urldecode($author);
+        $books = Book::where('author', 'like', '%' . $author . '%')->get();
         return view('connexion::site.author', compact('author', 'books'));
     }
 
     public function mychurch()
     {
-        $users=$this->users->allVerified();
-        $services=explode(',', $this->settingsarray['worship_services']);
+        $users = $this->users->allVerified();
+        $services = explode(',', $this->settingsarray['worship_services']);
         foreach ($users as $user) {
             if (isset($user->individual)) {
-                $user->status=$user->individual->servicetime;
+                $user->status = $user->individual->servicetime;
                 foreach ($user->individual->tags as $tag) {
-                    if (strtolower($tag->slug)=="minister") {
-                        $user->status="staff " . implode(' ', $services);
-                    } elseif (strtolower($tag->slug)=="staff") {
-                        $user->status="staff " . $user->status;
+                    if (strtolower($tag->slug) == "minister") {
+                        $user->status = "staff " . implode(' ', $services);
+                    } elseif (strtolower($tag->slug) == "staff") {
+                        $user->status = "staff " . $user->status;
                     }
                 }
             }
@@ -497,30 +497,30 @@ class WebController extends Controller
 
     public function mydetails()
     {
-        $user=Auth::user();
+        $user = Auth::user();
         if (($user) and (isset($user->individual))) {
-            $indiv=$this->individual->find($user->individual_id);
-            $household=$this->household->find($indiv->household_id);
-            $householdpgs=array();
+            $indiv = $this->individual->find($user->individual_id);
+            $household = $this->household->find($indiv->household_id);
+            $householdpgs = array();
             foreach ($household->individuals as $ii) {
                 if ($ii->giving) {
-                    $householdpgs[]=$ii->giving;
+                    $householdpgs[] = $ii->giving;
                 }
             }
-            $householdpgs=array_unique($householdpgs);
+            $householdpgs = array_unique($householdpgs);
             asort($householdpgs);
             if ($household->householdcell) {
-                $cellmember=$this->individual->find($household->householdcell);
+                $cellmember = $this->individual->find($household->householdcell);
                 $household->cellmember = $cellmember->firstname;
             } else {
                 $household->cellmember = "Please edit household to specify";
             }
-            $giving=$this->individual->givingnumbers();
-            $pg=array();
-            $ndx=1;
-            while (count($pg)<20) {
+            $giving = $this->individual->givingnumbers();
+            $pg = array();
+            $ndx = 1;
+            while (count($pg) < 20) {
                 if (!in_array($ndx, $giving)) {
-                    $pg[]=$ndx;
+                    $pg[] = $ndx;
                 }
                 $ndx++;
             }
@@ -533,8 +533,8 @@ class WebController extends Controller
     public function mygiving()
     {
         if (Auth::check()) {
-            $individual=Auth::user()->individual;
-            $payments=$this->payments->byPG($individual->giving);
+            $individual = Auth::user()->individual;
+            $payments = $this->payments->byPG($individual->giving);
             return view('connexion::site.mygiving', compact('individual', 'payments'));
         } else {
             return view('connexion::site.mygiving');
@@ -545,17 +545,17 @@ class WebController extends Controller
     {
         $data['page'] = $this->page->findBySlug($slug);
         if ($data['page']) {
-            $data['titletagtitle']=$data['page']->title;
+            $data['titletagtitle'] = $data['page']->title;
             $template = $data['page']->template;
-            $tags=$data['page']->tags;
-            $alltags=array();
+            $tags = $data['page']->tags;
+            $alltags = array();
             foreach ($tags as $tag) {
-                $alltags[]=$tag->name;
+                $alltags[] = $tag->name;
             }
             if (count($alltags)) {
-                $data['blogs']=Blog::withTag($alltags)->orderBy('created_at', 'DESC')->get()->take(10);
+                $data['blogs'] = Blog::withTag($alltags)->orderBy('created_at', 'DESC')->get()->take(10);
             } else {
-                $data['blogs']=array();
+                $data['blogs'] = array();
             }
             return view('connexion::templates.' . $template, $data);
         } else {
@@ -577,7 +577,7 @@ class WebController extends Controller
     public function addimage(Request $request)
     {
         if ($request->file('uploadfile')) {
-            $fullname=strval(time()) . "." . $request->file('uploadfile')->getClientOriginalExtension();
+            $fullname = strval(time()) . "." . $request->file('uploadfile')->getClientOriginalExtension();
             $request->file('uploadfile')->move(base_path() . '/storage/app/public/' . $request->input('folder'), $fullname);
             return $fullname;
         }
@@ -585,42 +585,42 @@ class WebController extends Controller
 
     public function registeruser()
     {
-        $services=explode(',', $this->settingsarray['worship_services']);
+        $services = explode(',', $this->settingsarray['worship_services']);
         return view('connexion::site.registeruser', compact('services'));
     }
 
     public function newuser(NewUserRequest $request)
     {
-        $household=new Household();
+        $household = new Household();
         $household->addressee = $request->input('title') . " " . $request->input('firstname') . " " . $request->input('surname');
         $household->save();
 
         $individual = new Individual();
-        $individual->title=$request->input('title');
-        $individual->firstname=$request->input('firstname');
-        $individual->surname=$request->input('surname');
-        $individual->cellphone=$request->input('cellphone');
-        $individual->email=$request->input('email');
-        $individual->servicetime=$request->input('servicetime');
-        $individual->sex=$request->input('sex');
-        $individual->household_id=$household->id;
+        $individual->title = $request->input('title');
+        $individual->firstname = $request->input('firstname');
+        $individual->surname = $request->input('surname');
+        $individual->cellphone = $request->input('cellphone');
+        $individual->email = $request->input('email');
+        $individual->servicetime = $request->input('servicetime');
+        $individual->sex = $request->input('sex');
+        $individual->household_id = $household->id;
         $individual->save();
 
-        $household->sortsurname=$individual->surname;
-        $household->householdcell=$individual->id;
+        $household->sortsurname = $individual->surname;
+        $household->householdcell = $individual->id;
         $household->save();
         $household->delete();
-        
-        $user=new User();
-        $user->name=$request->input('name');
-        $user->email=$request->input('email');
-        $user->individual_id=$individual->id;
-        $user->password=bcrypt($request->input('password'));
+
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->individual_id = $individual->id;
+        $user->password = bcrypt($request->input('password'));
         $user->save();
         $user->delete();
-        
-        $message=$individual->firstname . " " . $individual->surname . " has created a temporary user on the " . $this->settingsarray['site_abbreviation'] . " website. You can now go to the site and activate this user.";
-        $admin=User::find(1);
+
+        $message = $individual->firstname . " " . $individual->surname . " has created a temporary user on the " . $this->settingsarray['site_abbreviation'] . " website. You can now go to the site and activate this user.";
+        $admin = User::find(1);
         $admin->notify(new CheckUserRegistration($message));
 
         return redirect()->route('homepage')->with('success', 'Your user has been created. We will email you and let you know when it has been activated.');
@@ -628,7 +628,7 @@ class WebController extends Controller
 
     public function checkname($username)
     {
-        $user=$this->users->getByAttributes(array('name'=>$username));
+        $user = $this->users->getByAttributes(array('name' => $username));
         if (count($user)) {
             return "error";
         } else {
@@ -636,33 +636,33 @@ class WebController extends Controller
         }
     }
 
-    public function updateimage(Request $request, $entity, $id='')
+    public function updateimage(Request $request, $entity, $id = '')
     {
-        $fn=strval(time()) . '.' . explode('.', $request->input('filename'))[1];
+        $fn = strval(time()) . '.' . explode('.', $request->input('filename'))[1];
         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->input('base64data')));
-        if ($entity=="individuals") {
-            $indiv=$this->individual->find($id);
-            $file=base_path() . "/storage/app/public/individuals/" . $indiv->id . "/" . $fn;
-            $url=url('/') . "/public/storage/individuals/" . $indiv->id . '/' . $fn;
-        } elseif ($entity=="books") {
-            $book=$this->books->find($id);
-            $file=base_path() . "/storage/app/public/books/" . $fn;
-            $url=url('/') . "/public/storage/books/" . $fn;
-        } elseif ($entity=="courses") {
-            $course=$this->courses->find($id);
-            $file=base_path() . "/storage/app/public/courses/" . $fn;
-            $url=url('/') . "/public/storage/courses/" . $fn;
-        } elseif ($entity=="series") {
-            $series=$this->series->find($id);
-            $file=base_path() . "/storage/app/public/series/" . $fn;
-            $url=url('/') . "/public/storage/series/" . $fn;
-        } elseif ($entity=="events") {
-            $event=$this->group->find($id);
-            $file=base_path() . "/storage/app/public/events/" . $fn;
-            $url=url('/') . "/public/storage/events/" . $fn;
-        } elseif ($entity=="slides") {
-            $file=base_path() . "/storage/app/public/slides/" . $fn;
-            $url=url('/') . "/public/storage/slides/" . $fn;
+        if ($entity == "individuals") {
+            $indiv = $this->individual->find($id);
+            $file = base_path() . "/storage/app/public/individuals/" . $indiv->id . "/" . $fn;
+            $url = url('/') . "/public/storage/individuals/" . $indiv->id . '/' . $fn;
+        } elseif ($entity == "books") {
+            $book = $this->books->find($id);
+            $file = base_path() . "/storage/app/public/books/" . $fn;
+            $url = url('/') . "/public/storage/books/" . $fn;
+        } elseif ($entity == "courses") {
+            $course = $this->courses->find($id);
+            $file = base_path() . "/storage/app/public/courses/" . $fn;
+            $url = url('/') . "/public/storage/courses/" . $fn;
+        } elseif ($entity == "series") {
+            $series = $this->series->find($id);
+            $file = base_path() . "/storage/app/public/series/" . $fn;
+            $url = url('/') . "/public/storage/series/" . $fn;
+        } elseif ($entity == "events") {
+            $event = $this->group->find($id);
+            $file = base_path() . "/storage/app/public/events/" . $fn;
+            $url = url('/') . "/public/storage/events/" . $fn;
+        } elseif ($entity == "slides") {
+            $file = base_path() . "/storage/app/public/slides/" . $fn;
+            $url = url('/') . "/public/storage/slides/" . $fn;
         }
         file_put_contents($file, $data);
         return $url;
@@ -670,19 +670,19 @@ class WebController extends Controller
 
     public function search(Request $request)
     {
-        $q=$request->input('q');
-        $individuals=Individual::with('household')->where('surname', 'like', '%' . $q . '%')->orwhere('firstname', 'like', '%' . $q . '%')->orwhere('cellphone', 'like', '%' . $q . '%')->orderBy('surname')->orderBy('firstname')->get();
-        $thislink="<table class=\"table table-responsive table-striped table-condensed\"><th>Name</th><th>Cellphone</th><th>Email</th></tr>";
+        $q = $request->input('q');
+        $individuals = Individual::with('household')->where('surname', 'like', '%' . $q . '%')->orwhere('firstname', 'like', '%' . $q . '%')->orwhere('cellphone', 'like', '%' . $q . '%')->orderBy('surname')->orderBy('firstname')->get();
+        $thislink = "<table class=\"table table-responsive table-striped table-condensed\"><th>Name</th><th>Cellphone</th><th>Email</th></tr>";
         foreach ($individuals as $indiv) {
             if ($indiv->household) {
-                $thislink.="<tr><td><a href=\"". url('/') . "/admin/households/" . $indiv->household_id . "\">" . $indiv->surname . ", " . $indiv->firstname . "</td><td>" . $indiv->cellphone . "</td><td>" . $indiv->email . "</td></tr>";
+                $thislink .= "<tr><td><a href=\"" . url('/') . "/admin/households/" . $indiv->household_id . "\">" . $indiv->surname . ", " . $indiv->firstname . "</td><td>" . $indiv->cellphone . "</td><td>" . $indiv->email . "</td></tr>";
             }
         }
-        $thislink.="</table>";
+        $thislink .= "</table>";
         return json_encode($thislink);
     }
 
-    public function feed($service="default")
+    public function feed($service = "default")
     {
         $feed = App::make("feed");
         // cache the feed for 60 minutes (second parameter is optional)
@@ -705,86 +705,86 @@ class WebController extends Controller
             $feed->lang = 'en';
             $feed->setShortening(true); // true or false
             $feed->setTextLimit(120); // maximum length of description text
-            $feeddata=array();
+            $feeddata = array();
             foreach ($blogs as $blog) {
                 // set item's title, author, url, pubdate, description and content
                 if ($blog->individual->image) {
-                    $imgurl=url('/') . "/public/storage/individuals/" . $blog->individual_id . "/" . $blog->individual->image;
+                    $imgurl = url('/') . "/public/storage/individuals/" . $blog->individual_id . "/" . $blog->individual->image;
                 } else {
-                    $imgurl=$feed->logo;
+                    $imgurl = $feed->logo;
                 }
-                $dum['title']=$blog->title;
-                $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
-                $dum['link']=url('/blog/' . date("Y", strtotime($blog->created_at)) . '/' . date("m", strtotime($blog->created_at)) . '/' . $blog->slug);
-                $dum['pubdate']=$blog->created_at;
-                $dum['summary']="A new blog post has been published on our site.";
-                if ($service=="default") {
-                    $dum['content']="<h2><a href=\"" . $dum['link'] . "\">" . $blog->title . "</a></h2><img src=\"" . $imgurl . "\">" . $blog->body;
+                $dum['title'] = $blog->title;
+                $dum['author'] = $blog->individual->firstname . " " . $blog->individual->surname;
+                $dum['link'] = url('/blog/' . date("Y", strtotime($blog->created_at)) . '/' . date("m", strtotime($blog->created_at)) . '/' . $blog->slug);
+                $dum['pubdate'] = $blog->created_at;
+                $dum['summary'] = "A new blog post has been published on our site.";
+                if ($service == "default") {
+                    $dum['content'] = "<h2><a href=\"" . $dum['link'] . "\">" . $blog->title . "</a></h2><img src=\"" . $imgurl . "\">" . $blog->body;
                 } else {
-                    $dum['content']="New blog post: " . $blog->title . " " . $dum['link'];
+                    $dum['content'] = "New blog post: " . $blog->title . " " . $dum['link'];
                 }
-                $feeddata[]=$dum;
+                $feeddata[] = $dum;
             }
             foreach ($books as $book) {
                 if ($book->image) {
-                    $image=url('/') . "/public/storage/books/" . $book->image;
+                    $image = url('/') . "/public/storage/books/" . $book->image;
                 } else {
-                    $image=$feed->logo;
+                    $image = $feed->logo;
                 }
-                $dum['title']=$book->title . " by " . $book->author;
-                $dum['author']=$this->settingsarray['site_name'];
-                $dum['link']=url('/book/' . $book->slug);
-                $dum['pubdate']=$book->created_at;
-                $dum['summary']="Download a sample chapter of a new book available through our bookshop:";
-                if ($service=="default") {
-                    $dum['content']="<h2><a href=\"" . $dum['link'] . "\">" . $dum['title'] . "</a></h2><img src=\"" . $imgurl . "\">" . $book->description;
+                $dum['title'] = $book->title . " by " . $book->author;
+                $dum['author'] = $this->settingsarray['site_name'];
+                $dum['link'] = url('/book/' . $book->slug);
+                $dum['pubdate'] = $book->created_at;
+                $dum['summary'] = "Download a sample chapter of a new book available through our bookshop:";
+                if ($service == "default") {
+                    $dum['content'] = "<h2><a href=\"" . $dum['link'] . "\">" . $dum['title'] . "</a></h2><img src=\"" . $imgurl . "\">" . $book->description;
                 } else {
-                    $dum['content']="New book: Preview a sample from '" . $book->title . "' " . $dum['link'];
+                    $dum['content'] = "New book: Preview a sample from '" . $book->title . "' " . $dum['link'];
                 }
-                $feeddata[]=$dum;
+                $feeddata[] = $dum;
             }
             foreach ($sermons as $sermon) {
                 // set item's title, author, url, pubdate, description and content
                 if ($sermon->series->image) {
-                    $seriesimage=url('/') . "/public/storage/series/" . $sermon->series->image;
+                    $seriesimage = url('/') . "/public/storage/series/" . $sermon->series->image;
                 } else {
-                    $seriesimage=$feed->logo;
+                    $seriesimage = $feed->logo;
                 }
                 if ($sermon->individual) {
-                    $preacher=$sermon->individual->firstname . " " . $sermon->individual->surname;
+                    $preacher = $sermon->individual->firstname . " " . $sermon->individual->surname;
                 } else {
-                    $preacher="guest preacher";
+                    $preacher = "guest preacher";
                 }
-                $fulldescrip="Recording of a sermon preached by " . $preacher . " at " . $this->settingsarray['site_name'] . ' on ' . date("l j F Y", strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
-                $dum['title']=$sermon->title;
-                $dum['author']=$preacher;
-                $dum['link']=url('/sermons/' . $sermon->series->slug . '/' . $sermon->slug);
-                $dum['pubdate']=$sermon->servicedate . " 12:00:00";
-                $dum['summary']="A new sermon has been uploaded to our site.";
-                if ($service=="default") {
-                    $dum['content']="<h2><a href=\"" . $dum['link'] . "\">" . $dum['title'] . "</a></h2><img src=\"" . $seriesimage . "\">" . $fulldescrip;
+                $fulldescrip = "Recording of a sermon preached by " . $preacher . " at " . $this->settingsarray['site_name'] . ' on ' . date("l j F Y", strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
+                $dum['title'] = $sermon->title;
+                $dum['author'] = $preacher;
+                $dum['link'] = url('/sermons/' . $sermon->series->slug . '/' . $sermon->slug);
+                $dum['pubdate'] = $sermon->servicedate . " 12:00:00";
+                $dum['summary'] = "A new sermon has been uploaded to our site.";
+                if ($service == "default") {
+                    $dum['content'] = "<h2><a href=\"" . $dum['link'] . "\">" . $dum['title'] . "</a></h2><img src=\"" . $seriesimage . "\">" . $fulldescrip;
                 } else {
-                    $dum['content']="New sermon: " . $sermon->title . " " . $dum['link'];
+                    $dum['content'] = "New sermon: " . $sermon->title . " " . $dum['link'];
                 }
-                $feeddata[]=$dum;
+                $feeddata[] = $dum;
             }
             foreach ($events as $event) {
-                $dum['title']=$event->groupname . " (" . date("d M Y H:i", $event->eventdatetime) . ")";
+                $dum['title'] = $event->groupname . " (" . date("d M Y H:i", $event->eventdatetime) . ")";
                 if ($event->image) {
-                    $imgurl=url('/') . "/public/storage/events/" . $event->image;
+                    $imgurl = url('/') . "/public/storage/events/" . $event->image;
                 } else {
-                    $imgurl=url('/') . "/public/vendor/bishopm/images/signmeup.jpg";
+                    $imgurl = url('/') . "/public/vendor/bishopm/images/signmeup.jpg";
                 }
-                $dum['author']=$this->settingsarray['site_name'];
-                $dum['link']=url('/coming-up/' . $event->slug);
-                $dum['pubdate']=$event->created_at;
-                $dum['summary']="A new event has been set up on our site.";
-                if ($service=="default") {
-                    $dum['content']=$event->description;
+                $dum['author'] = $this->settingsarray['site_name'];
+                $dum['link'] = url('/coming-up/' . $event->slug);
+                $dum['pubdate'] = $event->created_at;
+                $dum['summary'] = "A new event has been set up on our site.";
+                if ($service == "default") {
+                    $dum['content'] = $event->description;
                 } else {
-                    $dum['content']="New event at UMC: " . $event->groupname . " " . $dum['link'];
+                    $dum['content'] = "New event at UMC: " . $event->groupname . " " . $dum['link'];
                 }
-                $feeddata[]=$dum;
+                $feeddata[] = $dum;
             }
 
             usort($feeddata, function ($a, $b) {
@@ -815,21 +815,21 @@ class WebController extends Controller
             $feed->lang = 'en';
             $feed->setShortening(true); // true or false
             $feed->setTextLimit(120); // maximum length of description text
-            $feeddata=array();
+            $feeddata = array();
             foreach ($blogs as $blog) {
                 // set item's title, author, url, pubdate, description and content
                 if ($blog->individual->image) {
-                    $imgurl=url('/') . "/storage/individuals/" . $blog->individual_id . "/" . $blog->individual->image;
+                    $imgurl = url('/') . "/storage/individuals/" . $blog->individual_id . "/" . $blog->individual->image;
                 } else {
-                    $imgurl=$feed->logo;
+                    $imgurl = $feed->logo;
                 }
-                $dum['title']=$blog->title;
-                $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
-                $dum['link']=url('/blog/' . date("Y", strtotime($blog->created_at)) . '/' . date("m", strtotime($blog->created_at)) . '/' . $blog->slug);
-                $dum['pubdate']=$blog->created_at;
-                $dum['summary']="blog";
-                $dum['content']=$blog->body;
-                $feeddata[]=$dum;
+                $dum['title'] = $blog->title;
+                $dum['author'] = $blog->individual->firstname . " " . $blog->individual->surname;
+                $dum['link'] = url('/blog/' . date("Y", strtotime($blog->created_at)) . '/' . date("m", strtotime($blog->created_at)) . '/' . $blog->slug);
+                $dum['pubdate'] = $blog->created_at;
+                $dum['summary'] = "blog";
+                $dum['content'] = $blog->body;
+                $feeddata[] = $dum;
             }
             usort($feeddata, function ($a, $b) {
                 return strcmp($b["pubdate"], $a["pubdate"]);
@@ -859,33 +859,33 @@ class WebController extends Controller
             $feed->lang = 'en';
             $feed->setShortening(true); // true or false
             $feed->setTextLimit(120); // maximum length of description text
-            $feeddata=array();
+            $feeddata = array();
             foreach ($sermons as $sermon) {
                 // set item's title, author, url, pubdate, description and content
                 if ($sermon->series->image) {
-                    $seriesimage=url('/') . "/storage/series/" . $sermon->series->image;
+                    $seriesimage = url('/') . "/storage/series/" . $sermon->series->image;
                 } else {
-                    $seriesimage=$feed->logo;
+                    $seriesimage = $feed->logo;
                 }
                 if ($sermon->individual) {
-                    $preacher=$sermon->individual->firstname . " " . $sermon->individual->surname;
+                    $preacher = $sermon->individual->firstname . " " . $sermon->individual->surname;
                     $fname = $sermon->individual->firstname;
                     $sname = $sermon->individual->surname;
                 } else {
-                    $preacher="guest preacher";
+                    $preacher = "guest preacher";
                 }
                 $enclosure = array();
                 $enclosure['url'] = $sermon->mp3;
                 $urldata = get_headers($sermon->mp3, true);
-                $enclosure['length'] = (int) $urldata['Content-Length'];
+                $enclosure['length'] = (int)$urldata['Content-Length'];
                 $enclosure['type'] = "audio/mp3";
-                $fulldescrip="Recording of a sermon preached by " . $preacher . " at " . $this->settingsarray['site_name'] . ' on ' . date("l j F Y", strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
-                $dum['title']=$sermon->title;
-                $dum['author']=$preacher;
-                $dum['link']=$seriesimage;
+                $fulldescrip = "Recording of a sermon preached at <b>" . $this->settingsarray['site_name'] . '</b> on ' . date("l j F Y", strtotime($sermon->servicedate)) . '.<br><b>Bible readings:</b> ' . $sermon->readings;
+                $dum['title'] = $sermon->title;
+                $dum['author'] = $preacher;
+                $dum['link'] = $seriesimage;
                 $dum['enclosure'] = $enclosure;
-                $dum['pubdate']=$sermon->servicedate . " 12:00:00";
-                $dum['summary']="sermon";
+                $dum['pubdate'] = $sermon->servicedate . " 12:00:00";
+                $dum['summary'] = "sermon";
                 unset($sermon->individual->cellphone);
                 unset($sermon->individual->giving);
                 unset($sermon->individual->email);
@@ -897,8 +897,8 @@ class WebController extends Controller
                 unset($sermon->individual->image);
                 unset($sermon->individual->leadership);
                 $sermon->preacher = $preacher;
-                $dum['content']=$fulldescrip;
-                $feeddata[]=$dum;
+                $dum['content'] = $fulldescrip;
+                $feeddata[] = $dum;
             }
             usort($feeddata, function ($a, $b) {
                 return strcmp($b["pubdate"], $a["pubdate"]);
@@ -929,42 +929,42 @@ class WebController extends Controller
             $feed->lang = 'en';
             $feed->setShortening(true); // true or false
             $feed->setTextLimit(120); // maximum length of description text
-            $feeddata=array();
+            $feeddata = array();
             foreach ($blogs as $blog) {
                 // set item's title, author, url, pubdate, description and content
                 if ($blog->individual->image) {
-                    $imgurl=url('/') . "/storage/individuals/" . $blog->individual_id . "/" . $blog->individual->image;
+                    $imgurl = url('/') . "/storage/individuals/" . $blog->individual_id . "/" . $blog->individual->image;
                 } else {
-                    $imgurl=$feed->logo;
+                    $imgurl = $feed->logo;
                 }
-                $dum['title']=$blog->title;
-                $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
-                $dum['link']=url('/blog/' . date("Y", strtotime($blog->created_at)) . '/' . date("m", strtotime($blog->created_at)) . '/' . $blog->slug);
-                $dum['pubdate']=$blog->created_at;
-                $dum['summary']="blog";
-                $dum['content']=$blog->body;
-                $feeddata[]=$dum;
+                $dum['title'] = $blog->title;
+                $dum['author'] = $blog->individual->firstname . " " . $blog->individual->surname;
+                $dum['link'] = url('/blog/' . date("Y", strtotime($blog->created_at)) . '/' . date("m", strtotime($blog->created_at)) . '/' . $blog->slug);
+                $dum['pubdate'] = $blog->created_at;
+                $dum['summary'] = "blog";
+                $dum['content'] = $blog->body;
+                $feeddata[] = $dum;
             }
             foreach ($sermons as $sermon) {
                 // set item's title, author, url, pubdate, description and content
                 if ($sermon->series->image) {
-                    $seriesimage=url('/') . "/storage/series/" . $sermon->series->image;
+                    $seriesimage = url('/') . "/storage/series/" . $sermon->series->image;
                 } else {
-                    $seriesimage=$feed->logo;
+                    $seriesimage = $feed->logo;
                 }
                 if ($sermon->individual) {
-                    $preacher=$sermon->individual->firstname . " " . $sermon->individual->surname;
+                    $preacher = $sermon->individual->firstname . " " . $sermon->individual->surname;
                     $fname = $sermon->individual->firstname;
                     $sname = $sermon->individual->surname;
                 } else {
-                    $preacher="guest preacher";
+                    $preacher = "guest preacher";
                 }
-                $fulldescrip="Recording of a sermon preached by " . $preacher . " at " . $this->settingsarray['site_name'] . ' on ' . date("l j F Y", strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
-                $dum['title']=$sermon->title;
-                $dum['author']=$preacher;
-                $dum['link']=$seriesimage;
-                $dum['pubdate']=$sermon->servicedate . " 12:00:00";
-                $dum['summary']="sermon";
+                $fulldescrip = "Recording of a sermon preached by " . $preacher . " at " . $this->settingsarray['site_name'] . ' on ' . date("l j F Y", strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
+                $dum['title'] = $sermon->title;
+                $dum['author'] = $preacher;
+                $dum['link'] = $seriesimage;
+                $dum['pubdate'] = $sermon->servicedate . " 12:00:00";
+                $dum['summary'] = "sermon";
                 unset($sermon->individual->cellphone);
                 unset($sermon->individual->giving);
                 unset($sermon->individual->email);
@@ -976,8 +976,8 @@ class WebController extends Controller
                 unset($sermon->individual->image);
                 unset($sermon->individual->leadership);
                 $sermon->preacher = $preacher;
-                $dum['content']=$fulldescrip;
-                $feeddata[]=$dum;
+                $dum['content'] = $fulldescrip;
+                $feeddata[] = $dum;
             }
             usort($feeddata, function ($a, $b) {
                 return strcmp($b["pubdate"], $a["pubdate"]);
@@ -991,17 +991,17 @@ class WebController extends Controller
 
     public function deletecomment(Request $request)
     {
-        $comment=Comment::find($request->id);
+        $comment = Comment::find($request->id);
         $comment->delete();
         return $request->id;
     }
 
     public function getusername($email)
     {
-        $users=$this->users->getByAttributes(array('email'=>$email));
+        $users = $this->users->getByAttributes(array('email' => $email));
         if (count($users)) {
             foreach ($users as $user) {
-                $dat[]=$user->name;
+                $dat[] = $user->name;
             }
             return json_encode($dat);
         } else {
@@ -1011,49 +1011,49 @@ class WebController extends Controller
 
     public function lectionary()
     {
-        $today=date('Y-m-d');
-        $yesterday=date("Y-m-d", time() - 60 * 60 * 24);
-        $lectionary=DB::table('readings')->where('readingdate', $today)->first();
-        $readings=explode(';', strip_tags($lectionary->readings));
-        $data['title']="Daily readings for " . date("l, j F Y") . " <small>From the <a target=\"_blank\" href=\"http://www.commontexts.org\">Revised Common Lectionary</a></small>";
+        $today = date('Y-m-d');
+        $yesterday = date("Y-m-d", time() - 60 * 60 * 24);
+        $lectionary = DB::table('readings')->where('readingdate', $today)->first();
+        $readings = explode(';', strip_tags($lectionary->readings));
+        $data['title'] = "Daily readings for " . date("l, j F Y") . " <small>From the <a target=\"_blank\" href=\"http://www.commontexts.org\">Revised Common Lectionary</a></small>";
         if ($lectionary->copyright) {
-            $loop=1;
+            $loop = 1;
             foreach ($readings as $reading) {
-                $reading=trim($reading);
-                $dum['reading']=$reading;
-                $varname="reading" . $loop;
-                $dum['text']=$lectionary->$varname;
-                $dum['copyright']=$lectionary->copyright;
-                $data['readings'][]=$dum;
+                $reading = trim($reading);
+                $dum['reading'] = $reading;
+                $varname = "reading" . $loop;
+                $dum['text'] = $lectionary->$varname;
+                $dum['copyright'] = $lectionary->copyright;
+                $data['readings'][] = $dum;
                 $loop++;
             }
         } else {
-            $loop=1;
-            $api_secret=$this->settingsarray['bibles_api_key'];
-            $client = new Client(['auth' => [$api_secret,'']]);
+            $loop = 1;
+            $api_secret = $this->settingsarray['bibles_api_key'];
+            $client = new Client(['auth' => [$api_secret, '']]);
             foreach ($readings as $reading) {
-                $varname="reading" . strval($loop);
-                $reading=trim($reading);
-                $response=json_decode($client->request('GET', 'https://bibles.org/v2/passages.js?q[]=' . urlencode($reading) . '&version=eng-GNBDC')->getBody()->getContents(), true);
-                $dum['reading']=$reading;
-                $dum['text']=$response['response']['search']['result']['passages'][0]['text'];
-                $dum['copyright']="Good News Bible. Scripture taken from the Good News Bible (Today's English Version Second Edition, UK/British Edition). Copyright © 1992 British & Foreign Bible Society. Used by permission. Revised Common Lectionary Daily Readings, copyright © 2005 Consultation on Common Texts. <a target=\"_blank\" href=\"http://www.commontexts.org\">www.commontexts.org</a>";
-                $data['readings'][]=$dum;
+                $varname = "reading" . strval($loop);
+                $reading = trim($reading);
+                $response = json_decode($client->request('GET', 'https://bibles.org/v2/passages.js?q[]=' . urlencode($reading) . '&version=eng-GNBDC')->getBody()->getContents(), true);
+                $dum['reading'] = $reading;
+                $dum['text'] = $response['response']['search']['result']['passages'][0]['text'];
+                $dum['copyright'] = "Good News Bible. Scripture taken from the Good News Bible (Today's English Version Second Edition, UK/British Edition). Copyright © 1992 British & Foreign Bible Society. Used by permission. Revised Common Lectionary Daily Readings, copyright © 2005 Consultation on Common Texts. <a target=\"_blank\" href=\"http://www.commontexts.org\">www.commontexts.org</a>";
+                $data['readings'][] = $dum;
                 DB::table('readings')->where('id', $lectionary->id)->update([$varname => $dum['text']]);
                 DB::table('readings')->where('readingdate', $yesterday)->update(['reading1' => '', 'reading2' => '', 'reading3' => '', 'reading4' => '', 'copyright' => '']);
                 $loop++;
             }
             DB::table('readings')->where('id', $lectionary->id)->update(['copyright' => $dum['copyright']]);
         }
-        if (\Request::route()->getName()=="lectionary") {
+        if (\Request::route()->getName() == "lectionary") {
             return view('connexion::site.lectionary', $data);
         } else {
-            $alldat=array();
-            $alldat['reading']="<h2>Daily readings for " . date("l, j F Y") . "</h2>";
+            $alldat = array();
+            $alldat['reading'] = "<h2>Daily readings for " . date("l, j F Y") . "</h2>";
             foreach ($data['readings'] as $read) {
-                $alldat['reading'].="<h3>" . $read['reading'] . "</h3>" . $read['text'];
+                $alldat['reading'] .= "<h3>" . $read['reading'] . "</h3>" . $read['text'];
             }
-            $alldat['reading'].="<small>" . $read['copyright'] ."</small>";
+            $alldat['reading'] .= "<small>" . $read['copyright'] . "</small>";
             return $alldat;
         }
     }
