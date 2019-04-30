@@ -797,6 +797,119 @@ class WebController extends Controller
         return $feed->render('atom');
     }
 
+    public function blogfeed()
+    {
+        $feed = App::make("feed");
+        $feed->setCache(0, $this->settingsarray['site_abbreviation'] . 'BlogFeed');
+        $lastweek = date('Y-m-d', strtotime("-1 week"));
+        if (!$feed->isCached()) {
+            // creating rss feed with last weeks posts
+            $blogs = Blog::where('status', 'Published')->where('created_at', '>', $lastweek)->orderBy('created_at', 'desc')->get();
+            // set your feed's title, description, link, pubdate and language
+            $feed->title = $this->settingsarray['site_name'];
+            $feed->description = 'A worshiping community, making disciples of Jesus to change our world';
+            $feed->logo = 'http://umc.org.za/public/vendor/bishopm/images/logo.jpg';
+            $feed->link = url('feed');
+            $feed->setDateFormat('datetime'); // 'datetime', 'timestamp' or 'carbon'
+            $feed->pubdate = date('d-m-Y');
+            $feed->lang = 'en';
+            $feed->setShortening(true); // true or false
+            $feed->setTextLimit(120); // maximum length of description text
+            $feeddata=array();
+            foreach ($blogs as $blog) {
+                // set item's title, author, url, pubdate, description and content
+                if ($blog->individual->image) {
+                    $imgurl=url('/') . "/storage/individuals/" . $blog->individual_id . "/" . $blog->individual->image;
+                } else {
+                    $imgurl=$feed->logo;
+                }
+                $dum['title']=$blog->title;
+                $dum['author']=$blog->individual->firstname . " " . $blog->individual->surname;
+                $dum['link']=url('/blog/' . date("Y", strtotime($blog->created_at)) . '/' . date("m", strtotime($blog->created_at)) . '/' . $blog->slug);
+                $dum['pubdate']=$blog->created_at;
+                $dum['summary']="blog";
+                $dum['content']=$blog->body;
+                $feeddata[]=$dum;
+            }
+            usort($feeddata, function ($a, $b) {
+                return strcmp($b["pubdate"], $a["pubdate"]);
+            });
+        }
+        foreach ($feeddata as $fd) {
+            $feed->add($fd['title'], $fd['author'], $fd['link'], $fd['pubdate'], $fd['summary'], $fd['content']);
+        }
+        return $feed->render('rss');
+    }
+
+    public function sermonfeed()
+    {
+        $feed = App::make("feed");
+        $feed->setCache(0, $this->settingsarray['site_abbreviation'] . 'SermonFeed');
+        $lastweek = date('Y-m-d', strtotime("-1 week"));
+        if (!$feed->isCached()) {
+            // creating rss feed with last weeks posts
+            $sermons = Sermon::where('servicedate', '>', $lastweek)->where('status', 'Published')->orderBy('servicedate', 'desc')->orderBy('created_at', 'desc')->get();
+            // set your feed's title, description, link, pubdate and language
+            $feed->title = $this->settingsarray['site_name'];
+            $feed->description = 'A worshiping community, making disciples of Jesus to change our world';
+            $feed->logo = 'http://umc.org.za/public/vendor/bishopm/images/logo.jpg';
+            $feed->link = url('feed');
+            $feed->setDateFormat('datetime'); // 'datetime', 'timestamp' or 'carbon'
+            $feed->pubdate = date('d-m-Y');
+            $feed->lang = 'en';
+            $feed->setShortening(true); // true or false
+            $feed->setTextLimit(120); // maximum length of description text
+            $feeddata=array();
+            foreach ($sermons as $sermon) {
+                // set item's title, author, url, pubdate, description and content
+                if ($sermon->series->image) {
+                    $seriesimage=url('/') . "/storage/series/" . $sermon->series->image;
+                } else {
+                    $seriesimage=$feed->logo;
+                }
+                if ($sermon->individual) {
+                    $preacher=$sermon->individual->firstname . " " . $sermon->individual->surname;
+                    $fname = $sermon->individual->firstname;
+                    $sname = $sermon->individual->surname;
+                } else {
+                    $preacher="guest preacher";
+                }
+                $enclosure = array();
+                $enclosure['url'] = $sermon->mp3;
+                $urldata = get_headers($sermon->mp3, true);
+                $enclosure['length'] = (int) $urldata['Content-Length'];
+                $enclosure['type'] = "audio/mp3";
+                $fulldescrip="Recording of a sermon preached by " . $preacher . " at " . $this->settingsarray['site_name'] . ' on ' . date("l j F Y", strtotime($sermon->servicedate)) . '. Bible readings: ' . $sermon->readings;
+                $dum['title']=$sermon->title;
+                $dum['author']=$preacher;
+                $dum['link']=$seriesimage;
+                $dum['enclosure'] = $enclosure;
+                $dum['pubdate']=$sermon->servicedate . " 12:00:00";
+                $dum['summary']="sermon";
+                unset($sermon->individual->cellphone);
+                unset($sermon->individual->giving);
+                unset($sermon->individual->email);
+                unset($sermon->individual->notes);
+                unset($sermon->individual->birthdate);
+                unset($sermon->individual->sex);
+                unset($sermon->individual->memberstatus);
+                unset($sermon->individual->servicetime);
+                unset($sermon->individual->image);
+                unset($sermon->individual->leadership);
+                $sermon->preacher = $preacher;
+                $dum['content']=$fulldescrip;
+                $feeddata[]=$dum;
+            }
+            usort($feeddata, function ($a, $b) {
+                return strcmp($b["pubdate"], $a["pubdate"]);
+            });
+        }
+        foreach ($feeddata as $fd) {
+            $feed->add($fd['title'], $fd['author'], $fd['link'], $fd['pubdate'], $fd['summary'], $fd['content'], $fd['enclosure']);
+        }
+        return $feed->render('rss');
+    }
+
     public function journeyfeed()
     {
         $feed = App::make("feed");
@@ -863,7 +976,7 @@ class WebController extends Controller
                 unset($sermon->individual->image);
                 unset($sermon->individual->leadership);
                 $sermon->preacher = $preacher;
-                $dum['content']=$sermon;
+                $dum['content']=$fulldescrip;
                 $feeddata[]=$dum;
             }
             usort($feeddata, function ($a, $b) {
