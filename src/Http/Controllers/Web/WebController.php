@@ -878,14 +878,14 @@ class WebController extends Controller
                 $enclosure['url'] = $sermon->mp3;
                 $urldata = get_headers($sermon->mp3, true);
                 $enclosure['length'] = (int)$urldata['Content-Length'];
-                $enclosure['type'] = "audio/mp3";
+                $enclosure['type'] = "audio/mpeg";
                 $fulldescrip = "Recording of a sermon preached at <b>" . $this->settingsarray['site_name'] . '</b> on ' . date("l j F Y", strtotime($sermon->servicedate)) . '.<br><b>Bible readings:</b> ' . $sermon->readings;
                 $dum['title'] = $sermon->title;
                 $dum['author'] = $preacher;
                 $dum['link'] = $seriesimage;
                 $dum['enclosure'] = $enclosure;
                 $dum['pubdate'] = $sermon->servicedate . " 12:00:00";
-                $dum['summary'] = "sermon";
+                $dum['summary'] = "sermon";                 
                 unset($sermon->individual->cellphone);
                 unset($sermon->individual->giving);
                 unset($sermon->individual->email);
