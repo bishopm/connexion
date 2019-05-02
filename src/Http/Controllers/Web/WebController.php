@@ -808,7 +808,7 @@ class WebController extends Controller
             // set your feed's title, description, link, pubdate and language
             $feed->title = $this->settingsarray['site_name'];
             $feed->description = 'A worshiping community, making disciples of Jesus to change our world';
-            $feed->logo = 'http://umc.org.za/public/vendor/bishopm/images/logo.jpg';
+            $feed->logo = 'https://umc.org.za/vendor/bishopm/images/logo.png';
             $feed->link = url('feed');
             $feed->setDateFormat('datetime'); // 'datetime', 'timestamp' or 'carbon'
             $feed->pubdate = date('d-m-Y');
@@ -852,7 +852,7 @@ class WebController extends Controller
             // set your feed's title, description, link, pubdate and language
             $feed->title = $this->settingsarray['site_name'];
             $feed->description = 'A worshiping community, making disciples of Jesus to change our world';
-            $feed->logo = 'http://umc.org.za/public/vendor/bishopm/images/logo.jpg';
+            $feed->logo = 'https://umc.org.za/vendor/bishopm/images/logo.png';
             $feed->link = url('feed');
             $feed->setDateFormat('datetime'); // 'datetime', 'timestamp' or 'carbon'
             $feed->pubdate = date('d-m-Y');
@@ -885,7 +885,7 @@ class WebController extends Controller
                 $dum['link'] = $seriesimage;
                 $dum['enclosure'] = $enclosure;
                 $dum['pubdate'] = $sermon->servicedate . " 12:00:00";
-                $dum['summary'] = "sermon";                 
+                $dum['summary'] = "sermon";
                 unset($sermon->individual->cellphone);
                 unset($sermon->individual->giving);
                 unset($sermon->individual->email);
