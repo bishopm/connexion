@@ -119,7 +119,7 @@ class SongsController extends Controller
             arsort($arecent);
             $data['recents'][$key][]=array_splice($arecent, 0, 25);
         }
-        $data['mostrecentsets']=Set::orderBy('servicedate', 'servicetime')->get()->take(3);
+        $data['mostrecentsets']=Set::orderBy('servicedate')->orderBy('servicetime')->get()->take(3);
         $data['newests']=Song::where('musictype', 'contemporary')->orderBy('created_at', 'DESC')->get()->take(9);
         $data['newesth']=Song::where('musictype', 'hymn')->orderBy('created_at', 'DESC')->get()->take(9);
         $data['newestl']=Song::where('musictype', 'liturgy')->orderBy('created_at', 'DESC')->get()->take(9);
