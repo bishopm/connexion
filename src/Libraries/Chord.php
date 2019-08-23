@@ -243,7 +243,7 @@ class Chord
 			}
 		}
         $fname=str_replace('/','_',$fname);
-        $fff=base_path() . '/public/storage/chords/';
+        $fff=base_path() . '/storage/app/public/chords/';
         if (!file_exists($fff)){
         	mkdir($fff, 0755, true);
         }
